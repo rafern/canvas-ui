@@ -7,10 +7,13 @@ import { ScrollBar } from './ScrollBar';
 import { Row } from '../templates/Row';
 import type { Widget } from './Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class ScrollableViewportWidget extends PassthroughWidget {
-    private viewport: ViewportWidget;
-    private vScroll: ScrollBar;
-    private hScroll: ScrollBar;
+    viewport: ViewportWidget; // XXX private
+    vScroll: ScrollBar; // XXX private
+    hScroll: ScrollBar; // XXX private
     forceHideScrollBars: boolean; // FIXME scrollbars always update one frame
     // late because of limitations with the layout system; you can only get the
     // used width and height in the update function after the widget has already

@@ -6,6 +6,9 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { BoxWidget } from './BoxWidget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxWidget)) {
     constructor(callback: VariableCallback<boolean | null> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         // Checkboxes need a clear background, have no children and don't
@@ -17,7 +20,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         this._value = initialValue;
     }
 
-    private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
+    getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
         // Find actual length
         const length = this.theme.getSize(ThemeProperty.CheckboxLength);
         const actualLength = Math.min(length, width, height);
@@ -29,7 +32,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         return [ bx, bx + actualLength, by, by + actualLength ];
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): this {
+    handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Check if checkbox rectangle was pressed and swap value if so
         const clickArea = this.getBoxRect(0, 0, width, height);
         this.handleClickEvent(event, root, clickArea);
@@ -46,7 +49,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         this.boxHeight = length;
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find checkbox rect
         const [bx, br, by , _bb] = this.getBoxRect(x, y, width, height);
         const actualLength = br - bx;

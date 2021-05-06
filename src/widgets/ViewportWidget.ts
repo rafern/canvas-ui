@@ -9,15 +9,18 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     // Is the ViewportWidget's basis tied to the child's?
     mainBasisTied: boolean;
     crossBasisTied: boolean;
     // The actual viewport object
-    private viewport: Viewport;
+    viewport: Viewport; // XXX private
     // Offset of child. Positional events will take this into account, as well
     // as rendering. Useful for implementing scrolling.
-    private _offset: [number, number] = [0, 0];
+    _offset: [number, number] = [0, 0]; // XXX private
     // What were the last dimensions of the viewport widget? Useful for
     // scrolling
     lastViewportDims: [number, number] = [0, 0];
@@ -75,7 +78,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return [width, height];
     }
 
-    private getChildMainBasis(vertical: boolean) {
+    getChildMainBasis(vertical: boolean) { // XXX private
         const child = this.getChild();
         const innerLength = vertical ? child.resolvedHeight
                                      : child.resolvedWidth;
@@ -84,20 +87,20 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return innerLength;
     }
 
-    private getChildCrossBasis(vertical: boolean) {
+    getChildCrossBasis(vertical: boolean) { // XXX private
         return this.getChildMainBasis(!vertical);
     }
 
-    private getMaxMainBasis(vertical: boolean) {
+    getMaxMainBasis(vertical: boolean) { // XXX private
         return vertical ? this.viewport.maxDimensions[1]
                         : this.viewport.maxDimensions[0];
     }
 
-    private getMaxCrossBasis(vertical: boolean) {
+    getMaxCrossBasis(vertical: boolean) { // XXX private
         return this.getMaxMainBasis(!vertical);
     }
 
-    protected handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null {
+    handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
         // Ignore events with no position and no target
         if(event.target === null && !(event instanceof PointerEvent))
             return null;
@@ -180,7 +183,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         }
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         this.lastViewportDims = [width, height];
 
         // Paint child to viewport's canvas

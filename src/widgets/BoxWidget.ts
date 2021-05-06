@@ -1,14 +1,17 @@
 import type { LayoutContext } from './LayoutContext';
 import { Widget } from './Widget';
 
-// XXX I would make this class abstract, but that would prevent Mixins from
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
+// FIXME I would make this class abstract, but that would prevent Mixins from
 // working (see issue TypeScript#29653)
 export class BoxWidget extends Widget {
     // A widget with simple box layout resolution
 
     // The wanted box width and height
-    private _boxWidth = 0;
-    private _boxHeight = 0;
+    _boxWidth = 0; // XXX private
+    _boxHeight = 0; // XXX private
 
     get boxWidth(): number {
         return this._boxWidth;

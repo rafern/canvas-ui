@@ -6,15 +6,18 @@ import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 // FIXME Should this really be a flex widget? flexRatio with scrollbars
 // introduce a lot of issues because they tend to expand beyond what they should
 export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget)) {
     // The scrollbar's end. Maximum value will be max(min(end - barLength, value), 0)
-    private _end: number;
+    _end: number; // XXX private
     // The scrollbar's bar length, in ratios similar to flex ratio
-    private _barLength: number;
+    _barLength: number; // XXX private
     // What was the value when dragging began?
-    private dragValue: number;
+    dragValue: number; // XXX private
 
     constructor(callback: VariableCallback<number | null> | null = null, end = 100, barLength = 100, initialValue = 0, themeOverride: Theme | null = null) {
         // Scrollbars need a clear background, have no children and don't
@@ -57,7 +60,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         );
     }
 
-    private getBarRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
+    getBarRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
         if(this.lastVertical) {
             const thickness = Math.min(this.crossBasis, width);
             const bx = x + (width - thickness) / 2;
@@ -70,7 +73,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         }
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): this {
+    handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Handle click event
         this.handleClickEvent(
             event,
@@ -127,7 +130,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         this.crossBasis = this.theme.getSize(ThemeProperty.ScrollBarThickness);
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find bar start and length percentage
         const [sl, sr, st, sb] = this.getBarRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];

@@ -7,13 +7,16 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class MultiContainer extends MultiParentWidget {
     // Is the container's whole background dirty (including spacing)?
-    private backgroundDirty = true;
+    backgroundDirty = true; // XXX private
     // Is this container vertical?
-    private vertical: boolean;
+    vertical: boolean; // XXX private
     // Temporary layout context for layout resolution
-    private innerContext: LayoutContext | null = null;
+    innerContext: LayoutContext | null = null; // XXX private
 
     // A widget that contains multiple child widgets and grows along a specified
     // axis
@@ -25,7 +28,7 @@ export class MultiContainer extends MultiParentWidget {
         this.vertical = vertical;
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Find which widget the event should go to
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         for(const child of this.children) {
@@ -220,7 +223,7 @@ export class MultiContainer extends MultiParentWidget {
         }
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if never cleared before and there is spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         if(this.backgroundDirty && spacing > 0)

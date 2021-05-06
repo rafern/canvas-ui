@@ -8,11 +8,14 @@ import type { Widget } from './Widget';
 
 export type IconCallback = () => void;
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Icon extends Clickable(BoxWidget) {
     // The current image used by the icon
-    private image: HTMLImageElement;
+    image: HTMLImageElement; // XXX private
     // The last source that the current image was using
-    private lastSrc: string | null = null;
+    lastSrc: string | null = null; // XXX private
     // The callback for clicking this Icon. If null, the Icon is not clickable
     callback: IconCallback | null;
     // The view box of this Icon, if the image used for the icon is a
@@ -23,7 +26,7 @@ export class Icon extends Clickable(BoxWidget) {
     width: number | null;
     height: number | null;
     // The image rotation in radians
-    private _rotation = 0;
+    _rotation = 0; // XXX private
 
     // A widget that renders an image. Optionally, this can act as a button by
     // having a callback set. Aspect ratio of the wanted size is preserved.
@@ -42,7 +45,7 @@ export class Icon extends Clickable(BoxWidget) {
         this.updateDimensions();
     }
 
-    private updateDimensions() {
+    updateDimensions() { // XXX private
         let wantedWidth = this.width;
         if(wantedWidth === null) {
             if(this.viewBox === null)
@@ -73,7 +76,7 @@ export class Icon extends Clickable(BoxWidget) {
         }
     }
 
-    private getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
+    getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
         // Find icon rectangle, preserving aspect ratio
         const widthRatio = width / this.boxWidth;
         const heightRatio = height / this.boxHeight;
@@ -89,7 +92,7 @@ export class Icon extends Clickable(BoxWidget) {
         ];
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // If there is a callback, check if icon was pressed and do callback if
         // so
         if(this.callback === null) {
@@ -134,7 +137,7 @@ export class Icon extends Clickable(BoxWidget) {
         }
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Abort if icon isn't ready yet
         if(!this.image?.complete) {
             this.lastSrc = null;

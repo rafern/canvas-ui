@@ -10,18 +10,21 @@ import { FocusType } from './FocusType';
 import type { Driver } from './Driver';
 import { Viewport } from './Viewport';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Root {
     // The Root's child; the parent Widget of all widgets
     readonly child: Widget;
     // The internal viewport. Manages drawing
-    protected viewport: Viewport = new Viewport();
+    viewport: Viewport = new Viewport(); // XXX protected
     // The list of drivers
-    protected drivers: Set<Driver> = new Set();
+    drivers: Set<Driver> = new Set(); // XXX protected
     // Is the Root enabled?
-    protected _enabled = true;
+    _enabled = true; // XXX protected
     // Pointer style and last pointer style
     pointerStyle = 'default';
-    protected _currentPointerStyle = 'default';
+    _currentPointerStyle = 'default'; // XXX protected
     // Pointer style handler, decides how to show the given pointer style
     pointerStyleHandler: PointerStyleHandler | null;
     // Current component foci (event targets for each focus type) and last
@@ -37,7 +40,7 @@ export class Root {
     // Handler for mobile-friendly text input
     textInputHandler: TextInputHandler | null = null;
     // Is the mobile-friendly text input in use?
-    protected _mobileTextInUse = false;
+    _mobileTextInUse = false; // XXX protected
 
     // A Root is the parent of all widgets, but not a widget itself. It contains
     // a single child and manages dimensions and input handling

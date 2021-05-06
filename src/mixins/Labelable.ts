@@ -45,26 +45,29 @@ function measureTextDims(text: string, font: string): [number, number, number] {
 
 // A Labelable is a widget that contains labels (text). It has utilities for
 // measuring text dimensions and painting text
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 // FIXME the return type of mixin constructors is a mess, so linter is disabled
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
     return class Labelable extends Base {
         // Label variables
-        protected _text = '';
-        protected _font = '';
-        protected _minLabelWidth = 0;
-        protected _minLabelAscent = 0;
-        protected _minLabelDescent = 0;
+        _text = ''; // XXX protected
+        _font = ''; // XXX protected
+        _minLabelWidth = 0; // XXX protected
+        _minLabelAscent = 0; // XXX protected
+        _minLabelDescent = 0; // XXX protected
 
         // Text dimensions corrected for minimum dimensions
-        private _labelWidth = 0;
-        private _labelAscent = 0;
-        private _labelDescent = 0;
+        _labelWidth = 0; // XXX private
+        _labelAscent = 0; // XXX private
+        _labelDescent = 0; // XXX private
 
         // Does the label need to be re-measured?
-        private labelDirty = true;
+        labelDirty = true; // XXX private
 
-        private updateTextDims(): void {
+        updateTextDims(): void { // XXX private
             // Abort if not dirty
             if(!this.labelDirty)
                 return;
@@ -80,7 +83,7 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             this.labelDirty = false;
         }
 
-        protected findOffsetFromIndex(index: number): number {
+        findOffsetFromIndex(index: number): number { // XXX protected
             // If index is 0 or an invalid negative number, it is at the beginning
             if(index <= 0)
                 return 0;
@@ -90,7 +93,7 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             return measureTextDims(this._text.substring(0, index), this._font)[0];
         }
 
-        protected findIndexOffsetFromOffset(offset: number): [number, number] {
+        findIndexOffsetFromOffset(offset: number): [number, number] { // XXX protected
             // If offset is before first character, default to index 0
             if(offset <= 0)
                 return [0, 0];
@@ -124,7 +127,7 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             return [this._text.length, lastLength];
         }
 
-        private setLabelDirty() {
+        setLabelDirty() { // XXX private
             this.labelDirty = true;
             this.layoutDirty = true;
         }
@@ -149,7 +152,7 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             return this._labelAscent + this._labelDescent;
         }
 
-        protected setText(text: string) {
+        setText(text: string) { // XXX protected
             if(this._text !== text) {
                 this._text = text;
                 this.dirty = true;
@@ -157,7 +160,7 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             }
         }
 
-        protected setFont(font: string) {
+        setFont(font: string) { // XXX protected
             if(this._font !== font) {
                 this._font = font;
                 this.dirty = true;
@@ -165,21 +168,21 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             }
         }
 
-        protected setMinLabelWidth(minLabelWidth: number) {
+        setMinLabelWidth(minLabelWidth: number) { // XXX protected
             if(this._minLabelWidth !== minLabelWidth) {
                 this._minLabelWidth = minLabelWidth;
                 this.setLabelDirty();
             }
         }
 
-        protected setMinLabelAscent(minLabelAscent: number) {
+        setMinLabelAscent(minLabelAscent: number) { // XXX protected
             if(this._minLabelAscent !== minLabelAscent) {
                 this._minLabelAscent = minLabelAscent;
                 this.setLabelDirty();
             }
         }
 
-        protected setMinLabelDescent(minLabelDescent: number) {
+        setMinLabelDescent(minLabelDescent: number) { // XXX protected
             if(this._minLabelDescent !== minLabelDescent) {
                 this._minLabelDescent = minLabelDescent;
                 this.setLabelDirty();

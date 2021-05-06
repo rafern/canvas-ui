@@ -7,6 +7,9 @@ import type { Widget } from './Widget';
 
 export type ButtonCallback = () => void;
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Button extends Clickable(BaseContainer) {
     // The callback for clicking this button. If null, the button is not
     // clickable but will still absorb events;
@@ -18,7 +21,7 @@ export class Button extends Clickable(BaseContainer) {
         this.callback = callback;
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Abort if no callback, but still absorb events
         if(this.callback === null) {
             this.clickStateChanged = false;

@@ -6,13 +6,16 @@ import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget)) {
     // The slider's minimum and maximum
-    private minValue: number;
-    private maxValue: number;
+    minValue: number; // XXX private
+    maxValue: number; // XXX private
     // The increments in which the slider changes value. If 0, there are no
     // fixed increments
-    private snapIncrement: number;
+    snapIncrement: number; // XXX private
 
     constructor(callback: VariableCallback<number | null> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
         // Sliders need a clear background, have no children and don't propagate
@@ -29,13 +32,13 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         this.vertical = false;
     }
 
-    private getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
+    getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
         const thickness = Math.min(this.crossBasis, height);
         const sy = y + (height - thickness) / 2;
         return [ x, x + width, sy, sy + thickness ];
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): this {
+    handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Handle click event
         this.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
 
@@ -76,7 +79,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         this.crossBasis = this.theme.getSize(ThemeProperty.SliderCrossBasis);
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find slider fill percentage
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];

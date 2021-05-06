@@ -6,10 +6,13 @@ import { BoxWidget } from './BoxWidget';
 
 export type TextGetter = () => string;
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Label extends Labelable(BoxWidget) {
     // The text getter. If this is not null, text will be updated with the
     // return value of this callback, every update
-    private textGetter: TextGetter | null = null;
+    textGetter: TextGetter | null = null; // XXX private
 
     // A widget that renders a single line of text. If text is dynamic, a
     // function may be passed as the text
@@ -53,7 +56,7 @@ export class Label extends Labelable(BoxWidget) {
         this.boxHeight = this.labelHeight;
     }
 
-    protected handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         ctx.font = this._font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
         ctx.fillText(this._text, x, y + height - this.labelDescent);

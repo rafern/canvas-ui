@@ -6,15 +6,18 @@ import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 // A Button, but overrides the canvas colour; normally a Button itself is
 // invisible, but not a FilledButton
 export class FilledButton extends Button {
     // Theme property used for overriding the canvas colour
-    private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
+    backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill; // XXX private
     // Is the button currently forced down?
-    private _forced = false;
+    _forced = false; // XXX private
 
-    private updateBackground() {
+    updateBackground() { // XXX private
         if(this._forced)
             this.backgroundProperty = ThemeProperty.PrimaryFill;
         else {
@@ -99,7 +102,7 @@ export class FilledButton extends Button {
             this.backgroundDirty = true;
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         const capturer = super.handleEvent(event, width, height, root);
 
         if(this.clickStateChanged)

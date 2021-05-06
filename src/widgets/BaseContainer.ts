@@ -8,9 +8,12 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class BaseContainer extends SingleParentWidget {
     // Is the container's whole background dirty (including padding)?
-    protected backgroundDirty = true;
+    backgroundDirty = true; // XXX protected
 
     // A widget that contains a single child widget with padding and alignment
     // and may or may not propagate events to that child
@@ -20,7 +23,7 @@ export class BaseContainer extends SingleParentWidget {
         super(themeOverride, false, propagateEvents, child);
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Correct pointer events for padding
         const [vpl, vpr, vpt, vpb] = this.calcChildViewport(0, 0, width, height);
         if(event instanceof PointerEvent)
@@ -135,7 +138,7 @@ export class BaseContainer extends SingleParentWidget {
             this.backgroundDirty = true;
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if it is dirty
         if(this.backgroundDirty)
             this.clear(x, y, width, height, ctx);
@@ -147,7 +150,7 @@ export class BaseContainer extends SingleParentWidget {
         this.getChild().paint(left, top, right - left, bottom - top, ctx);
     }
 
-    private calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] {
+    calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
         // Calculate viewport of the child (rectangle where the child widget is
         // drawed) given the position and dimensions of the container, and by
         // using its resolved dimensions, padding and alignment

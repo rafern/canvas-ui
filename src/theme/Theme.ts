@@ -3,6 +3,9 @@ import type { Alignment2D } from './Alignment2D';
 import type { Alignment } from './Alignment';
 import type { Padding } from './Padding';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Theme {
     // Theme properties
     properties: Map<ThemeProperty, unknown> = new Map<ThemeProperty, unknown>();
@@ -20,7 +23,7 @@ export class Theme {
     // font, number, etc... If a theme property is not available, the theme will
     // try to get it from the fallback theme. If there is no fallback theme set,
     // an exception is thrown
-    private getProperty(themeProperty: ThemeProperty): unknown {
+    getProperty(themeProperty: ThemeProperty): unknown { // XXX private
         // Get property's value
         let value = this.properties.get(themeProperty);
 

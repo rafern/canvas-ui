@@ -2,15 +2,18 @@ import { LayoutContext } from '../widgets/LayoutContext';
 import roundToPower2 from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class Viewport {
     // Maximum size of viewport. This is passed as a hint to children.  If an
     // axis' maximum length is 0, then there is no maximum for that axis, but it
     // also means that flex components won't expand in that axis.
-    private _maxDimensions: [number, number] = [0, 0];
+    _maxDimensions: [number, number] = [0, 0]; // XXX private
     // Is the layout context vertical?
     vertical = true;
     // Does the viewport need to force-mark layout as dirty?
-    private forceLayout = false;
+    forceLayout = false; // XXX private
     // The internal canvas
     readonly canvas: HTMLCanvasElement;
     // The internal canvas context

@@ -1,27 +1,30 @@
 import type { LayoutContext } from './LayoutContext';
 import { Widget } from './Widget';
 
-// XXX I would make this class abstract, but that would prevent Mixins from
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
+// FXIME I would make this class abstract, but that would prevent Mixins from
 // working (see issue TypeScript#29653)
 export class FlexWidget extends Widget {
     // A widget with flexbox layout resolution
 
     // The flex ratio of the flexbox
-    private _flexRatio = 1;
+    _flexRatio = 1; // XXX private
     // The minimum main-axis and cross-axis lengths
-    private _mainBasis = 0;
-    private _crossBasis = 0;
+    _mainBasis = 0; // XXX private
+    _crossBasis = 0; // XXX private
     // Like mainBasis and crossBasis, but meant to be updated per frame. The
     // biggest of the two sets will be used
-    private _internalMainBasis = 0;
-    private _internalCrossBasis = 0;
+    _internalMainBasis = 0; // XXX private
+    _internalCrossBasis = 0; // XXX private
     // The last effective mainBasis and crossBasis, aka, the last used maximum
     // between the internal and normal set of basis
-    private effectiveMainBasis = 0;
-    private effectiveCrossBasis = 0;
+    effectiveMainBasis = 0; // XXX private
+    effectiveCrossBasis = 0; // XXX private
     // Growth direction of flexbox. Is it vertical? If null, it will inherit the
     // verticality of the layout context
-    private _vertical: boolean | null = null;
+    _vertical: boolean | null = null; // XXX private
     // Was the last layout vertical or not? Never null
     lastVertical = true;
 
@@ -91,7 +94,7 @@ export class FlexWidget extends Widget {
         }
     }
 
-    private updateEffectiveMainBasis(): void {
+    updateEffectiveMainBasis(): void { // XXX private
         const effectiveMainBasis = Math.max(this._mainBasis, this._internalMainBasis);
         if(this.effectiveMainBasis !== effectiveMainBasis) {
             this.effectiveMainBasis = effectiveMainBasis;
@@ -99,7 +102,7 @@ export class FlexWidget extends Widget {
         }
     }
 
-    private updateEffectiveCrossBasis(): void {
+    updateEffectiveCrossBasis(): void { // XXX private
         const effectiveCrossBasis = Math.max(this._crossBasis, this._internalCrossBasis);
         if(this.effectiveCrossBasis !== effectiveCrossBasis) {
             this.effectiveCrossBasis = effectiveCrossBasis;

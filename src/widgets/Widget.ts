@@ -6,11 +6,14 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-// XXX I would make this class abstract, but that would prevent Mixins from
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
+// FIXME I would make this class abstract, but that would prevent Mixins from
 // working (see issue TypeScript#29653)
 export class Widget {
     // Is this widget enabled? If it isn't, it will act as if it didn't exist
-    private _enabled = true;
+    _enabled = true; // XXX private
     // Widget will only be drawed if dirty is true
     dirty = true;
     // Widget will only have the layout resolved if layoutDirty is true
@@ -24,11 +27,11 @@ export class Widget {
     // theme will be the inherited theme, else, it will be the theme override
     // with the inherited theme as the fallback. The fallback of the theme
     // override will be ignored and replaced
-    private themeOverride: Theme | null;
+    themeOverride: Theme | null; // XXX private
     // The current theme in use by the Widget
-    private _theme: Theme | null = null;
+    _theme: Theme | null = null; // XXX private
     // The inherited theme
-    private inheritedTheme: Theme | null = null;
+    inheritedTheme: Theme | null = null; // XXX private
     // The resolved width and height
     resolvedWidth = 0;
     resolvedHeight = 0;
@@ -42,11 +45,11 @@ export class Widget {
 
     // Called when the inherited theme of this Widget is updated. Can be
     // overridden. Does nothing by default
-    protected updateInheritedTheme(): void {}
+    updateInheritedTheme(): void {} // XXX protected
 
     // Update this widget's current theme, with theme override set up. Must not
     // be overridden
-    private updateTheme(): void {
+    updateTheme(): void { // XXX private
         if(this.themeOverride === null)
             this._theme = this.inheritedTheme;
         else {
@@ -139,7 +142,7 @@ export class Widget {
     // capturer is returned, else, null. By default, this will do nothing and
     // capture the event if it is targetted at itself or is a PointerEvent.
     // Should be overridden
-    protected handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null {
+    handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null { // XXX protected
         if(event.target === this ||
            ((event instanceof PointerEvent) && (event.target === null)))
             return this;
@@ -188,11 +191,11 @@ export class Widget {
     // Mixins from being constrained to abstract classes, so this would prevent
     // Mixins like Clickable from existing. See issue #29653:
     // https://github.com/microsoft/TypeScript/issues/29653
-    protected handlePopulateLayout(_layoutCtx: LayoutContext): void {
+    handlePopulateLayout(_layoutCtx: LayoutContext): void { // XXX protected
         throw new Error('Widget.handlePopulateLayout not implemented');
     }
 
-    protected handleResolveLayout(_layoutCtx: LayoutContext): void {
+    handleResolveLayout(_layoutCtx: LayoutContext): void { // XXX protected
         throw new Error('Widget.handleResolveLayout not implemented');
     }
 
@@ -249,7 +252,7 @@ export class Widget {
     }
 
     // Paiting utility: clears background of widget. Should not be overridden
-    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
         ctx.fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
@@ -265,7 +268,7 @@ export class Widget {
     // Widget painting callback. By default does nothing. Do painting logic here
     // when extending Widget. Should be overridden
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void {}
+    handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void {} // XXX protected
 
     // Called when the Widget is dirty and the Root is being rendered. Does
     // nothing if dirty flag is not set, else, clears the background if

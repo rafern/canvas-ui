@@ -11,17 +11,20 @@ import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(FlexWidget)) {
     // At what timestamp did the blinking start
-    private blinkStart = 0;
+    blinkStart = 0; // XXX private
     // Was the cursor shown last frame due to blinking?
-    private blinkWasOn: boolean | null = null;
+    blinkWasOn: boolean | null = null; // XXX private
     // Current cursor position (index)
-    private cursorPos = 0;
+    cursorPos = 0; // XXX private
     // Current cursor offset (pixels)
-    private cursorOffset = 0;
+    cursorOffset = 0; // XXX private
     // Does the cursor offset need to be updated?
-    private cursorOffsetDirty = false;
+    cursorOffsetDirty = false; // XXX private
 
     // A widget that accepts keyboard input and holds a text value
     constructor(callback: VariableCallback<string | null> | null = null, initialValue = '', themeOverride: Theme | null = null) {
@@ -104,7 +107,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             this.blinkStart = 0;
     }
 
-    protected handleEvent(event: Event, _width: number, _height: number, root: Root): this {
+    handleEvent(event: Event, _width: number, _height: number, root: Root): this { // XXX protected
         if(event instanceof PointerEvent) {
             // If this is a pointer event, set pointer style and handle clicks
             root.pointerStyle = 'text';
@@ -198,7 +201,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
         this.internalCrossBasis = this.labelHeight;
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Paint background
         ctx.fillStyle = this.theme.getFill(ThemeProperty.InputBackgroundFill);
         ctx.fillRect(x, y, width, height);

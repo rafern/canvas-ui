@@ -5,6 +5,9 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
+// FIXME protected and private members were turned public due to a declaration
+// emission bug:
+// https://github.com/Microsoft/TypeScript/issues/17744
 export class PassthroughWidget extends SingleParentWidget {
     // A widget that contains a single child and acts as if it doesn't exist,
     // passing all events through to its child. Useful for Widgets that are only
@@ -15,7 +18,7 @@ export class PassthroughWidget extends SingleParentWidget {
         super(themeOverride, false, true, child);
     }
 
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Dispatch event to child
         return this.getChild().dispatchEvent(event, width, height, root);
     }
@@ -54,7 +57,7 @@ export class PassthroughWidget extends SingleParentWidget {
         this.resolvedHeight = child.resolvedHeight;
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Paint child
         this.getChild().paint(x, y, width, height, ctx);
     }
