@@ -1,0 +1,1 @@
+export type TextInputHandler = (initialInput: string) => Promise<string>;
