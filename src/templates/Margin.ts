@@ -5,8 +5,9 @@ import type { Widget } from '../widgets/Widget';
 import { Alignment } from '../theme/Alignment';
 import { Theme } from '../theme/Theme';
 
-// Container template like Center, but with default padding
-export function Padding(child: Widget): Container {
+// Container template like Center, but with default padding which acts as a
+// margin for the child widget
+export function Margin(child: Widget): Container {
     const themeOverride = new Theme(new Map<ThemeProperty, unknown>([
         [
             ThemeProperty.ContainerAlignment,

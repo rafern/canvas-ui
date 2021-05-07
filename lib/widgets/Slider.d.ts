@@ -37,7 +37,7 @@ declare const Slider_base: {
         getThemeOverride(): Theme | null;
         inheritTheme(theme: Theme): void;
         getInheritedTheme(): Theme | null;
-        onFocusDropped(_focusType: import("../core").FocusType, _root: Root): void;
+        onFocusDropped(_focusType: import("..").FocusType, _root: Root): void;
         handleEvent(event: Event, _width: number, _height: number, _root: Root): import("./Widget").Widget | null;
         dispatchEvent(event: Event, width: number, height: number, root: Root): import("./Widget").Widget | null;
         handlePreLayoutUpdate(_root: Root): void;
@@ -79,7 +79,7 @@ declare const Slider_base: {
         getThemeOverride(): Theme | null;
         inheritTheme(theme: Theme): void;
         getInheritedTheme(): Theme | null;
-        onFocusDropped(_focusType: import("../core").FocusType, _root: Root): void;
+        onFocusDropped(_focusType: import("..").FocusType, _root: Root): void;
         handleEvent(event: Event, _width: number, _height: number, _root: Root): import("./Widget").Widget | null;
         dispatchEvent(event: Event, width: number, height: number, root: Root): import("./Widget").Widget | null;
         handlePreLayoutUpdate(_root: Root): void;

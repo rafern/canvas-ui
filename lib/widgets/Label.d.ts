@@ -46,9 +46,9 @@ declare const Label_base: {
         getThemeOverride(): Theme | null;
         inheritTheme(theme: Theme): void;
         getInheritedTheme(): Theme | null;
-        onFocusDropped(_focusType: import("../core").FocusType, _root: Root): void;
-        handleEvent(event: import("../events").Event, _width: number, _height: number, _root: Root): import("./Widget").Widget | null;
-        dispatchEvent(event: import("../events").Event, width: number, height: number, root: Root): import("./Widget").Widget | null;
+        onFocusDropped(_focusType: import("..").FocusType, _root: Root): void;
+        handleEvent(event: import("..").Event, _width: number, _height: number, _root: Root): import("./Widget").Widget | null;
+        dispatchEvent(event: import("..").Event, width: number, height: number, root: Root): import("./Widget").Widget | null;
         handlePreLayoutUpdate(_root: Root): void;
         preLayoutUpdate(root: Root): void;
         handlePopulateLayout(_layoutCtx: import("./LayoutContext").LayoutContext): void;
