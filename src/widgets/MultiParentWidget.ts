@@ -24,6 +24,28 @@ export class MultiParentWidget extends ParentWidget implements MultiParent {
         return this;
     }
 
+    // Remove child(ren) from widget. Chainable method
+    remove(children: Widget | Array<Widget>): this {
+        if(Array.isArray(children)) {
+            for(const child of children) {
+                const pos = this.children.indexOf(child);
+                if(pos !== -1)
+                    this.children.splice(pos, 1);
+            }
+        }
+        else {
+            const pos = this.children.indexOf(children);
+            if(pos !== -1)
+                this.children.splice(pos, 1);
+        }
+
+        this.updateInheritedTheme();
+
+        this.layoutDirty = true;
+        this.dirty = true;
+        return this;
+    }
+
     // Clear widget's children. Chainable method
     clearChildren(): this {
         this.children.length = 0;
