@@ -32,6 +32,10 @@ export class MultiContainer extends MultiParentWidget {
         // Find which widget the event should go to
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         for(const child of this.children) {
+            // Ignore disabled children
+            if(!child.enabled)
+                continue;
+
             const length = this.vertical ? child.resolvedHeight : child.resolvedWidth;
 
             // Dispatch to this widget
