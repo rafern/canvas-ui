@@ -5,6 +5,7 @@ export declare function Parent<TBase extends GConstructor<Widget>>(Base: TBase):
         readonly children: Array<Widget>;
         updateInheritedTheme(): void;
         forceLayoutDirty(): void;
+        getChildCount(): number;
         _enabled: boolean;
         dirty: boolean;
         layoutDirty: boolean;
