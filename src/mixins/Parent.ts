@@ -34,10 +34,5 @@ export function Parent<TBase extends GConstructor<Widget>>(Base: TBase) {
                 }
             }
         }
-
-        // Get number of children
-        getChildCount() {
-            return this.children.length;
-        }
     };
 }

@@ -53,4 +53,9 @@ export class MultiParentWidget extends ParentWidget implements MultiParent {
         this.dirty = true;
         return this;
     }
+
+    // Get number of children
+    getChildCount(): number {
+        return this.children.length;
+    }
 }

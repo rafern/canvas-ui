@@ -7,4 +7,5 @@ export declare class MultiParentWidget extends ParentWidget implements MultiPare
     add(children: Widget | Array<Widget>): this;
     remove(children: Widget | Array<Widget>): this;
     clearChildren(): this;
+    getChildCount(): number;
 }
