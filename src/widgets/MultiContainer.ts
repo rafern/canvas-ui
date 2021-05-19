@@ -29,8 +29,17 @@ export class MultiContainer extends MultiParentWidget {
     }
 
     handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
-        // Find which widget the event should go to
+        // Correct event position and offset if event has position; there is an
+        // initial spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
+        if(event instanceof PointerEvent) {
+            if(this.vertical)
+                event = event.correctOffset(0, spacing);
+            else
+                event = event.correctOffset(spacing, 0);
+        }
+
+        // Find which widget the event should go to
         for(const child of this.children) {
             const length = this.vertical ? child.resolvedHeight : child.resolvedWidth;
 
