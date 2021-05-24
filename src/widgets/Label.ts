@@ -21,8 +21,16 @@ export class Label extends Labelable(FlexWidget) {
         // events
         super(themeOverride, true, false);
 
-        this.vertical = false;
         this.text = text;
+
+        // Default to no flex ratio. This can be overridden
+        this.flexRatio = 0;
+
+        // Labels are always horizontal
+        // XXX japanese vertical text? completely out of scope for this project,
+        // but if this library is ever published it might be a good idea to add
+        // support
+        this.vertical = false;
     }
 
     set text(text: string | TextGetter) {
