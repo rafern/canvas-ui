@@ -151,6 +151,9 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             child.dirty = true;
         }
 
+        // Pre-layout update child
+        child.preLayoutUpdate(root);
+
         // If child's layout is dirty set self's layout as dirty
         if(child.layoutDirty)
             this.layoutDirty = true;
@@ -164,9 +167,6 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
             return;
         }
-
-        // Pre-layout update child
-        child.preLayoutUpdate(root);
 
         // Populate child's layout context
         this.lastChildLayoutCtx = this.viewport.populateChildsLayout(child);
