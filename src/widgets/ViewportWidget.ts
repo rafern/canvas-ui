@@ -23,7 +23,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     // as rendering. Useful for implementing scrolling.
     _offset: [number, number] = [0, 0]; // XXX private
     // Layout context used by child. Can be null if no layout update required
-    lastChildLayoutCtx: LayoutContext | null = null;
+    lastChildLayoutCtx: LayoutContext | null = null; // XXX private
     // What were the last dimensions of the viewport widget? Useful for
     // scrolling
     lastViewportDims: [number, number] = [0, 0];
@@ -206,7 +206,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             // Resolve child's layout
             this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
 
-            // Clear layout context, no longer needed\
+            // Clear layout context, no longer needed
             this.lastChildLayoutCtx = null;
         }
 
