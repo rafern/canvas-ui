@@ -162,6 +162,10 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             if(this.crossBasisTied)
                 this.internalCrossBasis = this.internalCrossBasis;
 
+            // If child is dirty, set self as dirty
+            if(child.dirty)
+                this.dirty = true;
+
             return;
         }
 
@@ -182,6 +186,10 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             this.internalCrossBasis = this.getChildCrossBasis(currentVerticality);
         else
             this.internalCrossBasis = 0;
+
+        // If child is dirty, set self as dirty
+        if(child.dirty)
+            this.dirty = true;
     }
 
     handlePostLayoutUpdate(root: Root): void {
