@@ -85,8 +85,8 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         if(this.lastChildLayoutCtx === null)
             return 0;
 
-        const innerLength = vertical ? this.lastChildLayoutCtx.hBasis
-                                     : this.lastChildLayoutCtx.vBasis;
+        const innerLength = vertical ? this.lastChildLayoutCtx.vBasis
+                                     : this.lastChildLayoutCtx.hBasis;
         if(isNaN(innerLength))
             return 0;
         return innerLength;
