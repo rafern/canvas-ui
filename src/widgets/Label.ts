@@ -1,15 +1,15 @@
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
+import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
-import { BoxWidget } from './BoxWidget';
 
 export type TextGetter = () => string;
 
 // FIXME protected and private members were turned public due to a declaration
 // emission bug:
 // https://github.com/Microsoft/TypeScript/issues/17744
-export class Label extends Labelable(BoxWidget) {
+export class Label extends Labelable(FlexWidget) {
     // The text getter. If this is not null, text will be updated with the
     // return value of this callback, every update
     textGetter: TextGetter | null = null; // XXX private
@@ -21,6 +21,7 @@ export class Label extends Labelable(BoxWidget) {
         // events
         super(themeOverride, true, false);
 
+        this.vertical = false;
         this.text = text;
     }
 
@@ -52,8 +53,8 @@ export class Label extends Labelable(BoxWidget) {
         this.setMinLabelAscent(this.theme.getSize(ThemeProperty.LabelMinAscent));
         this.setMinLabelDescent(this.theme.getSize(ThemeProperty.LabelMinDescent));
 
-        this.boxWidth = this.labelWidth;
-        this.boxHeight = this.labelHeight;
+        this.internalMainBasis = this.labelWidth;
+        this.internalCrossBasis = this.labelHeight;
     }
 
     handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected

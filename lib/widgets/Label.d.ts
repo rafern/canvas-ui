@@ -1,6 +1,6 @@
 import type { Theme } from '../theme/Theme';
+import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
-import { BoxWidget } from './BoxWidget';
 export declare type TextGetter = () => string;
 declare const Label_base: {
     new (...args: any[]): {
@@ -62,7 +62,7 @@ declare const Label_base: {
         handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void;
         paint(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
     };
-} & typeof BoxWidget;
+} & typeof FlexWidget;
 export declare class Label extends Label_base {
     textGetter: TextGetter | null;
     constructor(text: string | TextGetter, themeOverride?: Theme | null);
