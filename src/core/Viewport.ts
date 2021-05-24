@@ -71,9 +71,9 @@ export class Viewport {
         return layoutCtx;
     }
 
-    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): void {
+    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): boolean {
         if(!child.layoutDirty || layoutCtx === null)
-            return;
+            return false;
 
         // Resolve child's layout
         const oldWidth = child.resolvedWidth;
@@ -107,6 +107,8 @@ export class Viewport {
         // its maximum size would never trigger a redraw even if it changed size
         if(layoutCtx.sizeChanged || childResized)
             child.forceLayoutDirty();
+
+        return childResized;
     }
 
     paintToCanvas(child: Widget): boolean {

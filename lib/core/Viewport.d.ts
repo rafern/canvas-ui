@@ -11,6 +11,6 @@ export declare class Viewport {
     set maxDimensions(maxDimensions: [number, number]);
     get maxDimensions(): [number, number];
     populateChildsLayout(child: Widget): LayoutContext | null;
-    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): void;
+    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): boolean;
     paintToCanvas(child: Widget): boolean;
 }

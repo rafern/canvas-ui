@@ -101,13 +101,13 @@ export class Root {
         return this.viewport.canvas;
     }
 
-    resolveLayout(): void {
+    resolveLayout(): boolean {
         // Don't do anything if Root is disabled
         if(!this.enabled)
-            return;
+            return false;
 
         const layoutCtx = this.viewport.populateChildsLayout(this.child);
-        this.viewport.resolveChildsLayout(this.child, layoutCtx);
+        return this.viewport.resolveChildsLayout(this.child, layoutCtx);
     }
 
     paint(): boolean {
