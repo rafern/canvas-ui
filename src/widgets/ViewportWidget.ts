@@ -8,6 +8,7 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
+import { LayoutContext } from './LayoutContext';
 
 // FIXME protected and private members were turned public due to a declaration
 // emission bug:
@@ -21,6 +22,8 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     // Offset of child. Positional events will take this into account, as well
     // as rendering. Useful for implementing scrolling.
     _offset: [number, number] = [0, 0]; // XXX private
+    // Layout context used by child. Can be null if no layout update required
+    lastChildLayoutCtx: LayoutContext | null = null;
     // What were the last dimensions of the viewport widget? Useful for
     // scrolling
     lastViewportDims: [number, number] = [0, 0];
@@ -79,9 +82,11 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     }
 
     getChildMainBasis(vertical: boolean) { // XXX private
-        const child = this.getChild();
-        const innerLength = vertical ? child.resolvedHeight
-                                     : child.resolvedWidth;
+        if(this.lastChildLayoutCtx === null)
+            return 0;
+
+        const innerLength = vertical ? this.lastChildLayoutCtx.hBasis
+                                     : this.lastChildLayoutCtx.vBasis;
         if(isNaN(innerLength))
             return 0;
         return innerLength;
@@ -149,20 +154,14 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         // Pre-layout update child
         child.preLayoutUpdate(root);
 
-        // If child's layout is dirty and an axis is tied, set self's layout as
-        // dirty
-        if(child.layoutDirty && (this.mainBasisTied || this.crossBasisTied))
+        // If child's layout is dirty set self's layout as dirty
+        if(child.layoutDirty)
             this.layoutDirty = true;
+        else
+            return;
 
-        // Resolve child's layout
-        this.viewport.resolveChildsLayout(child);
-
-        // Post-layout update child
-        child.postLayoutUpdate(root);
-
-        // If child is dirty, set self as dirty
-        if(child.dirty)
-            this.dirty = true;
+        // Populate child's layout context
+        this.lastChildLayoutCtx = this.viewport.populateChildsLayout(child);
 
         // If a basis is tied, update internal basis to be equal to child's
         // basis, taking maximum dimensions into account
@@ -181,6 +180,37 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             if(maxCrossBasis != 0)
                 this.internalCrossBasis = Math.min(this.internalCrossBasis, maxCrossBasis);
         }
+    }
+
+    handlePostLayoutUpdate(root: Root): void {
+        const child = this.getChild();
+
+        if(this.lastChildLayoutCtx !== null) {
+            // Update max dimensions if basis is tied
+            const newMaxDimensions = this.maxDimensions;
+
+            if((this.vertical && this.crossBasisTied) || (!this.vertical && this.mainBasisTied)) {
+                newMaxDimensions[0] = this.resolvedWidth;
+                this.lastChildLayoutCtx.maxWidth = this.resolvedWidth;
+            }
+
+            if((this.vertical && this.mainBasisTied) || (!this.vertical && this.crossBasisTied)) {
+                newMaxDimensions[1] = this.resolvedHeight;
+                this.lastChildLayoutCtx.maxHeight = this.resolvedHeight;
+            }
+
+            this.maxDimensions = newMaxDimensions;
+
+            // Resolve child's layout
+            this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
+        }
+
+        // Post-layout update child
+        child.postLayoutUpdate(root);
+
+        // If child is dirty, set self as dirty
+        if(child.dirty)
+            this.dirty = true;
     }
 
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected

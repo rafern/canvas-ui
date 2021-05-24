@@ -26,7 +26,7 @@ export declare class Root {
     get enabled(): boolean;
     set enabled(newEnabled: boolean);
     get canvas(): HTMLCanvasElement;
-    resolveLayout(): boolean;
+    resolveLayout(): void;
     paint(): boolean;
     dispatchEvent(event: Event): void;
     preLayoutUpdate(): void;

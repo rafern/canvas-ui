@@ -50,24 +50,35 @@ export class Viewport {
         return [this._maxDimensions[0], this._maxDimensions[1]];
     }
 
-    resolveChildsLayout(child: Widget): boolean {
+    populateChildsLayout(child: Widget): LayoutContext | null {
         // Force layout resolution
         if(this.forceLayout) {
             this.forceLayout = false;
             child.forceLayoutDirty();
         }
 
+        // If layout is not dirty, no context is returned; update not needed
         if(!child.layoutDirty)
-            return false;
+            return null;
 
-        // Resolve child's layout
-        const oldWidth = child.resolvedWidth;
-        const oldHeight = child.resolvedHeight;
+        // Populate layout context
         const layoutCtx = new LayoutContext(
             this._maxDimensions[0], this._maxDimensions[1], this.vertical,
         );
 
         child.populateLayout(layoutCtx);
+
+        return layoutCtx;
+    }
+
+    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): void {
+        if(!child.layoutDirty || layoutCtx === null)
+            return;
+
+        // Resolve child's layout
+        const oldWidth = child.resolvedWidth;
+        const oldHeight = child.resolvedHeight;
+
         child.resolveLayout(layoutCtx);
 
         const newWidth = child.resolvedWidth;
@@ -96,8 +107,6 @@ export class Viewport {
         // its maximum size would never trigger a redraw even if it changed size
         if(layoutCtx.sizeChanged || childResized)
             child.forceLayoutDirty();
-
-        return childResized;
     }
 
     paintToCanvas(child: Widget): boolean {

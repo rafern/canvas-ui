@@ -5,6 +5,7 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
+import { LayoutContext } from './LayoutContext';
 declare const ViewportWidget_base: {
     new (...args: any[]): {
         readonly children: Widget[];
@@ -34,10 +35,10 @@ declare const ViewportWidget_base: {
         dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null;
         handlePreLayoutUpdate(_root: Root): void;
         preLayoutUpdate(root: Root): void;
-        handlePopulateLayout(_layoutCtx: import("./LayoutContext").LayoutContext): void;
-        handleResolveLayout(_layoutCtx: import("./LayoutContext").LayoutContext): void;
-        populateLayout(layoutCtx: import("./LayoutContext").LayoutContext): void;
-        resolveLayout(layoutCtx: import("./LayoutContext").LayoutContext): void;
+        handlePopulateLayout(_layoutCtx: LayoutContext): void;
+        handleResolveLayout(_layoutCtx: LayoutContext): void;
+        populateLayout(layoutCtx: LayoutContext): void;
+        resolveLayout(layoutCtx: LayoutContext): void;
         handlePostLayoutUpdate(_root: Root): void;
         postLayoutUpdate(root: Root): void;
         clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
@@ -50,6 +51,7 @@ export declare class ViewportWidget extends ViewportWidget_base implements Singl
     crossBasisTied: boolean;
     viewport: Viewport;
     _offset: [number, number];
+    lastChildLayoutCtx: LayoutContext | null;
     lastViewportDims: [number, number];
     constructor(child: Widget, mainBasisTied?: boolean, crossBasisTied?: boolean, themeOverride?: Theme | null);
     get canvasDimensions(): [number, number];
@@ -64,6 +66,7 @@ export declare class ViewportWidget extends ViewportWidget_base implements Singl
     getMaxCrossBasis(vertical: boolean): number;
     handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null;
     handlePreLayoutUpdate(root: Root): void;
+    handlePostLayoutUpdate(root: Root): void;
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
     getChild(): Widget;
 }

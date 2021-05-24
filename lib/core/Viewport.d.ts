@@ -1,3 +1,4 @@
+import { LayoutContext } from '../widgets/LayoutContext';
 import type { Widget } from '../widgets/Widget';
 export declare class Viewport {
     _maxDimensions: [number, number];
@@ -9,6 +10,7 @@ export declare class Viewport {
     get canvasDimensions(): [number, number];
     set maxDimensions(maxDimensions: [number, number]);
     get maxDimensions(): [number, number];
-    resolveChildsLayout(child: Widget): boolean;
+    populateChildsLayout(child: Widget): LayoutContext | null;
+    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): void;
     paintToCanvas(child: Widget): boolean;
 }
