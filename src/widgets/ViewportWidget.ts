@@ -151,14 +151,14 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             child.dirty = true;
         }
 
-        // Pre-layout update child
-        child.preLayoutUpdate(root);
-
         // If child's layout is dirty set self's layout as dirty
         if(child.layoutDirty)
             this.layoutDirty = true;
         else
             return;
+
+        // Pre-layout update child
+        child.preLayoutUpdate(root);
 
         // Populate child's layout context
         this.lastChildLayoutCtx = this.viewport.populateChildsLayout(child);
@@ -189,12 +189,12 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             // Update max dimensions if basis is tied
             const newMaxDimensions = this.maxDimensions;
 
-            if((this.vertical && this.crossBasisTied) || (!this.vertical && this.mainBasisTied)) {
+            if((this.viewport.vertical && this.crossBasisTied) || (!this.viewport.vertical && this.mainBasisTied)) {
                 newMaxDimensions[0] = this.resolvedWidth;
                 this.lastChildLayoutCtx.maxWidth = this.resolvedWidth;
             }
 
-            if((this.vertical && this.mainBasisTied) || (!this.vertical && this.crossBasisTied)) {
+            if((this.viewport.vertical && this.mainBasisTied) || (!this.viewport.vertical && this.crossBasisTied)) {
                 newMaxDimensions[1] = this.resolvedHeight;
                 this.lastChildLayoutCtx.maxHeight = this.resolvedHeight;
             }
