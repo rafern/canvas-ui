@@ -183,6 +183,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     }
 
     handlePostLayoutUpdate(root: Root): void {
+        console.log('in handlePostLayoutUpdate');
         const child = this.getChild();
 
         if(this.lastChildLayoutCtx !== null) {
@@ -211,6 +212,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         // If child is dirty, set self as dirty
         if(child.dirty)
             this.dirty = true;
+        console.log('out handlePostLayoutUpdate');
     }
 
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
