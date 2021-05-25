@@ -33,6 +33,7 @@ export const defaultTheme = new Theme(new Map<ThemeProperty, unknown>([
     [ThemeProperty.InputBackgroundFill, 'white'],
     [ThemeProperty.InputTextFont, '16px mono'],
     [ThemeProperty.InputTextFill, 'black'],
+    [ThemeProperty.InputTextFillDisabled, 'grey'],
     [ThemeProperty.InputTextFlexRatio, 1],
     [ThemeProperty.InputTextMinWidth, 100],
     [ThemeProperty.InputTextMinAscent, 16],

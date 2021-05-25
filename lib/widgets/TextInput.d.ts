@@ -108,6 +108,7 @@ declare const TextInput_base: {
     };
 } & typeof FlexWidget;
 export declare class TextInput extends TextInput_base {
+    #private;
     blinkStart: number;
     blinkWasOn: boolean | null;
     cursorPos: number;
@@ -115,13 +116,15 @@ export declare class TextInput extends TextInput_base {
     cursorOffsetDirty: boolean;
     constructor(callback?: VariableCallback<string | null> | null, initialValue?: string, themeOverride?: Theme | null);
     get blinkOn(): boolean | null;
+    get editingEnabled(): boolean;
+    set editingEnabled(editingEnabled: boolean);
     moveCursorTo(index: number): void;
     moveCursor(delta: number): void;
     insertText(str: string): void;
     deleteText(delta: number): void;
     onFocusDropped(focusType: FocusType, _root: Root): void;
     handleEvent(event: Event, _width: number, _height: number, root: Root): this;
-    handlePreLayoutUpdate(_root: Root): void;
+    handlePreLayoutUpdate(root: Root): void;
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
     get valueLength(): number;
 }

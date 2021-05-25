@@ -25,6 +25,8 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
     cursorOffset = 0; // XXX private
     // Does the cursor offset need to be updated?
     cursorOffsetDirty = false; // XXX private
+    // Is editing enabled?
+    #editingEnabled = true; // XXX private
 
     // A widget that accepts keyboard input and holds a text value
     constructor(callback: VariableCallback<string | null> | null = null, initialValue = '', themeOverride: Theme | null = null) {
@@ -45,6 +47,25 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
 
         const blinkRate = this.theme.getSize(ThemeProperty.BlinkRate);
         return Math.trunc(((Date.now() - this.blinkStart) / (500 * blinkRate)) % 2) === 0;
+    }
+
+    get editingEnabled(): boolean {
+        return this.#editingEnabled;
+    }
+
+    set editingEnabled(editingEnabled: boolean) {
+        if(this.#editingEnabled !== editingEnabled) {
+            this.#editingEnabled = editingEnabled;
+
+            // Disable blinking and reset cursor position if disabled
+            if(!editingEnabled) {
+                this.blinkStart = 0;
+                this.moveCursorTo(0);
+            }
+
+            // Mark as dirty; the text color changes
+            this.dirty = true;
+        }
     }
 
     moveCursorTo(index: number): void {
@@ -108,6 +129,10 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
     }
 
     handleEvent(event: Event, _width: number, _height: number, root: Root): this { // XXX protected
+        // If editing is disabled, abort
+        if(!this.#editingEnabled)
+            return this;
+
         if(event instanceof PointerEvent) {
             // If this is a pointer event, set pointer style and handle clicks
             root.pointerStyle = 'text';
@@ -175,7 +200,11 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
         return this;
     }
 
-    handlePreLayoutUpdate(_root: Root): void {
+    handlePreLayoutUpdate(root: Root): void {
+        // Drop focus if editing is disabled
+        if(!this.editingEnabled)
+            root.dropFocus(FocusType.Keyboard, this);
+
         // Mark as dirty when a blink needs to occur
         if(this.blinkOn !== this.blinkWasOn)
             this.dirty = true;
@@ -208,7 +237,10 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
 
         // Paint current text value
         ctx.font = this.theme.getFont(ThemeProperty.InputTextFont);
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFill);
+        if(this.#editingEnabled)
+            ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFill);
+        else
+            ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 
         ctx.fillText(
             this._value ?? '',
