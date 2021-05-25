@@ -15,6 +15,8 @@ export * from './events/PointerEvent';
 export * from './events/PointerMove';
 export * from './events/PointerPress';
 export * from './events/PointerRelease';
+export * from './helpers/roundToPower2';
+export * from './helpers/measureTextDims';
 export * from './interfaces/MultiParent';
 export * from './interfaces/SingleParent';
 export * from './mixins/Clickable';

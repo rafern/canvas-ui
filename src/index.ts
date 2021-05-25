@@ -19,7 +19,8 @@ export * from './events/PointerMove';
 export * from './events/PointerPress';
 export * from './events/PointerRelease';
 // helpers
-// XXX none exported
+export * from './helpers/roundToPower2';
+export * from './helpers/measureTextDims';
 // interfaces
 export * from './interfaces/MultiParent';
 export * from './interfaces/SingleParent';
