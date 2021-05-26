@@ -172,7 +172,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             let basis = this.getChildMainBasis(currentVerticality);
             const maxBasis = this.getMaxMainBasis(currentVerticality);
 
-            if(maxBasis !== 0 && this.resolvedWidth > maxBasis)
+            if(maxBasis !== 0 && basis > maxBasis)
                 basis = maxBasis;
 
             this.internalMainBasis = basis;
@@ -182,9 +182,9 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         if(this.crossBasisTied) {
             let basis = this.getChildCrossBasis(currentVerticality);
-            const maxBasis = this.getMaxMainBasis(currentVerticality);
+            const maxBasis = this.getMaxCrossBasis(currentVerticality);
 
-            if(maxBasis !== 0 && this.resolvedWidth > maxBasis)
+            if(maxBasis !== 0 && basis > maxBasis)
                 basis = maxBasis;
 
             this.internalCrossBasis = basis;
