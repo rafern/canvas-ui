@@ -24,6 +24,9 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     _offset: [number, number] = [0, 0]; // XXX private
     // Layout context used by child. Can be null if no layout update required
     lastChildLayoutCtx: LayoutContext | null = null; // XXX private
+    // Max dimensions. Not the effective max dimensions; those are set every
+    // frame and are the viewport's max dimensions
+    maxDimensions: [number, number] = [0, 0];
     // What were the last dimensions of the viewport widget? Useful for
     // scrolling
     lastViewportDims: [number, number] = [0, 0];
@@ -56,16 +59,6 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         }
     }
 
-    get maxDimensions(): [number, number] {
-        return [...this.viewport.maxDimensions];
-    }
-
-    set maxDimensions(maxDimensions: [number, number]) {
-        const [mw, mh] = this.maxDimensions;
-        if(mw !== maxDimensions[0] || mh !== maxDimensions[1])
-            this.viewport.maxDimensions = maxDimensions;
-    }
-
     get dimensions(): [number, number] {
         // Get child's width and height, cropping to maximum dimensions
         const [maxWidth, maxHeight] = this.viewport.maxDimensions;
@@ -87,22 +80,15 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         const innerLength = vertical ? this.lastChildLayoutCtx.vBasis
                                      : this.lastChildLayoutCtx.hBasis;
+
         if(isNaN(innerLength))
             return 0;
+
         return innerLength;
     }
 
     getChildCrossBasis(vertical: boolean) { // XXX private
         return this.getChildMainBasis(!vertical);
-    }
-
-    getMaxMainBasis(vertical: boolean) { // XXX private
-        return vertical ? this.viewport.maxDimensions[1]
-                        : this.viewport.maxDimensions[0];
-    }
-
-    getMaxCrossBasis(vertical: boolean) { // XXX private
-        return this.getMaxMainBasis(!vertical);
     }
 
     handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
@@ -188,7 +174,8 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         const child = this.getChild();
 
         if(this.lastChildLayoutCtx !== null) {
-            // Update max dimensions if basis is tied
+            // Update viewport's max dimensions taking into account whether a
+            // basis is tied
             const newMaxDimensions = this.maxDimensions;
 
             if((this.viewport.vertical && this.crossBasisTied) || (!this.viewport.vertical && this.mainBasisTied)) {
@@ -201,7 +188,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
                 this.lastChildLayoutCtx.maxHeight = this.resolvedHeight;
             }
 
-            this.maxDimensions = newMaxDimensions;
+            this.viewport.maxDimensions = newMaxDimensions;
 
             // Resolve child's layout
             this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
