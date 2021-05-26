@@ -61,7 +61,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
     get dimensions(): [number, number] {
         // Get child's width and height, cropping to maximum dimensions
-        const [maxWidth, maxHeight] = this.viewport.maxDimensions;
+        const [maxWidth, maxHeight] = this.maxDimensions;
 
         const child = this.getChild();
         let width = child.resolvedWidth;
