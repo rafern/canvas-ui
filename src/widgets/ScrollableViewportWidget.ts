@@ -14,12 +14,14 @@ export class ScrollableViewportWidget extends PassthroughWidget {
     viewport: ViewportWidget; // XXX private
     vScroll: ScrollBar; // XXX private
     hScroll: ScrollBar; // XXX private
-    forceHideScrollBars: boolean; // FIXME scrollbars always update one frame
-    // late because of limitations with the layout system; you can only get the
-    // used width and height in the update function after the widget has already
-    // drawed. this variable is used as a workaround for avoiding a one frame
-    // flash of a scrollbar, when you know the scrollbar visibility will change,
-    // disable the scrollbars manually
+    // FIXME scrollbars always update one frame late because of limitations with
+    // the layout system; you can only get the used width and height in the
+    // update function after the widget has already drawed. this variable is
+    // used as a workaround for avoiding a one frame flash of a scrollbar, when
+    // you know the scrollbar visibility will change, disable the scrollbars
+    // manually
+    vScrollHide: boolean;
+    hScrollHide: boolean;
 
     constructor(child: Widget, vertical: boolean, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
         // Create grid
@@ -37,7 +39,8 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.viewport = viewport;
         this.vScroll = vScroll;
         this.hScroll = hScroll;
-        this.forceHideScrollBars = false;
+        this.vScrollHide = false;
+        this.hScrollHide = false;
 
         hScroll.callback = (newScroll: number | null) => {
             if(newScroll === null)
@@ -94,14 +97,14 @@ export class ScrollableViewportWidget extends PassthroughWidget {
 
     handlePreLayoutUpdate(root: Root): void {
         const [innerW, innerH] = this.viewport.dimensions;
-        if(this.viewport.resolvedWidth < innerW && !this.forceHideScrollBars)
+        if(this.viewport.resolvedWidth < innerW && !this.hScrollHide)
             this.hScroll.enable();
         else {
             this.hScroll.value = 0;
             this.hScroll.disable();
         }
 
-        if(this.viewport.resolvedHeight < innerH && !this.forceHideScrollBars)
+        if(this.viewport.resolvedHeight < innerH && !this.vScrollHide)
             this.vScroll.enable();
         else {
             this.vScroll.value = 0;

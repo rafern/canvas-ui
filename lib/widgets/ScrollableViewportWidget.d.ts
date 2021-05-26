@@ -8,7 +8,8 @@ export declare class ScrollableViewportWidget extends PassthroughWidget {
     viewport: ViewportWidget;
     vScroll: ScrollBar;
     hScroll: ScrollBar;
-    forceHideScrollBars: boolean;
+    vScrollHide: boolean;
+    hScrollHide: boolean;
     constructor(child: Widget, vertical: boolean, mainBasisTied?: boolean, crossBasisTied?: boolean, themeOverride?: Theme | null);
     get maxDimensions(): [number, number];
     set maxDimensions(maxDimensions: [number, number]);
