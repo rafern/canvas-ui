@@ -190,21 +190,21 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         if(this.lastChildLayoutCtx !== null) {
             // Update viewport's max dimensions taking into account whether a
             // basis is tied
-            const newMaxDimensions = this.maxDimensions;
+            let [newMaxWidth, newMaxHeight] = [...this.maxDimensions];
 
-            if((this.viewport.vertical && this.crossBasisTied) || (!this.viewport.vertical && this.mainBasisTied)) {
-                if(newMaxDimensions[0] === 0 || this.resolvedWidth < newMaxDimensions[0])
-                    newMaxDimensions[0] = this.resolvedWidth;
+            if(this.viewport.vertical ? this.crossBasisTied : this.mainBasisTied) {
+                if(newMaxWidth === 0 || this.resolvedWidth < newMaxWidth)
+                    newMaxWidth = this.resolvedWidth;
             }
 
-            if((this.viewport.vertical && this.mainBasisTied) || (!this.viewport.vertical && this.crossBasisTied)) {
-                if(newMaxDimensions[1] === 0 || this.resolvedHeight < newMaxDimensions[1])
-                    newMaxDimensions[1] = this.resolvedHeight;
+            if(this.viewport.vertical ? this.mainBasisTied : this.crossBasisTied) {
+                if(newMaxHeight === 0 || this.resolvedHeight < newMaxHeight)
+                    newMaxHeight = this.resolvedHeight;
             }
 
-            this.viewport.maxDimensions = newMaxDimensions;
-            this.lastChildLayoutCtx.maxWidth = newMaxDimensions[0];
-            this.lastChildLayoutCtx.maxHeight = newMaxDimensions[1];
+            this.viewport.maxDimensions = [newMaxWidth, newMaxHeight];
+            this.lastChildLayoutCtx.maxWidth = newMaxWidth;
+            this.lastChildLayoutCtx.maxHeight = newMaxHeight;
 
             // Resolve child's layout
             this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
