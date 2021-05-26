@@ -91,6 +91,15 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return this.getChildMainBasis(!vertical);
     }
 
+    getMaxMainBasis(vertical: boolean): number { // XXX private
+        return vertical ? this.maxDimensions[1]
+                        : this.maxDimensions[0];
+    }
+
+    getMaxCrossBasis(vertical: boolean): number { // XXX private
+        return this.getMaxMainBasis(!vertical);
+    }
+
     handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
         // Ignore events with no position and no target
         if(event.target === null && !(event instanceof PointerEvent))
@@ -159,13 +168,27 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         // If a basis is tied, update internal basis to be equal to child's
         // basis
-        if(this.mainBasisTied)
-            this.internalMainBasis = this.getChildMainBasis(currentVerticality);
+        if(this.mainBasisTied) {
+            let basis = this.getChildMainBasis(currentVerticality);
+            const maxBasis = this.getMaxMainBasis(currentVerticality);
+
+            if(maxBasis !== 0 && this.resolvedWidth > maxBasis)
+                basis = maxBasis;
+
+            this.internalMainBasis = basis;
+        }
         else
             this.internalMainBasis = 0;
 
-        if(this.crossBasisTied)
-            this.internalCrossBasis = this.getChildCrossBasis(currentVerticality);
+        if(this.crossBasisTied) {
+            let basis = this.getChildCrossBasis(currentVerticality);
+            const maxBasis = this.getMaxMainBasis(currentVerticality);
+
+            if(maxBasis !== 0 && this.resolvedWidth > maxBasis)
+                basis = maxBasis;
+
+            this.internalCrossBasis = basis;
+        }
         else
             this.internalCrossBasis = 0;
     }

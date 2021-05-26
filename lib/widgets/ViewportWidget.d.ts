@@ -61,6 +61,8 @@ export declare class ViewportWidget extends ViewportWidget_base implements Singl
     get dimensions(): [number, number];
     getChildMainBasis(vertical: boolean): number;
     getChildCrossBasis(vertical: boolean): number;
+    getMaxMainBasis(vertical: boolean): number;
+    getMaxCrossBasis(vertical: boolean): number;
     handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null;
     handlePreLayoutUpdate(root: Root): void;
     handlePostLayoutUpdate(root: Root): void;
