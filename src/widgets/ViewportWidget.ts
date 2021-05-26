@@ -179,12 +179,12 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             const newMaxDimensions = this.maxDimensions;
 
             if((this.viewport.vertical && this.crossBasisTied) || (!this.viewport.vertical && this.mainBasisTied)) {
-                if(this.resolvedWidth > newMaxDimensions[0])
+                if(newMaxDimensions[0] === 0 || this.resolvedWidth < newMaxDimensions[0])
                     newMaxDimensions[0] = this.resolvedWidth;
             }
 
             if((this.viewport.vertical && this.mainBasisTied) || (!this.viewport.vertical && this.crossBasisTied)) {
-                if(this.resolvedHeight > newMaxDimensions[1])
+                if(newMaxDimensions[1] === 0 || this.resolvedHeight < newMaxDimensions[1])
                     newMaxDimensions[1] = this.resolvedHeight;
             }
 
