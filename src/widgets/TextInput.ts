@@ -27,6 +27,8 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
     cursorOffsetDirty = false; // XXX private
     // Is editing enabled?
     #editingEnabled = true; // XXX private
+    // Is the text hidden?
+    #hideText = false; // XXX private
 
     // A widget that accepts keyboard input and holds a text value
     constructor(callback: VariableCallback<string | null> | null = null, initialValue = '', themeOverride: Theme | null = null) {
@@ -68,16 +70,45 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
         }
     }
 
+    get hideText(): boolean {
+        return this.#hideText;
+    }
+
+    set hideText(hideText: boolean) {
+        if(this.#hideText !== hideText) {
+            this.#hideText = hideText;
+
+            // Mark as dirty and cursor offset as dirty; the text is
+            // (de)obfuscated
+            this.cursorOffsetDirty = true;
+            this.dirty = true;
+        }
+    }
+
+    get textLength(): number {
+        if(this._value === null)
+            return 0;
+
+        return this._value.length;
+    }
+
+    get text(): string {
+        if(this._value === null)
+            return '';
+
+        return this._value;
+    }
+
+    get displayedText(): string {
+        if(this.#hideText)
+            return '●'.repeat(this.textLength);
+        else
+            return this.text;
+    }
+
     moveCursorTo(index: number): void {
         // Update cursor position, checking for boundaries
-        if(index < 0)
-            this.cursorPos = 0;
-        else if(this._value === null)
-            this.cursorPos = 0;
-        else if(index > this._value.length)
-            this.cursorPos = this._value.length;
-        else
-            this.cursorPos = index;
+        this.cursorPos = Math.min(Math.max(index, 0), this.textLength);
 
         // Update cursor offset
         this.cursorOffsetDirty = true;
@@ -185,7 +216,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             else if(event.key === 'Home')
                 this.moveCursorTo(0); // Move cursor to beginning
             else if(event.key === 'End')
-                this.moveCursorTo(this.valueLength); // Move cursor to end
+                this.moveCursorTo(this.textLength); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
@@ -214,7 +245,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
         const cursorThickness = this.theme.getSize(ThemeProperty.CursorThickness);
         const widthError = cursorPadding + cursorThickness;
 
-        this.setText(this._value ?? '');
+        this.setText(this.displayedText);
         this.setFont(this.theme.getFont(ThemeProperty.InputTextFont));
         this.setMinLabelWidth(this.theme.getSize(ThemeProperty.InputTextMinWidth) - widthError);
         this.setMinLabelAscent(this.theme.getSize(ThemeProperty.InputTextMinAscent));
@@ -243,7 +274,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 
         ctx.fillText(
-            this._value ?? '',
+            this.displayedText,
             x,
             y + height - this.labelDescent,
         );
@@ -262,12 +293,5 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             cursorThickness,
             height - cursorPadding * 2,
         );
-    }
-
-    get valueLength(): number {
-        if(this._value === null)
-            return 0;
-
-        return this._value.length;
     }
 }

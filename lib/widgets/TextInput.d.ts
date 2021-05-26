@@ -118,6 +118,11 @@ export declare class TextInput extends TextInput_base {
     get blinkOn(): boolean | null;
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
+    get hideText(): boolean;
+    set hideText(hideText: boolean);
+    get textLength(): number;
+    get text(): string;
+    get displayedText(): string;
     moveCursorTo(index: number): void;
     moveCursor(delta: number): void;
     insertText(str: string): void;
@@ -126,6 +131,5 @@ export declare class TextInput extends TextInput_base {
     handleEvent(event: Event, _width: number, _height: number, root: Root): this;
     handlePreLayoutUpdate(root: Root): void;
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
-    get valueLength(): number;
 }
 export {};
