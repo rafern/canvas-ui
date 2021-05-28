@@ -25,7 +25,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         super(themeOverride, true, false);
 
         this.callback = callback;
-        this._value = initialValue;
+        this.setValue(initialValue, false);
         this.#end = end;
         this.#barLength = barLength;
         this.#dragValue = initialValue;
@@ -92,7 +92,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
                 else
                     clickVal = this.pointerPos[0] * this.#end;
 
-                let value = this._value;
+                let value = this.value;
                 if(value === null)
                     value = 0;
 
@@ -135,7 +135,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         const [sl, sr, st, sb] = this.getBarRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];
 
-        let value = this._value;
+        let value = this.value;
         if(value === null)
             value = 0;
 

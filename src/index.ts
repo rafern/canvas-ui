@@ -46,6 +46,7 @@ export * from './templates/LabelledCheckbox';
 export * from './templates/Margin';
 export * from './templates/Row';
 export * from './templates/TextButton';
+export * from './templates/BasicTextInput';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';

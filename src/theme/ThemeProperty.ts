@@ -21,6 +21,7 @@ export enum ThemeProperty {
     InputTextFont,
     InputTextFill,
     InputTextFillDisabled,
+    InputTextFillInvalid,
     InputTextFlexRatio,
     InputTextMinWidth,
     InputTextMinAscent,

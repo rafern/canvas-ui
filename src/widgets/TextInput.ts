@@ -1,9 +1,9 @@
-import { Variable, VariableCallback } from '../mixins/Variable';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { Labelable } from '../mixins/Labelable';
+import { Variable } from '../mixins/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
@@ -11,9 +11,11 @@ import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 
+export type TextValidator<V> = (text: string) => [boolean, V];
+
 // FIXME protected members were turned public due to a declaration emission bug:
 // https://github.com/Microsoft/TypeScript/issues/17744
-export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(FlexWidget, '')) {
+export class TextInput<V> extends Labelable(Variable<string, typeof FlexWidget>(FlexWidget, '')) {
     // At what timestamp did the blinking start
     #blinkStart = 0;
     // Was the cursor shown last frame due to blinking?
@@ -28,15 +30,31 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
     #editingEnabled = true;
     // Is the text hidden?
     #hideText = false;
+    // Is the text valid?
+    #valid;
+    // Last valid value
+    #validValue;
 
     // A widget that accepts keyboard input and holds a text value
-    constructor(callback: VariableCallback<string> | null = null, initialValue = '', themeOverride: Theme | null = null) {
+    constructor(validator: TextValidator<V>, initialValue = '', themeOverride: Theme | null = null) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
         super(themeOverride, false, false);
 
-        this.callback = callback;
-        this._value = initialValue;
+        this.setValue(initialValue, false);
+        [this.#valid, this.#validValue] = validator(initialValue);
+
+        this.callback = (text: string) => {
+            const [valid, validatedValue] = validator(text);
+
+            if(valid)
+                this.#validValue = validatedValue;
+
+            if(valid !== this.#valid) {
+                this.#valid = valid;
+                this.dirty = true;
+            }
+        };
 
         // TextInputs are always horizontal
         this.vertical = false;
@@ -86,14 +104,22 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
 
     get text(): string {
         if(this.#hideText)
-            return '●'.repeat(this._value.length);
+            return '●'.repeat(this.value.length);
         else
-            return this._value;
+            return this.value;
+    }
+
+    get valid(): boolean {
+        return this.#valid;
+    }
+
+    get validValue(): V {
+        return this.#validValue;
     }
 
     moveCursorTo(index: number): void {
         // Update cursor position, checking for boundaries
-        this.#cursorPos = Math.min(Math.max(index, 0), this._value.length);
+        this.#cursorPos = Math.min(Math.max(index, 0), this.value.length);
 
         // Update cursor offset
         this.#cursorOffsetDirty = true;
@@ -106,7 +132,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
 
     insertText(str: string): void {
         // Insert string in current cursor position
-        this.value = this._value.substring(0, this.#cursorPos) + str + this._value.substring(this.#cursorPos);
+        this.value = this.value.substring(0, this.#cursorPos) + str + this.value.substring(this.#cursorPos);
         // Move cursor neccessary amount forward
         this.moveCursor(str.length);
     }
@@ -116,11 +142,11 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
         // is negative. Deleting characters backwards results in moving the
         // cursor
         if(delta > 0)
-            this.value = this._value.substring(0, this.#cursorPos) + this._value.substring(this.#cursorPos + delta);
+            this.value = this.value.substring(0, this.#cursorPos) + this.value.substring(this.#cursorPos + delta);
         else if(delta < 0) {
             // NOTE, still checking if delta < 0 so that nothing is done if
             // delta is 0
-            this.value = this._value.substring(0, this.#cursorPos + delta) + this._value.substring(this.#cursorPos);
+            this.value = this.value.substring(0, this.#cursorPos + delta) + this.value.substring(this.#cursorPos);
             this.moveCursor(delta);
         }
     }
@@ -156,7 +182,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             }
             // Get mobile-friendly text input if available
             else if(event instanceof PointerRelease && root.hasMobileTextInput) {
-                root.getTextInput(this._value).then((newValue: string | null) => {
+                root.getTextInput(this.value).then((newValue: string | null) => {
                     if(newValue === null)
                         return;
 
@@ -184,7 +210,7 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
             else if(event.key === 'Home')
                 this.moveCursorTo(0); // Move cursor to beginning
             else if(event.key === 'End')
-                this.moveCursorTo(this._value.length); // Move cursor to end
+                this.moveCursorTo(this.value.length); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
@@ -236,8 +262,12 @@ export class TextInput extends Labelable(Variable<string, typeof FlexWidget>(Fle
 
         // Paint current text value
         ctx.font = this.theme.getFont(ThemeProperty.InputTextFont);
-        if(this.#editingEnabled)
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFill);
+        if(this.#editingEnabled) {
+            if(this.#valid)
+                ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFill);
+            else
+                ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillInvalid);
+        }
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 

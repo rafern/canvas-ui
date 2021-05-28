@@ -23,7 +23,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         super(themeOverride, true, false);
 
         this.callback = callback;
-        this._value = initialValue;
+        this.setValue(initialValue, false);
         this.#minValue = minValue;
         this.#maxValue = maxValue;
         this.#snapIncrement = snapIncrement;
@@ -84,7 +84,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];
 
-        let value = this._value;
+        let value = this.value;
         if(value === null)
             value = 0;
 

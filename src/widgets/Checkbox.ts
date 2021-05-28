@@ -17,7 +17,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
 
         // Save callback and initial value
         this.callback = callback;
-        this._value = initialValue;
+        this.setValue(initialValue, false);
     }
 
     getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
