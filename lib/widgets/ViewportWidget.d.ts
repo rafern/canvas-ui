@@ -1,5 +1,4 @@
 import { SingleParent } from '../interfaces/SingleParent';
-import { Viewport } from '../core/Viewport';
 import { FlexWidget } from './FlexWidget';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -11,14 +10,14 @@ declare const ViewportWidget_base: {
         readonly children: Widget[];
         updateInheritedTheme(): void;
         forceLayoutDirty(): void;
-        _enabled: boolean;
+        "__#1690@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#1690@#themeOverride": Theme | null;
+        "__#1690@#theme": Theme | null;
+        "__#1690@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateTheme(): void;
@@ -47,11 +46,9 @@ declare const ViewportWidget_base: {
     };
 } & typeof FlexWidget;
 export declare class ViewportWidget extends ViewportWidget_base implements SingleParent {
+    #private;
     mainBasisTied: boolean;
     crossBasisTied: boolean;
-    viewport: Viewport;
-    _offset: [number, number];
-    lastChildLayoutCtx: LayoutContext | null;
     maxDimensions: [number, number];
     lastViewportDims: [number, number];
     constructor(child: Widget, mainBasisTied?: boolean, crossBasisTied?: boolean, themeOverride?: Theme | null);

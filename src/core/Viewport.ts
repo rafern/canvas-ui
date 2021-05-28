@@ -2,22 +2,23 @@ import { LayoutContext } from '../widgets/LayoutContext';
 import roundToPower2 from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
+// FIXME protected members were turned public due to a declaration emission bug:
 // https://github.com/Microsoft/TypeScript/issues/17744
 export class Viewport {
     // Maximum size of viewport. This is passed as a hint to children.  If an
     // axis' maximum length is 0, then there is no maximum for that axis, but it
     // also means that flex components won't expand in that axis.
-    _maxDimensions: [number, number] = [0, 0]; // XXX private
-    // Is the layout context vertical?
-    vertical = true;
+    #maxDimensions: [number, number] = [0, 0];
     // Does the viewport need to force-mark layout as dirty?
-    forceLayout = false; // XXX private
+    #forceLayout = false;
+
     // The internal canvas
     readonly canvas: HTMLCanvasElement;
     // The internal canvas context
     readonly context: CanvasRenderingContext2D;
+
+    // Is the layout context vertical?
+    vertical = true;
 
     constructor(startingWidth = 64, startingHeight = 64) {
         // Create internal canvas
@@ -38,22 +39,22 @@ export class Viewport {
     }
 
     set maxDimensions(maxDimensions: [number, number]) {
-        if(this._maxDimensions[0] !== maxDimensions[0] ||
-           this._maxDimensions[1] !== maxDimensions[1]) {
-            this._maxDimensions[0] = maxDimensions[0];
-            this._maxDimensions[1] = maxDimensions[1];
-            this.forceLayout = true;
+        if(this.#maxDimensions[0] !== maxDimensions[0] ||
+           this.#maxDimensions[1] !== maxDimensions[1]) {
+            this.#maxDimensions[0] = maxDimensions[0];
+            this.#maxDimensions[1] = maxDimensions[1];
+            this.#forceLayout = true;
         }
     }
 
     get maxDimensions(): [number, number] {
-        return [this._maxDimensions[0], this._maxDimensions[1]];
+        return [this.#maxDimensions[0], this.#maxDimensions[1]];
     }
 
     populateChildsLayout(child: Widget): LayoutContext | null {
         // Force layout resolution
-        if(this.forceLayout) {
-            this.forceLayout = false;
+        if(this.#forceLayout) {
+            this.#forceLayout = false;
             child.forceLayoutDirty();
         }
 
@@ -63,7 +64,7 @@ export class Viewport {
 
         // Populate layout context
         const layoutCtx = new LayoutContext(
-            this._maxDimensions[0], this._maxDimensions[1], this.vertical,
+            this.#maxDimensions[0], this.#maxDimensions[1], this.vertical,
         );
 
         child.populateLayout(layoutCtx);

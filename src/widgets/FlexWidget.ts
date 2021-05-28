@@ -10,102 +10,102 @@ export class FlexWidget extends Widget {
     // A widget with flexbox layout resolution
 
     // The flex ratio of the flexbox
-    _flexRatio = 1; // XXX private
+    #flexRatio = 1;
     // The minimum main-axis and cross-axis lengths
-    _mainBasis = 0; // XXX private
-    _crossBasis = 0; // XXX private
+    #mainBasis = 0;
+    #crossBasis = 0;
     // Like mainBasis and crossBasis, but meant to be updated per frame. The
     // biggest of the two sets will be used
-    _internalMainBasis = 0; // XXX private
-    _internalCrossBasis = 0; // XXX private
+    #internalMainBasis = 0;
+    #internalCrossBasis = 0;
     // The last effective mainBasis and crossBasis, aka, the last used maximum
     // between the internal and normal set of basis
-    effectiveMainBasis = 0; // XXX private
-    effectiveCrossBasis = 0; // XXX private
+    #effectiveMainBasis = 0;
+    #effectiveCrossBasis = 0;
     // Growth direction of flexbox. Is it vertical? If null, it will inherit the
     // verticality of the layout context
-    _vertical: boolean | null = null; // XXX private
+    #vertical: boolean | null = null;
     // Was the last layout vertical or not? Never null
     lastVertical = true;
 
     get flexRatio(): number {
-        return this._flexRatio;
+        return this.#flexRatio;
     }
 
     set flexRatio(flexRatio: number) {
-        if(this._flexRatio !== flexRatio) {
-            this._flexRatio = flexRatio;
+        if(this.#flexRatio !== flexRatio) {
+            this.#flexRatio = flexRatio;
             this.layoutDirty = true;
         }
     }
 
     get vertical(): boolean | null {
-        return this._vertical;
+        return this.#vertical;
     }
 
     set vertical(vertical: boolean | null) {
-        if(this._vertical !== vertical) {
-            this._vertical = vertical;
+        if(this.#vertical !== vertical) {
+            this.#vertical = vertical;
             this.layoutDirty = true;
         }
     }
 
     get mainBasis(): number {
-        return this._mainBasis;
+        return this.#mainBasis;
     }
 
     set mainBasis(mainBasis: number) {
-        if(this._mainBasis !== mainBasis) {
-            this._mainBasis = mainBasis;
+        if(this.#mainBasis !== mainBasis) {
+            this.#mainBasis = mainBasis;
             this.updateEffectiveMainBasis();
         }
     }
 
     get crossBasis(): number {
-        return this._crossBasis;
+        return this.#crossBasis;
     }
 
     set crossBasis(crossBasis: number) {
-        if(this._crossBasis !== crossBasis) {
-            this._crossBasis = crossBasis;
+        if(this.#crossBasis !== crossBasis) {
+            this.#crossBasis = crossBasis;
             this.updateEffectiveCrossBasis();
         }
     }
 
     get internalMainBasis(): number {
-        return this._internalMainBasis;
+        return this.#internalMainBasis;
     }
 
     set internalMainBasis(internalMainBasis: number) {
-        if(this._internalMainBasis !== internalMainBasis) {
-            this._internalMainBasis = internalMainBasis;
+        if(this.#internalMainBasis !== internalMainBasis) {
+            this.#internalMainBasis = internalMainBasis;
             this.updateEffectiveMainBasis();
         }
     }
 
     get internalCrossBasis(): number {
-        return this._internalCrossBasis;
+        return this.#internalCrossBasis;
     }
 
     set internalCrossBasis(internalCrossBasis: number) {
-        if(this._internalCrossBasis !== internalCrossBasis) {
-            this._internalCrossBasis = internalCrossBasis;
+        if(this.#internalCrossBasis !== internalCrossBasis) {
+            this.#internalCrossBasis = internalCrossBasis;
             this.updateEffectiveCrossBasis();
         }
     }
 
     updateEffectiveMainBasis(): void { // XXX private
-        const effectiveMainBasis = Math.max(this._mainBasis, this._internalMainBasis);
-        if(this.effectiveMainBasis !== effectiveMainBasis) {
-            this.effectiveMainBasis = effectiveMainBasis;
+        const effectiveMainBasis = Math.max(this.#mainBasis, this.#internalMainBasis);
+        if(this.#effectiveMainBasis !== effectiveMainBasis) {
+            this.#effectiveMainBasis = effectiveMainBasis;
             this.layoutDirty = true;
         }
     }
 
     updateEffectiveCrossBasis(): void { // XXX private
-        const effectiveCrossBasis = Math.max(this._crossBasis, this._internalCrossBasis);
-        if(this.effectiveCrossBasis !== effectiveCrossBasis) {
-            this.effectiveCrossBasis = effectiveCrossBasis;
+        const effectiveCrossBasis = Math.max(this.#crossBasis, this.#internalCrossBasis);
+        if(this.#effectiveCrossBasis !== effectiveCrossBasis) {
+            this.#effectiveCrossBasis = effectiveCrossBasis;
             this.layoutDirty = true;
         }
     }
@@ -116,36 +116,36 @@ export class FlexWidget extends Widget {
         this.lastVertical = vertical;
         if(layoutCtx.vertical === vertical) {
             if(vertical) {
-                if(this._flexRatio > 0)
-                    layoutCtx.vFlex += this._flexRatio;
+                if(this.#flexRatio > 0)
+                    layoutCtx.vFlex += this.#flexRatio;
 
-                layoutCtx.vBasis += this.effectiveMainBasis;
+                layoutCtx.vBasis += this.#effectiveMainBasis;
 
-                if(this.effectiveCrossBasis > layoutCtx.hBasis)
-                    layoutCtx.hBasis = this.effectiveCrossBasis;
+                if(this.#effectiveCrossBasis > layoutCtx.hBasis)
+                    layoutCtx.hBasis = this.#effectiveCrossBasis;
             }
             else {
-                if(this._flexRatio > 0)
-                    layoutCtx.hFlex += this._flexRatio;
+                if(this.#flexRatio > 0)
+                    layoutCtx.hFlex += this.#flexRatio;
 
-                layoutCtx.hBasis += this.effectiveMainBasis;
+                layoutCtx.hBasis += this.#effectiveMainBasis;
 
-                if(this.effectiveCrossBasis > layoutCtx.vBasis)
-                    layoutCtx.vBasis = this.effectiveCrossBasis;
+                if(this.#effectiveCrossBasis > layoutCtx.vBasis)
+                    layoutCtx.vBasis = this.#effectiveCrossBasis;
             }
         }
         else {
             if(vertical) {
-                layoutCtx.hBasis += this.effectiveCrossBasis;
+                layoutCtx.hBasis += this.#effectiveCrossBasis;
 
-                if(this.effectiveMainBasis > layoutCtx.vBasis)
-                    layoutCtx.vBasis = this.effectiveMainBasis;
+                if(this.#effectiveMainBasis > layoutCtx.vBasis)
+                    layoutCtx.vBasis = this.#effectiveMainBasis;
             }
             else {
-                layoutCtx.vBasis += this.effectiveCrossBasis;
+                layoutCtx.vBasis += this.#effectiveCrossBasis;
 
-                if(this.effectiveMainBasis > layoutCtx.hBasis)
-                    layoutCtx.hBasis = this.effectiveMainBasis;
+                if(this.#effectiveMainBasis > layoutCtx.hBasis)
+                    layoutCtx.hBasis = this.#effectiveMainBasis;
             }
         }
     }
@@ -158,35 +158,35 @@ export class FlexWidget extends Widget {
 
         const vertical = this.vertical ?? layoutCtx.vertical;
         if(layoutCtx.vertical !== vertical) {
-            if(this._flexRatio > 0) {
+            if(this.#flexRatio > 0) {
                 if(vertical)
                     length = layoutCtx.maxHeight;
                 else
                     length = layoutCtx.maxWidth;
             }
             else
-                length = this.effectiveMainBasis;
+                length = this.#effectiveMainBasis;
         }
         else {
-            if(this._flexRatio > 0) {
+            if(this.#flexRatio > 0) {
                 if(vertical)
-                    length = (layoutCtx.maxHeight - layoutCtx.vBasis) * this._flexRatio / layoutCtx.vFlex;
+                    length = (layoutCtx.maxHeight - layoutCtx.vBasis) * this.#flexRatio / layoutCtx.vFlex;
                 else
-                    length = (layoutCtx.maxWidth - layoutCtx.hBasis) * this._flexRatio / layoutCtx.hFlex;
+                    length = (layoutCtx.maxWidth - layoutCtx.hBasis) * this.#flexRatio / layoutCtx.hFlex;
 
-                length = this.effectiveMainBasis + Math.max(0, length);
+                length = this.#effectiveMainBasis + Math.max(0, length);
             }
             else
-                length = this.effectiveMainBasis;
+                length = this.#effectiveMainBasis;
         }
 
         if(vertical) {
-            this.resolvedWidth = this.effectiveCrossBasis;
+            this.resolvedWidth = this.#effectiveCrossBasis;
             this.resolvedHeight = length;
         }
         else {
             this.resolvedWidth = length;
-            this.resolvedHeight = this.effectiveCrossBasis;
+            this.resolvedHeight = this.#effectiveCrossBasis;
         }
     }
 }

@@ -13,7 +13,7 @@ import type { Root } from '../core/Root';
 // working (see issue TypeScript#29653)
 export class Widget {
     // Is this widget enabled? If it isn't, it will act as if it didn't exist
-    _enabled = true; // XXX private
+    #enabled = true;
     // Widget will only be drawed if dirty is true
     dirty = true;
     // Widget will only have the layout resolved if layoutDirty is true
@@ -27,11 +27,11 @@ export class Widget {
     // theme will be the inherited theme, else, it will be the theme override
     // with the inherited theme as the fallback. The fallback of the theme
     // override will be ignored and replaced
-    themeOverride: Theme | null; // XXX private
+    #themeOverride: Theme | null;
     // The current theme in use by the Widget
-    _theme: Theme | null = null; // XXX private
+    #theme: Theme | null = null;
     // The inherited theme
-    inheritedTheme: Theme | null = null; // XXX private
+    #inheritedTheme: Theme | null = null;
     // The resolved width and height
     resolvedWidth = 0;
     resolvedHeight = 0;
@@ -40,7 +40,7 @@ export class Widget {
     constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
         this.needsClear = needsClear;
         this.propagatesEvents = propagatesEvents;
-        this.themeOverride = themeOverride;
+        this.#themeOverride = themeOverride;
     }
 
     // Called when the inherited theme of this Widget is updated. Can be
@@ -50,32 +50,32 @@ export class Widget {
     // Update this widget's current theme, with theme override set up. Must not
     // be overridden
     updateTheme(): void { // XXX private
-        if(this.themeOverride === null)
-            this._theme = this.inheritedTheme;
+        if(this.#themeOverride === null)
+            this.#theme = this.#inheritedTheme;
         else {
-            this.themeOverride.fallback = this.inheritedTheme;
-            this._theme = this.themeOverride;
+            this.#themeOverride.fallback = this.#inheritedTheme;
+            this.#theme = this.#themeOverride;
         }
     }
 
     // The current theme in use by the Widget. If there is no theme, throws an
     // exception
     get theme(): Theme {
-        if(this._theme === null)
+        if(this.#theme === null)
             throw 'Widget theme is not ready';
 
-        return this._theme;
+        return this.#theme;
     }
 
     // Is this widget enabled?
     get enabled(): boolean {
-        return this._enabled;
+        return this.#enabled;
     }
 
     // Enable this widget
     enable(): void {
-        if(!this._enabled) {
-            this._enabled = true;
+        if(!this.#enabled) {
+            this.#enabled = true;
             this.layoutDirty = true;
             this.dirty = true;
         }
@@ -83,8 +83,8 @@ export class Widget {
 
     // Disable this widget
     disable(): void {
-        if(this._enabled) {
-            this._enabled = false;
+        if(this.#enabled) {
+            this.#enabled = false;
             this.layoutDirty = true;
             this.dirty = false;
         }
@@ -94,13 +94,13 @@ export class Widget {
     // be. If overridden, the original method should still be called.
     setThemeOverride(theme: Theme | null): void {
         // Abort if theme hasn't changed
-        if(this.themeOverride === theme)
+        if(this.#themeOverride === theme)
             return;
 
-        this.themeOverride = theme;
+        this.#themeOverride = theme;
         this.updateTheme();
 
-        if(this._enabled) {
+        if(this.#enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
@@ -108,21 +108,21 @@ export class Widget {
 
     // Get the theme override of this widget. Must not be overridden
     getThemeOverride(): Theme | null {
-        return this.themeOverride;
+        return this.#themeOverride;
     }
 
     // Set the inherited theme of this Widget. Should not be overridden, but can
     // be. If overridden, the original method should still be called.
     inheritTheme(theme: Theme): void {
         // Abort if theme hasn't changed
-        if(this.inheritedTheme === theme)
+        if(this.#inheritedTheme === theme)
             return;
 
-        this.inheritedTheme = theme;
+        this.#inheritedTheme = theme;
         this.updateInheritedTheme();
         this.updateTheme();
 
-        if(this._enabled) {
+        if(this.#enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
@@ -130,7 +130,7 @@ export class Widget {
 
     // Get the inherited theme of this widget. Must not be overridden
     getInheritedTheme(): Theme | null {
-        return this.inheritedTheme;
+        return this.#inheritedTheme;
     }
 
     // Called when a focus type owned by this Widget has been dropped. Does
@@ -157,7 +157,7 @@ export class Widget {
     // the handleEvent method is called and its result is returned. Must not be
     // overridden
     dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null {
-        if(!this._enabled)
+        if(!this.#enabled)
             return null;
 
         if(event.target === null) {
@@ -179,7 +179,7 @@ export class Widget {
     // Called before the layout is resolved. Calls its handler if widget is
     // enabled. Must not be implemented
     preLayoutUpdate(root: Root): void {
-        if(this._enabled)
+        if(this.#enabled)
             this.handlePreLayoutUpdate(root);
     }
 
@@ -204,14 +204,14 @@ export class Widget {
     // was dirty and is resolved, the dirty flag is also set (used for
     // painting). Must not be overridden
     populateLayout(layoutCtx: LayoutContext): void {
-        if(!this._enabled)
+        if(!this.#enabled)
             return;
 
         this.handlePopulateLayout(layoutCtx);
     }
 
     resolveLayout(layoutCtx: LayoutContext): void {
-        if(!this._enabled) {
+        if(!this.#enabled) {
             this.resolvedWidth = 0;
             this.resolvedHeight = 0;
             this.layoutDirty = false;
@@ -234,7 +234,7 @@ export class Widget {
     // Forcefully mark layout as dirty. If overridden, original must be called.
     // Call only when absolutely neccessary, such as in a resize
     forceLayoutDirty(): void {
-        if(this._enabled) {
+        if(this.#enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
@@ -247,7 +247,7 @@ export class Widget {
     // Called after the layout is resolved. Calls its handler if widget is
     // enabled. Must not be implemented
     postLayoutUpdate(root: Root): void {
-        if(this._enabled)
+        if(this.#enabled)
             this.handlePostLayoutUpdate(root);
     }
 
@@ -280,7 +280,7 @@ export class Widget {
 
         //console.log('Painted', this.constructor.name);
 
-        if(this._enabled) {
+        if(this.#enabled) {
             if(this.needsClear)
                 this.clear(x, y, width, height, ctx);
 

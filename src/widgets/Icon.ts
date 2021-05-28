@@ -13,9 +13,11 @@ export type IconCallback = () => void;
 // https://github.com/Microsoft/TypeScript/issues/17744
 export class Icon extends Clickable(BoxWidget) {
     // The current image used by the icon
-    image: HTMLImageElement; // XXX private
+    #image: HTMLImageElement;
     // The last source that the current image was using
-    lastSrc: string | null = null; // XXX private
+    #lastSrc: string | null = null;
+    // The image rotation in radians
+    #rotation = 0;
     // The callback for clicking this Icon. If null, the Icon is not clickable
     callback: IconCallback | null;
     // The view box of this Icon, if the image used for the icon is a
@@ -25,8 +27,6 @@ export class Icon extends Clickable(BoxWidget) {
     // will be used, taking into account the viewBox
     width: number | null;
     height: number | null;
-    // The image rotation in radians
-    _rotation = 0; // XXX private
 
     // A widget that renders an image. Optionally, this can act as a button by
     // having a callback set. Aspect ratio of the wanted size is preserved.
@@ -37,7 +37,7 @@ export class Icon extends Clickable(BoxWidget) {
         // events
         super(themeOverride, true, false);
 
-        this.image = image;
+        this.#image = image;
         this.width = width;
         this.height = height;
         this.viewBox = viewBox;
@@ -49,7 +49,7 @@ export class Icon extends Clickable(BoxWidget) {
         let wantedWidth = this.width;
         if(wantedWidth === null) {
             if(this.viewBox === null)
-                wantedWidth = this.image.width;
+                wantedWidth = this.#image.width;
             else
                 wantedWidth = this.viewBox[2];
         }
@@ -60,7 +60,7 @@ export class Icon extends Clickable(BoxWidget) {
         let wantedHeight = this.height;
         if(wantedHeight === null) {
             if(this.viewBox === null)
-                wantedHeight = this.image.height;
+                wantedHeight = this.#image.height;
             else
                 wantedHeight = this.viewBox[3];
         }
@@ -70,9 +70,9 @@ export class Icon extends Clickable(BoxWidget) {
     }
 
     setImage(image: HTMLImageElement): void {
-        if(image !== this.image) {
-            this.image = image;
-            this.lastSrc = null;
+        if(image !== this.#image) {
+            this.#image = image;
+            this.#lastSrc = null;
         }
     }
 
@@ -119,7 +119,7 @@ export class Icon extends Clickable(BoxWidget) {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet
-        if(this.image?.src !== this.lastSrc && this.image?.complete)
+        if(this.#image?.src !== this.#lastSrc && this.#image?.complete)
             this.dirty = true;
 
         // Update dimensions, in case the width or height were changed
@@ -127,25 +127,25 @@ export class Icon extends Clickable(BoxWidget) {
     }
 
     get rotation(): number {
-        return this._rotation;
+        return this.#rotation;
     }
 
     set rotation(rotation: number) {
-        if(rotation !== this._rotation) {
-            this._rotation = rotation;
+        if(rotation !== this.#rotation) {
+            this.#rotation = rotation;
             this.dirty = true;
         }
     }
 
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Abort if icon isn't ready yet
-        if(!this.image?.complete) {
-            this.lastSrc = null;
+        if(!this.#image?.complete) {
+            this.#lastSrc = null;
             return;
         }
 
         // Mark as not needing to be drawn by setting the source
-        this.lastSrc = this.image.src;
+        this.#lastSrc = this.#image.src;
         const [dx, dy, dw, dh] = this.getIconRect(x, y, width, height);
         let tdx = dx, tdy = dy;
 
@@ -159,15 +159,10 @@ export class Icon extends Clickable(BoxWidget) {
         }
 
         // Draw image, with viewBox if it is not null
-        // XXX I would use the spread operator, but it seems to break with
-        // TypeScript. It works fine with vanilla JS, not sure what the cause
-        // is, probably a bug?
         if(this.viewBox === null)
-            ctx.drawImage(this.image, tdx, tdy, dw, dh);
-        else {
-            const [sx, sy, sw, sh] = this.viewBox;
-            ctx.drawImage(this.image, sx, sy, sw, sh, tdx, tdy, dw, dh);
-        }
+            ctx.drawImage(this.#image, tdx, tdy, dw, dh);
+        else
+            ctx.drawImage(this.#image, ...this.viewBox, tdx, tdy, dw, dh);
 
         // Revert transformation
         if(this.rotation !== 0)

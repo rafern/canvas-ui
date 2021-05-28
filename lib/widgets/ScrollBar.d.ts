@@ -17,14 +17,14 @@ declare const ScrollBar_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        _enabled: boolean;
+        "__#1690@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#1690@#themeOverride": Theme | null;
+        "__#1690@#theme": Theme | null;
+        "__#1690@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -55,18 +55,18 @@ declare const ScrollBar_base: {
     };
 } & {
     new (...args: any[]): {
-        callback: VariableCallback<number | null> | null;
-        _value: number | null;
-        value: number | null;
-        setValue(value: number | null, doCallback?: boolean): void;
-        _enabled: boolean;
+        callback: VariableCallback<number> | null;
+        _value: number;
+        value: number;
+        setValue(value: number, doCallback?: boolean): void;
+        "__#1690@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#1690@#themeOverride": Theme | null;
+        "__#1690@#theme": Theme | null;
+        "__#1690@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -97,10 +97,8 @@ declare const ScrollBar_base: {
     };
 } & typeof FlexWidget;
 export declare class ScrollBar extends ScrollBar_base {
-    _end: number;
-    _barLength: number;
-    dragValue: number;
-    constructor(callback?: VariableCallback<number | null> | null, end?: number, barLength?: number, initialValue?: number, themeOverride?: Theme | null);
+    #private;
+    constructor(callback?: VariableCallback<number> | null, end?: number, barLength?: number, initialValue?: number, themeOverride?: Theme | null);
     get end(): number;
     set end(end: number);
     get barLength(): number;

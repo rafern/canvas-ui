@@ -9,22 +9,22 @@ export type VariableCallback<V> = (value: V) => void;
 // https://github.com/Microsoft/TypeScript/issues/17744
 // FIXME the return type of mixin constructors is a mess, so linter is disabled
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase) {
+export function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase, defaultValue: V) {
     return class Variable extends Base {
         // The callback for when the value is changed
-        callback: VariableCallback<V | null> | null = null;
+        callback: VariableCallback<V> | null = null;
         // The current value
-        _value: V | null = null; // XXX protected
+        _value: V = defaultValue; // XXX protected
 
         get value() {
             return this._value;
         }
 
-        set value(value: V | null) {
+        set value(value: V) {
             this.setValue(value);
         }
 
-        setValue(value: V | null, doCallback = true): void {
+        setValue(value: V, doCallback = true): void {
             if(this._value === value)
                 return;
 

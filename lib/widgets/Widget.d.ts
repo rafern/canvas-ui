@@ -4,14 +4,11 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 export declare class Widget {
-    _enabled: boolean;
+    #private;
     dirty: boolean;
     layoutDirty: boolean;
     readonly needsClear: boolean;
     readonly propagatesEvents: boolean;
-    themeOverride: Theme | null;
-    _theme: Theme | null;
-    inheritedTheme: Theme | null;
     resolvedWidth: number;
     resolvedHeight: number;
     constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean);

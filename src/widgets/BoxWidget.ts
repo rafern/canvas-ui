@@ -10,37 +10,37 @@ export class BoxWidget extends Widget {
     // A widget with simple box layout resolution
 
     // The wanted box width and height
-    _boxWidth = 0; // XXX private
-    _boxHeight = 0; // XXX private
+    #boxWidth = 0;
+    #boxHeight = 0;
 
     get boxWidth(): number {
-        return this._boxWidth;
+        return this.#boxWidth;
     }
 
     set boxWidth(boxWidth: number) {
-        if(this._boxWidth !== boxWidth) {
-            this._boxWidth = boxWidth;
+        if(this.#boxWidth !== boxWidth) {
+            this.#boxWidth = boxWidth;
             this.layoutDirty = true;
         }
     }
 
     get boxHeight(): number {
-        return this._boxHeight;
+        return this.#boxHeight;
     }
 
     set boxHeight(boxHeight: number) {
-        if(this._boxHeight !== boxHeight) {
-            this._boxHeight = boxHeight;
+        if(this.#boxHeight !== boxHeight) {
+            this.#boxHeight = boxHeight;
             this.layoutDirty = true;
         }
     }
 
     handlePopulateLayout(layoutCtx: LayoutContext): void {
-        layoutCtx.addBasis(this._boxWidth, this._boxHeight);
+        layoutCtx.addBasis(this.#boxWidth, this.#boxHeight);
     }
 
     handleResolveLayout(_layoutCtx: LayoutContext): void {
-        this.resolvedWidth = this._boxWidth;
-        this.resolvedHeight = this._boxHeight;
+        this.resolvedWidth = this.#boxWidth;
+        this.resolvedHeight = this.#boxHeight;
     }
 }

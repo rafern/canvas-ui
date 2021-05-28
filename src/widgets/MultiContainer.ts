@@ -12,11 +12,11 @@ import { Widget } from './Widget';
 // https://github.com/Microsoft/TypeScript/issues/17744
 export class MultiContainer extends MultiParentWidget {
     // Is the container's whole background dirty (including spacing)?
-    backgroundDirty = true; // XXX private
+    #backgroundDirty = true;
     // Is this container vertical?
-    vertical: boolean; // XXX private
+    #vertical: boolean;
     // Temporary layout context for layout resolution
-    innerContext: LayoutContext | null = null; // XXX private
+    #innerContext: LayoutContext | null = null;
 
     // A widget that contains multiple child widgets and grows along a specified
     // axis
@@ -25,7 +25,7 @@ export class MultiContainer extends MultiParentWidget {
         // propagate events
         super(themeOverride, false, true, []);
 
-        this.vertical = vertical;
+        this.#vertical = vertical;
     }
 
     handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
@@ -36,11 +36,11 @@ export class MultiContainer extends MultiParentWidget {
             if(!child.enabled)
                 continue;
 
-            const length = this.vertical ? child.resolvedHeight : child.resolvedWidth;
+            const length = this.#vertical ? child.resolvedHeight : child.resolvedWidth;
 
             // Dispatch to this widget
             let childWidth, childHeight;
-            if(this.vertical) {
+            if(this.#vertical) {
                 childWidth = width;
                 childHeight = length;
             }
@@ -57,7 +57,7 @@ export class MultiContainer extends MultiParentWidget {
             // Correct event position and offset for next widget if event has
             // position
             if(event instanceof PointerEvent) {
-                if(this.vertical)
+                if(this.#vertical)
                     event = event.correctOffset(0, length + spacing);
                 else
                     event = event.correctOffset(length + spacing, 0);
@@ -96,19 +96,19 @@ export class MultiContainer extends MultiParentWidget {
     }
 
     forceLayoutDirty(): void {
-        this.backgroundDirty = true;
+        this.#backgroundDirty = true;
         super.forceLayoutDirty();
     }
 
     handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Setup context. Use inner context if verticality is different
-        const usingInlineContext = (this.vertical === layoutCtx.vertical);
+        const usingInlineContext = (this.#vertical === layoutCtx.vertical);
         let usedContext;
         if(usingInlineContext)
             usedContext = layoutCtx;
         else {
-            this.innerContext = new LayoutContext(layoutCtx.maxWidth, layoutCtx.maxHeight, this.vertical);
-            usedContext = this.innerContext;
+            this.#innerContext = new LayoutContext(layoutCtx.maxWidth, layoutCtx.maxHeight, this.#vertical);
+            usedContext = this.#innerContext;
         }
 
         // Populate layout with what children want
@@ -140,12 +140,12 @@ export class MultiContainer extends MultiParentWidget {
     handleResolveLayout(layoutCtx: LayoutContext): void {
         // Update inner context's maximum dimensions. It's the outer maximum
         // dimensions
-        const usingInlineContext = (this.vertical === layoutCtx.vertical);
+        const usingInlineContext = (this.#vertical === layoutCtx.vertical);
         let usedContext;
         if(usingInlineContext)
             usedContext = layoutCtx;
         else {
-            usedContext = this.innerContext;
+            usedContext = this.#innerContext;
             if(usedContext === null)
                 throw 'Unexpected null innerContext';
 
@@ -184,7 +184,7 @@ export class MultiContainer extends MultiParentWidget {
 
             // Check if child's size changed. Ignore cross-axis length, this
             // check is done with the container's cross-length itself
-            if(this.vertical) {
+            if(this.#vertical) {
                 if(newHeight !== oldHeight)
                     usedContext.sizeChanged = true;
             }
@@ -206,7 +206,7 @@ export class MultiContainer extends MultiParentWidget {
             layoutCtx.sizeChanged = true;
 
         // Clear inner context
-        this.innerContext = null;
+        this.#innerContext = null;
 
         // Dimensions are bounding box of combined resolved children plus
         // spacing
@@ -217,7 +217,7 @@ export class MultiContainer extends MultiParentWidget {
 
         // Container's resolved dimensions are the biggest child's cross length
         // and cumulative length with padding
-        if(this.vertical) {
+        if(this.#vertical) {
             this.resolvedWidth = widthMax;
             this.resolvedHeight = heightSum + totalSpacing;
         }
@@ -230,13 +230,13 @@ export class MultiContainer extends MultiParentWidget {
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if never cleared before and there is spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
-        if(this.backgroundDirty && spacing > 0)
+        if(this.#backgroundDirty && spacing > 0)
             this.clear(x, y, width, height, ctx);
 
-        this.backgroundDirty = false;
+        this.#backgroundDirty = false;
 
         // Calculate helper variables
-        const mainAxisMax = this.vertical ? (y + height) : (x + width);
+        const mainAxisMax = this.#vertical ? (y + height) : (x + width);
 
         // Paint children
         for(const child of this.children) {
@@ -248,7 +248,7 @@ export class MultiContainer extends MultiParentWidget {
             let childW, childH;
             let tooBig = false;
 
-            if(this.vertical) {
+            if(this.#vertical) {
                 childW = width;
                 childH = child.resolvedHeight;
 
@@ -275,7 +275,7 @@ export class MultiContainer extends MultiParentWidget {
                 console.warn('MultiContainer overflow, children may be painted with 0 length');
 
             // Increment position in growth direction, with spacing
-            if(this.vertical)
+            if(this.#vertical)
                 y += childH + spacing;
             else
                 x += childW + spacing;

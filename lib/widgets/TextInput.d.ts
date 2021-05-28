@@ -11,10 +11,10 @@ declare const TextInput_base: {
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        _labelWidth: number;
-        _labelAscent: number;
-        _labelDescent: number;
-        labelDirty: boolean;
+        "__#2775@#labelWidth": number;
+        "__#2775@#labelAscent": number;
+        "__#2775@#labelDescent": number;
+        "__#2775@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];
@@ -66,10 +66,10 @@ declare const TextInput_base: {
     };
 } & {
     new (...args: any[]): {
-        callback: VariableCallback<string | null> | null;
-        _value: string | null;
-        value: string | null;
-        setValue(value: string | null, doCallback?: boolean): void;
+        callback: VariableCallback<string> | null;
+        _value: string;
+        value: string;
+        setValue(value: string, doCallback?: boolean): void;
         _enabled: boolean;
         dirty: boolean;
         layoutDirty: boolean;
@@ -109,20 +109,13 @@ declare const TextInput_base: {
 } & typeof FlexWidget;
 export declare class TextInput extends TextInput_base {
     #private;
-    blinkStart: number;
-    blinkWasOn: boolean | null;
-    cursorPos: number;
-    cursorOffset: number;
-    cursorOffsetDirty: boolean;
-    constructor(callback?: VariableCallback<string | null> | null, initialValue?: string, themeOverride?: Theme | null);
+    constructor(callback?: VariableCallback<string> | null, initialValue?: string, themeOverride?: Theme | null);
     get blinkOn(): boolean | null;
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
     get hideText(): boolean;
     set hideText(hideText: boolean);
-    get textLength(): number;
     get text(): string;
-    get displayedText(): string;
     moveCursorTo(index: number): void;
     moveCursor(delta: number): void;
     insertText(str: string): void;

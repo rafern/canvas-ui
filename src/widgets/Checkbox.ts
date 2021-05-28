@@ -9,8 +9,8 @@ import { BoxWidget } from './BoxWidget';
 // FIXME protected and private members were turned public due to a declaration
 // emission bug:
 // https://github.com/Microsoft/TypeScript/issues/17744
-export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxWidget)) {
-    constructor(callback: VariableCallback<boolean | null> | null = null, initialValue = false, themeOverride: Theme | null = null) {
+export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxWidget, false)) {
+    constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
         super(themeOverride, true, false);

@@ -11,51 +11,51 @@ import type { Root } from '../core/Root';
 // https://github.com/Microsoft/TypeScript/issues/17744
 // FIXME Should this really be a flex widget? flexRatio with scrollbars
 // introduce a lot of issues because they tend to expand beyond what they should
-export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget)) {
+export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget, 0)) {
     // The scrollbar's end. Maximum value will be max(min(end - barLength, value), 0)
-    _end: number; // XXX private
+    #end: number;
     // The scrollbar's bar length, in ratios similar to flex ratio
-    _barLength: number; // XXX private
+    #barLength: number;
     // What was the value when dragging began?
-    dragValue: number; // XXX private
+    #dragValue: number;
 
-    constructor(callback: VariableCallback<number | null> | null = null, end = 100, barLength = 100, initialValue = 0, themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<number> | null = null, end = 100, barLength = 100, initialValue = 0, themeOverride: Theme | null = null) {
         // Scrollbars need a clear background, have no children and don't
         // propagate events
         super(themeOverride, true, false);
 
         this.callback = callback;
         this._value = initialValue;
-        this._end = end;
-        this._barLength = barLength;
-        this.dragValue = initialValue;
+        this.#end = end;
+        this.#barLength = barLength;
+        this.#dragValue = initialValue;
     }
 
     get end(): number {
-        return this._end;
+        return this.#end;
     }
 
     set end(end: number) {
-        if(this._end !== end) {
-            this._end = end;
+        if(this.#end !== end) {
+            this.#end = end;
             this.dirty = true;
         }
     }
 
     get barLength(): number {
-        return this._barLength;
+        return this.#barLength;
     }
 
     set barLength(barLength: number) {
-        if(this._barLength !== barLength) {
-            this._barLength = barLength;
+        if(this.#barLength !== barLength) {
+            this.#barLength = barLength;
             this.dirty = true;
         }
     }
 
     setValue(value: number, doCallback = true): void {
         super.setValue(
-            Math.max(Math.min(this._end - this._barLength, value), 0),
+            Math.max(Math.min(this.#end - this.#barLength, value), 0),
             doCallback,
         );
     }
@@ -88,20 +88,20 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
                 // If not inside filled part of bar, snap value
                 let clickVal;
                 if(this.lastVertical)
-                    clickVal = this.pointerPos[1] * this._end;
+                    clickVal = this.pointerPos[1] * this.#end;
                 else
-                    clickVal = this.pointerPos[0] * this._end;
+                    clickVal = this.pointerPos[0] * this.#end;
 
                 let value = this._value;
                 if(value === null)
                     value = 0;
 
-                if(clickVal < value || clickVal >= (value + this._barLength)) {
-                    value = clickVal - this._barLength / 2;
+                if(clickVal < value || clickVal >= (value + this.#barLength)) {
+                    value = clickVal - this.#barLength / 2;
                     this.value = value;
                 }
 
-                this.dragValue = value;
+                this.#dragValue = value;
             }
             else {
                 if(this.startingPointerPos !== null) {
@@ -111,7 +111,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
                     else
                         dragChange = this.pointerPos[0] - this.startingPointerPos[0];
 
-                    this.value = this.dragValue + dragChange * this._end;
+                    this.value = this.#dragValue + dragChange * this.#end;
                 }
             }
         }
@@ -139,8 +139,8 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         if(value === null)
             value = 0;
 
-        const start = value / this._end;
-        const percent = this._barLength / this._end;
+        const start = value / this.#end;
+        const percent = this.#barLength / this.#end;
 
         // Draw empty part of bar
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);

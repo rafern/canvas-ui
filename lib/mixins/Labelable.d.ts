@@ -7,10 +7,10 @@ export declare function Labelable<TBase extends GConstructor<Widget>>(Base: TBas
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        _labelWidth: number;
-        _labelAscent: number;
-        _labelDescent: number;
-        labelDirty: boolean;
+        "__#2775@#labelWidth": number;
+        "__#2775@#labelAscent": number;
+        "__#2775@#labelDescent": number;
+        "__#2775@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];

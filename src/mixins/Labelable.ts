@@ -19,27 +19,27 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
         _minLabelDescent = 0; // XXX protected
 
         // Text dimensions corrected for minimum dimensions
-        _labelWidth = 0; // XXX private
-        _labelAscent = 0; // XXX private
-        _labelDescent = 0; // XXX private
+        #labelWidth = 0;
+        #labelAscent = 0;
+        #labelDescent = 0;
 
         // Does the label need to be re-measured?
-        labelDirty = true; // XXX private
+        #labelDirty = true;
 
         updateTextDims(): void { // XXX private
             // Abort if not dirty
-            if(!this.labelDirty)
+            if(!this.#labelDirty)
                 return;
 
             // Measure text dimensions
             const [ width, ascent, descent ] = measureTextDims(this._text, this._font);
 
-            this._labelWidth = Math.max(width, this._minLabelWidth);
-            this._labelAscent = Math.max(ascent, this._minLabelAscent);
-            this._labelDescent = Math.max(descent, this._minLabelDescent);
+            this.#labelWidth = Math.max(width, this._minLabelWidth);
+            this.#labelAscent = Math.max(ascent, this._minLabelAscent);
+            this.#labelDescent = Math.max(descent, this._minLabelDescent);
 
             // Mark as clean
-            this.labelDirty = false;
+            this.#labelDirty = false;
         }
 
         findOffsetFromIndex(index: number): number { // XXX protected
@@ -86,29 +86,29 @@ export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
             return [this._text.length, lastLength];
         }
 
-        setLabelDirty() { // XXX private
-            this.labelDirty = true;
+        setLabelDirty(): void { // XXX private
+            this.#labelDirty = true;
             this.layoutDirty = true;
         }
 
         get labelWidth() {
             this.updateTextDims();
-            return this._labelWidth;
+            return this.#labelWidth;
         }
 
         get labelAscent() {
             this.updateTextDims();
-            return this._labelAscent;
+            return this.#labelAscent;
         }
 
         get labelDescent() {
             this.updateTextDims();
-            return this._labelDescent;
+            return this.#labelDescent;
         }
 
         get labelHeight() {
             this.updateTextDims();
-            return this._labelAscent + this._labelDescent;
+            return this.#labelAscent + this.#labelDescent;
         }
 
         setText(text: string) { // XXX protected

@@ -1,8 +1,7 @@
 import type { LayoutContext } from './LayoutContext';
 import { Widget } from './Widget';
 export declare class BoxWidget extends Widget {
-    _boxWidth: number;
-    _boxHeight: number;
+    #private;
     get boxWidth(): number;
     set boxWidth(boxWidth: number);
     get boxHeight(): number;

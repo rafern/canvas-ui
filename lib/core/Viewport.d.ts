@@ -1,11 +1,10 @@
 import { LayoutContext } from '../widgets/LayoutContext';
 import type { Widget } from '../widgets/Widget';
 export declare class Viewport {
-    _maxDimensions: [number, number];
-    vertical: boolean;
-    forceLayout: boolean;
+    #private;
     readonly canvas: HTMLCanvasElement;
     readonly context: CanvasRenderingContext2D;
+    vertical: boolean;
     constructor(startingWidth?: number, startingHeight?: number);
     get canvasDimensions(): [number, number];
     set maxDimensions(maxDimensions: [number, number]);

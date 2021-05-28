@@ -55,10 +55,10 @@ declare const Checkbox_base: {
     };
 } & {
     new (...args: any[]): {
-        callback: VariableCallback<boolean | null> | null;
-        _value: boolean | null;
-        value: boolean | null;
-        setValue(value: boolean | null, doCallback?: boolean): void;
+        callback: VariableCallback<boolean> | null;
+        _value: boolean;
+        value: boolean;
+        setValue(value: boolean, doCallback?: boolean): void;
         _enabled: boolean;
         dirty: boolean;
         layoutDirty: boolean;
@@ -97,7 +97,7 @@ declare const Checkbox_base: {
     };
 } & typeof BoxWidget;
 export declare class Checkbox extends Checkbox_base {
-    constructor(callback?: VariableCallback<boolean | null> | null, initialValue?: boolean, themeOverride?: Theme | null);
+    constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
     getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number];
     handleEvent(event: Event, width: number, height: number, root: Root): this;
     handlePreLayoutUpdate(_root: Root): void;

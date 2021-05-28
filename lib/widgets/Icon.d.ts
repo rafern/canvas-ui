@@ -18,14 +18,14 @@ declare const Icon_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: import("../mixins/Clickable").ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        _enabled: boolean;
+        "__#1690@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#1690@#themeOverride": Theme | null;
+        "__#1690@#theme": Theme | null;
+        "__#1690@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -56,13 +56,11 @@ declare const Icon_base: {
     };
 } & typeof BoxWidget;
 export declare class Icon extends Icon_base {
-    image: HTMLImageElement;
-    lastSrc: string | null;
+    #private;
     callback: IconCallback | null;
     viewBox: [number, number, number, number] | null;
     width: number | null;
     height: number | null;
-    _rotation: number;
     constructor(image: HTMLImageElement, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, callback?: IconCallback | null, themeOverride?: Theme | null);
     updateDimensions(): void;
     setImage(image: HTMLImageElement): void;

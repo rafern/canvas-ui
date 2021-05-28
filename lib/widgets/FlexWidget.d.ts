@@ -1,14 +1,7 @@
 import type { LayoutContext } from './LayoutContext';
 import { Widget } from './Widget';
 export declare class FlexWidget extends Widget {
-    _flexRatio: number;
-    _mainBasis: number;
-    _crossBasis: number;
-    _internalMainBasis: number;
-    _internalCrossBasis: number;
-    effectiveMainBasis: number;
-    effectiveCrossBasis: number;
-    _vertical: boolean | null;
+    #private;
     lastVertical: boolean;
     get flexRatio(): number;
     set flexRatio(flexRatio: number);

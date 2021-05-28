@@ -9,24 +9,24 @@ import type { Root } from '../core/Root';
 // FIXME protected and private members were turned public due to a declaration
 // emission bug:
 // https://github.com/Microsoft/TypeScript/issues/17744
-export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget)) {
+export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget, 0)) {
     // The slider's minimum and maximum
-    minValue: number; // XXX private
-    maxValue: number; // XXX private
+    #minValue: number;
+    #maxValue: number;
     // The increments in which the slider changes value. If 0, there are no
     // fixed increments
-    snapIncrement: number; // XXX private
+    #snapIncrement: number;
 
-    constructor(callback: VariableCallback<number | null> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
         // Sliders need a clear background, have no children and don't propagate
         // events
         super(themeOverride, true, false);
 
         this.callback = callback;
         this._value = initialValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.snapIncrement = snapIncrement;
+        this.#minValue = minValue;
+        this.#maxValue = maxValue;
+        this.#snapIncrement = snapIncrement;
 
         // Sliders are always horizontal
         this.vertical = false;
@@ -48,17 +48,17 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
             && this.pointerPos !== null) {
             // Interpolate value
             const percent = this.pointerPos[0];
-            let newValue = this.minValue + percent * (this.maxValue - this.minValue);
+            let newValue = this.#minValue + percent * (this.#maxValue - this.#minValue);
 
             // Snap to increments if needed
-            if(this.snapIncrement > 0)
-                newValue = Math.round(newValue / this.snapIncrement) * this.snapIncrement;
+            if(this.#snapIncrement > 0)
+                newValue = Math.round(newValue / this.#snapIncrement) * this.#snapIncrement;
 
             // Clamp value
-            if(newValue < this.minValue)
-                newValue = this.minValue;
-            else if(newValue > this.maxValue)
-                newValue = this.maxValue;
+            if(newValue < this.#minValue)
+                newValue = this.#minValue;
+            else if(newValue > this.#maxValue)
+                newValue = this.#maxValue;
 
             // Update value
             this.value = newValue;
@@ -88,7 +88,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         if(value === null)
             value = 0;
 
-        const percent = (value - this.minValue) / (this.maxValue - this.minValue);
+        const percent = (value - this.#minValue) / (this.#maxValue - this.#minValue);
 
         // Draw filled part of slider
         // Use accent colour if hovering or holding

@@ -9,10 +9,10 @@ declare const Label_base: {
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        _labelWidth: number;
-        _labelAscent: number;
-        _labelDescent: number;
-        labelDirty: boolean;
+        "__#1713@#labelWidth": number;
+        "__#1713@#labelAscent": number;
+        "__#1713@#labelDescent": number;
+        "__#1713@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];
@@ -26,14 +26,14 @@ declare const Label_base: {
         setMinLabelWidth(minLabelWidth: number): void;
         setMinLabelAscent(minLabelAscent: number): void;
         setMinLabelDescent(minLabelDescent: number): void;
-        _enabled: boolean;
+        "__#1690@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#1690@#themeOverride": Theme | null;
+        "__#1690@#theme": Theme | null;
+        "__#1690@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -64,7 +64,7 @@ declare const Label_base: {
     };
 } & typeof FlexWidget;
 export declare class Label extends Label_base {
-    textGetter: TextGetter | null;
+    #private;
     constructor(text: string | TextGetter, themeOverride?: Theme | null);
     set text(text: string | TextGetter);
     get text(): string | TextGetter;

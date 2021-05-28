@@ -13,29 +13,29 @@ import { Button } from './Button';
 // invisible, but not a FilledButton
 export class FilledButton extends Button {
     // Theme property used for overriding the canvas colour
-    backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill; // XXX private
+    #backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
     // Is the button currently forced down?
-    _forced = false; // XXX private
+    #forced = false;
 
     updateBackground() { // XXX private
-        if(this._forced)
-            this.backgroundProperty = ThemeProperty.PrimaryFill;
+        if(this.#forced)
+            this.#backgroundProperty = ThemeProperty.PrimaryFill;
         else {
             switch(this.clickState) {
             case ClickState.Hold:
-                this.backgroundProperty = ThemeProperty.AccentFill;
+                this.#backgroundProperty = ThemeProperty.AccentFill;
                 break;
             case ClickState.Hover:
-                this.backgroundProperty = ThemeProperty.BackgroundGlowFill;
+                this.#backgroundProperty = ThemeProperty.BackgroundGlowFill;
                 break;
             default:
-                this.backgroundProperty = ThemeProperty.BackgroundFill;
+                this.#backgroundProperty = ThemeProperty.BackgroundFill;
                 break;
             }
         }
 
         // Update inherited theme
-        const overrideValue = this.theme.getFill(this.backgroundProperty);
+        const overrideValue = this.theme.getFill(this.#backgroundProperty);
         const modifiedTheme = new Theme(
             new Map([
                 [ThemeProperty.CanvasFill, overrideValue],
@@ -48,14 +48,14 @@ export class FilledButton extends Button {
     }
 
     set forced(forced: boolean) {
-        if(forced !== this._forced) {
-            this._forced = forced;
+        if(forced !== this.#forced) {
+            this.#forced = forced;
             this.updateBackground();
         }
     }
 
     get forced(): boolean {
-        return this._forced;
+        return this.#forced;
     }
 
     setThemeOverride(theme: Theme | null): void {
@@ -68,7 +68,7 @@ export class FilledButton extends Button {
         // background and use that as the theme override. If override doesn't
         // have the wanted property, it will throw an exception.
         try {
-            const overrideValue = theme.getFill(this.backgroundProperty);
+            const overrideValue = theme.getFill(this.#backgroundProperty);
             const modifiedTheme = new Theme(new Map([
                 [ThemeProperty.CanvasFill, overrideValue],
             ]));
@@ -84,7 +84,7 @@ export class FilledButton extends Button {
         this.backgroundDirty = true;
 
         // Create theme with fallback to new theme with overridden canvas colour
-        const canvasValue = theme.getFill(this.backgroundProperty);
+        const canvasValue = theme.getFill(this.#backgroundProperty);
         const modifiedTheme = new Theme(
             new Map([
                 [ThemeProperty.CanvasFill, canvasValue],

@@ -1,12 +1,12 @@
 import type { GConstructor } from './GConstructor';
 import type { Widget } from '../widgets/Widget';
 export declare type VariableCallback<V> = (value: V) => void;
-export declare function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase): {
+export declare function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase, defaultValue: V): {
     new (...args: any[]): {
-        callback: VariableCallback<V | null> | null;
-        _value: V | null;
-        value: V | null;
-        setValue(value: V | null, doCallback?: boolean): void;
+        callback: VariableCallback<V> | null;
+        _value: V;
+        value: V;
+        setValue(value: V, doCallback?: boolean): void;
         _enabled: boolean;
         dirty: boolean;
         layoutDirty: boolean;
