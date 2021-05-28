@@ -1,9 +1,9 @@
-import { VariableCallback } from '../mixins/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
+export declare type TextValidator<V> = (text: string) => [boolean, V];
 declare const TextInput_base: {
     new (...args: any[]): {
         _text: string;
@@ -11,10 +11,10 @@ declare const TextInput_base: {
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        "__#2775@#labelWidth": number;
-        "__#2775@#labelAscent": number;
-        "__#2775@#labelDescent": number;
-        "__#2775@#labelDirty": boolean;
+        "__#6295@#labelWidth": number;
+        "__#6295@#labelAscent": number;
+        "__#6295@#labelDescent": number;
+        "__#6295@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];
@@ -28,14 +28,14 @@ declare const TextInput_base: {
         setMinLabelWidth(minLabelWidth: number): void;
         setMinLabelAscent(minLabelAscent: number): void;
         setMinLabelDescent(minLabelDescent: number): void;
-        _enabled: boolean;
+        "__#4450@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#4450@#themeOverride": Theme | null;
+        "__#4450@#theme": Theme | null;
+        "__#4450@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -66,18 +66,18 @@ declare const TextInput_base: {
     };
 } & {
     new (...args: any[]): {
-        callback: VariableCallback<string> | null;
-        _value: string;
+        callback: import("../mixins/Variable").VariableCallback<string> | null;
+        "__#6364@#value": string;
         value: string;
         setValue(value: string, doCallback?: boolean): void;
-        _enabled: boolean;
+        "__#4450@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        themeOverride: Theme | null;
-        _theme: Theme | null;
-        inheritedTheme: Theme | null;
+        "__#4450@#themeOverride": Theme | null;
+        "__#4450@#theme": Theme | null;
+        "__#4450@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -107,15 +107,17 @@ declare const TextInput_base: {
         paint(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
     };
 } & typeof FlexWidget;
-export declare class TextInput extends TextInput_base {
+export declare class TextInput<V> extends TextInput_base {
     #private;
-    constructor(callback?: VariableCallback<string> | null, initialValue?: string, themeOverride?: Theme | null);
+    constructor(validator: TextValidator<V>, initialValue?: string, themeOverride?: Theme | null);
     get blinkOn(): boolean | null;
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
     get hideText(): boolean;
     set hideText(hideText: boolean);
     get text(): string;
+    get valid(): boolean;
+    get validValue(): V;
     moveCursorTo(index: number): void;
     moveCursor(delta: number): void;
     insertText(str: string): void;

@@ -21,12 +21,13 @@ export declare enum ThemeProperty {
     InputTextFont = 19,
     InputTextFill = 20,
     InputTextFillDisabled = 21,
-    InputTextFlexRatio = 22,
-    InputTextMinWidth = 23,
-    InputTextMinAscent = 24,
-    InputTextMinDescent = 25,
-    BlinkRate = 26,
-    CursorPadding = 27,
-    CursorThickness = 28,
-    ScrollBarThickness = 29
+    InputTextFillInvalid = 22,
+    InputTextFlexRatio = 23,
+    InputTextMinWidth = 24,
+    InputTextMinAscent = 25,
+    InputTextMinDescent = 26,
+    BlinkRate = 27,
+    CursorPadding = 28,
+    CursorThickness = 29,
+    ScrollBarThickness = 30
 }

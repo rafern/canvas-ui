@@ -17,14 +17,14 @@ declare const ScrollBar_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        "__#1690@#enabled": boolean;
+        "__#4450@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#1690@#themeOverride": Theme | null;
-        "__#1690@#theme": Theme | null;
-        "__#1690@#inheritedTheme": Theme | null;
+        "__#4450@#themeOverride": Theme | null;
+        "__#4450@#theme": Theme | null;
+        "__#4450@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -56,17 +56,17 @@ declare const ScrollBar_base: {
 } & {
     new (...args: any[]): {
         callback: VariableCallback<number> | null;
-        _value: number;
+        "__#6364@#value": number;
         value: number;
         setValue(value: number, doCallback?: boolean): void;
-        "__#1690@#enabled": boolean;
+        "__#4450@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#1690@#themeOverride": Theme | null;
-        "__#1690@#theme": Theme | null;
-        "__#1690@#inheritedTheme": Theme | null;
+        "__#4450@#themeOverride": Theme | null;
+        "__#4450@#theme": Theme | null;
+        "__#4450@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
