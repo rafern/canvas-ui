@@ -17,14 +17,14 @@ declare const Checkbox_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        "__#4450@#enabled": boolean;
+        "__#4506@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4450@#themeOverride": Theme | null;
-        "__#4450@#theme": Theme | null;
-        "__#4450@#inheritedTheme": Theme | null;
+        "__#4506@#themeOverride": Theme | null;
+        "__#4506@#theme": Theme | null;
+        "__#4506@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -56,17 +56,17 @@ declare const Checkbox_base: {
 } & {
     new (...args: any[]): {
         callback: VariableCallback<boolean> | null;
-        "__#6364@#value": boolean;
+        "__#6410@#value": boolean;
         value: boolean;
         setValue(value: boolean, doCallback?: boolean): void;
-        "__#4450@#enabled": boolean;
+        "__#4506@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4450@#themeOverride": Theme | null;
-        "__#4450@#theme": Theme | null;
-        "__#4450@#inheritedTheme": Theme | null;
+        "__#4506@#themeOverride": Theme | null;
+        "__#4506@#theme": Theme | null;
+        "__#4506@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;

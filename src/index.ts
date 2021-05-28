@@ -55,6 +55,11 @@ export * from './theme/DefaultTheme';
 export * from './theme/Padding';
 export * from './theme/Theme';
 export * from './theme/ThemeProperty';
+// validators
+export * from './validators/CompositeValidator';
+export * from './validators/FloatValidator';
+export * from './validators/IntValidator';
+export * from './validators/RangeValidator';
 // widgets
 export * from './widgets/BaseContainer';
 export * from './widgets/BoxWidget';
