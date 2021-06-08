@@ -5,14 +5,14 @@ export declare function Parent<TBase extends GConstructor<Widget>>(Base: TBase):
         readonly children: Array<Widget>;
         updateInheritedTheme(): void;
         forceLayoutDirty(): void;
-        "__#4506@#enabled": boolean;
+        "__#3914@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4506@#themeOverride": import("..").Theme | null;
-        "__#4506@#theme": import("..").Theme | null;
-        "__#4506@#inheritedTheme": import("..").Theme | null;
+        "__#3914@#themeOverride": import("..").Theme | null;
+        "__#3914@#theme": import("..").Theme | null;
+        "__#3914@#inheritedTheme": import("..").Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateTheme(): void;
