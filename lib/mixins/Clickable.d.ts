@@ -21,14 +21,14 @@ export declare function Clickable<TBase extends GConstructor<Widget>>(Base: TBas
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        "__#3914@#enabled": boolean;
+        "__#4005@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#3914@#themeOverride": import("..").Theme | null;
-        "__#3914@#theme": import("..").Theme | null;
-        "__#3914@#inheritedTheme": import("..").Theme | null;
+        "__#4005@#themeOverride": import("..").Theme | null;
+        "__#4005@#theme": import("..").Theme | null;
+        "__#4005@#inheritedTheme": import("..").Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;

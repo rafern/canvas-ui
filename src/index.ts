@@ -8,6 +8,7 @@ export * from './core/TextInputHandler';
 export * from './core/Viewport';
 // drivers
 export * from './drivers/KeyboardDriver';
+export * from './drivers/PointerDriver';
 // events
 export * from './events/Event';
 export * from './events/KeyEvent';

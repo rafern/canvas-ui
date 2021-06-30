@@ -11,10 +11,10 @@ declare const TextInput_base: {
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        "__#5769@#labelWidth": number;
-        "__#5769@#labelAscent": number;
-        "__#5769@#labelDescent": number;
-        "__#5769@#labelDirty": boolean;
+        "__#5949@#labelWidth": number;
+        "__#5949@#labelAscent": number;
+        "__#5949@#labelDescent": number;
+        "__#5949@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];
@@ -28,14 +28,14 @@ declare const TextInput_base: {
         setMinLabelWidth(minLabelWidth: number): void;
         setMinLabelAscent(minLabelAscent: number): void;
         setMinLabelDescent(minLabelDescent: number): void;
-        "__#3914@#enabled": boolean;
+        "__#4005@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#3914@#themeOverride": Theme | null;
-        "__#3914@#theme": Theme | null;
-        "__#3914@#inheritedTheme": Theme | null;
+        "__#4005@#themeOverride": Theme | null;
+        "__#4005@#theme": Theme | null;
+        "__#4005@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
@@ -67,17 +67,17 @@ declare const TextInput_base: {
 } & {
     new (...args: any[]): {
         callback: import("../mixins/Variable").VariableCallback<string> | null;
-        "__#5838@#value": string;
+        "__#6018@#value": string;
         value: string;
         setValue(value: string, doCallback?: boolean): void;
-        "__#3914@#enabled": boolean;
+        "__#4005@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#3914@#themeOverride": Theme | null;
-        "__#3914@#theme": Theme | null;
-        "__#3914@#inheritedTheme": Theme | null;
+        "__#4005@#themeOverride": Theme | null;
+        "__#4005@#theme": Theme | null;
+        "__#4005@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;

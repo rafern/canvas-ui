@@ -4,17 +4,17 @@ export declare type VariableCallback<V> = (value: V) => void;
 export declare function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase, defaultValue: V): {
     new (...args: any[]): {
         callback: VariableCallback<V> | null;
-        "__#5838@#value": V;
+        "__#6018@#value": V;
         value: V;
         setValue(value: V, doCallback?: boolean): void;
-        "__#3914@#enabled": boolean;
+        "__#4005@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#3914@#themeOverride": import("..").Theme | null;
-        "__#3914@#theme": import("..").Theme | null;
-        "__#3914@#inheritedTheme": import("..").Theme | null;
+        "__#4005@#themeOverride": import("..").Theme | null;
+        "__#4005@#theme": import("..").Theme | null;
+        "__#4005@#inheritedTheme": import("..").Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
