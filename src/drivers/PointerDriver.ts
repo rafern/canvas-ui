@@ -19,7 +19,7 @@ export class PointerDriver implements Driver {
     #nextPointerID: number = 0;
 
     registerPointer(): number {
-        return ++this.#nextPointerID;
+        return this.#nextPointerID++;
     }
 
     unregisterPointer(pointer: number) {
