@@ -7,6 +7,7 @@ export * from './core/Root';
 export * from './core/TextInputHandler';
 export * from './core/Viewport';
 // drivers
+export * from './drivers/DOMKeyboardDriver';
 export * from './drivers/KeyboardDriver';
 export * from './drivers/PointerDriver';
 // events
