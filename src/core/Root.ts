@@ -232,6 +232,10 @@ export class Root {
         }
     }
 
+    getFocus(focusType: FocusType): Widget | null {
+        return this._foci.get(focusType) ?? null;
+    }
+
     registerDriver(driver: Driver): void {
         // If driver is not registered, register it
         if(this.drivers.has(driver))

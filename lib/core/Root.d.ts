@@ -34,6 +34,7 @@ export declare class Root {
     requestFocus(focusType: FocusType, widget: Widget): void;
     dropFocus(focusType: FocusType, widget: Widget): void;
     clearFocus(focusType: FocusType): void;
+    getFocus(focusType: FocusType): Widget | null;
     registerDriver(driver: Driver): void;
     unregisterDriver(driver: Driver): void;
     clearDrivers(): void;
