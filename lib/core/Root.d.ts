@@ -14,8 +14,7 @@ export declare class Root {
     pointerStyle: string;
     _currentPointerStyle: string;
     pointerStyleHandler: PointerStyleHandler | null;
-    readonly foci: Map<FocusType, Widget | null>;
-    readonly lastFociCapturers: Map<FocusType, Widget | null>;
+    _foci: Map<FocusType, Widget | null>;
     textInputHandler: TextInputHandler | null;
     _mobileTextInUse: boolean;
     constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);

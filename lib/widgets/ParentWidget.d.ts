@@ -5,14 +5,14 @@ declare const ParentWidget_base: {
         readonly children: Widget[];
         updateInheritedTheme(): void;
         forceLayoutDirty(): void;
-        "__#4005@#enabled": boolean;
+        "__#3994@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4005@#themeOverride": Theme | null;
-        "__#4005@#theme": Theme | null;
-        "__#4005@#inheritedTheme": Theme | null;
+        "__#3994@#themeOverride": Theme | null;
+        "__#3994@#theme": Theme | null;
+        "__#3994@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateTheme(): void;

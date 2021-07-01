@@ -1,6 +1,7 @@
 import { PointerRelease } from '../events/PointerRelease';
 import { PointerPress } from '../events/PointerPress';
 import { PointerMove } from '../events/PointerMove';
+import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
 import type { Driver } from '../core/Driver';
 import type { Event } from '../events/Event';
@@ -9,6 +10,7 @@ import { Leave } from '../events/Leave';
 
 interface PointerDriverState {
     eventQueue: Array<Event>;
+    lastFocus: Widget | null;
     pointer: number | null;
     pressing: boolean;
     hovering: boolean;
@@ -23,13 +25,13 @@ export class PointerDriver implements Driver {
     }
 
     unregisterPointer(pointer: number) {
-        for(const [root, state] of this.#states) {
+        for(const state of this.#states.values()) {
             // Queue leave event if unregistered pointer was assigned to root
             if(state.pointer === pointer) {
                 state.pointer = null;
                 if(state.hovering) {
                     state.eventQueue.push(
-                        new Leave(root.lastFociCapturers.get(FocusType.Pointer))
+                        new Leave(state.lastFocus)
                     );
                 }
                 state.hovering = false;
@@ -71,7 +73,7 @@ export class PointerDriver implements Driver {
             if(pressing) {
                 if(state.pointer !== pointer) {
                     state.eventQueue.push(
-                        new Leave(root.lastFociCapturers.get(FocusType.Pointer))
+                        new Leave(state.lastFocus)
                     );
                     state.pointer = pointer;
                 }
@@ -94,7 +96,7 @@ export class PointerDriver implements Driver {
         if(state.hovering && state.pointer == pointer) {
             state.hovering = false;
             state.eventQueue.push(
-                new Leave(root.lastFociCapturers.get(FocusType.Pointer))
+                new Leave(state.lastFocus)
             );
         }
     }
@@ -103,6 +105,7 @@ export class PointerDriver implements Driver {
         // Create new state for UI that just got enabled
         this.#states.set(root, <PointerDriverState>{
             eventQueue: [],
+            lastFocus: null,
             pointer: null,
             pressing: false,
             hovering: false,
@@ -128,5 +131,21 @@ export class PointerDriver implements Driver {
 
         // Clear queue
         state.eventQueue.length = 0;
+    }
+
+    onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void {
+        const state = this.#states.get(root);
+        if(typeof state === 'undefined')
+            return;
+
+        // Special case: when the pointer focus capturer changes, dispatch a
+        // leave event to the last capturer
+        // XXX is this really neccessary?
+        if(focusType === FocusType.Pointer) {
+            if(state.lastFocus !== null)
+                root.dispatchEvent(new Leave(state.lastFocus));
+
+            state.lastFocus = newFocus;
+        }
     }
 }

@@ -1,40 +1,114 @@
+import type { KeyEvent } from '../events/KeyEvent';
 import { KeyRelease } from '../events/KeyRelease';
+import type { Widget } from '../widgets/Widget';
 import { KeyPress } from '../events/KeyPress';
+import { FocusType } from '../core/FocusType';
 import type { Driver } from '../core/Driver';
 import type { Root } from '../core/Root';
 
 export class KeyboardDriver implements Driver {
-    private eventQueue: [string, boolean][] = [];
+    // The list of key down/up events that haven't been dispatched yet. Call
+    // keyDown/keyUp/keyPress to push to this queue. Key IDs must follow the
+    // KeyboardEvent.key API convention:
+    // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+    private eventQueues: Map<Root, Array<KeyEvent>> = new Map();
+    // A set containing the keys currently down. If the root grabbing the
+    // keyboard is disabled, all the keys are released. Calling keyDown or
+    // keyPress on an already pressed key will have no effect. Calling keyUp on
+    // a key that is not pressed will have no effect
+    private keysDown: Set<string> = new Set();
+    // The currently focused root
+    private focus: Root | null = null;
 
-    constructor(listenElem: HTMLElement) {
-        // Listen for keyboard events, filling event queue
-        listenElem.addEventListener('keydown', (event) => {
-            this.eventQueue.push([event.key, true]);
-        });
+    private getEventQueue(root: Root | null): Array<KeyEvent> | null {
+        if(root === null)
+            return null;
 
-        listenElem.addEventListener('keyup', (event) => {
-            this.eventQueue.push([event.key, false]);
-        });
+        const eventQueue = this.eventQueues.get(root);
+        if(typeof eventQueue === 'undefined')
+            return null;
+
+        return eventQueue;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onEnable(_root: Root): void {}
+    private changeFocusedRoot(root: Root | null): void {
+        if(this.focus !== null)
+            this.focus.clearFocus(FocusType.Keyboard);
 
-    onDisable(_root: Root): void {
-        this.eventQueue = [];
+        this.focus = root;
+
+        if(root !== null) {
+            for(const key of this.keysDown) {
+                const eventQueue = this.getEventQueue(this.focus);
+                if(eventQueue !== null)
+                    eventQueue.push(new KeyPress(key, null));
+            }
+        }
+    }
+
+    keyDown(key: string): void {
+        if(!this.keysDown.has(key)) {
+            this.keysDown.add(key);
+            const eventQueue = this.getEventQueue(this.focus);
+            if(eventQueue !== null)
+                eventQueue.push(new KeyPress(key, null));
+        }
+    }
+
+    keyUp(key: string): void {
+        if(this.keysDown.delete(key)) {
+            const eventQueue = this.getEventQueue(this.focus);
+            if(eventQueue !== null)
+                eventQueue.push(new KeyRelease(key, null));
+        }
+    }
+
+    keyPress(key: string): void {
+        this.keyDown(key);
+        this.keyUp(key);
+    }
+
+    isKeyDown(key: string): boolean {
+        return this.keysDown.has(key);
+    }
+
+    onEnable(root: Root): void {
+        if(!this.eventQueues.has(root))
+            this.eventQueues.set(root, []);
+    }
+
+    onDisable(root: Root): void {
+        if(this.eventQueues.has(root)) {
+            this.eventQueues.delete(root);
+            if(root === this.focus)
+                this.changeFocusedRoot(null);
+        }
     }
 
     update(root: Root): void {
-        // Parse each keyboard event
-        for(const event of this.eventQueue) {
-            // Dispatch event
-            if(event[1])
-                root.dispatchEvent(new KeyPress(event[0], null));
-            else
-                root.dispatchEvent(new KeyRelease(event[0], null));
-        }
+        const eventQueue = this.getEventQueue(this.focus);
+        if(eventQueue === null)
+            return;
+
+        // Dispatch queued keyboard events
+        for(const event of eventQueue)
+            root.dispatchEvent(event);
 
         // Clear event queue
-        this.eventQueue = [];
+        eventQueue.length = 0;
+    }
+
+    onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void {
+        if(focusType !== FocusType.Keyboard)
+            return;
+
+        if(root == this.focus) {
+            if(newFocus === null)
+                this.changeFocusedRoot(null);
+        }
+        else {
+            if(newFocus !== null)
+                this.changeFocusedRoot(root);
+        }
     }
 }

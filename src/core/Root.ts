@@ -5,7 +5,6 @@ import { defaultTheme } from '../theme/DefaultTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
-import { Leave } from '../events/Leave';
 import { FocusType } from './FocusType';
 import type { Driver } from './Driver';
 import { Viewport } from './Viewport';
@@ -27,13 +26,8 @@ export class Root {
     _currentPointerStyle = 'default'; // XXX protected
     // Pointer style handler, decides how to show the given pointer style
     pointerStyleHandler: PointerStyleHandler | null;
-    // Current component foci (event targets for each focus type) and last
-    // capturer for each focus
-    readonly foci: Map<FocusType, Widget | null> = new Map([
-        [FocusType.Keyboard, null],
-        [FocusType.Pointer, null],
-    ]);
-    readonly lastFociCapturers: Map<FocusType, Widget | null> = new Map([
+    // Current component foci (event targets for each focus type)
+    _foci: Map<FocusType, Widget | null> = new Map([ // XXX protected
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
@@ -79,7 +73,8 @@ export class Root {
         if(oldEnabled !== newEnabled) {
             this._enabled = newEnabled;
 
-            // Call driver hooks and reset pointer style if UI disabled
+            // Call driver hooks, reset pointer style and release foci if UI
+            // disabled
             if(newEnabled) {
                 for(const driver of this.drivers) {
                     if(driver.onEnable)
@@ -93,6 +88,9 @@ export class Root {
                 }
 
                 this.updatePointerStyle('default');
+
+                for(const focus of this._foci.keys())
+                    this.clearFocus(focus);
             }
         }
     }
@@ -127,7 +125,7 @@ export class Root {
         if(event.focusType !== null && event.target === null) {
             // Ignore event if it needs a focus but there is no component
             // focused in the needed focus
-            let focus = this.foci.get(event.focusType);
+            let focus = this._foci.get(event.focusType);
             if(typeof focus === 'undefined')
                 focus = null;
 
@@ -157,26 +155,6 @@ export class Root {
         }
         /*else
             console.info('Event captured by widget:', captured.constructor.name);*/
-
-        // Update last focus capturer
-        if(event.focusType !== null) {
-            // Special case: when the pointer focus capturer changes, dispatch a
-            // leave event to the last capturer
-            // XXX should this be moved to pointer drivers?
-            if(event.focusType === FocusType.Pointer) {
-                const lastPointerCapturer = this.lastFociCapturers.get(event.focusType);
-                if(lastPointerCapturer !== captured) {
-                    this.child.dispatchEvent(
-                        new Leave(lastPointerCapturer),
-                        width,
-                        height,
-                        this,
-                    );
-                }
-            }
-
-            this.lastFociCapturers.set(event.focusType, captured);
-        }
     }
 
     preLayoutUpdate(): void {
@@ -218,11 +196,15 @@ export class Root {
     requestFocus(focusType: FocusType, widget: Widget): void {
         if(widget !== null) {
             // Replace focus if current focus is not the desired one
-            const currentFocus = this.foci.get(focusType);
+            const currentFocus = this._foci.get(focusType);
             if(widget !== currentFocus) {
                 this.clearFocus(focusType);
                 //console.log('Set focus type', focusType, 'to widget', widget);
-                this.foci.set(focusType, widget);
+                this._foci.set(focusType, widget);
+                for(const driver of this.drivers) {
+                    if(driver.onFocusChanged)
+                        driver.onFocusChanged(this, focusType, widget);
+                }
             }
         }
     }
@@ -230,19 +212,23 @@ export class Root {
     dropFocus(focusType: FocusType, widget: Widget): void {
         // NOTE: Use this instead of clearFocus if your intent is to make sure a
         // SPECIFIC COMPONENT is no longer focused, NOT ANY COMPONENT
-        const currentFocus = this.foci.get(focusType);
+        const currentFocus = this._foci.get(focusType);
         if(widget === currentFocus)
             this.clearFocus(focusType);
     }
 
     clearFocus(focusType: FocusType): void {
-        const currentFocus = this.foci.get(focusType);
+        const currentFocus = this._foci.get(focusType);
         if(currentFocus !== null && typeof currentFocus !== 'undefined') {
             //console.log('Dropped focus type', focusType, 'from widget', currentFocus);
             if(currentFocus.onFocusDropped)
                 currentFocus.onFocusDropped(focusType, this);
 
-            this.foci.set(focusType, null);
+            this._foci.set(focusType, null);
+            for(const driver of this.drivers) {
+                if(driver.onFocusChanged)
+                    driver.onFocusChanged(this, focusType, null);
+            }
         }
     }
 
