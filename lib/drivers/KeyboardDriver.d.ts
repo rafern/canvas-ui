@@ -7,7 +7,8 @@ export declare class KeyboardDriver implements Driver {
     private keysDown;
     private focus;
     private getEventQueue;
-    private changeFocusedRoot;
+    _changeFocusedRoot(root: Root | null): void;
+    getFocusedRoot(): Root | null;
     keyDown(key: string): void;
     keyUp(key: string): void;
     keyPress(key: string): void;
