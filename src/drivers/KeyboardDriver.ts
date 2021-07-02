@@ -115,4 +115,6 @@ export class KeyboardDriver implements Driver {
                 this._changeFocusedRoot(root);
         }
     }
+
+    onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}
 }

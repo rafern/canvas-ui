@@ -17,4 +17,5 @@ export declare class KeyboardDriver implements Driver {
     onDisable(root: Root): void;
     update(root: Root): void;
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
+    onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void;
 }

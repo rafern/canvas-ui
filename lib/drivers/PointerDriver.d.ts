@@ -5,7 +5,6 @@ import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 interface PointerDriverState {
     eventQueue: Array<Event>;
-    lastFocus: Widget | null;
     pointer: number | null;
     pressing: boolean;
     hovering: boolean;
@@ -15,11 +14,12 @@ export declare class PointerDriver implements Driver {
     _states: Map<Root, PointerDriverState>;
     registerPointer(): number;
     unregisterPointer(pointer: number): void;
-    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean): void;
+    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing?: boolean | null): void;
     leavePointer(root: Root, pointer: number): void;
     onEnable(root: Root): void;
     onDisable(root: Root): void;
     update(root: Root): void;
-    onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
+    onFocusChanged(_root: Root, _focusType: FocusType, _newFocus: Widget | null): void;
+    onFocusCapturerChanged(root: Root, focusType: FocusType, oldCapturer: Widget | null, _newCapturer: Widget | null): void;
 }
 export {};

@@ -6,4 +6,5 @@ export interface Driver {
     onEnable(root: Root): void;
     onDisable(root: Root): void;
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
+    onFocusCapturerChanged(root: Root, focusType: FocusType, oldCapturer: Widget | null, newCapturer: Widget | null): void;
 }

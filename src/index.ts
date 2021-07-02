@@ -1,5 +1,6 @@
 // core
 export * from './core/DefaultTextInputHandler';
+export * from './core/DOMRoot';
 export * from './core/Driver';
 export * from './core/FocusType';
 export * from './core/PointerStyleHandler';
@@ -8,6 +9,7 @@ export * from './core/TextInputHandler';
 export * from './core/Viewport';
 // drivers
 export * from './drivers/DOMKeyboardDriver';
+export * from './drivers/DOMPointerDriver';
 export * from './drivers/KeyboardDriver';
 export * from './drivers/PointerDriver';
 // events

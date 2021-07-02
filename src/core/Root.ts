@@ -31,6 +31,11 @@ export class Root {
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
+    // Last component foci capturers
+    _fociCapturers: Map<FocusType, Widget | null> = new Map([ // XXX protected
+        [FocusType.Keyboard, null],
+        [FocusType.Pointer, null],
+    ]);
     // Handler for mobile-friendly text input
     textInputHandler: TextInputHandler | null = null;
     // Is the mobile-friendly text input in use?
@@ -76,16 +81,12 @@ export class Root {
             // Call driver hooks, reset pointer style and release foci if UI
             // disabled
             if(newEnabled) {
-                for(const driver of this.drivers) {
-                    if(driver.onEnable)
-                        driver.onEnable(this);
-                }
+                for(const driver of this.drivers)
+                    driver.onEnable(this);
             }
             else {
-                for(const driver of this.drivers) {
-                    if(driver.onDisable)
-                        driver.onDisable(this);
-                }
+                for(const driver of this.drivers)
+                    driver.onDisable(this);
 
                 this.updatePointerStyle('default');
 
@@ -155,6 +156,14 @@ export class Root {
         }
         /*else
             console.info('Event captured by widget:', captured.constructor.name);*/
+
+        // Update last focus capturer
+        if(event.focusType !== null) {
+            const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
+            this._fociCapturers.set(event.focusType, captured);
+            for(const driver of this.drivers)
+                driver.onFocusCapturerChanged(this, event.focusType, oldCapturer, captured);
+        }
     }
 
     preLayoutUpdate(): void {
@@ -201,10 +210,8 @@ export class Root {
                 this.clearFocus(focusType);
                 //console.log('Set focus type', focusType, 'to widget', widget);
                 this._foci.set(focusType, widget);
-                for(const driver of this.drivers) {
-                    if(driver.onFocusChanged)
-                        driver.onFocusChanged(this, focusType, widget);
-                }
+                for(const driver of this.drivers)
+                    driver.onFocusChanged(this, focusType, widget);
             }
         }
     }
@@ -225,15 +232,17 @@ export class Root {
                 currentFocus.onFocusDropped(focusType, this);
 
             this._foci.set(focusType, null);
-            for(const driver of this.drivers) {
-                if(driver.onFocusChanged)
-                    driver.onFocusChanged(this, focusType, null);
-            }
+            for(const driver of this.drivers)
+                driver.onFocusChanged(this, focusType, null);
         }
     }
 
     getFocus(focusType: FocusType): Widget | null {
         return this._foci.get(focusType) ?? null;
+    }
+
+    getFocusCapturer(focusType: FocusType): Widget | null {
+        return this._fociCapturers.get(focusType) ?? null;
     }
 
     registerDriver(driver: Driver): void {

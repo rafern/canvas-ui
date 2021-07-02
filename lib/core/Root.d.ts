@@ -15,6 +15,7 @@ export declare class Root {
     _currentPointerStyle: string;
     pointerStyleHandler: PointerStyleHandler | null;
     _foci: Map<FocusType, Widget | null>;
+    _fociCapturers: Map<FocusType, Widget | null>;
     textInputHandler: TextInputHandler | null;
     _mobileTextInUse: boolean;
     constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
@@ -35,6 +36,7 @@ export declare class Root {
     dropFocus(focusType: FocusType, widget: Widget): void;
     clearFocus(focusType: FocusType): void;
     getFocus(focusType: FocusType): Widget | null;
+    getFocusCapturer(focusType: FocusType): Widget | null;
     registerDriver(driver: Driver): void;
     unregisterDriver(driver: Driver): void;
     clearDrivers(): void;
