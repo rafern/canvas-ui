@@ -21,6 +21,7 @@ export class DOMRoot extends Root {
         const context = this.domElem.getContext('2d', { alpha: true });
         if(context === null)
             throw 'Failed to get DOM canvas context';
+        context.globalCompositeOperation = 'copy';
 
         this.#domCanvasContext = context;
     }
