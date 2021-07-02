@@ -158,19 +158,22 @@ export class Root {
         /*else
             console.info('Event captured by widget:', captured.constructor.name);*/
 
-        // Update last focus capturer
-        if(event.focusType !== null) {
-            const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
+        // Update focus capturer if it changed
+        if(event.focusType === null)
+            return;
 
-            // Special case: when the pointer focus capturer changes, dispatch a
-            // leave event to the last capturer
-            if(event.focusType === FocusType.Pointer && oldCapturer !== null)
-                this.child.dispatchEvent(new Leave(oldCapturer), width, height, this);
+        const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
+        if(oldCapturer === captured)
+            return;
 
-            this._fociCapturers.set(event.focusType, captured);
-            for(const driver of this.drivers)
-                driver.onFocusCapturerChanged(this, event.focusType, oldCapturer, captured);
-        }
+        // Special case: when the pointer focus capturer changes, dispatch a
+        // leave event to the last capturer
+        if(event.focusType === FocusType.Pointer && oldCapturer !== null)
+            this.child.dispatchEvent(new Leave(oldCapturer), width, height, this);
+
+        this._fociCapturers.set(event.focusType, captured);
+        for(const driver of this.drivers)
+            driver.onFocusCapturerChanged(this, event.focusType, oldCapturer, captured);
     }
 
     preLayoutUpdate(): void {

@@ -14,8 +14,10 @@ export class KeyboardDriver implements Driver {
     private eventQueues: Map<Root, Array<KeyEvent>> = new Map();
     // A set containing the keys currently down. If the root grabbing the
     // keyboard is disabled, all the keys are released. Calling keyDown or
-    // keyPress on an already pressed key will have no effect. Calling keyUp on
-    // a key that is not pressed will have no effect
+    // keyPress on an already pressed key will dispatch another key press,
+    // allowing for repeats. Calling keyPress will only release the key if it
+    // was not pressed before. Calling keyUp on a key that is not pressed will
+    // have no effect
     private keysDown: Set<string> = new Set();
     // The currently focused root
     private focus: Root | null = null;
@@ -36,27 +38,22 @@ export class KeyboardDriver implements Driver {
             this.focus.clearFocus(FocusType.Keyboard);
 
         this.focus = root;
-
-        if(root !== null) {
-            for(const key of this.keysDown) {
-                const eventQueue = this.getEventQueue(this.focus);
-                if(eventQueue !== null)
-                    eventQueue.push(new KeyPress(key, null));
-            }
-        }
+        this.keysDown.clear();
     }
 
     getFocusedRoot(): Root | null {
         return this.focus;
     }
 
+    clearFocus(): void {
+        this._changeFocusedRoot(null);
+    }
+
     keyDown(key: string): void {
-        if(!this.keysDown.has(key)) {
-            this.keysDown.add(key);
-            const eventQueue = this.getEventQueue(this.focus);
-            if(eventQueue !== null)
-                eventQueue.push(new KeyPress(key, null));
-        }
+        this.keysDown.add(key);
+        const eventQueue = this.getEventQueue(this.focus);
+        if(eventQueue !== null)
+            eventQueue.push(new KeyPress(key, null));
     }
 
     keyUp(key: string): void {
@@ -68,8 +65,10 @@ export class KeyboardDriver implements Driver {
     }
 
     keyPress(key: string): void {
+        const wasDown = this.isKeyDown(key);
         this.keyDown(key);
-        this.keyUp(key);
+        if(!wasDown)
+            this.keyUp(key);
     }
 
     isKeyDown(key: string): boolean {
@@ -110,10 +109,8 @@ export class KeyboardDriver implements Driver {
             if(newFocus === null)
                 this._changeFocusedRoot(null);
         }
-        else {
-            if(newFocus !== null)
-                this._changeFocusedRoot(root);
-        }
+        else if(newFocus !== null)
+            this._changeFocusedRoot(root);
     }
 
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}

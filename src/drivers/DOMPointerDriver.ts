@@ -2,21 +2,11 @@ import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 
 function getEventPos(event: PointerEvent, domElem: HTMLElement): [number, number] {
-    // Correctly gets mouse position relative to page. Returns normalised coords
-    // From https://www.quirksmode.org/js/events_properties.html
-    let posx = 0, posy = 0;
-    if (event.pageX || event.pageY) {
-        posx = event.pageX;
-        posy = event.pageY;
-    }
-    else if (event.clientX || event.clientY) {
-        posx = event.clientX + document.body.scrollLeft
-            + document.documentElement.scrollLeft;
-        posy = event.clientY + document.body.scrollTop
-            + document.documentElement.scrollTop;
-    }
-
-    return [posx / domElem.clientWidth, posy / domElem.clientHeight];
+    const rect = domElem.getBoundingClientRect();
+    return [
+        (event.clientX - rect.left) / rect.width,
+        (event.clientY - rect.top) / rect.height,
+    ];
 }
 
 interface RootDOMBind {
@@ -33,7 +23,7 @@ export class DOMPointerDriver extends PointerDriver {
 
     // XXX using weakmap so it auto-unbinds once a root stops existing
     domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
-    #mousePointerID: number;
+    #mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
 
     constructor() {
         super();

@@ -1,4 +1,3 @@
-import type { PointerStyleHandler } from './PointerStyleHandler';
 import { defaultTheme } from '../theme/DefaultTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Theme } from '../theme/Theme';
@@ -11,19 +10,24 @@ export class DOMRoot extends Root {
     readonly domElem: HTMLCanvasElement;
     #domCanvasContext: CanvasRenderingContext2D;
 
-    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
-        super(child, pointerStyleHandler, theme);
+    constructor(child: Widget, theme: Theme = defaultTheme) {
+        super(child, null, theme);
 
         // Make DOM element, which is a canvas, and get a 2D context for it
         this.domElem = document.createElement('canvas');
+        this.domElem.tabIndex = 1;
         [this.domElem.width, this.domElem.height] = this.dimensions;
 
         const context = this.domElem.getContext('2d', { alpha: true });
         if(context === null)
             throw 'Failed to get DOM canvas context';
-        context.globalCompositeOperation = 'copy';
 
         this.#domCanvasContext = context;
+
+        // Setup pointer style handler
+        this.pointerStyleHandler = (newPointerStyle: string): void => {
+            this.domElem.style.cursor = newPointerStyle;
+        };
     }
 
     update(): void {
@@ -31,7 +35,9 @@ export class DOMRoot extends Root {
         if(this.resolveLayout())
             [this.domElem.width, this.domElem.height] = this.dimensions;
         this.postLayoutUpdate();
-        if(this.paint())
+        if(this.paint()) {
+            this.#domCanvasContext.globalCompositeOperation = 'copy';
             this.#domCanvasContext.drawImage(this.canvas, 0, 0);
+        }
     }
 }
