@@ -18,7 +18,7 @@ export class DOMRoot extends Root {
         this.domElem = document.createElement('canvas');
         [this.domElem.width, this.domElem.height] = this.dimensions;
 
-        const context = this.canvas.getContext('2d', { alpha: true });
+        const context = this.domElem.getContext('2d', { alpha: true });
         if(context === null)
             throw 'Failed to get DOM canvas context';
 
