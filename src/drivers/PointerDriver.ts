@@ -138,14 +138,5 @@ export class PointerDriver implements Driver {
 
     onFocusChanged(_root: Root, _focusType: FocusType, _newFocus: Widget | null): void {}
 
-    onFocusCapturerChanged(root: Root, focusType: FocusType, oldCapturer: Widget | null, _newCapturer: Widget | null): void {
-        const state = this._states.get(root);
-        if(typeof state === 'undefined')
-            return;
-
-        // Special case: when the pointer focus capturer changes, dispatch a
-        // leave event to the last capturer
-        if(focusType === FocusType.Pointer && oldCapturer !== null)
-            state.eventQueue.push(new Leave(oldCapturer));
-    }
+    onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}
 }

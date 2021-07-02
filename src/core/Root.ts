@@ -6,6 +6,7 @@ import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import { FocusType } from './FocusType';
+import { Leave } from '../events/Leave';
 import type { Driver } from './Driver';
 import { Viewport } from './Viewport';
 
@@ -160,6 +161,12 @@ export class Root {
         // Update last focus capturer
         if(event.focusType !== null) {
             const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
+
+            // Special case: when the pointer focus capturer changes, dispatch a
+            // leave event to the last capturer
+            if(event.focusType === FocusType.Pointer && oldCapturer !== null)
+                this.child.dispatchEvent(new Leave(oldCapturer), width, height, this);
+
             this._fociCapturers.set(event.focusType, captured);
             for(const driver of this.drivers)
                 driver.onFocusCapturerChanged(this, event.focusType, oldCapturer, captured);

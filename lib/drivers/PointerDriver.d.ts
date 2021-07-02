@@ -20,6 +20,6 @@ export declare class PointerDriver implements Driver {
     onDisable(root: Root): void;
     update(root: Root): void;
     onFocusChanged(_root: Root, _focusType: FocusType, _newFocus: Widget | null): void;
-    onFocusCapturerChanged(root: Root, focusType: FocusType, oldCapturer: Widget | null, _newCapturer: Widget | null): void;
+    onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void;
 }
 export {};
