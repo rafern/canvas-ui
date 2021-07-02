@@ -15,7 +15,7 @@ export class DOMRoot extends Root {
         super(child, pointerStyleHandler, theme);
 
         // Make DOM element, which is a canvas, and get a 2D context for it
-        this.domElem = new HTMLCanvasElement();
+        this.domElem = document.createElement('canvas');
         [this.domElem.width, this.domElem.height] = this.dimensions;
 
         const context = this.canvas.getContext('2d', { alpha: true });
