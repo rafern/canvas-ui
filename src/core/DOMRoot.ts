@@ -31,6 +31,13 @@ export class DOMRoot extends Root {
     }
 
     update(): void {
+        if(!this.enabled) {
+            this.domElem.style.display = 'none';
+            return;
+        }
+        else
+            this.domElem.style.removeProperty('display');
+
         this.preLayoutUpdate();
         if(this.resolveLayout())
             [this.domElem.width, this.domElem.height] = this.dimensions;

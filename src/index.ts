@@ -1,12 +1,14 @@
 // core
 export * from './core/DefaultTextInputHandler';
 export * from './core/DOMRoot';
+export * from './core/DOMVirtualKeyboardRoot';
 export * from './core/Driver';
 export * from './core/FocusType';
 export * from './core/PointerStyleHandler';
 export * from './core/Root';
 export * from './core/TextInputHandler';
 export * from './core/Viewport';
+export * from './core/VirtualKeyboardRoot';
 // drivers
 export * from './drivers/DOMKeyboardDriver';
 export * from './drivers/DOMPointerDriver';
@@ -39,7 +41,6 @@ export * from './templates/VirtualKeyboard/BasicKey';
 export * from './templates/VirtualKeyboard/EnterKey';
 export * from './templates/VirtualKeyboard/EscapeKey';
 export * from './templates/VirtualKeyboard/GlyphKey';
-export * from './templates/VirtualKeyboard/Keyboard';
 export * from './templates/VirtualKeyboard/KeyContext';
 export * from './templates/VirtualKeyboard/KeyRow';
 export * from './templates/VirtualKeyboard/ShiftKey';
@@ -87,4 +88,5 @@ export * from './widgets/Spacing';
 export * from './widgets/TextInput';
 export * from './widgets/ThemeScope';
 export * from './widgets/ViewportWidget';
+export * from './widgets/VirtualKeyboard';
 export * from './widgets/Widget';

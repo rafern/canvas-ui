@@ -17,14 +17,14 @@ declare const Button_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: import("../mixins/Clickable").ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        "__#742@#enabled": boolean;
+        "__#4264@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#742@#themeOverride": Theme | null;
-        "__#742@#theme": Theme | null;
-        "__#742@#inheritedTheme": Theme | null;
+        "__#4264@#themeOverride": Theme | null;
+        "__#4264@#theme": Theme | null;
+        "__#4264@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;
