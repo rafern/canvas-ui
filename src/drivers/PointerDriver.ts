@@ -146,6 +146,6 @@ export class PointerDriver implements Driver {
         // Special case: when the pointer focus capturer changes, dispatch a
         // leave event to the last capturer
         if(focusType === FocusType.Pointer && oldCapturer !== null)
-            root.dispatchEvent(new Leave(oldCapturer));
+            state.eventQueue.push(new Leave(oldCapturer));
     }
 }
