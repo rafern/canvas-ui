@@ -89,7 +89,7 @@ export class KeyboardDriver implements Driver {
     }
 
     update(root: Root): void {
-        const eventQueue = this.getEventQueue(this.focus);
+        const eventQueue = this.getEventQueue(root);
         if(eventQueue === null)
             return;
 

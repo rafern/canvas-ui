@@ -22,7 +22,7 @@ export class DOMPointerDriver extends PointerDriver {
     // for the driver to have an effect
 
     // XXX using weakmap so it auto-unbinds once a root stops existing
-    domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
+    #domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
     #mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
 
     constructor() {
@@ -32,7 +32,7 @@ export class DOMPointerDriver extends PointerDriver {
     }
 
     bindDOMElem(root: Root, domElem: HTMLElement) {
-        let rootBind = this.domElems.get(root);
+        let rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
         else {
@@ -43,7 +43,7 @@ export class DOMPointerDriver extends PointerDriver {
                 pointerupListen: null,
                 pointerleaveListen: null,
             };
-            this.domElems.set(root, rootBind);
+            this.#domElems.set(root, rootBind);
         }
 
         if(root.enabled)
@@ -102,7 +102,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Add event listeners for pointer when root is enabled, if the root is
         // bound to a DOM element
-        let rootBind = this.domElems.get(root);
+        let rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.addListeners(root, rootBind);
     }
@@ -112,7 +112,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Remove event listeners for pointer when root is disabled, if the root
         // is bound to a DOM element
-        let rootBind = this.domElems.get(root);
+        let rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
     }
