@@ -45,6 +45,7 @@ export class Widget {
 
     // Called when the inherited theme of this Widget is updated. Can be
     // overridden. Does nothing by default
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     updateInheritedTheme(): void {} // XXX protected
 
     // Update this widget's current theme, with theme override set up. Must not
