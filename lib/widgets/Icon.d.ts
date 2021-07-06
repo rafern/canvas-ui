@@ -18,14 +18,14 @@ declare const Icon_base: {
         isNormalInRect(pX: number, pY: number): boolean;
         setClickState(clickState: import("../mixins/Clickable").ClickState, inside: boolean): void;
         handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
-        "__#4264@#enabled": boolean;
+        "__#2@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4264@#themeOverride": Theme | null;
-        "__#4264@#theme": Theme | null;
-        "__#4264@#inheritedTheme": Theme | null;
+        "__#2@#themeOverride": Theme | null;
+        "__#2@#theme": Theme | null;
+        "__#2@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateInheritedTheme(): void;

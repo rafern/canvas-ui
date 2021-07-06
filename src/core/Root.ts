@@ -1,7 +1,6 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { TextInputHandler } from './TextInputHandler';
 import { defaultTheme } from '../theme/DefaultTheme';
-//import { debugTheme } from '../theme/DebugTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -17,7 +16,7 @@ export class Root {
     // The Root's child; the parent Widget of all widgets
     readonly child: Widget;
     // The internal viewport. Manages drawing
-    viewport: Viewport = new Viewport(); // XXX protected
+    viewport: Viewport; // XXX protected
     // The list of drivers
     drivers: Set<Driver> = new Set(); // XXX protected
     // Is the Root enabled?
@@ -44,7 +43,8 @@ export class Root {
 
     // A Root is the parent of all widgets, but not a widget itself. It contains
     // a single child and manages dimensions and input handling
-    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme /*debugTheme*/) {
+    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
+        this.viewport = new Viewport();
         this.child = child;
         this.pointerStyleHandler = pointerStyleHandler;
         this.child.inheritTheme(theme);

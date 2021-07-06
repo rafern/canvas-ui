@@ -65,7 +65,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return [child.resolvedWidth, child.resolvedHeight];
     }
 
-    getChildMainBasis(vertical: boolean) { // XXX private
+    getChildMainBasis(vertical: boolean): number { // XXX private
         if(this.#lastChildLayoutCtx === null)
             return 0;
 
@@ -78,7 +78,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return innerLength;
     }
 
-    getChildCrossBasis(vertical: boolean) { // XXX private
+    getChildCrossBasis(vertical: boolean): number { // XXX private
         return this.getChildMainBasis(!vertical);
     }
 
@@ -143,16 +143,8 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         // If child's layout is dirty set self's layout as dirty
         if(child.layoutDirty)
             this.layoutDirty = true;
-        else {
-            // Although the internal basis won't change, they still need to be
-            // set to update the effective basis
-            if(this.mainBasisTied)
-                this.internalMainBasis = this.internalMainBasis;
-            if(this.crossBasisTied)
-                this.internalCrossBasis = this.internalCrossBasis;
-
+        else
             return;
-        }
 
         // Populate child's layout context
         this.#lastChildLayoutCtx = this.#viewport.populateChildsLayout(child);

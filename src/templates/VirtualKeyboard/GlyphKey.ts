@@ -18,7 +18,7 @@ export function GlyphKey(glyph: string, altGlyph: string | null = null, keyConte
         }
         else
             return glyph;
-    };
+    }
 
     return TextButton(
         getGlyph,

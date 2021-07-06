@@ -6,7 +6,7 @@
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .ts",
     "build": "rollup -c"
   },
   "files": [
@@ -17,11 +17,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-eslint": "^8.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "eslint": "^7.30.0",
+    "eslint-plugin-tree-shaking": "^1.9.2",
     "rollup": "^2.51.1",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.3.2"
   },
   "dependencies": {
+    "ts-mixer": "^5.4.1",
     "tslib": "^2.2.0"
   }
 }

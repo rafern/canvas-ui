@@ -51,7 +51,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
 
     handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find checkbox rect
-        const [bx, br, by , _bb] = this.getBoxRect(x, y, width, height);
+        const [bx, br, by, _bb] = this.getBoxRect(x, y, width, height);
         const actualLength = br - bx;
 
         // Should we use glow colours? (background glow and accent)

@@ -16,7 +16,7 @@ export function MakeDefaultTextValidatorWithCallback(callback: VariableCallback<
     }
 }
 
-export function BasicTextInput(callback: VariableCallback<string> | null = null, initialValue = '', themeOverride: Theme | null = null) {
+export function BasicTextInput(callback: VariableCallback<string> | null = null, initialValue = '', themeOverride: Theme | null = null): TextInput<string> {
     const validator = MakeDefaultTextValidatorWithCallback(callback);
     return new TextInput(validator, initialValue, themeOverride);
 }

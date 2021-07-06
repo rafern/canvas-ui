@@ -56,7 +56,7 @@ export * from './templates/BasicTextInput';
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
 export * from './theme/DebugTheme';
-export * from './theme/DefaultTheme';
+export * from './theme/defaultTheme';
 export * from './theme/Padding';
 export * from './theme/Theme';
 export * from './theme/ThemeProperty';

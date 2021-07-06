@@ -17,7 +17,7 @@ export class FilledButton extends Button {
     // Is the button currently forced down?
     #forced = false;
 
-    updateBackground() { // XXX private
+    updateBackground(): void { // XXX private
         if(this.#forced)
             this.#backgroundProperty = ThemeProperty.PrimaryFill;
         else {

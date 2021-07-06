@@ -1,8 +1,7 @@
 import type { ThemeProperty } from './ThemeProperty';
-import { defaultTheme } from './DefaultTheme';
 import { Theme } from './Theme';
 
-class DebugTheme extends Theme {
+export class DebugTheme extends Theme {
     constructor(fallback: Theme) {
         super(new Map(), fallback);
     }
@@ -15,5 +14,3 @@ class DebugTheme extends Theme {
         return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
     }
 }
-
-export const debugTheme = new DebugTheme(defaultTheme);

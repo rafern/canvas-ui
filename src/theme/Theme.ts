@@ -8,9 +8,9 @@ import type { Padding } from './Padding';
 // https://github.com/Microsoft/TypeScript/issues/17744
 export class Theme {
     // Theme properties
-    properties: Map<ThemeProperty, unknown> = new Map<ThemeProperty, unknown>();
+    properties: Map<ThemeProperty, unknown>;
     // Fallback theme
-    fallback: Theme | null = null;
+    fallback: Theme | null;
 
     // Constructor. Makes theme from given theme properties and fallback theme.
     // These can be changed later

@@ -11,10 +11,10 @@ function getEventPos(event: PointerEvent, domElem: HTMLElement): [number, number
 
 interface RootDOMBind {
     domElem: HTMLElement,
-    pointermoveListen: ((this: HTMLElement, event: PointerEvent) => any) | null,
-    pointerdownListen: ((this: HTMLElement, event: PointerEvent) => any) | null,
-    pointerupListen: ((this: HTMLElement, event: PointerEvent) => any) | null,
-    pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => any) | null,
+    pointermoveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
+    pointerdownListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
+    pointerupListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
+    pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
 }
 
 export class DOMPointerDriver extends PointerDriver {
@@ -31,7 +31,7 @@ export class DOMPointerDriver extends PointerDriver {
         this.#mousePointerID = this.registerPointer();
     }
 
-    bindDOMElem(root: Root, domElem: HTMLElement) {
+    bindDOMElem(root: Root, domElem: HTMLElement): void {
         let rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
@@ -102,7 +102,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Add event listeners for pointer when root is enabled, if the root is
         // bound to a DOM element
-        let rootBind = this.#domElems.get(root);
+        const rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.addListeners(root, rootBind);
     }
@@ -112,7 +112,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Remove event listeners for pointer when root is disabled, if the root
         // is bound to a DOM element
-        let rootBind = this.#domElems.get(root);
+        const rootBind = this.#domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
     }

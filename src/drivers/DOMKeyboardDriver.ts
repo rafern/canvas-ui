@@ -7,7 +7,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     // other DOM elements can be bound without creating keyboard event listeners
     #domElems: Set<EventTarget> = new Set();
 
-    bindDOMElem(domElem: HTMLElement, listenToKeys: boolean = true) {
+    bindDOMElem(domElem: HTMLElement, listenToKeys = true): void {
         // Add to set. If it was already in set, abort
         if(this.#domElems.has(domElem))
             return;

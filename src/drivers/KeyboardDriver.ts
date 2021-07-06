@@ -113,5 +113,6 @@ export class KeyboardDriver implements Driver {
             this._changeFocusedRoot(root);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}
 }

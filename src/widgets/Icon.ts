@@ -45,7 +45,7 @@ export class Icon extends Clickable(BoxWidget) {
         this.updateDimensions();
     }
 
-    updateDimensions() { // XXX private
+    updateDimensions(): void { // XXX private
         let wantedWidth = this.width;
         if(wantedWidth === null) {
             if(this.viewBox === null)
@@ -137,7 +137,7 @@ export class Icon extends Clickable(BoxWidget) {
         }
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
         if(!this.#image?.complete) {
             this.#lastSrc = null;

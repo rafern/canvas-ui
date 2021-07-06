@@ -17,13 +17,13 @@ interface PointerDriverState {
 
 export class PointerDriver implements Driver {
     _states: Map<Root, PointerDriverState> = new Map(); // XXX protected
-    #nextPointerID: number = 0;
+    #nextPointerID = 0;
 
     registerPointer(): number {
         return this.#nextPointerID++;
     }
 
-    unregisterPointer(pointer: number) {
+    unregisterPointer(pointer: number): void {
         for(const [root, state] of this._states) {
             // Queue leave event if unregistered pointer was assigned to root
             if(state.pointer === pointer) {
@@ -91,7 +91,7 @@ export class PointerDriver implements Driver {
         state.hovering = true;
     }
 
-    leavePointer(root: Root, pointer: number) {
+    leavePointer(root: Root, pointer: number): void {
         const state = this._states.get(root);
         if(typeof state === 'undefined')
             return;
@@ -136,7 +136,9 @@ export class PointerDriver implements Driver {
         state.eventQueue.length = 0;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onFocusChanged(_root: Root, _focusType: FocusType, _newFocus: Widget | null): void {}
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}
 }

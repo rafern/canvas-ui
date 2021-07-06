@@ -10,14 +10,14 @@ declare const ViewportWidget_base: {
         readonly children: Widget[];
         updateInheritedTheme(): void;
         forceLayoutDirty(): void;
-        "__#4264@#enabled": boolean;
+        "__#2@#enabled": boolean;
         dirty: boolean;
         layoutDirty: boolean;
         readonly needsClear: boolean;
         readonly propagatesEvents: boolean;
-        "__#4264@#themeOverride": Theme | null;
-        "__#4264@#theme": Theme | null;
-        "__#4264@#inheritedTheme": Theme | null;
+        "__#2@#themeOverride": Theme | null;
+        "__#2@#theme": Theme | null;
+        "__#2@#inheritedTheme": Theme | null;
         resolvedWidth: number;
         resolvedHeight: number;
         updateTheme(): void;

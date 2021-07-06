@@ -19,7 +19,9 @@ export function MakeCompositeValidator<U, V>(validators: UnknownValidatorList, d
             try {
                 callback(nextValue as V);
             }
-            catch(_e) {}
+            catch(e) {
+                console.warn('Exception in CompositeValidator callback:', e);
+            }
         }
 
         return [true, nextValue as V];
