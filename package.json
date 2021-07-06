@@ -28,7 +28,6 @@
     "typescript": "^4.3.2"
   },
   "dependencies": {
-    "ts-mixer": "^5.4.1",
     "tslib": "^2.2.0"
   }
 }

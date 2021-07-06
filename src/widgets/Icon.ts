@@ -137,7 +137,7 @@ export class Icon extends Clickable(BoxWidget) {
         }
     }
 
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
         if(!this.#image?.complete) {
             this.#lastSrc = null;
