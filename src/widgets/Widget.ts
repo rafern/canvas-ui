@@ -6,18 +6,15 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-// FIXME I would make this class abstract, but that would prevent Mixins from
-// working (see issue TypeScript#29653)
+// XXX This class is abstract, but marking it abstract breaks mixins. Instead,
+//     abstract methods are marked astract and TS errors are ignored
 export class Widget {
     // Is this widget enabled? If it isn't, it will act as if it didn't exist
-    #enabled = true;
+    private _enabled = true;
     // Widget will only be drawed if dirty is true
-    dirty = true;
+    protected dirty = true;
     // Widget will only have the layout resolved if layoutDirty is true
-    layoutDirty = true;
+    protected layoutDirty = true;
     // Widget will have its background cleared on draw if needsClear is true
     readonly needsClear: boolean;
     // Widget will get targetted events even if the target is not itself if it
@@ -143,7 +140,7 @@ export class Widget {
     // capturer is returned, else, null. By default, this will do nothing and
     // capture the event if it is targetted at itself or is a PointerEvent.
     // Should be overridden
-    handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null { // XXX protected
+    protected handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null {
         if(event.target === this ||
            ((event instanceof PointerEvent) && (event.target === null)))
             return this;
@@ -158,7 +155,7 @@ export class Widget {
     // the handleEvent method is called and its result is returned. Must not be
     // overridden
     dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null {
-        if(!this.#enabled)
+        if(!this._enabled)
             return null;
 
         if(event.target === null) {
@@ -175,12 +172,12 @@ export class Widget {
 
     // Does nothing by default. Should be implemented
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    handlePreLayoutUpdate(_root: Root): void {}
+    protected handlePreLayoutUpdate(_root: Root): void {}
 
     // Called before the layout is resolved. Calls its handler if widget is
     // enabled. Must not be implemented
     preLayoutUpdate(root: Root): void {
-        if(this.#enabled)
+        if(this._enabled)
             this.handlePreLayoutUpdate(root);
     }
 
@@ -188,31 +185,26 @@ export class Widget {
     // first stage, which fills the layout context with what the Widget wants in
     // terms of layout, while handleResolveLayout is called on the second stage,
     // where the final width and height are resolved. Must be implemented
-    // XXX I would make these abstract, but Typescript has a bug that prevents
-    // Mixins from being constrained to abstract classes, so this would prevent
-    // Mixins like Clickable from existing. See issue #29653:
-    // https://github.com/microsoft/TypeScript/issues/29653
-    handlePopulateLayout(_layoutCtx: LayoutContext): void { // XXX protected
-        throw new Error('Widget.handlePopulateLayout not implemented');
-    }
-
-    handleResolveLayout(_layoutCtx: LayoutContext): void { // XXX protected
-        throw new Error('Widget.handleResolveLayout not implemented');
-    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: "Abstract methods can only appear within an abstract class"
+    abstract protected handlePopulateLayout(layoutCtx: LayoutContext): void;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore: "Abstract methods can only appear within an abstract class"
+    abstract protected handleResolveLayout(layoutCtx: LayoutContext): void;
 
     // Wrappers for handlePopulateLayout and handleResolveLayout. Only call
     // callbacks when the layout is dirty, except when populating. If the layout
     // was dirty and is resolved, the dirty flag is also set (used for
     // painting). Must not be overridden
     populateLayout(layoutCtx: LayoutContext): void {
-        if(!this.#enabled)
+        if(!this._enabled)
             return;
 
         this.handlePopulateLayout(layoutCtx);
     }
 
     resolveLayout(layoutCtx: LayoutContext): void {
-        if(!this.#enabled) {
+        if(!this._enabled) {
             this.resolvedWidth = 0;
             this.resolvedHeight = 0;
             this.layoutDirty = false;
@@ -235,7 +227,7 @@ export class Widget {
     // Forcefully mark layout as dirty. If overridden, original must be called.
     // Call only when absolutely neccessary, such as in a resize
     forceLayoutDirty(): void {
-        if(this.#enabled) {
+        if(this._enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
@@ -243,17 +235,17 @@ export class Widget {
 
     // Does nothing by default. Should be implemented
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    handlePostLayoutUpdate(_root: Root): void {}
+    protected handlePostLayoutUpdate(_root: Root): void {}
 
     // Called after the layout is resolved. Calls its handler if widget is
-    // enabled. Must not be implemented
+    // enabled. Must not be overridden
     postLayoutUpdate(root: Root): void {
-        if(this.#enabled)
+        if(this._enabled)
             this.handlePostLayoutUpdate(root);
     }
 
     // Paiting utility: clears background of widget. Should not be overridden
-    clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
         ctx.fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
@@ -269,7 +261,7 @@ export class Widget {
     // Widget painting callback. By default does nothing. Do painting logic here
     // when extending Widget. Should be overridden
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void {} // XXX protected
+    protected handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void {}
 
     // Called when the Widget is dirty and the Root is being rendered. Does
     // nothing if dirty flag is not set, else, clears the background if
@@ -281,7 +273,7 @@ export class Widget {
 
         //console.log('Painted', this.constructor.name);
 
-        if(this.#enabled) {
+        if(this._enabled) {
             if(this.needsClear)
                 this.clear(x, y, width, height, ctx);
 
