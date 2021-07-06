@@ -6,7 +6,7 @@ export declare class Theme {
     properties: Map<ThemeProperty, unknown>;
     fallback: Theme | null;
     constructor(properties: Map<ThemeProperty, unknown>, fallback?: Theme | null);
-    getProperty(themeProperty: ThemeProperty): unknown;
+    private getProperty;
     getString(themeProperty: ThemeProperty): string;
     getNumber(themeProperty: ThemeProperty): number;
     getPadding(themeProperty: ThemeProperty): Padding;

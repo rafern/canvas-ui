@@ -4,12 +4,13 @@ import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
 export declare class FilledButton extends Button {
-    #private;
-    updateBackground(): void;
+    private backgroundProperty;
+    private _forced;
+    private updateBackground;
     set forced(forced: boolean);
     get forced(): boolean;
-    setThemeOverride(theme: Theme | null): void;
-    inheritTheme(theme: Theme): void;
-    handlePostLayoutUpdate(root: Root): void;
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null;
+    protected setThemeOverride(theme: Theme | null): void;
+    protected inheritTheme(theme: Theme): void;
+    protected handlePostLayoutUpdate(root: Root): void;
+    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null;
 }

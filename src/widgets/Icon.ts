@@ -1,23 +1,21 @@
-import { /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import { Clickable } from '../mixins/Clickable';
+import { BoxLayout } from '../mixins/BoxLayout';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
-import { BoxWidget } from './BoxWidget';
 import type { Widget } from './Widget';
 
 export type IconCallback = () => void;
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class Icon extends Clickable(BoxWidget) {
+export class Icon extends Mixin(BoxLayout, Clickable) {
     // The current image used by the icon
-    #image: HTMLImageElement;
+    private _image: HTMLImageElement;
     // The last source that the current image was using
-    #lastSrc: string | null = null;
+    private lastSrc: string | null = null;
     // The image rotation in radians
-    #rotation = 0;
+    private _rotation = 0;
     // The callback for clicking this Icon. If null, the Icon is not clickable
     callback: IconCallback | null;
     // The view box of this Icon, if the image used for the icon is a
@@ -37,7 +35,7 @@ export class Icon extends Clickable(BoxWidget) {
         // events
         super(themeOverride, true, false);
 
-        this.#image = image;
+        this._image = image;
         this.width = width;
         this.height = height;
         this.viewBox = viewBox;
@@ -45,11 +43,11 @@ export class Icon extends Clickable(BoxWidget) {
         this.updateDimensions();
     }
 
-    updateDimensions(): void { // XXX private
+    private updateDimensions(): void {
         let wantedWidth = this.width;
         if(wantedWidth === null) {
             if(this.viewBox === null)
-                wantedWidth = this.#image.width;
+                wantedWidth = this._image.width;
             else
                 wantedWidth = this.viewBox[2];
         }
@@ -60,7 +58,7 @@ export class Icon extends Clickable(BoxWidget) {
         let wantedHeight = this.height;
         if(wantedHeight === null) {
             if(this.viewBox === null)
-                wantedHeight = this.#image.height;
+                wantedHeight = this._image.height;
             else
                 wantedHeight = this.viewBox[3];
         }
@@ -70,13 +68,13 @@ export class Icon extends Clickable(BoxWidget) {
     }
 
     setImage(image: HTMLImageElement): void {
-        if(image !== this.#image) {
-            this.#image = image;
-            this.#lastSrc = null;
+        if(image !== this._image) {
+            this._image = image;
+            this.lastSrc = null;
         }
     }
 
-    getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
+    private getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find icon rectangle, preserving aspect ratio
         const widthRatio = width / this.boxWidth;
         const heightRatio = height / this.boxHeight;
@@ -92,7 +90,7 @@ export class Icon extends Clickable(BoxWidget) {
         ];
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // If there is a callback, check if icon was pressed and do callback if
         // so
         if(this.callback === null) {
@@ -115,37 +113,37 @@ export class Icon extends Clickable(BoxWidget) {
         return this;
     }
 
-    override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePreLayoutUpdate(_root: Root): void {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet
-        if(this.#image?.src !== this.#lastSrc && this.#image?.complete)
-            this.dirty = true;
+        if(this._image?.src !== this.lastSrc && this._image?.complete)
+            this._dirty = true;
 
         // Update dimensions, in case the width or height were changed
         this.updateDimensions();
     }
 
     get rotation(): number {
-        return this.#rotation;
+        return this._rotation;
     }
 
     set rotation(rotation: number) {
-        if(rotation !== this.#rotation) {
-            this.#rotation = rotation;
-            this.dirty = true;
+        if(rotation !== this._rotation) {
+            this._rotation = rotation;
+            this._dirty = true;
         }
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
-        if(!this.#image?.complete) {
-            this.#lastSrc = null;
+        if(!this._image?.complete) {
+            this.lastSrc = null;
             return;
         }
 
         // Mark as not needing to be drawn by setting the source
-        this.#lastSrc = this.#image.src;
+        this.lastSrc = this._image.src;
         const [dx, dy, dw, dh] = this.getIconRect(x, y, width, height);
         let tdx = dx, tdy = dy;
 
@@ -160,9 +158,9 @@ export class Icon extends Clickable(BoxWidget) {
 
         // Draw image, with viewBox if it is not null
         if(this.viewBox === null)
-            ctx.drawImage(this.#image, tdx, tdy, dw, dh);
+            ctx.drawImage(this._image, tdx, tdy, dw, dh);
         else
-            ctx.drawImage(this.#image, ...this.viewBox, tdx, tdy, dw, dh);
+            ctx.drawImage(this._image, ...this.viewBox, tdx, tdy, dw, dh);
 
         // Revert transformation
         if(this.rotation !== 0)

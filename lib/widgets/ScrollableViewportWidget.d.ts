@@ -3,7 +3,9 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 export declare class ScrollableViewportWidget extends PassthroughWidget {
-    #private;
+    private viewport;
+    private vScroll;
+    private hScroll;
     vScrollHide: boolean;
     hScrollHide: boolean;
     constructor(child: Widget, vertical: boolean, mainBasisTied?: boolean, crossBasisTied?: boolean, themeOverride?: Theme | null);

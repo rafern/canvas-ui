@@ -1,29 +1,26 @@
-import { /* tree-shaking no-side-effects-when-called */ Parent } from '../mixins/Parent';
-import { SingleParent } from '../interfaces/SingleParent';
+import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import type { LayoutContext } from '../core/LayoutContext';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import type { LayoutContext } from './LayoutContext';
+import { SingleParent } from '../mixins/SingleParent';
+import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import { Viewport } from '../core/Viewport';
-import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
+export class ViewportWidget extends Mixin(SingleParent, FlexLayout) {
     // Is the ViewportWidget's basis tied to the child's?
     mainBasisTied: boolean;
     crossBasisTied: boolean;
     // The actual viewport object
-    #viewport: Viewport;
+    private viewport: Viewport;
     // Offset of child. Positional events will take this into account, as well
     // as rendering. Useful for implementing scrolling.
-    #offset: [number, number] = [0, 0];
+    private _offset: [number, number] = [0, 0];
     // Layout context used by child. Can be null if no layout update required
-    #lastChildLayoutCtx: LayoutContext | null = null;
+    private lastChildLayoutCtx: LayoutContext | null = null;
     // Max dimensions. Not the effective max dimensions; those are set every
     // frame and are the viewport's max dimensions
     maxDimensions: [number, number] = [0, 0];
@@ -36,41 +33,34 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
     constructor(child: Widget, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
         // Viewport clears its own background, has a single child and propagates
         // events
-        super(themeOverride, false, true);
+        super(child, themeOverride, false, true);
 
-        this.#viewport = new Viewport();
+        this.viewport = new Viewport();
         this.mainBasisTied = mainBasisTied;
         this.crossBasisTied = crossBasisTied;
-        this.children.push(child);
     }
 
     get canvasDimensions(): [number, number] {
-        return this.#viewport.canvasDimensions;
+        return this.viewport.canvasDimensions;
     }
 
     get offset(): [number, number] {
-        return [...this.#offset];
+        return [...this._offset];
     }
 
     set offset(offset: [number, number]) {
-        if(this.#offset[0] !== offset[0] || this.#offset[1] !== offset[1]) {
-            this.#offset = offset;
-            this.dirty = true;
+        if(this._offset[0] !== offset[0] || this._offset[1] !== offset[1]) {
+            this._offset = offset;
+            this._dirty = true;
         }
     }
 
-    get dimensions(): [number, number] {
-        // Get child's width and height
-        const child = this.getChild();
-        return [child.resolvedWidth, child.resolvedHeight];
-    }
-
-    getChildMainBasis(vertical: boolean): number { // XXX private
-        if(this.#lastChildLayoutCtx === null)
+    private getChildMainBasis(vertical: boolean): number {
+        if(this.lastChildLayoutCtx === null)
             return 0;
 
-        const innerLength = vertical ? this.#lastChildLayoutCtx.vBasis
-                                     : this.#lastChildLayoutCtx.hBasis;
+        const innerLength = vertical ? this.lastChildLayoutCtx.vBasis
+                                     : this.lastChildLayoutCtx.hBasis;
 
         if(isNaN(innerLength))
             return 0;
@@ -78,27 +68,27 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return innerLength;
     }
 
-    getChildCrossBasis(vertical: boolean): number { // XXX private
+    private getChildCrossBasis(vertical: boolean): number {
         return this.getChildMainBasis(!vertical);
     }
 
-    getMaxMainBasis(vertical: boolean): number { // XXX private
+    private getMaxMainBasis(vertical: boolean): number {
         return vertical ? this.maxDimensions[1]
                         : this.maxDimensions[0];
     }
 
-    getMaxCrossBasis(vertical: boolean): number { // XXX private
+    private getMaxCrossBasis(vertical: boolean): number {
         return this.getMaxMainBasis(!vertical);
     }
 
-    override handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null {
         // Ignore events with no position and no target
         if(event.target === null && !(event instanceof PointerEvent))
             return null;
 
         // Drop event if it is a positional event with no target outside the
         // child's viewport
-        const [innerWidth, innerHeight] = this.dimensions;
+        const [innerWidth, innerHeight] = this.child.dimensions;
         const vpl = this.offset[0];
         const vpr = vpl + innerWidth;
         const vpt = this.offset[1];
@@ -119,10 +109,10 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         }
 
         // Dispatch event to child
-        return this.getChild().dispatchEvent(event, vpr - vpl, vpb - vpt, root);
+        return this.child.dispatchEvent(event, vpr - vpl, vpb - vpt, root);
     }
 
-    override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(root: Root): void {
         // If verticality was changed, update it and set dirty. Assume that null
         // verticality means that it's vertical as Viewports don't inherit
         // verticality
@@ -130,11 +120,10 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         if(currentVerticality === null)
             currentVerticality = true;
 
-        const child = this.getChild();
-        if(currentVerticality !== this.#viewport.vertical) {
-            this.#viewport.vertical = currentVerticality;
-            child.layoutDirty = true;
-            child.dirty = true;
+        const child = this.child;
+        if(currentVerticality !== this.viewport.vertical) {
+            this.viewport.vertical = currentVerticality;
+            child.forceLayoutDirty();
         }
 
         // Pre-layout update child
@@ -142,12 +131,12 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         // If child's layout is dirty set self's layout as dirty
         if(child.layoutDirty)
-            this.layoutDirty = true;
+            this._layoutDirty = true;
         else
             return;
 
         // Populate child's layout context
-        this.#lastChildLayoutCtx = this.#viewport.populateChildsLayout(child);
+        this.lastChildLayoutCtx = this.viewport.populateChildsLayout(child);
 
         // If a basis is tied, update internal basis to be equal to child's
         // basis
@@ -176,33 +165,33 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             this.internalCrossBasis = 0;
     }
 
-    override handlePostLayoutUpdate(root: Root): void {
-        const child = this.getChild();
+    protected override handlePostLayoutUpdate(root: Root): void {
+        const child = this.child;
 
-        if(this.#lastChildLayoutCtx !== null) {
+        if(this.lastChildLayoutCtx !== null) {
             // Update viewport's max dimensions taking into account whether a
             // basis is tied
             let [newMaxWidth, newMaxHeight] = [...this.maxDimensions];
 
-            if(this.#viewport.vertical ? this.crossBasisTied : this.mainBasisTied) {
+            if(this.viewport.vertical ? this.crossBasisTied : this.mainBasisTied) {
                 if(newMaxWidth === 0 || this.resolvedWidth < newMaxWidth)
                     newMaxWidth = this.resolvedWidth;
             }
 
-            if(this.#viewport.vertical ? this.mainBasisTied : this.crossBasisTied) {
+            if(this.viewport.vertical ? this.mainBasisTied : this.crossBasisTied) {
                 if(newMaxHeight === 0 || this.resolvedHeight < newMaxHeight)
                     newMaxHeight = this.resolvedHeight;
             }
 
-            this.#viewport.maxDimensions = [newMaxWidth, newMaxHeight];
-            this.#lastChildLayoutCtx.maxWidth = newMaxWidth;
-            this.#lastChildLayoutCtx.maxHeight = newMaxHeight;
+            this.viewport.maxDimensions = [newMaxWidth, newMaxHeight];
+            this.lastChildLayoutCtx.maxWidth = newMaxWidth;
+            this.lastChildLayoutCtx.maxHeight = newMaxHeight;
 
             // Resolve child's layout
-            this.#viewport.resolveChildsLayout(child, this.#lastChildLayoutCtx);
+            this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
 
             // Clear layout context, no longer needed
-            this.#lastChildLayoutCtx = null;
+            this.lastChildLayoutCtx = null;
         }
 
         // Post-layout update child
@@ -210,14 +199,14 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         // If child is dirty, set self as dirty
         if(child.dirty)
-            this.dirty = true;
+            this._dirty = true;
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         this.lastViewportDims = [width, height];
 
         // Paint child to viewport's canvas
-        this.#viewport.paintToCanvas(this.getChild());
+        this.viewport.paintToCanvas(this.child);
 
         // Save context
         ctx.save();
@@ -235,7 +224,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         ctx.fill(drawAreaClip);
 
         // Draw canvas with offset in passed context
-        const [innerWidth, innerHeight] = this.dimensions;
+        const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
         const xDst = x + xOffset;
         const yDst = y + yOffset;
@@ -243,7 +232,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         offsetClip.rect(Math.trunc(xDst), Math.trunc(yDst), Math.ceil(innerWidth), Math.ceil(innerHeight));
         ctx.clip(offsetClip);
         ctx.drawImage(
-            this.#viewport.canvas,
+            this.viewport.canvas,
             0,
             0,
             innerWidth,
@@ -256,9 +245,5 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
 
         // Restore context
         ctx.restore();
-    }
-
-    getChild(): Widget {
-        return this.children[0];
     }
 }

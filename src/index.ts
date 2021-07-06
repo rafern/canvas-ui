@@ -4,6 +4,7 @@ export * from './core/DOMRoot';
 export * from './core/DOMVirtualKeyboardRoot';
 export * from './core/Driver';
 export * from './core/FocusType';
+export * from './core/LayoutContext';
 export * from './core/PointerStyleHandler';
 export * from './core/Root';
 export * from './core/TextInputHandler';
@@ -27,13 +28,14 @@ export * from './events/PointerRelease';
 // helpers
 export * from './helpers/roundToPower2';
 export * from './helpers/measureTextDims';
-// interfaces
-export * from './interfaces/MultiParent';
-export * from './interfaces/SingleParent';
 // mixins
+export * from './mixins/BoxLayout';
 export * from './mixins/Clickable';
+export * from './mixins/FlexLayout';
 export * from './mixins/Labelable';
+export * from './mixins/MultiParent';
 export * from './mixins/Parent';
+export * from './mixins/SingleParent';
 export * from './mixins/Variable';
 // templates
 export * from './templates/VirtualKeyboard/BackspaceKey';
@@ -67,22 +69,16 @@ export * from './validators/IntValidator';
 export * from './validators/RangeValidator';
 // widgets
 export * from './widgets/BaseContainer';
-export * from './widgets/BoxWidget';
 export * from './widgets/Button';
 export * from './widgets/Checkbox';
 export * from './widgets/Container';
 export * from './widgets/FilledButton';
-export * from './widgets/FlexWidget';
 export * from './widgets/Icon';
 export * from './widgets/Label';
-export * from './widgets/LayoutContext';
 export * from './widgets/MultiContainer';
-export * from './widgets/MultiParentWidget';
-export * from './widgets/ParentWidget';
 export * from './widgets/PassthroughWidget';
 export * from './widgets/ScrollableViewportWidget';
 export * from './widgets/ScrollBar';
-export * from './widgets/SingleParentWidget';
 export * from './widgets/Slider';
 export * from './widgets/Spacing';
 export * from './widgets/TextInput';

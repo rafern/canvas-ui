@@ -1,38 +1,47 @@
-import type { GConstructor } from './GConstructor';
+import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
 
-// A widget with child(ren)
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-// FIXME the return type of mixin constructors is a mess, so linter is disabled
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function Parent<TBase extends GConstructor<Widget>>(Base: TBase) {
-    return class Parent extends Base {
-        // This widget's children
-        readonly children: Array<Widget> = []; // XXX protected
+export class Parent extends Widget {
+    // This widget's children
+    protected readonly _children: Array<Widget> = [];
 
-        // Called when the inherited theme of this Widget is updated. Can be
-        // overridden. Propagates to children.
-        override updateInheritedTheme(): void { // XXX protected
-            const inheritedTheme = this.getInheritedTheme();
-            if(inheritedTheme !== null) {
+    constructor(children: Array<Widget>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
+        super(themeOverride, needsClear, propagatesEvents);
+
+        for(const child of children)
+            this._children.push(child);
+    }
+
+    // Called when the inherited theme of this Widget is updated. Can be
+    // overridden. Propagates to children.
+    protected override updateInheritedTheme(): void {
+        const inheritedTheme = this.inheritedTheme;
+        if(inheritedTheme !== null) {
+            for(const child of this.children)
+                child.inheritedTheme = inheritedTheme;
+        }
+    }
+
+    // Forcefully mark layout as dirty. If overridden, original must be called.
+    // Call only when absolutely neccessary, such as in a resize. Propagates to
+    // children
+    override forceLayoutDirty(): void {
+        super.forceLayoutDirty();
+        if(this.enabled) {
+            if(this._children !== null) {
                 for(const child of this.children)
-                    child.inheritTheme(inheritedTheme);
+                    child.forceLayoutDirty();
             }
         }
+    }
 
-        // Forcefully mark layout as dirty. If overridden, original must be called.
-        // Call only when absolutely neccessary, such as in a resize. Propagates to
-        // children
-        override forceLayoutDirty(): void {
-            super.forceLayoutDirty();
-            if(this.enabled) {
-                if(this.children !== null) {
-                    for(const child of this.children)
-                        child.forceLayoutDirty();
-                }
-            }
-        }
-    };
+    // Get amount of children
+    get childCount(): number {
+        return this._children.length;
+    }
+
+    // Get iterator for children
+    get children(): Iterable<Widget> {
+        return this._children.values();
+    }
 }

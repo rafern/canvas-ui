@@ -1,16 +1,13 @@
-import { MultiParentWidget } from '../widgets/MultiParentWidget';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import { LayoutContext } from './LayoutContext';
+import { LayoutContext } from '../core/LayoutContext';
+import { MultiParent } from '../mixins/MultiParent';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class MultiContainer extends MultiParentWidget {
+export class MultiContainer extends MultiParent {
     // Is the container's whole background dirty (including spacing)?
     #backgroundDirty = true;
     // Is this container vertical?
@@ -23,12 +20,12 @@ export class MultiContainer extends MultiParentWidget {
     constructor(vertical: boolean, themeOverride: Theme | null = null) {
         // MultiContainers clear their own background, have children and
         // propagate events
-        super(themeOverride, false, true, []);
+        super([], themeOverride, false, true);
 
         this.#vertical = vertical;
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // Find which widget the event should go to
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         for(const child of this.children) {
@@ -36,7 +33,7 @@ export class MultiContainer extends MultiParentWidget {
             if(!child.enabled)
                 continue;
 
-            const length = this.#vertical ? child.resolvedHeight : child.resolvedWidth;
+            const length = this.#vertical ? child.dimensions[1] : child.dimensions[0];
 
             // Dispatch to this widget
             let childWidth, childHeight;
@@ -68,7 +65,7 @@ export class MultiContainer extends MultiParentWidget {
         return null;
     }
 
-    override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update children
         let forceLayout = false;
         for(const child of this.children) {
@@ -84,23 +81,23 @@ export class MultiContainer extends MultiParentWidget {
             this.forceLayoutDirty();
     }
 
-    override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update children
         for(const child of this.children) {
             child.postLayoutUpdate(root);
 
             // If child is dirty, set own dirty flag
             if(child.dirty)
-                this.dirty = true;
+                this._dirty = true;
         }
     }
 
-    forceLayoutDirty(): void {
+    override forceLayoutDirty(): void {
         this.#backgroundDirty = true;
         super.forceLayoutDirty();
     }
 
-    override handlePopulateLayout(layoutCtx: LayoutContext): void {
+    protected override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Setup context. Use inner context if verticality is different
         const usingInlineContext = (this.#vertical === layoutCtx.vertical);
         let usedContext;
@@ -116,7 +113,7 @@ export class MultiContainer extends MultiParentWidget {
             child.populateLayout(usedContext);
 
         // Add spacing to main basis
-        const childrenCount = this.children.length;
+        const childrenCount = this.childCount;
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         if(childrenCount > 1 && spacing > 0) {
             const totalSpacing = spacing * (childrenCount - 1);
@@ -137,7 +134,7 @@ export class MultiContainer extends MultiParentWidget {
             layoutCtx.maxHeight = usedContext.vBasis;
     }
 
-    override handleResolveLayout(layoutCtx: LayoutContext): void {
+    protected override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Update inner context's maximum dimensions. It's the outer maximum
         // dimensions
         const usingInlineContext = (this.#vertical === layoutCtx.vertical);
@@ -169,13 +166,11 @@ export class MultiContainer extends MultiParentWidget {
             count++;
 
             // Resolve child
-            const oldWidth = child.resolvedWidth;
-            const oldHeight = child.resolvedHeight;
+            const [oldWidth, oldHeight] = child.dimensions;
 
             child.resolveLayout(usedContext);
 
-            const newWidth = child.resolvedWidth;
-            const newHeight = child.resolvedHeight;
+            const [newWidth, newHeight] = child.dimensions;
 
             if(isNaN(newWidth) || isNaN(newHeight) || newWidth < 0 || newHeight < 0) {
                 console.error('Child resolved to invalid dimensions:', newWidth, newHeight, child);
@@ -227,7 +222,7 @@ export class MultiContainer extends MultiParentWidget {
         }
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if never cleared before and there is spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         if(this.#backgroundDirty && spacing > 0)
@@ -250,7 +245,7 @@ export class MultiContainer extends MultiParentWidget {
 
             if(this.#vertical) {
                 childW = width;
-                childH = child.resolvedHeight;
+                childH = child.dimensions[1];
 
                 if(y + childH > mainAxisMax) {
                     tooBig = true;
@@ -258,7 +253,7 @@ export class MultiContainer extends MultiParentWidget {
                 }
             }
             else {
-                childW = child.resolvedWidth;
+                childW = child.dimensions[0];
                 childH = height;
 
                 if(x + childW > mainAxisMax) {

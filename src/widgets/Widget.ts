@@ -1,20 +1,21 @@
+import type { LayoutContext } from '../core/LayoutContext';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import type { LayoutContext } from './LayoutContext';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
 // XXX This class is abstract, but marking it abstract breaks mixins. Instead,
-//     abstract methods are marked astract and TS errors are ignored
+//     abstract methods are not marked astract and instead are implemented to
+//     immediately throw an exception
 export class Widget {
     // Is this widget enabled? If it isn't, it will act as if it didn't exist
     private _enabled = true;
     // Widget will only be drawed if dirty is true
-    protected dirty = true;
+    protected _dirty = true;
     // Widget will only have the layout resolved if layoutDirty is true
-    protected layoutDirty = true;
+    protected _layoutDirty = true;
     // Widget will have its background cleared on draw if needsClear is true
     readonly needsClear: boolean;
     // Widget will get targetted events even if the target is not itself if it
@@ -65,19 +66,19 @@ export class Widget {
         return this._theme;
     }
 
-    // Is this widget enabled?
-    get enabled(): boolean {
-        return this._enabled;
-    }
-
     // Enable or disable this widget
     set enabled(enabled: boolean) {
         if(enabled === this._enabled)
             return;
 
         this._enabled = enabled;
-        this.dirty = enabled;
-        this.layoutDirty = true;
+        this._dirty = enabled;
+        this._layoutDirty = true;
+    }
+
+    // Is this widget enabled?
+    get enabled(): boolean {
+        return this._enabled;
     }
 
     // Set the theme override of this widget. Should not be overridden, but can
@@ -91,8 +92,8 @@ export class Widget {
         this.updateTheme();
 
         if(this._enabled) {
-            this.layoutDirty = true;
-            this.dirty = true;
+            this._layoutDirty = true;
+            this._dirty = true;
         }
     }
 
@@ -118,8 +119,8 @@ export class Widget {
         this.updateTheme();
 
         if(this._enabled) {
-            this.layoutDirty = true;
-            this.dirty = true;
+            this._layoutDirty = true;
+            this._dirty = true;
         }
     }
 
@@ -131,6 +132,21 @@ export class Widget {
     // Get the theme override of this widget
     get inheritedTheme(): Theme | null {
         return this._inheritedTheme;
+    }
+
+    // Get the resolved dimensions
+    get dimensions(): [number, number] {
+        return [this.resolvedWidth, this.resolvedHeight];
+    }
+
+    // Check if the widget is dirty
+    get dirty(): boolean {
+        return this._dirty;
+    }
+
+    // Check if the widget's layout is dirty
+    get layoutDirty(): boolean {
+        return this._layoutDirty;
     }
 
     // Called when a focus type owned by this Widget has been dropped. Does
@@ -187,12 +203,13 @@ export class Widget {
     // first stage, which fills the layout context with what the Widget wants in
     // terms of layout, while handleResolveLayout is called on the second stage,
     // where the final width and height are resolved. Must be implemented
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: "Abstract methods can only appear within an abstract class"
-    abstract protected handlePopulateLayout(layoutCtx: LayoutContext): void;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore: "Abstract methods can only appear within an abstract class"
-    abstract protected handleResolveLayout(layoutCtx: LayoutContext): void;
+    protected handlePopulateLayout(_layoutCtx: LayoutContext): void {
+        throw 'Widget.handlePopulateLayout must be implemented';
+    }
+
+    protected handleResolveLayout(_layoutCtx: LayoutContext): void {
+        throw 'Widget.handleResolveLayout must be implemented';
+    }
 
     // Wrappers for handlePopulateLayout and handleResolveLayout. Only call
     // callbacks when the layout is dirty, except when populating. If the layout
@@ -209,18 +226,18 @@ export class Widget {
         if(!this._enabled) {
             this.resolvedWidth = 0;
             this.resolvedHeight = 0;
-            this.layoutDirty = false;
+            this._layoutDirty = false;
             return;
         }
 
-        if(this.layoutDirty) {
+        if(this._layoutDirty) {
             const oldWidth = this.resolvedWidth;
             const oldHeight = this.resolvedHeight;
             this.handleResolveLayout(layoutCtx);
-            this.layoutDirty = false;
+            this._layoutDirty = false;
 
             if(oldWidth !== this.resolvedWidth || oldHeight !== this.resolvedHeight)
-                this.dirty = true;
+                this._dirty = true;
 
             //console.log('Resolved layout of', this.constructor.name);
         }
@@ -229,10 +246,8 @@ export class Widget {
     // Forcefully mark layout as dirty. If overridden, original must be called.
     // Call only when absolutely neccessary, such as in a resize
     forceLayoutDirty(): void {
-        if(this._enabled) {
-            this.layoutDirty = true;
-            this.dirty = true;
-        }
+        this._layoutDirty = true;
+        this._dirty = true;
     }
 
     // Does nothing by default. Should be implemented
@@ -270,7 +285,7 @@ export class Widget {
     // needsClear is true, calls the handlePainting method and unsets the dirty
     // flag. Must not be overridden
     paint(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
-        if(!this.dirty)
+        if(!this._dirty)
             return;
 
         //console.log('Painted', this.constructor.name);
@@ -284,6 +299,6 @@ export class Widget {
             ctx.restore();
         }
 
-        this.dirty = false;
+        this._dirty = false;
     }
 }

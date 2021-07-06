@@ -20,7 +20,7 @@ export function DefaultTextInputHandler(initialInput: string): Promise<string> {
 
         function enterChecker(event: KeyboardEvent) {
             // Check if enter key was pressed
-            if(event.keyCode == 13) {
+            if(event.key == 'Enter') {
                 event.preventDefault();
                 okHandler();
             }

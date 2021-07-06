@@ -1,4 +1,5 @@
-import { /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import { Clickable } from '../mixins/Clickable';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -7,10 +8,7 @@ import type { Widget } from './Widget';
 
 export type ButtonCallback = () => void;
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class Button extends Clickable(BaseContainer) {
+export class Button extends Mixin(BaseContainer, Clickable) {
     // The callback for clicking this button. If null, the button is not
     // clickable but will still absorb events;
     callback: ButtonCallback | null;
@@ -21,7 +19,7 @@ export class Button extends Clickable(BaseContainer) {
         this.callback = callback;
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // Abort if no callback, but still absorb events
         if(this.callback === null) {
             this.clickStateChanged = false;

@@ -1,151 +1,143 @@
 import { measureTextDims } from '../helpers/measureTextDims';
-import type { GConstructor } from './GConstructor';
-import type { Widget } from '../widgets/Widget';
+import { Widget } from '../widgets/Widget';
 
 // A Labelable is a widget that contains labels (text). It has utilities for
 // measuring text dimensions and painting text
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-// FIXME the return type of mixin constructors is a mess, so linter is disabled
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function Labelable<TBase extends GConstructor<Widget>>(Base: TBase) {
-    return class Labelable extends Base {
-        // Label variables
-        _text = ''; // XXX protected
-        _font = ''; // XXX protected
-        _minLabelWidth = 0; // XXX protected
-        _minLabelAscent = 0; // XXX protected
-        _minLabelDescent = 0; // XXX protected
+export class Labelable extends Widget {
+    // Label variables
+    protected _text = '';
+    protected _font = '';
+    protected _minLabelWidth = 0;
+    protected _minLabelAscent = 0;
+    protected _minLabelDescent = 0;
 
-        // Text dimensions corrected for minimum dimensions
-        #labelWidth = 0;
-        #labelAscent = 0;
-        #labelDescent = 0;
+    // Text dimensions corrected for minimum dimensions
+    private _labelWidth = 0;
+    private _labelAscent = 0;
+    private _labelDescent = 0;
 
-        // Does the label need to be re-measured?
-        #labelDirty = true;
+    // Does the label need to be re-measured?
+    private labelDirty = true;
 
-        updateTextDims(): void { // XXX private
-            // Abort if not dirty
-            if(!this.#labelDirty)
-                return;
+    private updateTextDims(): void {
+        // Abort if not dirty
+        if(!this.labelDirty)
+            return;
 
-            // Measure text dimensions
-            const [ width, ascent, descent ] = measureTextDims(this._text, this._font);
+        // Measure text dimensions
+        const [ width, ascent, descent ] = measureTextDims(this._text, this._font);
 
-            this.#labelWidth = Math.max(width, this._minLabelWidth);
-            this.#labelAscent = Math.max(ascent, this._minLabelAscent);
-            this.#labelDescent = Math.max(descent, this._minLabelDescent);
+        this._labelWidth = Math.max(width, this._minLabelWidth);
+        this._labelAscent = Math.max(ascent, this._minLabelAscent);
+        this._labelDescent = Math.max(descent, this._minLabelDescent);
 
-            // Mark as clean
-            this.#labelDirty = false;
+        // Mark as clean
+        this.labelDirty = false;
+    }
+
+    protected findOffsetFromIndex(index: number): number {
+        // If index is 0 or an invalid negative number, it is at the beginning
+        if(index <= 0)
+            return 0;
+
+        // Cut text up to given index and measure its length, this length is the
+        // offset at the given index
+        return measureTextDims(this._text.substring(0, index), this._font)[0];
+    }
+
+    protected findIndexOffsetFromOffset(offset: number): [number, number] {
+        // If offset is before first character, default to index 0
+        if(offset <= 0)
+            return [0, 0];
+
+        // TODO This has linear complexity, use a binary search instead
+        // For each character, find index at which offset is smaller than
+        // total length minus half length of current character
+        let index = 0, buffer = '', lastLength = 0;
+        for(const char of this._text) {
+            // Add next character to buffer
+            buffer += char;
+
+            // Measure text buffer length and critical offset, which is text
+            // buffer's length minus length of half character, equivalent to
+            // average between last length and current length
+            const bufferLength = measureTextDims(buffer, this._font)[0];
+            // bl - (bl - ll) / 2 = bl - bl / 2 + ll / 2 = (bl + ll) / 2
+            const criticalOffset = (bufferLength + lastLength) / 2;
+
+            // If offset is before critical offset, this is the index we're
+            // looking for
+            if(offset < criticalOffset)
+                return [index, lastLength];
+
+            // Update index and last length
+            index++;
+            lastLength = bufferLength;
         }
 
-        findOffsetFromIndex(index: number): number { // XXX protected
-            // If index is 0 or an invalid negative number, it is at the beginning
-            if(index <= 0)
-                return 0;
+        // Offset is after full length of text, return index after end
+        return [this._text.length, lastLength];
+    }
 
-            // Cut text up to given index and measure its length, this length is the
-            // offset at the given index
-            return measureTextDims(this._text.substring(0, index), this._font)[0];
+    private setLabelDirty(): void {
+        this.labelDirty = true;
+        this._layoutDirty = true;
+    }
+
+    get labelWidth(): number {
+        this.updateTextDims();
+        return this._labelWidth;
+    }
+
+    get labelAscent(): number {
+        this.updateTextDims();
+        return this._labelAscent;
+    }
+
+    get labelDescent(): number {
+        this.updateTextDims();
+        return this._labelDescent;
+    }
+
+    get labelHeight(): number {
+        this.updateTextDims();
+        return this._labelAscent + this._labelDescent;
+    }
+
+    protected setText(text: string): void {
+        if(this._text !== text) {
+            this._text = text;
+            this._dirty = true;
+            this.setLabelDirty();
         }
+    }
 
-        findIndexOffsetFromOffset(offset: number): [number, number] { // XXX protected
-            // If offset is before first character, default to index 0
-            if(offset <= 0)
-                return [0, 0];
-
-            // TODO This has linear complexity, use a binary search instead
-            // For each character, find index at which offset is smaller than
-            // total length minus half length of current character
-            let index = 0, buffer = '', lastLength = 0;
-            for(const char of this._text) {
-                // Add next character to buffer
-                buffer += char;
-
-                // Measure text buffer length and critical offset, which is text
-                // buffer's length minus length of half character, equivalent to
-                // average between last length and current length
-                const bufferLength = measureTextDims(buffer, this._font)[0];
-                // bl - (bl - ll) / 2 = bl - bl / 2 + ll / 2 = (bl + ll) / 2
-                const criticalOffset = (bufferLength + lastLength) / 2;
-
-                // If offset is before critical offset, this is the index we're
-                // looking for
-                if(offset < criticalOffset)
-                    return [index, lastLength];
-
-                // Update index and last length
-                index++;
-                lastLength = bufferLength;
-            }
-
-            // Offset is after full length of text, return index after end
-            return [this._text.length, lastLength];
+    protected setFont(font: string): void {
+        if(this._font !== font) {
+            this._font = font;
+            this._dirty = true;
+            this.setLabelDirty();
         }
+    }
 
-        setLabelDirty(): void { // XXX private
-            this.#labelDirty = true;
-            this.layoutDirty = true;
+    protected setMinLabelWidth(minLabelWidth: number): void {
+        if(this._minLabelWidth !== minLabelWidth) {
+            this._minLabelWidth = minLabelWidth;
+            this.setLabelDirty();
         }
+    }
 
-        get labelWidth() {
-            this.updateTextDims();
-            return this.#labelWidth;
+    protected setMinLabelAscent(minLabelAscent: number): void {
+        if(this._minLabelAscent !== minLabelAscent) {
+            this._minLabelAscent = minLabelAscent;
+            this.setLabelDirty();
         }
+    }
 
-        get labelAscent() {
-            this.updateTextDims();
-            return this.#labelAscent;
+    protected setMinLabelDescent(minLabelDescent: number): void {
+        if(this._minLabelDescent !== minLabelDescent) {
+            this._minLabelDescent = minLabelDescent;
+            this.setLabelDirty();
         }
-
-        get labelDescent() {
-            this.updateTextDims();
-            return this.#labelDescent;
-        }
-
-        get labelHeight() {
-            this.updateTextDims();
-            return this.#labelAscent + this.#labelDescent;
-        }
-
-        setText(text: string) { // XXX protected
-            if(this._text !== text) {
-                this._text = text;
-                this.dirty = true;
-                this.setLabelDirty();
-            }
-        }
-
-        setFont(font: string) { // XXX protected
-            if(this._font !== font) {
-                this._font = font;
-                this.dirty = true;
-                this.setLabelDirty();
-            }
-        }
-
-        setMinLabelWidth(minLabelWidth: number) { // XXX protected
-            if(this._minLabelWidth !== minLabelWidth) {
-                this._minLabelWidth = minLabelWidth;
-                this.setLabelDirty();
-            }
-        }
-
-        setMinLabelAscent(minLabelAscent: number) { // XXX protected
-            if(this._minLabelAscent !== minLabelAscent) {
-                this._minLabelAscent = minLabelAscent;
-                this.setLabelDirty();
-            }
-        }
-
-        setMinLabelDescent(minLabelDescent: number) { // XXX protected
-            if(this._minLabelDescent !== minLabelDescent) {
-                this._minLabelDescent = minLabelDescent;
-                this.setLabelDirty();
-            }
-        }
-    };
+    }
 }

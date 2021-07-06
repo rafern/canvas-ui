@@ -1,7 +1,8 @@
-import { LayoutContext } from '../widgets/LayoutContext';
 import type { Widget } from '../widgets/Widget';
+import { LayoutContext } from './LayoutContext';
 export declare class Viewport {
-    #private;
+    private _maxDimensions;
+    private forceLayout;
     readonly canvas: HTMLCanvasElement;
     readonly context: CanvasRenderingContext2D;
     vertical: boolean;

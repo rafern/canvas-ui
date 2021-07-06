@@ -1,15 +1,16 @@
-import { /* tree-shaking no-side-effects-when-called */ Variable, VariableCallback } from '../mixins/Variable';
-import { /* tree-shaking no-side-effects-when-called */ Clickable, ClickState } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import { Variable, VariableCallback } from '../mixins/Variable';
+import { Clickable, ClickState } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { BoxLayout } from '../mixins/BoxLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
-import { BoxWidget } from './BoxWidget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxWidget, false)) {
+// XXX using this because Mixin can't use Variable<boolean>
+class BooleanVariable extends Variable<boolean> {}
+
+export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
     constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
@@ -20,7 +21,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         this.setValue(initialValue, false);
     }
 
-    getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
+    private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find actual length
         const length = this.theme.getSize(ThemeProperty.CheckboxLength);
         const actualLength = Math.min(length, width, height);
@@ -32,7 +33,7 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         return [ bx, bx + actualLength, by, by + actualLength ];
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
         // Check if checkbox rectangle was pressed and swap value if so
         const clickArea = this.getBoxRect(0, 0, width, height);
         this.handleClickEvent(event, root, clickArea);
@@ -42,14 +43,14 @@ export class Checkbox extends Clickable(Variable<boolean, typeof BoxWidget>(BoxW
         return this;
     }
 
-    override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePreLayoutUpdate(_root: Root): void {
         // Update box width and height from checkbox length
         const length = this.theme.getSize(ThemeProperty.CheckboxLength);
         this.boxWidth = length;
         this.boxHeight = length;
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Find checkbox rect
         const [bx, br, by, _bb] = this.getBoxRect(x, y, width, height);
         const actualLength = br - bx;

@@ -1,7 +1,7 @@
+import { FlexLayout } from '../mixins/FlexLayout';
 import type { Theme } from '../theme/Theme';
-import { FlexWidget } from './FlexWidget';
 
-export class Spacing extends FlexWidget {
+export class Spacing extends FlexLayout {
     // Expands using a flex sizing policy, but only fills things with blank
     // space. However, since this will always try to expand the UI, it might not
     // be the best solution for, for example, aligning simple components inside

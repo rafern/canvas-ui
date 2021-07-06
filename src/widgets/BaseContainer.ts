@@ -1,64 +1,61 @@
-import { SingleParentWidget } from '../widgets/SingleParentWidget';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import { LayoutContext } from './LayoutContext';
+import { SingleParent } from '../mixins/SingleParent';
+import { LayoutContext } from '../core/LayoutContext';
 import { Alignment } from '../theme/Alignment';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class BaseContainer extends SingleParentWidget {
+export class BaseContainer extends SingleParent {
     // Is the container's whole background dirty (including padding)?
-    backgroundDirty = true; // XXX protected
+    protected _backgroundDirty = true;
 
     // A widget that contains a single child widget with padding and alignment
     // and may or may not propagate events to that child
     constructor(child: Widget, propagateEvents: boolean, themeOverride: Theme | null = null) {
         // Containers clear their own background, have a child and propagate
         // events
-        super(themeOverride, false, propagateEvents, child);
+        super(child, themeOverride, false, propagateEvents);
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // Correct pointer events for padding
         const [vpl, vpr, vpt, vpb] = this.calcChildViewport(0, 0, width, height);
         if(event instanceof PointerEvent)
             event = event.correctOffset(vpl, vpt);
 
         // Dispatch event to child
-        return this.getChild().dispatchEvent(event, vpr - vpl, vpb - vpt, root);
+        return this.child.dispatchEvent(event, vpr - vpl, vpb - vpt, root);
     }
 
-    override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update child
-        const child = this.getChild();
+        const child = this.child;
         child.preLayoutUpdate(root);
 
         // If child's layout is dirty, set self's layout as dirty
         if(child.layoutDirty)
-            this.layoutDirty = true;
+            this._layoutDirty = true;
     }
 
-    override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update child
-        const child = this.getChild();
+        const child = this.child;
         child.postLayoutUpdate(root);
 
         // If child is dirty, set self as dirty
         if(child.dirty)
-            this.dirty = true;
+            this._dirty = true;
     }
 
-    forceLayoutDirty(): void {
-        this.backgroundDirty = true;
+    override forceLayoutDirty(): void {
+        this._backgroundDirty = true;
         super.forceLayoutDirty();
     }
 
-    override handlePopulateLayout(layoutCtx: LayoutContext): void {
+    protected override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Setup temporary context with reduced maxWidth or maxHeight
         // XXX This is extremely hacky, but it's the only way I could think of
         // doing padding properly
@@ -76,7 +73,7 @@ export class BaseContainer extends SingleParentWidget {
         const tempContext = new LayoutContext(maxWidth, maxHeight, layoutCtx.vertical);
 
         // Populate temporary context with what child wants
-        this.getChild().populateLayout(tempContext);
+        this.child.populateLayout(tempContext);
 
         // Add container box to outer context's basis, with padding
         layoutCtx.addBasis(tempContext.hBasis + hPadding, tempContext.vBasis + vPadding);
@@ -94,7 +91,7 @@ export class BaseContainer extends SingleParentWidget {
             layoutCtx.maxHeight = candidateMaxHeight;
     }
 
-    override handleResolveLayout(layoutCtx: LayoutContext): void {
+    protected override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Setup temporary context again by cloning outer context, but use a
         // reduced maxWidth or maxHeight
         const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
@@ -113,11 +110,10 @@ export class BaseContainer extends SingleParentWidget {
         tempCtx.maxHeight = maxHeight;
 
         // Resolve layout of child with temporary context
-        const child = this.getChild();
+        const child = this.child;
         child.resolveLayout(tempCtx);
 
-        const newWidth = child.resolvedWidth;
-        const newHeight = child.resolvedHeight;
+        const [newWidth, newHeight] = child.dimensions;
         if(isNaN(newWidth) || isNaN(newHeight) || newWidth < 0 || newHeight < 0) {
             console.error('Child resolved to invalid dimensions:', newWidth, newHeight, child);
             throw new Error('Child resolved to invalid dimensions');
@@ -135,22 +131,22 @@ export class BaseContainer extends SingleParentWidget {
 
         // If dimensions changed, mark background as dirty
         if(oldWidth !== this.resolvedWidth || oldHeight !== this.resolvedHeight)
-            this.backgroundDirty = true;
+            this._backgroundDirty = true;
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Clear background if it is dirty
-        if(this.backgroundDirty)
+        if(this._backgroundDirty)
             this.clear(x, y, width, height, ctx);
 
-        this.backgroundDirty = false;
+        this._backgroundDirty = false;
 
         // Paint child
         const [left, right, top, bottom] = this.calcChildViewport(x, y, width, height);
-        this.getChild().paint(left, top, right - left, bottom - top, ctx);
+        this.child.paint(left, top, right - left, bottom - top, ctx);
     }
 
-    calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
+    private calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Calculate viewport of the child (rectangle where the child widget is
         // drawed) given the position and dimensions of the container, and by
         // using its resolved dimensions, padding and alignment

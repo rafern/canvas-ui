@@ -1,21 +1,21 @@
-import { /* tree-shaking no-side-effects-when-called */ Variable, VariableCallback } from '../mixins/Variable';
-import { ClickState, /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import { Variable, VariableCallback } from '../mixins/Variable';
+import { ClickState, Clickable } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
-import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWidget, 0)) {
+class NumberVariable extends Variable<number> {}
+
+export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
     // The slider's minimum and maximum
-    #minValue: number;
-    #maxValue: number;
+    private minValue: number;
+    private maxValue: number;
     // The increments in which the slider changes value. If 0, there are no
     // fixed increments
-    #snapIncrement: number;
+    private snapIncrement: number;
 
     constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
         // Sliders need a clear background, have no children and don't propagate
@@ -24,9 +24,9 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
 
         this.callback = callback;
         this.setValue(initialValue, false);
-        this.#minValue = minValue;
-        this.#maxValue = maxValue;
-        this.#snapIncrement = snapIncrement;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        this.snapIncrement = snapIncrement;
 
         // Sliders are always horizontal
         this.vertical = false;
@@ -38,7 +38,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         return [ x, x + width, sy, sy + thickness ];
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Handle click event
         this.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
 
@@ -48,17 +48,17 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
             && this.pointerPos !== null) {
             // Interpolate value
             const percent = this.pointerPos[0];
-            let newValue = this.#minValue + percent * (this.#maxValue - this.#minValue);
+            let newValue = this.minValue + percent * (this.maxValue - this.minValue);
 
             // Snap to increments if needed
-            if(this.#snapIncrement > 0)
-                newValue = Math.round(newValue / this.#snapIncrement) * this.#snapIncrement;
+            if(this.snapIncrement > 0)
+                newValue = Math.round(newValue / this.snapIncrement) * this.snapIncrement;
 
             // Clamp value
-            if(newValue < this.#minValue)
-                newValue = this.#minValue;
-            else if(newValue > this.#maxValue)
-                newValue = this.#maxValue;
+            if(newValue < this.minValue)
+                newValue = this.minValue;
+            else if(newValue > this.maxValue)
+                newValue = this.maxValue;
 
             // Update value
             this.value = newValue;
@@ -67,19 +67,19 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         // Always flag as dirty if the click state changed (so glow colour takes
         // effect)
         if(this.clickStateChanged)
-            this.dirty = true;
+            this._dirty = true;
 
         return this;
     }
 
-    override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePreLayoutUpdate(_root: Root): void {
         // Use theme settings for flex ratio and basis
         this.flexRatio = this.theme.getSize(ThemeProperty.SliderFlexRatio);
         this.mainBasis = this.theme.getSize(ThemeProperty.SliderMainBasis);
         this.crossBasis = this.theme.getSize(ThemeProperty.SliderCrossBasis);
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find slider fill percentage
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];
@@ -88,7 +88,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         if(value === null)
             value = 0;
 
-        const percent = (value - this.#minValue) / (this.#maxValue - this.#minValue);
+        const percent = (value - this.minValue) / (this.maxValue - this.minValue);
 
         // Draw filled part of slider
         // Use accent colour if hovering or holding

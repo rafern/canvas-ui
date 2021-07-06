@@ -9,37 +9,34 @@ import { Leave } from '../events/Leave';
 import type { Driver } from './Driver';
 import { Viewport } from './Viewport';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
 export class Root {
     // The Root's child; the parent Widget of all widgets
     readonly child: Widget;
     // The internal viewport. Manages drawing
-    viewport: Viewport; // XXX protected
+    protected viewport: Viewport;
     // The list of drivers
-    drivers: Set<Driver> = new Set(); // XXX protected
+    protected drivers: Set<Driver> = new Set();
     // Is the Root enabled?
-    _enabled = true; // XXX protected
+    protected _enabled = true;
     // Pointer style and last pointer style
     pointerStyle = 'default';
-    _currentPointerStyle = 'default'; // XXX protected
+    protected _currentPointerStyle = 'default';
     // Pointer style handler, decides how to show the given pointer style
     pointerStyleHandler: PointerStyleHandler | null;
     // Current component foci (event targets for each focus type)
-    _foci: Map<FocusType, Widget | null> = new Map([ // XXX protected
+    protected _foci: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
     // Last component foci capturers
-    _fociCapturers: Map<FocusType, Widget | null> = new Map([ // XXX protected
+    protected _fociCapturers: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
     // Handler for mobile-friendly text input
     textInputHandler: TextInputHandler | null = null;
     // Is the mobile-friendly text input in use?
-    _mobileTextInUse = false; // XXX protected
+    protected _mobileTextInUse = false;
 
     // A Root is the parent of all widgets, but not a widget itself. It contains
     // a single child and manages dimensions and input handling
@@ -47,7 +44,7 @@ export class Root {
         this.viewport = new Viewport();
         this.child = child;
         this.pointerStyleHandler = pointerStyleHandler;
-        this.child.inheritTheme(theme);
+        this.child.inheritedTheme = theme;
     }
 
     get maxDimensions(): [number, number] {
@@ -63,10 +60,7 @@ export class Root {
     }
 
     get dimensions(): [number, number] {
-        return [
-            this.child.resolvedWidth,
-            this.child.resolvedHeight,
-        ];
+        return this.child.dimensions;
     }
 
     get enabled(): boolean {
@@ -238,8 +232,7 @@ export class Root {
         const currentFocus = this._foci.get(focusType);
         if(currentFocus !== null && typeof currentFocus !== 'undefined') {
             //console.log('Dropped focus type', focusType, 'from widget', currentFocus);
-            if(currentFocus.onFocusDropped)
-                currentFocus.onFocusDropped(focusType, this);
+            currentFocus.onFocusDropped(focusType, this);
 
             this._foci.set(focusType, null);
             for(const driver of this.drivers)

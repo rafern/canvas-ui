@@ -6,60 +6,57 @@ import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
 // A Button, but overrides the canvas colour; normally a Button itself is
 // invisible, but not a FilledButton
 export class FilledButton extends Button {
     // Theme property used for overriding the canvas colour
-    #backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
+    private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
     // Is the button currently forced down?
-    #forced = false;
+    private _forced = false;
 
-    updateBackground(): void { // XXX private
-        if(this.#forced)
-            this.#backgroundProperty = ThemeProperty.PrimaryFill;
+    private updateBackground(): void {
+        if(this._forced)
+            this.backgroundProperty = ThemeProperty.PrimaryFill;
         else {
             switch(this.clickState) {
             case ClickState.Hold:
-                this.#backgroundProperty = ThemeProperty.AccentFill;
+                this.backgroundProperty = ThemeProperty.AccentFill;
                 break;
             case ClickState.Hover:
-                this.#backgroundProperty = ThemeProperty.BackgroundGlowFill;
+                this.backgroundProperty = ThemeProperty.BackgroundGlowFill;
                 break;
             default:
-                this.#backgroundProperty = ThemeProperty.BackgroundFill;
+                this.backgroundProperty = ThemeProperty.BackgroundFill;
                 break;
             }
         }
 
         // Update inherited theme
-        const overrideValue = this.theme.getFill(this.#backgroundProperty);
+        const overrideValue = this.theme.getFill(this.backgroundProperty);
         const modifiedTheme = new Theme(
             new Map([
                 [ThemeProperty.CanvasFill, overrideValue],
             ]),
-            this.getInheritedTheme()?.fallback,
+            this.inheritedTheme?.fallback,
         );
 
         super.inheritTheme(modifiedTheme);
-        this.backgroundDirty = true;
+        this._backgroundDirty = true;
     }
 
     set forced(forced: boolean) {
-        if(forced !== this.#forced) {
-            this.#forced = forced;
+        if(forced !== this._forced) {
+            this._forced = forced;
             this.updateBackground();
         }
     }
 
     get forced(): boolean {
-        return this.#forced;
+        return this._forced;
     }
 
-    override setThemeOverride(theme: Theme | null): void {
-        this.backgroundDirty = true;
+    protected override setThemeOverride(theme: Theme | null): void {
+        this._backgroundDirty = true;
 
         if(theme === null)
             return super.setThemeOverride(null);
@@ -68,7 +65,7 @@ export class FilledButton extends Button {
         // background and use that as the theme override. If override doesn't
         // have the wanted property, it will throw an exception.
         try {
-            const overrideValue = theme.getFill(this.#backgroundProperty);
+            const overrideValue = theme.getFill(this.backgroundProperty);
             const modifiedTheme = new Theme(new Map([
                 [ThemeProperty.CanvasFill, overrideValue],
             ]));
@@ -80,11 +77,11 @@ export class FilledButton extends Button {
         }
     }
 
-    override inheritTheme(theme: Theme): void {
-        this.backgroundDirty = true;
+    protected override inheritTheme(theme: Theme): void {
+        this._backgroundDirty = true;
 
         // Create theme with fallback to new theme with overridden canvas colour
-        const canvasValue = theme.getFill(this.#backgroundProperty);
+        const canvasValue = theme.getFill(this.backgroundProperty);
         const modifiedTheme = new Theme(
             new Map([
                 [ThemeProperty.CanvasFill, canvasValue],
@@ -95,14 +92,14 @@ export class FilledButton extends Button {
         super.inheritTheme(modifiedTheme);
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(root: Root): void {
         super.handlePostLayoutUpdate(root);
 
-        if(this.dirty)
-            this.backgroundDirty = true;
+        if(this._dirty)
+            this._backgroundDirty = true;
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         const capturer = super.handleEvent(event, width, height, root);
 
         if(this.clickStateChanged)

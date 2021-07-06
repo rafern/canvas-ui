@@ -1,16 +1,14 @@
-import { LayoutContext } from '../widgets/LayoutContext';
 import roundToPower2 from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
+import { LayoutContext } from './LayoutContext';
 
-// FIXME protected members were turned public due to a declaration emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
 export class Viewport {
     // Maximum size of viewport. This is passed as a hint to children.  If an
     // axis' maximum length is 0, then there is no maximum for that axis, but it
     // also means that flex components won't expand in that axis.
-    #maxDimensions: [number, number] = [0, 0];
+    private _maxDimensions: [number, number] = [0, 0];
     // Does the viewport need to force-mark layout as dirty?
-    #forceLayout = false;
+    private forceLayout = false;
 
     // The internal canvas
     readonly canvas: HTMLCanvasElement;
@@ -39,22 +37,22 @@ export class Viewport {
     }
 
     set maxDimensions(maxDimensions: [number, number]) {
-        if(this.#maxDimensions[0] !== maxDimensions[0] ||
-           this.#maxDimensions[1] !== maxDimensions[1]) {
-            this.#maxDimensions[0] = maxDimensions[0];
-            this.#maxDimensions[1] = maxDimensions[1];
-            this.#forceLayout = true;
+        if(this._maxDimensions[0] !== maxDimensions[0] ||
+           this._maxDimensions[1] !== maxDimensions[1]) {
+            this._maxDimensions[0] = maxDimensions[0];
+            this._maxDimensions[1] = maxDimensions[1];
+            this.forceLayout = true;
         }
     }
 
     get maxDimensions(): [number, number] {
-        return [this.#maxDimensions[0], this.#maxDimensions[1]];
+        return [this._maxDimensions[0], this._maxDimensions[1]];
     }
 
     populateChildsLayout(child: Widget): LayoutContext | null {
         // Force layout resolution
-        if(this.#forceLayout) {
-            this.#forceLayout = false;
+        if(this.forceLayout) {
+            this.forceLayout = false;
             child.forceLayoutDirty();
         }
 
@@ -64,7 +62,7 @@ export class Viewport {
 
         // Populate layout context
         const layoutCtx = new LayoutContext(
-            this.#maxDimensions[0], this.#maxDimensions[1], this.vertical,
+            this._maxDimensions[0], this._maxDimensions[1], this.vertical,
         );
 
         child.populateLayout(layoutCtx);
@@ -77,13 +75,12 @@ export class Viewport {
             return false;
 
         // Resolve child's layout
-        const oldWidth = child.resolvedWidth;
-        const oldHeight = child.resolvedHeight;
+        const [oldWidth, oldHeight] = child.dimensions;
 
         child.resolveLayout(layoutCtx);
 
-        const newWidth = child.resolvedWidth;
-        const newHeight = child.resolvedHeight;
+        const [newWidth, newHeight] = child.dimensions;
+
         let childResized = false;
         if(newWidth !== oldWidth || newHeight !== oldHeight) {
             // Re-scale canvas if neccessary.
@@ -116,7 +113,7 @@ export class Viewport {
         // Paint child
         const wasDirty = child.dirty;
         if(wasDirty)
-            child.paint(0, 0, child.resolvedWidth, child.resolvedHeight, this.context);
+            child.paint(0, 0, ...child.dimensions, this.context);
 
         return wasDirty;
     }

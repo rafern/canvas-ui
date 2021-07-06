@@ -1,64 +1,60 @@
-import { SingleParentWidget } from '../widgets/SingleParentWidget';
-import type { LayoutContext } from './LayoutContext';
+import type { LayoutContext } from '../core/LayoutContext';
+import { SingleParent } from '../mixins/SingleParent';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
-export class PassthroughWidget extends SingleParentWidget {
+export class PassthroughWidget extends SingleParent {
     // A widget that contains a single child and acts as if it doesn't exist,
     // passing all events through to its child. Useful for Widgets that are only
     // used for logic
     constructor(child: Widget, themeOverride: Theme | null = null) {
         // Passthrough widgets dont need a clear background, have a child and
         // propagate events
-        super(themeOverride, false, true, child);
+        super(child, themeOverride, false, true);
     }
 
-    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // Dispatch event to child
-        return this.getChild().dispatchEvent(event, width, height, root);
+        return this.child.dispatchEvent(event, width, height, root);
     }
 
-    override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update child
-        const child = this.getChild();
+        const child = this.child;
         child.preLayoutUpdate(root);
 
         // If child's layout is dirty, set self's layout as dirty
         if(child.layoutDirty)
-            this.layoutDirty = true;
+            this._layoutDirty = true;
     }
 
-    override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update child
-        const child = this.getChild();
+        const child = this.child;
         child.postLayoutUpdate(root);
 
         // If child is dirty, set self as dirty
         if(child.dirty)
-            this.dirty = true;
+            this._dirty = true;
     }
 
-    override handlePopulateLayout(layoutCtx: LayoutContext): void {
+    protected override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Populate child's layout
-        this.getChild().populateLayout(layoutCtx);
+        this.child.populateLayout(layoutCtx);
     }
 
-    override handleResolveLayout(layoutCtx: LayoutContext): void {
+    protected override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Resolve child's layout and set own resolved dimensions to be equal to
         // the child's
-        const child = this.getChild();
+        const child = this.child;
         child.resolveLayout(layoutCtx);
-        this.resolvedWidth = child.resolvedWidth;
-        this.resolvedHeight = child.resolvedHeight;
+        [this.resolvedWidth, this.resolvedHeight] = child.dimensions;
     }
 
-    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Paint child
-        this.getChild().paint(x, y, width, height, ctx);
+        this.child.paint(x, y, width, height, ctx);
     }
 }

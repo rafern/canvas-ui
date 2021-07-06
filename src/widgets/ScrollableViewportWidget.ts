@@ -8,13 +8,10 @@ import { ScrollBar } from './ScrollBar';
 import { Row } from '../templates/Row';
 import type { Widget } from './Widget';
 
-// FIXME protected and private members were turned public due to a declaration
-// emission bug:
-// https://github.com/Microsoft/TypeScript/issues/17744
 export class ScrollableViewportWidget extends PassthroughWidget {
-    #viewport: ViewportWidget;
-    #vScroll: ScrollBar;
-    #hScroll: ScrollBar;
+    private viewport: ViewportWidget;
+    private vScroll: ScrollBar;
+    private hScroll: ScrollBar;
     // FIXME scrollbars always update one frame late because of limitations with
     // the layout system; you can only get the used width and height in the
     // update function after the widget has already drawed. this variable is
@@ -35,91 +32,92 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         const row = Row(themeOverride).add([viewport, vScroll]);
         const hScroll = new ScrollBar(null, 0, 0, 0, themeOverride);
         hScroll.vertical = false;
-        const grid = this.getChild() as MultiContainer;
+        const grid = this.child as MultiContainer;
         grid.add([row, hScroll]);
 
-        this.#viewport = viewport;
-        this.#vScroll = vScroll;
-        this.#hScroll = hScroll;
+        this.viewport = viewport;
+        this.vScroll = vScroll;
+        this.hScroll = hScroll;
         this.vScrollHide = false;
         this.hScrollHide = false;
 
         hScroll.callback = (newScroll: number | null) => {
             if(newScroll === null)
                 newScroll = 0;
-            this.#viewport.offset = [-newScroll, this.#viewport.offset[1]];
+            this.viewport.offset = [-newScroll, this.viewport.offset[1]];
         };
         vScroll.callback = (newScroll: number | null) => {
             if(newScroll === null)
                 newScroll = 0;
-            this.#viewport.offset = [this.#viewport.offset[0], -newScroll];
+            this.viewport.offset = [this.viewport.offset[0], -newScroll];
         };
     }
 
     get maxDimensions(): [number, number] {
-        return this.#viewport.maxDimensions;
+        return this.viewport.maxDimensions;
     }
 
     set maxDimensions(maxDimensions: [number, number]) {
-        this.#viewport.maxDimensions = maxDimensions;
+        this.viewport.maxDimensions = maxDimensions;
     }
 
     get flexRatio(): number {
-        return this.#viewport.flexRatio;
+        return this.viewport.flexRatio;
     }
 
     set flexRatio(flexRatio: number) {
-        this.#viewport.flexRatio = flexRatio;
+        this.viewport.flexRatio = flexRatio;
     }
 
     get mainBasis(): number {
-        return this.#viewport.mainBasis;
+        return this.viewport.mainBasis;
     }
 
     set mainBasis(mainBasis: number) {
-        this.#viewport.mainBasis = mainBasis;
+        this.viewport.mainBasis = mainBasis;
     }
 
     get crossBasis(): number {
-        return this.#viewport.crossBasis;
+        return this.viewport.crossBasis;
     }
 
     set crossBasis(crossBasis: number) {
-        this.#viewport.crossBasis = crossBasis;
+        this.viewport.crossBasis = crossBasis;
     }
 
     get containedChild(): Widget {
-        return this.#viewport.getChild();
+        return this.viewport.child;
     }
 
     resetScroll(): void {
-        this.#hScroll.value = 0;
-        this.#vScroll.value = 0;
+        this.hScroll.value = 0;
+        this.vScroll.value = 0;
     }
 
     override handlePreLayoutUpdate(root: Root): void {
-        const [innerW, innerH] = this.#viewport.dimensions;
-        if(this.#viewport.resolvedWidth < innerW && !this.hScrollHide)
-            this.#hScroll.enable();
+        const [innerW, innerH] = this.viewport.child.dimensions;
+        const [outerW, outerH] = this.viewport.dimensions;
+        if(outerW < innerW && !this.hScrollHide)
+            this.hScroll.enabled = true;
         else {
-            this.#hScroll.value = 0;
-            this.#hScroll.disable();
+            this.hScroll.value = 0;
+            this.hScroll.enabled = false;
         }
 
-        if(this.#viewport.resolvedHeight < innerH && !this.vScrollHide)
-            this.#vScroll.enable();
+        if(outerH < innerH && !this.vScrollHide)
+            this.vScroll.enabled = true;
         else {
-            this.#vScroll.value = 0;
-            this.#vScroll.disable();
+            this.vScroll.value = 0;
+            this.vScroll.enabled = false;
         }
 
         super.handlePreLayoutUpdate(root);
     }
 
     override handlePostLayoutUpdate(root: Root): void {
-        [this.#hScroll.end, this.#vScroll.end] = this.#viewport.dimensions;
-        this.#hScroll.barLength = this.#viewport.lastViewportDims[0];
-        this.#vScroll.barLength = this.#viewport.lastViewportDims[1];
+        [this.hScroll.end, this.vScroll.end] = this.viewport.child.dimensions;
+        this.hScroll.barLength = this.viewport.lastViewportDims[0];
+        this.vScroll.barLength = this.viewport.lastViewportDims[1];
 
         super.handlePostLayoutUpdate(root);
     }

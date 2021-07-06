@@ -11,15 +11,15 @@ export class VirtualKeyboardRoot extends Root {
     // disables itself if not needed, but updateVisibility must be called every
     // frame for this behaviour to occur
 
-    readonly #keyboardDriver: KeyboardDriver;
+    private readonly keyboardDriver: KeyboardDriver;
 
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), pointerStyleHandler, theme);
-        this.#keyboardDriver = keyboardDriver;
+        this.keyboardDriver = keyboardDriver;
     }
 
     updateVisibility(): void {
         // Update visibility of root by enabling/disabling it
-        this.enabled = this.#keyboardDriver.getFocusedRoot() !== null;
+        this.enabled = this.keyboardDriver.getFocusedRoot() !== null;
     }
 }
