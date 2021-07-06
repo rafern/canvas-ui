@@ -24,111 +24,113 @@ export class Widget {
     // theme will be the inherited theme, else, it will be the theme override
     // with the inherited theme as the fallback. The fallback of the theme
     // override will be ignored and replaced
-    #themeOverride: Theme | null;
+    private _themeOverride: Theme | null;
     // The current theme in use by the Widget
-    #theme: Theme | null = null;
+    private _theme: Theme | null = null;
     // The inherited theme
-    #inheritedTheme: Theme | null = null;
+    private _inheritedTheme: Theme | null = null;
     // The resolved width and height
-    resolvedWidth = 0;
-    resolvedHeight = 0;
+    protected resolvedWidth = 0;
+    protected resolvedHeight = 0;
 
     // Constructor
     constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
         this.needsClear = needsClear;
         this.propagatesEvents = propagatesEvents;
-        this.#themeOverride = themeOverride;
+        this._themeOverride = themeOverride;
     }
 
     // Called when the inherited theme of this Widget is updated. Can be
     // overridden. Does nothing by default
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    updateInheritedTheme(): void {} // XXX protected
+    protected updateInheritedTheme(): void {}
 
     // Update this widget's current theme, with theme override set up. Must not
     // be overridden
-    updateTheme(): void { // XXX private
-        if(this.#themeOverride === null)
-            this.#theme = this.#inheritedTheme;
+    private updateTheme(): void {
+        if(this._themeOverride === null)
+            this._theme = this._inheritedTheme;
         else {
-            this.#themeOverride.fallback = this.#inheritedTheme;
-            this.#theme = this.#themeOverride;
+            this._themeOverride.fallback = this._inheritedTheme;
+            this._theme = this._themeOverride;
         }
     }
 
     // The current theme in use by the Widget. If there is no theme, throws an
     // exception
     get theme(): Theme {
-        if(this.#theme === null)
+        if(this._theme === null)
             throw 'Widget theme is not ready';
 
-        return this.#theme;
+        return this._theme;
     }
 
     // Is this widget enabled?
     get enabled(): boolean {
-        return this.#enabled;
+        return this._enabled;
     }
 
-    // Enable this widget
-    enable(): void {
-        if(!this.#enabled) {
-            this.#enabled = true;
-            this.layoutDirty = true;
-            this.dirty = true;
-        }
-    }
+    // Enable or disable this widget
+    set enabled(enabled: boolean) {
+        if(enabled === this._enabled)
+            return;
 
-    // Disable this widget
-    disable(): void {
-        if(this.#enabled) {
-            this.#enabled = false;
-            this.layoutDirty = true;
-            this.dirty = false;
-        }
+        this._enabled = enabled;
+        this.dirty = enabled;
+        this.layoutDirty = true;
     }
 
     // Set the theme override of this widget. Should not be overridden, but can
     // be. If overridden, the original method should still be called.
-    setThemeOverride(theme: Theme | null): void {
+    protected setThemeOverride(theme: Theme | null): void {
         // Abort if theme hasn't changed
-        if(this.#themeOverride === theme)
+        if(this._themeOverride === theme)
             return;
 
-        this.#themeOverride = theme;
+        this._themeOverride = theme;
         this.updateTheme();
 
-        if(this.#enabled) {
+        if(this._enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
     }
 
-    // Get the theme override of this widget. Must not be overridden
-    getThemeOverride(): Theme | null {
-        return this.#themeOverride;
+    // Set the theme override of this widget. Calls setThemeOverride
+    set themeOverride(theme: Theme | null) {
+        this.setThemeOverride(theme);
+    }
+
+    // Get the theme override of this widget
+    get themeOverride(): Theme | null {
+        return this._themeOverride;
     }
 
     // Set the inherited theme of this Widget. Should not be overridden, but can
     // be. If overridden, the original method should still be called.
-    inheritTheme(theme: Theme): void {
+    protected inheritTheme(theme: Theme | null): void {
         // Abort if theme hasn't changed
-        if(this.#inheritedTheme === theme)
+        if(this._inheritedTheme === theme)
             return;
 
-        this.#inheritedTheme = theme;
+        this._inheritedTheme = theme;
         this.updateInheritedTheme();
         this.updateTheme();
 
-        if(this.#enabled) {
+        if(this._enabled) {
             this.layoutDirty = true;
             this.dirty = true;
         }
     }
 
-    // Get the inherited theme of this widget. Must not be overridden
-    getInheritedTheme(): Theme | null {
-        return this.#inheritedTheme;
+    // Set the theme override of this widget. Calls inheritTheme
+    set inheritedTheme(theme: Theme | null) {
+        this.inheritTheme(theme);
+    }
+
+    // Get the theme override of this widget
+    get inheritedTheme(): Theme | null {
+        return this._inheritedTheme;
     }
 
     // Called when a focus type owned by this Widget has been dropped. Does
