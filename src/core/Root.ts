@@ -10,32 +10,66 @@ import type { Driver } from './Driver';
 import { Viewport } from './Viewport';
 
 export class Root {
-    // The Root's child; the parent Widget of all widgets
+    /** The Root's child; the parent Widget of all widgets in this Root */
     readonly child: Widget;
-    // The internal viewport. Manages drawing
+    /** The internal viewport. Manages drawing */
     protected viewport: Viewport;
-    // The list of drivers
+    /** The list of drivers */
     protected drivers: Set<Driver> = new Set();
-    // Is the Root enabled?
+    /**
+     * Is the Root enabled? For internal use only.
+     *
+     * See {@link enabled}
+     */
     protected _enabled = true;
-    // Pointer style and last pointer style
+    /**
+     * The pointer style this root wants. Will be set on {@link postLayoutUpdate} by {@link pointerStyleHandler} */
     pointerStyle = 'default';
+    /**
+     * The actual current pointer style.
+     *
+     * For internal use only.
+     *
+     * See {@link pointerStyle}
+     */
     protected _currentPointerStyle = 'default';
-    // Pointer style handler, decides how to show the given pointer style
+    /** Pointer style handler, decides how to show the given pointer style. Normally a function which sets the CSS cursor style of the Root's canvas */
     pointerStyleHandler: PointerStyleHandler | null;
-    // Current component foci (event targets for each focus type)
+    /**
+     * Current component foci (event targets for each focus type).
+     *
+     * For internal use only.
+     *
+     * See {@link requestFocus}, {@link dropFocus}, {@link clearFocus} and {@link getFocus}
+     */
     protected _foci: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
-    // Last component foci capturers
+    /**
+     * Last capturer of each component focus (event targets for each focus type).
+     *
+     * For internal use only.
+     *
+     * See {@link getFocusCapturer}
+     */
     protected _fociCapturers: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
     ]);
-    // Handler for mobile-friendly text input
+    /**
+     * Handler for mobile-friendly text input. If not null, widgets that need text may call this to get a string.
+     *
+     * See {@link hasMobileTextInput}, {@link usingMobileTextInput} and {@link getTextInput}
+     */
     textInputHandler: TextInputHandler | null = null;
-    // Is the mobile-friendly text input in use?
+    /**
+     * Is the mobile-friendly text input in use?
+     *
+     * For internal use only.
+     *
+     * See {@link hasMobileTextInput}, {@link usingMobileTextInput} and {@link getTextInput}
+     */
     protected _mobileTextInUse = false;
 
     // A Root is the parent of all widgets, but not a widget itself. It contains
