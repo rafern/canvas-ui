@@ -1,4 +1,4 @@
-import { defaultTheme } from '../theme/DefaultTheme';
+import { defaultTheme } from '../theme/defaultTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Theme } from '../theme/Theme';
 import { Root } from './Root';

@@ -110,7 +110,7 @@ export class FlexWidget extends Widget {
         }
     }
 
-    handlePopulateLayout(layoutCtx: LayoutContext): void {
+    override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Add basis and flex ratio to context
         const vertical = this.vertical ?? layoutCtx.vertical;
         this.lastVertical = vertical;
@@ -150,7 +150,7 @@ export class FlexWidget extends Widget {
         }
     }
 
-    handleResolveLayout(layoutCtx: LayoutContext): void {
+    override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Length is flex ratio of available space plus minimum length.
         // If the context's verticality is different, expand fully, unless the
         // flex ratio is not set.

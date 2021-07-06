@@ -1,5 +1,5 @@
-import { Variable, VariableCallback } from '../mixins/Variable';
-import { ClickState, Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Variable, VariableCallback } from '../mixins/Variable';
+import { ClickState, /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -38,7 +38,7 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         return [ x, x + width, sy, sy + thickness ];
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Handle click event
         this.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
 
@@ -72,14 +72,14 @@ export class Slider extends Clickable(Variable<number, typeof FlexWidget>(FlexWi
         return this;
     }
 
-    handlePreLayoutUpdate(_root: Root): void {
+    override handlePreLayoutUpdate(_root: Root): void {
         // Use theme settings for flex ratio and basis
         this.flexRatio = this.theme.getSize(ThemeProperty.SliderFlexRatio);
         this.mainBasis = this.theme.getSize(ThemeProperty.SliderMainBasis);
         this.crossBasis = this.theme.getSize(ThemeProperty.SliderCrossBasis);
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find slider fill percentage
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];

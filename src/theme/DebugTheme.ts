@@ -6,7 +6,7 @@ export class DebugTheme extends Theme {
         super(new Map(), fallback);
     }
 
-    getFill(themeProperty: ThemeProperty): string {
+    override getFill(themeProperty: ThemeProperty): string {
         // Always return a random fill color if the original method didn't throw
         // an exception
         void super.getFill(themeProperty);

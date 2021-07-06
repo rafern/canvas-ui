@@ -28,7 +28,7 @@ export class MultiContainer extends MultiParentWidget {
         this.#vertical = vertical;
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Find which widget the event should go to
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         for(const child of this.children) {
@@ -68,7 +68,7 @@ export class MultiContainer extends MultiParentWidget {
         return null;
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update children
         let forceLayout = false;
         for(const child of this.children) {
@@ -84,7 +84,7 @@ export class MultiContainer extends MultiParentWidget {
             this.forceLayoutDirty();
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update children
         for(const child of this.children) {
             child.postLayoutUpdate(root);
@@ -100,7 +100,7 @@ export class MultiContainer extends MultiParentWidget {
         super.forceLayoutDirty();
     }
 
-    handlePopulateLayout(layoutCtx: LayoutContext): void {
+    override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Setup context. Use inner context if verticality is different
         const usingInlineContext = (this.#vertical === layoutCtx.vertical);
         let usedContext;
@@ -137,7 +137,7 @@ export class MultiContainer extends MultiParentWidget {
             layoutCtx.maxHeight = usedContext.vBasis;
     }
 
-    handleResolveLayout(layoutCtx: LayoutContext): void {
+    override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Update inner context's maximum dimensions. It's the outer maximum
         // dimensions
         const usingInlineContext = (this.#vertical === layoutCtx.vertical);
@@ -227,7 +227,7 @@ export class MultiContainer extends MultiParentWidget {
         }
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if never cleared before and there is spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         if(this.#backgroundDirty && spacing > 0)

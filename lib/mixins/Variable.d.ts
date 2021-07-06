@@ -4,7 +4,7 @@ export declare type VariableCallback<V> = (value: V) => void;
 export declare function Variable<V, TBase extends GConstructor<Widget>>(Base: TBase, defaultValue: V): {
     new (...args: any[]): {
         callback: VariableCallback<V> | null;
-        "__#2392@#value": V;
+        "__#2349@#value": V;
         value: V;
         setValue(value: V, doCallback?: boolean): void;
         "__#2@#enabled": boolean;

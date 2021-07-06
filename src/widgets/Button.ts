@@ -1,4 +1,4 @@
-import { Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';

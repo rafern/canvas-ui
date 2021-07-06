@@ -1,8 +1,8 @@
+import { /* tree-shaking no-side-effects-when-called */ Theme } from './Theme';
 import type { Alignment2D } from './Alignment2D';
 import { ThemeProperty } from './ThemeProperty';
 import type { Padding } from './Padding';
 import { Alignment } from './Alignment';
-import { Theme } from './Theme';
 
 export const defaultTheme = new Theme(new Map<ThemeProperty, unknown>([
     [ThemeProperty.CanvasFill, 'rgba(0,0,0,0.5)'], // 50% opaque black

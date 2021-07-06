@@ -18,12 +18,12 @@ export class PassthroughWidget extends SingleParentWidget {
         super(themeOverride, false, true, child);
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Dispatch event to child
         return this.getChild().dispatchEvent(event, width, height, root);
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update child
         const child = this.getChild();
         child.preLayoutUpdate(root);
@@ -33,7 +33,7 @@ export class PassthroughWidget extends SingleParentWidget {
             this.layoutDirty = true;
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update child
         const child = this.getChild();
         child.postLayoutUpdate(root);
@@ -43,12 +43,12 @@ export class PassthroughWidget extends SingleParentWidget {
             this.dirty = true;
     }
 
-    handlePopulateLayout(layoutCtx: LayoutContext): void {
+    override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Populate child's layout
         this.getChild().populateLayout(layoutCtx);
     }
 
-    handleResolveLayout(layoutCtx: LayoutContext): void {
+    override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Resolve child's layout and set own resolved dimensions to be equal to
         // the child's
         const child = this.getChild();
@@ -57,7 +57,7 @@ export class PassthroughWidget extends SingleParentWidget {
         this.resolvedHeight = child.resolvedHeight;
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Paint child
         this.getChild().paint(x, y, width, height, ctx);
     }

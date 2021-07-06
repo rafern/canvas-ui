@@ -58,7 +58,7 @@ export class FilledButton extends Button {
         return this.#forced;
     }
 
-    setThemeOverride(theme: Theme | null): void {
+    override setThemeOverride(theme: Theme | null): void {
         this.backgroundDirty = true;
 
         if(theme === null)
@@ -80,7 +80,7 @@ export class FilledButton extends Button {
         }
     }
 
-    inheritTheme(theme: Theme): void {
+    override inheritTheme(theme: Theme): void {
         this.backgroundDirty = true;
 
         // Create theme with fallback to new theme with overridden canvas colour
@@ -102,7 +102,7 @@ export class FilledButton extends Button {
             this.backgroundDirty = true;
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         const capturer = super.handleEvent(event, width, height, root);
 
         if(this.clickStateChanged)

@@ -1,6 +1,6 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { TextInputHandler } from './TextInputHandler';
-import { defaultTheme } from '../theme/DefaultTheme';
+import { defaultTheme } from '../theme/defaultTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';

@@ -16,12 +16,12 @@ export class ThemeScope extends PassthroughWidget {
     }
 
     // Set the scope theme
-    setThemeOverride(scopeTheme: Theme): void {
+    override setThemeOverride(scopeTheme: Theme): void {
         this.#scopeTheme = scopeTheme;
         super.inheritTheme(this.#scopeTheme);
     }
 
-    inheritTheme(_theme: Theme): void {
+    override inheritTheme(_theme: Theme): void {
         // Ignore theme and use scope theme instead
         super.inheritTheme(this.#scopeTheme);
     }

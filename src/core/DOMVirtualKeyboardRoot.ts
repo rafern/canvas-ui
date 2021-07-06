@@ -1,7 +1,7 @@
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
 import { VirtualKeyboard } from '../widgets/VirtualKeyboard';
-import { defaultTheme } from '../theme/DefaultTheme';
+import { defaultTheme } from '../theme/defaultTheme';
 import type { Theme } from '../theme/Theme';
 import { DOMRoot } from './DOMRoot';
 
@@ -15,7 +15,7 @@ export class DOMVirtualKeyboardRoot extends DOMRoot {
         this.#keyboardDriver = keyboardDriver;
     }
 
-    update(): void {
+    override update(): void {
         // Update visibility of root by enabling/disabling it
         this.enabled = this.#keyboardDriver.getFocusedRoot() !== null;
 
