@@ -5,7 +5,7 @@ export type VariableCallback<V> = (value: V) => void;
 // A Variable is a Widget that contains a value of a specified type
 export class Variable<V> extends Widget {
     // The callback for when the value is changed
-    callback: VariableCallback<V> | null = null; // XXX protected
+    protected callback: VariableCallback<V> | null = null;
     // The current value
     private _value: V | undefined;
 

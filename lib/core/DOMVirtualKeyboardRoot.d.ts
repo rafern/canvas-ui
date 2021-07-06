@@ -1,4 +1,4 @@
-import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard';
+import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
 import type { Theme } from '../theme/Theme';
 import { DOMRoot } from './DOMRoot';

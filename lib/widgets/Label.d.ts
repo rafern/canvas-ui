@@ -3,7 +3,11 @@ import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 export declare type TextGetter = () => string;
-declare const Label_base: import("ts-mixer/dist/types/types").Class<any[], FlexLayout & Labelable, typeof FlexLayout & typeof Labelable, false>;
+declare const Label_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & Labelable, {
+    prototype: FlexLayout;
+} & {
+    prototype: Labelable;
+}>;
 export declare class Label extends Label_base {
     private textGetter;
     constructor(text: string | TextGetter, themeOverride?: Theme | null);

@@ -6,7 +6,13 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 declare class NumberVariable extends Variable<number> {
 }
-declare const ScrollBar_base: import("ts-mixer/dist/types/types").Class<any[], FlexLayout & Clickable & NumberVariable, typeof FlexLayout & typeof Clickable & typeof NumberVariable, false>;
+declare const ScrollBar_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & Clickable & NumberVariable, {
+    prototype: FlexLayout;
+} & {
+    prototype: Clickable;
+} & {
+    prototype: NumberVariable;
+}>;
 export declare class ScrollBar extends ScrollBar_base {
     private _end;
     private _barLength;

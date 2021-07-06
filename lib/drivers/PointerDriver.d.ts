@@ -10,8 +10,8 @@ interface PointerDriverState {
     hovering: boolean;
 }
 export declare class PointerDriver implements Driver {
-    #private;
-    _states: Map<Root, PointerDriverState>;
+    protected states: Map<Root, PointerDriverState>;
+    private nextPointerID;
     registerPointer(): number;
     unregisterPointer(pointer: number): void;
     movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing?: boolean | null): void;

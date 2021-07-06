@@ -5,7 +5,11 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 export declare type ButtonCallback = () => void;
-declare const Button_base: import("ts-mixer/dist/types/types").Class<any[], BaseContainer & Clickable, typeof BaseContainer & typeof Clickable, false>;
+declare const Button_base: import("ts-mixer/dist/types/types").Class<[child: Widget, propagateEvents: boolean, themeOverride?: Theme | null | undefined], Clickable & BaseContainer, {
+    prototype: Clickable;
+} & {
+    prototype: BaseContainer;
+}>;
 export declare class Button extends Button_base {
     callback: ButtonCallback | null;
     constructor(child: Widget, callback?: ButtonCallback | null, themeOverride?: Theme | null);

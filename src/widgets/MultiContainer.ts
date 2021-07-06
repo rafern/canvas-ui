@@ -222,7 +222,7 @@ export class MultiContainer extends MultiParent {
         }
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Clear background if never cleared before and there is spacing
         const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
         if(this.#backgroundDirty && spacing > 0)

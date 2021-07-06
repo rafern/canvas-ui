@@ -6,7 +6,13 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 declare class BooleanVariable extends Variable<boolean> {
 }
-declare const Checkbox_base: import("ts-mixer/dist/types/types").Class<any[], BoxLayout & Clickable & BooleanVariable, typeof BoxLayout & typeof Clickable & typeof BooleanVariable, false>;
+declare const Checkbox_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], BoxLayout & Clickable & BooleanVariable, {
+    prototype: BoxLayout;
+} & {
+    prototype: Clickable;
+} & {
+    prototype: BooleanVariable;
+}>;
 export declare class Checkbox extends Checkbox_base {
     constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
     private getBoxRect;

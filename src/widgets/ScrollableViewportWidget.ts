@@ -1,12 +1,12 @@
 import { PassthroughWidget } from './PassthroughWidget';
 import { ViewportWidget } from './ViewportWidget';
 import { MultiContainer } from './MultiContainer';
-import { Column } from '../templates/Column';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { ScrollBar } from './ScrollBar';
-import { Row } from '../templates/Row';
 import type { Widget } from './Widget';
+import { Column } from './Column';
+import { Row } from './Row';
 
 export class ScrollableViewportWidget extends PassthroughWidget {
     private viewport: ViewportWidget;
@@ -22,35 +22,32 @@ export class ScrollableViewportWidget extends PassthroughWidget {
     hScrollHide: boolean;
 
     constructor(child: Widget, vertical: boolean, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
-        super(Column(themeOverride), themeOverride);
+        super(new Column(themeOverride), themeOverride);
 
         // Create grid
-        const viewport = new ViewportWidget(child, mainBasisTied, crossBasisTied, themeOverride);
-        viewport.vertical = vertical;
-        const vScroll = new ScrollBar(null, 0, 0, 0, themeOverride);
-        vScroll.vertical = true;
-        const row = Row(themeOverride).add([viewport, vScroll]);
-        const hScroll = new ScrollBar(null, 0, 0, 0, themeOverride);
-        hScroll.vertical = false;
-        const grid = this.child as MultiContainer;
-        grid.add([row, hScroll]);
-
-        this.viewport = viewport;
-        this.vScroll = vScroll;
-        this.hScroll = hScroll;
+        this.viewport = new ViewportWidget(child, mainBasisTied, crossBasisTied, themeOverride);
+        this.viewport.vertical = vertical;
         this.vScrollHide = false;
         this.hScrollHide = false;
 
-        hScroll.callback = (newScroll: number | null) => {
-            if(newScroll === null)
-                newScroll = 0;
-            this.viewport.offset = [-newScroll, this.viewport.offset[1]];
-        };
-        vScroll.callback = (newScroll: number | null) => {
+        this.vScroll = new ScrollBar((newScroll: number | null) => {
             if(newScroll === null)
                 newScroll = 0;
             this.viewport.offset = [this.viewport.offset[0], -newScroll];
-        };
+        }, 0, 0, 0, themeOverride);
+
+        this.vScroll.vertical = true;
+        const row = new Row(themeOverride).add([this.viewport, this.vScroll]);
+
+        this.hScroll = new ScrollBar((newScroll: number | null) => {
+            if(newScroll === null)
+                newScroll = 0;
+            this.viewport.offset = [-newScroll, this.viewport.offset[1]];
+        }, 0, 0, 0, themeOverride);
+        this.hScroll.vertical = false;
+
+        const grid = this.child as MultiContainer;
+        grid.add([row, this.hScroll]);
     }
 
     get maxDimensions(): [number, number] {

@@ -8,7 +8,7 @@ import type { Widget } from './Widget';
 
 export type ButtonCallback = () => void;
 
-export class Button extends Mixin(BaseContainer, Clickable) {
+export class Button extends Mixin(Clickable, BaseContainer) {
     // The callback for clicking this button. If null, the button is not
     // clickable but will still absorb events;
     callback: ButtonCallback | null;

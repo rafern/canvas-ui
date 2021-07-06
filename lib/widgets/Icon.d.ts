@@ -5,7 +5,11 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 export declare type IconCallback = () => void;
-declare const Icon_base: import("ts-mixer/dist/types/types").Class<any[], BoxLayout & Clickable, typeof BoxLayout & typeof Clickable, false>;
+declare const Icon_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], BoxLayout & Clickable, {
+    prototype: BoxLayout;
+} & {
+    prototype: Clickable;
+}>;
 export declare class Icon extends Icon_base {
     private _image;
     private lastSrc;

@@ -8,7 +8,13 @@ import type { Root } from '../core/Root';
 export declare type TextValidator<V> = (text: string) => [boolean, V];
 declare class StringVariable extends Variable<string> {
 }
-declare const TextInput_base: import("ts-mixer/dist/types/types").Class<any[], FlexLayout & Labelable & StringVariable, typeof FlexLayout & typeof Labelable & typeof StringVariable, false>;
+declare const TextInput_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & Labelable & StringVariable, {
+    prototype: FlexLayout;
+} & {
+    prototype: Labelable;
+} & {
+    prototype: StringVariable;
+}>;
 export declare class TextInput<V> extends TextInput_base {
     private blinkStart;
     private blinkWasOn;

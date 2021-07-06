@@ -32,13 +32,13 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
         this.vertical = false;
     }
 
-    getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] { // XXX private
+    private getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         const thickness = Math.min(this.crossBasis, height);
         const sy = y + (height - thickness) / 2;
         return [ x, x + width, sy, sy + thickness ];
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
+    protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
         // Handle click event
         this.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
 
@@ -79,7 +79,7 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
         this.crossBasis = this.theme.getSize(ThemeProperty.SliderCrossBasis);
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Find slider fill percentage
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];

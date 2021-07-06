@@ -1,6 +1,6 @@
-import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard';
+import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
+import { VirtualKeyboard } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
-import { VirtualKeyboard } from '../widgets/VirtualKeyboard';
 import { defaultTheme } from '../theme/defaultTheme';
 import type { Theme } from '../theme/Theme';
 import { DOMRoot } from './DOMRoot';

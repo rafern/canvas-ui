@@ -16,15 +16,15 @@ interface PointerDriverState {
 }
 
 export class PointerDriver implements Driver {
-    _states: Map<Root, PointerDriverState> = new Map(); // XXX protected
-    #nextPointerID = 0;
+    protected states: Map<Root, PointerDriverState> = new Map();
+    private nextPointerID = 0;
 
     registerPointer(): number {
-        return this.#nextPointerID++;
+        return this.nextPointerID++;
     }
 
     unregisterPointer(pointer: number): void {
-        for(const [root, state] of this._states) {
+        for(const [root, state] of this.states) {
             // Queue leave event if unregistered pointer was assigned to root
             if(state.pointer === pointer) {
                 state.pointer = null;
@@ -40,7 +40,7 @@ export class PointerDriver implements Driver {
     }
 
     movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean | null = null): void {
-        const state = this._states.get(root);
+        const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
 
@@ -92,7 +92,7 @@ export class PointerDriver implements Driver {
     }
 
     leavePointer(root: Root, pointer: number): void {
-        const state = this._states.get(root);
+        const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
 
@@ -107,7 +107,7 @@ export class PointerDriver implements Driver {
 
     onEnable(root: Root): void {
         // Create new state for UI that just got enabled
-        this._states.set(root, <PointerDriverState>{
+        this.states.set(root, <PointerDriverState>{
             eventQueue: [],
             pointer: null,
             pressing: false,
@@ -120,11 +120,11 @@ export class PointerDriver implements Driver {
         root.dispatchEvent(new Leave());
 
         // Delete state for UI thats about to get disabled
-        this._states.delete(root);
+        this.states.delete(root);
     }
 
     update(root: Root): void {
-        const state = this._states.get(root);
+        const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
 

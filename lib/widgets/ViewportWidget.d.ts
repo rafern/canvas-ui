@@ -4,7 +4,11 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
-declare const ViewportWidget_base: import("ts-mixer/dist/types/types").Class<any[], SingleParent & FlexLayout, typeof SingleParent & typeof FlexLayout, false>;
+declare const ViewportWidget_base: import("ts-mixer/dist/types/types").Class<[child: Widget, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], SingleParent & FlexLayout, {
+    prototype: SingleParent;
+} & {
+    prototype: FlexLayout;
+}>;
 export declare class ViewportWidget extends ViewportWidget_base {
     mainBasisTied: boolean;
     crossBasisTied: boolean;

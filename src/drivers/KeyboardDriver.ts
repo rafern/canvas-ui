@@ -33,7 +33,7 @@ export class KeyboardDriver implements Driver {
         return eventQueue;
     }
 
-    _changeFocusedRoot(root: Root | null): void { // XXX protected
+    protected changeFocusedRoot(root: Root | null): void {
         if(this.focus !== null)
             this.focus.clearFocus(FocusType.Keyboard);
 
@@ -46,7 +46,7 @@ export class KeyboardDriver implements Driver {
     }
 
     clearFocus(): void {
-        this._changeFocusedRoot(null);
+        this.changeFocusedRoot(null);
     }
 
     keyDown(key: string): void {
@@ -84,7 +84,7 @@ export class KeyboardDriver implements Driver {
         if(this.eventQueues.has(root)) {
             this.eventQueues.delete(root);
             if(root === this.focus)
-                this._changeFocusedRoot(null);
+                this.changeFocusedRoot(null);
         }
     }
 
@@ -107,10 +107,10 @@ export class KeyboardDriver implements Driver {
 
         if(root == this.focus) {
             if(newFocus === null)
-                this._changeFocusedRoot(null);
+                this.changeFocusedRoot(null);
         }
         else if(newFocus !== null)
-            this._changeFocusedRoot(root);
+            this.changeFocusedRoot(root);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function

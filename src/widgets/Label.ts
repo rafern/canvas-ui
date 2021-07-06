@@ -63,7 +63,7 @@ export class Label extends Mixin(FlexLayout, Labelable) {
         this.internalCrossBasis = this.labelHeight;
     }
 
-    protected override handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    protected override handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void {
         ctx.font = this._font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
         ctx.fillText(this._text, x, y + height - this.labelDescent);
