@@ -56,7 +56,7 @@ declare const Checkbox_base: {
 } & {
     new (...args: any[]): {
         callback: VariableCallback<boolean> | null;
-        "__#2392@#value": boolean;
+        "__#39@#value": boolean;
         value: boolean;
         setValue(value: boolean, doCallback?: boolean): void;
         "__#2@#enabled": boolean;

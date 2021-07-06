@@ -1,14 +1,14 @@
+import { /* tree-shaking no-side-effects-when-called */ Parent } from '../mixins/Parent';
 import { SingleParent } from '../interfaces/SingleParent';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import { Viewport } from '../core/Viewport';
-import { FlexWidget } from './FlexWidget';
-import { Parent } from '../mixins/Parent';
+import type { LayoutContext } from './LayoutContext';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
+import { Viewport } from '../core/Viewport';
+import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
-import { LayoutContext } from './LayoutContext';
 
 // FIXME protected and private members were turned public due to a declaration
 // emission bug:
@@ -91,7 +91,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return this.getMaxMainBasis(!vertical);
     }
 
-    handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null { // XXX protected
         // Ignore events with no position and no target
         if(event.target === null && !(event instanceof PointerEvent))
             return null;
@@ -122,7 +122,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
         return this.getChild().dispatchEvent(event, vpr - vpl, vpb - vpt, root);
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         // If verticality was changed, update it and set dirty. Assume that null
         // verticality means that it's vertical as Viewports don't inherit
         // verticality
@@ -176,7 +176,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             this.internalCrossBasis = 0;
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    override handlePostLayoutUpdate(root: Root): void {
         const child = this.getChild();
 
         if(this.#lastChildLayoutCtx !== null) {
@@ -213,7 +213,7 @@ export class ViewportWidget extends Parent(FlexWidget) implements SingleParent {
             this.dirty = true;
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         this.lastViewportDims = [width, height];
 
         // Paint child to viewport's canvas

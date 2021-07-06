@@ -1,4 +1,4 @@
-import { Clickable } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Clickable } from '../mixins/Clickable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -92,7 +92,7 @@ export class Icon extends Clickable(BoxWidget) {
         ];
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // If there is a callback, check if icon was pressed and do callback if
         // so
         if(this.callback === null) {
@@ -115,7 +115,7 @@ export class Icon extends Clickable(BoxWidget) {
         return this;
     }
 
-    handlePreLayoutUpdate(_root: Root): void {
+    override handlePreLayoutUpdate(_root: Root): void {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet
@@ -137,7 +137,7 @@ export class Icon extends Clickable(BoxWidget) {
         }
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
         if(!this.#image?.complete) {
             this.#lastSrc = null;

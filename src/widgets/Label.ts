@@ -1,5 +1,5 @@
+import { /* tree-shaking no-side-effects-when-called */ Labelable } from '../mixins/Labelable';
 import { ThemeProperty } from '../theme/ThemeProperty';
-import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
 import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
@@ -51,7 +51,7 @@ export class Label extends Labelable(FlexWidget) {
         return this._text;
     }
 
-    handlePreLayoutUpdate(_root: Root): void {
+    override handlePreLayoutUpdate(_root: Root): void {
         // Update Labelable variables
         if(this.#textGetter !== null)
             this.setText(this.#textGetter());
@@ -65,7 +65,7 @@ export class Label extends Labelable(FlexWidget) {
         this.internalCrossBasis = this.labelHeight;
     }
 
-    handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         ctx.font = this._font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
         ctx.fillText(this._text, x, y + height - this.labelDescent);

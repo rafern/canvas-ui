@@ -14,7 +14,7 @@ export function Parent<TBase extends GConstructor<Widget>>(Base: TBase) {
 
         // Called when the inherited theme of this Widget is updated. Can be
         // overridden. Propagates to children.
-        updateInheritedTheme(): void { // XXX protected
+        override updateInheritedTheme(): void { // XXX protected
             const inheritedTheme = this.getInheritedTheme();
             if(inheritedTheme !== null) {
                 for(const child of this.children)
@@ -25,7 +25,7 @@ export function Parent<TBase extends GConstructor<Widget>>(Base: TBase) {
         // Forcefully mark layout as dirty. If overridden, original must be called.
         // Call only when absolutely neccessary, such as in a resize. Propagates to
         // children
-        forceLayoutDirty(): void {
+        override forceLayoutDirty(): void {
             super.forceLayoutDirty();
             if(this.enabled) {
                 if(this.children !== null) {

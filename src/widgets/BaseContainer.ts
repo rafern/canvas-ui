@@ -23,7 +23,7 @@ export class BaseContainer extends SingleParentWidget {
         super(themeOverride, false, propagateEvents, child);
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null { // XXX protected
         // Correct pointer events for padding
         const [vpl, vpr, vpt, vpb] = this.calcChildViewport(0, 0, width, height);
         if(event instanceof PointerEvent)
@@ -33,7 +33,7 @@ export class BaseContainer extends SingleParentWidget {
         return this.getChild().dispatchEvent(event, vpr - vpl, vpb - vpt, root);
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         // Pre-layout update child
         const child = this.getChild();
         child.preLayoutUpdate(root);
@@ -43,7 +43,7 @@ export class BaseContainer extends SingleParentWidget {
             this.layoutDirty = true;
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    override handlePostLayoutUpdate(root: Root): void {
         // Post-layout update child
         const child = this.getChild();
         child.postLayoutUpdate(root);
@@ -58,7 +58,7 @@ export class BaseContainer extends SingleParentWidget {
         super.forceLayoutDirty();
     }
 
-    handlePopulateLayout(layoutCtx: LayoutContext): void {
+    override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Setup temporary context with reduced maxWidth or maxHeight
         // XXX This is extremely hacky, but it's the only way I could think of
         // doing padding properly
@@ -94,7 +94,7 @@ export class BaseContainer extends SingleParentWidget {
             layoutCtx.maxHeight = candidateMaxHeight;
     }
 
-    handleResolveLayout(layoutCtx: LayoutContext): void {
+    override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Setup temporary context again by cloning outer context, but use a
         // reduced maxWidth or maxHeight
         const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
@@ -138,7 +138,7 @@ export class BaseContainer extends SingleParentWidget {
             this.backgroundDirty = true;
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Clear background if it is dirty
         if(this.backgroundDirty)
             this.clear(x, y, width, height, ctx);

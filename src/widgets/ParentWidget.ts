@@ -1,5 +1,5 @@
+import { /* tree-shaking no-side-effects-when-called */ Parent } from '../mixins/Parent';
 import type { Theme } from '../theme/Theme';
-import { Parent } from '../mixins/Parent';
 import { Widget } from './Widget';
 
 export class ParentWidget extends Parent(Widget) {

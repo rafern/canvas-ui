@@ -9,10 +9,10 @@ declare const Label_base: {
         _minLabelWidth: number;
         _minLabelAscent: number;
         _minLabelDescent: number;
-        "__#2304@#labelWidth": number;
-        "__#2304@#labelAscent": number;
-        "__#2304@#labelDescent": number;
-        "__#2304@#labelDirty": boolean;
+        "__#33@#labelWidth": number;
+        "__#33@#labelAscent": number;
+        "__#33@#labelDescent": number;
+        "__#33@#labelDirty": boolean;
         updateTextDims(): void;
         findOffsetFromIndex(index: number): number;
         findIndexOffsetFromOffset(offset: number): [number, number];

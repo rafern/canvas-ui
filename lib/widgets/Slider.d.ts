@@ -56,7 +56,7 @@ declare const Slider_base: {
 } & {
     new (...args: any[]): {
         callback: VariableCallback<number> | null;
-        "__#2392@#value": number;
+        "__#39@#value": number;
         value: number;
         setValue(value: number, doCallback?: boolean): void;
         "__#2@#enabled": boolean;

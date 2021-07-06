@@ -97,7 +97,7 @@ export class DOMPointerDriver extends PointerDriver {
         }
     }
 
-    onEnable(root: Root): void {
+    override onEnable(root: Root): void {
         super.onEnable(root);
 
         // Add event listeners for pointer when root is enabled, if the root is
@@ -107,7 +107,7 @@ export class DOMPointerDriver extends PointerDriver {
             this.addListeners(root, rootBind);
     }
 
-    onDisable(root: Root): void {
+    override onDisable(root: Root): void {
         super.onDisable(root);
 
         // Remove event listeners for pointer when root is disabled, if the root

@@ -1,5 +1,5 @@
-import { Variable, VariableCallback } from '../mixins/Variable';
-import { Clickable, ClickState } from '../mixins/Clickable';
+import { /* tree-shaking no-side-effects-when-called */ Variable, VariableCallback } from '../mixins/Variable';
+import { /* tree-shaking no-side-effects-when-called */ Clickable, ClickState } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -53,7 +53,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         }
     }
 
-    setValue(value: number, doCallback = true): void {
+    override setValue(value: number, doCallback = true): void {
         super.setValue(
             Math.max(Math.min(this.#end - this.#barLength, value), 0),
             doCallback,
@@ -73,7 +73,7 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         }
     }
 
-    handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
+    override handleEvent(event: Event, width: number, height: number, root: Root): this { // XXX protected
         // Handle click event
         this.handleClickEvent(
             event,
@@ -124,13 +124,13 @@ export class ScrollBar extends Clickable(Variable<number, typeof FlexWidget>(Fle
         return this;
     }
 
-    handlePreLayoutUpdate(_root: Root): void {
+    override handlePreLayoutUpdate(_root: Root): void {
         // Use theme settings for thickness and forbid flex ratio
         this.flexRatio = 0;
         this.crossBasis = this.theme.getSize(ThemeProperty.ScrollBarThickness);
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Find bar start and length percentage
         const [sl, sr, st, sb] = this.getBarRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];

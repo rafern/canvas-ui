@@ -1,10 +1,10 @@
 import { SingleParent } from '../interfaces/SingleParent';
-import { FlexWidget } from './FlexWidget';
+import type { LayoutContext } from './LayoutContext';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
+import { FlexWidget } from './FlexWidget';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
-import { LayoutContext } from './LayoutContext';
 declare const ViewportWidget_base: {
     new (...args: any[]): {
         readonly children: Widget[];

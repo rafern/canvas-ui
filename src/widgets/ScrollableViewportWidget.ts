@@ -97,7 +97,7 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.#vScroll.value = 0;
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         const [innerW, innerH] = this.#viewport.dimensions;
         if(this.#viewport.resolvedWidth < innerW && !this.hScrollHide)
             this.#hScroll.enable();
@@ -116,7 +116,7 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         super.handlePreLayoutUpdate(root);
     }
 
-    handlePostLayoutUpdate(root: Root): void {
+    override handlePostLayoutUpdate(root: Root): void {
         [this.#hScroll.end, this.#vScroll.end] = this.#viewport.dimensions;
         this.#hScroll.barLength = this.#viewport.lastViewportDims[0];
         this.#vScroll.barLength = this.#viewport.lastViewportDims[1];

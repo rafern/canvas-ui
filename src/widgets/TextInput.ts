@@ -1,9 +1,9 @@
+import { /* tree-shaking no-side-effects-when-called */ Labelable } from '../mixins/Labelable';
+import { /* tree-shaking no-side-effects-when-called */ Variable } from '../mixins/Variable';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
-import { Labelable } from '../mixins/Labelable';
-import { Variable } from '../mixins/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
@@ -151,13 +151,13 @@ export class TextInput<V> extends Labelable(Variable<string, typeof FlexWidget>(
         }
     }
 
-    onFocusDropped(focusType: FocusType, _root: Root): void {
+    override onFocusDropped(focusType: FocusType, _root: Root): void {
         // Stop blinking cursor if keyboard focus lost
         if(focusType === FocusType.Keyboard)
             this.#blinkStart = 0;
     }
 
-    handleEvent(event: Event, _width: number, _height: number, root: Root): this { // XXX protected
+    override handleEvent(event: Event, _width: number, _height: number, root: Root): this { // XXX protected
         // If editing is disabled, abort
         if(!this.#editingEnabled)
             return this;
@@ -225,7 +225,7 @@ export class TextInput<V> extends Labelable(Variable<string, typeof FlexWidget>(
         return this;
     }
 
-    handlePreLayoutUpdate(root: Root): void {
+    override handlePreLayoutUpdate(root: Root): void {
         // Drop focus if editing is disabled
         if(!this.editingEnabled)
             root.dropFocus(FocusType.Keyboard, this);
@@ -255,7 +255,7 @@ export class TextInput<V> extends Labelable(Variable<string, typeof FlexWidget>(
         this.internalCrossBasis = this.labelHeight;
     }
 
-    handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
+    override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void { // XXX protected
         // Paint background
         ctx.fillStyle = this.theme.getFill(ThemeProperty.InputBackgroundFill);
         ctx.fillRect(x, y, width, height);

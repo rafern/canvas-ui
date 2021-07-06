@@ -35,11 +35,11 @@ export class BoxWidget extends Widget {
         }
     }
 
-    handlePopulateLayout(layoutCtx: LayoutContext): void {
+    override handlePopulateLayout(layoutCtx: LayoutContext): void {
         layoutCtx.addBasis(this.#boxWidth, this.#boxHeight);
     }
 
-    handleResolveLayout(_layoutCtx: LayoutContext): void {
+    override handleResolveLayout(_layoutCtx: LayoutContext): void {
         this.resolvedWidth = this.#boxWidth;
         this.resolvedHeight = this.#boxHeight;
     }
