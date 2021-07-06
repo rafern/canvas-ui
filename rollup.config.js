@@ -14,5 +14,6 @@ export default [
       typescript(),
       terser(),
     ],
+    external: ['ts-mixer'],
   },
 ]
