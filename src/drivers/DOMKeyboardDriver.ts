@@ -5,14 +5,14 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     // elements. Note that if a DOM element is unfocused in the DOM to an
     // unbound DOM element, the root focus is cleared. If this creates issues,
     // other DOM elements can be bound without creating keyboard event listeners
-    #domElems: Set<EventTarget> = new Set();
+    private domElems: Set<EventTarget> = new Set();
 
     bindDOMElem(domElem: HTMLElement, listenToKeys = true): void {
         // Add to set. If it was already in set, abort
-        if(this.#domElems.has(domElem))
+        if(this.domElems.has(domElem))
             return;
 
-        this.#domElems.add(domElem);
+        this.domElems.add(domElem);
 
         // Listen for keyboard events, filling event queue, and blur event for
         // clearing keyboard focus
@@ -36,6 +36,6 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     }
 
     shouldClearFocus(newTarget: EventTarget | null): boolean {
-        return newTarget === null || !this.#domElems.has(newTarget);
+        return newTarget === null || !this.domElems.has(newTarget);
     }
 }

@@ -12,30 +12,50 @@ import { KeyRow } from './KeyRow';
 
 export type VirtualKeyboardTemplate = Array<Array<string[] | KeyTemplateFunction>>;
 
+function EnterKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+    return new EnterKey(keyContext, themeOverride);
+}
+
+function ShiftKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+    return new ShiftKey(keyContext, themeOverride);
+}
+
+function BackspaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+    return new BackspaceKey(keyContext, themeOverride);
+}
+
+function SpaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+    return new SpaceKey(keyContext, themeOverride);
+}
+
+function EscapeKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+    return new EscapeKey(keyContext, themeOverride);
+}
+
 const defaultVirtualKeyboardTemplate = <VirtualKeyboardTemplate>[
     // First row
     [['`1234567890-=', '~!@#$%^&*()_+']],
     // Second row
     [['qwertyuiop[]\\', 'QWERTYUIOP{}|']],
     // Third row
-    [['asdfghjkl;\'', 'ASDFGHJKL:"'], EnterKey],
+    [['asdfghjkl;\'', 'ASDFGHJKL:"'], EnterKeyTemplate],
     // Fourth row
-    [ShiftKey, ['zxcvbnm,./', 'ZXCVBNM<>?']],
+    [ShiftKeyTemplate, ['zxcvbnm,./', 'ZXCVBNM<>?']],
     // Fifth row
-    [BackspaceKey, SpaceKey, EscapeKey],
+    [BackspaceKeyTemplate, SpaceKeyTemplate, EscapeKeyTemplate],
 ];
 
 // A virtual keyboard widget, which is a Column of KeyRows sharing a key
 // context. If no keyboard template is given, the default QUERTY one is used.
 // Needs a keyboard driver supllied so that key presses can be dispatched
 export class VirtualKeyboard extends MultiContainer {
-    #keyContext: KeyContext;
+    private keyContext: KeyContext;
 
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, themeOverride: Theme | null = null) {
         super(true, themeOverride);
 
         // Make context
-        this.#keyContext = <KeyContext>{
+        this.keyContext = <KeyContext>{
             callback: (key: string) => {
                 keyboardDriver.keyPress(key);
             },
@@ -47,6 +67,6 @@ export class VirtualKeyboard extends MultiContainer {
             keyboardTemplate = defaultVirtualKeyboardTemplate;
 
         for(const rowTemplate of keyboardTemplate)
-            this.add(new KeyRow(rowTemplate, this.#keyContext, themeOverride));
+            this.add(new KeyRow(rowTemplate, this.keyContext, themeOverride));
     }
 }

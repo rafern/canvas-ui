@@ -5,7 +5,9 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 export declare class MultiContainer extends MultiParent {
-    #private;
+    private backgroundDirty;
+    private vertical;
+    private innerContext;
     constructor(vertical: boolean, themeOverride?: Theme | null);
     protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;

@@ -1,7 +1,8 @@
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 export declare class DOMPointerDriver extends PointerDriver {
-    #private;
+    private domElems;
+    private mousePointerID;
     constructor();
     bindDOMElem(root: Root, domElem: HTMLElement): void;
     private addListeners;

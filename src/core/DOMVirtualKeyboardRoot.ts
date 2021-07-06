@@ -8,16 +8,16 @@ import { DOMRoot } from './DOMRoot';
 export class DOMVirtualKeyboardRoot extends DOMRoot {
     // Like DOMRoot, but for VirtualKeyboardRoot. In this version
     // updateVisibility doesn't exist, just call update like in DOMRoot
-    readonly #keyboardDriver: KeyboardDriver;
+    private readonly keyboardDriver: KeyboardDriver;
 
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), theme);
-        this.#keyboardDriver = keyboardDriver;
+        this.keyboardDriver = keyboardDriver;
     }
 
     override update(): void {
         // Update visibility of root by enabling/disabling it
-        this.enabled = this.#keyboardDriver.getFocusedRoot() !== null;
+        this.enabled = this.keyboardDriver.getFocusedRoot() !== null;
 
         // Update normally
         super.update();

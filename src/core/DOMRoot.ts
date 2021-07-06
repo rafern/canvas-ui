@@ -8,7 +8,7 @@ export class DOMRoot extends Root {
     // individual update method, simply call update every frame. Drivers still
     // need to be manually registered
     readonly domElem: HTMLCanvasElement;
-    #domCanvasContext: CanvasRenderingContext2D;
+    private domCanvasContext: CanvasRenderingContext2D;
 
     constructor(child: Widget, theme: Theme = defaultTheme) {
         super(child, null, theme);
@@ -22,7 +22,7 @@ export class DOMRoot extends Root {
         if(context === null)
             throw 'Failed to get DOM canvas context';
 
-        this.#domCanvasContext = context;
+        this.domCanvasContext = context;
 
         // Setup pointer style handler
         this.pointerStyleHandler = (newPointerStyle: string): void => {
@@ -43,8 +43,8 @@ export class DOMRoot extends Root {
             [this.domElem.width, this.domElem.height] = this.dimensions;
         this.postLayoutUpdate();
         if(this.paint()) {
-            this.#domCanvasContext.globalCompositeOperation = 'copy';
-            this.#domCanvasContext.drawImage(this.canvas, 0, 0);
+            this.domCanvasContext.globalCompositeOperation = 'copy';
+            this.domCanvasContext.drawImage(this.canvas, 0, 0);
         }
     }
 }

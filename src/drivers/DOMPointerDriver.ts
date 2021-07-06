@@ -22,17 +22,17 @@ export class DOMPointerDriver extends PointerDriver {
     // for the driver to have an effect
 
     // XXX using weakmap so it auto-unbinds once a root stops existing
-    #domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
-    #mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
+    private domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
+    private mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
 
     constructor() {
         super();
 
-        this.#mousePointerID = this.registerPointer();
+        this.mousePointerID = this.registerPointer();
     }
 
     bindDOMElem(root: Root, domElem: HTMLElement): void {
-        let rootBind = this.#domElems.get(root);
+        let rootBind = this.domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
         else {
@@ -43,7 +43,7 @@ export class DOMPointerDriver extends PointerDriver {
                 pointerupListen: null,
                 pointerleaveListen: null,
             };
-            this.#domElems.set(root, rootBind);
+            this.domElems.set(root, rootBind);
         }
 
         if(root.enabled)
@@ -56,19 +56,19 @@ export class DOMPointerDriver extends PointerDriver {
         const domElem = rootBind.domElem;
         rootBind.pointermoveListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.#mousePointerID, ...getEventPos(event, domElem));
+                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem));
         }
         rootBind.pointerdownListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.#mousePointerID, ...getEventPos(event, domElem), true);
+                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem), true);
         }
         rootBind.pointerupListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.#mousePointerID, ...getEventPos(event, domElem), false);
+                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem), false);
         }
         rootBind.pointerleaveListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.leavePointer(root, this.#mousePointerID);
+                this.leavePointer(root, this.mousePointerID);
         }
 
         // Add listeners to DOM element
@@ -102,7 +102,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Add event listeners for pointer when root is enabled, if the root is
         // bound to a DOM element
-        const rootBind = this.#domElems.get(root);
+        const rootBind = this.domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.addListeners(root, rootBind);
     }
@@ -112,7 +112,7 @@ export class DOMPointerDriver extends PointerDriver {
 
         // Remove event listeners for pointer when root is disabled, if the root
         // is bound to a DOM element
-        const rootBind = this.#domElems.get(root);
+        const rootBind = this.domElems.get(root);
         if(typeof rootBind !== 'undefined')
             this.removeListeners(rootBind);
     }

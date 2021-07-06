@@ -30,6 +30,8 @@ export function measureTextDims(text: string, font: string): [number, number, nu
         measurePadding.set(font, suffixLength);
     }
 
+    // TODO cache a limited amount of text measurements
+
     // Measure text dimensions with a circumfix character so that whitespaces
     // are measurable, correcting for circumfix character's length
     const dims = measureContext.measureText(CIRCUMFIX_CHAR + text + CIRCUMFIX_CHAR);
