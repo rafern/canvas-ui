@@ -308,7 +308,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pointer<wbr>Style<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>newPointerStyle<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/PointerStyleHandler.ts:1</li>
+							<li>Defined in core/PointerStyleHandler.ts:5</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -320,6 +320,12 @@
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>A function which shows a given pointer style. Normally implemented as a
+												function which sets the CSS cursor style of a Root&#39;s canvas</p>
+											</div>
+										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
@@ -364,7 +370,7 @@
 					<div class="tsd-signature tsd-kind-icon">Text<wbr>Input<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>initialInput<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/TextInputHandler.ts:1</li>
+							<li>Defined in core/TextInputHandler.ts:5</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -376,6 +382,12 @@
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>A function which prompts the user for input given an already set input and
+												returns a promise containing the text typed by the user.</p>
+											</div>
+										</div>
 										<h4 class="tsd-parameters-title">Parameters</h4>
 										<ul class="tsd-parameters">
 											<li>
@@ -540,9 +552,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/DefaultTextInputHandler.ts:1</li>
+									<li>Defined in core/DefaultTextInputHandler.ts:9</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The default implementation of <a href="modules.html#textinputhandler">TextInputHandler</a>.</p>
+								</div>
+								<p>Creates a new popup div with a CSS ID of &#39;textInputHandler&#39; and an overlay
+									div with CSS ID &#39;textInputHandlerOverlay&#39;, adding both to the HTML body.
+									Resolves the promise once user input is finished by clicking the OK or Cancel
+								buttons.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

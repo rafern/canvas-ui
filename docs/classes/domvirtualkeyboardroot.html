@@ -65,6 +65,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A <a href="domroot.html">DOMRoot</a> with similar functionality to <a href="virtualkeyboardroot.html">VirtualKeyboardRoot</a>.
+							In this version
+							<a href="virtualkeyboardroot.html#updatevisibility">updateVisibility</a> doesn&#39;t
+						exist. Instead, just call <a href="domvirtualkeyboardroot.html#update">update</a> like in DOMRoot.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -155,9 +165,21 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in core/DOMVirtualKeyboardRoot.ts:11</li>
+									<li>Defined in core/DOMVirtualKeyboardRoot.ts:16</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new VirtualKeyboardRoot.</p>
+								</div>
+								<p>Sets <a href="domvirtualkeyboardroot.html#child">child</a> to a new <a href="virtualkeyboard.html">VirtualKeyboard</a> with the given
+									keyboard and <a href="../modules.html#virtualkeyboardtemplate">keyboard template</a> and
+									<a href="domvirtualkeyboardroot.html#child">child</a>&#39;s <a href="widget.html#inheritedtheme">inherited theme</a>. Also
+									sets up a <a href="domvirtualkeyboardroot.html#pointerstylehandler">pointerStyleHandler</a> which simply sets the CSS cursor
+									style of <a href="domvirtualkeyboardroot.html#domelem">domElem</a>. Creates <a href="domvirtualkeyboardroot.html#domelem">domElem</a> and
+								<a href="domroot.html#domcanvascontext">domCanvasContext</a>.</p>
+								<p>By default, the theme is <a href="../modules.html#defaulttheme">defaultTheme</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -184,7 +206,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#_currentpointerstyle">_currentPointerStyle</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:35</li>
+							<li>Defined in core/Root.ts:41</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,7 +224,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#_enabled">_enabled</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:24</li>
+							<li>Defined in core/Root.ts:28</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +241,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#_foci">_foci</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:45</li>
+							<li>Defined in core/Root.ts:55</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -227,7 +249,8 @@
 							<p>Current component foci (event targets for each focus type).</p>
 						</div>
 						<p>For internal use only.</p>
-						<p>See <a href="domvirtualkeyboardroot.html#requestfocus">requestFocus</a>, <a href="domvirtualkeyboardroot.html#dropfocus">dropFocus</a>, <a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a> and <a href="domvirtualkeyboardroot.html#getfocus">getFocus</a></p>
+						<p>See <a href="domvirtualkeyboardroot.html#requestfocus">requestFocus</a>, <a href="domvirtualkeyboardroot.html#dropfocus">dropFocus</a>, <a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a> and
+						<a href="domvirtualkeyboardroot.html#getfocus">getFocus</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -237,12 +260,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#_focicapturers">_fociCapturers</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:56</li>
+							<li>Defined in core/Root.ts:67</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Last capturer of each component focus (event targets for each focus type).</p>
+							<p>Last capturer of each component focus (event targets for each focus
+							type).</p>
 						</div>
 						<p>For internal use only.</p>
 						<p>See <a href="domvirtualkeyboardroot.html#getfocuscapturer">getFocusCapturer</a></p>
@@ -255,7 +279,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#_mobiletextinuse">_mobileTextInUse</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:73</li>
+							<li>Defined in core/Root.ts:87</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -263,7 +287,8 @@
 							<p>Is the mobile-friendly text input in use?</p>
 						</div>
 						<p>For internal use only.</p>
-						<p>See <a href="domvirtualkeyboardroot.html#hasmobiletextinput">hasMobileTextInput</a>, <a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a> and <a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a></p>
+						<p>See <a href="domvirtualkeyboardroot.html#hasmobiletextinput">hasMobileTextInput</a>, <a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a> and
+						<a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -273,7 +298,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#child">child</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:14</li>
+							<li>Defined in core/Root.ts:18</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -289,9 +314,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#domelem">domElem</a></p>
 						<ul>
-							<li>Defined in core/DOMRoot.ts:10</li>
+							<li>Defined in core/DOMRoot.ts:15</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This root&#39;s canvas element. Add this to the HTML body</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="drivers" class="tsd-anchor"></a>
@@ -300,12 +330,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#drivers">drivers</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:18</li>
+							<li>Defined in core/Root.ts:22</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The list of drivers</p>
+							<p>The list of drivers registered to this root</p>
 						</div>
 					</div>
 				</section>
@@ -315,9 +345,14 @@
 					<div class="tsd-signature tsd-kind-icon">keyboard<wbr>Driver<span class="tsd-signature-symbol">:</span> <a href="keyboarddriver.html" class="tsd-signature-type" data-tsd-kind="Class">KeyboardDriver</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/DOMVirtualKeyboardRoot.ts:11</li>
+							<li>Defined in core/DOMVirtualKeyboardRoot.ts:16</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <a href="keyboarddriver.html">KeyboardDriver</a> used by this root&#39;s virtual keyboard.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="pointerstyle" class="tsd-anchor"></a>
@@ -326,12 +361,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#pointerstyle">pointerStyle</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:27</li>
+							<li>Defined in core/Root.ts:33</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The pointer style this root wants. Will be set on <a href="domvirtualkeyboardroot.html#postlayoutupdate">postLayoutUpdate</a> by <a href="domvirtualkeyboardroot.html#pointerstylehandler">pointerStyleHandler</a></p>
+							<p>The pointer style this root wants. Will be set on
+							<a href="domvirtualkeyboardroot.html#postlayoutupdate">postLayoutUpdate</a> by <a href="domvirtualkeyboardroot.html#pointerstylehandler">pointerStyleHandler</a></p>
 						</div>
 					</div>
 				</section>
@@ -342,12 +378,13 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#pointerstylehandler">pointerStyleHandler</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:37</li>
+							<li>Defined in core/Root.ts:46</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Pointer style handler, decides how to show the given pointer style. Normally a function which sets the CSS cursor style of the Root&#39;s canvas</p>
+							<p>Pointer style handler, decides how to show the given pointer style.
+							Normally a function which sets the CSS cursor style of the Root&#39;s canvas</p>
 						</div>
 					</div>
 				</section>
@@ -358,14 +395,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#textinputhandler">textInputHandler</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:65</li>
+							<li>Defined in core/Root.ts:78</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Handler for mobile-friendly text input. If not null, widgets that need text may call this to get a string.</p>
+							<p>Handler for mobile-friendly text input. If not null, widgets that need
+							text may call this to get a string.</p>
 						</div>
-						<p>See <a href="domvirtualkeyboardroot.html#hasmobiletextinput">hasMobileTextInput</a>, <a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a> and <a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a></p>
+						<p>See <a href="domvirtualkeyboardroot.html#hasmobiletextinput">hasMobileTextInput</a>, <a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a> and
+						<a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a></p>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -375,7 +414,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#viewport">viewport</a></p>
 						<ul>
-							<li>Defined in core/Root.ts:16</li>
+							<li>Defined in core/Root.ts:20</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -397,9 +436,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:128</li>
+									<li>Defined in core/Root.ts:171</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s <a href="viewport.html#canvas">canvas</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">HTMLCanvasElement</span></h4>
 						</li>
 					</ul>
@@ -414,9 +458,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:92</li>
+									<li>Defined in core/Root.ts:119</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s
+									<a href="viewport.html#canvasdimensions">canvasDimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -431,9 +481,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:96</li>
+									<li>Defined in core/Root.ts:126</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="domvirtualkeyboardroot.html#child">child</a>&#39;s <a href="widget.html#dimensions">dimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -449,17 +504,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:100</li>
+									<li>Defined in core/Root.ts:139</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this root enabled? If not enabled, painting, updating or resolving
+										layout will do nothing. <a href="domvirtualkeyboardroot.html#drivers">Drivers</a> will also be notified
+										by calling <a href="../interfaces/driver.html#onenable">Driver.onEnable</a> or <a href="../interfaces/driver.html#ondisable">Driver.onDisable</a>, pointer
+										style will be reset (<a href="domvirtualkeyboardroot.html#updatepointerstyle">updatePointerStyle</a> called with &#39;default&#39;)
+									and all <a href="domvirtualkeyboardroot.html#_foci">foci</a> will be cleared (<a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a>).</p>
+								</div>
+								<p>See <a href="domvirtualkeyboardroot.html#_enabled">_enabled</a></p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:104</li>
+									<li>Defined in core/Root.ts:143</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this root enabled? If not enabled, painting, updating or resolving
+										layout will do nothing. <a href="domvirtualkeyboardroot.html#drivers">Drivers</a> will also be notified
+										by calling <a href="../interfaces/driver.html#onenable">Driver.onEnable</a> or <a href="../interfaces/driver.html#ondisable">Driver.onDisable</a>, pointer
+										style will be reset (<a href="domvirtualkeyboardroot.html#updatepointerstyle">updatePointerStyle</a> called with &#39;default&#39;)
+									and all <a href="domvirtualkeyboardroot.html#_foci">foci</a> will be cleared (<a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a>).</p>
+								</div>
+								<p>See <a href="domvirtualkeyboardroot.html#_enabled">_enabled</a></p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -480,9 +555,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:312</li>
+									<li>Defined in core/Root.ts:445</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Can <a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a> be called? True if <a href="domvirtualkeyboardroot.html#textinputhandler">textInputHandler</a> is
+									not null and <a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a> is false.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -498,17 +579,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:84</li>
+									<li>Defined in core/Root.ts:107</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s <a href="viewport.html#maxdimensions">maxDimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:88</li>
+									<li>Defined in core/Root.ts:111</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s <a href="viewport.html#maxdimensions">maxDimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -529,9 +620,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Root.ts:316</li>
+									<li>Defined in core/Root.ts:454</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is <a href="domvirtualkeyboardroot.html#gettextinput">getTextInput</a> in use?</p>
+								</div>
+								<p>See <a href="domvirtualkeyboardroot.html#_mobiletextinuse">_mobileTextInUse</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -550,9 +647,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#cleardrivers">clearDrivers</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:304</li>
+									<li>Defined in core/Root.ts:435</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters all <a href="domvirtualkeyboardroot.html#drivers">drivers</a> from the root, by calling
+									<a href="domvirtualkeyboardroot.html#unregisterdriver">unregisterDriver</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -568,9 +671,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#clearfocus">clearFocus</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:265</li>
+									<li>Defined in core/Root.ts:376</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Clears the current <a href="domvirtualkeyboardroot.html#_foci">focus</a> of a given type. If there was a
+										focus set, <a href="domvirtualkeyboardroot.html#drivers">drivers</a> are notified by calling
+									<a href="../interfaces/driver.html#onfocuschanged">Driver.onFocusChanged</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -592,9 +702,22 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:149</li>
+									<li>Defined in core/Root.ts:224</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Dispatches an <a href="event.html">Event</a> to this root&#39;s <a href="domvirtualkeyboardroot.html#child">child</a> by calling
+										<a href="widget.html#dispatchevent">Widget.dispatchEvent</a>. Updates
+										<a href="domvirtualkeyboardroot.html#_focicapturers">foci capturers</a> and notifies <a href="domvirtualkeyboardroot.html#drivers">drivers</a> by
+										calling <a href="../interfaces/driver.html#onfocuscapturerchanged">Driver.onFocusCapturerChanged</a> if the capturer changes.
+									Does nothing if root is disabled.</p>
+								</div>
+								<p>Note that if an event with a focus is dispatched and no widget captures
+									the event due to the widget not existing anymore or being disabled, the
+									focus type of the event will be cleared in the root with
+								<a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -616,9 +739,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#dropfocus">dropFocus</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:257</li>
+									<li>Defined in core/Root.ts:363</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Clears the current <a href="domvirtualkeyboardroot.html#_foci">focus</a> of a given type if it is
+									currently set to a given widget. Achieved by calling <a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -643,9 +772,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#getfocus">getFocus</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:277</li>
+									<li>Defined in core/Root.ts:391</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the current <a href="domvirtualkeyboardroot.html#_foci">focus</a> of a given type.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -667,9 +801,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#getfocuscapturer">getFocusCapturer</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:281</li>
+									<li>Defined in core/Root.ts:398</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the last <a href="domvirtualkeyboardroot.html#_focicapturers">focus capturer</a> of a given type.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -691,9 +830,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#gettextinput">getTextInput</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:320</li>
+									<li>Defined in core/Root.ts:463</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get text input from the user. Used for mobile where keyboard events are
+										hard to get. If this is already in use (<a href="domvirtualkeyboardroot.html#usingmobiletextinput">usingMobileTextInput</a>),
+									returns null, else, returns a string typed by the user.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -715,9 +861,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#paint">paint</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:141</li>
+									<li>Defined in core/Root.ts:204</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paint this root&#39;s next frame if needed. Does nothing if root is disabled.</p>
+								</div>
+								<p>Calls <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s <a href="viewport.html#painttocanvas">Viewport.paintToCanvas</a> with
+								<a href="domvirtualkeyboardroot.html#child">child</a>.</p>
+								<p>Call this after calling <a href="domvirtualkeyboardroot.html#postlayoutupdate">postLayoutUpdate</a>.</p>
+								<p>Returns whether the child was dirty or not. Use this to tell an external
+								3D library whether to update a mesh&#39;s texture or not.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -733,9 +889,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#postlayoutupdate">postLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:220</li>
+									<li>Defined in core/Root.ts:311</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Do a post-layout update; calls <a href="domvirtualkeyboardroot.html#child">child</a>&#39;s
+										<a href="widget.html#postlayoutupdate">Widget.postLayoutUpdate</a> and <a href="domvirtualkeyboardroot.html#updatepointerstyle">updatePointerStyle</a>. Does
+									nothing if root is disabled.</p>
+								</div>
+								<p>Call this before calling <a href="domvirtualkeyboardroot.html#paint">paint</a> and after calling
+								<a href="domvirtualkeyboardroot.html#resolvelayout">resolveLayout</a></p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -751,9 +916,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#prelayoutupdate">preLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:207</li>
+									<li>Defined in core/Root.ts:289</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Do a pre-layout update; calls <a href="domvirtualkeyboardroot.html#drivers">drivers</a>&#39; <a href="../interfaces/driver.html#update">Driver.update</a> and
+										<a href="domvirtualkeyboardroot.html#child">child</a>&#39;s <a href="widget.html#prelayoutupdate">Widget.preLayoutUpdate</a>. Does nothing if root is
+									disabled.</p>
+								</div>
+								<p>Call this before calling <a href="domvirtualkeyboardroot.html#resolvelayout">resolveLayout</a></p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -769,9 +942,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#registerdriver">registerDriver</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:285</li>
+									<li>Defined in core/Root.ts:407</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Registers a <a href="../interfaces/driver.html">Driver</a> to the root, adding it to the <a href="domvirtualkeyboardroot.html#drivers">drivers</a>
+										list and calling <a href="../interfaces/driver.html#onenable">Driver.onEnable</a>. If the driver was already
+									registered, nothing happens.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -793,9 +973,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#requestfocus">requestFocus</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:243</li>
+									<li>Defined in core/Root.ts:345</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the current <a href="domvirtualkeyboardroot.html#_foci">focus</a> of a given type to a given widget.
+										If the focus changes, <a href="domvirtualkeyboardroot.html#clearfocus">clearFocus</a> is called and <a href="domvirtualkeyboardroot.html#drivers">drivers</a>
+									are notified by calling <a href="../interfaces/driver.html#onfocuschanged">Driver.onFocusChanged</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -820,9 +1007,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#resolvelayout">resolveLayout</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:132</li>
+									<li>Defined in core/Root.ts:184</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolve the layout of this root. Does nothing if root is disabled.</p>
+								</div>
+								<p>Calls <a href="domvirtualkeyboardroot.html#viewport">viewport</a>&#39;s <a href="viewport.html#populatechildslayout">Viewport.populateChildsLayout</a> and
+								<a href="viewport.html#resolvechildslayout">resolveChildsLayout</a> with <a href="domvirtualkeyboardroot.html#child">child</a></p>
+								<p>Call this before calling <a href="domvirtualkeyboardroot.html#postlayoutupdate">postLayoutUpdate</a> and after calling
+								<a href="domvirtualkeyboardroot.html#prelayoutupdate">preLayoutUpdate</a></p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -838,9 +1034,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#unregisterdriver">unregisterDriver</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:295</li>
+									<li>Defined in core/Root.ts:422</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters a <a href="../interfaces/driver.html">Driver</a> from the root, removing it from the
+										<a href="domvirtualkeyboardroot.html#drivers">drivers</a> list and calling <a href="../interfaces/driver.html#ondisable">Driver.onDisable</a>. If the driver
+									was not registered, nothing happens.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -862,9 +1065,20 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#update">update</a></p>
 								<ul>
-									<li>Defined in core/DOMVirtualKeyboardRoot.ts:18</li>
+									<li>Defined in core/DOMVirtualKeyboardRoot.ts:47</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update DOMRoot.</p>
+								</div>
+								<p>If root is disabled, <a href="domvirtualkeyboardroot.html#domelem">domElem</a>&#39;s display style is set to &#39;none&#39;,
+								hiding it.</p>
+								<p>Calls <a href="domvirtualkeyboardroot.html#prelayoutupdate">preLayoutUpdate</a>, <a href="domvirtualkeyboardroot.html#resolvelayout">resolveLayout</a>,
+								<a href="domvirtualkeyboardroot.html#postlayoutupdate">postLayoutUpdate</a> and <a href="domvirtualkeyboardroot.html#paint">paint</a>.</p>
+								<p>Also updates the visibility of this root; if the keyboard driver has no
+								focused root, then the root is disabled, else, it is enabled.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -880,9 +1094,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="domroot.html">DOMRoot</a>.<a href="domroot.html#updatepointerstyle">updatePointerStyle</a></p>
 								<ul>
-									<li>Defined in core/Root.ts:232</li>
+									<li>Defined in core/Root.ts:329</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls <a href="domvirtualkeyboardroot.html#pointerstylehandler">pointerStyleHandler</a> if the <a href="domvirtualkeyboardroot.html#pointerstyle">pointerStyle</a> has changed
+										(checked by comparing with <a href="domvirtualkeyboardroot.html#_currentpointerstyle">_currentPointerStyle</a>). Also updates
+										<a href="domvirtualkeyboardroot.html#_currentpointerstyle">_currentPointerStyle</a>. Can also be optionally supplied a new
+									pointer style.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

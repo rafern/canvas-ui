@@ -65,6 +65,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Viewports are internally used to manage a canvas&#39; size and painting. It is
+						used by <a href="root.html">Root</a> and <a href="viewportwidget.html">ViewportWidget</a>.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -123,9 +131,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:19</li>
+									<li>Defined in core/Viewport.ts:25</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Viewport.</p>
+								</div>
+								<p>Creates a new canvas with a starting width and height, setting
+									<a href="viewport.html#canvas">canvas</a> and <a href="viewport.html#context">context</a>. Failure to get a canvas context
+								results in an exception.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -148,9 +164,15 @@
 					<div class="tsd-signature tsd-kind-icon">_max<wbr>Dimensions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/Viewport.ts:9</li>
+							<li>Defined in core/Viewport.ts:15</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Maximum size of viewport. For internal use only.</p>
+						</div>
+						<p>See <a href="viewport.html#maxdimensions">maxDimensions</a>.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="canvas" class="tsd-anchor"></a>
@@ -158,9 +180,14 @@
 					<div class="tsd-signature tsd-kind-icon">canvas<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLCanvasElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/Viewport.ts:14</li>
+							<li>Defined in core/Viewport.ts:20</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The internal canvas. Widgets are painted to this</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="context" class="tsd-anchor"></a>
@@ -168,9 +195,14 @@
 					<div class="tsd-signature tsd-kind-icon">context<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">CanvasRenderingContext2D</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/Viewport.ts:16</li>
+							<li>Defined in core/Viewport.ts:22</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The internal canvas&#39; context. Alpha is enabled.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="forcelayout" class="tsd-anchor"></a>
@@ -178,9 +210,14 @@
 					<div class="tsd-signature tsd-kind-icon">force<wbr>Layout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/Viewport.ts:11</li>
+							<li>Defined in core/Viewport.ts:17</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Does the viewport need to force-mark layout as dirty?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="vertical" class="tsd-anchor"></a>
@@ -188,9 +225,14 @@
 					<div class="tsd-signature tsd-kind-icon">vertical<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in core/Viewport.ts:19</li>
+							<li>Defined in core/Viewport.ts:25</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is the layout context vertical?</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -205,9 +247,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:35</li>
+									<li>Defined in core/Viewport.ts:49</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current dimensions of the <a href="viewport.html#canvas">internal canvas</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -223,17 +270,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:48</li>
+									<li>Defined in core/Viewport.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Maximum size of viewport. This is passed as a hint to children.  If an
+										axis&#39; maximum length is 0, then there is no maximum for that axis, but it
+									also means that flex components won&#39;t expand in that axis.</p>
+								</div>
+								<p>See <a href="viewport.html#_maxdimensions">_maxDimensions</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:39</li>
+									<li>Defined in core/Viewport.ts:60</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Maximum size of viewport. This is passed as a hint to children.  If an
+										axis&#39; maximum length is 0, then there is no maximum for that axis, but it
+									also means that flex components won&#39;t expand in that axis.</p>
+								</div>
+								<p>See <a href="viewport.html#_maxdimensions">_maxDimensions</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -257,9 +320,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:112</li>
+									<li>Defined in core/Viewport.ts:164</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paint a given child to <a href="viewport.html#canvas">canvas</a>.</p>
+								</div>
+								<p>Nothing is done if the child was not dirty.</p>
+								<p>Returns whether the child was dirty or not.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -280,9 +350,20 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:52</li>
+									<li>Defined in core/Viewport.ts:84</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Populates the given child&#39;s layout by calling
+									<a href="widget.html#populatelayout">Widget.populateLayout</a>.</p>
+								</div>
+								<p>If <a href="viewport.html#forcelayout">forceLayout</a> is true, then it is reset to false and
+								<a href="widget.html#forcelayoutdirty">Widget.forceLayoutDirty</a> is called.</p>
+								<p>If the child&#39;s layout is not dirty, then populateLayout is not called and
+									no layout context is returned, else, a layout context is returned which
+								should be used with <a href="viewport.html#resolvechildslayout">resolveChildsLayout</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -303,9 +384,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in core/Viewport.ts:73</li>
+									<li>Defined in core/Viewport.ts:118</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resolves the given child&#39;s layout with a given layout context by calling
+									<a href="widget.html#resolvelayout">Widget.resolveLayout</a>.</p>
+								</div>
+								<p>If the child&#39;s layout is not dirty or the given layout context is null,
+								then resolveLayout is not called.</p>
+								<p>Expands <a href="viewport.html#canvas">canvas</a> if the new layout is too big for the current
+									canvas. Expansion is done in powers of 2 to avoid issues with external 3D
+								libraries.</p>
+								<p>Returns true if the child was resized, else, false.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
