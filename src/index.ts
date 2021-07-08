@@ -47,9 +47,11 @@ export * from './theme/Theme';
 export * from './theme/ThemeProperty';
 // validators
 export * from './validators/CompositeValidator';
+export * from './validators/DefaultTextValidator';
 export * from './validators/FloatValidator';
 export * from './validators/IntValidator';
 export * from './validators/RangeValidator';
+export * from './validators/Validator';
 // widgets
 export * from './widgets/VirtualKeyboard/BackspaceKey';
 export * from './widgets/VirtualKeyboard/BasicKey';

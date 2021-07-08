@@ -1,8 +1,13 @@
 import { MultiContainer } from './MultiContainer';
 import type { Theme } from '../theme/Theme';
 
-// A vertical MultiContainer
+/**
+ * A vertical {@link MultiContainer}.
+ *
+ * @category Widget
+ */
 export class Column extends MultiContainer {
+    /** Create a new Column. */
     constructor(themeOverride: Theme | null = null) {
         super(true, themeOverride);
     }

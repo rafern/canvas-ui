@@ -58,6 +58,36 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<a href="#using-mixins" id="using-mixins" style="color: inherit; text-decoration: none;">
+					<h1>Using mixins</h1>
+				</a>
+				<p>Mixins are a type of class which provides partial functionality. canvas-ui uses
+					mixins to provide more reusability. Mixins are created with
+					<a href="https://www.npmjs.com/package/ts-mixer">ts-mixer</a>, so if you want to create
+				custom classes which uses mixins, make sure to install this package with:</p>
+				<pre><code class="language-sh"><span style="color: #000000">npm install --save-dev ts-mixer</span>
+</code></pre>
+				<p>If you are creating a class which only extends a single mixin, then that class
+				can be created with regular inheritance:</p>
+				<pre><code class="language-typescript"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">MixinClass</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>If you are creating a class which extends multiple mixins, or a class and
+				multiple mixins, then ts-mixer must be used:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Mixin</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;ts-mixer&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass1</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass2</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">, </span><span style="color: #001080">BaseClass</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>Note that this does not work with generic classes. For that, follow the
+					<a href="https://www.npmjs.com/package/ts-mixer#mixing-generic-classes">ts-mixer documentation</a>.
+				There are other special cases which can also be found in the documentation.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -93,6 +123,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/basictextinput.html" class="tsd-kind-icon">Basic<wbr>Text<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/booleanvariable.html" class="tsd-kind-icon">Boolean<wbr>Variable</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/boxlayout.html" class="tsd-kind-icon">Box<wbr>Layout</a>
@@ -191,6 +224,9 @@
 						<a href="classes/multiparent.html" class="tsd-kind-icon">Multi<wbr>Parent</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/numbervariable.html" class="tsd-kind-icon">Number<wbr>Variable</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/parent.html" class="tsd-kind-icon">Parent</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -237,6 +273,9 @@
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/spacing.html" class="tsd-kind-icon">Spacing</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/stringvariable.html" class="tsd-kind-icon">String<wbr>Variable</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/textbutton.html" class="tsd-kind-icon">Text<wbr>Button</a>
@@ -307,8 +346,8 @@
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#unknownvalidator" class="tsd-kind-icon">Unknown<wbr>Validator</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#unknownvalidatorlist" class="tsd-kind-icon">Unknown<wbr>Validator<wbr>List</a>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#validator" class="tsd-kind-icon">Validator</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="modules.html#variablecallback" class="tsd-kind-icon">Variable<wbr>Callback</a>

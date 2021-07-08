@@ -65,6 +65,15 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A <a href="pointerdriver.html">PointerDriver</a> which listens for pointer events from HTML DOM
+							elements. Each HTML DOM element is bound to a specific root, which synergizes
+						well with DOMRoot.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -129,9 +138,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:26</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:32</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new DOMPointerDriver.</p>
+								</div>
+								<p>Automatically registers a pointer to be used by the mouse.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="dompointerdriver.html" class="tsd-signature-type" data-tsd-kind="Class">DOMPointerDriver</a></h4>
 						</li>
 					</ul>
@@ -145,9 +160,14 @@
 					<div class="tsd-signature tsd-kind-icon">dom<wbr>Elems<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WeakMap</span><span class="tsd-signature-symbol">&lt;</span><a href="root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RootDOMBind</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in drivers/DOMPointerDriver.ts:25</li>
+							<li>Defined in drivers/DOMPointerDriver.ts:30</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The HTML DOM element and listeners that each root is bound to</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="mousepointerid" class="tsd-anchor"></a>
@@ -155,9 +175,14 @@
 					<div class="tsd-signature tsd-kind-icon">mouse<wbr>PointerID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in drivers/DOMPointerDriver.ts:26</li>
+							<li>Defined in drivers/DOMPointerDriver.ts:32</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The pointer ID of the mouse. Registered in constructor</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="states" class="tsd-anchor"></a>
@@ -166,9 +191,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#states">states</a></p>
 						<ul>
-							<li>Defined in drivers/PointerDriver.ts:19</li>
+							<li>Defined in drivers/PointerDriver.ts:32</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current state for each registered and enabled root. Contains whether
+								each root is pressing, hovering, which pointer is bound to it and its
+							event queue</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -183,9 +215,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:53</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:74</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add pointer event listeners to root&#39;s DOM element.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -209,9 +246,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:34</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Bind an HTML DOM element to a specific root.</p>
+								</div>
+								<p>If the root was already registered, <a href="dompointerdriver.html#removelisteners">removeListeners</a> is called.
+									Populates <a href="dompointerdriver.html#domelems">domElems</a> with the new bind. Calls <a href="dompointerdriver.html#addlisteners">addListeners</a>
+								if root is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -236,9 +281,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#leavepointer">leavePointer</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:94</li>
+									<li>Defined in drivers/PointerDriver.ts:145</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Queue up a <a href="leave.html">Leave</a> event to a given root. Event will only be queued
+									if the root was being hovered.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -246,6 +297,9 @@
 								</li>
 								<li>
 									<h5>pointer: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The registered pointer ID</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -263,9 +317,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#movepointer">movePointer</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:42</li>
+									<li>Defined in drivers/PointerDriver.ts:87</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Queue up a pointer event to a given root. The type of
+										<a href="pointerevent.html">PointerEvent</a> is decided automatically based on the root&#39;s state
+									and whether its pressing or not.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -273,15 +334,35 @@
 								</li>
 								<li>
 									<h5>pointer: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The registered pointer ID</p>
+									</div>
 								</li>
 								<li>
 									<h5>xNorm: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The normalised (non-integer range from 0 to 1) X coordinate
+											of the pointer event. 0 is the left edge of the root, while 1 is the
+										right edge of the root.</p>
+									</div>
 								</li>
 								<li>
 									<h5>yNorm: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The normalised (non-integer range from 0 to 1) Y coordinate
+											of the pointer event. 0 is the top edge of the root, while 1 is the
+										bottom edge of the root.</p>
+									</div>
 								</li>
 								<li>
 									<h5>pressing: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = null</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Is the pointer pressed?</p>
+										<p>If null, the last pressing state is used, meaning that the pressing state
+											has not changed. Useful if getting pointer movement in an event based
+											environment where you only know when a pointer press occurs, but not if
+										the pointer is pressed or not</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -299,13 +380,13 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#ondisable">onDisable</a></p>
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:110</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:143</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called when driver is unregistered from an enabled root or when a
-									root that this driver is registered to is disabled.</p>
+									<p>Calls <a href="pointerdriver.html#ondisable">PointerDriver.onDisable</a> and <a href="dompointerdriver.html#removelisteners">removeListeners</a> to each
+									bound root.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -329,13 +410,13 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#onenable">onEnable</a></p>
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:100</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:129</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called when driver is registered to an enabled root or when a root
-									that this driver is registered to is enabled.</p>
+									<p>Calls <a href="pointerdriver.html#onenable">PointerDriver.onEnable</a> and <a href="dompointerdriver.html#addlisteners">addListeners</a> to each
+									bound root.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -359,7 +440,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#onfocuscapturerchanged">onFocusCapturerChanged</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:143</li>
+									<li>Defined in drivers/PointerDriver.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,7 +478,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#onfocuschanged">onFocusChanged</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:140</li>
+									<li>Defined in drivers/PointerDriver.ts:202</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -432,10 +513,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#registerpointer">registerPointer</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:22</li>
+									<li>Defined in drivers/PointerDriver.ts:41</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a new pointer.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Returns <a href="pointerdriver.html#nextpointerid">nextPointerID</a> and increments it</p>
 						</li>
 					</ul>
 				</section>
@@ -449,9 +536,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/DOMPointerDriver.ts:81</li>
+									<li>Defined in drivers/DOMPointerDriver.ts:106</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove pointer event listeners from root&#39;s DOM element and unset tracked
+									listeners in root&#39;s bind.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -473,9 +566,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#unregisterpointer">unregisterPointer</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:26</li>
+									<li>Defined in drivers/PointerDriver.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregister a pointer.</p>
+								</div>
+								<p>If a root has this pointer bound to it, the pointer is unbound from the
+									root, a Leave event is queued to the root and the hovering and pressing
+								state of the root is set to false.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -497,12 +598,13 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="pointerdriver.html">PointerDriver</a>.<a href="pointerdriver.html#update">update</a></p>
 								<ul>
-									<li>Defined in drivers/PointerDriver.ts:126</li>
+									<li>Defined in drivers/PointerDriver.ts:188</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called by <a href="root.html#prelayoutupdate">Root.preLayoutUpdate</a></p>
+									<p>Dispatches all queued events (found in <a href="dompointerdriver.html#states">states</a>) for the root and
+									clears its event queue</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>

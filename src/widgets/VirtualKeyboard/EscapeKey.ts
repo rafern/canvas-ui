@@ -2,8 +2,13 @@ import type { KeyContext } from './KeyContext';
 import type { Theme } from '../../theme/Theme';
 import { BasicKey } from './BasicKey';
 
-// An escape BasicKey
+/**
+ * A {@link BasicKey} which emits 'Escape' key presses.
+ *
+ * @category Widget
+ */
 export class EscapeKey extends BasicKey {
+    /** Create a new EscapeKey. */
     constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
         super('Esc', 'Escape', keyContext, themeOverride);
     }

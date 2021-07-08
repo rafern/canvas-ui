@@ -65,11 +65,31 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A mixin class for widgets that contain a single value of a specified type
+						which is intended to be controlled by the user.</p>
+					</div>
+					<p>Useful for implementing widgets such as sliders, checkboxes, text input,
+					etc...</p>
+					<p>Note that using Variable with a template directly with Mixin(...) results in
+						a compile error since generics can&#39;t be used with Mixin(...). Instead, extend
+						this class to a specific type. This has already been done for a few types,
+						such as <a href="booleanvariable.html">BooleanVariable</a>, <a href="numbervariable.html">NumberVariable</a> and
+					<a href="stringvariable.html">StringVariable</a>.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
 						<h4>V</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>The type of <a href="variable.html#value">value</a>.</p>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</section>
@@ -81,6 +101,17 @@
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">Variable</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="booleanvariable.html" class="tsd-signature-type" data-tsd-kind="Class">BooleanVariable</a>
+									</li>
+									<li>
+										<a href="numbervariable.html" class="tsd-signature-type" data-tsd-kind="Class">NumberVariable</a>
+									</li>
+									<li>
+										<a href="stringvariable.html" class="tsd-signature-type" data-tsd-kind="Class">StringVariable</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -218,9 +249,16 @@
 					<div class="tsd-signature tsd-kind-icon">_value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">V</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/Variable.ts:10</li>
+							<li>Defined in mixins/Variable.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current value, for internal use.</p>
+						</div>
+						<p>Initially undefined; make sure to set an initial value when initialising
+						a widget that uses this mixin.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 					<a name="callback" class="tsd-anchor"></a>
@@ -228,9 +266,14 @@
 					<div class="tsd-signature tsd-kind-icon">callback<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#variablecallback" class="tsd-signature-type" data-tsd-kind="Type alias">VariableCallback</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/Variable.ts:8</li>
+							<li>Defined in mixins/Variable.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The callback for when the value is changed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -454,17 +497,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Variable.ts:12</li>
+									<li>Defined in mixins/Variable.ts:45</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current value.</p>
+								</div>
+								<p>If getting, throws an exception if <a href="variable.html#_value">_value</a> is undefined.</p>
+								<p>If setting, <a href="variable.html#setvalue">setValue</a> is called.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Variable.ts:19</li>
+									<li>Defined in mixins/Variable.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current value.</p>
+								</div>
+								<p>If getting, throws an exception if <a href="variable.html#_value">_value</a> is undefined.</p>
+								<p>If setting, <a href="variable.html#setvalue">setValue</a> is called.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -947,9 +1004,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Variable.ts:23</li>
+									<li>Defined in mixins/Variable.ts:65</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets <a href="variable.html#_value">_value</a>. Does nothing if the value is already the one
+									specified.</p>
+								</div>
+								<p><a href="variable.html#_dirty">_dirty</a> is set to true if the value has changed.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -957,6 +1021,10 @@
 								</li>
 								<li>
 									<h5>doCallback: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If true, then <a href="variable.html#callback">callback</a> is called if the value
+										has changed.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

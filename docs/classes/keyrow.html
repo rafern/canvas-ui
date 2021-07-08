@@ -159,6 +159,12 @@
 									<li>Defined in widgets/VirtualKeyboard/KeyRow.ts:11</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Parent. Automatically adds all widgets in the input array
+									to <a href="keyrow.html#_children">_children</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -185,9 +191,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="row.html">Row</a>.<a href="row.html#_children">_children</a></p>
 						<ul>
-							<li>Defined in mixins/Parent.ts:6</li>
+							<li>Defined in mixins/Parent.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This widget&#39;s children. Note that this is marked as readonly so that it
+								cannot be accidentally replaced with a new array. This way, references to
+								this array are always valid. If you want to clear this array, set the
+								length to zero instead of creating a new instance. readonly still means
+							that you can add/remove elements to/from the array.</p>
+						</div>
+						<p>See <a href="keyrow.html#children">children</a> for the public iterator getter.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -268,9 +284,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:39</li>
+									<li>Defined in mixins/Parent.ts:61</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get amount of children of this parent widget.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -285,9 +306,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:44</li>
+									<li>Defined in mixins/Parent.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator for children of this parent widget. Cannot modify list of
+									children via this iterator; for read-only purposes only.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -470,16 +497,30 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="row.html">Row</a>.<a href="row.html#add">add</a></p>
 								<ul>
-									<li>Defined in mixins/MultiParent.ts:11</li>
+									<li>Defined in mixins/MultiParent.ts:24</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add child(ren) to this widget.</p>
+								</div>
+								<p><a href="keyrow.html#_layoutdirty">_layoutDirty</a> and <a href="keyrow.html#_dirty">_dirty</a> are set to true and
+									<a href="keyrow.html#updateinheritedtheme">updateInheritedTheme</a> is called so that new children inherit this
+								widget&#39;s theme.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>children: <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If this is a widget, then it is pushed to
+											<a href="keyrow.html#_children">_children</a>. If this is an array of widgets, then each widget is
+										pushed to <a href="keyrow.html#_children">_children</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="keyrow.html" class="tsd-signature-type" data-tsd-kind="Class">KeyRow</a></h4>
+							<p>Returns this so that the method is chainable.</p>
 						</li>
 					</ul>
 				</section>
@@ -530,10 +571,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="row.html">Row</a>.<a href="row.html#clearchildren">clearChildren</a></p>
 								<ul>
-									<li>Defined in mixins/MultiParent.ts:49</li>
+									<li>Defined in mixins/MultiParent.ts:80</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove all children from this widget.</p>
+								</div>
+								<p><a href="keyrow.html#_layoutdirty">_layoutDirty</a> and <a href="keyrow.html#_dirty">_dirty</a> are set to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="keyrow.html" class="tsd-signature-type" data-tsd-kind="Class">KeyRow</a></h4>
+							<p>Returns this so that the method is chainable.</p>
 						</li>
 					</ul>
 				</section>
@@ -923,16 +971,30 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="row.html">Row</a>.<a href="row.html#remove">remove</a></p>
 								<ul>
-									<li>Defined in mixins/MultiParent.ts:27</li>
+									<li>Defined in mixins/MultiParent.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove child(ren) from this widget.</p>
+								</div>
+								<p><a href="keyrow.html#_layoutdirty">_layoutDirty</a> and <a href="keyrow.html#_dirty">_dirty</a> are set to true and
+									<a href="keyrow.html#updateinheritedtheme">updateInheritedTheme</a> is called so that new children inherit this
+								widget&#39;s theme.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>children: <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If this is a widget, then it is removed from
+											<a href="keyrow.html#_children">_children</a>. If this is an array of widgets, then each widget is
+										removed from <a href="keyrow.html#_children">_children</a>.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="keyrow.html" class="tsd-signature-type" data-tsd-kind="Class">KeyRow</a></h4>
+							<p>Returns this so that the method is chainable.</p>
 						</li>
 					</ul>
 				</section>
@@ -995,7 +1057,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="row.html">Row</a>.<a href="row.html#updateinheritedtheme">updateInheritedTheme</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:17</li>
+									<li>Defined in mixins/Parent.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

@@ -65,6 +65,15 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A generic keyboard <a href="../interfaces/driver.html">driver</a>.</p>
+					</div>
+					<p>Does nothing on its own, but provides an API for sending keyboard events to
+					registered roots.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -148,9 +157,14 @@
 					<div class="tsd-signature tsd-kind-icon">event<wbr>Queues<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><a href="keyevent.html" class="tsd-signature-type" data-tsd-kind="Class">KeyEvent</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in drivers/KeyboardDriver.ts:14</li>
+							<li>Defined in drivers/KeyboardDriver.ts:19</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The list of key down/up events that haven&#39;t been dispatched yet.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="focus" class="tsd-anchor"></a>
@@ -161,6 +175,11 @@
 							<li>Defined in drivers/KeyboardDriver.ts:23</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The currently focused root. New keyboard events will go to this root</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="keysdown" class="tsd-anchor"></a>
@@ -171,6 +190,11 @@
 							<li>Defined in drivers/KeyboardDriver.ts:21</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A set containing the keys currently down.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -185,9 +209,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:36</li>
+									<li>Defined in drivers/KeyboardDriver.ts:49</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Changes the current <a href="keyboarddriver.html#focus">root focus</a>.</p>
+								</div>
+								<p>If there was a previous root focus, that root&#39;s <a href="root.html#clearfocus">Root.clearFocus</a>
+								is called with <a href="../enums/focustype.html#keyboard">FocusType.Keyboard</a>.</p>
+								<p><a href="keyboarddriver.html#keysdown">keysDown</a> is cleared.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -208,9 +240,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:48</li>
+									<li>Defined in drivers/KeyboardDriver.ts:70</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Clear the current <a href="keyboarddriver.html#focus">root focus</a>. Calls
+									<a href="keyboarddriver.html#changefocusedroot">changeFocusedRoot</a> with null.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -225,9 +263,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:25</li>
+									<li>Defined in drivers/KeyboardDriver.ts:30</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the <a href="keyboarddriver.html#eventqueues">event queue</a> of a given root. If this driver
+										is not registered to the given root or the given root is disabled, making
+									it not present in eventQueues, then null is returned.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -248,10 +293,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:44</li>
+									<li>Defined in drivers/KeyboardDriver.ts:62</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the current <a href="keyboarddriver.html#focus">root focus</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a></h4>
+							<p>Returns <a href="keyboarddriver.html#focus">focus</a></p>
 						</li>
 					</ul>
 				</section>
@@ -265,16 +316,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:74</li>
+									<li>Defined in drivers/KeyboardDriver.ts:127</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a key is pressed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Must follow the
+											<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" class="external">KeyboardEvent.key</a>
+										Web API.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if key was in <a href="keyboarddriver.html#keysdown">keysDown</a></p>
 						</li>
 					</ul>
 				</section>
@@ -288,13 +350,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:52</li>
+									<li>Defined in drivers/KeyboardDriver.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Push a new <a href="keypress.html">KeyPress</a> event to <a href="keyboarddriver.html#eventqueues">eventQueues</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Must follow the
+											<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" class="external">KeyboardEvent.key</a>
+										Web API.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -311,13 +383,24 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:67</li>
+									<li>Defined in drivers/KeyboardDriver.ts:111</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls <a href="keyboarddriver.html#keydown">keyDown</a> followed by <a href="keyboarddriver.html#keyup">keyUp</a>. If the key was already
+									down before calling (<a href="keyboarddriver.html#iskeydown">isKeyDown</a>), keyUp is not called.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Must follow the
+											<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" class="external">KeyboardEvent.key</a>
+										Web API.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -334,13 +417,23 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:59</li>
+									<li>Defined in drivers/KeyboardDriver.ts:95</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Push a new <a href="keyrelease.html">KeyRelease</a> event to <a href="keyboarddriver.html#eventqueues">eventQueues</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Must follow the
+											<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" class="external">KeyboardEvent.key</a>
+										Web API.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -358,13 +451,13 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/driver.html">Driver</a>.<a href="../interfaces/driver.html#ondisable">onDisable</a></p>
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:83</li>
+									<li>Defined in drivers/KeyboardDriver.ts:143</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called when driver is unregistered from an enabled root or when a
-									root that this driver is registered to is disabled.</p>
+									<p>Removes disabled root from <a href="keyboarddriver.html#eventqueues">eventQueues</a>. If the root was the
+									<a href="keyboarddriver.html#focus">focus</a>, then <a href="keyboarddriver.html#clearfocus">the focus is cleared</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -388,13 +481,12 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/driver.html">Driver</a>.<a href="../interfaces/driver.html#onenable">onEnable</a></p>
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:78</li>
+									<li>Defined in drivers/KeyboardDriver.ts:134</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called when driver is registered to an enabled root or when a root
-									that this driver is registered to is enabled.</p>
+									<p>Adds enabled root to <a href="keyboarddriver.html#eventqueues">eventQueues</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -418,7 +510,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/driver.html">Driver</a>.<a href="../interfaces/driver.html#onfocuscapturerchanged">onFocusCapturerChanged</a></p>
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:117</li>
+									<li>Defined in drivers/KeyboardDriver.ts:190</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -456,12 +548,18 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/driver.html">Driver</a>.<a href="../interfaces/driver.html#onfocuschanged">onFocusChanged</a></p>
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:104</li>
+									<li>Defined in drivers/KeyboardDriver.ts:177</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called by <a href="root.html#requestfocus">Root.requestFocus</a> and <a href="root.html#clearfocus">Root.clearFocus</a></p>
+									<p>Does nothing if the new focus type is not a <a href="../enums/focustype.html#keyboard">FocusType.Keyboard</a>.
+										If the focus comes from a root which is not the
+										<a href="keyboarddriver.html#focus">root focus</a>, then the root focus is
+										<a href="keyboarddriver.html#changefocusedroot">changed to the new root</a>. If it comes from the
+										current root focus and there is no new focused widget (the root&#39;s
+										keyboard focus was cleared), then the root focus is
+									<a href="keyboarddriver.html#clearfocus">cleared</a>.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -491,12 +589,13 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/driver.html">Driver</a>.<a href="../interfaces/driver.html#update">update</a></p>
 								<ul>
-									<li>Defined in drivers/KeyboardDriver.ts:91</li>
+									<li>Defined in drivers/KeyboardDriver.ts:155</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Hook called by <a href="root.html#prelayoutupdate">Root.preLayoutUpdate</a></p>
+									<p>Dispatches all {@link eventQueue | queued events } for the root and
+									clears its event queue</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>

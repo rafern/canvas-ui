@@ -5,6 +5,8 @@ import { LayoutContext } from './LayoutContext';
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
  * used by {@link Root} and {@link ViewportWidget}.
+ *
+ * @category Core
  */
 export class Viewport {
     /**
@@ -113,7 +115,7 @@ export class Viewport {
      * canvas. Expansion is done in powers of 2 to avoid issues with external 3D
      * libraries.
      *
-     * Returns true if the child was resized, else, false.
+     * @returns Returns true if the child was resized, else, false.
      */
     resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): boolean {
         if(!child.layoutDirty || layoutCtx === null)
@@ -159,7 +161,7 @@ export class Viewport {
      *
      * Nothing is done if the child was not dirty.
      *
-     * Returns whether the child was dirty or not.
+     * @returns Returns true if the child was dirty, else, false.
      */
     paintToCanvas(child: Widget): boolean {
         // Paint child

@@ -1,36 +1,40 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { Clickable } from '../mixins/Clickable';
 import { BoxLayout } from '../mixins/BoxLayout';
-import { FocusType } from '../core/FocusType';
-import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
-import type { Widget } from './Widget';
 
-export type IconCallback = () => void;
-
-export class Icon extends Mixin(BoxLayout, Clickable) {
-    // The current image used by the icon
+/**
+ * A widget which displays a given image.
+ *
+ * @category Widget
+ */
+export class Icon extends BoxLayout {
+    /** The current image used by the icon. */
     private _image: HTMLImageElement;
-    // The last source that the current image was using
+    /**
+     * The last source that the current image was using. Used for tracking if
+     * the image source changed and if the image is fully loaded.
+     */
     private lastSrc: string | null = null;
-    // The image rotation in radians
+    /** The current image rotation in radians. */
     private _rotation = 0;
-    // The callback for clicking this Icon. If null, the Icon is not clickable
-    callback: IconCallback | null;
-    // The view box of this Icon, if the image used for the icon is a
-    // spritesheet. If null, the entire image will be used
+    /**
+     * The view box of this Icon, useful if the image used for the icon is a
+     * spritesheet. If null, the entire image will be used.
+     */
     viewBox: [number, number, number, number] | null;
-    // The wanted width and height. If null, the width or height of the image
-    // will be used, taking into account the viewBox
+     /**
+      * The wanted width. If null, the image's width will be used, taking
+      * {@link viewBox} into account.
+      */
     width: number | null;
+     /**
+      * The wanted height. If null, the image's height will be used, taking
+      * {@link viewBox} into account.
+      */
     height: number | null;
 
-    // A widget that renders an image. Optionally, this can act as a button by
-    // having a callback set. Aspect ratio of the wanted size is preserved.
-    // viewBox may be passed to only draw a section of the image. It can also
-    // be transformed
-    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, callback: IconCallback | null = null, themeOverride: Theme | null = null) {
+    /** Create a new Icon. */
+    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeOverride: Theme | null = null) {
         // Icons need a clear background, have no children and don't propagate
         // events
         super(themeOverride, true, false);
@@ -39,10 +43,15 @@ export class Icon extends Mixin(BoxLayout, Clickable) {
         this.width = width;
         this.height = height;
         this.viewBox = viewBox;
-        this.callback = callback;
         this.updateDimensions();
     }
 
+    /**
+     * Update {@link boxWidth} and {@link boxHeight}.
+     *
+     * If {@link width} is not set, then {@link _image}'s width is used. The
+     * same applies for height.
+     */
     private updateDimensions(): void {
         let wantedWidth = this.width;
         if(wantedWidth === null) {
@@ -67,13 +76,31 @@ export class Icon extends Mixin(BoxLayout, Clickable) {
             this.boxHeight = wantedHeight;
     }
 
-    setImage(image: HTMLImageElement): void {
+    /**
+     * The image used by this Icon.
+     *
+     * Sets {@link _image} if changed and sets {@link lastSrc} to null to mark
+     * the image as loading so that flickers are minimised.
+     *
+     * If getting, returns {@link _image}.
+     */
+    set image(image: HTMLImageElement) {
         if(image !== this._image) {
             this._image = image;
             this.lastSrc = null;
         }
     }
 
+    get image(): HTMLImageElement {
+        return this._image;
+    }
+
+    /**
+     * Get the rectangle where the icon will be painted.
+     *
+     * @returns Returns a 4-tuple containing, in this order, the left edge's
+     * offset, the top edge's offset, the width and the height.
+     */
     private getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find icon rectangle, preserving aspect ratio
         const widthRatio = width / this.boxWidth;
@@ -90,29 +117,6 @@ export class Icon extends Mixin(BoxLayout, Clickable) {
         ];
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
-        // If there is a callback, check if icon was pressed and do callback if
-        // so
-        if(this.callback === null) {
-            // Drop pointer focus on this component since there is no callback
-            root.dropFocus(FocusType.Pointer, this);
-            return this;
-        }
-
-        const [x, y, w, h] = this.getIconRect(0, 0, width, height);
-        this.handleClickEvent(event, root, [x, x + w, y, y + h]);
-        if(this.clickStateChanged && this.wasClick) {
-            try {
-                this.callback();
-            }
-            catch(e) {
-                console.error('Exception in Icon callback', e);
-            }
-        }
-
-        return this;
-    }
-
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
@@ -124,15 +128,22 @@ export class Icon extends Mixin(BoxLayout, Clickable) {
         this.updateDimensions();
     }
 
-    get rotation(): number {
-        return this._rotation;
-    }
-
+    /**
+     * This icon's rotation. Useful for implementing spinners.
+     *
+     * Sets {@link _rotation} if changed and sets {@link _dirty} to true.
+     *
+     * If getting, returns {@link _rotation}.
+     */
     set rotation(rotation: number) {
         if(rotation !== this._rotation) {
             this._rotation = rotation;
             this._dirty = true;
         }
+    }
+
+    get rotation(): number {
+        return this._rotation;
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {

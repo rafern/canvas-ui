@@ -9,6 +9,8 @@ import type { Root } from './Root';
  *
  * Drivers are commonly used to provide input to roots, but they could be used
  * to provide other functionality.
+ *
+ * @category Core
  */
 export interface Driver {
     /** Hook called by {@link Root.preLayoutUpdate} */

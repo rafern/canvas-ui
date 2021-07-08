@@ -1,23 +1,23 @@
-import { TextInput, TextValidator } from "./TextInput";
-import { VariableCallback } from '../mixins/Variable';
+import { MakeDefaultTextValidatorWithCallback } from '../validators/DefaultTextValidator';
+import type { VariableCallback } from '../mixins/Variable';
 import type { Theme } from "../theme/Theme";
+import { TextInput } from "./TextInput";
 
-export function DefaultTextValidator(text: string): [boolean, string] {
-    return [true, text];
-}
-
-export function MakeDefaultTextValidatorWithCallback(callback: VariableCallback<string> | null = null): TextValidator<string> {
-    if(callback === null)
-        return DefaultTextValidator;
-
-    return (text: string): [boolean, string] => {
-        callback(text);
-        return [true, text];
-    }
-}
-
-// A TextInput with an optional callback and no validation
+/**
+ * A {@link TextInput} with an optional callback and no validation.
+ *
+ * @category Widget
+ */
 export class BasicTextInput extends TextInput<string> {
+    /**
+     * Create a new BasicTextInput.
+     *
+     * Equivalent to creating a new {@link TextInput} instance with a validator
+     * created by {@link MakeDefaultTextValidatorWithCallback}.
+     *
+     * @param callback An optional callback called when the text changes. If
+     * null, then no callback is called.
+     */
     constructor(callback: VariableCallback<string> | null = null, initialValue = '', themeOverride: Theme | null = null) {
         const validator = MakeDefaultTextValidatorWithCallback(callback);
         super(validator, initialValue, themeOverride);

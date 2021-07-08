@@ -1,10 +1,28 @@
+import type { Validator, UnknownValidator } from './Validator';
 import { VariableCallback } from '../mixins/Variable';
 
-export type UnknownValidator = (value: unknown) => [boolean, unknown];
-
-export type UnknownValidatorList = ((value: unknown) => [boolean, unknown])[];
-
-export function MakeCompositeValidator<U, V>(validators: UnknownValidatorList, defaultValue: V, callback: VariableCallback<V> | null = null): (value: U) => [boolean, V] {
+/**
+ * Creates a new {@link Validator} which is a list of validators merged into
+ * one.
+ *
+ * @param validators The list of validators to be merged. The validators will be
+ * run in the order of the array.
+ *
+ * @param defaultValue The bogus value that will be returned if the input is
+ * invalid
+ *
+ * @param callback A callback which is called if validation succeeds. If null,
+ * no such callback will be called.
+ *
+ * @template U The type of the input.
+ *
+ * @template V The type of the output (the transformed input).
+ *
+ * @category Validator
+ */
+export function MakeCompositeValidator<U, V>(validators: Array<UnknownValidator>, defaultValue: V, callback: VariableCallback<V> | null = null): Validator<U, V> {
+    // TODO there must be a better way to do this which preserves type checking.
+    // maybe make Validator a class which can be chained with other validators?
     return (value: U): [boolean, V] => {
         let valid = true;
         let nextValue: unknown = value;

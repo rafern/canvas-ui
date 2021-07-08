@@ -6,14 +6,31 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
+/**
+ * A function with no input or return values. Used as callbacks for
+ * {@link Button}.
+ *
+ * Note that this has no background fill. If you want one, use
+ * {@link FilledButton} instead.
+ *
+ * @category Widget
+ */
 export type ButtonCallback = () => void;
 
+/**
+ * A {@link BaseContainer} which can be clicked {@link Clickable} as a button.
+ * Since the button grabs all events, no events are propagated to the child.
+ *
+ * @category Widget
+ */
 export class Button extends Mixin(Clickable, BaseContainer) {
-    // The callback for clicking this button. If null, the button is not
-    // clickable but will still absorb events;
+    /**
+     * The callback for clicking this button. If null, the button is not
+     * clickable but will still absorb events.
+     */
     callback: ButtonCallback | null;
 
-    // A clickable container that doesn't propagate events
+    /** Create a new Button. */
     constructor(child: Widget, callback: ButtonCallback | null = null, themeOverride: Theme | null = null) {
         super(child, false, themeOverride);
         this.callback = callback;

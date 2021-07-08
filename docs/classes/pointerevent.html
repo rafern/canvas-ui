@@ -65,6 +65,16 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A pointer <a href="event.html">Event</a>. This is an abstract class and is implemented in the
+							child classes <a href="pointermove.html">PointerMove</a>, <a href="pointerpress.html">PointerPress</a> and
+						<a href="pointerrelease.html">PointerRelease</a>.</p>
+					</div>
+					<p>Has a focus type of decided by the child classes and does not need focus.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -132,9 +142,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="event.html">Event</a>.<a href="event.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in events/PointerEvent.ts:7</li>
+									<li>Defined in events/PointerEvent.ts:18</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new PointerEvent. Sets <a href="pointerevent.html#x">x</a>, <a href="pointerevent.html#y">y</a>, <a href="pointerevent.html#target">target</a>,
+									<a href="pointerevent.html#focustype">focusType</a> and <a href="pointerevent.html#needsfocus">needsFocus</a> to false.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -164,9 +180,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#focustype">focusType</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:6</li>
+							<li>Defined in events/Event.ts:19</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The focus type of this event. Can be null.</p>
+						</div>
+						<p>If null, this event cannot be focused, since events are focused by their
+						<a href="../enums/focustype.html">FocusType</a> as a group.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsfocus" class="tsd-anchor"></a>
@@ -175,9 +198,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#needsfocus">needsFocus</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:7</li>
+							<li>Defined in events/Event.ts:21</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Can this event be dispatched without a target?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="target" class="tsd-anchor"></a>
@@ -186,9 +214,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#target">target</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:5</li>
+							<li>Defined in events/Event.ts:12</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The target of this event. Can be null</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="x" class="tsd-anchor"></a>
@@ -196,9 +229,14 @@
 					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in events/PointerEvent.ts:6</li>
+							<li>Defined in events/PointerEvent.ts:16</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pointer event position&#39;s X coordinate in pixels. Not an integer.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="y" class="tsd-anchor"></a>
@@ -206,9 +244,14 @@
 					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in events/PointerEvent.ts:7</li>
+							<li>Defined in events/PointerEvent.ts:18</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Pointer event position&#39;s Y coordinate in pixels. Not an integer.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -224,9 +267,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#clonewithtarget">cloneWithTarget</a></p>
 								<ul>
-									<li>Defined in events/Event.ts:15</li>
+									<li>Defined in events/Event.ts:37</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Event with the same properties as this, except with a new
+									given target.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -247,9 +296,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in events/PointerEvent.ts:16</li>
+									<li>Defined in events/PointerEvent.ts:34</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new PointerEvent event with the same properties as this, except
+									with new <a href="pointerevent.html#x">x</a> and <a href="pointerevent.html#y">y</a> values corrected for a given offset.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

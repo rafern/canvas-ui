@@ -1,6 +1,8 @@
 /**
  * The focus type of an {@link Event}. Used to categorise events when focusing
  * {@link Widget | widgets} in {@link Root | roots}.
+ *
+ * @category Core
  */
 export enum FocusType {
     /**

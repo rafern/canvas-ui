@@ -5,15 +5,33 @@ import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
+/**
+ * A function which returns a string. An alternative to supplying a
+ * {@link Label} with a string if you have a text value that constantly changes.
+ *
+ * @category Widget
+ */
 export type TextGetter = () => string;
 
+// TODO add support for multiline text with wrapping
+/**
+ * A flexbox widget which displays line of text.
+ *
+ * @category Widget
+ */
 export class Label extends Mixin(FlexLayout, Labelable) {
-    // The text getter. If this is not null, text will be updated with the
-    // return value of this callback, every update
+    /**
+     * The text getter. If this is not null, text will be updated with the
+     * return value of this callback, every update.
+     */
     private textGetter: TextGetter | null = null;
 
-    // A widget that renders a single line of text. If text is dynamic, a
-    // function may be passed as the text
+    /**
+     * Create a new Label.
+     *
+     * @param text The text source of the label. Has the same behaviour as
+     * setting {@link text}.
+     */
     constructor(text: string | TextGetter, themeOverride: Theme | null = null) {
         // Labels need a clear background, have no children and don't propagate
         // events
@@ -31,11 +49,23 @@ export class Label extends Mixin(FlexLayout, Labelable) {
         this.vertical = false;
     }
 
+    /**
+     * This label's text source. If you want to get the current text string,
+     * then use {@link currentText} instead.
+     *
+     * When setting, if text is a {@link TextGetter}, then {@link textGetter} is
+     * set, else, {@link setText} is called.
+     *
+     * When getting, if {@link textGetter} is set, then it is returned, else,
+     * {@link _text} is returned.
+     */
     set text(text: string | TextGetter) {
         if(text instanceof Function)
             this.textGetter = text;
-        else
+        else {
+            this.textGetter = null;
             this.setText(text);
+        }
     }
 
     get text(): string | TextGetter {
@@ -45,6 +75,10 @@ export class Label extends Mixin(FlexLayout, Labelable) {
             return this._text;
     }
 
+    /**
+     * Gets {@link _text}. If you want to get the current text source, then use
+     * {@link text} instead.
+     */
     get currentText(): string {
         return this._text;
     }

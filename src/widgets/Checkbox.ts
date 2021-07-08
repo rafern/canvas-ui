@@ -1,5 +1,5 @@
 import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { Variable, VariableCallback } from '../mixins/Variable';
+import { BooleanVariable, VariableCallback } from '../mixins/Variable';
 import { Clickable, ClickState } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { BoxLayout } from '../mixins/BoxLayout';
@@ -7,10 +7,18 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-// XXX using this because Mixin can't use Variable<boolean>
-class BooleanVariable extends Variable<boolean> {}
-
+/**
+ * A checkbox widget; can be ticked or unticked.
+ *
+ * @category Widget
+ */
 export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
+    /**
+     * Create a new Checkbox.
+     *
+     * @param callback An optional callback called when the checkbox is ticked
+     * or unticked. If null, then no callback is called.
+     */
     constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
@@ -21,6 +29,12 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
         this.setValue(initialValue, false);
     }
 
+    /**
+     * Get the rectangle where the checkbox will be painted.
+     *
+     * @returns Returns a 4-tuple containing, in this order, the left edge's
+     * offset, the width, the top edge's offset and the height.
+     */
     private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find actual length
         const length = this.theme.getSize(ThemeProperty.CheckboxLength);

@@ -1,5 +1,5 @@
 import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { Variable, VariableCallback } from '../mixins/Variable';
+import { NumberVariable, VariableCallback } from '../mixins/Variable';
 import { ClickState, Clickable } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { FlexLayout } from '../mixins/FlexLayout';
@@ -7,16 +7,28 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-class NumberVariable extends Variable<number> {}
-
+// TODO allow vertical sliders
+/**
+ * A slider flexbox widget; can slide a numeric value from an inclusive minimum
+ * value to an inclusive maximum value, with optional snapping along set
+ * increments.
+ *
+ * Note that sliders can only be horizontal.
+ *
+ * @category Widget
+ */
 export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
-    // The slider's minimum and maximum
+    /** The slider's minimum value. */
     private minValue: number;
+    /** The slider's maximum value. */
     private maxValue: number;
-    // The increments in which the slider changes value. If 0, there are no
-    // fixed increments
+    /**
+     * The increments in which the slider changes value. If 0, there are no
+     * fixed increments.
+     */
     private snapIncrement: number;
 
+    /** Create a new Slider */
     constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
         // Sliders need a clear background, have no children and don't propagate
         // events
@@ -32,6 +44,12 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
         this.vertical = false;
     }
 
+    /**
+     * Get the rectangle where the slider will be painted.
+     *
+     * @returns Returns a 4-tuple containing, in this order, the left edge's
+     * offset, the width, the top edge's offset and the height.
+     */
     private getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         const thickness = Math.min(this.crossBasis, height);
         const sy = y + (height - thickness) / 2;

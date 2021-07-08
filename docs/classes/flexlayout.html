@@ -65,6 +65,33 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A mixin class which provides flexbox-like layout resolution.</p>
+					</div>
+					<p>Flex layout has verticality, a main basis, cross basis and flex ratio.</p>
+					<p>The main basis corresponds to the vertical basis if the layout is vertical,
+					else, it corresponds to the horizontal basis.</p>
+					<p>The cross basis corresponds to the horizontal basis if the layout is
+					vertical, else, it corresponds to the vertical basis.</p>
+					<p>Flex ratio always corresponds to the main axis; flex layout can only expand
+						flexibly in one direction. The flex ratio corresponds to the vertical flex
+						ratio if the layout is vertical, else, it corresponds to the horizontal flex
+					ratio.</p>
+					<p>If there are, for example, two flex widgets, one with a flex ratio of 3 and
+						another with a flex ratio of 5, then the layout will expand to the widgets&#39;
+						basis and then the remaining space will be split among the 2 widgets
+						depending on their flex ratio. In this case, the first widget will get 3/8
+						(3/(3+5)) of the remaining space, while the second widget will get 5/8
+					(5/(3+5)) of the remaining space.</p>
+					<p>An alternative to <a href="flexlayout.html#mainbasis">mainBasis</a> is <a href="flexlayout.html#internalmainbasis">internalMainBasis</a>. mainBasis
+						is meant to be set by the user, while internalMainBasis is meant to be set by
+						the widget every frame. These will be combined into the
+						<a href="flexlayout.html#_effectivemainbasis">_effectiveMainBasis</a> which is the maximum of the two. A counterpart
+					for cross basis also exists.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -200,9 +227,14 @@
 					<div class="tsd-signature tsd-kind-icon">_cross<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:11</li>
+							<li>Defined in mixins/FlexLayout.ts:41</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current basis added along the cross axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -221,9 +253,14 @@
 					<div class="tsd-signature tsd-kind-icon">_effective<wbr>Cross<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:19</li>
+							<li>Defined in mixins/FlexLayout.ts:49</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current effective basis added along the cross axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_effectivemainbasis" class="tsd-anchor"></a>
@@ -231,9 +268,14 @@
 					<div class="tsd-signature tsd-kind-icon">_effective<wbr>Main<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:18</li>
+							<li>Defined in mixins/FlexLayout.ts:47</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current effective basis added along the main axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_flexratio" class="tsd-anchor"></a>
@@ -241,9 +283,14 @@
 					<div class="tsd-signature tsd-kind-icon">_flex<wbr>Ratio<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:8</li>
+							<li>Defined in mixins/FlexLayout.ts:37</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current flex ratio of the flexbox</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_internalcrossbasis" class="tsd-anchor"></a>
@@ -251,9 +298,14 @@
 					<div class="tsd-signature tsd-kind-icon">_internal<wbr>Cross<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:15</li>
+							<li>Defined in mixins/FlexLayout.ts:45</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current internal basis added along the cross axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_internalmainbasis" class="tsd-anchor"></a>
@@ -261,9 +313,14 @@
 					<div class="tsd-signature tsd-kind-icon">_internal<wbr>Main<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:14</li>
+							<li>Defined in mixins/FlexLayout.ts:43</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current internal basis added along the main axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_layoutdirty" class="tsd-anchor"></a>
@@ -282,9 +339,14 @@
 					<div class="tsd-signature tsd-kind-icon">_main<wbr>Basis<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:10</li>
+							<li>Defined in mixins/FlexLayout.ts:39</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current basis added along the main axis</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_vertical" class="tsd-anchor"></a>
@@ -292,9 +354,14 @@
 					<div class="tsd-signature tsd-kind-icon">_vertical<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:22</li>
+							<li>Defined in mixins/FlexLayout.ts:51</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Does this flex layout grow vertically? If null, it inherits</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="lastvertical" class="tsd-anchor"></a>
@@ -302,9 +369,15 @@
 					<div class="tsd-signature tsd-kind-icon">last<wbr>Vertical<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:24</li>
+							<li>Defined in mixins/FlexLayout.ts:56</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Was the last layout vertical or not? Never null. Use this to tell if a
+							widget is vertical or not when painting.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -364,17 +437,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:59</li>
+									<li>Defined in mixins/FlexLayout.ts:98</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:63</li>
+									<li>Defined in mixins/FlexLayout.ts:102</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -462,17 +545,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:26</li>
+									<li>Defined in mixins/FlexLayout.ts:59</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The flex ratio of the flexbox</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:30</li>
+									<li>Defined in mixins/FlexLayout.ts:63</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The flex ratio of the flexbox</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -526,17 +619,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:81</li>
+									<li>Defined in mixins/FlexLayout.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:85</li>
+									<li>Defined in mixins/FlexLayout.ts:126</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -558,17 +661,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:70</li>
+									<li>Defined in mixins/FlexLayout.ts:110</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:74</li>
+									<li>Defined in mixins/FlexLayout.ts:114</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -607,17 +720,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:48</li>
+									<li>Defined in mixins/FlexLayout.ts:86</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:52</li>
+									<li>Defined in mixins/FlexLayout.ts:90</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -688,17 +811,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:37</li>
+									<li>Defined in mixins/FlexLayout.ts:74</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does this flex layout grow vertically? If null, it inherits the
+									verticality of the layout context when populating/resolving layout.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:41</li>
+									<li>Defined in mixins/FlexLayout.ts:78</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does this flex layout grow vertically? If null, it inherits the
+									verticality of the layout context when populating/resolving layout.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -879,9 +1014,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="widget.html">Widget</a>.<a href="widget.html#handlepopulatelayout">handlePopulateLayout</a></p>
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:108</li>
+									<li>Defined in mixins/FlexLayout.ts:167</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout population by adding the effective basis and flex ratio to
+									the <a href="layoutcontext.html">LayoutContext</a>. Also populates <a href="flexlayout.html#lastvertical">lastVertical</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -951,9 +1092,16 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="widget.html">Widget</a>.<a href="widget.html#handleresolvelayout">handleResolveLayout</a></p>
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:148</li>
+									<li>Defined in mixins/FlexLayout.ts:212</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout resolution by setting the length to the effective basis
+										plus this widget&#39;s share of the free space, which is dependent on the
+									flex ratio.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1181,9 +1329,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:100</li>
+									<li>Defined in mixins/FlexLayout.ts:155</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update <a href="flexlayout.html#_effectivecrossbasis">_effectiveCrossBasis</a>.</p>
+								</div>
+								<p>Sets it to the maximum of <a href="flexlayout.html#_crossbasis">_crossBasis</a> and
+									<a href="flexlayout.html#_internalcrossbasis">_internalCrossBasis</a>. If the effective main basis changes,
+								<a href="flexlayout.html#_layoutdirty">_layoutDirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1198,9 +1354,17 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:92</li>
+									<li>Defined in mixins/FlexLayout.ts:140</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update <a href="flexlayout.html#_effectivemainbasis">_effectiveMainBasis</a>.</p>
+								</div>
+								<p>Sets it to the maximum of <a href="flexlayout.html#_mainbasis">_mainBasis</a> and
+									<a href="flexlayout.html#_internalmainbasis">_internalMainBasis</a>. If the effective main basis changes,
+								<a href="flexlayout.html#_layoutdirty">_layoutDirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

@@ -7,16 +7,24 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
+/**
+ * A {@link MultiParent} which automatically paints children, adds spacing,
+ * propagates events and handles layout.
+ *
+ * Note that there is no padding. Put this inside a {@link Margin} if padding is
+ * needed.
+ *
+ * @category Widget
+ */
 export class MultiContainer extends MultiParent {
-    // Is the container's whole background dirty (including spacing)?
+    /** Is the container's whole background dirty (including spacing)? */
     private backgroundDirty = true;
-    // Is this container vertical?
+    /** Is this container vertical? */
     private vertical: boolean;
-    // Temporary layout context for layout resolution
+    /** Temporary layout context for layout resolution. */
     private innerContext: LayoutContext | null = null;
 
-    // A widget that contains multiple child widgets and grows along a specified
-    // axis
+    /** Create a MultiContainer. */
     constructor(vertical: boolean, themeOverride: Theme | null = null) {
         // MultiContainers clear their own background, have children and
         // propagate events

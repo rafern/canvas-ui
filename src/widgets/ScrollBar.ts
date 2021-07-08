@@ -1,5 +1,5 @@
 import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { Variable, VariableCallback } from '../mixins/Variable';
+import { NumberVariable, VariableCallback } from '../mixins/Variable';
 import { Clickable, ClickState } from '../mixins/Clickable';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { FlexLayout } from '../mixins/FlexLayout';
@@ -7,16 +7,23 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-class NumberVariable extends Variable<number> {}
-
+/**
+ * A scrollbar flexbox widget which can be both vertical and horizontal.
+ *
+ * @category Widget
+ */
 export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
-    // The scrollbar's end. Maximum value will be max(min(end - barLength, value), 0)
+    /**
+     * The scrollbar's end. Maximum value will be
+     * max(min(end - {@link barLength}, {@link value}), 0).
+     */
     private _end: number;
-    // The scrollbar's bar length, in ratios similar to flex ratio
+    /** The scrollbar's bar length, in ratios similar to flex ratio. */
     private _barLength: number;
-    // What was the value when dragging began?
+    /** What was the value when dragging began? */
     private dragValue: number;
 
+    /** Create a new ScrollBar */
     constructor(callback: VariableCallback<number> | null = null, end = 100, barLength = 100, initialValue = 0, themeOverride: Theme | null = null) {
         // Scrollbars need a clear background, have no children and don't
         // propagate events
@@ -29,6 +36,13 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         this.dragValue = initialValue;
     }
 
+    /**
+     * The scrollbar's end; the length of the scrollable axis. For example, if
+     * this is a vertical scrollbar, this value would be the resolved height of
+     * the widget being scrolled.
+     *
+     * Tied to {@link _end}. If changed, {@link _dirty} is set to true.
+     */
     get end(): number {
         return this._end;
     }
@@ -40,6 +54,14 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         }
     }
 
+    /**
+     * The scrollbar's bar length; the length of the viewable zone along the
+     * scrollable axis. For example, if this is a vertical scrollbar, this value
+     * would be the resolved height of the viewport wrapping the widget being
+     * scrolled.
+     *
+     * Tied to {@link _barLength}. If changed, {@link _dirty} is set to true.
+     */
     get barLength(): number {
         return this._barLength;
     }
@@ -58,6 +80,12 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         );
     }
 
+    /**
+     * Get the rectangle where the scrollbar will be painted.
+     *
+     * @returns Returns a 4-tuple containing, in this order, the left edge's
+     * offset, the width, the top edge's offset and the height.
+     */
     private getBarRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         if(this.lastVertical) {
             const thickness = Math.min(this.crossBasis, width);

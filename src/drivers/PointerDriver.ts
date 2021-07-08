@@ -15,14 +15,40 @@ interface PointerDriverState {
     hovering: boolean;
 }
 
+/**
+ * A generic pointer {@link Driver | driver}.
+ *
+ * Does nothing on its own, but provides an API for sending pointer events to
+ * registered roots and (un)registering pointers.
+ *
+ * @category Driver
+ */
 export class PointerDriver implements Driver {
+    /**
+     * The current state for each registered and enabled root. Contains whether
+     * each root is pressing, hovering, which pointer is bound to it and its
+     * event queue
+     */
     protected states: Map<Root, PointerDriverState> = new Map();
+    /** The next available pointer ID. See {@link registerPointer} */
     private nextPointerID = 0;
 
+    /**
+     * Register a new pointer.
+     *
+     * @returns Returns {@link nextPointerID} and increments it
+     */
     registerPointer(): number {
         return this.nextPointerID++;
     }
 
+    /**
+     * Unregister a pointer.
+     *
+     * If a root has this pointer bound to it, the pointer is unbound from the
+     * root, a Leave event is queued to the root and the hovering and pressing
+     * state of the root is set to false.
+     */
     unregisterPointer(pointer: number): void {
         for(const [root, state] of this.states) {
             // Queue leave event if unregistered pointer was assigned to root
@@ -39,6 +65,25 @@ export class PointerDriver implements Driver {
         }
     }
 
+    /**
+     * Queue up a pointer event to a given root. The type of
+     * {@link PointerEvent} is decided automatically based on the root's state
+     * and whether its pressing or not.
+     *
+     * @param pointer The registered pointer ID
+     * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate
+     * of the pointer event. 0 is the left edge of the root, while 1 is the
+     * right edge of the root.
+     * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate
+     * of the pointer event. 0 is the top edge of the root, while 1 is the
+     * bottom edge of the root.
+     * @param pressing Is the pointer pressed?
+     *
+     * If null, the last pressing state is used, meaning that the pressing state
+     * has not changed. Useful if getting pointer movement in an event based
+     * environment where you only know when a pointer press occurs, but not if
+     * the pointer is pressed or not
+     */
     movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean | null = null): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
@@ -91,6 +136,12 @@ export class PointerDriver implements Driver {
         state.hovering = true;
     }
 
+    /**
+     * Queue up a {@link Leave} event to a given root. Event will only be queued
+     * if the root was being hovered.
+     *
+     * @param pointer The registered pointer ID
+     */
     leavePointer(root: Root, pointer: number): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
@@ -105,6 +156,9 @@ export class PointerDriver implements Driver {
         }
     }
 
+    /**
+     * Creates a state for the enabled root in {@link states}.
+     */
     onEnable(root: Root): void {
         // Create new state for UI that just got enabled
         this.states.set(root, <PointerDriverState>{
@@ -115,6 +169,10 @@ export class PointerDriver implements Driver {
         });
     }
 
+    /**
+     * Dispatches a leave event for the disabled root and deletes the state of
+     * the disabled root from {@link states}.
+     */
     onDisable(root: Root): void {
         // Dispatch leave event
         root.dispatchEvent(new Leave());
@@ -123,6 +181,10 @@ export class PointerDriver implements Driver {
         this.states.delete(root);
     }
 
+    /**
+     * Dispatches all queued events (found in {@link states}) for the root and
+     * clears its event queue
+     */
     update(root: Root): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')

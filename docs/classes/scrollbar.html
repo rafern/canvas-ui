@@ -69,7 +69,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="flexlayout.html" class="tsd-signature-type" data-tsd-kind="Class">FlexLayout</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><a href="clickable.html" class="tsd-signature-type" data-tsd-kind="Class">Clickable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">NumberVariable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="flexlayout.html" class="tsd-signature-type" data-tsd-kind="Class">FlexLayout</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><a href="clickable.html" class="tsd-signature-type" data-tsd-kind="Class">Clickable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><a href="numbervariable.html" class="tsd-signature-type" data-tsd-kind="Class">NumberVariable</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">ScrollBar</span>
@@ -176,7 +176,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).constructor</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:18</li>
+									<li>Defined in widgets/ScrollBar.ts:16</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -210,7 +210,7 @@
 					<div class="tsd-signature tsd-kind-icon">_bar<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:16</li>
+							<li>Defined in widgets/ScrollBar.ts:14</li>
 						</ul>
 					</aside>
 				</section>
@@ -231,7 +231,7 @@
 					<div class="tsd-signature tsd-kind-icon">_end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:14</li>
+							<li>Defined in widgets/ScrollBar.ts:12</li>
 						</ul>
 					</aside>
 				</section>
@@ -253,9 +253,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).callback</p>
 						<ul>
-							<li>Defined in mixins/Variable.ts:8</li>
+							<li>Defined in mixins/Variable.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The callback for when the value is changed.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="clickstate" class="tsd-anchor"></a>
@@ -264,9 +269,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).clickState</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:22</li>
+							<li>Defined in mixins/Clickable.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="clickstatechanged" class="tsd-anchor"></a>
@@ -275,9 +285,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).clickStateChanged</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:24</li>
+							<li>Defined in mixins/Clickable.ts:38</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click event handle result in a click state change?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="dragvalue" class="tsd-anchor"></a>
@@ -285,7 +300,7 @@
 					<div class="tsd-signature tsd-kind-icon">drag<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:18</li>
+							<li>Defined in widgets/ScrollBar.ts:16</li>
 						</ul>
 					</aside>
 				</section>
@@ -296,9 +311,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).lastClickState</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:21</li>
+							<li>Defined in mixins/Clickable.ts:34</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="lastvertical" class="tsd-anchor"></a>
@@ -307,9 +327,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).lastVertical</p>
 						<ul>
-							<li>Defined in mixins/FlexLayout.ts:24</li>
+							<li>Defined in mixins/FlexLayout.ts:56</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Was the last layout vertical or not? Never null. Use this to tell if a
+							widget is vertical or not when painting.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -329,9 +355,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).pointerPos</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:31</li>
+							<li>Defined in mixins/Clickable.ts:47</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last pointer position in normalised coordinates ([0,0] to [1,1]). If
+								there is no last pointer position, such as after a leave event, this will
+								be null. If pointer position was outside box, it will be beyond the [0,0]
+							to [1,1] range.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -373,9 +407,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).startingPointerPos</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:34</li>
+							<li>Defined in mixins/Clickable.ts:53</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Like <a href="scrollbar.html#pointerpos">pointerPos</a>, but only updated when a hold state begins.</p>
+						</div>
+						<p>Useful for implementing draggable widgets.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="wasclick" class="tsd-anchor"></a>
@@ -384,9 +424,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).wasClick</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:26</li>
+							<li>Defined in mixins/Clickable.ts:40</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click state change result in a click?</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -402,7 +447,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:43</li>
+									<li>Defined in widgets/ScrollBar.ts:41</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -410,7 +455,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:47</li>
+									<li>Defined in widgets/ScrollBar.ts:45</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -434,17 +479,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:59</li>
+									<li>Defined in mixins/FlexLayout.ts:98</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:63</li>
+									<li>Defined in mixins/FlexLayout.ts:102</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -532,7 +587,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:32</li>
+									<li>Defined in widgets/ScrollBar.ts:30</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -540,7 +595,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:36</li>
+									<li>Defined in widgets/ScrollBar.ts:34</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -564,17 +619,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:26</li>
+									<li>Defined in mixins/FlexLayout.ts:59</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The flex ratio of the flexbox</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:30</li>
+									<li>Defined in mixins/FlexLayout.ts:63</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The flex ratio of the flexbox</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -628,17 +693,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:81</li>
+									<li>Defined in mixins/FlexLayout.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:85</li>
+									<li>Defined in mixins/FlexLayout.ts:126</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the cross axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -660,17 +735,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:70</li>
+									<li>Defined in mixins/FlexLayout.ts:110</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:74</li>
+									<li>Defined in mixins/FlexLayout.ts:114</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The internal basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -709,17 +794,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:48</li>
+									<li>Defined in mixins/FlexLayout.ts:86</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:52</li>
+									<li>Defined in mixins/FlexLayout.ts:90</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The basis added along the main axis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -790,17 +885,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Variable.ts:12</li>
+									<li>Defined in mixins/Variable.ts:45</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current value.</p>
+								</div>
+								<p>If getting, throws an exception if <a href="variable.html#_value">_value</a> is undefined.</p>
+								<p>If setting, <a href="scrollbar.html#setvalue">setValue</a> is called.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">V</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Variable.ts:19</li>
+									<li>Defined in mixins/Variable.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current value.</p>
+								</div>
+								<p>If getting, throws an exception if <a href="variable.html#_value">_value</a> is undefined.</p>
+								<p>If setting, <a href="scrollbar.html#setvalue">setValue</a> is called.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -822,17 +931,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:37</li>
+									<li>Defined in mixins/FlexLayout.ts:74</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does this flex layout grow vertically? If null, it inherits the
+									verticality of the layout context when populating/resolving layout.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:41</li>
+									<li>Defined in mixins/FlexLayout.ts:78</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does this flex layout grow vertically? If null, it inherits the
+									verticality of the layout context when populating/resolving layout.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -943,7 +1064,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:61</li>
+									<li>Defined in widgets/ScrollBar.ts:59</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -976,31 +1097,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).getNormalInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:37</li>
+									<li>Defined in mixins/Clickable.ts:66</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Normalise pointer coordinates inside a rectangle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+							<p>Returns normalised coordinates</p>
 						</li>
 					</ul>
 				</section>
@@ -1015,9 +1160,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).handleClickEvent</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:69</li>
+									<li>Defined in mixins/Clickable.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the current <a href="scrollbar.html#clickstate">clickState</a> given an event, as well as
+										<a href="domroot.html#_foci">focus</a>, <a href="domroot.html#pointerstyle">pointerStyle</a>, <a href="scrollbar.html#wasclick">wasClick</a> and
+									<a href="scrollbar.html#clickstatechanged">clickStateChanged</a> flags.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1045,7 +1197,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handleEvent</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:74</li>
+									<li>Defined in widgets/ScrollBar.ts:72</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1078,7 +1230,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handlePainting</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:131</li>
+									<li>Defined in widgets/ScrollBar.ts:129</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1114,9 +1266,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).handlePopulateLayout</p>
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:108</li>
+									<li>Defined in mixins/FlexLayout.ts:167</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout population by adding the effective basis and flex ratio to
+									the <a href="layoutcontext.html">LayoutContext</a>. Also populates <a href="scrollbar.html#lastvertical">lastVertical</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1162,7 +1320,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handlePreLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:125</li>
+									<li>Defined in widgets/ScrollBar.ts:123</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1186,9 +1344,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).handleResolveLayout</p>
 								<ul>
-									<li>Defined in mixins/FlexLayout.ts:148</li>
+									<li>Defined in mixins/FlexLayout.ts:212</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout resolution by setting the length to the effective basis
+										plus this widget&#39;s share of the free space, which is dependent on the
+									flex ratio.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1234,19 +1399,33 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).isNormalInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:47</li>
+									<li>Defined in mixins/Clickable.ts:95</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a normalised point is inside a rectangle.</p>
+								</div>
+								<p>Since the coordinates are normalised, you don&#39;t have to define the
+								coordinates of the rectangle, which may seem counterintuitive.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, normalised</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, normalised</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>
@@ -1261,31 +1440,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).isPointInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:42</li>
+									<li>Defined in mixins/Clickable.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a point, in pixels, is inside a rectangle.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>
@@ -1483,7 +1686,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).setValue</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:54</li>
+									<li>Defined in widgets/ScrollBar.ts:52</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

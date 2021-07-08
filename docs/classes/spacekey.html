@@ -170,6 +170,11 @@
 									<li>Defined in widgets/VirtualKeyboard/SpaceKey.ts:6</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Button.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -193,9 +198,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#_backgrounddirty">_backgroundDirty</a></p>
 						<ul>
-							<li>Defined in widgets/BaseContainer.ts:13</li>
+							<li>Defined in widgets/BaseContainer.ts:19</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is the container&#39;s whole background dirty (including padding)?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_children" class="tsd-anchor"></a>
@@ -204,9 +214,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#_children">_children</a></p>
 						<ul>
-							<li>Defined in mixins/Parent.ts:6</li>
+							<li>Defined in mixins/Parent.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This widget&#39;s children. Note that this is marked as readonly so that it
+								cannot be accidentally replaced with a new array. This way, references to
+								this array are always valid. If you want to clear this array, set the
+								length to zero instead of creating a new instance. readonly still means
+							that you can add/remove elements to/from the array.</p>
+						</div>
+						<p>See <a href="spacekey.html#children">children</a> for the public iterator getter.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -237,9 +257,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#callback">callback</a></p>
 						<ul>
-							<li>Defined in widgets/Button.ts:14</li>
+							<li>Defined in widgets/Button.ts:31</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The callback for clicking this button. If null, the button is not
+							clickable but will still absorb events.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="clickstate" class="tsd-anchor"></a>
@@ -248,9 +274,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#clickstate">clickState</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:22</li>
+							<li>Defined in mixins/Clickable.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="clickstatechanged" class="tsd-anchor"></a>
@@ -259,9 +290,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#clickstatechanged">clickStateChanged</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:24</li>
+							<li>Defined in mixins/Clickable.ts:38</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click event handle result in a click state change?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="lastclickstate" class="tsd-anchor"></a>
@@ -270,9 +306,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#lastclickstate">lastClickState</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:21</li>
+							<li>Defined in mixins/Clickable.ts:34</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -292,9 +333,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#pointerpos">pointerPos</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:31</li>
+							<li>Defined in mixins/Clickable.ts:47</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last pointer position in normalised coordinates ([0,0] to [1,1]). If
+								there is no last pointer position, such as after a leave event, this will
+								be null. If pointer position was outside box, it will be beyond the [0,0]
+							to [1,1] range.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -336,9 +385,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#startingpointerpos">startingPointerPos</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:34</li>
+							<li>Defined in mixins/Clickable.ts:53</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Like <a href="spacekey.html#pointerpos">pointerPos</a>, but only updated when a hold state begins.</p>
+						</div>
+						<p>Useful for implementing draggable widgets.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="wasclick" class="tsd-anchor"></a>
@@ -347,9 +402,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#wasclick">wasClick</a></p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:26</li>
+							<li>Defined in mixins/Clickable.ts:40</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click state change result in a click?</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -364,9 +424,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/SingleParent.ts:10</li>
+									<li>Defined in mixins/SingleParent.ts:24</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This widget&#39;s child.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
 						</li>
 					</ul>
@@ -381,9 +446,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:39</li>
+									<li>Defined in mixins/Parent.ts:61</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get amount of children of this parent widget.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -398,9 +468,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:44</li>
+									<li>Defined in mixins/Parent.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator for children of this parent widget. Cannot modify list of
+									children via this iterator; for read-only purposes only.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -482,7 +558,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:54</li>
+									<li>Defined in widgets/FilledButton.ts:70</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -490,7 +566,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:47</li>
+									<li>Defined in widgets/FilledButton.ts:63</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -702,31 +778,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#getnormalinrect">getNormalInRect</a></p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:37</li>
+									<li>Defined in mixins/Clickable.ts:66</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Normalise pointer coordinates inside a rectangle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+							<p>Returns normalised coordinates</p>
 						</li>
 					</ul>
 				</section>
@@ -741,9 +841,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#handleclickevent">handleClickEvent</a></p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:69</li>
+									<li>Defined in mixins/Clickable.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the current <a href="spacekey.html#clickstate">clickState</a> given an event, as well as
+										<a href="domroot.html#_foci">focus</a>, <a href="domroot.html#pointerstyle">pointerStyle</a>, <a href="spacekey.html#wasclick">wasClick</a> and
+									<a href="spacekey.html#clickstatechanged">clickStateChanged</a> flags.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -771,7 +878,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#handleevent">handleEvent</a></p>
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:102</li>
+									<li>Defined in widgets/FilledButton.ts:118</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -864,7 +971,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#handlepostlayoutupdate">handlePostLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:95</li>
+									<li>Defined in widgets/FilledButton.ts:111</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -936,7 +1043,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#inherittheme">inheritTheme</a></p>
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:80</li>
+									<li>Defined in widgets/FilledButton.ts:96</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -960,19 +1067,33 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#isnormalinrect">isNormalInRect</a></p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:47</li>
+									<li>Defined in mixins/Clickable.ts:95</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a normalised point is inside a rectangle.</p>
+								</div>
+								<p>Since the coordinates are normalised, you don&#39;t have to define the
+								coordinates of the rectangle, which may seem counterintuitive.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, normalised</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, normalised</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>
@@ -987,31 +1108,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#ispointinrect">isPointInRect</a></p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:42</li>
+									<li>Defined in mixins/Clickable.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a point, in pixels, is inside a rectangle.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>
@@ -1185,7 +1330,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basickey.html">BasicKey</a>.<a href="basickey.html#setthemeoverride">setThemeOverride</a></p>
 								<ul>
-									<li>Defined in widgets/FilledButton.ts:58</li>
+									<li>Defined in widgets/FilledButton.ts:74</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>

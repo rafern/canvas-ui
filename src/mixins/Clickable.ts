@@ -7,49 +7,99 @@ import type { Root } from '../core/Root';
 import { Widget } from '../widgets/Widget';
 import { Leave } from '../events/Leave';
 
+/**
+ * The current state of a {@link Clickable}
+ *
+ * @category Mixin
+ */
 export enum ClickState {
+    /** No pointer is hovering over this clickable widget */
     Released,
+    /** A pointer is hovering over this clickable widget */
     Hover,
+    /** A pointer's button is being held down over this clickable widget */
     Hold,
 }
 
-// A Clickable is a Widget that can be clicked. It keeps its current click state
-// as well as its last click state, last pointer position and whether the last
-// click state change resulted in an actual click
+/**
+ * A mixin class for widgets that can be clicked.
+ *
+ * Keeps its current click state as well as its last click state, last pointer
+ * position and whether the last click state change resulted in an actual click.
+ *
+ * @category Mixin
+ */
 export class Clickable extends Widget {
-    // Last and current click state
+    /** Last click state */
     protected lastClickState: ClickState = ClickState.Released;
+    /** The current click state */
     protected clickState: ClickState = ClickState.Released;
-    // Did the last click event handle result in a click state change?
+    /** Did the last click event handle result in a click state change? */
     protected clickStateChanged = false;
-    // Did the last click state change result in a click?
+    /** Did the last click state change result in a click? */
     protected wasClick = false;
-    // Last pointer position in normalised coordinates ([0,0] to [1,1]). If
-    // there is no last pointer position, such as after a leave event, this
-    // will be null. If pointer position was outside box, it will be beyond
-    // the [0,0] to [1,1] range
+    /**
+     * Last pointer position in normalised coordinates ([0,0] to [1,1]). If
+     * there is no last pointer position, such as after a leave event, this will
+     * be null. If pointer position was outside box, it will be beyond the [0,0]
+     * to [1,1] range.
+     */
     protected pointerPos: [number, number] | null = null;
-    // Like pointer position, but only updated when a hold state begins.
-    // Useful for implementing draggable widgets
+    /**
+     * Like {@link pointerPos}, but only updated when a hold state begins.
+     *
+     * Useful for implementing draggable widgets.
+     */
     protected startingPointerPos: [number, number] | null = null;
 
-    // Normalise pointer coordinates inside a rectangle
+    /**
+     * Normalise pointer coordinates inside a rectangle
+     *
+     * @param pX Pointer X coordinate, in pixels
+     * @param pY Pointer Y coordinate, in pixels
+     * @param rLeft Rectangle's left coordinate, in pixels
+     * @param rRight Rectangle's right coordinate, in pixels
+     * @param rTop Rectangle's top coordinate, in pixels
+     * @param rBottom Rectangle's bottom coordinate, in pixels
+     * @returns Returns normalised coordinates
+     */
     protected getNormalInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): [number, number] {
         return [(pX - rLeft) / (rRight - rLeft), (pY - rTop) / (rBottom - rTop)];
     }
 
-    // Check if a point is inside a rectangle
+    /**
+     * Check if a point, in pixels, is inside a rectangle.
+     *
+     * @param pX Pointer X coordinate, in pixels
+     * @param pY Pointer Y coordinate, in pixels
+     * @param rLeft Rectangle's left coordinate, in pixels
+     * @param rRight Rectangle's right coordinate, in pixels
+     * @param rTop Rectangle's top coordinate, in pixels
+     * @param rBottom Rectangle's bottom coordinate, in pixels
+     * @returns Returns true if [pX, pY] is inside the rectangle, else, false
+     */
     protected isPointInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): boolean {
         return pX >= rLeft && pX < rRight && pY >= rTop && pY < rBottom;
     }
 
-    // Check if a normalised point is inside a rectangle (1x1)
+    /**
+     * Check if a normalised point is inside a rectangle.
+     *
+     * Since the coordinates are normalised, you don't have to define the
+     * coordinates of the rectangle, which may seem counterintuitive.
+     *
+     * @param pX Pointer X coordinate, normalised
+     * @param pY Pointer Y coordinate, normalised
+     * @returns Returns true if [pX, pY] is inside the rectangle, else, false
+     */
     protected isNormalInRect(pX: number, pY: number): boolean {
         return pX >= 0 && pX < 1 && pY >= 0 && pY < 1;
     }
 
-    // Set click state and update last one if current one differs. Updates
-    // wasClick and clickStateChanged flags
+    /**
+     * Set {@link clickState} and update {@link lastClickState} if current one
+     * differs. Updates {@link wasClick} and {@link clickStateChanged} flags.
+     */
     private setClickState(clickState: ClickState, inside: boolean): void {
         if(this.clickState !== clickState) {
             this.lastClickState = this.clickState;
@@ -64,8 +114,11 @@ export class Clickable extends Widget {
             this.clickStateChanged = false;
     }
 
-    // Updates the current click state given an event, as well as focus,
-    // pointer style, wasClick and clickStateChanged flags
+    /**
+     * Updates the current {@link clickState} given an event, as well as
+     * {@link _foci | focus}, {@link pointerStyle}, {@link wasClick} and
+     * {@link clickStateChanged} flags.
+     */
     protected handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void {
         if(event instanceof Leave) {
             // Drop focus on this widget if this is a leave event

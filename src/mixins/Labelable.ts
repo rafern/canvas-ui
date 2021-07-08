@@ -1,24 +1,49 @@
 import { measureTextDims } from '../helpers/measureTextDims';
 import { Widget } from '../widgets/Widget';
 
-// A Labelable is a widget that contains labels (text). It has utilities for
-// measuring text dimensions and painting text
+/**
+ * A mixin class for widgets that contain labels (text).
+ *
+ * Contains utilities for measuring text dimensions and converting between
+ * offsets in pixels and text indices.
+ *
+ * @category Mixin
+ */
 export class Labelable extends Widget {
-    // Label variables
+    /** The current string of text */
     protected _text = '';
+    /** The current font used for rendering text */
     protected _font = '';
+    /** The current minimum text width */
     protected _minLabelWidth = 0;
+    /** The current minimum text ascent height */
     protected _minLabelAscent = 0;
+    /** The current minimum text descent height */
     protected _minLabelDescent = 0;
 
-    // Text dimensions corrected for minimum dimensions
+    /**
+     * The current text width corrected for minimum width. May be outdated.
+     */
     private _labelWidth = 0;
+    /**
+     * The current text ascent height corrected for minimum ascent height. May
+     * be outdated.
+     */
     private _labelAscent = 0;
+    /**
+     * The current text descent height corrected for minimum descent height.
+     * May be outdated.
+     */
     private _labelDescent = 0;
 
-    // Does the label need to be re-measured?
+    /** Does the label need to be re-measured? */
     private labelDirty = true;
 
+    /**
+     * Update {@link _labelWidth}, {@link _labelAscent} and
+     * {@link _labelDescent}. Sets {@link labelDirty} to false. Does nothing if
+     * label is not dirty.
+     */
     private updateTextDims(): void {
         // Abort if not dirty
         if(!this.labelDirty)
@@ -35,6 +60,15 @@ export class Labelable extends Widget {
         this.labelDirty = false;
     }
 
+    /**
+     * Get the horizontal offset, in pixels, of the beginning of a character at
+     * a given index.
+     *
+     * See {@link findIndexOffsetFromOffset} for the opposite.
+     *
+     * @returns Returns the horizontal offset, in pixels. Note that this is not
+     * neccessarily an integer.
+     */
     protected findOffsetFromIndex(index: number): number {
         // If index is 0 or an invalid negative number, it is at the beginning
         if(index <= 0)
@@ -45,6 +79,20 @@ export class Labelable extends Widget {
         return measureTextDims(this._text.substring(0, index), this._font)[0];
     }
 
+    /**
+     * Get the index and horizontal offset, in pixels, of the beginning of a
+     * character at a given offset.
+     *
+     * See {@link findOffsetFromIndex} for the opposite.
+     *
+     * @returns Returns a tuple containing the index of the character at the
+     * offset and the horizontal offset, in pixels. Note that this is not
+     * neccessarily an integer.
+     *
+     * Note that the returned offset is not the same as the input offset. The
+     * returned offset is exactly at the beginning of the character. This is
+     * useful for implementing selectable text.
+     */
     protected findIndexOffsetFromOffset(offset: number): [number, number] {
         // If offset is before first character, default to index 0
         if(offset <= 0)
@@ -79,31 +127,43 @@ export class Labelable extends Widget {
         return [this._text.length, lastLength];
     }
 
+    /** Sets {@link labelDirty} and {@link _layoutDirty} to true. */
     private setLabelDirty(): void {
         this.labelDirty = true;
         this._layoutDirty = true;
     }
 
+    /** The current label width. Re-measures text if neccessary. */
     get labelWidth(): number {
         this.updateTextDims();
         return this._labelWidth;
     }
 
+    /** The current label ascent height. Re-measures text if neccessary. */
     get labelAscent(): number {
         this.updateTextDims();
         return this._labelAscent;
     }
 
+    /** The current label descent height. Re-measures text if neccessary. */
     get labelDescent(): number {
         this.updateTextDims();
         return this._labelDescent;
     }
 
+    /**
+     * The current label height. Re-measures text if neccessary. Equivalent to
+     * adding up {@link labelAscent} and {@link labelDescent}.
+     */
     get labelHeight(): number {
         this.updateTextDims();
         return this._labelAscent + this._labelDescent;
     }
 
+    /**
+     * Sets {@link _text} if the value is different. If it is different, also
+     * sets {@link _dirty} to true and calls {@link setLabelDirty}.
+     */
     protected setText(text: string): void {
         if(this._text !== text) {
             this._text = text;
@@ -112,6 +172,10 @@ export class Labelable extends Widget {
         }
     }
 
+    /**
+     * Sets {@link _font} if the value is different. If it is different, also
+     * sets {@link _dirty} to true and calls {@link setLabelDirty}.
+     */
     protected setFont(font: string): void {
         if(this._font !== font) {
             this._font = font;
@@ -120,6 +184,10 @@ export class Labelable extends Widget {
         }
     }
 
+    /**
+     * Sets {@link _minLabelWidth} if the value is different. If it is
+     * different, also calls {@link setLabelDirty}.
+     */
     protected setMinLabelWidth(minLabelWidth: number): void {
         if(this._minLabelWidth !== minLabelWidth) {
             this._minLabelWidth = minLabelWidth;
@@ -127,6 +195,10 @@ export class Labelable extends Widget {
         }
     }
 
+    /**
+     * Sets {@link _minLabelAscent} if the value is different. If it is
+     * different, also calls {@link setLabelDirty}.
+     */
     protected setMinLabelAscent(minLabelAscent: number): void {
         if(this._minLabelAscent !== minLabelAscent) {
             this._minLabelAscent = minLabelAscent;
@@ -134,6 +206,10 @@ export class Labelable extends Widget {
         }
     }
 
+    /**
+     * Sets {@link _minLabelDescent} if the value is different. If it is
+     * different, also calls {@link setLabelDirty}.
+     */
     protected setMinLabelDescent(minLabelDescent: number): void {
         if(this._minLabelDescent !== minLabelDescent) {
             this._minLabelDescent = minLabelDescent;

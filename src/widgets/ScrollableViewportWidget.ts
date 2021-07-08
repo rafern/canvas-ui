@@ -8,19 +8,62 @@ import type { Widget } from './Widget';
 import { Column } from './Column';
 import { Row } from './Row';
 
+/**
+ * A wrapper for a {@link ViewportWidget} which can be scrolled with
+ * {@link ScrollBar}.
+ *
+ * To avoid an ugly looking layout, scrollbars are automatically hidden if they
+ * are not needed. However, you can only tell if a scrollbar is needed after
+ * layout is resolved. This creates problems, because scrollbars also contribute
+ * to the layout, resulting in scrollbar hiding/showing being one frame late and
+ * potentially introducing flickering. An alternative will be provided in the
+ * future, but for now, use {@link vScrollHide} and {@link hScrollHide} to
+ * force-hide each scrollbar if you know they aren't needed to avoid flickering
+ * or other layout issues.
+ *
+ * @category Widget
+ */
 export class ScrollableViewportWidget extends PassthroughWidget {
-    private viewport: ViewportWidget;
-    private vScroll: ScrollBar;
-    private hScroll: ScrollBar;
+    /** A reference to the created {@link ViewportWidget} for easy access. */
+    private readonly viewport: ViewportWidget;
+    /**
+     * A reference to the created vertical {@link ScrollBar} for easy access.
+     */
+    private readonly vScroll: ScrollBar;
+    /**
+     * A reference to the created horizontal {@link ScrollBar} for easy access.
+     */
+    private readonly hScroll: ScrollBar;
     // FIXME scrollbars always update one frame late because of limitations with
     // the layout system; you can only get the used width and height in the
     // update function after the widget has already drawed. this variable is
     // used as a workaround for avoiding a one frame flash of a scrollbar, when
     // you know the scrollbar visibility will change, disable the scrollbars
     // manually
+    // XXX even if you could get layout at update, that would require
+    // recursively resolving layout. auto-hiding scrollbars is a flawed idea
+    // when the scrollbars also affect layout. maybe thats why html scrollbars
+    // are always either shown and disabled, or auto-hiding but not affecting
+    // layout. maybe have a way to use either one of these modes? non-layout
+    // affecting scrollbars would require a system for doing overlays though...
+    /**
+     * Hide the vertical scroll bar?
+     *
+     * Used to work around the current limitation of flickering scrollbars. If
+     * you know a scrollbar should be disabled, such as when loading, set this
+     * to true to avoid flickering caused by layout changes.
+     */
     vScrollHide: boolean;
+    /**
+     * Hide the horizontal scroll bar?
+     *
+     * Used to work around the current limitation of flickering scrollbars. If
+     * you know a scrollbar should be disabled, such as when loading, set this
+     * to true to avoid flickering caused by layout changes.
+     */
     hScrollHide: boolean;
 
+    /** Create a new ScrollableViewportWidget. */
     constructor(child: Widget, vertical: boolean, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
         super(new Column(themeOverride), themeOverride);
 
@@ -50,6 +93,10 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         grid.add([row, this.hScroll]);
     }
 
+    /**
+     * The {@link viewport}'s
+     * {@link ViewportWidget.maxDimensions | maxDimensions}
+     */
     get maxDimensions(): [number, number] {
         return this.viewport.maxDimensions;
     }
@@ -58,6 +105,7 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.viewport.maxDimensions = maxDimensions;
     }
 
+    /** The {@link viewport}'s {@link ViewportWidget.flexRatio | flexRatio} */
     get flexRatio(): number {
         return this.viewport.flexRatio;
     }
@@ -66,6 +114,7 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.viewport.flexRatio = flexRatio;
     }
 
+    /** The {@link viewport}'s {@link ViewportWidget.mainBasis | mainBasis} */
     get mainBasis(): number {
         return this.viewport.mainBasis;
     }
@@ -74,6 +123,7 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.viewport.mainBasis = mainBasis;
     }
 
+    /** The {@link viewport}'s {@link ViewportWidget.crossBasis | crossBasis} */
     get crossBasis(): number {
         return this.viewport.crossBasis;
     }
@@ -82,10 +132,12 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         this.viewport.crossBasis = crossBasis;
     }
 
+    /** The {@link viewport}'s {@link ViewportWidget.child | child} */
     get containedChild(): Widget {
         return this.viewport.child;
     }
 
+    /** Reset both scroll offsets to 0. */
     resetScroll(): void {
         this.hScroll.value = 0;
         this.vScroll.value = 0;

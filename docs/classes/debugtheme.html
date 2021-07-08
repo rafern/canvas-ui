@@ -65,6 +65,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A theme which always gives out a random fill colour. Used for debugging when
+						painting occurs. Has no properties but always has a fallback theme.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -124,13 +132,22 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="theme.html">Theme</a>.<a href="theme.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in theme/DebugTheme.ts:4</li>
+									<li>Defined in theme/DebugTheme.ts:10</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new DebugTheme instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fallback: <a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The actual theme to use. Fill colors will be ignored as
+										they are randomly generated.</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="debugtheme.html" class="tsd-signature-type" data-tsd-kind="Class">DebugTheme</a></h4>
@@ -147,9 +164,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#fallback">fallback</a></p>
 						<ul>
-							<li>Defined in theme/Theme.ts:10</li>
+							<li>Defined in theme/Theme.ts:18</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The fallback theme. If this theme has a missing property, the fallback
+							theme&#39;s property will be used instead</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="properties" class="tsd-anchor"></a>
@@ -158,9 +181,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#properties">properties</a></p>
 						<ul>
-							<li>Defined in theme/Theme.ts:8</li>
+							<li>Defined in theme/Theme.ts:13</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The values associated to each <a href="../enums/themeproperty.html">ThemeProperty</a> for this theme.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -176,9 +204,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getalignment">getAlignment</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:65</li>
+									<li>Defined in theme/Theme.ts:86</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as <a href="theme.html#getproperty">getProperty</a>, but casts value to <a href="../enums/alignment.html">Alignment</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -200,9 +233,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getalignment2d">getAlignment2D</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:71</li>
+									<li>Defined in theme/Theme.ts:92</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as <a href="theme.html#getproperty">getProperty</a>, but casts value to <a href="../interfaces/alignment2d.html">Alignment2D</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -224,9 +262,14 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="theme.html">Theme</a>.<a href="theme.html#getfill">getFill</a></p>
 								<ul>
-									<li>Defined in theme/DebugTheme.ts:9</li>
+									<li>Defined in theme/DebugTheme.ts:21</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Equivalent to <a href="debugtheme.html#getstring">getString</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -248,9 +291,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getfont">getFont</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:84</li>
+									<li>Defined in theme/Theme.ts:104</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Equivalent to <a href="debugtheme.html#getstring">getString</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -272,9 +320,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getnumber">getNumber</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:49</li>
+									<li>Defined in theme/Theme.ts:70</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as <a href="theme.html#getproperty">getProperty</a>, but with type checking for number.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -296,9 +349,14 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getpadding">getPadding</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:59</li>
+									<li>Defined in theme/Theme.ts:80</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as <a href="theme.html#getproperty">getProperty</a>, but casts value to <a href="../interfaces/padding.html">Padding</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -320,9 +378,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getsize">getSize</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:90</li>
+									<li>Defined in theme/Theme.ts:112</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Equivalent to <a href="debugtheme.html#getnumber">getNumber</a></p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd></dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -344,9 +411,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="theme.html">Theme</a>.<a href="theme.html#getstring">getString</a></p>
 								<ul>
-									<li>Defined in theme/Theme.ts:39</li>
+									<li>Defined in theme/Theme.ts:58</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Same as <a href="theme.html#getproperty">getProperty</a>, but with type checking for string.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>deprecated</dt>
+									<dd></dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

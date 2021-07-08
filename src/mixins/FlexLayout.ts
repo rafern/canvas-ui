@@ -1,28 +1,61 @@
 import type { LayoutContext } from '../core/LayoutContext';
 import { Widget } from '../widgets/Widget';
 
+/**
+ * A mixin class which provides flexbox-like layout resolution.
+ *
+ * Flex layout has verticality, a main basis, cross basis and flex ratio.
+ *
+ * The main basis corresponds to the vertical basis if the layout is vertical,
+ * else, it corresponds to the horizontal basis.
+ *
+ * The cross basis corresponds to the horizontal basis if the layout is
+ * vertical, else, it corresponds to the vertical basis.
+ *
+ * Flex ratio always corresponds to the main axis; flex layout can only expand
+ * flexibly in one direction. The flex ratio corresponds to the vertical flex
+ * ratio if the layout is vertical, else, it corresponds to the horizontal flex
+ * ratio.
+ *
+ * If there are, for example, two flex widgets, one with a flex ratio of 3 and
+ * another with a flex ratio of 5, then the layout will expand to the widgets'
+ * basis and then the remaining space will be split among the 2 widgets
+ * depending on their flex ratio. In this case, the first widget will get 3/8
+ * (3/(3+5)) of the remaining space, while the second widget will get 5/8
+ * (5/(3+5)) of the remaining space.
+ *
+ * An alternative to {@link mainBasis} is {@link internalMainBasis}. mainBasis
+ * is meant to be set by the user, while internalMainBasis is meant to be set by
+ * the widget every frame. These will be combined into the
+ * {@link _effectiveMainBasis} which is the maximum of the two. A counterpart
+ * for cross basis also exists.
+ *
+ * @category Mixin
+ */
 export class FlexLayout extends Widget {
-    // A widget with flexbox layout resolution
-
-    // The flex ratio of the flexbox
+    /** The current flex ratio of the flexbox */
     private _flexRatio = 1;
-    // The minimum main-axis and cross-axis lengths
+    /** The current basis added along the main axis */
     private _mainBasis = 0;
+    /** The current basis added along the cross axis */
     private _crossBasis = 0;
-    // Like mainBasis and crossBasis, but meant to be updated per frame. The
-    // biggest of the two sets will be used
+    /** The current internal basis added along the main axis */
     private _internalMainBasis = 0;
+    /** The current internal basis added along the cross axis */
     private _internalCrossBasis = 0;
-    // The last effective mainBasis and crossBasis, aka, the last used maximum
-    // between the internal and normal set of basis
+    /** The current effective basis added along the main axis */
     private _effectiveMainBasis = 0;
+    /** The current effective basis added along the cross axis */
     private _effectiveCrossBasis = 0;
-    // Growth direction of flexbox. Is it vertical? If null, it will inherit the
-    // verticality of the layout context
+    /** Does this flex layout grow vertically? If null, it inherits */
     private _vertical: boolean | null = null;
-    // Was the last layout vertical or not? Never null
+    /**
+     * Was the last layout vertical or not? Never null. Use this to tell if a
+     * widget is vertical or not when painting.
+     */
     lastVertical = true;
 
+    /** The flex ratio of the flexbox */
     get flexRatio(): number {
         return this._flexRatio;
     }
@@ -34,6 +67,10 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /**
+     * Does this flex layout grow vertically? If null, it inherits the
+     * verticality of the layout context when populating/resolving layout.
+     */
     get vertical(): boolean | null {
         return this._vertical;
     }
@@ -45,6 +82,7 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /** The basis added along the main axis */
     get mainBasis(): number {
         return this._mainBasis;
     }
@@ -56,6 +94,7 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /** The basis added along the cross axis */
     get crossBasis(): number {
         return this._crossBasis;
     }
@@ -67,6 +106,7 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /** The internal basis added along the main axis */
     get internalMainBasis(): number {
         return this._internalMainBasis;
     }
@@ -78,6 +118,7 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /** The internal basis added along the cross axis */
     get internalCrossBasis(): number {
         return this._internalCrossBasis;
     }
@@ -89,6 +130,13 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /**
+     * Update {@link _effectiveMainBasis}.
+     *
+     * Sets it to the maximum of {@link _mainBasis} and
+     * {@link _internalMainBasis}. If the effective main basis changes,
+     * {@link _layoutDirty} is set to true.
+     */
     private updateEffectiveMainBasis(): void {
         const effectiveMainBasis = Math.max(this._mainBasis, this._internalMainBasis);
         if(this._effectiveMainBasis !== effectiveMainBasis) {
@@ -97,6 +145,13 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /**
+     * Update {@link _effectiveCrossBasis}.
+     *
+     * Sets it to the maximum of {@link _crossBasis} and
+     * {@link _internalCrossBasis}. If the effective main basis changes,
+     * {@link _layoutDirty} is set to true.
+     */
     private updateEffectiveCrossBasis(): void {
         const effectiveCrossBasis = Math.max(this._crossBasis, this._internalCrossBasis);
         if(this._effectiveCrossBasis !== effectiveCrossBasis) {
@@ -105,6 +160,10 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /**
+     * Handles layout population by adding the effective basis and flex ratio to
+     * the {@link LayoutContext}. Also populates {@link lastVertical}.
+     */
     protected override handlePopulateLayout(layoutCtx: LayoutContext): void {
         // Add basis and flex ratio to context
         const vertical = this.vertical ?? layoutCtx.vertical;
@@ -145,6 +204,11 @@ export class FlexLayout extends Widget {
         }
     }
 
+    /**
+     * Handles layout resolution by setting the length to the effective basis
+     * plus this widget's share of the free space, which is dependent on the
+     * flex ratio.
+     */
     protected override handleResolveLayout(layoutCtx: LayoutContext): void {
         // Length is flex ratio of available space plus minimum length.
         // If the context's verticality is different, expand fully, unless the

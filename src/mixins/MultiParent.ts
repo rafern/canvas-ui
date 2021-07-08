@@ -1,13 +1,26 @@
 import type { Widget } from '../widgets/Widget';
-import type { Theme } from '../theme/Theme';
 import { Parent } from './Parent';
 
+/**
+ * A specialised version of the {@link Parent} mixin class for parents with any
+ * amount of children and public access to modifying this list of children.
+ *
+ * @category Mixin
+ */
 export class MultiParent extends Parent {
-    constructor(children: Array<Widget>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
-        super(children, themeOverride, needsClear, propagatesEvents);
-    }
-
-    // Add child(ren) to widget. Chainable method
+    /**
+     * Add child(ren) to this widget.
+     *
+     * {@link _layoutDirty} and {@link _dirty} are set to true and
+     * {@link updateInheritedTheme} is called so that new children inherit this
+     * widget's theme.
+     *
+     * @param children If this is a widget, then it is pushed to
+     * {@link _children}. If this is an array of widgets, then each widget is
+     * pushed to {@link _children}.
+     *
+     * @returns Returns this so that the method is chainable.
+     */
     add(children: Widget | Array<Widget>): this {
         if(Array.isArray(children)) {
             for(const child of children)
@@ -23,7 +36,19 @@ export class MultiParent extends Parent {
         return this;
     }
 
-    // Remove child(ren) from widget. Chainable method
+    /**
+     * Remove child(ren) from this widget.
+     *
+     * {@link _layoutDirty} and {@link _dirty} are set to true and
+     * {@link updateInheritedTheme} is called so that new children inherit this
+     * widget's theme.
+     *
+     * @param children If this is a widget, then it is removed from
+     * {@link _children}. If this is an array of widgets, then each widget is
+     * removed from {@link _children}.
+     *
+     * @returns Returns this so that the method is chainable.
+     */
     remove(children: Widget | Array<Widget>): this {
         if(Array.isArray(children)) {
             for(const child of children) {
@@ -45,7 +70,13 @@ export class MultiParent extends Parent {
         return this;
     }
 
-    // Clear widget's children. Chainable method
+    /**
+     * Remove all children from this widget.
+     *
+     * {@link _layoutDirty} and {@link _dirty} are set to true.
+     *
+     * @returns Returns this so that the method is chainable.
+     */
     clearChildren(): this {
         this._children.length = 0;
         this._layoutDirty = true;

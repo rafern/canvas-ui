@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "rollup -c",
-    "doc": "typedoc src/index.ts"
+    "doc": "typedoc --readme ./README.md --out ./docs ./src/index.ts"
   },
   "files": [
     "lib",

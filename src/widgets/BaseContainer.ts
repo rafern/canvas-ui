@@ -8,14 +8,19 @@ import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
+/**
+ * A {@link SingleParent} which contains a single child and automatically paints
+ * the child, adds padding, propagates events (if enabled) and handles layout.
+ *
+ * @category Widget
+ */
 export class BaseContainer extends SingleParent {
-    // Is the container's whole background dirty (including padding)?
+    /** Is the container's whole background dirty (including padding)? */
     protected _backgroundDirty = true;
 
-    // A widget that contains a single child widget with padding and alignment
-    // and may or may not propagate events to that child
+    /** Create a new BaseContainer. */
     constructor(child: Widget, propagateEvents: boolean, themeOverride: Theme | null = null) {
-        // Containers clear their own background, have a child and propagate
+        // Containers clear their own background, have a child and may propagate
         // events
         super(child, themeOverride, false, propagateEvents);
     }
@@ -146,7 +151,20 @@ export class BaseContainer extends SingleParent {
         this.child.paint(left, top, right - left, bottom - top, ctx);
     }
 
+    /**
+     * Calculate the "viewport" of the child. Here, viewport refers to the
+     * rectangle where the child will be painted and has no connection to
+     * {@link Viewport}.
+     *
+     * Separated into this method because it takes padding and alignment into
+     * account, and is used in multiple methods.
+     *
+     * @returns Returns a 4-tuple containing, in this order, the left edge's
+     * offset, the right edge's offset, the top edge's offset and the bottom
+     * edge's offset.
+     */
     private calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] {
+        // TODO should this be called calcChildRect to avoid confusion?
         // Calculate viewport of the child (rectangle where the child widget is
         // drawed) given the position and dimensions of the container, and by
         // using its resolved dimensions, padding and alignment

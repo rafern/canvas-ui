@@ -65,6 +65,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A <a href="basecontainer.html">BaseContainer</a> which always propagates events. Use this widget if
+						you are not sure what that means.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -163,9 +171,14 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in widgets/Container.ts:5</li>
+									<li>Defined in widgets/Container.ts:11</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Container.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -189,9 +202,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#_backgrounddirty">_backgroundDirty</a></p>
 						<ul>
-							<li>Defined in widgets/BaseContainer.ts:13</li>
+							<li>Defined in widgets/BaseContainer.ts:19</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is the container&#39;s whole background dirty (including padding)?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_children" class="tsd-anchor"></a>
@@ -200,9 +218,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#_children">_children</a></p>
 						<ul>
-							<li>Defined in mixins/Parent.ts:6</li>
+							<li>Defined in mixins/Parent.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This widget&#39;s children. Note that this is marked as readonly so that it
+								cannot be accidentally replaced with a new array. This way, references to
+								this array are always valid. If you want to clear this array, set the
+								length to zero instead of creating a new instance. readonly still means
+							that you can add/remove elements to/from the array.</p>
+						</div>
+						<p>See <a href="container.html#children">children</a> for the public iterator getter.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -283,9 +311,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/SingleParent.ts:10</li>
+									<li>Defined in mixins/SingleParent.ts:24</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This widget&#39;s child.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
 						</li>
 					</ul>
@@ -300,9 +333,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:39</li>
+									<li>Defined in mixins/Parent.ts:61</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get amount of children of this parent widget.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -317,9 +355,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:44</li>
+									<li>Defined in mixins/Parent.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator for children of this parent widget. Cannot modify list of
+									children via this iterator; for read-only purposes only.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -571,7 +615,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#forcelayoutdirty">forceLayoutDirty</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:53</li>
+									<li>Defined in widgets/BaseContainer.ts:58</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -589,7 +633,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handleevent">handleEvent</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:23</li>
+									<li>Defined in widgets/BaseContainer.ts:28</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -622,7 +666,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handlepainting">handlePainting</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:137</li>
+									<li>Defined in widgets/BaseContainer.ts:142</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -658,7 +702,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handlepopulatelayout">handlePopulateLayout</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:58</li>
+									<li>Defined in widgets/BaseContainer.ts:63</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -682,7 +726,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handlepostlayoutupdate">handlePostLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:43</li>
+									<li>Defined in widgets/BaseContainer.ts:48</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -706,7 +750,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handleprelayoutupdate">handlePreLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:33</li>
+									<li>Defined in widgets/BaseContainer.ts:38</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -730,7 +774,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#handleresolvelayout">handleResolveLayout</a></p>
 								<ul>
-									<li>Defined in widgets/BaseContainer.ts:94</li>
+									<li>Defined in widgets/BaseContainer.ts:99</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -961,7 +1005,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="basecontainer.html">BaseContainer</a>.<a href="basecontainer.html#updateinheritedtheme">updateInheritedTheme</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:17</li>
+									<li>Defined in mixins/Parent.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

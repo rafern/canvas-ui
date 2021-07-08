@@ -6,8 +6,11 @@ import { Spacing } from './Spacing';
 import { Label } from './Label';
 import { Row } from './Row';
 
-
-// Template for Row with a Label, Spacing and a Checkbox
+/**
+ * A {@link Row} with a {@link Label}, {@link Spacing} and a {@link Checkbox}.
+ *
+ * @category Widget
+ */
 export class LabelledCheckbox extends Row {
     constructor(text: string | TextGetter, callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         super(themeOverride);

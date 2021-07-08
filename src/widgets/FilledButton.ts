@@ -6,14 +6,30 @@ import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
 
-// A Button, but overrides the canvas colour; normally a Button itself is
-// invisible, but not a FilledButton
+/**
+ * A {@link Button} which overrides the canvas colour, meaning that it has a
+ * filled background. Uses a technique similar to {@link ThemeScope} to achieve
+ * this.
+ *
+ * This button version can also be "forced down"; the button becomes similar to
+ * being pressed, visually. Useful for implementing widgets such as
+ * {@link ShiftKey}.
+ *
+ * @category Widget
+ */
 export class FilledButton extends Button {
-    // Theme property used for overriding the canvas colour
+    /** Theme property used for overriding the canvas colour. */
     private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
-    // Is the button currently forced down?
+    /** Is the button currently forced down? */
     private _forced = false;
 
+    /**
+     * Update the background fill.
+     *
+     * Sets {@link backgroundProperty} depending on {@link _forced} and
+     * {@link clickState}, calls {@link inheritTheme} and sets
+     * {@link _backgroundDirty} to true.
+     */
     private updateBackground(): void {
         if(this._forced)
             this.backgroundProperty = ThemeProperty.PrimaryFill;

@@ -1,42 +1,60 @@
 import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
+import type { TextValidator } from '../validators/Validator';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
+import { StringVariable } from '../mixins/Variable';
 import { FlexLayout } from '../mixins/FlexLayout';
 import { Labelable } from '../mixins/Labelable';
-import { Variable } from '../mixins/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-export type TextValidator<V> = (text: string) => [boolean, V];
-
-class StringVariable extends Variable<string> {}
-
+/**
+ * A flexbox widget that allows for a single line of text input.
+ *
+ * Supports obscuring the text with {@link hideText}, which shows all characters
+ * as black circles like in password fields, text validation and toggling
+ * editing.
+ *
+ * If a {@link TextInputHandler} is set, then that will be used instead of
+ * keyboard input for mobile compatibility.
+ *
+ * @template V The type of {@link value}; the type of the transformed value
+ * returned by the validator.
+ *
+ * @category Widget
+ */
 export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
-    // At what timestamp did the blinking start
+    /**
+     * At what timestamp did the blinking start. If 0, then the text cursor is
+     * not blinking.
+     */
     private blinkStart = 0;
-    // Was the cursor shown last frame due to blinking?
+    /**
+     * Was the cursor shown last frame due to blinking? If null, then the text
+     * cursor is not blinking.
+     */
     private blinkWasOn: boolean | null = null;
-    // Current cursor position (index)
+    /** Current cursor position (index, not offset). */
     private cursorPos = 0;
-    // Current cursor offset (pixels)
+    /** Current cursor offset in pixels. */
     private cursorOffset = 0;
-    // Does the cursor offset need to be updated?
+    /** Does the cursor offset need to be updated? */
     private cursorOffsetDirty = false;
-    // Is editing enabled?
+    /** Is editing enabled? */
     private _editingEnabled = true;
-    // Is the text hidden?
+    /** Is the text hidden? */
     private _hideText = false;
-    // Is the text valid?
+    /** Is the text valid? */
     private _valid;
-    // Last valid value
+    /** Last valid value. */
     private _validValue;
 
-    // A widget that accepts keyboard input and holds a text value
+    /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, initialValue = '', themeOverride: Theme | null = null) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
@@ -61,6 +79,13 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         this.vertical = false;
     }
 
+    /**
+     * Is the text cursor shown?
+     *
+     * @returns Returns true if the text cursor is shown, false if not shown but
+     * the text input is in use, or null if the text cursor is not shown due to
+     * the text input not being in use.
+     */
     get blinkOn(): boolean | null {
         if(this.blinkStart === 0)
             return null;
@@ -69,6 +94,13 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         return Math.trunc(((Date.now() - this.blinkStart) / (500 * blinkRate)) % 2) === 0;
     }
 
+    /**
+     * Is editing enabled?
+     *
+     * Tied to {@link _editingEnabled}. If changed, {@link _dirty} is set to
+     * true. If disabled, blinking stops and the cursor position is reset to the
+     * beginning.
+     */
     get editingEnabled(): boolean {
         return this._editingEnabled;
     }
@@ -88,6 +120,12 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         }
     }
 
+    /**
+     * Is the text hidden?
+     *
+     * Tied to {@link _hideText}. If changed, {@link _dirty} and
+     * {@link cursorOffsetDirty} are set to true.
+     */
     get hideText(): boolean {
         return this._hideText;
     }
@@ -103,6 +141,10 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         }
     }
 
+    /**
+     * Get the text as it is shown. If the text is hidden, all characters are
+     * replaced with a black circle.
+     */
     get text(): string {
         if(this._hideText)
             return '●'.repeat(this.value.length);
@@ -110,14 +152,21 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
             return this.value;
     }
 
+    /** Is the current value in the text input valid? */
     get valid(): boolean {
         return this._valid;
     }
 
+    /** The last valid value, transformed by the validator. */
     get validValue(): V {
         return this._validValue;
     }
 
+    /**
+     * Move the cursor to a given index.
+     *
+     * Sets {@link _dirty} and {@link cursorOffsetDirty} to true.
+     */
     moveCursorTo(index: number): void {
         // Update cursor position, checking for boundaries
         this.cursorPos = Math.min(Math.max(index, 0), this.value.length);
@@ -127,10 +176,21 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         this._dirty = true;
     }
 
+    /**
+     * Move the cursor by a given index delta. Calls {@link moveCursorTo}
+     *
+     * @param delta The change in index; if a positive number, the cursor will
+     * be moved right by that amount, else, the cursor will be moved left by
+     * that amount.
+     */
     moveCursor(delta: number): void {
         this.moveCursorTo(this.cursorPos + delta);
     }
 
+    /**
+     * Insert text at the current cursor index. Calls {@link moveCursorTo}
+     * afterwards.
+     */
     insertText(str: string): void {
         // Insert string in current cursor position
         this.value = this.value.substring(0, this.cursorPos) + str + this.value.substring(this.cursorPos);
@@ -138,6 +198,15 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         this.moveCursor(str.length);
     }
 
+    /**
+     * Deletes a certain amount of characters in a given direction from the
+     * current cursor index. Calls {@link moveCursorTo} afterwards if
+     * neccessary.
+     *
+     * @param delta The amount and direction of the deletion. For example, if 5,
+     * then 5 characters are deleted after the cursor. If -5, then 5 characters
+     * are deleted before the cursor and the cursor is moved 5 indices left.
+     */
     deleteText(delta: number): void {
         // Delete characters forwards if delta is positive, backwards if delta
         // is negative. Deleting characters backwards results in moving the

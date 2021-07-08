@@ -17,20 +17,38 @@ interface RootDOMBind {
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
 }
 
+/**
+ * A {@link PointerDriver} which listens for pointer events from HTML DOM
+ * elements. Each HTML DOM element is bound to a specific root, which synergizes
+ * well with DOMRoot.
+ *
+ * @category Driver
+ */
 export class DOMPointerDriver extends PointerDriver {
-    // PointerDriver for canvas in DOM. Must assign an HTMLElement to each root
-    // for the driver to have an effect
-
+    /** The HTML DOM element and listeners that each root is bound to */
     // XXX using weakmap so it auto-unbinds once a root stops existing
     private domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
+    /** The pointer ID of the mouse. Registered in constructor */
     private mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
 
+    /**
+     * Create a new DOMPointerDriver.
+     *
+     * Automatically registers a pointer to be used by the mouse.
+     */
     constructor() {
         super();
 
         this.mousePointerID = this.registerPointer();
     }
 
+    /**
+     * Bind an HTML DOM element to a specific root.
+     *
+     * If the root was already registered, {@link removeListeners} is called.
+     * Populates {@link domElems} with the new bind. Calls {@link addListeners}
+     * if root is enabled.
+     */
     bindDOMElem(root: Root, domElem: HTMLElement): void {
         let rootBind = this.domElems.get(root);
         if(typeof rootBind !== 'undefined')
@@ -50,6 +68,9 @@ export class DOMPointerDriver extends PointerDriver {
             this.addListeners(root, rootBind);
     }
 
+    /**
+     * Add pointer event listeners to root's DOM element.
+     */
     private addListeners(root: Root, rootBind: RootDOMBind) {
         // Make listeners for mouse events, queueing events. Add them to the
         // root DOM bind so they can be removed later when needed
@@ -78,6 +99,10 @@ export class DOMPointerDriver extends PointerDriver {
         domElem.addEventListener('pointerleave', rootBind.pointerleaveListen);
     }
 
+    /**
+     * Remove pointer event listeners from root's DOM element and unset tracked
+     * listeners in root's bind.
+     */
     private removeListeners(rootBind: RootDOMBind) {
         if(rootBind.pointermoveListen !== null) {
             rootBind.domElem.removeEventListener('pointermove', rootBind.pointermoveListen);
@@ -97,6 +122,10 @@ export class DOMPointerDriver extends PointerDriver {
         }
     }
 
+    /**
+     * Calls {@link PointerDriver.onEnable} and {@link addListeners} to each
+     * bound root.
+     */
     override onEnable(root: Root): void {
         super.onEnable(root);
 
@@ -107,6 +136,10 @@ export class DOMPointerDriver extends PointerDriver {
             this.addListeners(root, rootBind);
     }
 
+    /**
+     * Calls {@link PointerDriver.onDisable} and {@link removeListeners} to each
+     * bound root.
+     */
     override onDisable(root: Root): void {
         super.onDisable(root);
 

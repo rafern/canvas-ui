@@ -10,6 +10,8 @@ import { Root } from './Root';
  * A {@link Root} containing a single {@link VirtualKeyboard} widget.
  * Automatically disables itself if not needed, but {@link updateVisibility}
  * must be called every frame for this behaviour to occur.
+ *
+ * @category Core
  */
 export class VirtualKeyboardRoot extends Root {
     /** The {@link KeyboardDriver} used by this root's virtual keyboard. */
@@ -23,7 +25,7 @@ export class VirtualKeyboardRoot extends Root {
      * {@link pointerStyleHandler} and {@link child}'s
      * {@link Widget.inheritedTheme | inherited theme}.
      *
-     * By default, the theme is {@link defaultTheme}
+     * @param theme By default, the theme is {@link defaultTheme}
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), pointerStyleHandler, theme);

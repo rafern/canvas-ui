@@ -9,6 +9,8 @@ import { Root } from './Root';
  * Instead of calling each individual update method, simply call {@link update}
  * on every animation frame. {@link Driver | Drivers} still need to be manually
  * registered.
+ *
+ * @category Core
  */
 export class DOMRoot extends Root {
     /** This root's canvas element. Add this to the HTML body */
@@ -24,7 +26,7 @@ export class DOMRoot extends Root {
      * {@link pointerStyleHandler} which simply sets the CSS cursor style of
      * {@link domElem}. Creates {@link domElem} and {@link domCanvasContext}.
      *
-     * By default, the theme is {@link defaultTheme}.
+     * @param theme By default, the theme is {@link defaultTheme}.
      */
     constructor(child: Widget, theme: Theme = defaultTheme) {
         super(child, null, theme);

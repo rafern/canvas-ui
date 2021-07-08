@@ -65,6 +65,15 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A leave <a href="event.html">Event</a>. Dispatched when the pointer leaves the root or the
+						focus capturer changes to another widget.</p>
+					</div>
+					<p>Has a focus type of <a href="../enums/focustype.html#pointer">FocusType.Pointer</a> and needs focus.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -118,9 +127,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="event.html">Event</a>.<a href="event.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in events/Leave.ts:5</li>
+									<li>Defined in events/Leave.ts:13</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new KeyEvent. Sets <a href="leave.html#target">target</a>, <a href="leave.html#focustype">focusType</a> to
+									<a href="../enums/focustype.html#pointer">FocusType.Pointer</a> and <a href="leave.html#needsfocus">needsFocus</a> to true.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -141,9 +156,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#focustype">focusType</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:6</li>
+							<li>Defined in events/Event.ts:19</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The focus type of this event. Can be null.</p>
+						</div>
+						<p>If null, this event cannot be focused, since events are focused by their
+						<a href="../enums/focustype.html">FocusType</a> as a group.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsfocus" class="tsd-anchor"></a>
@@ -152,9 +174,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#needsfocus">needsFocus</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:7</li>
+							<li>Defined in events/Event.ts:21</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Can this event be dispatched without a target?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="target" class="tsd-anchor"></a>
@@ -163,9 +190,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="event.html">Event</a>.<a href="event.html#target">target</a></p>
 						<ul>
-							<li>Defined in events/Event.ts:5</li>
+							<li>Defined in events/Event.ts:12</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The target of this event. Can be null</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -181,9 +213,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="event.html">Event</a>.<a href="event.html#clonewithtarget">cloneWithTarget</a></p>
 								<ul>
-									<li>Defined in events/Leave.ts:10</li>
+									<li>Defined in events/Leave.ts:22</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Event with the same properties as this, except with a new
+									given target.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>

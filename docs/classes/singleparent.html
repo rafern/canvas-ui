@@ -65,6 +65,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A specialised version of the <a href="parent.html">Parent</a> mixin class for parents with a
+						single mandatory child.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -162,13 +170,23 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="parent.html">Parent</a>.<a href="parent.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in mixins/SingleParent.ts:5</li>
+									<li>Defined in mixins/SingleParent.ts:11</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new SingleParent instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>child: <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mandatory single child of this widget. Cannot be
+											changed later, unless <a href="singleparent.html#_children">_children</a> is changed directly via the
+										widget using this mixin.</p>
+									</div>
 								</li>
 								<li>
 									<h5>themeOverride: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h5>
@@ -194,9 +212,19 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="parent.html">Parent</a>.<a href="parent.html#_children">_children</a></p>
 						<ul>
-							<li>Defined in mixins/Parent.ts:6</li>
+							<li>Defined in mixins/Parent.ts:29</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This widget&#39;s children. Note that this is marked as readonly so that it
+								cannot be accidentally replaced with a new array. This way, references to
+								this array are always valid. If you want to clear this array, set the
+								length to zero instead of creating a new instance. readonly still means
+							that you can add/remove elements to/from the array.</p>
+						</div>
+						<p>See <a href="singleparent.html#children">children</a> for the public iterator getter.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -277,9 +305,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/SingleParent.ts:10</li>
+									<li>Defined in mixins/SingleParent.ts:24</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This widget&#39;s child.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
 						</li>
 					</ul>
@@ -294,9 +327,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:39</li>
+									<li>Defined in mixins/Parent.ts:61</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get amount of children of this parent widget.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -311,9 +349,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:44</li>
+									<li>Defined in mixins/Parent.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get iterator for children of this parent widget. Cannot modify list of
+									children via this iterator; for read-only purposes only.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -565,7 +609,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="parent.html">Parent</a>.<a href="parent.html#forcelayoutdirty">forceLayoutDirty</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:28</li>
+									<li>Defined in mixins/Parent.ts:50</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -955,7 +999,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="parent.html">Parent</a>.<a href="parent.html#updateinheritedtheme">updateInheritedTheme</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:17</li>
+									<li>Defined in mixins/Parent.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

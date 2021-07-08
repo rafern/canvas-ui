@@ -10,6 +10,8 @@ import { DOMRoot } from './DOMRoot';
  * In this version
  * {@link VirtualKeyboardRoot.updateVisibility | updateVisibility} doesn't
  * exist. Instead, just call {@link update} like in DOMRoot.
+ *
+ * @category Core
  */
 export class DOMVirtualKeyboardRoot extends DOMRoot {
     /** The {@link KeyboardDriver} used by this root's virtual keyboard. */
@@ -25,7 +27,7 @@ export class DOMVirtualKeyboardRoot extends DOMRoot {
      * style of {@link domElem}. Creates {@link domElem} and
      * {@link domCanvasContext}.
      *
-     * By default, the theme is {@link defaultTheme}.
+     * @param theme By default, the theme is {@link defaultTheme}.
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), theme);

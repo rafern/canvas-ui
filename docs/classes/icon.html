@@ -263,9 +263,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).clickState</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:22</li>
+							<li>Defined in mixins/Clickable.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The current click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="clickstatechanged" class="tsd-anchor"></a>
@@ -274,9 +279,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).clickStateChanged</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:24</li>
+							<li>Defined in mixins/Clickable.ts:38</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click event handle result in a click state change?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="height" class="tsd-anchor"></a>
@@ -295,9 +305,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).lastClickState</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:21</li>
+							<li>Defined in mixins/Clickable.ts:34</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last click state</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="lastsrc" class="tsd-anchor"></a>
@@ -327,9 +342,17 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).pointerPos</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:31</li>
+							<li>Defined in mixins/Clickable.ts:47</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Last pointer position in normalised coordinates ([0,0] to [1,1]). If
+								there is no last pointer position, such as after a leave event, this will
+								be null. If pointer position was outside box, it will be beyond the [0,0]
+							to [1,1] range.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -371,9 +394,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).startingPointerPos</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:34</li>
+							<li>Defined in mixins/Clickable.ts:53</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Like <a href="icon.html#pointerpos">pointerPos</a>, but only updated when a hold state begins.</p>
+						</div>
+						<p>Useful for implementing draggable widgets.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="viewbox" class="tsd-anchor"></a>
@@ -392,9 +421,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(BoxLayout, Clickable).wasClick</p>
 						<ul>
-							<li>Defined in mixins/Clickable.ts:26</li>
+							<li>Defined in mixins/Clickable.ts:40</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Did the last click state change result in a click?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="width" class="tsd-anchor"></a>
@@ -420,17 +454,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:22</li>
+									<li>Defined in mixins/BoxLayout.ts:38</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The wanted box height. Set this every frame on
+										<a href="widget.html#handleprelayoutupdate">Widget.handlePreLayoutUpdate</a> or when handling events in
+										<a href="widget.html#handleevent">Widget.handleEvent</a>. Updates <a href="boxlayout.html#_boxheight">_boxHeight</a> and sets
+									<a href="icon.html#_layoutdirty">_layoutDirty</a> to true when changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:26</li>
+									<li>Defined in mixins/BoxLayout.ts:42</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The wanted box height. Set this every frame on
+										<a href="widget.html#handleprelayoutupdate">Widget.handlePreLayoutUpdate</a> or when handling events in
+										<a href="widget.html#handleevent">Widget.handleEvent</a>. Updates <a href="boxlayout.html#_boxheight">_boxHeight</a> and sets
+									<a href="icon.html#_layoutdirty">_layoutDirty</a> to true when changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -452,17 +502,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:11</li>
+									<li>Defined in mixins/BoxLayout.ts:21</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The wanted box width. Set this every frame on
+										<a href="widget.html#handleprelayoutupdate">Widget.handlePreLayoutUpdate</a> or when handling events in
+										<a href="widget.html#handleevent">Widget.handleEvent</a>. Updates <a href="boxlayout.html#_boxwidth">_boxWidth</a> and sets
+									<a href="icon.html#_layoutdirty">_layoutDirty</a> to true when changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:15</li>
+									<li>Defined in mixins/BoxLayout.ts:25</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The wanted box width. Set this every frame on
+										<a href="widget.html#handleprelayoutupdate">Widget.handlePreLayoutUpdate</a> or when handling events in
+										<a href="widget.html#handleevent">Widget.handleEvent</a>. Updates <a href="boxlayout.html#_boxwidth">_boxWidth</a> and sets
+									<a href="icon.html#_layoutdirty">_layoutDirty</a> to true when changed.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -802,31 +868,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).getNormalInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:37</li>
+									<li>Defined in mixins/Clickable.ts:66</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Normalise pointer coordinates inside a rectangle</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+							<p>Returns normalised coordinates</p>
 						</li>
 					</ul>
 				</section>
@@ -841,9 +931,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).handleClickEvent</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:69</li>
+									<li>Defined in mixins/Clickable.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the current <a href="icon.html#clickstate">clickState</a> given an event, as well as
+										<a href="domroot.html#_foci">focus</a>, <a href="domroot.html#pointerstyle">pointerStyle</a>, <a href="icon.html#wasclick">wasClick</a> and
+									<a href="icon.html#clickstatechanged">clickStateChanged</a> flags.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -940,9 +1037,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).handlePopulateLayout</p>
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:33</li>
+									<li>Defined in mixins/BoxLayout.ts:53</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout population by adding <a href="icon.html#boxwidth">boxWidth</a> and
+									<a href="icon.html#boxheight">boxHeight</a> to the <a href="layoutcontext.html">LayoutContext</a>&#39;s basis</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1012,9 +1115,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).handleResolveLayout</p>
 								<ul>
-									<li>Defined in mixins/BoxLayout.ts:37</li>
+									<li>Defined in mixins/BoxLayout.ts:61</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles layout resolution by setting <a href="icon.html#resolvedwidth">resolvedWidth</a> to
+									<a href="icon.html#boxwidth">boxWidth</a> and <a href="icon.html#resolvedheight">resolvedHeight</a> to <a href="icon.html#boxheight">boxHeight</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1060,19 +1169,33 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).isNormalInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:47</li>
+									<li>Defined in mixins/Clickable.ts:95</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a normalised point is inside a rectangle.</p>
+								</div>
+								<p>Since the coordinates are normalised, you don&#39;t have to define the
+								coordinates of the rectangle, which may seem counterintuitive.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, normalised</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, normalised</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>
@@ -1087,31 +1210,55 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(BoxLayout, Clickable).isPointInRect</p>
 								<ul>
-									<li>Defined in mixins/Clickable.ts:42</li>
+									<li>Defined in mixins/Clickable.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if a point, in pixels, is inside a rectangle.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pX: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer X coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>pY: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Pointer Y coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rLeft: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s left coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rRight: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s right coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rTop: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s top coordinate, in pixels</p>
+									</div>
 								</li>
 								<li>
 									<h5>rBottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Rectangle&#39;s bottom coordinate, in pixels</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>Returns true if [pX, pY] is inside the rectangle, else, false</p>
 						</li>
 					</ul>
 				</section>

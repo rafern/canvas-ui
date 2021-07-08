@@ -5,6 +5,8 @@
  * div with CSS ID 'textInputHandlerOverlay', adding both to the HTML body.
  * Resolves the promise once user input is finished by clicking the OK or Cancel
  * buttons.
+ *
+ * @category Core
  */
 export function DefaultTextInputHandler(initialInput: string): Promise<string> {
     return new Promise((accept, _reject) => {

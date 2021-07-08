@@ -3,6 +3,8 @@
  * basis each {@link Widget} wants when resolving layout. It also keeps track of
  * the maximum width and height flexbox-like layouts can expand to and the
  * verticality of the layout.
+ *
+ * @category Core
  */
 export class LayoutContext {
     /** The maximum width a flexbox-like layout can expand to */
@@ -73,5 +75,4 @@ export class LayoutContext {
                 this.vBasis = vBasis;
         }
     }
-
 }

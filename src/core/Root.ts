@@ -12,6 +12,8 @@ import { Viewport } from './Viewport';
 /**
  * A Root is the parent of all widgets, but not a widget itself. It contains a
  * single child and manages dimensions and input handling
+ *
+ * @category Core
  */
 export class Root {
     /** The Root's child; the parent Widget of all widgets in this Root */
@@ -92,7 +94,7 @@ export class Root {
      * Sets {@link child}, {@link pointerStyleHandler} and {@link child}'s
      * {@link Widget.inheritedTheme | inherited theme}.
      *
-     * By default, the theme is {@link defaultTheme}
+     * @param theme By default, the theme is {@link defaultTheme}
      */
     constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
         this.viewport = new Viewport();
@@ -198,8 +200,8 @@ export class Root {
      *
      * Call this after calling {@link postLayoutUpdate}.
      *
-     * Returns whether the child was dirty or not. Use this to tell an external
-     * 3D library whether to update a mesh's texture or not.
+     * @returns Returns whether the child was dirty or not. Use this to tell an
+     * external 3D library whether to update a mesh's texture or not.
      */
     paint(): boolean {
         // Don't do anything if Root is disabled
@@ -457,7 +459,9 @@ export class Root {
 
     /**
      * Get text input from the user. Used for mobile where keyboard events are
-     * hard to get. If this is already in use ({@link usingMobileTextInput}),
+     * hard to get.
+     *
+     * @returns If this is already in use ({@link usingMobileTextInput}),
      * returns null, else, returns a string typed by the user.
      */
     async getTextInput(initialInput = ''): Promise<string | null> {

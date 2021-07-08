@@ -4,6 +4,12 @@ import { ThemeProperty } from './ThemeProperty';
 import type { Padding } from './Padding';
 import { Alignment } from './Alignment';
 
+/**
+ * The default theme. Mostly semi-transparent black backgrounds and azure blue
+ * accents, inspired by material design colours.
+ *
+ * @category Theme
+ */
 export const defaultTheme = new Theme(new Map<ThemeProperty, unknown>([
     [ThemeProperty.CanvasFill, 'rgba(0,0,0,0.5)'], // 50% opaque black
     [ThemeProperty.ContainerPadding, <Padding>{
