@@ -1,5 +1,5 @@
+import { VirtualKeyboard, defaultVirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
-import { VirtualKeyboard } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
 import { defaultTheme } from '../theme/defaultTheme';
 import type { Theme } from '../theme/Theme';
@@ -27,9 +27,12 @@ export class DOMVirtualKeyboardRoot extends DOMRoot {
      * style of {@link domElem}. Creates {@link domElem} and
      * {@link domCanvasContext}.
      *
+     * @param keyboardTemplate By default, the virtual keyboard template is
+     * {@link defaultVirtualKeyboardTemplate}
+     *
      * @param theme By default, the theme is {@link defaultTheme}.
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, theme: Theme = defaultTheme) {
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), theme);
         this.keyboardDriver = keyboardDriver;
     }

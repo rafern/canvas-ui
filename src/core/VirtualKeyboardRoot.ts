@@ -1,5 +1,5 @@
+import { VirtualKeyboard, defaultVirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
-import { VirtualKeyboard } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
 import { defaultTheme } from '../theme/defaultTheme';
@@ -25,9 +25,12 @@ export class VirtualKeyboardRoot extends Root {
      * {@link pointerStyleHandler} and {@link child}'s
      * {@link Widget.inheritedTheme | inherited theme}.
      *
+     * @param keyboardTemplate By default, the virtual keyboard template is
+     * {@link defaultVirtualKeyboardTemplate}
+     *
      * @param theme By default, the theme is {@link defaultTheme}
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
         super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), pointerStyleHandler, theme);
         this.keyboardDriver = keyboardDriver;
     }

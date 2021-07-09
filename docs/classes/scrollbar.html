@@ -65,6 +65,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A scrollbar flexbox widget which can be both vertical and horizontal.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -176,9 +183,14 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).constructor</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:16</li>
+									<li>Defined in widgets/ScrollBar.ts:24</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new ScrollBar</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -210,9 +222,14 @@
 					<div class="tsd-signature tsd-kind-icon">_bar<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:14</li>
+							<li>Defined in widgets/ScrollBar.ts:22</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The scrollbar&#39;s bar length, in ratios similar to flex ratio.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_dirty" class="tsd-anchor"></a>
@@ -221,9 +238,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable)._dirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:16</li>
+							<li>Defined in widgets/Widget.ts:23</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only be painted if dirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_end" class="tsd-anchor"></a>
@@ -231,9 +253,15 @@
 					<div class="tsd-signature tsd-kind-icon">_end<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:12</li>
+							<li>Defined in widgets/ScrollBar.ts:20</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The scrollbar&#39;s end. Maximum value will be
+							max(min(end - <a href="scrollbar.html#barlength">barLength</a>, <a href="scrollbar.html#value">value</a>), 0).</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_layoutdirty" class="tsd-anchor"></a>
@@ -242,9 +270,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable)._layoutDirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:18</li>
+							<li>Defined in widgets/Widget.ts:25</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only have the layout resolved if layoutDirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="callback" class="tsd-anchor"></a>
@@ -300,9 +333,14 @@
 					<div class="tsd-signature tsd-kind-icon">drag<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollBar.ts:16</li>
+							<li>Defined in widgets/ScrollBar.ts:24</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>What was the value when dragging began?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="lastclickstate" class="tsd-anchor"></a>
@@ -344,9 +382,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).needsClear</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:20</li>
+							<li>Defined in widgets/Widget.ts:31</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will have its background automatically cleared when painting if
+								needsClear is true. The background fill style used is
+							<a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="pointerpos" class="tsd-anchor"></a>
@@ -374,9 +419,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).propagatesEvents</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:23</li>
+							<li>Defined in widgets/Widget.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will get targetted events even if the target is not itself if it
+							this is true. Useful for implementing container widgets.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedheight" class="tsd-anchor"></a>
@@ -385,9 +436,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).resolvedHeight</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:35</li>
+							<li>Defined in widgets/Widget.ts:51</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted height after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedwidth" class="tsd-anchor"></a>
@@ -396,9 +452,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).resolvedWidth</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:34</li>
+							<li>Defined in widgets/Widget.ts:49</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted width after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="startingpointerpos" class="tsd-anchor"></a>
@@ -447,17 +508,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:41</li>
+									<li>Defined in widgets/ScrollBar.ts:65</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The scrollbar&#39;s bar length; the length of the viewable zone along the
+										scrollable axis. For example, if this is a vertical scrollbar, this value
+										would be the resolved height of the viewport wrapping the widget being
+									scrolled.</p>
+								</div>
+								<p>Tied to <a href="scrollbar.html#_barlength">_barLength</a>. If changed, <a href="scrollbar.html#_dirty">_dirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:45</li>
+									<li>Defined in widgets/ScrollBar.ts:69</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The scrollbar&#39;s bar length; the length of the viewable zone along the
+										scrollable axis. For example, if this is a vertical scrollbar, this value
+										would be the resolved height of the viewport wrapping the widget being
+									scrolled.</p>
+								</div>
+								<p>Tied to <a href="scrollbar.html#_barlength">_barLength</a>. If changed, <a href="scrollbar.html#_dirty">_dirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -520,9 +599,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:138</li>
+									<li>Defined in widgets/Widget.ts:192</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the resolved dimensions. Returns a 2-tuple containing
+									<a href="scrollbar.html#resolvedwidth">resolvedWidth</a> and <a href="scrollbar.html#resolvedheight">resolvedHeight</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -537,9 +622,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:143</li>
+									<li>Defined in widgets/Widget.ts:197</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget is dirty. Returns <a href="scrollbar.html#_dirty">_dirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -555,17 +645,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:80</li>
+									<li>Defined in widgets/Widget.ts:105</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="scrollbar.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="scrollbar.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:70</li>
+									<li>Defined in widgets/Widget.ts:96</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="scrollbar.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="scrollbar.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -587,17 +693,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:30</li>
+									<li>Defined in widgets/ScrollBar.ts:46</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The scrollbar&#39;s end; the length of the scrollable axis. For example, if
+										this is a vertical scrollbar, this value would be the resolved height of
+									the widget being scrolled.</p>
+								</div>
+								<p>Tied to <a href="scrollbar.html#_end">_end</a>. If changed, <a href="scrollbar.html#_dirty">_dirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:34</li>
+									<li>Defined in widgets/ScrollBar.ts:50</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The scrollbar&#39;s end; the length of the scrollable axis. For example, if
+										this is a vertical scrollbar, this value would be the resolved height of
+									the widget being scrolled.</p>
+								</div>
+								<p>Tied to <a href="scrollbar.html#_end">_end</a>. If changed, <a href="scrollbar.html#_dirty">_dirty</a> is set to true.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -661,17 +783,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:133</li>
+									<li>Defined in widgets/Widget.ts:184</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="scrollbar.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:128</li>
+									<li>Defined in widgets/Widget.ts:180</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="scrollbar.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -776,9 +912,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:148</li>
+									<li>Defined in widgets/Widget.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget&#39;s layout is dirty. Returns <a href="scrollbar.html#_layoutdirty">_layoutDirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -835,9 +976,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:62</li>
+									<li>Defined in widgets/Widget.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current theme in use by the Widget. If there is no theme, throws an
+									exception.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 					</ul>
@@ -853,17 +1000,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:106</li>
+									<li>Defined in widgets/Widget.ts:144</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="scrollbar.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:101</li>
+									<li>Defined in widgets/Widget.ts:140</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="scrollbar.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -978,9 +1145,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).clear</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:265</li>
+									<li>Defined in widgets/Widget.ts:366</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paiting utility: clears background of widget. Should not be overridden.</p>
+								</div>
+								<p>The background fill style used is <a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1014,9 +1187,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).dispatchEvent</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:175</li>
+									<li>Defined in widgets/Widget.ts:242</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when an event is passed to the Widget. Checks if the target
+										matches the Widget, unless the Widget propagates events, or if the event
+										is a <a href="pointerevent.html">PointerEvent</a> and is in the bounds of the Widget. If neither
+										of the conditions are true, the event is not captured (null is returned),
+										else, the <a href="scrollbar.html#handleevent">handleEvent</a> method is called and its result is
+									returned. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1033,6 +1216,8 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
+							<p>Returns the widget that captured the event or null if none
+							captured the event.</p>
 						</li>
 					</ul>
 				</section>
@@ -1047,9 +1232,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).forceLayoutDirty</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:248</li>
+									<li>Defined in widgets/Widget.ts:339</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Forcefully mark layout as dirty. If overridden, original must be called.
+										Call only when absolutely neccessary, such as in a resize. If
+										implementing a container widget, children should also have their layout
+									forced as dirty.</p>
+								</div>
+								<p>Sets <a href="scrollbar.html#_layoutdirty">_layoutDirty</a> and <a href="scrollbar.html#_dirty">_dirty</a> to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1064,9 +1258,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:59</li>
+									<li>Defined in widgets/ScrollBar.ts:89</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the rectangle where the scrollbar will be painted.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1083,6 +1282,8 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+							<p>Returns a 4-tuple containing, in this order, the left edge&#39;s
+							offset, the width, the top edge&#39;s offset and the height.</p>
 						</li>
 					</ul>
 				</section>
@@ -1197,7 +1398,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handleEvent</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:72</li>
+									<li>Defined in widgets/ScrollBar.ts:102</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1230,7 +1431,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handlePainting</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:129</li>
+									<li>Defined in widgets/ScrollBar.ts:159</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1296,9 +1497,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).handlePostLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:255</li>
+									<li>Defined in widgets/Widget.ts:349</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Does
+									nothing by default. Should be implemented.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1320,7 +1527,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).handlePreLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:123</li>
+									<li>Defined in widgets/ScrollBar.ts:153</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1375,9 +1582,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).inheritTheme</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:112</li>
+									<li>Defined in widgets/Widget.ts:158</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the inherited theme of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Theme override has priority over inherited theme. Inherited theme should
+								be propagated to children so they also have a theme.</p>
+								<p>Calls <a href="scrollbar.html#updateinheritedtheme">updateInheritedTheme</a> and <a href="widget.html#updatetheme">updateTheme</a> and sets
+								<a href="scrollbar.html#_layoutdirty">_layoutDirty</a> and <a href="scrollbar.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1503,9 +1720,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).onFocusDropped</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:155</li>
+									<li>Defined in widgets/Widget.ts:211</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when a focus type owned by this Widget has been dropped. Does
+									nothing by default. Can be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1530,9 +1753,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).paint</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:287</li>
+									<li>Defined in widgets/Widget.ts:392</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the Widget is dirty and the Root is being rendered. Does
+										nothing if dirty flag is not set, else, clears the background if
+										<a href="scrollbar.html#needsclear">needsClear</a> is true, calls the <a href="scrollbar.html#handlepainting">handlePainting</a> method and
+									unsets the dirty flag. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1566,9 +1797,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).populateLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:218</li>
+									<li>Defined in widgets/Widget.ts:297</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="scrollbar.html#handlepopulatelayout">handlePopulateLayout</a>. Does nothing if
+									<a href="domroot.html#_enabled">_enabled</a> is false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1590,9 +1827,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).postLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:259</li>
+									<li>Defined in widgets/Widget.ts:356</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Calls
+										<a href="scrollbar.html#handlepostlayoutupdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1614,9 +1858,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).preLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:197</li>
+									<li>Defined in widgets/Widget.ts:270</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called before layout is resolved. Calls
+										<a href="scrollbar.html#handleprelayoutupdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1638,9 +1889,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).resolveLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:225</li>
+									<li>Defined in widgets/Widget.ts:310</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="scrollbar.html#handleresolvelayout">handleResolveLayout</a>. Does nothing if
+										<a href="domroot.html#_enabled">_enabled</a> is false or <a href="scrollbar.html#_layoutdirty">_layoutDirty</a> is false. If the
+										resolved dimensions change, <a href="scrollbar.html#_dirty">_dirty</a> is set to true.
+									<a href="scrollbar.html#_layoutdirty">_layoutDirty</a> is set to false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1662,9 +1921,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).setThemeOverride</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:86</li>
+									<li>Defined in widgets/Widget.ts:116</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the theme override of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Calls <a href="widget.html#updatetheme">updateTheme</a> and sets <a href="scrollbar.html#_layoutdirty">_layoutDirty</a> and
+								<a href="scrollbar.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1686,7 +1953,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Clickable, NumberVariable).setValue</p>
 								<ul>
-									<li>Defined in widgets/ScrollBar.ts:52</li>
+									<li>Defined in widgets/ScrollBar.ts:76</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1713,9 +1980,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Clickable, NumberVariable).updateInheritedTheme</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:47</li>
+									<li>Defined in widgets/Widget.ts:65</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the inherited theme of this Widget is updated. Can be
+									overridden. Does nothing by default.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

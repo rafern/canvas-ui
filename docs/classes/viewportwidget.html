@@ -65,6 +65,18 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A type of container widget which is allowed to be bigger or smaller than its
+						child.</p>
+					</div>
+					<p>Allows setting the offset of the child, automatically clips it if neccessary.
+						Otherwise acts like a <a href="container.html">Container</a>. Implemented by using a
+						<a href="viewport.html">Viewport</a>; effectively, the child widget is painted to a dedicated
+					canvas.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -174,9 +186,14 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(SingleParent, FlexLayout).constructor</p>
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:29</li>
+									<li>Defined in widgets/ViewportWidget.ts:50</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new ViewportWidget.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -202,7 +219,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_children" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> _children</h3>
-					<div class="tsd-signature tsd-kind-icon">_children<span class="tsd-signature-symbol">:</span> <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">_children<span class="tsd-signature-symbol">:</span> <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout)._children</p>
 						<ul>
@@ -227,9 +244,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout)._dirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:16</li>
+							<li>Defined in widgets/Widget.ts:23</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only be painted if dirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_layoutdirty" class="tsd-anchor"></a>
@@ -238,9 +260,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout)._layoutDirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:18</li>
+							<li>Defined in widgets/Widget.ts:25</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only have the layout resolved if layoutDirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_offset" class="tsd-anchor"></a>
@@ -248,9 +275,15 @@
 					<div class="tsd-signature tsd-kind-icon">_offset<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:21</li>
+							<li>Defined in widgets/ViewportWidget.ts:35</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Offset of <a href="viewportwidget.html#child">child</a>. Positional events will take this into account,
+							as well as rendering. Useful for implementing scrolling.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="crossbasistied" class="tsd-anchor"></a>
@@ -258,9 +291,14 @@
 					<div class="tsd-signature tsd-kind-icon">cross<wbr>Basis<wbr>Tied<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:16</li>
+							<li>Defined in widgets/ViewportWidget.ts:28</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is the cross basis tied to the child&#39;s?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="lastchildlayoutctx" class="tsd-anchor"></a>
@@ -268,9 +306,15 @@
 					<div class="tsd-signature tsd-kind-icon">last<wbr>Child<wbr>Layout<wbr>Ctx<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="layoutcontext.html" class="tsd-signature-type" data-tsd-kind="Class">LayoutContext</a><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:23</li>
+							<li>Defined in widgets/ViewportWidget.ts:40</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Layout context used by <a href="viewportwidget.html#child">child</a>. Can be null if no layout update is
+							required.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="lastvertical" class="tsd-anchor"></a>
@@ -295,9 +339,15 @@
 					<div class="tsd-signature tsd-kind-icon">last<wbr>Viewport<wbr>Dims<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:29</li>
+							<li>Defined in widgets/ViewportWidget.ts:50</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>What were the last dimensions of the viewport widget? Useful for
+							scrolling,</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="mainbasistied" class="tsd-anchor"></a>
@@ -305,9 +355,14 @@
 					<div class="tsd-signature tsd-kind-icon">main<wbr>Basis<wbr>Tied<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:15</li>
+							<li>Defined in widgets/ViewportWidget.ts:26</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Is the main basis tied to the child&#39;s?</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="maxdimensions" class="tsd-anchor"></a>
@@ -315,9 +370,15 @@
 					<div class="tsd-signature tsd-kind-icon">max<wbr>Dimensions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:26</li>
+							<li>Defined in widgets/ViewportWidget.ts:45</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Max dimensions. Not the effective max dimensions; those are set every
+							frame and are the viewport&#39;s max dimensions.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -326,9 +387,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout).needsClear</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:20</li>
+							<li>Defined in widgets/Widget.ts:31</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will have its background automatically cleared when painting if
+								needsClear is true. The background fill style used is
+							<a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -337,9 +405,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout).propagatesEvents</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:23</li>
+							<li>Defined in widgets/Widget.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will get targetted events even if the target is not itself if it
+							this is true. Useful for implementing container widgets.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedheight" class="tsd-anchor"></a>
@@ -348,9 +422,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout).resolvedHeight</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:35</li>
+							<li>Defined in widgets/Widget.ts:51</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted height after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedwidth" class="tsd-anchor"></a>
@@ -359,9 +438,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(SingleParent, FlexLayout).resolvedWidth</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:34</li>
+							<li>Defined in widgets/Widget.ts:49</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted width after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="viewport" class="tsd-anchor"></a>
@@ -369,9 +453,14 @@
 					<div class="tsd-signature tsd-kind-icon">viewport<span class="tsd-signature-symbol">:</span> <a href="viewport.html" class="tsd-signature-type" data-tsd-kind="Class">Viewport</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ViewportWidget.ts:18</li>
+							<li>Defined in widgets/ViewportWidget.ts:30</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The actual viewport object.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -386,9 +475,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:43</li>
+									<li>Defined in widgets/ViewportWidget.ts:67</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get <a href="viewportwidget.html#viewport">viewport</a>&#39;s
+									<a href="viewport.html#canvasdimensions">canvasDimensions</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -425,7 +520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:61</li>
+									<li>Defined in mixins/Parent.ts:60</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -447,7 +542,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:69</li>
+									<li>Defined in mixins/Parent.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -512,9 +607,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:138</li>
+									<li>Defined in widgets/Widget.ts:192</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the resolved dimensions. Returns a 2-tuple containing
+									<a href="viewportwidget.html#resolvedwidth">resolvedWidth</a> and <a href="viewportwidget.html#resolvedheight">resolvedHeight</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -529,9 +630,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:143</li>
+									<li>Defined in widgets/Widget.ts:197</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget is dirty. Returns <a href="viewportwidget.html#_dirty">_dirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -547,17 +653,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:80</li>
+									<li>Defined in widgets/Widget.ts:105</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="viewportwidget.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:70</li>
+									<li>Defined in widgets/Widget.ts:96</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="viewportwidget.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -621,17 +743,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:133</li>
+									<li>Defined in widgets/Widget.ts:184</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="viewportwidget.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:128</li>
+									<li>Defined in widgets/Widget.ts:180</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="viewportwidget.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -736,9 +872,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:148</li>
+									<li>Defined in widgets/Widget.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget&#39;s layout is dirty. Returns <a href="viewportwidget.html#_layoutdirty">_layoutDirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -796,17 +937,35 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:47</li>
+									<li>Defined in widgets/ViewportWidget.ts:80</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The offset of <a href="viewportwidget.html#child">child</a>, used for scrolling.</p>
+								</div>
+								<p>If getting, creates a clone of <a href="viewportwidget.html#_offset">_offset</a>.</p>
+								<p>If setting, sets each value in <a href="viewportwidget.html#_offset">_offset</a> to the wanted one, so old
+									references are still valid. <a href="viewportwidget.html#_dirty">_dirty</a> is set to true. Nothing
+								happens if the offset is unchanged.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:51</li>
+									<li>Defined in widgets/ViewportWidget.ts:84</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The offset of <a href="viewportwidget.html#child">child</a>, used for scrolling.</p>
+								</div>
+								<p>If getting, creates a clone of <a href="viewportwidget.html#_offset">_offset</a>.</p>
+								<p>If setting, sets each value in <a href="viewportwidget.html#_offset">_offset</a> to the wanted one, so old
+									references are still valid. <a href="viewportwidget.html#_dirty">_dirty</a> is set to true. Nothing
+								happens if the offset is unchanged.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -827,9 +986,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:62</li>
+									<li>Defined in widgets/Widget.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current theme in use by the Widget. If there is no theme, throws an
+									exception.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 					</ul>
@@ -845,17 +1010,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:106</li>
+									<li>Defined in widgets/Widget.ts:144</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="viewportwidget.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:101</li>
+									<li>Defined in widgets/Widget.ts:140</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="viewportwidget.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -924,9 +1109,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).clear</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:265</li>
+									<li>Defined in widgets/Widget.ts:366</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paiting utility: clears background of widget. Should not be overridden.</p>
+								</div>
+								<p>The background fill style used is <a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -960,9 +1151,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).dispatchEvent</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:175</li>
+									<li>Defined in widgets/Widget.ts:242</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when an event is passed to the Widget. Checks if the target
+										matches the Widget, unless the Widget propagates events, or if the event
+										is a <a href="pointerevent.html">PointerEvent</a> and is in the bounds of the Widget. If neither
+										of the conditions are true, the event is not captured (null is returned),
+										else, the <a href="viewportwidget.html#handleevent">handleEvent</a> method is called and its result is
+									returned. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -979,6 +1180,8 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
+							<p>Returns the widget that captured the event or null if none
+							captured the event.</p>
 						</li>
 					</ul>
 				</section>
@@ -993,7 +1196,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).forceLayoutDirty</p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:50</li>
+									<li>Defined in mixins/Parent.ts:49</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1010,9 +1213,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:71</li>
+									<li>Defined in widgets/ViewportWidget.ts:107</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the cross basis of the <a href="viewportwidget.html#child">child</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1033,9 +1241,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:58</li>
+									<li>Defined in widgets/ViewportWidget.ts:93</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the main basis of the <a href="viewportwidget.html#child">child</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1056,9 +1269,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:80</li>
+									<li>Defined in widgets/ViewportWidget.ts:118</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the max length along the cross axis of the <a href="viewportwidget.html#child">child</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1079,9 +1297,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:75</li>
+									<li>Defined in widgets/ViewportWidget.ts:112</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the max length along the main axis of the <a href="viewportwidget.html#child">child</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1103,7 +1326,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(SingleParent, FlexLayout).handleEvent</p>
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:84</li>
+									<li>Defined in widgets/ViewportWidget.ts:122</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1136,7 +1359,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(SingleParent, FlexLayout).handlePainting</p>
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:205</li>
+									<li>Defined in widgets/ViewportWidget.ts:243</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1172,9 +1395,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).handlePopulateLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:206</li>
+									<li>Defined in widgets/Widget.ts:280</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The first Widget layout resolution callback. Populates a given
+										<a href="layoutcontext.html">LayoutContext</a> with the wanted basis and flex ratio. Must be
+									implemented. If called and not implemented, an exception is thrown.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1196,7 +1426,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(SingleParent, FlexLayout).handlePostLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:168</li>
+									<li>Defined in widgets/ViewportWidget.ts:206</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1220,7 +1450,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(SingleParent, FlexLayout).handlePreLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/ViewportWidget.ts:115</li>
+									<li>Defined in widgets/ViewportWidget.ts:153</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1244,9 +1474,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).handleResolveLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:210</li>
+									<li>Defined in widgets/Widget.ts:289</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The second Widget layout resolution callback. Resolves the layout of this
+										widget (sets <a href="viewportwidget.html#resolvedwidth">resolvedWidth</a> and <a href="viewportwidget.html#resolvedheight">resolvedHeight</a>).Must be
+									implemented. If called and not implemented, an exception is thrown.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1268,9 +1505,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).inheritTheme</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:112</li>
+									<li>Defined in widgets/Widget.ts:158</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the inherited theme of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Theme override has priority over inherited theme. Inherited theme should
+								be propagated to children so they also have a theme.</p>
+								<p>Calls <a href="viewportwidget.html#updateinheritedtheme">updateInheritedTheme</a> and <a href="widget.html#updatetheme">updateTheme</a> and sets
+								<a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> and <a href="viewportwidget.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1292,9 +1539,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).onFocusDropped</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:155</li>
+									<li>Defined in widgets/Widget.ts:211</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when a focus type owned by this Widget has been dropped. Does
+									nothing by default. Can be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1319,9 +1572,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).paint</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:287</li>
+									<li>Defined in widgets/Widget.ts:392</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the Widget is dirty and the Root is being rendered. Does
+										nothing if dirty flag is not set, else, clears the background if
+										<a href="viewportwidget.html#needsclear">needsClear</a> is true, calls the <a href="viewportwidget.html#handlepainting">handlePainting</a> method and
+									unsets the dirty flag. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1355,9 +1616,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).populateLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:218</li>
+									<li>Defined in widgets/Widget.ts:297</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="viewportwidget.html#handlepopulatelayout">handlePopulateLayout</a>. Does nothing if
+									<a href="domroot.html#_enabled">_enabled</a> is false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1379,9 +1646,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).postLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:259</li>
+									<li>Defined in widgets/Widget.ts:356</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Calls
+										<a href="viewportwidget.html#handlepostlayoutupdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1403,9 +1677,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).preLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:197</li>
+									<li>Defined in widgets/Widget.ts:270</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called before layout is resolved. Calls
+										<a href="viewportwidget.html#handleprelayoutupdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1427,9 +1708,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).resolveLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:225</li>
+									<li>Defined in widgets/Widget.ts:310</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="viewportwidget.html#handleresolvelayout">handleResolveLayout</a>. Does nothing if
+										<a href="domroot.html#_enabled">_enabled</a> is false or <a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> is false. If the
+										resolved dimensions change, <a href="viewportwidget.html#_dirty">_dirty</a> is set to true.
+									<a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> is set to false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1451,9 +1740,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).setThemeOverride</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:86</li>
+									<li>Defined in widgets/Widget.ts:116</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the theme override of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Calls <a href="widget.html#updatetheme">updateTheme</a> and sets <a href="viewportwidget.html#_layoutdirty">_layoutDirty</a> and
+								<a href="viewportwidget.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1475,7 +1772,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(SingleParent, FlexLayout).updateInheritedTheme</p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:42</li>
+									<li>Defined in mixins/Parent.ts:41</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

@@ -65,6 +65,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A flexbox widget which displays line of text.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -176,13 +183,22 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Labelable).constructor</p>
 								<ul>
-									<li>Defined in widgets/Label.ts:13</li>
+									<li>Defined in widgets/Label.ts:27</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a new Label.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>text: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#textgetter" class="tsd-signature-type" data-tsd-kind="Type alias">TextGetter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The text source of the label. Has the same behaviour as
+										setting <a href="label.html#text">text</a>.</p>
+									</div>
 								</li>
 								<li>
 									<h5>themeOverride: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a><span class="tsd-signature-symbol"> = null</span></h5>
@@ -202,9 +218,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable)._dirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:16</li>
+							<li>Defined in widgets/Widget.ts:23</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only be painted if dirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_font" class="tsd-anchor"></a>
@@ -229,9 +250,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable)._layoutDirty</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:18</li>
+							<li>Defined in widgets/Widget.ts:25</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only have the layout resolved if layoutDirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_minlabelascent" class="tsd-anchor"></a>
@@ -321,9 +347,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable).needsClear</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:20</li>
+							<li>Defined in widgets/Widget.ts:31</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will have its background automatically cleared when painting if
+								needsClear is true. The background fill style used is
+							<a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -332,9 +365,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable).propagatesEvents</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:23</li>
+							<li>Defined in widgets/Widget.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will get targetted events even if the target is not itself if it
+							this is true. Useful for implementing container widgets.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedheight" class="tsd-anchor"></a>
@@ -343,9 +382,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable).resolvedHeight</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:35</li>
+							<li>Defined in widgets/Widget.ts:51</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted height after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedwidth" class="tsd-anchor"></a>
@@ -354,9 +398,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Mixin(FlexLayout, Labelable).resolvedWidth</p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:34</li>
+							<li>Defined in widgets/Widget.ts:49</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted width after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="textgetter" class="tsd-anchor"></a>
@@ -364,9 +413,15 @@
 					<div class="tsd-signature tsd-kind-icon">text<wbr>Getter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#textgetter" class="tsd-signature-type" data-tsd-kind="Type alias">TextGetter</a><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/Label.ts:13</li>
+							<li>Defined in widgets/Label.ts:27</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The text getter. If this is not null, text will be updated with the
+							return value of this callback, every update.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -423,9 +478,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Label.ts:48</li>
+									<li>Defined in widgets/Label.ts:82</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets <a href="label.html#_text">_text</a>. If you want to get the current text source, then use
+									<a href="label.html#text">text</a> instead.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -440,9 +501,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:138</li>
+									<li>Defined in widgets/Widget.ts:192</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the resolved dimensions. Returns a 2-tuple containing
+									<a href="label.html#resolvedwidth">resolvedWidth</a> and <a href="label.html#resolvedheight">resolvedHeight</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -457,9 +524,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:143</li>
+									<li>Defined in widgets/Widget.ts:197</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget is dirty. Returns <a href="label.html#_dirty">_dirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -475,17 +547,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:80</li>
+									<li>Defined in widgets/Widget.ts:105</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="label.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="label.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:70</li>
+									<li>Defined in widgets/Widget.ts:96</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="label.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="label.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -549,17 +637,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:133</li>
+									<li>Defined in widgets/Widget.ts:184</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="label.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:128</li>
+									<li>Defined in widgets/Widget.ts:180</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="label.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -753,9 +855,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:148</li>
+									<li>Defined in widgets/Widget.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget&#39;s layout is dirty. Returns <a href="label.html#_layoutdirty">_layoutDirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -813,17 +920,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Label.ts:41</li>
+									<li>Defined in widgets/Label.ts:71</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This label&#39;s text source. If you want to get the current text string,
+									then use <a href="label.html#currenttext">currentText</a> instead.</p>
+								</div>
+								<p>When setting, if text is a <a href="../modules.html#textgetter">TextGetter</a>, then <a href="label.html#textgetter">textGetter</a> is
+								set, else, <a href="label.html#settext">setText</a> is called.</p>
+								<p>When getting, if <a href="label.html#textgetter">textGetter</a> is set, then it is returned, else,
+								<a href="label.html#_text">_text</a> is returned.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../modules.html#textgetter" class="tsd-signature-type" data-tsd-kind="Type alias">TextGetter</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Label.ts:34</li>
+									<li>Defined in widgets/Label.ts:62</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This label&#39;s text source. If you want to get the current text string,
+									then use <a href="label.html#currenttext">currentText</a> instead.</p>
+								</div>
+								<p>When setting, if text is a <a href="../modules.html#textgetter">TextGetter</a>, then <a href="label.html#textgetter">textGetter</a> is
+								set, else, <a href="label.html#settext">setText</a> is called.</p>
+								<p>When getting, if <a href="label.html#textgetter">textGetter</a> is set, then it is returned, else,
+								<a href="label.html#_text">_text</a> is returned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -844,9 +971,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:62</li>
+									<li>Defined in widgets/Widget.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current theme in use by the Widget. If there is no theme, throws an
+									exception.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 					</ul>
@@ -862,17 +995,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:106</li>
+									<li>Defined in widgets/Widget.ts:144</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="label.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:101</li>
+									<li>Defined in widgets/Widget.ts:140</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="label.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -941,9 +1094,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).clear</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:265</li>
+									<li>Defined in widgets/Widget.ts:366</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paiting utility: clears background of widget. Should not be overridden.</p>
+								</div>
+								<p>The background fill style used is <a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -977,9 +1136,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).dispatchEvent</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:175</li>
+									<li>Defined in widgets/Widget.ts:242</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when an event is passed to the Widget. Checks if the target
+										matches the Widget, unless the Widget propagates events, or if the event
+										is a <a href="pointerevent.html">PointerEvent</a> and is in the bounds of the Widget. If neither
+										of the conditions are true, the event is not captured (null is returned),
+										else, the <a href="label.html#handleevent">handleEvent</a> method is called and its result is
+									returned. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -996,6 +1165,8 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
+							<p>Returns the widget that captured the event or null if none
+							captured the event.</p>
 						</li>
 					</ul>
 				</section>
@@ -1080,9 +1251,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).forceLayoutDirty</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:248</li>
+									<li>Defined in widgets/Widget.ts:339</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Forcefully mark layout as dirty. If overridden, original must be called.
+										Call only when absolutely neccessary, such as in a resize. If
+										implementing a container widget, children should also have their layout
+									forced as dirty.</p>
+								</div>
+								<p>Sets <a href="label.html#_layoutdirty">_layoutDirty</a> and <a href="label.html#_dirty">_dirty</a> to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1098,9 +1278,20 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).handleEvent</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:161</li>
+									<li>Defined in widgets/Widget.ts:223</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Widget event handling callback. If the event is to be captured, the
+										capturer is returned, else, null. By default, this will do nothing and
+										capture the event if it is targetted at itself or is a
+									<a href="pointerevent.html">PointerEvent</a>. Should be overridden.</p>
+								</div>
+								<p>If overriding, return the widget that has captured the event (could be
+									this, for example, or a child widget if implementing a container), or
+								null if no widget captured the event.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1131,7 +1322,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Labelable).handlePainting</p>
 								<ul>
-									<li>Defined in widgets/Label.ts:66</li>
+									<li>Defined in widgets/Label.ts:100</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1197,9 +1388,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).handlePostLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:255</li>
+									<li>Defined in widgets/Widget.ts:349</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Does
+									nothing by default. Should be implemented.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1221,7 +1418,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Mixin(FlexLayout, Labelable).handlePreLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Label.ts:52</li>
+									<li>Defined in widgets/Label.ts:86</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1276,9 +1473,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).inheritTheme</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:112</li>
+									<li>Defined in widgets/Widget.ts:158</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the inherited theme of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Theme override has priority over inherited theme. Inherited theme should
+								be propagated to children so they also have a theme.</p>
+								<p>Calls <a href="label.html#updateinheritedtheme">updateInheritedTheme</a> and <a href="widget.html#updatetheme">updateTheme</a> and sets
+								<a href="label.html#_layoutdirty">_layoutDirty</a> and <a href="label.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1300,9 +1507,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).onFocusDropped</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:155</li>
+									<li>Defined in widgets/Widget.ts:211</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when a focus type owned by this Widget has been dropped. Does
+									nothing by default. Can be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1327,9 +1540,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).paint</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:287</li>
+									<li>Defined in widgets/Widget.ts:392</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the Widget is dirty and the Root is being rendered. Does
+										nothing if dirty flag is not set, else, clears the background if
+										<a href="label.html#needsclear">needsClear</a> is true, calls the <a href="label.html#handlepainting">handlePainting</a> method and
+									unsets the dirty flag. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1363,9 +1584,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).populateLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:218</li>
+									<li>Defined in widgets/Widget.ts:297</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="label.html#handlepopulatelayout">handlePopulateLayout</a>. Does nothing if
+									<a href="domroot.html#_enabled">_enabled</a> is false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1387,9 +1614,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).postLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:259</li>
+									<li>Defined in widgets/Widget.ts:356</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Calls
+										<a href="label.html#handlepostlayoutupdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1411,9 +1645,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).preLayoutUpdate</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:197</li>
+									<li>Defined in widgets/Widget.ts:270</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called before layout is resolved. Calls
+										<a href="label.html#handleprelayoutupdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1435,9 +1676,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).resolveLayout</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:225</li>
+									<li>Defined in widgets/Widget.ts:310</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="label.html#handleresolvelayout">handleResolveLayout</a>. Does nothing if
+										<a href="domroot.html#_enabled">_enabled</a> is false or <a href="label.html#_layoutdirty">_layoutDirty</a> is false. If the
+										resolved dimensions change, <a href="label.html#_dirty">_dirty</a> is set to true.
+									<a href="label.html#_layoutdirty">_layoutDirty</a> is set to false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1609,9 +1858,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).setThemeOverride</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:86</li>
+									<li>Defined in widgets/Widget.ts:116</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the theme override of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Calls <a href="widget.html#updatetheme">updateTheme</a> and sets <a href="label.html#_layoutdirty">_layoutDirty</a> and
+								<a href="label.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1633,9 +1890,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from Mixin(FlexLayout, Labelable).updateInheritedTheme</p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:47</li>
+									<li>Defined in widgets/Widget.ts:65</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the inherited theme of this Widget is updated. Can be
+									overridden. Does nothing by default.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

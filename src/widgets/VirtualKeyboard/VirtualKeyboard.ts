@@ -1,38 +1,50 @@
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
-import type { KeyTemplateFunction } from './KeyRow';
-import { MultiContainer } from '../MultiContainer';
-import type { Theme } from '../../theme/Theme';
+import type { KeyRowTemplate } from './KeyRow';
 import type { KeyContext } from './KeyContext';
+import type { Theme } from '../../theme/Theme';
 import { BackspaceKey } from './BackspaceKey';
 import { EscapeKey } from './EscapeKey';
 import { EnterKey } from './EnterKey';
 import { ShiftKey } from './ShiftKey';
 import { SpaceKey } from './SpaceKey';
+import { Column } from '../Column';
 import { KeyRow } from './KeyRow';
 
-export type VirtualKeyboardTemplate = Array<Array<string[] | KeyTemplateFunction>>;
+/**
+ * A template for the keys in a {@link VirtualKeyboard}. Each member of the
+ * array contains the template for a row of keys, from top to bottom.
+ *
+ * @category Widget
+ */
+export type VirtualKeyboardTemplate = Array<KeyRowTemplate>;
 
-function EnterKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+function EnterKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): EnterKey {
     return new EnterKey(keyContext, themeOverride);
 }
 
-function ShiftKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+function ShiftKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): ShiftKey {
     return new ShiftKey(keyContext, themeOverride);
 }
 
-function BackspaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+function BackspaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): BackspaceKey {
     return new BackspaceKey(keyContext, themeOverride);
 }
 
-function SpaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+function SpaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): SpaceKey {
     return new SpaceKey(keyContext, themeOverride);
 }
 
-function EscapeKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null) {
+function EscapeKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): EscapeKey {
     return new EscapeKey(keyContext, themeOverride);
 }
 
-const defaultVirtualKeyboardTemplate = <VirtualKeyboardTemplate>[
+/**
+ * The default template for the keys in a {@link VirtualKeyboard}; A QWERTY
+ * keyboard with US layout.
+ *
+ * @category Widget
+ */
+export const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate = [
     // First row
     [['`1234567890-=', '~!@#$%^&*()_+']],
     // Second row
@@ -45,28 +57,35 @@ const defaultVirtualKeyboardTemplate = <VirtualKeyboardTemplate>[
     [BackspaceKeyTemplate, SpaceKeyTemplate, EscapeKeyTemplate],
 ];
 
-// A virtual keyboard widget, which is a Column of KeyRows sharing a key
-// context. If no keyboard template is given, the default QUERTY one is used.
-// Needs a keyboard driver supllied so that key presses can be dispatched
-export class VirtualKeyboard extends MultiContainer {
-    private keyContext: KeyContext;
-
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate | null = null, themeOverride: Theme | null = null) {
-        super(true, themeOverride);
+/**
+ * A virtual keyboard widget.
+ *
+ * Needs a {@link KeyboardDriver} so that key events can be queued.
+ *
+ * Equivalent to creating a {@link Column} of {@link KeyRow} with a shared
+ * {@link KeyContext}.
+ *
+ * @category Widget
+ */
+export class VirtualKeyboard extends Column {
+    /**
+     * Create a new VirtualKeyboard.
+     *
+     * @param keyboardTemplate By default, the virtual keyboard template is
+     * {@link defaultVirtualKeyboardTemplate}
+     */
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, themeOverride: Theme | null = null) {
+        super(themeOverride);
 
         // Make context
-        this.keyContext = <KeyContext>{
+        const keyContext = <KeyContext>{
             callback: (key: string) => {
                 keyboardDriver.keyPress(key);
             },
             shift: false,
         };
 
-        // Use default template if none supplied
-        if(keyboardTemplate === null)
-            keyboardTemplate = defaultVirtualKeyboardTemplate;
-
         for(const rowTemplate of keyboardTemplate)
-            this.add(new KeyRow(rowTemplate, this.keyContext, themeOverride));
+            this.add(new KeyRow(rowTemplate, keyContext, themeOverride));
     }
 }

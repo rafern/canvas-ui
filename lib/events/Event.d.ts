@@ -1,9 +1,31 @@
 import type { FocusType } from '../core/FocusType';
 import type { Widget } from '../widgets/Widget';
+/**
+ * A generic event. This is an abstract class and must be implemented in child
+ * classes.
+ *
+ * @category Event
+ */
 export declare abstract class Event {
+    /** The target of this event. Can be null */
     readonly target: Widget | null;
+    /**
+     * The focus type of this event. Can be null.
+     *
+     * If null, this event cannot be focused, since events are focused by their
+     * {@link FocusType} as a group.
+     */
     readonly focusType: FocusType | null;
+    /** Can this event be dispatched without a target? */
     readonly needsFocus: boolean;
+    /**
+     * Create a new Event. Sets {@link target}, {@link focusType} and
+     * {@link needsFocus}
+     */
     constructor(target: Widget | null, focusType: FocusType | null, needsFocus: boolean);
+    /**
+     * Create a new Event with the same properties as this, except with a new
+     * given target.
+     */
     abstract cloneWithTarget(target: Widget | null): Event;
 }

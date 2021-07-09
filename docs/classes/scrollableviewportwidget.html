@@ -65,6 +65,22 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A wrapper for a <a href="viewportwidget.html">ViewportWidget</a> which can be scrolled with
+						<a href="scrollbar.html">ScrollBar</a>.</p>
+					</div>
+					<p>To avoid an ugly looking layout, scrollbars are automatically hidden if they
+						are not needed. However, you can only tell if a scrollbar is needed after
+						layout is resolved. This creates problems, because scrollbars also contribute
+						to the layout, resulting in scrollbar hiding/showing being one frame late and
+						potentially introducing flickering. An alternative will be provided in the
+						future, but for now, use <a href="scrollableviewportwidget.html#vscrollhide">vScrollHide</a> and <a href="scrollableviewportwidget.html#hscrollhide">hScrollHide</a> to
+						force-hide each scrollbar if you know they aren&#39;t needed to avoid flickering
+					or other layout issues.</p>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -165,12 +181,12 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:22</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:64</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Create a new SingleParent instance.</p>
+									<p>Create a new ScrollableViewportWidget.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -201,7 +217,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_children" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> _children</h3>
-					<div class="tsd-signature tsd-kind-icon">_children<span class="tsd-signature-symbol">:</span> <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<div class="tsd-signature tsd-kind-icon">_children<span class="tsd-signature-symbol">:</span> <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#_children">_children</a></p>
 						<ul>
@@ -226,9 +242,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#_dirty">_dirty</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:16</li>
+							<li>Defined in widgets/Widget.ts:23</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only be painted if dirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="_layoutdirty" class="tsd-anchor"></a>
@@ -237,19 +258,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#_layoutdirty">_layoutDirty</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:18</li>
+							<li>Defined in widgets/Widget.ts:25</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will only have the layout resolved if layoutDirty is true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="hscroll" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> h<wbr>Scroll</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> h<wbr>Scroll</h3>
 					<div class="tsd-signature tsd-kind-icon">h<wbr>Scroll<span class="tsd-signature-symbol">:</span> <a href="scrollbar.html" class="tsd-signature-type" data-tsd-kind="Class">ScrollBar</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollableViewportWidget.ts:14</li>
+							<li>Defined in widgets/ScrollableViewportWidget.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the created horizontal <a href="scrollbar.html">ScrollBar</a> for easy access.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="hscrollhide" class="tsd-anchor"></a>
@@ -257,9 +288,17 @@
 					<div class="tsd-signature tsd-kind-icon">h<wbr>Scroll<wbr>Hide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollableViewportWidget.ts:22</li>
+							<li>Defined in widgets/ScrollableViewportWidget.ts:64</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Hide the horizontal scroll bar?</p>
+						</div>
+						<p>Used to work around the current limitation of flickering scrollbars. If
+							you know a scrollbar should be disabled, such as when loading, set this
+						to true to avoid flickering caused by layout changes.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="needsclear" class="tsd-anchor"></a>
@@ -268,9 +307,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#needsclear">needsClear</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:20</li>
+							<li>Defined in widgets/Widget.ts:31</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will have its background automatically cleared when painting if
+								needsClear is true. The background fill style used is
+							<a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="propagatesevents" class="tsd-anchor"></a>
@@ -279,9 +325,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#propagatesevents">propagatesEvents</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:23</li>
+							<li>Defined in widgets/Widget.ts:36</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Widget will get targetted events even if the target is not itself if it
+							this is true. Useful for implementing container widgets.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedheight" class="tsd-anchor"></a>
@@ -290,9 +342,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#resolvedheight">resolvedHeight</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:35</li>
+							<li>Defined in widgets/Widget.ts:51</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted height after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="resolvedwidth" class="tsd-anchor"></a>
@@ -301,19 +358,29 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#resolvedwidth">resolvedWidth</a></p>
 						<ul>
-							<li>Defined in widgets/Widget.ts:34</li>
+							<li>Defined in widgets/Widget.ts:49</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The wanted width after layout resolution.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="vscroll" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> v<wbr>Scroll</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> v<wbr>Scroll</h3>
 					<div class="tsd-signature tsd-kind-icon">v<wbr>Scroll<span class="tsd-signature-symbol">:</span> <a href="scrollbar.html" class="tsd-signature-type" data-tsd-kind="Class">ScrollBar</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollableViewportWidget.ts:13</li>
+							<li>Defined in widgets/ScrollableViewportWidget.ts:32</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the created vertical <a href="scrollbar.html">ScrollBar</a> for easy access.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="vscrollhide" class="tsd-anchor"></a>
@@ -321,19 +388,32 @@
 					<div class="tsd-signature tsd-kind-icon">v<wbr>Scroll<wbr>Hide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollableViewportWidget.ts:21</li>
+							<li>Defined in widgets/ScrollableViewportWidget.ts:56</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Hide the vertical scroll bar?</p>
+						</div>
+						<p>Used to work around the current limitation of flickering scrollbars. If
+							you know a scrollbar should be disabled, such as when loading, set this
+						to true to avoid flickering caused by layout changes.</p>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="viewport" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> viewport</h3>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagReadonly">Readonly</span> viewport</h3>
 					<div class="tsd-signature tsd-kind-icon">viewport<span class="tsd-signature-symbol">:</span> <a href="viewportwidget.html" class="tsd-signature-type" data-tsd-kind="Class">ViewportWidget</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in widgets/ScrollableViewportWidget.ts:12</li>
+							<li>Defined in widgets/ScrollableViewportWidget.ts:28</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A reference to the created <a href="viewportwidget.html">ViewportWidget</a> for easy access.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -370,7 +450,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:61</li>
+									<li>Defined in mixins/Parent.ts:60</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +472,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mixins/Parent.ts:69</li>
+									<li>Defined in mixins/Parent.ts:68</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -415,9 +495,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:85</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:136</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#child">child</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
 						</li>
 					</ul>
@@ -433,17 +518,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:77</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:127</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#crossbasis">crossBasis</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:81</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:131</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#crossbasis">crossBasis</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -464,9 +559,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:138</li>
+									<li>Defined in widgets/Widget.ts:192</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the resolved dimensions. Returns a 2-tuple containing
+									<a href="scrollableviewportwidget.html#resolvedwidth">resolvedWidth</a> and <a href="scrollableviewportwidget.html#resolvedheight">resolvedHeight</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 					</ul>
@@ -481,9 +582,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:143</li>
+									<li>Defined in widgets/Widget.ts:197</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget is dirty. Returns <a href="scrollableviewportwidget.html#_dirty">_dirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -499,17 +605,33 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:80</li>
+									<li>Defined in widgets/Widget.ts:105</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="scrollableviewportwidget.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:70</li>
+									<li>Defined in widgets/Widget.ts:96</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
+								</div>
+								<p>If changed, <a href="domroot.html#_enabled">_enabled</a> is set, <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> is set to true
+								and <a href="scrollableviewportwidget.html#_dirty">_dirty</a> is set to true if enabled or false if not enabled.</p>
+								<p>If getting, <a href="domroot.html#_enabled">_enabled</a> is returned.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -531,17 +653,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:61</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:109</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#flexratio">flexRatio</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:65</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:113</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#flexratio">flexRatio</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -563,17 +695,31 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:133</li>
+									<li>Defined in widgets/Widget.ts:184</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="scrollableviewportwidget.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:128</li>
+									<li>Defined in widgets/Widget.ts:180</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The inherited theme of this widget.</p>
+								</div>
+								<p>If setting, calls <a href="scrollableviewportwidget.html#inherittheme">inheritTheme</a>.</p>
+								<p>If getting, returns <a href="widget.html#_inheritedtheme">_inheritedTheme</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -594,9 +740,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:148</li>
+									<li>Defined in widgets/Widget.ts:202</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Check if the widget&#39;s layout is dirty. Returns <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a>.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
@@ -612,17 +763,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:69</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:118</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#mainbasis">mainBasis</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:73</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:122</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s <a href="viewportwidget.html#mainbasis">mainBasis</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -644,17 +805,29 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:53</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:100</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s
+									<a href="viewportwidget.html#maxdimensions">maxDimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:57</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:104</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The <a href="scrollableviewportwidget.html#viewport">viewport</a>&#39;s
+									<a href="viewportwidget.html#maxdimensions">maxDimensions</a></p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -675,9 +848,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:62</li>
+									<li>Defined in widgets/Widget.ts:81</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The current theme in use by the Widget. If there is no theme, throws an
+									exception.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 					</ul>
@@ -693,17 +872,37 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:106</li>
+									<li>Defined in widgets/Widget.ts:144</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="scrollableviewportwidget.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/Widget.ts:101</li>
+									<li>Defined in widgets/Widget.ts:140</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The theme override used by the Widget. If this is null, the Widget&#39;s
+										theme will be the inherited theme, else, it will be the theme override
+										with the inherited theme as the fallback. The fallback of the theme
+									override will be ignored and replaced.</p>
+								</div>
+								<p>If setting, calls <a href="scrollableviewportwidget.html#setthemeoverride">setThemeOverride</a>.</p>
+								<p>If getting, returns <a href="widget.html#_themeoverride">_themeOverride</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -728,9 +927,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:265</li>
+									<li>Defined in widgets/Widget.ts:366</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Paiting utility: clears background of widget. Should not be overridden.</p>
+								</div>
+								<p>The background fill style used is <a href="../enums/themeproperty.html#canvasfill">ThemeProperty.CanvasFill</a>.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -764,9 +969,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#dispatchevent">dispatchEvent</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:175</li>
+									<li>Defined in widgets/Widget.ts:242</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when an event is passed to the Widget. Checks if the target
+										matches the Widget, unless the Widget propagates events, or if the event
+										is a <a href="pointerevent.html">PointerEvent</a> and is in the bounds of the Widget. If neither
+										of the conditions are true, the event is not captured (null is returned),
+										else, the <a href="scrollableviewportwidget.html#handleevent">handleEvent</a> method is called and its result is
+									returned. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -783,6 +998,8 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4>
+							<p>Returns the widget that captured the event or null if none
+							captured the event.</p>
 						</li>
 					</ul>
 				</section>
@@ -797,9 +1014,18 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#forcelayoutdirty">forceLayoutDirty</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:50</li>
+									<li>Defined in mixins/Parent.ts:49</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Forcefully mark layout as dirty. If overridden, original must be called.
+										Call only when absolutely neccessary, such as in a resize. If
+										implementing a container widget, children should also have their layout
+									forced as dirty.</p>
+								</div>
+								<p>Sets <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> and <a href="scrollableviewportwidget.html#_dirty">_dirty</a> to true.</p>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -815,9 +1041,20 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handleevent">handleEvent</a></p>
 								<ul>
-									<li>Defined in widgets/PassthroughWidget.ts:18</li>
+									<li>Defined in widgets/PassthroughWidget.ts:27</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Widget event handling callback. If the event is to be captured, the
+										capturer is returned, else, null. By default, this will do nothing and
+										capture the event if it is targetted at itself or is a
+									<a href="pointerevent.html">PointerEvent</a>. Should be overridden.</p>
+								</div>
+								<p>If overriding, return the widget that has captured the event (could be
+									this, for example, or a child widget if implementing a container), or
+								null if no widget captured the event.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -848,9 +1085,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handlepainting">handlePainting</a></p>
 								<ul>
-									<li>Defined in widgets/PassthroughWidget.ts:56</li>
+									<li>Defined in widgets/PassthroughWidget.ts:65</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Widget painting callback. By default does nothing. Do painting logic here
+									when extending Widget. Should be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -884,9 +1127,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handlepopulatelayout">handlePopulateLayout</a></p>
 								<ul>
-									<li>Defined in widgets/PassthroughWidget.ts:43</li>
+									<li>Defined in widgets/PassthroughWidget.ts:52</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The first Widget layout resolution callback. Populates a given
+										<a href="layoutcontext.html">LayoutContext</a> with the wanted basis and flex ratio. Must be
+									implemented. If called and not implemented, an exception is thrown.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -908,9 +1158,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handlepostlayoutupdate">handlePostLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:114</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:166</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Does
+									nothing by default. Should be implemented.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -932,9 +1188,15 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handleprelayoutupdate">handlePreLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:94</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:146</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called before layout is resolved. Does
+									nothing by default. Should be implemented.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -956,9 +1218,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#handleresolvelayout">handleResolveLayout</a></p>
 								<ul>
-									<li>Defined in widgets/PassthroughWidget.ts:48</li>
+									<li>Defined in widgets/PassthroughWidget.ts:57</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The second Widget layout resolution callback. Resolves the layout of this
+										widget (sets <a href="scrollableviewportwidget.html#resolvedwidth">resolvedWidth</a> and <a href="scrollableviewportwidget.html#resolvedheight">resolvedHeight</a>).Must be
+									implemented. If called and not implemented, an exception is thrown.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -980,9 +1249,19 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#inherittheme">inheritTheme</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:112</li>
+									<li>Defined in widgets/Widget.ts:158</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the inherited theme of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Theme override has priority over inherited theme. Inherited theme should
+								be propagated to children so they also have a theme.</p>
+								<p>Calls <a href="scrollableviewportwidget.html#updateinheritedtheme">updateInheritedTheme</a> and <a href="widget.html#updatetheme">updateTheme</a> and sets
+								<a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> and <a href="scrollableviewportwidget.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1004,9 +1283,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#onfocusdropped">onFocusDropped</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:155</li>
+									<li>Defined in widgets/Widget.ts:211</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when a focus type owned by this Widget has been dropped. Does
+									nothing by default. Can be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1031,9 +1316,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#paint">paint</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:287</li>
+									<li>Defined in widgets/Widget.ts:392</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the Widget is dirty and the Root is being rendered. Does
+										nothing if dirty flag is not set, else, clears the background if
+										<a href="scrollableviewportwidget.html#needsclear">needsClear</a> is true, calls the <a href="scrollableviewportwidget.html#handlepainting">handlePainting</a> method and
+									unsets the dirty flag. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1067,9 +1360,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#populatelayout">populateLayout</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:218</li>
+									<li>Defined in widgets/Widget.ts:297</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="scrollableviewportwidget.html#handlepopulatelayout">handlePopulateLayout</a>. Does nothing if
+									<a href="domroot.html#_enabled">_enabled</a> is false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1091,9 +1390,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#postlayoutupdate">postLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:259</li>
+									<li>Defined in widgets/Widget.ts:356</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called after layout is resolved. Calls
+										<a href="scrollableviewportwidget.html#handlepostlayoutupdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1115,9 +1421,16 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#prelayoutupdate">preLayoutUpdate</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:197</li>
+									<li>Defined in widgets/Widget.ts:270</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic update method which is called before layout is resolved. Calls
+										<a href="scrollableviewportwidget.html#handleprelayoutupdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
+									overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1138,9 +1451,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in widgets/ScrollableViewportWidget.ts:89</li>
+									<li>Defined in widgets/ScrollableViewportWidget.ts:141</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reset both scroll offsets to 0.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -1156,9 +1474,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#resolvelayout">resolveLayout</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:225</li>
+									<li>Defined in widgets/Widget.ts:310</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Wrapper for <a href="scrollableviewportwidget.html#handleresolvelayout">handleResolveLayout</a>. Does nothing if
+										<a href="domroot.html#_enabled">_enabled</a> is false or <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> is false. If the
+										resolved dimensions change, <a href="scrollableviewportwidget.html#_dirty">_dirty</a> is set to true.
+									<a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> is set to false. Must not be overridden.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1180,9 +1506,17 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#setthemeoverride">setThemeOverride</a></p>
 								<ul>
-									<li>Defined in widgets/Widget.ts:86</li>
+									<li>Defined in widgets/Widget.ts:116</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set the theme override of this widget. Should not be overridden, but can
+									be. If overridden, the original method should still be called.</p>
+								</div>
+								<p>Calls <a href="widget.html#updatetheme">updateTheme</a> and sets <a href="scrollableviewportwidget.html#_layoutdirty">_layoutDirty</a> and
+								<a href="scrollableviewportwidget.html#_dirty">_dirty</a> to true if widget is enabled.</p>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1204,9 +1538,15 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="passthroughwidget.html">PassthroughWidget</a>.<a href="passthroughwidget.html#updateinheritedtheme">updateInheritedTheme</a></p>
 								<ul>
-									<li>Defined in mixins/Parent.ts:42</li>
+									<li>Defined in mixins/Parent.ts:41</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Called when the inherited theme of this Widget is updated. Can be
+									overridden. Does nothing by default.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>

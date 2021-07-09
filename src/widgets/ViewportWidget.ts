@@ -10,26 +10,46 @@ import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
+/**
+ * A type of container widget which is allowed to be bigger or smaller than its
+ * child.
+ *
+ * Allows setting the offset of the child, automatically clips it if neccessary.
+ * Otherwise acts like a {@link Container}. Implemented by using a
+ * {@link Viewport}; effectively, the child widget is painted to a dedicated
+ * canvas.
+ *
+ * @category Widget
+ */
 export class ViewportWidget extends Mixin(SingleParent, FlexLayout) {
-    // Is the ViewportWidget's basis tied to the child's?
+    /** Is the main basis tied to the child's? */
     mainBasisTied: boolean;
+    /** Is the cross basis tied to the child's? */
     crossBasisTied: boolean;
-    // The actual viewport object
+    /** The actual viewport object. */
     private viewport: Viewport;
-    // Offset of child. Positional events will take this into account, as well
-    // as rendering. Useful for implementing scrolling.
+    /**
+     * Offset of {@link child}. Positional events will take this into account,
+     * as well as rendering. Useful for implementing scrolling.
+     */
     private _offset: [number, number] = [0, 0];
-    // Layout context used by child. Can be null if no layout update required
+    /**
+     * Layout context used by {@link child}. Can be null if no layout update is
+     * required.
+     */
     private lastChildLayoutCtx: LayoutContext | null = null;
-    // Max dimensions. Not the effective max dimensions; those are set every
-    // frame and are the viewport's max dimensions
+    /**
+     * Max dimensions. Not the effective max dimensions; those are set every
+     * frame and are the viewport's max dimensions.
+     */
     maxDimensions: [number, number] = [0, 0];
-    // What were the last dimensions of the viewport widget? Useful for
-    // scrolling
+    /**
+     * What were the last dimensions of the viewport widget? Useful for
+     * scrolling,
+     */
     lastViewportDims: [number, number] = [0, 0];
 
-    // A widget which has a single child bigger than itself. To achieve this,
-    // the child is rendered in a dedicated canvas.
+    /** Create a new ViewportWidget. */
     constructor(child: Widget, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
         // Viewport clears its own background, has a single child and propagates
         // events
@@ -40,21 +60,36 @@ export class ViewportWidget extends Mixin(SingleParent, FlexLayout) {
         this.crossBasisTied = crossBasisTied;
     }
 
+    /**
+     * Get {@link viewport}'s
+     * {@link Viewport.canvasDimensions | canvasDimensions}.
+     */
     get canvasDimensions(): [number, number] {
         return this.viewport.canvasDimensions;
     }
 
+    /**
+     * The offset of {@link child}, used for scrolling.
+     *
+     * If getting, creates a clone of {@link _offset}.
+     *
+     * If setting, sets each value in {@link _offset} to the wanted one, so old
+     * references are still valid. {@link _dirty} is set to true. Nothing
+     * happens if the offset is unchanged.
+     */
     get offset(): [number, number] {
         return [...this._offset];
     }
 
     set offset(offset: [number, number]) {
         if(this._offset[0] !== offset[0] || this._offset[1] !== offset[1]) {
-            this._offset = offset;
+            this._offset[0] = offset[0];
+            this._offset[1] = offset[1];
             this._dirty = true;
         }
     }
 
+    /** Get the main basis of the {@link child} */
     private getChildMainBasis(vertical: boolean): number {
         if(this.lastChildLayoutCtx === null)
             return 0;
@@ -68,15 +103,18 @@ export class ViewportWidget extends Mixin(SingleParent, FlexLayout) {
         return innerLength;
     }
 
+    /** Get the cross basis of the {@link child} */
     private getChildCrossBasis(vertical: boolean): number {
         return this.getChildMainBasis(!vertical);
     }
 
+    /** Get the max length along the main axis of the {@link child} */
     private getMaxMainBasis(vertical: boolean): number {
         return vertical ? this.maxDimensions[1]
                         : this.maxDimensions[0];
     }
 
+    /** Get the max length along the cross axis of the {@link child} */
     private getMaxCrossBasis(vertical: boolean): number {
         return this.getMaxMainBasis(!vertical);
     }

@@ -58,6 +58,111 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h1>Examples</h1>
+				</a>
+				<p>A simple example with a single canvas, pointer and keyboard input.</p>
+				<a href="#source-code" id="source-code" style="color: inherit; text-decoration: none;">
+					<h3>Source code</h3>
+				</a>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">DOMRoot</span><span style="color: #000000">, </span><span style="color: #001080">Label</span><span style="color: #000000">, </span><span style="color: #001080">Margin</span><span style="color: #000000">, </span><span style="color: #001080">Column</span><span style="color: #000000">, </span><span style="color: #001080">Row</span><span style="color: #000000">, </span><span style="color: #001080">Center</span><span style="color: #000000">, </span><span style="color: #001080">BasicTextInput</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">TextButton</span><span style="color: #000000">, </span><span style="color: #001080">DOMKeyboardDriver</span><span style="color: #000000">, </span><span style="color: #001080">DOMPointerDriver</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;../lib/index.esm.js&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// Create the root</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">label</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Hello world!&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">inputLabel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">root</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMRoot</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Margin</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Column</span><span style="color: #000000">()</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">label</span><span style="color: #000000">)</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">inputLabel</span><span style="color: #000000">)</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">BasicTextInput</span><span style="color: #000000">(</span><span style="color: #001080">text</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">inputLabel</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">`Text input: </span><span style="color: #0000FF">${</span><span style="color: #001080">text</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">))</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span>
+<span style="color: #000000">            </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Center</span><span style="color: #000000">(</span>
+<span style="color: #000000">                </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Row</span><span style="color: #000000">()</span>
+<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 1&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 1 clicked!&#039;</span><span style="color: #000000">))</span>
+<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 2&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 2 clicked!&#039;</span><span style="color: #000000">))</span>
+<span style="color: #000000">            )</span>
+<span style="color: #000000">        )</span>
+<span style="color: #000000">    )</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #008000">// Create, bind DOM and register the keyboard driver</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">keyboardDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMKeyboardDriver</span><span style="color: #000000">();</span>
+<span style="color: #001080">keyboardDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">keyboardDriver</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Create, bind DOM and register the pointer driver</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pointerDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMPointerDriver</span><span style="color: #000000">();</span>
+<span style="color: #001080">pointerDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">, </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">pointerDriver</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Run the update loop</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">updateLoop</span><span style="color: #000000">() {</span>
+<span style="color: #000000">    </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">update</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Add root to body</span>
+<span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #795E26">getElementById</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;canvas-ui-root-div&#039;</span><span style="color: #000000">).</span><span style="color: #795E26">appendChild</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#live-example" id="live-example" style="color: inherit; text-decoration: none;">
+					<h3>Live example</h3>
+				</a>
+				<script type='module'>
+    import {
+        DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
+        TextButton, DOMKeyboardDriver, DOMPointerDriver
+    } from '../lib/index.esm.js';
+
+    // Create the root
+    const label = new Label('Hello world!');
+    const inputLabel = new Label('');
+    const root = new DOMRoot(
+        new Margin(
+            new Column()
+            .add(label)
+            .add(inputLabel)
+            .add(new BasicTextInput(text => inputLabel.text = `Text input: ${text}`))
+            .add(
+                new Center(
+                    new Row()
+                    .add(new TextButton('Button 1', () => label.text = 'Button 1 clicked!'))
+                    .add(new TextButton('Button 2', () => label.text = 'Button 2 clicked!'))
+                )
+            )
+        )
+    );
+
+    // Create, bind DOM and register the keyboard driver
+    const keyboardDriver = new DOMKeyboardDriver();
+    keyboardDriver.bindDOMElem(root.domElem);
+    root.registerDriver(keyboardDriver);
+
+    // Create, bind DOM and register the pointer driver
+    const pointerDriver = new DOMPointerDriver();
+    pointerDriver.bindDOMElem(root, root.domElem);
+    root.registerDriver(pointerDriver);
+
+    // Run the update loop
+    function updateLoop() {
+        root.update();
+        window.requestAnimationFrame(updateLoop);
+    }
+
+    window.requestAnimationFrame(updateLoop);
+
+    // Add root to body
+    document.getElementById('canvas-ui-root-div').appendChild(root.domElem);
+</script>
+				<noscript>
+					Please enable Javascript. This example may not work if running via file:// URIs
+				</noscript>
+				<div id='canvas-ui-root-div'></div>
 				<a href="#using-mixins" id="using-mixins" style="color: inherit; text-decoration: none;">
 					<h1>Using mixins</h1>
 				</a>
@@ -323,10 +428,13 @@
 						<a href="modules.html#buttoncallback" class="tsd-kind-icon">Button<wbr>Callback</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#iconcallback" class="tsd-kind-icon">Icon<wbr>Callback</a>
+						<a href="modules.html#glyphkeystemplate" class="tsd-kind-icon">Glyph<wbr>Keys<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#keycontextcallback" class="tsd-kind-icon">Key<wbr>Context<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#keyrowtemplate" class="tsd-kind-icon">Key<wbr>Row<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#keytemplatefunction" class="tsd-kind-icon">Key<wbr>Template<wbr>Function</a>
@@ -357,6 +465,9 @@
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="modules.html#defaulttheme" class="tsd-kind-icon">default<wbr>Theme</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#defaultvirtualkeyboardtemplate" class="tsd-kind-icon">default<wbr>Virtual<wbr>Keyboard<wbr>Template</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#defaulttextinputhandler" class="tsd-kind-icon">Default<wbr>Text<wbr>Input<wbr>Handler</a>

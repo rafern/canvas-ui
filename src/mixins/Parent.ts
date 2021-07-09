@@ -26,7 +26,7 @@ export class Parent extends Widget {
      *
      * See {@link children} for the public iterator getter.
      */
-    protected readonly _children: Array<Widget> = [];
+    protected readonly _children: Array<Widget>;
 
     /**
      * Create a new Parent. Automatically adds all widgets in the input array
@@ -35,8 +35,7 @@ export class Parent extends Widget {
     constructor(children: Array<Widget>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
         super(themeOverride, needsClear, propagatesEvents);
 
-        for(const child of children)
-            this._children.push(child);
+        this._children = [...children];
     }
 
     protected override updateInheritedTheme(): void {
