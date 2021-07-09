@@ -1,9 +1,7 @@
 # Example
 
-A simple example with a single canvas, pointer and keyboard input.
-
-
-### Source code
+A simple example with a single canvas, pointer and keyboard input. This can be
+found in `examples/simple.html`
 
 ```typescript
 import {
@@ -51,10 +49,6 @@ window.requestAnimationFrame(updateLoop);
 // Add root to body
 document.body.appendChild(root.domElem);
 ```
-
-### Live example
-
-TODO add a link here to the examples folder's simple.html
 
 
 # Using mixins

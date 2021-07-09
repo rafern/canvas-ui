@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "rollup -c",
-    "doc": "typedoc --readme ./README.md --out ./canvas-ui.wiki/docs/ --theme ./node_modules/typedoc-github-wiki-theme/dist ./src/index.ts"
+    "doc": "typedoc --readme ./README.md --out ./canvas-ui.wiki/docs/ --theme ./node_modules/typedoc-github-wiki-theme/dist ./src/index.ts && echo Dont forget to commit the wiki submodule to update Github Wiki"
   },
   "files": [
     "lib",
