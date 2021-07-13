@@ -1,4 +1,13 @@
-# Example
+# canvas-ui
+
+A Typescript UI library which uses HTML canvases.
+
+Documentation is available in the [docs folder](docs/README.md).
+
+Unity integration can be found in the 
+[canvas-ui-unity repository](https://github.com/playkostudios/canvas-ui-unity).
+
+## Example
 
 A simple example with a single canvas, pointer and keyboard input. This can be
 found in `examples/simple.html`
@@ -51,7 +60,7 @@ document.body.appendChild(root.domElem);
 ```
 
 
-# Using mixins
+## Using mixins
 
 Mixins are a type of class which provides partial functionality. canvas-ui uses
 mixins to provide more reusability. Mixins are created with
