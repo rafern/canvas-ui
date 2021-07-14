@@ -51,7 +51,7 @@ results in an exception.
 
 #### Defined in
 
-[core/Viewport.ts:27](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L27)
+[core/Viewport.ts:27](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L27)
 
 ## Properties
 
@@ -65,7 +65,7 @@ See [maxDimensions](viewport.md#maxdimensions).
 
 #### Defined in
 
-[core/Viewport.ts:17](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L17)
+[core/Viewport.ts:17](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L17)
 
 ___
 
@@ -77,7 +77,7 @@ The internal canvas. Widgets are painted to this
 
 #### Defined in
 
-[core/Viewport.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L22)
+[core/Viewport.ts:22](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L22)
 
 ___
 
@@ -89,7 +89,7 @@ The internal canvas' context. Alpha is enabled.
 
 #### Defined in
 
-[core/Viewport.ts:24](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L24)
+[core/Viewport.ts:24](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L24)
 
 ___
 
@@ -101,7 +101,7 @@ Does the viewport need to force-mark layout as dirty?
 
 #### Defined in
 
-[core/Viewport.ts:19](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L19)
+[core/Viewport.ts:19](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L19)
 
 ___
 
@@ -113,7 +113,7 @@ Is the layout context vertical?
 
 #### Defined in
 
-[core/Viewport.ts:27](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L27)
+[core/Viewport.ts:27](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L27)
 
 ## Accessors
 
@@ -129,7 +129,7 @@ The current dimensions of the [internal canvas](viewport.md#canvas)
 
 #### Defined in
 
-[core/Viewport.ts:51](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L51)
+[core/Viewport.ts:51](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L51)
 
 ___
 
@@ -149,7 +149,7 @@ See [_maxDimensions](viewport.md#_maxdimensions).
 
 #### Defined in
 
-[core/Viewport.ts:71](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L71)
+[core/Viewport.ts:71](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L71)
 
 • `set` **maxDimensions**(`maxDimensions`): `void`
 
@@ -171,7 +171,7 @@ See [_maxDimensions](viewport.md#_maxdimensions).
 
 #### Defined in
 
-[core/Viewport.ts:62](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L62)
+[core/Viewport.ts:62](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L62)
 
 ## Methods
 
@@ -197,7 +197,7 @@ Returns true if the child was dirty, else, false.
 
 #### Defined in
 
-[core/Viewport.ts:166](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L166)
+[core/Viewport.ts:166](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L166)
 
 ___
 
@@ -227,7 +227,7 @@ should be used with [resolveChildsLayout](viewport.md#resolvechildslayout).
 
 #### Defined in
 
-[core/Viewport.ts:86](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L86)
+[core/Viewport.ts:86](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L86)
 
 ___
 
@@ -260,4 +260,4 @@ Returns true if the child was resized, else, false.
 
 #### Defined in
 
-[core/Viewport.ts:120](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/Viewport.ts#L120)
+[core/Viewport.ts:120](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Viewport.ts#L120)

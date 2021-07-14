@@ -29,7 +29,7 @@ Clear assigned [RayPointerDriver](../classes/raypointerdriver.md). Rays will no 
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:20](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L20)
+[drivers/RayPointerSource.ts:20](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/drivers/RayPointerSource.ts#L20)
 
 ___
 
@@ -52,13 +52,13 @@ Called when a pointer has their hint changed
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L22)
+[drivers/RayPointerSource.ts:22](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/drivers/RayPointerSource.ts#L22)
 
 ___
 
 ### setRayPointerDriver
 
-▸ **setRayPointerDriver**(`sink`): `void`
+▸ **setRayPointerDriver**(`driver`): `void`
 
 The [RayPointerDriver](../classes/raypointerdriver.md) assigned to this source. Register all
 pointers needed by this source here. Don't call this directly, instead,
@@ -68,7 +68,7 @@ use [RayPointerDriver.addSource](../classes/raypointerdriver.md#addsource)
 
 | Name | Type |
 | :------ | :------ |
-| `sink` | [`RayPointerDriver`](../classes/raypointerdriver.md) |
+| `driver` | [`RayPointerDriver`](../classes/raypointerdriver.md) |
 
 #### Returns
 
@@ -76,4 +76,4 @@ use [RayPointerDriver.addSource](../classes/raypointerdriver.md#addsource)
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:18](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L18)
+[drivers/RayPointerSource.ts:18](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/drivers/RayPointerSource.ts#L18)

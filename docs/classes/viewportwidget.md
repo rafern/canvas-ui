@@ -109,7 +109,7 @@ Mixin(SingleParent, FlexLayout).constructor
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:50](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L50)
+[widgets/ViewportWidget.ts:50](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L50)
 
 ## Properties
 
@@ -131,7 +131,7 @@ Mixin(SingleParent, FlexLayout).\_children
 
 #### Defined in
 
-[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L29)
+[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Parent.ts#L29)
 
 ___
 
@@ -147,7 +147,7 @@ Mixin(SingleParent, FlexLayout).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -163,7 +163,7 @@ Mixin(SingleParent, FlexLayout).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -176,7 +176,7 @@ as well as rendering. Useful for implementing scrolling.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:35](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L35)
+[widgets/ViewportWidget.ts:35](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L35)
 
 ___
 
@@ -188,7 +188,7 @@ Is the cross basis tied to the child's?
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:28](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L28)
+[widgets/ViewportWidget.ts:28](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L28)
 
 ___
 
@@ -201,7 +201,7 @@ required.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:40](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L40)
+[widgets/ViewportWidget.ts:40](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L40)
 
 ___
 
@@ -218,7 +218,7 @@ Mixin(SingleParent, FlexLayout).lastVertical
 
 #### Defined in
 
-[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L56)
+[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L56)
 
 ___
 
@@ -231,7 +231,7 @@ scrolling,
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:50](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L50)
+[widgets/ViewportWidget.ts:50](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L50)
 
 ___
 
@@ -243,7 +243,7 @@ Is the main basis tied to the child's?
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:26](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L26)
+[widgets/ViewportWidget.ts:26](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L26)
 
 ___
 
@@ -256,7 +256,7 @@ frame and are the viewport's max dimensions.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:45](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L45)
+[widgets/ViewportWidget.ts:45](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L45)
 
 ___
 
@@ -274,7 +274,7 @@ Mixin(SingleParent, FlexLayout).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -291,7 +291,7 @@ Mixin(SingleParent, FlexLayout).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -307,7 +307,7 @@ Mixin(SingleParent, FlexLayout).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -323,7 +323,7 @@ Mixin(SingleParent, FlexLayout).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -335,7 +335,7 @@ The actual viewport object.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:30](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L30)
+[widgets/ViewportWidget.ts:30](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L30)
 
 ## Accessors
 
@@ -352,7 +352,7 @@ Get [viewport](viewportwidget.md#viewport)'s
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:67](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L67)
+[widgets/ViewportWidget.ts:67](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L67)
 
 ___
 
@@ -368,7 +368,7 @@ This widget's child.
 
 #### Defined in
 
-[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/SingleParent.ts#L22)
+[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/SingleParent.ts#L22)
 
 ___
 
@@ -384,7 +384,7 @@ Get amount of children of this parent widget.
 
 #### Defined in
 
-[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L60)
+[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Parent.ts#L60)
 
 ___
 
@@ -401,7 +401,7 @@ children via this iterator; for read-only purposes only.
 
 #### Defined in
 
-[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L68)
+[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Parent.ts#L68)
 
 ___
 
@@ -417,7 +417,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L98)
+[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L98)
 
 • `set` **crossBasis**(`crossBasis`): `void`
 
@@ -435,7 +435,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L102)
+[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L102)
 
 ___
 
@@ -452,7 +452,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -468,7 +468,7 @@ Check if the widget is dirty. Returns [_dirty](viewportwidget.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -489,7 +489,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -512,7 +512,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -528,7 +528,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L59)
+[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L59)
 
 • `set` **flexRatio**(`flexRatio`): `void`
 
@@ -546,7 +546,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L63)
+[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L63)
 
 ___
 
@@ -566,7 +566,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -588,7 +588,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -604,7 +604,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L122)
+[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L122)
 
 • `set` **internalCrossBasis**(`internalCrossBasis`): `void`
 
@@ -622,7 +622,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L126)
+[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L126)
 
 ___
 
@@ -638,7 +638,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L110)
+[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L110)
 
 • `set` **internalMainBasis**(`internalMainBasis`): `void`
 
@@ -656,7 +656,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L114)
+[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L114)
 
 ___
 
@@ -672,7 +672,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](viewportwidget.md#
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -688,7 +688,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L86)
+[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L86)
 
 • `set` **mainBasis**(`mainBasis`): `void`
 
@@ -706,7 +706,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L90)
+[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L90)
 
 ___
 
@@ -728,7 +728,7 @@ happens if the offset is unchanged.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:80](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L80)
+[widgets/ViewportWidget.ts:80](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L80)
 
 • `set` **offset**(`offset`): `void`
 
@@ -752,7 +752,7 @@ happens if the offset is unchanged.
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:84](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L84)
+[widgets/ViewportWidget.ts:84](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L84)
 
 ___
 
@@ -769,7 +769,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -792,7 +792,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -817,7 +817,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L140)
 
 ___
 
@@ -834,7 +834,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L74)
+[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L74)
 
 • `set` **vertical**(`vertical`): `void`
 
@@ -853,7 +853,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/FlexLayout.ts#L78)
+[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L78)
 
 ## Methods
 
@@ -885,7 +885,7 @@ Mixin(SingleParent, FlexLayout).clear
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -921,7 +921,7 @@ Mixin(SingleParent, FlexLayout).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -939,7 +939,7 @@ Mixin(SingleParent, FlexLayout).forceLayoutDirty
 
 #### Defined in
 
-[mixins/Parent.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L49)
+[mixins/Parent.ts:49](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Parent.ts#L49)
 
 ___
 
@@ -961,7 +961,7 @@ Get the cross basis of the [child](viewportwidget.md#child)
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:107](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L107)
+[widgets/ViewportWidget.ts:107](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L107)
 
 ___
 
@@ -983,7 +983,7 @@ Get the main basis of the [child](viewportwidget.md#child)
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:93](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L93)
+[widgets/ViewportWidget.ts:93](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L93)
 
 ___
 
@@ -1005,7 +1005,7 @@ Get the max length along the cross axis of the [child](viewportwidget.md#child)
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:118](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L118)
+[widgets/ViewportWidget.ts:118](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L118)
 
 ___
 
@@ -1027,7 +1027,7 @@ Get the max length along the main axis of the [child](viewportwidget.md#child)
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:112](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L112)
+[widgets/ViewportWidget.ts:112](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L112)
 
 ___
 
@@ -1054,7 +1054,7 @@ Mixin(SingleParent, FlexLayout).handleEvent
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:122](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L122)
+[widgets/ViewportWidget.ts:122](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L122)
 
 ___
 
@@ -1082,7 +1082,7 @@ Mixin(SingleParent, FlexLayout).handlePainting
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:243](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L243)
+[widgets/ViewportWidget.ts:243](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L243)
 
 ___
 
@@ -1110,7 +1110,7 @@ Mixin(SingleParent, FlexLayout).handlePopulateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L279)
+[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L279)
 
 ___
 
@@ -1134,7 +1134,7 @@ Mixin(SingleParent, FlexLayout).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:206](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L206)
+[widgets/ViewportWidget.ts:206](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L206)
 
 ___
 
@@ -1158,7 +1158,7 @@ Mixin(SingleParent, FlexLayout).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/ViewportWidget.ts:153](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/ViewportWidget.ts#L153)
+[widgets/ViewportWidget.ts:153](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/ViewportWidget.ts#L153)
 
 ___
 
@@ -1186,7 +1186,7 @@ Mixin(SingleParent, FlexLayout).handleResolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L288)
+[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L288)
 
 ___
 
@@ -1219,7 +1219,7 @@ Mixin(SingleParent, FlexLayout).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1247,7 +1247,7 @@ Mixin(SingleParent, FlexLayout).onFocusDropped
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1280,7 +1280,7 @@ Mixin(SingleParent, FlexLayout).paint
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1307,7 +1307,7 @@ Mixin(SingleParent, FlexLayout).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1335,7 +1335,7 @@ Mixin(SingleParent, FlexLayout).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1363,7 +1363,7 @@ Mixin(SingleParent, FlexLayout).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1392,7 +1392,7 @@ Mixin(SingleParent, FlexLayout).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1422,7 +1422,7 @@ Mixin(SingleParent, FlexLayout).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1440,4 +1440,4 @@ Mixin(SingleParent, FlexLayout).updateInheritedTheme
 
 #### Defined in
 
-[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L41)
+[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Parent.ts#L41)

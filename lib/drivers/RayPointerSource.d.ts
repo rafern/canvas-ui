@@ -14,7 +14,7 @@ export interface RayPointerSource {
      * pointers needed by this source here. Don't call this directly, instead,
      * use {@link RayPointerDriver.addSource}
      */
-    setRayPointerDriver(sink: RayPointerDriver): void;
+    setRayPointerDriver(driver: RayPointerDriver): void;
     /** Clear assigned {@link RayPointerDriver}. Rays will no longer be sent */
     clearRayPointerDriver(): void;
     /** Called when a pointer has their hint changed */

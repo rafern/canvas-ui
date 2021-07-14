@@ -21,7 +21,7 @@ The alignment of the horizontal axis
 
 #### Defined in
 
-[theme/Alignment2D.ts:10](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/theme/Alignment2D.ts#L10)
+[theme/Alignment2D.ts:10](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/theme/Alignment2D.ts#L10)
 
 ___
 
@@ -33,4 +33,4 @@ The alignment of the vertical axis
 
 #### Defined in
 
-[theme/Alignment2D.ts:12](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/theme/Alignment2D.ts#L12)
+[theme/Alignment2D.ts:12](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/theme/Alignment2D.ts#L12)

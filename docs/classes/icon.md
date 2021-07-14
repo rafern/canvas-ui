@@ -92,7 +92,7 @@ Create a new Icon.
 
 #### Defined in
 
-[widgets/Icon.ts:34](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L34)
+[widgets/Icon.ts:34](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L34)
 
 ## Properties
 
@@ -108,7 +108,7 @@ Widget will only be painted if dirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -120,7 +120,7 @@ The current image used by the icon.
 
 #### Defined in
 
-[widgets/Icon.ts:12](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L12)
+[widgets/Icon.ts:12](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L12)
 
 ___
 
@@ -136,7 +136,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -148,7 +148,7 @@ The current image rotation in radians.
 
 #### Defined in
 
-[widgets/Icon.ts:19](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L19)
+[widgets/Icon.ts:19](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L19)
 
 ___
 
@@ -161,7 +161,7 @@ The wanted height. If null, the image's height will be used, taking
 
 #### Defined in
 
-[widgets/Icon.ts:34](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L34)
+[widgets/Icon.ts:34](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L34)
 
 ___
 
@@ -174,7 +174,7 @@ the image source changed and if the image is fully loaded.
 
 #### Defined in
 
-[widgets/Icon.ts:17](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L17)
+[widgets/Icon.ts:17](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L17)
 
 ___
 
@@ -192,7 +192,7 @@ needsClear is true. The background fill style used is
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -209,7 +209,7 @@ this is true. Useful for implementing container widgets.
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -225,7 +225,7 @@ The wanted height after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -241,7 +241,7 @@ The wanted width after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -254,7 +254,7 @@ spritesheet. If null, the entire image will be used.
 
 #### Defined in
 
-[widgets/Icon.ts:24](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L24)
+[widgets/Icon.ts:24](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L24)
 
 ___
 
@@ -267,7 +267,7 @@ The wanted width. If null, the image's width will be used, taking
 
 #### Defined in
 
-[widgets/Icon.ts:29](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L29)
+[widgets/Icon.ts:29](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L29)
 
 ## Accessors
 
@@ -286,7 +286,7 @@ The wanted box height. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:38](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L38)
+[mixins/BoxLayout.ts:38](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L38)
 
 • `set` **boxHeight**(`boxHeight`): `void`
 
@@ -307,7 +307,7 @@ The wanted box height. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:42](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L42)
+[mixins/BoxLayout.ts:42](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L42)
 
 ___
 
@@ -326,7 +326,7 @@ The wanted box width. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:21](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L21)
+[mixins/BoxLayout.ts:21](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L21)
 
 • `set` **boxWidth**(`boxWidth`): `void`
 
@@ -347,7 +347,7 @@ The wanted box width. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:25](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L25)
+[mixins/BoxLayout.ts:25](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L25)
 
 ___
 
@@ -364,7 +364,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -380,7 +380,7 @@ Check if the widget is dirty. Returns [_dirty](icon.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -401,7 +401,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -424,7 +424,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -445,7 +445,7 @@ If getting, returns [_image](icon.md#_image).
 
 #### Defined in
 
-[widgets/Icon.ts:94](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L94)
+[widgets/Icon.ts:94](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L94)
 
 • `set` **image**(`image`): `void`
 
@@ -468,7 +468,7 @@ If getting, returns [_image](icon.md#_image).
 
 #### Defined in
 
-[widgets/Icon.ts:87](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L87)
+[widgets/Icon.ts:87](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L87)
 
 ___
 
@@ -488,7 +488,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -510,7 +510,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -526,7 +526,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](icon.md#_layoutdir
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -546,7 +546,7 @@ If getting, returns [_rotation](icon.md#_rotation).
 
 #### Defined in
 
-[widgets/Icon.ts:144](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L144)
+[widgets/Icon.ts:144](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L144)
 
 • `set` **rotation**(`rotation`): `void`
 
@@ -568,7 +568,7 @@ If getting, returns [_rotation](icon.md#_rotation).
 
 #### Defined in
 
-[widgets/Icon.ts:137](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L137)
+[widgets/Icon.ts:137](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L137)
 
 ___
 
@@ -585,7 +585,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -608,7 +608,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -633,7 +633,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L140)
 
 ## Methods
 
@@ -665,7 +665,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -701,7 +701,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -726,7 +726,7 @@ Sets [_layoutDirty](icon.md#_layoutdirty) and [_dirty](icon.md#_dirty) to true.
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -753,7 +753,7 @@ Returns a 4-tuple containing, in this order, the left edge's offset, the top edg
 
 #### Defined in
 
-[widgets/Icon.ts:103](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L103)
+[widgets/Icon.ts:103](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L103)
 
 ___
 
@@ -789,7 +789,7 @@ null if no widget captured the event.
 
 #### Defined in
 
-[widgets/Widget.ts:223](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L223)
+[widgets/Widget.ts:223](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L223)
 
 ___
 
@@ -820,7 +820,7 @@ when extending Widget. Should be overridden.
 
 #### Defined in
 
-[widgets/Icon.ts:148](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L148)
+[widgets/Icon.ts:148](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L148)
 
 ___
 
@@ -847,7 +847,7 @@ Handles layout population by adding [boxWidth](icon.md#boxwidth) and
 
 #### Defined in
 
-[mixins/BoxLayout.ts:53](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L53)
+[mixins/BoxLayout.ts:53](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L53)
 
 ___
 
@@ -874,7 +874,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L348)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -901,7 +901,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/Icon.ts:119](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L119)
+[widgets/Icon.ts:119](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L119)
 
 ___
 
@@ -928,7 +928,7 @@ Handles layout resolution by setting [resolvedWidth](icon.md#resolvedwidth) to
 
 #### Defined in
 
-[mixins/BoxLayout.ts:61](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/BoxLayout.ts#L61)
+[mixins/BoxLayout.ts:61](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/BoxLayout.ts#L61)
 
 ___
 
@@ -961,7 +961,7 @@ Calls [updateInheritedTheme](icon.md#updateinheritedtheme) and [updateTheme](wid
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -989,7 +989,7 @@ nothing by default. Can be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1022,7 +1022,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1049,7 +1049,7 @@ Wrapper for [handlePopulateLayout](icon.md#handlepopulatelayout). Does nothing i
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1077,7 +1077,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1105,7 +1105,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1134,7 +1134,7 @@ resolved dimensions change, [_dirty](icon.md#_dirty) is set to true.
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1164,7 +1164,7 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](icon.md#_layo
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1183,7 +1183,7 @@ same applies for height.
 
 #### Defined in
 
-[widgets/Icon.ts:55](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Icon.ts#L55)
+[widgets/Icon.ts:55](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Icon.ts#L55)
 
 ___
 
@@ -1204,4 +1204,4 @@ overridden. Does nothing by default.
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L65)
