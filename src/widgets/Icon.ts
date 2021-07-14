@@ -98,8 +98,7 @@ export class Icon extends BoxLayout {
     /**
      * Get the rectangle where the icon will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the top edge's offset, the width and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the top edge's offset, the width and the height.
      */
     private getIconRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find icon rectangle, preserving aspect ratio

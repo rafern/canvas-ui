@@ -159,9 +159,7 @@ export class BaseContainer extends SingleParent {
      * Separated into this method because it takes padding and alignment into
      * account, and is used in multiple methods.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the right edge's offset, the top edge's offset and the bottom
-     * edge's offset.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the right edge's offset, the top edge's offset and the bottom edge's offset.
      */
     private calcChildViewport(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // TODO should this be called calcChildRect to avoid confusion?

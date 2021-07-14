@@ -74,9 +74,7 @@ export class KeyboardDriver implements Driver {
     /**
      * Push a new {@link KeyPress} event to {@link eventQueues}.
      *
-     * @param key Must follow the
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key}
-     * Web API.
+     * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
      */
     keyDown(key: string): void {
         this.keysDown.add(key);
@@ -88,9 +86,7 @@ export class KeyboardDriver implements Driver {
     /**
      * Push a new {@link KeyRelease} event to {@link eventQueues}.
      *
-     * @param key Must follow the
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key}
-     * Web API.
+     * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
      */
     keyUp(key: string): void {
         if(this.keysDown.delete(key)) {
@@ -104,9 +100,7 @@ export class KeyboardDriver implements Driver {
      * Calls {@link keyDown} followed by {@link keyUp}. If the key was already
      * down before calling ({@link isKeyDown}), keyUp is not called.
      *
-     * @param key Must follow the
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key}
-     * Web API.
+     * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
      */
     keyPress(key: string): void {
         const wasDown = this.isKeyDown(key);
@@ -118,9 +112,7 @@ export class KeyboardDriver implements Driver {
     /**
      * Check if a key is pressed.
      *
-     * @param key Must follow the
-     * {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key}
-     * Web API.
+     * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
      *
      * @returns Returns true if key was in {@link keysDown}
      */

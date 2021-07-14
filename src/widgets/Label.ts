@@ -29,8 +29,7 @@ export class Label extends Mixin(FlexLayout, Labelable) {
     /**
      * Create a new Label.
      *
-     * @param text The text source of the label. Has the same behaviour as
-     * setting {@link text}.
+     * @param text The text source of the label. Has the same behaviour as setting {@link text}.
      */
     constructor(text: string | TextGetter, themeOverride: Theme | null = null) {
         // Labels need a clear background, have no children and don't propagate

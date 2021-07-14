@@ -71,8 +71,7 @@ export class VirtualKeyboard extends Column {
     /**
      * Create a new VirtualKeyboard.
      *
-     * @param keyboardTemplate By default, the virtual keyboard template is
-     * {@link defaultVirtualKeyboardTemplate}
+     * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, themeOverride: Theme | null = null) {
         super(themeOverride);

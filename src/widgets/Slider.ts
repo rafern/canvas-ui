@@ -47,8 +47,7 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
     /**
      * Get the rectangle where the slider will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the width, the top edge's offset and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
      */
     private getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         const thickness = Math.min(this.crossBasis, height);

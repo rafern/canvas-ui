@@ -16,8 +16,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
     /**
      * Create a new Checkbox.
      *
-     * @param callback An optional callback called when the checkbox is ticked
-     * or unticked. If null, then no callback is called.
+     * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
     constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
         // Checkboxes need a clear background, have no children and don't
@@ -32,8 +31,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
     /**
      * Get the rectangle where the checkbox will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the width, the top edge's offset and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
      */
     private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find actual length

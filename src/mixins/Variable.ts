@@ -59,8 +59,7 @@ export class Variable<V> extends Widget {
      *
      * {@link _dirty} is set to true if the value has changed.
      *
-     * @param doCallback If true, then {@link callback} is called if the value
-     * has changed.
+     * @param doCallback If true, then {@link callback} is called if the value has changed.
      */
     setValue(value: V, doCallback = true): void {
         if(this._value === value)

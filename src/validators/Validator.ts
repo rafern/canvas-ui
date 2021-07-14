@@ -2,12 +2,8 @@
  * An input validator. A function which checks whether an input is valid and
  * transforms that input.
  *
- * @returns Returns a tuple containing whether the input is valid and the
- * transformed input. Note that if the input is not valid, then the transformed
- * input will be a bogus value.
- *
+ * @returns Returns a tuple containing whether the input is valid and the transformed input. Note that if the input is not valid, then the transformed input will be a bogus value.
  * @template U The type of the input.
- *
  * @template V The type of the output (the transformed input).
  *
  * @category Validator

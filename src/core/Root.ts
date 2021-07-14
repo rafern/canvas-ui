@@ -200,8 +200,7 @@ export class Root {
      *
      * Call this after calling {@link postLayoutUpdate}.
      *
-     * @returns Returns whether the child was dirty or not. Use this to tell an
-     * external 3D library whether to update a mesh's texture or not.
+     * @returns Returns whether the child was dirty or not. Use this to tell an external 3D library whether to update a mesh's texture or not.
      */
     paint(): boolean {
         // Don't do anything if Root is disabled
@@ -461,8 +460,7 @@ export class Root {
      * Get text input from the user. Used for mobile where keyboard events are
      * hard to get.
      *
-     * @returns If this is already in use ({@link usingMobileTextInput}),
-     * returns null, else, returns a string typed by the user.
+     * @returns If this is already in use ({@link usingMobileTextInput}), returns null, else, returns a string typed by the user.
      */
     async getTextInput(initialInput = ''): Promise<string | null> {
         // Only get if text input is currently available

@@ -71,12 +71,8 @@ export class PointerDriver implements Driver {
      * and whether its pressing or not.
      *
      * @param pointer The registered pointer ID
-     * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate
-     * of the pointer event. 0 is the left edge of the root, while 1 is the
-     * right edge of the root.
-     * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate
-     * of the pointer event. 0 is the top edge of the root, while 1 is the
-     * bottom edge of the root.
+     * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate of the pointer event. 0 is the left edge of the root, while 1 is the right edge of the root.
+     * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
      * @param pressing Is the pointer pressed?
      *
      * If null, the last pressing state is used, meaning that the pressing state

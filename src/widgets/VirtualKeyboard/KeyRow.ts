@@ -55,8 +55,7 @@ export class KeyRow extends Row {
      * Create a new KeyRow.
      *
      * @param rowTemplate Template for this row of virtual keys.
-     * @param keyContext The {@link KeyContext} to be shared among all virtual
-     * keys in this row.
+     * @param keyContext The {@link KeyContext} to be shared among all virtual keys in this row.
      */
     constructor(rowTemplate: KeyRowTemplate, keyContext: KeyContext, themeOverride: Theme | null = null) {
         super(themeOverride);

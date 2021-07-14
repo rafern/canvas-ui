@@ -16,8 +16,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     /**
      * Bind an HTML DOM element to this keyboard driver.
      *
-     * @param listenToKeys If true, event listeners will be added to listen for
-     * keys. blur event listeners are always added no matter what.
+     * @param listenToKeys If true, event listeners will be added to listen for keys. blur event listeners are always added no matter what.
      */
     bindDOMElem(domElem: HTMLElement, listenToKeys = true): void {
         // Add to set. If it was already in set, abort
