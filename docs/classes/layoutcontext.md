@@ -48,7 +48,7 @@ Create a new LayoutContext. Sets [maxWidth](layoutcontext.md#maxwidth), [maxHeig
 
 #### Defined in
 
-[core/LayoutContext.ts:26](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L26)
+[core/LayoutContext.ts:26](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L26)
 
 ## Properties
 
@@ -60,7 +60,7 @@ The currently wanted horizontal basis
 
 #### Defined in
 
-[core/LayoutContext.ts:18](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L18)
+[core/LayoutContext.ts:18](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L18)
 
 ___
 
@@ -72,7 +72,7 @@ The current sum of all wanted horizontal flex ratios
 
 #### Defined in
 
-[core/LayoutContext.ts:22](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L22)
+[core/LayoutContext.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L22)
 
 ___
 
@@ -84,7 +84,7 @@ The maximum height a flexbox-like layout can expand to
 
 #### Defined in
 
-[core/LayoutContext.ts:13](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L13)
+[core/LayoutContext.ts:13](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L13)
 
 ___
 
@@ -96,7 +96,7 @@ The maximum width a flexbox-like layout can expand to
 
 #### Defined in
 
-[core/LayoutContext.ts:11](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L11)
+[core/LayoutContext.ts:11](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L11)
 
 ___
 
@@ -108,7 +108,7 @@ Has the size changed?
 
 #### Defined in
 
-[core/LayoutContext.ts:26](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L26)
+[core/LayoutContext.ts:26](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L26)
 
 ___
 
@@ -120,7 +120,7 @@ The currently wanted vertical basis
 
 #### Defined in
 
-[core/LayoutContext.ts:20](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L20)
+[core/LayoutContext.ts:20](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L20)
 
 ___
 
@@ -132,7 +132,7 @@ The current sum of all wanted vertical flex ratios
 
 #### Defined in
 
-[core/LayoutContext.ts:24](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L24)
+[core/LayoutContext.ts:24](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L24)
 
 ___
 
@@ -144,7 +144,7 @@ Is this layout vertical (grows down)? If not, grows right
 
 #### Defined in
 
-[core/LayoutContext.ts:15](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L15)
+[core/LayoutContext.ts:15](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L15)
 
 ## Methods
 
@@ -175,7 +175,7 @@ vertical basis and [vBasis](layoutcontext.md#vbasis).
 
 #### Defined in
 
-[core/LayoutContext.ts:63](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L63)
+[core/LayoutContext.ts:63](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L63)
 
 ___
 
@@ -192,4 +192,4 @@ context, except sizeChanged which will be false.
 
 #### Defined in
 
-[core/LayoutContext.ts:42](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/LayoutContext.ts#L42)
+[core/LayoutContext.ts:42](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/core/LayoutContext.ts#L42)

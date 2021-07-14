@@ -97,7 +97,7 @@ Mixin(Clickable, BaseContainer).constructor
 
 #### Defined in
 
-[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Button.ts#L31)
+[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Button.ts#L31)
 
 ## Properties
 
@@ -113,7 +113,7 @@ Mixin(Clickable, BaseContainer).\_backgroundDirty
 
 #### Defined in
 
-[widgets/BaseContainer.ts:19](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/BaseContainer.ts#L19)
+[widgets/BaseContainer.ts:19](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/BaseContainer.ts#L19)
 
 ___
 
@@ -135,7 +135,7 @@ Mixin(Clickable, BaseContainer).\_children
 
 #### Defined in
 
-[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L29)
+[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L29)
 
 ___
 
@@ -151,7 +151,7 @@ Mixin(Clickable, BaseContainer).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -167,7 +167,7 @@ Mixin(Clickable, BaseContainer).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -180,7 +180,7 @@ clickable but will still absorb events.
 
 #### Defined in
 
-[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Button.ts#L31)
+[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Button.ts#L31)
 
 ___
 
@@ -196,7 +196,7 @@ Mixin(Clickable, BaseContainer).clickState
 
 #### Defined in
 
-[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L36)
+[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L36)
 
 ___
 
@@ -212,7 +212,7 @@ Mixin(Clickable, BaseContainer).clickStateChanged
 
 #### Defined in
 
-[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L38)
+[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L38)
 
 ___
 
@@ -228,7 +228,7 @@ Mixin(Clickable, BaseContainer).lastClickState
 
 #### Defined in
 
-[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L34)
+[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L34)
 
 ___
 
@@ -246,7 +246,7 @@ Mixin(Clickable, BaseContainer).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -265,7 +265,7 @@ Mixin(Clickable, BaseContainer).pointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L47)
+[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L47)
 
 ___
 
@@ -282,7 +282,7 @@ Mixin(Clickable, BaseContainer).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -298,7 +298,7 @@ Mixin(Clickable, BaseContainer).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -314,7 +314,7 @@ Mixin(Clickable, BaseContainer).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -332,7 +332,7 @@ Mixin(Clickable, BaseContainer).startingPointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L53)
+[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L53)
 
 ___
 
@@ -348,7 +348,7 @@ Mixin(Clickable, BaseContainer).wasClick
 
 #### Defined in
 
-[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L40)
+[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L40)
 
 ## Accessors
 
@@ -364,7 +364,7 @@ This widget's child.
 
 #### Defined in
 
-[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/SingleParent.ts#L22)
+[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/SingleParent.ts#L22)
 
 ___
 
@@ -380,7 +380,7 @@ Get amount of children of this parent widget.
 
 #### Defined in
 
-[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L60)
+[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L60)
 
 ___
 
@@ -397,7 +397,7 @@ children via this iterator; for read-only purposes only.
 
 #### Defined in
 
-[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L68)
+[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L68)
 
 ___
 
@@ -414,7 +414,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -430,7 +430,7 @@ Check if the widget is dirty. Returns [_dirty](button.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -451,7 +451,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -474,7 +474,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -494,7 +494,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -516,7 +516,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -532,7 +532,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](button.md#_layoutd
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -549,7 +549,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -572,7 +572,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -597,7 +597,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L140)
 
 ## Methods
 
@@ -629,7 +629,7 @@ Mixin(Clickable, BaseContainer).clear
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -665,7 +665,7 @@ Mixin(Clickable, BaseContainer).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -690,7 +690,7 @@ Mixin(Clickable, BaseContainer).forceLayoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -723,7 +723,7 @@ Mixin(Clickable, BaseContainer).getNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L66)
+[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L66)
 
 ___
 
@@ -753,7 +753,7 @@ Mixin(Clickable, BaseContainer).handleClickEvent
 
 #### Defined in
 
-[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L122)
+[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L122)
 
 ___
 
@@ -780,7 +780,7 @@ Mixin(Clickable, BaseContainer).handleEvent
 
 #### Defined in
 
-[widgets/Button.ts:39](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Button.ts#L39)
+[widgets/Button.ts:39](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Button.ts#L39)
 
 ___
 
@@ -811,7 +811,7 @@ Mixin(Clickable, BaseContainer).handlePainting
 
 #### Defined in
 
-[widgets/Widget.ts:383](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L383)
+[widgets/Widget.ts:383](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L383)
 
 ___
 
@@ -839,7 +839,7 @@ Mixin(Clickable, BaseContainer).handlePopulateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L279)
+[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L279)
 
 ___
 
@@ -866,7 +866,7 @@ Mixin(Clickable, BaseContainer).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L348)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -893,7 +893,7 @@ Mixin(Clickable, BaseContainer).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:262](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L262)
+[widgets/Widget.ts:262](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L262)
 
 ___
 
@@ -921,7 +921,7 @@ Mixin(Clickable, BaseContainer).handleResolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L288)
+[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L288)
 
 ___
 
@@ -954,7 +954,7 @@ Mixin(Clickable, BaseContainer).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -986,7 +986,7 @@ Mixin(Clickable, BaseContainer).isNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L95)
+[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L95)
 
 ___
 
@@ -1019,7 +1019,7 @@ Mixin(Clickable, BaseContainer).isPointInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Clickable.ts#L81)
+[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Clickable.ts#L81)
 
 ___
 
@@ -1047,7 +1047,7 @@ Mixin(Clickable, BaseContainer).onFocusDropped
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1080,7 +1080,7 @@ Mixin(Clickable, BaseContainer).paint
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1107,7 +1107,7 @@ Mixin(Clickable, BaseContainer).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1135,7 +1135,7 @@ Mixin(Clickable, BaseContainer).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1163,7 +1163,7 @@ Mixin(Clickable, BaseContainer).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1192,7 +1192,7 @@ Mixin(Clickable, BaseContainer).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1222,7 +1222,7 @@ Mixin(Clickable, BaseContainer).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1243,4 +1243,4 @@ Mixin(Clickable, BaseContainer).updateInheritedTheme
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L65)

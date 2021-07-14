@@ -84,7 +84,7 @@ Create a new Column.
 
 #### Defined in
 
-[widgets/Column.ts:9](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Column.ts#L9)
+[widgets/Column.ts:9](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Column.ts#L9)
 
 ## Properties
 
@@ -106,7 +106,7 @@ See [children](column.md#children) for the public iterator getter.
 
 #### Defined in
 
-[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L29)
+[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L29)
 
 ___
 
@@ -122,7 +122,7 @@ Widget will only be painted if dirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -138,7 +138,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -156,7 +156,7 @@ needsClear is true. The background fill style used is
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -173,7 +173,7 @@ this is true. Useful for implementing container widgets.
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -189,7 +189,7 @@ The wanted height after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -205,7 +205,7 @@ The wanted width after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L49)
 
 ## Accessors
 
@@ -221,7 +221,7 @@ Get amount of children of this parent widget.
 
 #### Defined in
 
-[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L60)
+[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L60)
 
 ___
 
@@ -238,7 +238,7 @@ children via this iterator; for read-only purposes only.
 
 #### Defined in
 
-[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L68)
+[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L68)
 
 ___
 
@@ -255,7 +255,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -271,7 +271,7 @@ Check if the widget is dirty. Returns [_dirty](column.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -292,7 +292,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -315,7 +315,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -335,7 +335,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -357,7 +357,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -373,7 +373,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](column.md#_layoutd
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -390,7 +390,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -413,7 +413,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -438,7 +438,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L140)
 
 ## Methods
 
@@ -470,7 +470,7 @@ Returns this so that the method is chainable.
 
 #### Defined in
 
-[mixins/MultiParent.ts:21](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/MultiParent.ts#L21)
+[mixins/MultiParent.ts:21](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/MultiParent.ts#L21)
 
 ___
 
@@ -502,7 +502,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -526,7 +526,7 @@ Returns this so that the method is chainable.
 
 #### Defined in
 
-[mixins/MultiParent.ts:74](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/MultiParent.ts#L74)
+[mixins/MultiParent.ts:74](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/MultiParent.ts#L74)
 
 ___
 
@@ -562,7 +562,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -587,7 +587,7 @@ Sets [_layoutDirty](column.md#_layoutdirty) and [_dirty](column.md#_dirty) to tr
 
 #### Defined in
 
-[widgets/MultiContainer.ts:103](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L103)
+[widgets/MultiContainer.ts:103](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L103)
 
 ___
 
@@ -623,7 +623,7 @@ null if no widget captured the event.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:36](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L36)
+[widgets/MultiContainer.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L36)
 
 ___
 
@@ -654,7 +654,7 @@ when extending Widget. Should be overridden.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:233](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L233)
+[widgets/MultiContainer.ts:233](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L233)
 
 ___
 
@@ -682,7 +682,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:108](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L108)
+[widgets/MultiContainer.ts:108](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L108)
 
 ___
 
@@ -709,7 +709,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:92](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L92)
+[widgets/MultiContainer.ts:92](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L92)
 
 ___
 
@@ -736,7 +736,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:76](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L76)
+[widgets/MultiContainer.ts:76](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L76)
 
 ___
 
@@ -764,7 +764,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/MultiContainer.ts:145](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/MultiContainer.ts#L145)
+[widgets/MultiContainer.ts:145](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/MultiContainer.ts#L145)
 
 ___
 
@@ -797,7 +797,7 @@ Calls [updateInheritedTheme](column.md#updateinheritedtheme) and [updateTheme](w
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -825,7 +825,7 @@ nothing by default. Can be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -858,7 +858,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -885,7 +885,7 @@ Wrapper for [handlePopulateLayout](column.md#handlepopulatelayout). Does nothing
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -913,7 +913,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -941,7 +941,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -973,7 +973,7 @@ Returns this so that the method is chainable.
 
 #### Defined in
 
-[mixins/MultiParent.ts:46](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/MultiParent.ts#L46)
+[mixins/MultiParent.ts:46](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/MultiParent.ts#L46)
 
 ___
 
@@ -1002,7 +1002,7 @@ resolved dimensions change, [_dirty](column.md#_dirty) is set to true.
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1032,7 +1032,7 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](column.md#_la
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1053,4 +1053,4 @@ overridden. Does nothing by default.
 
 #### Defined in
 
-[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Parent.ts#L41)
+[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/mixins/Parent.ts#L41)

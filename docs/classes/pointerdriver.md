@@ -42,6 +42,7 @@ registered roots and (un)registering pointers.
 - [onFocusCapturerChanged](pointerdriver.md#onfocuscapturerchanged)
 - [onFocusChanged](pointerdriver.md#onfocuschanged)
 - [registerPointer](pointerdriver.md#registerpointer)
+- [setPointerHint](pointerdriver.md#setpointerhint)
 - [unassignPointer](pointerdriver.md#unassignpointer)
 - [unregisterPointer](pointerdriver.md#unregisterpointer)
 - [update](pointerdriver.md#update)
@@ -56,16 +57,16 @@ registered roots and (un)registering pointers.
 
 ### hints
 
-• `Protected` **hints**: `Map`<`number`, `PointerHint`\>
+• `Protected` **hints**: `Map`<`number`, [`PointerHint`](../enums/pointerhint.md)\>
 
-The {@link PointerHint | hints} for each pointer. The keys are pointer
+The [hints](../enums/pointerhint.md) for each pointer. The keys are pointer
 IDs, while the values are that pointer's hint.
 
 See [getPointerHint](pointerdriver.md#getpointerhint)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L42)
+[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L42)
 
 ___
 
@@ -77,7 +78,7 @@ The next available pointer ID. See [registerPointer](pointerdriver.md#registerpo
 
 #### Defined in
 
-[drivers/PointerDriver.ts:35](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L35)
+[drivers/PointerDriver.ts:35](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L35)
 
 ___
 
@@ -91,15 +92,15 @@ event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L33)
+[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L33)
 
 ## Methods
 
 ### getPointerHint
 
-▸ **getPointerHint**(`pointer`): `PointerHint`
+▸ **getPointerHint**(`pointer`): [`PointerHint`](../enums/pointerhint.md)
 
-Get a pointer's {@link PointerHint | hint}.
+Get a pointer's [hint](../enums/pointerhint.md).
 
 #### Parameters
 
@@ -109,13 +110,13 @@ Get a pointer's {@link PointerHint | hint}.
 
 #### Returns
 
-`PointerHint`
+[`PointerHint`](../enums/pointerhint.md)
 
-Returns the given pointer ID's hint. If the pointer ID is not registered, {@link PointerHint.None} is returned.
+Returns the given pointer ID's hint. If the pointer ID is not registered, [PointerHint.None](../enums/pointerhint.md#none) is returned.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:222](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L222)
+[drivers/PointerDriver.ts:240](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L240)
 
 ___
 
@@ -139,7 +140,7 @@ Pointer will also be unassigned from root.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L210)
+[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L210)
 
 ___
 
@@ -163,7 +164,7 @@ if the root was being hovered.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L187)
+[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L187)
 
 ___
 
@@ -191,7 +192,7 @@ and whether its pressing or not.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L105)
+[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L105)
 
 ___
 
@@ -218,7 +219,7 @@ the disabled root from [states](pointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:243](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L243)
+[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L261)
 
 ___
 
@@ -244,7 +245,7 @@ Creates a state for the enabled root in [states](pointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:229](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L229)
+[drivers/PointerDriver.ts:247](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L247)
 
 ___
 
@@ -273,7 +274,7 @@ Hook called by [Root.dispatchEvent](root.md#dispatchevent)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:278](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L278)
+[drivers/PointerDriver.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L296)
 
 ___
 
@@ -301,7 +302,7 @@ Hook called by [Root.requestFocus](root.md#requestfocus) and [Root.clearFocus](r
 
 #### Defined in
 
-[drivers/PointerDriver.ts:275](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L275)
+[drivers/PointerDriver.ts:293](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L293)
 
 ___
 
@@ -319,7 +320,32 @@ Returns [nextPointerID](pointerdriver.md#nextpointerid) and increments it
 
 #### Defined in
 
-[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L67)
+[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L67)
+
+___
+
+### setPointerHint
+
+▸ `Protected` **setPointerHint**(`pointer`, `hint`): `boolean`
+
+Set a pointer's [hint](../enums/pointerhint.md).
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `pointer` | `number` | The registered pointer ID |
+| `hint` | [`PointerHint`](../enums/pointerhint.md) | The new pointer hint |
+
+#### Returns
+
+`boolean`
+
+Returns true if the pointer hint changed, else, false
+
+#### Defined in
+
+[drivers/PointerDriver.ts:222](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L222)
 
 ___
 
@@ -342,7 +368,7 @@ Unassign a pointer from a given root and its state.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:45](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L45)
+[drivers/PointerDriver.ts:45](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L45)
 
 ___
 
@@ -368,7 +394,7 @@ state of the root is set to false.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L80)
+[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L80)
 
 ___
 
@@ -395,4 +421,4 @@ clears its event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L261)
+[drivers/PointerDriver.ts:279](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L279)

@@ -14,10 +14,6 @@ ThreeRayPointerDriver implementation.
 
   ↳ **`RayPointerDriver`**
 
-## Implements
-
-- [`RayPointerSink`](../interfaces/raypointersink.md)
-
 ## Table of contents
 
 ### Constructors
@@ -27,10 +23,12 @@ ThreeRayPointerDriver implementation.
 ### Properties
 
 - [hints](raypointerdriver.md#hints)
+- [sources](raypointerdriver.md#sources)
 - [states](raypointerdriver.md#states)
 
 ### Methods
 
+- [addSource](raypointerdriver.md#addsource)
 - [castRay](raypointerdriver.md#castray)
 - [getPointerHint](raypointerdriver.md#getpointerhint)
 - [handlePointerRay](raypointerdriver.md#handlepointerray)
@@ -42,6 +40,7 @@ ThreeRayPointerDriver implementation.
 - [onFocusCapturerChanged](raypointerdriver.md#onfocuscapturerchanged)
 - [onFocusChanged](raypointerdriver.md#onfocuschanged)
 - [registerPointer](raypointerdriver.md#registerpointer)
+- [setPointerHint](raypointerdriver.md#setpointerhint)
 - [unregisterPointer](raypointerdriver.md#unregisterpointer)
 - [update](raypointerdriver.md#update)
 
@@ -59,9 +58,9 @@ ThreeRayPointerDriver implementation.
 
 ### hints
 
-• `Protected` **hints**: `Map`<`number`, `PointerHint`\>
+• `Protected` **hints**: `Map`<`number`, [`PointerHint`](../enums/pointerhint.md)\>
 
-The {@link PointerHint | hints} for each pointer. The keys are pointer
+The [hints](../enums/pointerhint.md) for each pointer. The keys are pointer
 IDs, while the values are that pointer's hint.
 
 See [getPointerHint](raypointerdriver.md#getpointerhint)
@@ -72,7 +71,19 @@ See [getPointerHint](raypointerdriver.md#getpointerhint)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L42)
+[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L42)
+
+___
+
+### sources
+
+• `Protected` `Readonly` **sources**: `Set`<[`RayPointerSource`](../interfaces/raypointersource.md)\>
+
+The sources which this is assigned to
+
+#### Defined in
+
+[drivers/RayPointerDriver.ts:17](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerDriver.ts#L17)
 
 ___
 
@@ -90,9 +101,31 @@ event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L33)
+[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L33)
 
 ## Methods
+
+### addSource
+
+▸ **addSource**(`source`): `void`
+
+Add a source. Assigns itself to the given source.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `source` | [`RayPointerSource`](../interfaces/raypointersource.md) |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[drivers/RayPointerDriver.ts:49](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerDriver.ts#L49)
+
+___
 
 ### castRay
 
@@ -115,15 +148,15 @@ Returns a 3-tuple containing, in this order, the intersected root or null if non
 
 #### Defined in
 
-drivers/RayPointerDriver.ts:22
+[drivers/RayPointerDriver.ts:26](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerDriver.ts#L26)
 
 ___
 
 ### getPointerHint
 
-▸ **getPointerHint**(`pointer`): `PointerHint`
+▸ **getPointerHint**(`pointer`): [`PointerHint`](../enums/pointerhint.md)
 
-Get a pointer's {@link PointerHint | hint}.
+Get a pointer's [hint](../enums/pointerhint.md).
 
 #### Parameters
 
@@ -133,9 +166,9 @@ Get a pointer's {@link PointerHint | hint}.
 
 #### Returns
 
-`PointerHint`
+[`PointerHint`](../enums/pointerhint.md)
 
-Returns the given pointer ID's hint. If the pointer ID is not registered, {@link PointerHint.None} is returned.
+Returns the given pointer ID's hint. If the pointer ID is not registered, [PointerHint.None](../enums/pointerhint.md#none) is returned.
 
 #### Inherited from
 
@@ -143,7 +176,7 @@ Returns the given pointer ID's hint. If the pointer ID is not registered, {@link
 
 #### Defined in
 
-[drivers/PointerDriver.ts:222](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L222)
+[drivers/PointerDriver.ts:240](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L240)
 
 ___
 
@@ -151,31 +184,24 @@ ___
 
 ▸ **handlePointerRay**(`pointer`, `pressing`, `origin`, `direction`): `void`
 
-Receive a ray from a [RayPointerSource](../interfaces/raypointersource.md). When implementing this,
-cast a ray starting from the given origin and with the given direction.
-If the ray intersects with a UI's mesh in the world, queue up a pointer
-event accordingly.
+Receive a ray from a [RayPointerSource](../interfaces/raypointersource.md).
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `pointer` | `number` |
-| `pressing` | ``null`` \| `boolean` |
-| `origin` | [`number`, `number`, `number`] |
-| `direction` | [`number`, `number`, `number`] |
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `pointer` | `number` | The source's pointer ID, given when setting the source's sink |
+| `pressing` | ``null`` \| `boolean` | Is the pointer being pressed? If null, the previous pressing state is used |
+| `origin` | [`number`, `number`, `number`] | The world position where the ray is starting |
+| `direction` | [`number`, `number`, `number`] | A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion |
 
 #### Returns
 
 `void`
 
-#### Implementation of
-
-[RayPointerSink](../interfaces/raypointersink.md).[handlePointerRay](../interfaces/raypointersink.md#handlepointerray)
-
 #### Defined in
 
-drivers/RayPointerDriver.ts:24
+[drivers/RayPointerDriver.ts:36](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerDriver.ts#L36)
 
 ___
 
@@ -203,7 +229,7 @@ Pointer will also be unassigned from root.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L210)
+[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L210)
 
 ___
 
@@ -231,7 +257,7 @@ if the root was being hovered.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L187)
+[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L187)
 
 ___
 
@@ -263,7 +289,7 @@ and whether its pressing or not.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L105)
+[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L105)
 
 ___
 
@@ -290,7 +316,7 @@ the disabled root from [states](raypointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:243](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L243)
+[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L261)
 
 ___
 
@@ -316,7 +342,7 @@ Creates a state for the enabled root in [states](raypointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:229](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L229)
+[drivers/PointerDriver.ts:247](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L247)
 
 ___
 
@@ -345,7 +371,7 @@ Hook called by [Root.dispatchEvent](root.md#dispatchevent)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:278](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L278)
+[drivers/PointerDriver.ts:296](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L296)
 
 ___
 
@@ -373,7 +399,7 @@ Hook called by [Root.requestFocus](root.md#requestfocus) and [Root.clearFocus](r
 
 #### Defined in
 
-[drivers/PointerDriver.ts:275](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L275)
+[drivers/PointerDriver.ts:293](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L293)
 
 ___
 
@@ -395,7 +421,36 @@ Returns [nextPointerID](pointerdriver.md#nextpointerid) and increments it
 
 #### Defined in
 
-[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L67)
+[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L67)
+
+___
+
+### setPointerHint
+
+▸ `Protected` **setPointerHint**(`pointer`, `hint`): `boolean`
+
+Set a pointer's [hint](../enums/pointerhint.md).
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `pointer` | `number` |
+| `hint` | [`PointerHint`](../enums/pointerhint.md) |
+
+#### Returns
+
+`boolean`
+
+Returns true if the pointer hint changed, else, false
+
+#### Overrides
+
+[PointerDriver](pointerdriver.md).[setPointerHint](pointerdriver.md#setpointerhint)
+
+#### Defined in
+
+[drivers/RayPointerDriver.ts:56](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerDriver.ts#L56)
 
 ___
 
@@ -425,7 +480,7 @@ state of the root is set to false.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L80)
+[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L80)
 
 ___
 
@@ -452,4 +507,4 @@ clears its event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/drivers/PointerDriver.ts#L261)
+[drivers/PointerDriver.ts:279](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/PointerDriver.ts#L279)

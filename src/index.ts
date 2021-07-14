@@ -17,7 +17,6 @@ export * from './drivers/KeyboardDriver';
 export * from './drivers/PointerDriver';
 export * from './drivers/PointerHint';
 export * from './drivers/RayPointerDriver';
-export * from './drivers/RayPointerSink';
 export * from './drivers/RayPointerSource';
 // events
 export * from './events/Event';

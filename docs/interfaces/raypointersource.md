@@ -2,25 +2,26 @@
 
 # Interface: RayPointerSource
 
-A source of rays for a single [RayPointerSink](raypointersink.md), such as
-[RayPointerDriver](../classes/raypointerdriver.md). Used so that different kinds of ray sources (such
-as a raycasting mouse or raycasting XR controllers) can be used in the same
-driver without having to extend the driver for each type of source.
+A source of rays for a [RayPointerDriver](../classes/raypointerdriver.md). Used so that different kinds
+of ray sources (such as a raycasting mouse or raycasting XR controllers) can
+be used in the same driver without having to extend the driver for each type
+of source.
 
 ## Table of contents
 
 ### Methods
 
-- [clearSink](raypointersource.md#clearsink)
-- [setSink](raypointersource.md#setsink)
+- [clearRayPointerDriver](raypointersource.md#clearraypointerdriver)
+- [onPointerHintChanged](raypointersource.md#onpointerhintchanged)
+- [setRayPointerDriver](raypointersource.md#setraypointerdriver)
 
 ## Methods
 
-### clearSink
+### clearRayPointerDriver
 
-▸ **clearSink**(): `void`
+▸ **clearRayPointerDriver**(): `void`
 
-Clear assigned sink. Rays will no longer be sent.
+Clear assigned [RayPointerDriver](../classes/raypointerdriver.md). Rays will no longer be sent
 
 #### Returns
 
@@ -28,22 +29,22 @@ Clear assigned sink. Rays will no longer be sent.
 
 #### Defined in
 
-drivers/RayPointerSource.ts:20
+[drivers/RayPointerSource.ts:20](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L20)
 
 ___
 
-### setSink
+### onPointerHintChanged
 
-▸ **setSink**(`sink`, `pointer`): `void`
+▸ **onPointerHintChanged**(`pointer`, `hint`): `void`
 
-Assign a sink to this source. Rays will be sent to this sink.
+Called when a pointer has their hint changed
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `sink` | [`RayPointerSink`](raypointersink.md) | The new sink |
-| `pointer` | `number` | The pointer ID to use when sending rays. Keep track of this |
+| Name | Type |
+| :------ | :------ |
+| `pointer` | `number` |
+| `hint` | [`PointerHint`](../enums/pointerhint.md) |
 
 #### Returns
 
@@ -51,4 +52,28 @@ Assign a sink to this source. Rays will be sent to this sink.
 
 #### Defined in
 
-drivers/RayPointerSource.ts:18
+[drivers/RayPointerSource.ts:22](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L22)
+
+___
+
+### setRayPointerDriver
+
+▸ **setRayPointerDriver**(`sink`): `void`
+
+The [RayPointerDriver](../classes/raypointerdriver.md) assigned to this source. Register all
+pointers needed by this source here. Don't call this directly, instead,
+use [RayPointerDriver.addSource](../classes/raypointerdriver.md#addsource)
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `sink` | [`RayPointerDriver`](../classes/raypointerdriver.md) |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[drivers/RayPointerSource.ts:18](https://github.com/playkostudios/canvas-ui/blob/84bdd1a/src/drivers/RayPointerSource.ts#L18)

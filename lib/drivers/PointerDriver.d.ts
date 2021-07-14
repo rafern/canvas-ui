@@ -82,6 +82,14 @@ export declare class PointerDriver implements Driver {
      */
     leaveAnyPointer(pointer: number): void;
     /**
+     * Set a pointer's {@link PointerHint | hint}.
+     *
+     * @param pointer The registered pointer ID
+     * @param hint The new pointer hint
+     * @returns Returns true if the pointer hint changed, else, false
+     */
+    protected setPointerHint(pointer: number, hint: PointerHint): boolean;
+    /**
      * Get a pointer's {@link PointerHint | hint}.
      *
      * @param pointer The registered pointer ID

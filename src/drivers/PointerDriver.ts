@@ -45,7 +45,7 @@ export class PointerDriver implements Driver {
     private unassignPointer(root: Root, state: PointerDriverState) {
         // Clear pointer state
         if(state.pointer !== null)
-            this.hints.set(state.pointer, PointerHint.None);
+            this.setPointerHint(state.pointer, PointerHint.None);
 
         // Clear state
         state.pointer = null;
@@ -66,7 +66,7 @@ export class PointerDriver implements Driver {
      */
     registerPointer(): number {
         const newID = this.nextPointerID++;
-        this.hints.set(newID, PointerHint.None);
+        this.setPointerHint(newID, PointerHint.None);
         return newID;
     }
 
@@ -159,7 +159,7 @@ export class PointerDriver implements Driver {
                     state.eventQueue.push(
                         new Leave(root.getFocusCapturer(FocusType.Pointer))
                     );
-                    this.hints.set(state.pointer, PointerHint.None);
+                    this.setPointerHint(state.pointer, PointerHint.None);
                     state.pointer = pointer;
                 }
             }
@@ -173,9 +173,9 @@ export class PointerDriver implements Driver {
 
         // Update pointer's hint
         if(state.pressing)
-            this.hints.set(pointer, PointerHint.Pressing);
+            this.setPointerHint(pointer, PointerHint.Pressing);
         else
-            this.hints.set(pointer, PointerHint.Hovering);
+            this.setPointerHint(pointer, PointerHint.Hovering);
     }
 
     /**
@@ -196,7 +196,7 @@ export class PointerDriver implements Driver {
             state.eventQueue.push(
                 new Leave(root.getFocusCapturer(FocusType.Pointer))
             );
-            this.hints.set(pointer, PointerHint.None);
+            this.setPointerHint(pointer, PointerHint.None);
         }
     }
 
@@ -210,6 +210,24 @@ export class PointerDriver implements Driver {
     leaveAnyPointer(pointer: number): void {
         for(const root of this.states.keys())
             this.leavePointer(root, pointer);
+    }
+
+    /**
+     * Set a pointer's {@link PointerHint | hint}.
+     *
+     * @param pointer The registered pointer ID
+     * @param hint The new pointer hint
+     * @returns Returns true if the pointer hint changed, else, false
+     */
+    protected setPointerHint(pointer: number, hint: PointerHint): boolean {
+        const oldHint = this.hints.get(pointer);
+
+        if(oldHint !== hint) {
+            this.hints.set(pointer, hint);
+            return true;
+        }
+        else
+            return false;
     }
 
     /**
@@ -247,7 +265,7 @@ export class PointerDriver implements Driver {
         // Reset hint for assigned pointer
         const state = this.states.get(root);
         if(typeof state !== 'undefined' && state.pointer !== null)
-            this.hints.set(state.pointer, PointerHint.None);
+            this.setPointerHint(state.pointer, PointerHint.None);
 
 
         // Delete state for UI thats about to get disabled
