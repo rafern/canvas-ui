@@ -27,8 +27,7 @@ export declare class Theme {
      * If the value is missing, the {@link fallback} is tried. If there is no
      * fallback, an exception is thrown.
      *
-     * @returns Returns the value associated with the theme property. This could
-     * be any type.
+     * @returns Returns the value associated with the theme property. This could be any type.
      */
     private getProperty;
     /**

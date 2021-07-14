@@ -21,9 +21,7 @@ export declare class VirtualKeyboardRoot extends Root {
      * {@link pointerStyleHandler} and {@link child}'s
      * {@link Widget.inheritedTheme | inherited theme}.
      *
-     * @param keyboardTemplate By default, the virtual keyboard template is
-     * {@link defaultVirtualKeyboardTemplate}
-     *
+     * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
      * @param theme By default, the theme is {@link defaultTheme}
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);

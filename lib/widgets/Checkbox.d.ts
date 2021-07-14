@@ -20,15 +20,13 @@ export declare class Checkbox extends Checkbox_base {
     /**
      * Create a new Checkbox.
      *
-     * @param callback An optional callback called when the checkbox is ticked
-     * or unticked. If null, then no callback is called.
+     * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
     constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
     /**
      * Get the rectangle where the checkbox will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the width, the top edge's offset and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
      */
     private getBoxRect;
     protected handleEvent(event: Event, width: number, height: number, root: Root): this;

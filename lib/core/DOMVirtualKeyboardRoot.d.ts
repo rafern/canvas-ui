@@ -23,9 +23,7 @@ export declare class DOMVirtualKeyboardRoot extends DOMRoot {
      * style of {@link domElem}. Creates {@link domElem} and
      * {@link domCanvasContext}.
      *
-     * @param keyboardTemplate By default, the virtual keyboard template is
-     * {@link defaultVirtualKeyboardTemplate}
-     *
+     * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
      * @param theme By default, the theme is {@link defaultTheme}.
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, theme?: Theme);

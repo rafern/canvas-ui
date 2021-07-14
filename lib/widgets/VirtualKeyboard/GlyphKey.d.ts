@@ -16,8 +16,7 @@ export declare class GlyphKey extends TextButton {
      *
      * @param glyph The glyph to emit/show when shift is not held.
      * @param altGlyph The alternative glyph to emit/show when shift is held.
-     * @param keyContext The {@link KeyContext} shared by other keys to tell
-     * when shift is being held in a virtual keyboard.
+     * @param keyContext The {@link KeyContext} shared by other keys to tell when shift is being held in a virtual keyboard.
      */
     constructor(glyph: string, altGlyph: string | null | undefined, keyContext: KeyContext, themeOverride?: Theme | null);
 }

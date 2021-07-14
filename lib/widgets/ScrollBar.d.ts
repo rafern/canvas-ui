@@ -51,8 +51,7 @@ export declare class ScrollBar extends ScrollBar_base {
     /**
      * Get the rectangle where the scrollbar will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the width, the top edge's offset and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
      */
     private getBarRect;
     protected handleEvent(event: Event, width: number, height: number, root: Root): this;

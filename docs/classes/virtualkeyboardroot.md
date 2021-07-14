@@ -90,7 +90,7 @@ keyboard and [keyboard template](../README.md#virtualkeyboardtemplate),
 
 #### Defined in
 
-[core/VirtualKeyboardRoot.ts:18](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/VirtualKeyboardRoot.ts#L18)
+[core/VirtualKeyboardRoot.ts:18](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/VirtualKeyboardRoot.ts#L18)
 
 ## Properties
 
@@ -110,7 +110,7 @@ See [pointerStyle](virtualkeyboardroot.md#pointerstyle)
 
 #### Defined in
 
-[core/Root.ts:43](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L43)
+[core/Root.ts:43](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L43)
 
 ___
 
@@ -128,7 +128,7 @@ See [enabled](virtualkeyboardroot.md#enabled)
 
 #### Defined in
 
-[core/Root.ts:30](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L30)
+[core/Root.ts:30](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L30)
 
 ___
 
@@ -149,7 +149,7 @@ See [requestFocus](virtualkeyboardroot.md#requestfocus), [dropFocus](virtualkeyb
 
 #### Defined in
 
-[core/Root.ts:57](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L57)
+[core/Root.ts:57](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L57)
 
 ___
 
@@ -170,7 +170,7 @@ See [getFocusCapturer](virtualkeyboardroot.md#getfocuscapturer)
 
 #### Defined in
 
-[core/Root.ts:69](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L69)
+[core/Root.ts:69](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L69)
 
 ___
 
@@ -191,7 +191,7 @@ See [hasMobileTextInput](virtualkeyboardroot.md#hasmobiletextinput), [usingMobil
 
 #### Defined in
 
-[core/Root.ts:89](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L89)
+[core/Root.ts:89](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L89)
 
 ___
 
@@ -207,7 +207,7 @@ The Root's child; the parent Widget of all widgets in this Root
 
 #### Defined in
 
-[core/Root.ts:20](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L20)
+[core/Root.ts:20](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L20)
 
 ___
 
@@ -223,7 +223,7 @@ The list of drivers registered to this root
 
 #### Defined in
 
-[core/Root.ts:24](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L24)
+[core/Root.ts:24](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L24)
 
 ___
 
@@ -235,7 +235,7 @@ The [KeyboardDriver](keyboarddriver.md) used by this root's virtual keyboard.
 
 #### Defined in
 
-[core/VirtualKeyboardRoot.ts:18](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/VirtualKeyboardRoot.ts#L18)
+[core/VirtualKeyboardRoot.ts:18](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/VirtualKeyboardRoot.ts#L18)
 
 ___
 
@@ -252,7 +252,7 @@ The pointer style this root wants. Will be set on
 
 #### Defined in
 
-[core/Root.ts:35](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L35)
+[core/Root.ts:35](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L35)
 
 ___
 
@@ -269,7 +269,7 @@ Normally a function which sets the CSS cursor style of the Root's canvas
 
 #### Defined in
 
-[core/Root.ts:48](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L48)
+[core/Root.ts:48](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L48)
 
 ___
 
@@ -289,7 +289,7 @@ See [hasMobileTextInput](virtualkeyboardroot.md#hasmobiletextinput), [usingMobil
 
 #### Defined in
 
-[core/Root.ts:80](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L80)
+[core/Root.ts:80](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L80)
 
 ___
 
@@ -305,7 +305,7 @@ The internal viewport. Manages drawing
 
 #### Defined in
 
-[core/Root.ts:22](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L22)
+[core/Root.ts:22](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L22)
 
 ## Accessors
 
@@ -321,7 +321,7 @@ The [viewport](virtualkeyboardroot.md#viewport)'s [canvas](viewport.md#canvas)
 
 #### Defined in
 
-[core/Root.ts:173](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L173)
+[core/Root.ts:173](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L173)
 
 ___
 
@@ -338,7 +338,7 @@ The [viewport](virtualkeyboardroot.md#viewport)'s
 
 #### Defined in
 
-[core/Root.ts:121](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L121)
+[core/Root.ts:121](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L121)
 
 ___
 
@@ -354,7 +354,7 @@ The [child](virtualkeyboardroot.md#child)'s [dimensions](widget.md#dimensions)
 
 #### Defined in
 
-[core/Root.ts:128](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L128)
+[core/Root.ts:128](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L128)
 
 ___
 
@@ -376,7 +376,7 @@ See [_enabled](virtualkeyboardroot.md#_enabled)
 
 #### Defined in
 
-[core/Root.ts:141](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L141)
+[core/Root.ts:141](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L141)
 
 • `set` **enabled**(`newEnabled`): `void`
 
@@ -400,7 +400,7 @@ See [_enabled](virtualkeyboardroot.md#_enabled)
 
 #### Defined in
 
-[core/Root.ts:145](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L145)
+[core/Root.ts:145](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L145)
 
 ___
 
@@ -417,7 +417,7 @@ not null and [usingMobileTextInput](virtualkeyboardroot.md#usingmobiletextinput)
 
 #### Defined in
 
-[core/Root.ts:447](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L447)
+[core/Root.ts:446](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L446)
 
 ___
 
@@ -433,7 +433,7 @@ The [viewport](virtualkeyboardroot.md#viewport)'s [maxDimensions](viewport.md#ma
 
 #### Defined in
 
-[core/Root.ts:109](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L109)
+[core/Root.ts:109](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L109)
 
 • `set` **maxDimensions**(`maxDimensions`): `void`
 
@@ -451,7 +451,7 @@ The [viewport](virtualkeyboardroot.md#viewport)'s [maxDimensions](viewport.md#ma
 
 #### Defined in
 
-[core/Root.ts:113](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L113)
+[core/Root.ts:113](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L113)
 
 ___
 
@@ -469,7 +469,7 @@ See [_mobileTextInUse](virtualkeyboardroot.md#_mobiletextinuse).
 
 #### Defined in
 
-[core/Root.ts:456](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L456)
+[core/Root.ts:455](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L455)
 
 ## Methods
 
@@ -490,7 +490,7 @@ Unregisters all [drivers](virtualkeyboardroot.md#drivers) from the root, by call
 
 #### Defined in
 
-[core/Root.ts:437](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L437)
+[core/Root.ts:436](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L436)
 
 ___
 
@@ -518,7 +518,7 @@ focus set, [drivers](virtualkeyboardroot.md#drivers) are notified by calling
 
 #### Defined in
 
-[core/Root.ts:378](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L378)
+[core/Root.ts:377](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L377)
 
 ___
 
@@ -553,7 +553,7 @@ focus type of the event will be cleared in the root with
 
 #### Defined in
 
-[core/Root.ts:226](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L226)
+[core/Root.ts:225](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L225)
 
 ___
 
@@ -581,7 +581,7 @@ currently set to a given widget. Achieved by calling [clearFocus](virtualkeyboar
 
 #### Defined in
 
-[core/Root.ts:365](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L365)
+[core/Root.ts:364](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L364)
 
 ___
 
@@ -607,7 +607,7 @@ Gets the current [focus](virtualkeyboardroot.md#_foci) of a given type.
 
 #### Defined in
 
-[core/Root.ts:393](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L393)
+[core/Root.ts:392](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L392)
 
 ___
 
@@ -633,7 +633,7 @@ Gets the last [focus capturer](virtualkeyboardroot.md#_focicapturers) of a given
 
 #### Defined in
 
-[core/Root.ts:400](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L400)
+[core/Root.ts:399](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L399)
 
 ___
 
@@ -654,8 +654,7 @@ hard to get.
 
 `Promise`<``null`` \| `string`\>
 
-If this is already in use ([usingMobileTextInput](virtualkeyboardroot.md#usingmobiletextinput)),
-returns null, else, returns a string typed by the user.
+If this is already in use ([usingMobileTextInput](virtualkeyboardroot.md#usingmobiletextinput)), returns null, else, returns a string typed by the user.
 
 #### Inherited from
 
@@ -663,7 +662,7 @@ returns null, else, returns a string typed by the user.
 
 #### Defined in
 
-[core/Root.ts:467](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L467)
+[core/Root.ts:465](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L465)
 
 ___
 
@@ -682,8 +681,7 @@ Call this after calling [postLayoutUpdate](virtualkeyboardroot.md#postlayoutupda
 
 `boolean`
 
-Returns whether the child was dirty or not. Use this to tell an
-external 3D library whether to update a mesh's texture or not.
+Returns whether the child was dirty or not. Use this to tell an external 3D library whether to update a mesh's texture or not.
 
 #### Inherited from
 
@@ -691,7 +689,7 @@ external 3D library whether to update a mesh's texture or not.
 
 #### Defined in
 
-[core/Root.ts:206](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L206)
+[core/Root.ts:205](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L205)
 
 ___
 
@@ -716,7 +714,7 @@ Call this before calling [paint](virtualkeyboardroot.md#paint) and after calling
 
 #### Defined in
 
-[core/Root.ts:313](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L313)
+[core/Root.ts:312](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L312)
 
 ___
 
@@ -740,7 +738,7 @@ Call this before calling [resolveLayout](virtualkeyboardroot.md#resolvelayout)
 
 #### Defined in
 
-[core/Root.ts:291](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L291)
+[core/Root.ts:290](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L290)
 
 ___
 
@@ -768,7 +766,7 @@ registered, nothing happens.
 
 #### Defined in
 
-[core/Root.ts:409](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L409)
+[core/Root.ts:408](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L408)
 
 ___
 
@@ -797,7 +795,7 @@ are notified by calling [Driver.onFocusChanged](../interfaces/driver.md#onfocusc
 
 #### Defined in
 
-[core/Root.ts:347](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L347)
+[core/Root.ts:346](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L346)
 
 ___
 
@@ -823,7 +821,7 @@ Call this before calling [postLayoutUpdate](virtualkeyboardroot.md#postlayoutupd
 
 #### Defined in
 
-[core/Root.ts:186](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L186)
+[core/Root.ts:186](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L186)
 
 ___
 
@@ -851,7 +849,7 @@ was not registered, nothing happens.
 
 #### Defined in
 
-[core/Root.ts:424](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L424)
+[core/Root.ts:423](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L423)
 
 ___
 
@@ -880,7 +878,7 @@ pointer style.
 
 #### Defined in
 
-[core/Root.ts:331](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/Root.ts#L331)
+[core/Root.ts:330](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/Root.ts#L330)
 
 ___
 
@@ -898,4 +896,4 @@ on every frame to automatically enable/disable the root if needed
 
 #### Defined in
 
-[core/VirtualKeyboardRoot.ts:43](https://github.com/playkostudios/canvas-ui/blob/2407796/src/core/VirtualKeyboardRoot.ts#L43)
+[core/VirtualKeyboardRoot.ts:41](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/core/VirtualKeyboardRoot.ts#L41)

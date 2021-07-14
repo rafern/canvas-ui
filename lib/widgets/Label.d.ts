@@ -28,8 +28,7 @@ export declare class Label extends Label_base {
     /**
      * Create a new Label.
      *
-     * @param text The text source of the label. Has the same behaviour as
-     * setting {@link text}.
+     * @param text The text source of the label. Has the same behaviour as setting {@link text}.
      */
     constructor(text: string | TextGetter, themeOverride?: Theme | null);
     /**

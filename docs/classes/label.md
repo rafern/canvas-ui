@@ -103,7 +103,7 @@ Mixin(FlexLayout, Labelable).constructor
 
 #### Defined in
 
-[widgets/Label.ts:27](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L27)
+[widgets/Label.ts:27](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L27)
 
 ## Properties
 
@@ -119,7 +119,7 @@ Mixin(FlexLayout, Labelable).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -135,7 +135,7 @@ Mixin(FlexLayout, Labelable).\_font
 
 #### Defined in
 
-[mixins/Labelable.ts:16](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L16)
+[mixins/Labelable.ts:16](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L16)
 
 ___
 
@@ -151,7 +151,7 @@ Mixin(FlexLayout, Labelable).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -167,7 +167,7 @@ Mixin(FlexLayout, Labelable).\_minLabelAscent
 
 #### Defined in
 
-[mixins/Labelable.ts:20](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L20)
+[mixins/Labelable.ts:20](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L20)
 
 ___
 
@@ -183,7 +183,7 @@ Mixin(FlexLayout, Labelable).\_minLabelDescent
 
 #### Defined in
 
-[mixins/Labelable.ts:22](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L22)
+[mixins/Labelable.ts:22](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L22)
 
 ___
 
@@ -199,7 +199,7 @@ Mixin(FlexLayout, Labelable).\_minLabelWidth
 
 #### Defined in
 
-[mixins/Labelable.ts:18](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L18)
+[mixins/Labelable.ts:18](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L18)
 
 ___
 
@@ -215,7 +215,7 @@ Mixin(FlexLayout, Labelable).\_text
 
 #### Defined in
 
-[mixins/Labelable.ts:14](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L14)
+[mixins/Labelable.ts:14](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L14)
 
 ___
 
@@ -232,7 +232,7 @@ Mixin(FlexLayout, Labelable).lastVertical
 
 #### Defined in
 
-[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L56)
+[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L56)
 
 ___
 
@@ -250,7 +250,7 @@ Mixin(FlexLayout, Labelable).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -267,7 +267,7 @@ Mixin(FlexLayout, Labelable).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -283,7 +283,7 @@ Mixin(FlexLayout, Labelable).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -299,7 +299,7 @@ Mixin(FlexLayout, Labelable).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -312,7 +312,7 @@ return value of this callback, every update.
 
 #### Defined in
 
-[widgets/Label.ts:27](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L27)
+[widgets/Label.ts:27](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L27)
 
 ## Accessors
 
@@ -328,7 +328,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L98)
+[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L98)
 
 • `set` **crossBasis**(`crossBasis`): `void`
 
@@ -346,7 +346,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L102)
+[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L102)
 
 ___
 
@@ -363,7 +363,7 @@ Gets [_text](label.md#_text). If you want to get the current text source, then u
 
 #### Defined in
 
-[widgets/Label.ts:82](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L82)
+[widgets/Label.ts:81](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L81)
 
 ___
 
@@ -380,7 +380,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -396,7 +396,7 @@ Check if the widget is dirty. Returns [_dirty](label.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -417,7 +417,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -440,7 +440,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -456,7 +456,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L59)
+[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L59)
 
 • `set` **flexRatio**(`flexRatio`): `void`
 
@@ -474,7 +474,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L63)
+[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L63)
 
 ___
 
@@ -494,7 +494,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -516,7 +516,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -532,7 +532,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L122)
+[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L122)
 
 • `set` **internalCrossBasis**(`internalCrossBasis`): `void`
 
@@ -550,7 +550,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L126)
+[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L126)
 
 ___
 
@@ -566,7 +566,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L110)
+[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L110)
 
 • `set` **internalMainBasis**(`internalMainBasis`): `void`
 
@@ -584,7 +584,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L114)
+[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L114)
 
 ___
 
@@ -600,7 +600,7 @@ The current label ascent height. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:143](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L143)
+[mixins/Labelable.ts:136](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L136)
 
 ___
 
@@ -616,7 +616,7 @@ The current label descent height. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:149](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L149)
+[mixins/Labelable.ts:142](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L142)
 
 ___
 
@@ -633,7 +633,7 @@ adding up [labelAscent](label.md#labelascent) and [labelDescent](label.md#labeld
 
 #### Defined in
 
-[mixins/Labelable.ts:158](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L158)
+[mixins/Labelable.ts:151](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L151)
 
 ___
 
@@ -649,7 +649,7 @@ The current label width. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:137](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L137)
+[mixins/Labelable.ts:130](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L130)
 
 ___
 
@@ -665,7 +665,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](label.md#_layoutdi
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -681,7 +681,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L86)
+[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L86)
 
 • `set` **mainBasis**(`mainBasis`): `void`
 
@@ -699,7 +699,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L90)
+[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L90)
 
 ___
 
@@ -722,7 +722,7 @@ When getting, if [textGetter](label.md#textgetter) is set, then it is returned, 
 
 #### Defined in
 
-[widgets/Label.ts:71](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L71)
+[widgets/Label.ts:70](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L70)
 
 • `set` **text**(`text`): `void`
 
@@ -747,7 +747,7 @@ When getting, if [textGetter](label.md#textgetter) is set, then it is returned, 
 
 #### Defined in
 
-[widgets/Label.ts:62](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L62)
+[widgets/Label.ts:61](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L61)
 
 ___
 
@@ -764,7 +764,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -787,7 +787,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -812,7 +812,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L140)
 
 ___
 
@@ -829,7 +829,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L74)
+[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L74)
 
 • `set` **vertical**(`vertical`): `void`
 
@@ -848,7 +848,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L78)
+[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L78)
 
 ## Methods
 
@@ -880,7 +880,7 @@ Mixin(FlexLayout, Labelable).clear
 
 #### Defined in
 
-[widgets/Widget.ts:366](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L366)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -908,8 +908,7 @@ returned. Must not be overridden.
 
 ``null`` \| [`Widget`](widget.md)
 
-Returns the widget that captured the event or null if none
-captured the event.
+Returns the widget that captured the event or null if none captured the event.
 
 #### Inherited from
 
@@ -917,7 +916,7 @@ Mixin(FlexLayout, Labelable).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:242](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L242)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -940,13 +939,7 @@ See [findOffsetFromIndex](label.md#findoffsetfromindex) for the opposite.
 
 [`number`, `number`]
 
-Returns a tuple containing the index of the character at the
-offset and the horizontal offset, in pixels. Note that this is not
-neccessarily an integer.
-
-Note that the returned offset is not the same as the input offset. The
-returned offset is exactly at the beginning of the character. This is
-useful for implementing selectable text.
+Returns a tuple containing the index of the character at the offset and the horizontal offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
 
 #### Inherited from
 
@@ -954,7 +947,7 @@ Mixin(FlexLayout, Labelable).findIndexOffsetFromOffset
 
 #### Defined in
 
-[mixins/Labelable.ts:96](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L96)
+[mixins/Labelable.ts:89](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L89)
 
 ___
 
@@ -977,8 +970,7 @@ See [findIndexOffsetFromOffset](label.md#findindexoffsetfromoffset) for the oppo
 
 `number`
 
-Returns the horizontal offset, in pixels. Note that this is not
-neccessarily an integer.
+Returns the horizontal offset, in pixels. Note that this is not neccessarily an integer.
 
 #### Inherited from
 
@@ -986,7 +978,7 @@ Mixin(FlexLayout, Labelable).findOffsetFromIndex
 
 #### Defined in
 
-[mixins/Labelable.ts:72](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L72)
+[mixins/Labelable.ts:71](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L71)
 
 ___
 
@@ -1011,7 +1003,7 @@ Mixin(FlexLayout, Labelable).forceLayoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:339](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L339)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -1047,7 +1039,7 @@ Mixin(FlexLayout, Labelable).handleEvent
 
 #### Defined in
 
-[widgets/Widget.ts:223](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L223)
+[widgets/Widget.ts:223](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L223)
 
 ___
 
@@ -1075,7 +1067,7 @@ Mixin(FlexLayout, Labelable).handlePainting
 
 #### Defined in
 
-[widgets/Label.ts:100](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L100)
+[widgets/Label.ts:99](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L99)
 
 ___
 
@@ -1102,7 +1094,7 @@ Mixin(FlexLayout, Labelable).handlePopulateLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L167)
+[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L167)
 
 ___
 
@@ -1129,7 +1121,7 @@ Mixin(FlexLayout, Labelable).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:349](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L349)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -1153,7 +1145,7 @@ Mixin(FlexLayout, Labelable).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/Label.ts:86](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Label.ts#L86)
+[widgets/Label.ts:85](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Label.ts#L85)
 
 ___
 
@@ -1181,7 +1173,7 @@ Mixin(FlexLayout, Labelable).handleResolveLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/FlexLayout.ts#L212)
+[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/FlexLayout.ts#L212)
 
 ___
 
@@ -1214,7 +1206,7 @@ Mixin(FlexLayout, Labelable).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1242,7 +1234,7 @@ Mixin(FlexLayout, Labelable).onFocusDropped
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1275,7 +1267,7 @@ Mixin(FlexLayout, Labelable).paint
 
 #### Defined in
 
-[widgets/Widget.ts:392](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L392)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1302,7 +1294,7 @@ Mixin(FlexLayout, Labelable).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:297](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L297)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1330,7 +1322,7 @@ Mixin(FlexLayout, Labelable).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:356](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L356)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1358,7 +1350,7 @@ Mixin(FlexLayout, Labelable).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:270](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L270)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1387,7 +1379,7 @@ Mixin(FlexLayout, Labelable).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:310](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L310)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1414,7 +1406,7 @@ Mixin(FlexLayout, Labelable).setFont
 
 #### Defined in
 
-[mixins/Labelable.ts:179](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L179)
+[mixins/Labelable.ts:172](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L172)
 
 ___
 
@@ -1441,7 +1433,7 @@ Mixin(FlexLayout, Labelable).setMinLabelAscent
 
 #### Defined in
 
-[mixins/Labelable.ts:202](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L202)
+[mixins/Labelable.ts:195](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L195)
 
 ___
 
@@ -1468,7 +1460,7 @@ Mixin(FlexLayout, Labelable).setMinLabelDescent
 
 #### Defined in
 
-[mixins/Labelable.ts:213](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L213)
+[mixins/Labelable.ts:206](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L206)
 
 ___
 
@@ -1495,7 +1487,7 @@ Mixin(FlexLayout, Labelable).setMinLabelWidth
 
 #### Defined in
 
-[mixins/Labelable.ts:191](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L191)
+[mixins/Labelable.ts:184](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L184)
 
 ___
 
@@ -1522,7 +1514,7 @@ Mixin(FlexLayout, Labelable).setText
 
 #### Defined in
 
-[mixins/Labelable.ts:167](https://github.com/playkostudios/canvas-ui/blob/2407796/src/mixins/Labelable.ts#L167)
+[mixins/Labelable.ts:160](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/mixins/Labelable.ts#L160)
 
 ___
 
@@ -1552,7 +1544,7 @@ Mixin(FlexLayout, Labelable).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1573,4 +1565,4 @@ Mixin(FlexLayout, Labelable).updateInheritedTheme
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/2407796/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/widgets/Widget.ts#L65)

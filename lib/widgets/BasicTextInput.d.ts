@@ -13,8 +13,7 @@ export declare class BasicTextInput extends TextInput<string> {
      * Equivalent to creating a new {@link TextInput} instance with a validator
      * created by {@link MakeDefaultTextValidatorWithCallback}.
      *
-     * @param callback An optional callback called when the text changes. If
-     * null, then no callback is called.
+     * @param callback An optional callback called when the text changes. If null, then no callback is called.
      */
     constructor(callback?: VariableCallback<string> | null, initialValue?: string, themeOverride?: Theme | null);
 }

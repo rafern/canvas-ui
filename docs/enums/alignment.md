@@ -25,7 +25,7 @@ split equally to both the start and the end.
 
 #### Defined in
 
-[theme/Alignment.ts:19](https://github.com/playkostudios/canvas-ui/blob/2407796/src/theme/Alignment.ts#L19)
+[theme/Alignment.ts:19](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/theme/Alignment.ts#L19)
 
 ___
 
@@ -38,7 +38,7 @@ the start.
 
 #### Defined in
 
-[theme/Alignment.ts:24](https://github.com/playkostudios/canvas-ui/blob/2407796/src/theme/Alignment.ts#L24)
+[theme/Alignment.ts:24](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/theme/Alignment.ts#L24)
 
 ___
 
@@ -51,7 +51,7 @@ the end.
 
 #### Defined in
 
-[theme/Alignment.ts:14](https://github.com/playkostudios/canvas-ui/blob/2407796/src/theme/Alignment.ts#L14)
+[theme/Alignment.ts:14](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/theme/Alignment.ts#L14)
 
 ___
 
@@ -63,4 +63,4 @@ Give the extra space to the child, potentially stretching it.
 
 #### Defined in
 
-[theme/Alignment.ts:9](https://github.com/playkostudios/canvas-ui/blob/2407796/src/theme/Alignment.ts#L9)
+[theme/Alignment.ts:9](https://github.com/playkostudios/canvas-ui/blob/68aef90/src/theme/Alignment.ts#L9)

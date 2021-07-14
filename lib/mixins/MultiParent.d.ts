@@ -14,10 +14,7 @@ export declare class MultiParent extends Parent {
      * {@link updateInheritedTheme} is called so that new children inherit this
      * widget's theme.
      *
-     * @param children If this is a widget, then it is pushed to
-     * {@link _children}. If this is an array of widgets, then each widget is
-     * pushed to {@link _children}.
-     *
+     * @param children If this is a widget, then it is pushed to {@link _children}. If this is an array of widgets, then each widget is pushed to {@link _children}.
      * @returns Returns this so that the method is chainable.
      */
     add(children: Widget | Array<Widget>): this;
@@ -28,10 +25,7 @@ export declare class MultiParent extends Parent {
      * {@link updateInheritedTheme} is called so that new children inherit this
      * widget's theme.
      *
-     * @param children If this is a widget, then it is removed from
-     * {@link _children}. If this is an array of widgets, then each widget is
-     * removed from {@link _children}.
-     *
+     * @param children If this is a widget, then it is removed from {@link _children}. If this is an array of widgets, then each widget is removed from {@link _children}.
      * @returns Returns this so that the method is chainable.
      */
     remove(children: Widget | Array<Widget>): this;

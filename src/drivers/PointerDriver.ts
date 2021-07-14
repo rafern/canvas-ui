@@ -5,6 +5,7 @@ import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
 import type { Driver } from '../core/Driver';
 import type { Event } from '../events/Event';
+import { PointerHint } from './PointerHint';
 import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 
@@ -32,6 +33,31 @@ export class PointerDriver implements Driver {
     protected states: Map<Root, PointerDriverState> = new Map();
     /** The next available pointer ID. See {@link registerPointer} */
     private nextPointerID = 0;
+    /**
+     * The {@link PointerHint | hints} for each pointer. The keys are pointer
+     * IDs, while the values are that pointer's hint.
+     *
+     * See {@link getPointerHint}
+     */
+    protected hints: Map<number, PointerHint> = new Map();
+
+    /** Unassign a pointer from a given root and its state. */
+    private unassignPointer(root: Root, state: PointerDriverState) {
+        // Clear pointer state
+        if(state.pointer !== null)
+            this.hints.set(state.pointer, PointerHint.None);
+
+        // Clear state
+        state.pointer = null;
+        if(state.hovering) {
+            // Queue up Leave event if hovering
+            state.eventQueue.push(
+                new Leave(root.getFocusCapturer(FocusType.Pointer))
+            );
+        }
+        state.hovering = false;
+        state.pressing = false;
+    }
 
     /**
      * Register a new pointer.
@@ -39,7 +65,9 @@ export class PointerDriver implements Driver {
      * @returns Returns {@link nextPointerID} and increments it
      */
     registerPointer(): number {
-        return this.nextPointerID++;
+        const newID = this.nextPointerID++;
+        this.hints.set(newID, PointerHint.None);
+        return newID;
     }
 
     /**
@@ -51,18 +79,12 @@ export class PointerDriver implements Driver {
      */
     unregisterPointer(pointer: number): void {
         for(const [root, state] of this.states) {
-            // Queue leave event if unregistered pointer was assigned to root
-            if(state.pointer === pointer) {
-                state.pointer = null;
-                if(state.hovering) {
-                    state.eventQueue.push(
-                        new Leave(root.getFocusCapturer(FocusType.Pointer))
-                    );
-                }
-                state.hovering = false;
-                state.pressing = false;
-            }
+            // Unassign pointer if unregistered pointer was assigned to root
+            if(state.pointer === pointer)
+                this.unassignPointer(root, state);
         }
+
+        this.hints.delete(pointer);
     }
 
     /**
@@ -86,7 +108,8 @@ export class PointerDriver implements Driver {
             return;
 
         // If there is no pointer assigned, assign this one
-        if(state.pointer === null)
+        const firstAssign = state.pointer === null;
+        if(firstAssign)
             state.pointer = pointer;
 
         // If press state was not supplied, then it hasn't changed. Use the last
@@ -94,9 +117,23 @@ export class PointerDriver implements Driver {
         if(pressing === null)
             pressing = state.pressing;
 
+        // If pointer is entering this root for the first time, then find which
+        // root the pointer was assigned to and queue a leave event
+        const pointerMatches = state.pointer === pointer;
+        if(!pointerMatches || firstAssign) {
+            for(const [otherRoot, otherState] of this.states) {
+                // Ignore if its this root
+                if(otherRoot === root)
+                    continue;
+
+                // If other root has this pointer assigned, unassign it
+                if(otherState.pointer === pointer)
+                    this.unassignPointer(root, state);
+            }
+        }
+
         // Ignore if pointer is not the assigned one and not pressing or being
         // pressed by the assigned pointer
-        const pointerMatches = state.pointer === pointer;
         if(!pointerMatches && (!pressing || state.pressing))
             return;
 
@@ -116,10 +153,13 @@ export class PointerDriver implements Driver {
             state.pressing = pressing;
 
             if(pressing) {
-                if(state.pointer !== pointer) {
+                // Replace assigned pointer and clear old assigned pointer's
+                // hint
+                if(state.pointer !== pointer && state.pointer !== null) {
                     state.eventQueue.push(
                         new Leave(root.getFocusCapturer(FocusType.Pointer))
                     );
+                    this.hints.set(state.pointer, PointerHint.None);
                     state.pointer = pointer;
                 }
             }
@@ -130,6 +170,12 @@ export class PointerDriver implements Driver {
         // Queue event and update hovering flag
         state.eventQueue.push(e);
         state.hovering = true;
+
+        // Update pointer's hint
+        if(state.pressing)
+            this.hints.set(pointer, PointerHint.Pressing);
+        else
+            this.hints.set(pointer, PointerHint.Hovering);
     }
 
     /**
@@ -146,10 +192,35 @@ export class PointerDriver implements Driver {
         // Queue leave event if this is the assigned pointer and if hovering
         if(state.hovering && state.pointer == pointer) {
             state.hovering = false;
+            state.pressing = false;
             state.eventQueue.push(
                 new Leave(root.getFocusCapturer(FocusType.Pointer))
             );
+            this.hints.set(pointer, PointerHint.None);
         }
+    }
+
+    /**
+     * Queue up a {@link Leave} event to any root with the given pointer
+     * assigned. Event will only be queued if the root was being hovered.
+     * Pointer will also be unassigned from root.
+     *
+     * @param pointer The registered pointer ID
+     */
+    leaveAnyPointer(pointer: number): void {
+        for(const root of this.states.keys())
+            this.leavePointer(root, pointer);
+    }
+
+    /**
+     * Get a pointer's {@link PointerHint | hint}.
+     *
+     * @param pointer The registered pointer ID
+     *
+     * @returns Returns the given pointer ID's hint. If the pointer ID is not registered, {@link PointerHint.None} is returned.
+     */
+    getPointerHint(pointer: number): PointerHint {
+        return this.hints.get(pointer) ?? PointerHint.None;
     }
 
     /**
@@ -172,6 +243,12 @@ export class PointerDriver implements Driver {
     onDisable(root: Root): void {
         // Dispatch leave event
         root.dispatchEvent(new Leave());
+
+        // Reset hint for assigned pointer
+        const state = this.states.get(root);
+        if(typeof state !== 'undefined' && state.pointer !== null)
+            this.hints.set(state.pointer, PointerHint.None);
+
 
         // Delete state for UI thats about to get disabled
         this.states.delete(root);

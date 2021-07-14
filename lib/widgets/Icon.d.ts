@@ -53,8 +53,7 @@ export declare class Icon extends BoxLayout {
     /**
      * Get the rectangle where the icon will be painted.
      *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's
-     * offset, the top edge's offset, the width and the height.
+     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the top edge's offset, the width and the height.
      */
     private getIconRect;
     protected handlePreLayoutUpdate(_root: Root): void;

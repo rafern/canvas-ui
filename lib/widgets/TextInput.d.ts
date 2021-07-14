@@ -23,8 +23,7 @@ declare const TextInput_base: import("ts-mixer/dist/types/types").Class<[themeOv
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @template V The type of {@link value}; the type of the transformed value
- * returned by the validator.
+ * @template V The type of {@link value}; the type of the transformed value returned by the validator.
  *
  * @category Widget
  */
@@ -58,9 +57,7 @@ export declare class TextInput<V> extends TextInput_base {
     /**
      * Is the text cursor shown?
      *
-     * @returns Returns true if the text cursor is shown, false if not shown but
-     * the text input is in use, or null if the text cursor is not shown due to
-     * the text input not being in use.
+     * @returns Returns true if the text cursor is shown, false if not shown but the text input is in use, or null if the text cursor is not shown due to the text input not being in use.
      */
     get blinkOn(): boolean | null;
     /**
@@ -98,9 +95,7 @@ export declare class TextInput<V> extends TextInput_base {
     /**
      * Move the cursor by a given index delta. Calls {@link moveCursorTo}
      *
-     * @param delta The change in index; if a positive number, the cursor will
-     * be moved right by that amount, else, the cursor will be moved left by
-     * that amount.
+     * @param delta The change in index; if a positive number, the cursor will be moved right by that amount, else, the cursor will be moved left by that amount.
      */
     moveCursor(delta: number): void;
     /**
@@ -113,9 +108,7 @@ export declare class TextInput<V> extends TextInput_base {
      * current cursor index. Calls {@link moveCursorTo} afterwards if
      * neccessary.
      *
-     * @param delta The amount and direction of the deletion. For example, if 5,
-     * then 5 characters are deleted after the cursor. If -5, then 5 characters
-     * are deleted before the cursor and the cursor is moved 5 indices left.
+     * @param delta The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
      */
     deleteText(delta: number): void;
     onFocusDropped(focusType: FocusType, _root: Root): void;

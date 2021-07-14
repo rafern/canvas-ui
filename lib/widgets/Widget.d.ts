@@ -140,8 +140,7 @@ export declare class Widget {
      * else, the {@link handleEvent} method is called and its result is
      * returned. Must not be overridden.
      *
-     * @returns Returns the widget that captured the event or null if none
-     * captured the event.
+     * @returns Returns the widget that captured the event or null if none captured the event.
      */
     dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null;
     /**

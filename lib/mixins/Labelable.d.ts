@@ -46,8 +46,7 @@ export declare class Labelable extends Widget {
      *
      * See {@link findIndexOffsetFromOffset} for the opposite.
      *
-     * @returns Returns the horizontal offset, in pixels. Note that this is not
-     * neccessarily an integer.
+     * @returns Returns the horizontal offset, in pixels. Note that this is not neccessarily an integer.
      */
     protected findOffsetFromIndex(index: number): number;
     /**
@@ -56,13 +55,7 @@ export declare class Labelable extends Widget {
      *
      * See {@link findOffsetFromIndex} for the opposite.
      *
-     * @returns Returns a tuple containing the index of the character at the
-     * offset and the horizontal offset, in pixels. Note that this is not
-     * neccessarily an integer.
-     *
-     * Note that the returned offset is not the same as the input offset. The
-     * returned offset is exactly at the beginning of the character. This is
-     * useful for implementing selectable text.
+     * @returns Returns a tuple containing the index of the character at the offset and the horizontal offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
      */
     protected findIndexOffsetFromOffset(offset: number): [number, number];
     /** Sets {@link labelDirty} and {@link _layoutDirty} to true. */
