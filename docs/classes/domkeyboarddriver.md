@@ -61,7 +61,7 @@ The list of HTML DOM elements bound to this keyboard driver
 
 #### Defined in
 
-[drivers/DOMKeyboardDriver.ts:14](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/DOMKeyboardDriver.ts#L14)
+[drivers/DOMKeyboardDriver.ts:14](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/DOMKeyboardDriver.ts#L14)
 
 ## Methods
 
@@ -84,7 +84,7 @@ Bind an HTML DOM element to this keyboard driver.
 
 #### Defined in
 
-[drivers/DOMKeyboardDriver.ts:21](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/DOMKeyboardDriver.ts#L21)
+[drivers/DOMKeyboardDriver.ts:21](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/DOMKeyboardDriver.ts#L21)
 
 ___
 
@@ -115,7 +115,7 @@ is called with [FocusType.Keyboard](../enums/focustype.md#keyboard).
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:49](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L49)
+[drivers/KeyboardDriver.ts:49](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L49)
 
 ___
 
@@ -136,7 +136,7 @@ Clear the current [root focus](keyboarddriver.md#focus). Calls
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:70](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L70)
+[drivers/KeyboardDriver.ts:70](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L70)
 
 ___
 
@@ -158,7 +158,7 @@ Returns [focus](keyboarddriver.md#focus)
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:62](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L62)
+[drivers/KeyboardDriver.ts:62](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L62)
 
 ___
 
@@ -186,7 +186,7 @@ Returns true if key was in [keysDown](keyboarddriver.md#keysdown)
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:119](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L119)
+[drivers/KeyboardDriver.ts:119](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L119)
 
 ___
 
@@ -212,7 +212,7 @@ Push a new [KeyPress](keypress.md) event to [eventQueues](keyboarddriver.md#even
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:79](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L79)
+[drivers/KeyboardDriver.ts:79](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L79)
 
 ___
 
@@ -239,7 +239,7 @@ down before calling ([isKeyDown](domkeyboarddriver.md#iskeydown)), keyUp is not 
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L105)
+[drivers/KeyboardDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L105)
 
 ___
 
@@ -265,7 +265,7 @@ Push a new [KeyRelease](keyrelease.md) event to [eventQueues](keyboarddriver.md#
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:91](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L91)
+[drivers/KeyboardDriver.ts:91](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L91)
 
 ___
 
@@ -292,7 +292,7 @@ Removes disabled root from [eventQueues](keyboarddriver.md#eventqueues). If the 
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:135](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L135)
+[drivers/KeyboardDriver.ts:135](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L135)
 
 ___
 
@@ -318,7 +318,7 @@ Adds enabled root to [eventQueues](keyboarddriver.md#eventqueues).
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:126](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L126)
+[drivers/KeyboardDriver.ts:126](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L126)
 
 ___
 
@@ -347,7 +347,7 @@ Hook called by [Root.dispatchEvent](root.md#dispatchevent)
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:182](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L182)
+[drivers/KeyboardDriver.ts:182](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L182)
 
 ___
 
@@ -381,7 +381,7 @@ keyboard focus was cleared), then the root focus is
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:169](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L169)
+[drivers/KeyboardDriver.ts:169](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L169)
 
 ___
 
@@ -404,7 +404,7 @@ HTML DOM focus has been lost to another HTML DOM element
 
 #### Defined in
 
-[drivers/DOMKeyboardDriver.ts:55](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/DOMKeyboardDriver.ts#L55)
+[drivers/DOMKeyboardDriver.ts:55](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/DOMKeyboardDriver.ts#L55)
 
 ___
 
@@ -431,4 +431,4 @@ clears its event queue
 
 #### Defined in
 
-[drivers/KeyboardDriver.ts:147](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/drivers/KeyboardDriver.ts#L147)
+[drivers/KeyboardDriver.ts:147](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/KeyboardDriver.ts#L147)

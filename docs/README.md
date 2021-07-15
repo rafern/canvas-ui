@@ -85,6 +85,7 @@ canvas-ui
 - [FilledButton](classes/filledbutton.md)
 - [GlyphKey](classes/glyphkey.md)
 - [Icon](classes/icon.md)
+- [IconButton](classes/iconbutton.md)
 - [KeyRow](classes/keyrow.md)
 - [Label](classes/label.md)
 - [LabelledCheckbox](classes/labelledcheckbox.md)
@@ -199,7 +200,7 @@ function which sets the CSS cursor style of a Root's canvas
 
 #### Defined in
 
-[core/PointerStyleHandler.ts:7](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/PointerStyleHandler.ts#L7)
+[core/PointerStyleHandler.ts:7](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/core/PointerStyleHandler.ts#L7)
 
 ___
 
@@ -226,7 +227,7 @@ returns a promise containing the text typed by the user.
 
 #### Defined in
 
-[core/TextInputHandler.ts:7](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/TextInputHandler.ts#L7)
+[core/TextInputHandler.ts:7](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/core/TextInputHandler.ts#L7)
 
 ___
 
@@ -260,7 +261,7 @@ A callback for when the value of a [Variable](classes/variable.md) changes.
 
 #### Defined in
 
-[mixins/Variable.ts:8](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L8)
+[mixins/Variable.ts:8](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Variable.ts#L8)
 
 ___
 
@@ -280,7 +281,7 @@ A [Validator](README.md#validator) which has a string input.
 
 #### Defined in
 
-[validators/Validator.ts:20](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/Validator.ts#L20)
+[validators/Validator.ts:20](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/Validator.ts#L20)
 
 ___
 
@@ -292,7 +293,7 @@ A [Validator](README.md#validator) which has unknown input and output types.
 
 #### Defined in
 
-[validators/Validator.ts:27](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/Validator.ts#L27)
+[validators/Validator.ts:27](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/Validator.ts#L27)
 
 ___
 
@@ -328,7 +329,7 @@ Returns a tuple containing whether the input is valid and the transformed input.
 
 #### Defined in
 
-[validators/Validator.ts:11](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/Validator.ts#L11)
+[validators/Validator.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/Validator.ts#L11)
 
 ___
 
@@ -354,7 +355,7 @@ Note that this has no background fill. If you want one, use
 
 #### Defined in
 
-[widgets/Button.ts:18](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Button.ts#L18)
+[widgets/Button.ts:18](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Button.ts#L18)
 
 ___
 
@@ -375,7 +376,7 @@ const template: GlyphKeysTemplate = ['qwertyuiop', 'QWERTYUIOP'];
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyRow.ts:33](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/KeyRow.ts#L33)
+[widgets/VirtualKeyboard/KeyRow.ts:33](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyRow.ts#L33)
 
 ___
 
@@ -404,7 +405,7 @@ as an input. Used by virtual keyboard key widgets and stored in a
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyContext.ts:9](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/KeyContext.ts#L9)
+[widgets/VirtualKeyboard/KeyContext.ts:9](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyContext.ts#L9)
 
 ___
 
@@ -421,7 +422,7 @@ const rowTemplate: KeyRowTemplate = [['`1234567890-=', '~!@#$%^&*()_+'], backspa
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyRow.ts:45](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/KeyRow.ts#L45)
+[widgets/VirtualKeyboard/KeyRow.ts:45](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyRow.ts#L45)
 
 ___
 
@@ -453,7 +454,7 @@ const template: KeyTemplateFunction = (keyContext, themeOverride) => new Backspa
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyRow.ts:17](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/KeyRow.ts#L17)
+[widgets/VirtualKeyboard/KeyRow.ts:17](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyRow.ts#L17)
 
 ___
 
@@ -474,7 +475,7 @@ A function which returns a string. An alternative to supplying a
 
 #### Defined in
 
-[widgets/Label.ts:14](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Label.ts#L14)
+[widgets/Label.ts:14](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Label.ts#L14)
 
 ___
 
@@ -487,7 +488,7 @@ array contains the template for a row of keys, from top to bottom.
 
 #### Defined in
 
-[widgets/VirtualKeyboard/VirtualKeyboard.ts:19](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/VirtualKeyboard.ts#L19)
+[widgets/VirtualKeyboard/VirtualKeyboard.ts:19](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/VirtualKeyboard.ts#L19)
 
 ## Theme Variables
 
@@ -500,7 +501,7 @@ accents, inspired by material design colours.
 
 #### Defined in
 
-[theme/defaultTheme.ts:13](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/theme/defaultTheme.ts#L13)
+[theme/defaultTheme.ts:13](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/defaultTheme.ts#L13)
 
 ___
 
@@ -515,7 +516,7 @@ keyboard with US layout.
 
 #### Defined in
 
-[widgets/VirtualKeyboard/VirtualKeyboard.ts:47](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/VirtualKeyboard/VirtualKeyboard.ts#L47)
+[widgets/VirtualKeyboard/VirtualKeyboard.ts:47](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/VirtualKeyboard.ts#L47)
 
 ## Core Functions
 
@@ -542,7 +543,7 @@ buttons.
 
 #### Defined in
 
-[core/DefaultTextInputHandler.ts:11](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/DefaultTextInputHandler.ts#L11)
+[core/DefaultTextInputHandler.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/core/DefaultTextInputHandler.ts#L11)
 
 ___
 
@@ -572,7 +573,7 @@ normalised y axis
 
 #### Defined in
 
-helpers/getPointerEventNormPos.ts:11
+[helpers/getPointerEventNormPos.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/helpers/getPointerEventNormPos.ts#L11)
 
 ___
 
@@ -600,7 +601,7 @@ Returns a tuple containing, in this order, the width of the text, the text's asc
 
 #### Defined in
 
-[helpers/measureTextDims.ts:15](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/helpers/measureTextDims.ts#L15)
+[helpers/measureTextDims.ts:15](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/helpers/measureTextDims.ts#L15)
 
 ___
 
@@ -626,7 +627,7 @@ Returns the rounded number
 
 #### Defined in
 
-[helpers/roundToPower2.ts:14](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/helpers/roundToPower2.ts#L14)
+[helpers/roundToPower2.ts:14](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/helpers/roundToPower2.ts#L14)
 
 ___
 
@@ -651,7 +652,7 @@ and returns the input as the transformed input.
 
 #### Defined in
 
-[validators/DefaultTextValidator.ts:10](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/DefaultTextValidator.ts#L10)
+[validators/DefaultTextValidator.ts:10](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/DefaultTextValidator.ts#L10)
 
 ___
 
@@ -676,7 +677,7 @@ The transformed input for invalid inputs is NaN.
 
 #### Defined in
 
-[validators/FloatValidator.ts:11](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/FloatValidator.ts#L11)
+[validators/FloatValidator.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/FloatValidator.ts#L11)
 
 ___
 
@@ -701,7 +702,7 @@ The transformed input for invalid inputs is NaN.
 
 #### Defined in
 
-[validators/IntValidator.ts:11](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/IntValidator.ts#L11)
+[validators/IntValidator.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/IntValidator.ts#L11)
 
 ___
 
@@ -733,7 +734,7 @@ one.
 
 #### Defined in
 
-[validators/CompositeValidator.ts:16](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/CompositeValidator.ts#L16)
+[validators/CompositeValidator.ts:16](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/CompositeValidator.ts#L16)
 
 ___
 
@@ -760,7 +761,7 @@ the callback, then this will simply return [DefaultTextValidator](README.md#defa
 
 #### Defined in
 
-[validators/DefaultTextValidator.ts:24](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/DefaultTextValidator.ts#L24)
+[validators/DefaultTextValidator.ts:24](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/DefaultTextValidator.ts#L24)
 
 ___
 
@@ -791,4 +792,4 @@ original input value.
 
 #### Defined in
 
-[validators/RangeValidator.ts:12](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/validators/RangeValidator.ts#L12)
+[validators/RangeValidator.ts:12](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/validators/RangeValidator.ts#L12)

@@ -1,100 +1,103 @@
-[canvas-ui](../README.md) / EscapeKey
+[canvas-ui](../README.md) / IconButton
 
-# Class: EscapeKey
+# Class: IconButton
 
-A [BasicKey](basickey.md) which emits 'Escape' key presses.
+A [Button](button.md) with an [Icon](icon.md).
 
 ## Hierarchy
 
-- [`BasicKey`](basickey.md)
+- [`Button`](button.md)
 
-  ↳ **`EscapeKey`**
+  ↳ **`IconButton`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](escapekey.md#constructor)
+- [constructor](iconbutton.md#constructor)
 
 ### Properties
 
-- [\_backgroundDirty](escapekey.md#_backgrounddirty)
-- [\_children](escapekey.md#_children)
-- [\_dirty](escapekey.md#_dirty)
-- [\_layoutDirty](escapekey.md#_layoutdirty)
-- [callback](escapekey.md#callback)
-- [clickState](escapekey.md#clickstate)
-- [clickStateChanged](escapekey.md#clickstatechanged)
-- [lastClickState](escapekey.md#lastclickstate)
-- [needsClear](escapekey.md#needsclear)
-- [pointerPos](escapekey.md#pointerpos)
-- [propagatesEvents](escapekey.md#propagatesevents)
-- [resolvedHeight](escapekey.md#resolvedheight)
-- [resolvedWidth](escapekey.md#resolvedwidth)
-- [startingPointerPos](escapekey.md#startingpointerpos)
-- [wasClick](escapekey.md#wasclick)
+- [\_backgroundDirty](iconbutton.md#_backgrounddirty)
+- [\_children](iconbutton.md#_children)
+- [\_dirty](iconbutton.md#_dirty)
+- [\_layoutDirty](iconbutton.md#_layoutdirty)
+- [callback](iconbutton.md#callback)
+- [clickState](iconbutton.md#clickstate)
+- [clickStateChanged](iconbutton.md#clickstatechanged)
+- [lastClickState](iconbutton.md#lastclickstate)
+- [needsClear](iconbutton.md#needsclear)
+- [pointerPos](iconbutton.md#pointerpos)
+- [propagatesEvents](iconbutton.md#propagatesevents)
+- [resolvedHeight](iconbutton.md#resolvedheight)
+- [resolvedWidth](iconbutton.md#resolvedwidth)
+- [startingPointerPos](iconbutton.md#startingpointerpos)
+- [wasClick](iconbutton.md#wasclick)
 
 ### Accessors
 
-- [child](escapekey.md#child)
-- [childCount](escapekey.md#childcount)
-- [children](escapekey.md#children)
-- [dimensions](escapekey.md#dimensions)
-- [dirty](escapekey.md#dirty)
-- [enabled](escapekey.md#enabled)
-- [forced](escapekey.md#forced)
-- [inheritedTheme](escapekey.md#inheritedtheme)
-- [layoutDirty](escapekey.md#layoutdirty)
-- [theme](escapekey.md#theme)
-- [themeOverride](escapekey.md#themeoverride)
+- [child](iconbutton.md#child)
+- [childCount](iconbutton.md#childcount)
+- [children](iconbutton.md#children)
+- [dimensions](iconbutton.md#dimensions)
+- [dirty](iconbutton.md#dirty)
+- [enabled](iconbutton.md#enabled)
+- [inheritedTheme](iconbutton.md#inheritedtheme)
+- [layoutDirty](iconbutton.md#layoutdirty)
+- [theme](iconbutton.md#theme)
+- [themeOverride](iconbutton.md#themeoverride)
 
 ### Methods
 
-- [clear](escapekey.md#clear)
-- [dispatchEvent](escapekey.md#dispatchevent)
-- [forceLayoutDirty](escapekey.md#forcelayoutdirty)
-- [getNormalInRect](escapekey.md#getnormalinrect)
-- [handleClickEvent](escapekey.md#handleclickevent)
-- [handleEvent](escapekey.md#handleevent)
-- [handlePainting](escapekey.md#handlepainting)
-- [handlePopulateLayout](escapekey.md#handlepopulatelayout)
-- [handlePostLayoutUpdate](escapekey.md#handlepostlayoutupdate)
-- [handlePreLayoutUpdate](escapekey.md#handleprelayoutupdate)
-- [handleResolveLayout](escapekey.md#handleresolvelayout)
-- [inheritTheme](escapekey.md#inherittheme)
-- [isNormalInRect](escapekey.md#isnormalinrect)
-- [isPointInRect](escapekey.md#ispointinrect)
-- [onFocusDropped](escapekey.md#onfocusdropped)
-- [paint](escapekey.md#paint)
-- [populateLayout](escapekey.md#populatelayout)
-- [postLayoutUpdate](escapekey.md#postlayoutupdate)
-- [preLayoutUpdate](escapekey.md#prelayoutupdate)
-- [resolveLayout](escapekey.md#resolvelayout)
-- [setThemeOverride](escapekey.md#setthemeoverride)
-- [updateInheritedTheme](escapekey.md#updateinheritedtheme)
+- [clear](iconbutton.md#clear)
+- [dispatchEvent](iconbutton.md#dispatchevent)
+- [forceLayoutDirty](iconbutton.md#forcelayoutdirty)
+- [getNormalInRect](iconbutton.md#getnormalinrect)
+- [handleClickEvent](iconbutton.md#handleclickevent)
+- [handleEvent](iconbutton.md#handleevent)
+- [handlePainting](iconbutton.md#handlepainting)
+- [handlePopulateLayout](iconbutton.md#handlepopulatelayout)
+- [handlePostLayoutUpdate](iconbutton.md#handlepostlayoutupdate)
+- [handlePreLayoutUpdate](iconbutton.md#handleprelayoutupdate)
+- [handleResolveLayout](iconbutton.md#handleresolvelayout)
+- [inheritTheme](iconbutton.md#inherittheme)
+- [isNormalInRect](iconbutton.md#isnormalinrect)
+- [isPointInRect](iconbutton.md#ispointinrect)
+- [onFocusDropped](iconbutton.md#onfocusdropped)
+- [paint](iconbutton.md#paint)
+- [populateLayout](iconbutton.md#populatelayout)
+- [postLayoutUpdate](iconbutton.md#postlayoutupdate)
+- [preLayoutUpdate](iconbutton.md#prelayoutupdate)
+- [resolveLayout](iconbutton.md#resolvelayout)
+- [setThemeOverride](iconbutton.md#setthemeoverride)
+- [updateInheritedTheme](iconbutton.md#updateinheritedtheme)
 
 ## Constructors
 
 ### constructor
 
-• **new EscapeKey**(`keyContext`, `themeOverride?`)
+• **new IconButton**(`image`, `width?`, `height?`, `viewBox?`, `callback?`, `themeOverride?`)
 
-Create a new EscapeKey.
+Create a new IconButton.
 
 #### Parameters
 
 | Name | Type | Default value |
 | :------ | :------ | :------ |
-| `keyContext` | [`KeyContext`](../interfaces/keycontext.md) | `undefined` |
+| `image` | `HTMLImageElement` | `undefined` |
+| `width` | ``null`` \| `number` | `null` |
+| `height` | ``null`` \| `number` | `null` |
+| `viewBox` | ``null`` \| [`number`, `number`, `number`, `number`] | `null` |
+| `callback` | ``null`` \| [`ButtonCallback`](../README.md#buttoncallback) | `null` |
 | `themeOverride` | ``null`` \| [`Theme`](theme.md) | `null` |
 
 #### Overrides
 
-[BasicKey](basickey.md).[constructor](basickey.md#constructor)
+[Button](button.md).[constructor](button.md#constructor)
 
 #### Defined in
 
-[widgets/VirtualKeyboard/EscapeKey.ts:10](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/EscapeKey.ts#L10)
+[widgets/IconButton.ts:11](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/IconButton.ts#L11)
 
 ## Properties
 
@@ -106,7 +109,7 @@ Is the container's whole background dirty (including padding)?
 
 #### Inherited from
 
-[BasicKey](basickey.md).[_backgroundDirty](basickey.md#_backgrounddirty)
+[Button](button.md).[_backgroundDirty](button.md#_backgrounddirty)
 
 #### Defined in
 
@@ -124,11 +127,11 @@ this array are always valid. If you want to clear this array, set the
 length to zero instead of creating a new instance. readonly still means
 that you can add/remove elements to/from the array.
 
-See [children](escapekey.md#children) for the public iterator getter.
+See [children](iconbutton.md#children) for the public iterator getter.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[_children](basickey.md#_children)
+[Button](button.md).[_children](button.md#_children)
 
 #### Defined in
 
@@ -144,7 +147,7 @@ Widget will only be painted if dirty is true.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[_dirty](basickey.md#_dirty)
+[Button](button.md).[_dirty](button.md#_dirty)
 
 #### Defined in
 
@@ -160,7 +163,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[_layoutDirty](basickey.md#_layoutdirty)
+[Button](button.md).[_layoutDirty](button.md#_layoutdirty)
 
 #### Defined in
 
@@ -177,7 +180,7 @@ clickable but will still absorb events.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[callback](basickey.md#callback)
+[Button](button.md).[callback](button.md#callback)
 
 #### Defined in
 
@@ -193,7 +196,7 @@ The current click state
 
 #### Inherited from
 
-[BasicKey](basickey.md).[clickState](basickey.md#clickstate)
+[Button](button.md).[clickState](button.md#clickstate)
 
 #### Defined in
 
@@ -209,7 +212,7 @@ Did the last click event handle result in a click state change?
 
 #### Inherited from
 
-[BasicKey](basickey.md).[clickStateChanged](basickey.md#clickstatechanged)
+[Button](button.md).[clickStateChanged](button.md#clickstatechanged)
 
 #### Defined in
 
@@ -225,7 +228,7 @@ Last click state
 
 #### Inherited from
 
-[BasicKey](basickey.md).[lastClickState](basickey.md#lastclickstate)
+[Button](button.md).[lastClickState](button.md#lastclickstate)
 
 #### Defined in
 
@@ -243,7 +246,7 @@ needsClear is true. The background fill style used is
 
 #### Inherited from
 
-[BasicKey](basickey.md).[needsClear](basickey.md#needsclear)
+[Button](button.md).[needsClear](button.md#needsclear)
 
 #### Defined in
 
@@ -262,7 +265,7 @@ to [1,1] range.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[pointerPos](basickey.md#pointerpos)
+[Button](button.md).[pointerPos](button.md#pointerpos)
 
 #### Defined in
 
@@ -279,7 +282,7 @@ this is true. Useful for implementing container widgets.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[propagatesEvents](basickey.md#propagatesevents)
+[Button](button.md).[propagatesEvents](button.md#propagatesevents)
 
 #### Defined in
 
@@ -295,7 +298,7 @@ The wanted height after layout resolution.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[resolvedHeight](basickey.md#resolvedheight)
+[Button](button.md).[resolvedHeight](button.md#resolvedheight)
 
 #### Defined in
 
@@ -311,7 +314,7 @@ The wanted width after layout resolution.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[resolvedWidth](basickey.md#resolvedwidth)
+[Button](button.md).[resolvedWidth](button.md#resolvedwidth)
 
 #### Defined in
 
@@ -323,13 +326,13 @@ ___
 
 • `Protected` **startingPointerPos**: ``null`` \| [`number`, `number`] = `null`
 
-Like [pointerPos](escapekey.md#pointerpos), but only updated when a hold state begins.
+Like [pointerPos](iconbutton.md#pointerpos), but only updated when a hold state begins.
 
 Useful for implementing draggable widgets.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[startingPointerPos](basickey.md#startingpointerpos)
+[Button](button.md).[startingPointerPos](button.md#startingpointerpos)
 
 #### Defined in
 
@@ -345,7 +348,7 @@ Did the last click state change result in a click?
 
 #### Inherited from
 
-[BasicKey](basickey.md).[wasClick](basickey.md#wasclick)
+[Button](button.md).[wasClick](button.md#wasclick)
 
 #### Defined in
 
@@ -407,7 +410,7 @@ ___
 • `get` **dimensions**(): [`number`, `number`]
 
 Get the resolved dimensions. Returns a 2-tuple containing
-[resolvedWidth](escapekey.md#resolvedwidth) and [resolvedHeight](escapekey.md#resolvedheight).
+[resolvedWidth](iconbutton.md#resolvedwidth) and [resolvedHeight](iconbutton.md#resolvedheight).
 
 #### Returns
 
@@ -423,7 +426,7 @@ ___
 
 • `get` **dirty**(): `boolean`
 
-Check if the widget is dirty. Returns [_dirty](escapekey.md#_dirty).
+Check if the widget is dirty. Returns [_dirty](iconbutton.md#_dirty).
 
 #### Returns
 
@@ -441,8 +444,8 @@ ___
 
 Is this widget enabled? If it isn't, it will act as if it doesn't exist.
 
-If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](escapekey.md#_layoutdirty) is set to true
-and [_dirty](escapekey.md#_dirty) is set to true if enabled or false if not enabled.
+If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](iconbutton.md#_layoutdirty) is set to true
+and [_dirty](iconbutton.md#_dirty) is set to true if enabled or false if not enabled.
 
 If getting, [_enabled](domroot.md#_enabled) is returned.
 
@@ -458,8 +461,8 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 Is this widget enabled? If it isn't, it will act as if it doesn't exist.
 
-If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](escapekey.md#_layoutdirty) is set to true
-and [_dirty](escapekey.md#_dirty) is set to true if enabled or false if not enabled.
+If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](iconbutton.md#_layoutdirty) is set to true
+and [_dirty](iconbutton.md#_dirty) is set to true if enabled or false if not enabled.
 
 If getting, [_enabled](domroot.md#_enabled) is returned.
 
@@ -479,43 +482,13 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 ___
 
-### forced
-
-• `get` **forced**(): `boolean`
-
-#### Returns
-
-`boolean`
-
-#### Defined in
-
-[widgets/FilledButton.ts:70](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L70)
-
-• `set` **forced**(`forced`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `forced` | `boolean` |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[widgets/FilledButton.ts:63](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L63)
-
-___
-
 ### inheritedTheme
 
 • `get` **inheritedTheme**(): ``null`` \| [`Theme`](theme.md)
 
 The inherited theme of this widget.
 
-If setting, calls [inheritTheme](escapekey.md#inherittheme).
+If setting, calls [inheritTheme](iconbutton.md#inherittheme).
 
 If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
@@ -531,7 +504,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 The inherited theme of this widget.
 
-If setting, calls [inheritTheme](escapekey.md#inherittheme).
+If setting, calls [inheritTheme](iconbutton.md#inherittheme).
 
 If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
@@ -555,7 +528,7 @@ ___
 
 • `get` **layoutDirty**(): `boolean`
 
-Check if the widget's layout is dirty. Returns [_layoutDirty](escapekey.md#_layoutdirty).
+Check if the widget's layout is dirty. Returns [_layoutDirty](iconbutton.md#_layoutdirty).
 
 #### Returns
 
@@ -593,7 +566,7 @@ theme will be the inherited theme, else, it will be the theme override
 with the inherited theme as the fallback. The fallback of the theme
 override will be ignored and replaced.
 
-If setting, calls [setThemeOverride](escapekey.md#setthemeoverride).
+If setting, calls [setThemeOverride](iconbutton.md#setthemeoverride).
 
 If getting, returns [_themeOverride](widget.md#_themeoverride).
 
@@ -612,7 +585,7 @@ theme will be the inherited theme, else, it will be the theme override
 with the inherited theme as the fallback. The fallback of the theme
 override will be ignored and replaced.
 
-If setting, calls [setThemeOverride](escapekey.md#setthemeoverride).
+If setting, calls [setThemeOverride](iconbutton.md#setthemeoverride).
 
 If getting, returns [_themeOverride](widget.md#_themeoverride).
 
@@ -656,7 +629,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Inherited from
 
-[BasicKey](basickey.md).[clear](basickey.md#clear)
+[Button](button.md).[clear](button.md#clear)
 
 #### Defined in
 
@@ -672,7 +645,7 @@ Called when an event is passed to the Widget. Checks if the target
 matches the Widget, unless the Widget propagates events, or if the event
 is a [PointerEvent](pointerevent.md) and is in the bounds of the Widget. If neither
 of the conditions are true, the event is not captured (null is returned),
-else, the [handleEvent](escapekey.md#handleevent) method is called and its result is
+else, the [handleEvent](iconbutton.md#handleevent) method is called and its result is
 returned. Must not be overridden.
 
 #### Parameters
@@ -692,7 +665,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[dispatchEvent](basickey.md#dispatchevent)
+[Button](button.md).[dispatchEvent](button.md#dispatchevent)
 
 #### Defined in
 
@@ -709,7 +682,7 @@ Call only when absolutely neccessary, such as in a resize. If
 implementing a container widget, children should also have their layout
 forced as dirty.
 
-Sets [_layoutDirty](escapekey.md#_layoutdirty) and [_dirty](escapekey.md#_dirty) to true.
+Sets [_layoutDirty](iconbutton.md#_layoutdirty) and [_dirty](iconbutton.md#_dirty) to true.
 
 #### Returns
 
@@ -717,7 +690,7 @@ Sets [_layoutDirty](escapekey.md#_layoutdirty) and [_dirty](escapekey.md#_dirty)
 
 #### Inherited from
 
-[BasicKey](basickey.md).[forceLayoutDirty](basickey.md#forcelayoutdirty)
+[Button](button.md).[forceLayoutDirty](button.md#forcelayoutdirty)
 
 #### Defined in
 
@@ -750,7 +723,7 @@ Returns normalised coordinates
 
 #### Inherited from
 
-[BasicKey](basickey.md).[getNormalInRect](basickey.md#getnormalinrect)
+[Button](button.md).[getNormalInRect](button.md#getnormalinrect)
 
 #### Defined in
 
@@ -762,9 +735,9 @@ ___
 
 ▸ `Protected` **handleClickEvent**(`event`, `root`, `clickArea`): `void`
 
-Updates the current [clickState](escapekey.md#clickstate) given an event, as well as
-[focus](domroot.md#_foci), [pointerStyle](domroot.md#pointerstyle), [wasClick](escapekey.md#wasclick) and
-[clickStateChanged](escapekey.md#clickstatechanged) flags.
+Updates the current [clickState](iconbutton.md#clickstate) given an event, as well as
+[focus](domroot.md#_foci), [pointerStyle](domroot.md#pointerstyle), [wasClick](iconbutton.md#wasclick) and
+[clickStateChanged](iconbutton.md#clickstatechanged) flags.
 
 #### Parameters
 
@@ -780,7 +753,7 @@ Updates the current [clickState](escapekey.md#clickstate) given an event, as wel
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handleClickEvent](basickey.md#handleclickevent)
+[Button](button.md).[handleClickEvent](button.md#handleclickevent)
 
 #### Defined in
 
@@ -807,11 +780,11 @@ ___
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handleEvent](basickey.md#handleevent)
+[Button](button.md).[handleEvent](button.md#handleevent)
 
 #### Defined in
 
-[widgets/FilledButton.ts:118](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L118)
+[widgets/Button.ts:39](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Button.ts#L39)
 
 ___
 
@@ -838,7 +811,7 @@ when extending Widget. Should be overridden.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handlePainting](basickey.md#handlepainting)
+[Button](button.md).[handlePainting](button.md#handlepainting)
 
 #### Defined in
 
@@ -866,7 +839,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handlePopulateLayout](basickey.md#handlepopulatelayout)
+[Button](button.md).[handlePopulateLayout](button.md#handlepopulatelayout)
 
 #### Defined in
 
@@ -876,7 +849,7 @@ ___
 
 ### handlePostLayoutUpdate
 
-▸ `Protected` **handlePostLayoutUpdate**(`root`): `void`
+▸ `Protected` **handlePostLayoutUpdate**(`_root`): `void`
 
 Generic update method which is called after layout is resolved. Does
 nothing by default. Should be implemented.
@@ -885,7 +858,7 @@ nothing by default. Should be implemented.
 
 | Name | Type |
 | :------ | :------ |
-| `root` | [`Root`](root.md) |
+| `_root` | [`Root`](root.md) |
 
 #### Returns
 
@@ -893,11 +866,11 @@ nothing by default. Should be implemented.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handlePostLayoutUpdate](basickey.md#handlepostlayoutupdate)
+[Button](button.md).[handlePostLayoutUpdate](button.md#handlepostlayoutupdate)
 
 #### Defined in
 
-[widgets/FilledButton.ts:111](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L111)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -920,7 +893,7 @@ nothing by default. Should be implemented.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handlePreLayoutUpdate](basickey.md#handleprelayoutupdate)
+[Button](button.md).[handlePreLayoutUpdate](button.md#handleprelayoutupdate)
 
 #### Defined in
 
@@ -933,7 +906,7 @@ ___
 ▸ `Protected` **handleResolveLayout**(`_layoutCtx`): `void`
 
 The second Widget layout resolution callback. Resolves the layout of this
-widget (sets [resolvedWidth](escapekey.md#resolvedwidth) and [resolvedHeight](escapekey.md#resolvedheight)).Must be
+widget (sets [resolvedWidth](iconbutton.md#resolvedwidth) and [resolvedHeight](iconbutton.md#resolvedheight)).Must be
 implemented. If called and not implemented, an exception is thrown.
 
 #### Parameters
@@ -948,7 +921,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[handleResolveLayout](basickey.md#handleresolvelayout)
+[Button](button.md).[handleResolveLayout](button.md#handleresolvelayout)
 
 #### Defined in
 
@@ -966,14 +939,14 @@ be. If overridden, the original method should still be called.
 Theme override has priority over inherited theme. Inherited theme should
 be propagated to children so they also have a theme.
 
-Calls [updateInheritedTheme](escapekey.md#updateinheritedtheme) and [updateTheme](widget.md#updatetheme) and sets
-[_layoutDirty](escapekey.md#_layoutdirty) and [_dirty](escapekey.md#_dirty) to true if widget is enabled.
+Calls [updateInheritedTheme](iconbutton.md#updateinheritedtheme) and [updateTheme](widget.md#updatetheme) and sets
+[_layoutDirty](iconbutton.md#_layoutdirty) and [_dirty](iconbutton.md#_dirty) to true if widget is enabled.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `theme` | [`Theme`](theme.md) |
+| `theme` | ``null`` \| [`Theme`](theme.md) |
 
 #### Returns
 
@@ -981,11 +954,11 @@ Calls [updateInheritedTheme](escapekey.md#updateinheritedtheme) and [updateTheme
 
 #### Inherited from
 
-[BasicKey](basickey.md).[inheritTheme](basickey.md#inherittheme)
+[Button](button.md).[inheritTheme](button.md#inherittheme)
 
 #### Defined in
 
-[widgets/FilledButton.ts:96](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L96)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1013,7 +986,7 @@ Returns true if [pX, pY] is inside the rectangle, else, false
 
 #### Inherited from
 
-[BasicKey](basickey.md).[isNormalInRect](basickey.md#isnormalinrect)
+[Button](button.md).[isNormalInRect](button.md#isnormalinrect)
 
 #### Defined in
 
@@ -1046,7 +1019,7 @@ Returns true if [pX, pY] is inside the rectangle, else, false
 
 #### Inherited from
 
-[BasicKey](basickey.md).[isPointInRect](basickey.md#ispointinrect)
+[Button](button.md).[isPointInRect](button.md#ispointinrect)
 
 #### Defined in
 
@@ -1074,7 +1047,7 @@ nothing by default. Can be overridden.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[onFocusDropped](basickey.md#onfocusdropped)
+[Button](button.md).[onFocusDropped](button.md#onfocusdropped)
 
 #### Defined in
 
@@ -1088,7 +1061,7 @@ ___
 
 Called when the Widget is dirty and the Root is being rendered. Does
 nothing if dirty flag is not set, else, clears the background if
-[needsClear](escapekey.md#needsclear) is true, calls the [handlePainting](escapekey.md#handlepainting) method and
+[needsClear](iconbutton.md#needsclear) is true, calls the [handlePainting](iconbutton.md#handlepainting) method and
 unsets the dirty flag. Must not be overridden.
 
 #### Parameters
@@ -1107,7 +1080,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[paint](basickey.md#paint)
+[Button](button.md).[paint](button.md#paint)
 
 #### Defined in
 
@@ -1119,7 +1092,7 @@ ___
 
 ▸ **populateLayout**(`layoutCtx`): `void`
 
-Wrapper for [handlePopulateLayout](escapekey.md#handlepopulatelayout). Does nothing if
+Wrapper for [handlePopulateLayout](iconbutton.md#handlepopulatelayout). Does nothing if
 [_enabled](domroot.md#_enabled) is false. Must not be overridden.
 
 #### Parameters
@@ -1134,7 +1107,7 @@ Wrapper for [handlePopulateLayout](escapekey.md#handlepopulatelayout). Does noth
 
 #### Inherited from
 
-[BasicKey](basickey.md).[populateLayout](basickey.md#populatelayout)
+[Button](button.md).[populateLayout](button.md#populatelayout)
 
 #### Defined in
 
@@ -1147,7 +1120,7 @@ ___
 ▸ **postLayoutUpdate**(`root`): `void`
 
 Generic update method which is called after layout is resolved. Calls
-[handlePostLayoutUpdate](escapekey.md#handlepostlayoutupdate) if widget is enabled. Must not be
+[handlePostLayoutUpdate](iconbutton.md#handlepostlayoutupdate) if widget is enabled. Must not be
 overridden.
 
 #### Parameters
@@ -1162,7 +1135,7 @@ overridden.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[postLayoutUpdate](basickey.md#postlayoutupdate)
+[Button](button.md).[postLayoutUpdate](button.md#postlayoutupdate)
 
 #### Defined in
 
@@ -1175,7 +1148,7 @@ ___
 ▸ **preLayoutUpdate**(`root`): `void`
 
 Generic update method which is called before layout is resolved. Calls
-[handlePreLayoutUpdate](escapekey.md#handleprelayoutupdate) if widget is enabled. Must not be
+[handlePreLayoutUpdate](iconbutton.md#handleprelayoutupdate) if widget is enabled. Must not be
 overridden.
 
 #### Parameters
@@ -1190,7 +1163,7 @@ overridden.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[preLayoutUpdate](basickey.md#prelayoutupdate)
+[Button](button.md).[preLayoutUpdate](button.md#prelayoutupdate)
 
 #### Defined in
 
@@ -1202,10 +1175,10 @@ ___
 
 ▸ **resolveLayout**(`layoutCtx`): `void`
 
-Wrapper for [handleResolveLayout](escapekey.md#handleresolvelayout). Does nothing if
-[_enabled](domroot.md#_enabled) is false or [_layoutDirty](escapekey.md#_layoutdirty) is false. If the
-resolved dimensions change, [_dirty](escapekey.md#_dirty) is set to true.
-[_layoutDirty](escapekey.md#_layoutdirty) is set to false. Must not be overridden.
+Wrapper for [handleResolveLayout](iconbutton.md#handleresolvelayout). Does nothing if
+[_enabled](domroot.md#_enabled) is false or [_layoutDirty](iconbutton.md#_layoutdirty) is false. If the
+resolved dimensions change, [_dirty](iconbutton.md#_dirty) is set to true.
+[_layoutDirty](iconbutton.md#_layoutdirty) is set to false. Must not be overridden.
 
 #### Parameters
 
@@ -1219,7 +1192,7 @@ resolved dimensions change, [_dirty](escapekey.md#_dirty) is set to true.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[resolveLayout](basickey.md#resolvelayout)
+[Button](button.md).[resolveLayout](button.md#resolvelayout)
 
 #### Defined in
 
@@ -1234,8 +1207,8 @@ ___
 Set the theme override of this widget. Should not be overridden, but can
 be. If overridden, the original method should still be called.
 
-Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](escapekey.md#_layoutdirty) and
-[_dirty](escapekey.md#_dirty) to true if widget is enabled.
+Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](iconbutton.md#_layoutdirty) and
+[_dirty](iconbutton.md#_dirty) to true if widget is enabled.
 
 #### Parameters
 
@@ -1249,11 +1222,11 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](escapekey.md#
 
 #### Inherited from
 
-[BasicKey](basickey.md).[setThemeOverride](basickey.md#setthemeoverride)
+[Button](button.md).[setThemeOverride](button.md#setthemeoverride)
 
 #### Defined in
 
-[widgets/FilledButton.ts:74](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/FilledButton.ts#L74)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1270,7 +1243,7 @@ overridden. Does nothing by default.
 
 #### Inherited from
 
-[BasicKey](basickey.md).[updateInheritedTheme](basickey.md#updateinheritedtheme)
+[Button](button.md).[updateInheritedTheme](button.md#updateinheritedtheme)
 
 #### Defined in
 

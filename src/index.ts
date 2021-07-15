@@ -76,6 +76,7 @@ export * from './widgets/Column';
 export * from './widgets/Container';
 export * from './widgets/FilledButton';
 export * from './widgets/Icon';
+export * from './widgets/IconButton';
 export * from './widgets/Label';
 export * from './widgets/LabelledCheckbox';
 export * from './widgets/Margin';

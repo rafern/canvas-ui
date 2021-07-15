@@ -109,7 +109,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).constructor
 
 #### Defined in
 
-[widgets/Slider.ts:29](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L29)
+[widgets/Slider.ts:29](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L29)
 
 ## Properties
 
@@ -125,7 +125,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -141,7 +141,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -157,7 +157,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).callback
 
 #### Defined in
 
-[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L29)
+[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Variable.ts#L29)
 
 ___
 
@@ -173,7 +173,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).clickState
 
 #### Defined in
 
-[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L36)
+[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L36)
 
 ___
 
@@ -189,7 +189,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).clickStateChanged
 
 #### Defined in
 
-[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L38)
+[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L38)
 
 ___
 
@@ -205,7 +205,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).lastClickState
 
 #### Defined in
 
-[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L34)
+[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L34)
 
 ___
 
@@ -222,7 +222,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).lastVertical
 
 #### Defined in
 
-[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L56)
+[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L56)
 
 ___
 
@@ -234,7 +234,7 @@ The slider's maximum value.
 
 #### Defined in
 
-[widgets/Slider.ts:24](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L24)
+[widgets/Slider.ts:24](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L24)
 
 ___
 
@@ -246,7 +246,7 @@ The slider's minimum value.
 
 #### Defined in
 
-[widgets/Slider.ts:22](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L22)
+[widgets/Slider.ts:22](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L22)
 
 ___
 
@@ -264,7 +264,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -283,7 +283,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).pointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L47)
+[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L47)
 
 ___
 
@@ -300,7 +300,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -316,7 +316,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -332,7 +332,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -345,7 +345,7 @@ fixed increments.
 
 #### Defined in
 
-[widgets/Slider.ts:29](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L29)
+[widgets/Slider.ts:29](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L29)
 
 ___
 
@@ -363,7 +363,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).startingPointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L53)
+[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L53)
 
 ___
 
@@ -379,7 +379,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).wasClick
 
 #### Defined in
 
-[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L40)
+[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L40)
 
 ## Accessors
 
@@ -395,7 +395,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L98)
+[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L98)
 
 • `set` **crossBasis**(`crossBasis`): `void`
 
@@ -413,7 +413,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L102)
+[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L102)
 
 ___
 
@@ -430,7 +430,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -446,7 +446,7 @@ Check if the widget is dirty. Returns [_dirty](slider.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -467,7 +467,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -490,7 +490,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -506,7 +506,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L59)
+[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L59)
 
 • `set` **flexRatio**(`flexRatio`): `void`
 
@@ -524,7 +524,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L63)
+[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L63)
 
 ___
 
@@ -544,7 +544,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -566,7 +566,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -582,7 +582,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L122)
+[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L122)
 
 • `set` **internalCrossBasis**(`internalCrossBasis`): `void`
 
@@ -600,7 +600,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L126)
+[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L126)
 
 ___
 
@@ -616,7 +616,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L110)
+[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L110)
 
 • `set` **internalMainBasis**(`internalMainBasis`): `void`
 
@@ -634,7 +634,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L114)
+[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L114)
 
 ___
 
@@ -650,7 +650,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](slider.md#_layoutd
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -666,7 +666,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L86)
+[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L86)
 
 • `set` **mainBasis**(`mainBasis`): `void`
 
@@ -684,7 +684,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L90)
+[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L90)
 
 ___
 
@@ -701,7 +701,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -724,7 +724,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -749,7 +749,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L140)
 
 ___
 
@@ -769,7 +769,7 @@ If setting, [setValue](slider.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L45)
+[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Variable.ts#L45)
 
 • `set` **value**(`value`): `void`
 
@@ -791,7 +791,7 @@ If setting, [setValue](slider.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L52)
+[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Variable.ts#L52)
 
 ___
 
@@ -808,7 +808,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L74)
+[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L74)
 
 • `set` **vertical**(`vertical`): `void`
 
@@ -827,7 +827,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L78)
+[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L78)
 
 ## Methods
 
@@ -859,7 +859,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).clear
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -895,7 +895,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -920,7 +920,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).forceLayoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -953,7 +953,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).getNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L66)
+[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L66)
 
 ___
 
@@ -980,7 +980,7 @@ Returns a 4-tuple containing, in this order, the left edge's offset, the width, 
 
 #### Defined in
 
-[widgets/Slider.ts:52](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L52)
+[widgets/Slider.ts:52](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L52)
 
 ___
 
@@ -1010,7 +1010,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handleClickEvent
 
 #### Defined in
 
-[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L122)
+[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L122)
 
 ___
 
@@ -1037,7 +1037,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handleEvent
 
 #### Defined in
 
-[widgets/Slider.ts:58](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L58)
+[widgets/Slider.ts:58](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L58)
 
 ___
 
@@ -1065,7 +1065,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handlePainting
 
 #### Defined in
 
-[widgets/Slider.ts:99](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L99)
+[widgets/Slider.ts:99](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L99)
 
 ___
 
@@ -1092,7 +1092,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handlePopulateLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L167)
+[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L167)
 
 ___
 
@@ -1119,7 +1119,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L348)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -1143,7 +1143,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/Slider.ts:92](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Slider.ts#L92)
+[widgets/Slider.ts:92](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Slider.ts#L92)
 
 ___
 
@@ -1171,7 +1171,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).handleResolveLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L212)
+[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/FlexLayout.ts#L212)
 
 ___
 
@@ -1204,7 +1204,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1236,7 +1236,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).isNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L95)
+[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L95)
 
 ___
 
@@ -1269,7 +1269,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).isPointInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Clickable.ts#L81)
+[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Clickable.ts#L81)
 
 ___
 
@@ -1297,7 +1297,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).onFocusDropped
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1330,7 +1330,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).paint
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1357,7 +1357,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1385,7 +1385,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1413,7 +1413,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1442,7 +1442,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1472,7 +1472,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1502,7 +1502,7 @@ Mixin(FlexLayout, Clickable, NumberVariable).setValue
 
 #### Defined in
 
-[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L64)
+[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Variable.ts#L64)
 
 ___
 
@@ -1523,4 +1523,4 @@ Mixin(FlexLayout, Clickable, NumberVariable).updateInheritedTheme
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L65)
