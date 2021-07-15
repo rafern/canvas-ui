@@ -144,7 +144,7 @@ Mixin(FlexLayout, Labelable, StringVariable).constructor
 
 #### Defined in
 
-[widgets/TextInput.ts:54](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L54)
+[widgets/TextInput.ts:54](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L54)
 
 ## Properties
 
@@ -160,7 +160,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -172,7 +172,7 @@ Is editing enabled?
 
 #### Defined in
 
-[widgets/TextInput.ts:48](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L48)
+[widgets/TextInput.ts:48](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L48)
 
 ___
 
@@ -188,7 +188,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_font
 
 #### Defined in
 
-[mixins/Labelable.ts:16](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L16)
+[mixins/Labelable.ts:16](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L16)
 
 ___
 
@@ -200,7 +200,7 @@ Is the text hidden?
 
 #### Defined in
 
-[widgets/TextInput.ts:50](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L50)
+[widgets/TextInput.ts:50](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L50)
 
 ___
 
@@ -216,7 +216,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -232,7 +232,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_minLabelAscent
 
 #### Defined in
 
-[mixins/Labelable.ts:20](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L20)
+[mixins/Labelable.ts:20](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L20)
 
 ___
 
@@ -248,7 +248,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_minLabelDescent
 
 #### Defined in
 
-[mixins/Labelable.ts:22](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L22)
+[mixins/Labelable.ts:22](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L22)
 
 ___
 
@@ -264,7 +264,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_minLabelWidth
 
 #### Defined in
 
-[mixins/Labelable.ts:18](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L18)
+[mixins/Labelable.ts:18](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L18)
 
 ___
 
@@ -280,7 +280,7 @@ Mixin(FlexLayout, Labelable, StringVariable).\_text
 
 #### Defined in
 
-[mixins/Labelable.ts:14](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L14)
+[mixins/Labelable.ts:14](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L14)
 
 ___
 
@@ -292,7 +292,7 @@ Is the text valid?
 
 #### Defined in
 
-[widgets/TextInput.ts:52](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L52)
+[widgets/TextInput.ts:52](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L52)
 
 ___
 
@@ -304,7 +304,7 @@ Last valid value.
 
 #### Defined in
 
-[widgets/TextInput.ts:54](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L54)
+[widgets/TextInput.ts:54](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L54)
 
 ___
 
@@ -317,7 +317,7 @@ not blinking.
 
 #### Defined in
 
-[widgets/TextInput.ts:35](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L35)
+[widgets/TextInput.ts:35](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L35)
 
 ___
 
@@ -330,7 +330,7 @@ cursor is not blinking.
 
 #### Defined in
 
-[widgets/TextInput.ts:40](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L40)
+[widgets/TextInput.ts:40](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L40)
 
 ___
 
@@ -346,7 +346,7 @@ Mixin(FlexLayout, Labelable, StringVariable).callback
 
 #### Defined in
 
-[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Variable.ts#L29)
+[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L29)
 
 ___
 
@@ -358,7 +358,7 @@ Current cursor offset in pixels.
 
 #### Defined in
 
-[widgets/TextInput.ts:44](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L44)
+[widgets/TextInput.ts:44](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L44)
 
 ___
 
@@ -370,7 +370,7 @@ Does the cursor offset need to be updated?
 
 #### Defined in
 
-[widgets/TextInput.ts:46](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L46)
+[widgets/TextInput.ts:46](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L46)
 
 ___
 
@@ -382,7 +382,7 @@ Current cursor position (index, not offset).
 
 #### Defined in
 
-[widgets/TextInput.ts:42](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L42)
+[widgets/TextInput.ts:42](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L42)
 
 ___
 
@@ -399,7 +399,7 @@ Mixin(FlexLayout, Labelable, StringVariable).lastVertical
 
 #### Defined in
 
-[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L56)
+[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L56)
 
 ___
 
@@ -417,7 +417,7 @@ Mixin(FlexLayout, Labelable, StringVariable).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -434,7 +434,7 @@ Mixin(FlexLayout, Labelable, StringVariable).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -450,7 +450,7 @@ Mixin(FlexLayout, Labelable, StringVariable).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -466,7 +466,7 @@ Mixin(FlexLayout, Labelable, StringVariable).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L49)
 
 ## Accessors
 
@@ -484,7 +484,7 @@ Returns true if the text cursor is shown, false if not shown but the text input 
 
 #### Defined in
 
-[widgets/TextInput.ts:86](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L86)
+[widgets/TextInput.ts:86](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L86)
 
 ___
 
@@ -500,7 +500,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L98)
+[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L98)
 
 • `set` **crossBasis**(`crossBasis`): `void`
 
@@ -518,7 +518,7 @@ The basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L102)
+[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L102)
 
 ___
 
@@ -535,7 +535,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -551,7 +551,7 @@ Check if the widget is dirty. Returns [_dirty](textinput.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -571,7 +571,7 @@ beginning.
 
 #### Defined in
 
-[widgets/TextInput.ts:101](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L101)
+[widgets/TextInput.ts:101](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L101)
 
 • `set` **editingEnabled**(`editingEnabled`): `void`
 
@@ -593,7 +593,7 @@ beginning.
 
 #### Defined in
 
-[widgets/TextInput.ts:105](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L105)
+[widgets/TextInput.ts:105](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L105)
 
 ___
 
@@ -614,7 +614,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -637,7 +637,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -653,7 +653,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L59)
+[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L59)
 
 • `set` **flexRatio**(`flexRatio`): `void`
 
@@ -671,7 +671,7 @@ The flex ratio of the flexbox
 
 #### Defined in
 
-[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L63)
+[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L63)
 
 ___
 
@@ -690,7 +690,7 @@ Tied to [_hideText](textinput.md#_hidetext). If changed, [_dirty](textinput.md#_
 
 #### Defined in
 
-[widgets/TextInput.ts:126](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L126)
+[widgets/TextInput.ts:126](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L126)
 
 • `set` **hideText**(`hideText`): `void`
 
@@ -711,7 +711,7 @@ Tied to [_hideText](textinput.md#_hidetext). If changed, [_dirty](textinput.md#_
 
 #### Defined in
 
-[widgets/TextInput.ts:130](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L130)
+[widgets/TextInput.ts:130](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L130)
 
 ___
 
@@ -731,7 +731,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -753,7 +753,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -769,7 +769,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L122)
+[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L122)
 
 • `set` **internalCrossBasis**(`internalCrossBasis`): `void`
 
@@ -787,7 +787,7 @@ The internal basis added along the cross axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L126)
+[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L126)
 
 ___
 
@@ -803,7 +803,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L110)
+[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L110)
 
 • `set` **internalMainBasis**(`internalMainBasis`): `void`
 
@@ -821,7 +821,7 @@ The internal basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L114)
+[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L114)
 
 ___
 
@@ -837,7 +837,7 @@ The current label ascent height. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:136](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L136)
+[mixins/Labelable.ts:136](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L136)
 
 ___
 
@@ -853,7 +853,7 @@ The current label descent height. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:142](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L142)
+[mixins/Labelable.ts:142](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L142)
 
 ___
 
@@ -870,7 +870,7 @@ adding up [labelAscent](textinput.md#labelascent) and [labelDescent](textinput.m
 
 #### Defined in
 
-[mixins/Labelable.ts:151](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L151)
+[mixins/Labelable.ts:151](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L151)
 
 ___
 
@@ -886,7 +886,7 @@ The current label width. Re-measures text if neccessary.
 
 #### Defined in
 
-[mixins/Labelable.ts:130](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L130)
+[mixins/Labelable.ts:130](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L130)
 
 ___
 
@@ -902,7 +902,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](textinput.md#_layo
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -918,7 +918,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L86)
+[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L86)
 
 • `set` **mainBasis**(`mainBasis`): `void`
 
@@ -936,7 +936,7 @@ The basis added along the main axis
 
 #### Defined in
 
-[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L90)
+[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L90)
 
 ___
 
@@ -953,7 +953,7 @@ replaced with a black circle.
 
 #### Defined in
 
-[widgets/TextInput.ts:145](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L145)
+[widgets/TextInput.ts:145](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L145)
 
 ___
 
@@ -970,7 +970,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -993,7 +993,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -1018,7 +1018,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L140)
 
 ___
 
@@ -1034,7 +1034,7 @@ Is the current value in the text input valid?
 
 #### Defined in
 
-[widgets/TextInput.ts:153](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L153)
+[widgets/TextInput.ts:153](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L153)
 
 ___
 
@@ -1050,7 +1050,7 @@ The last valid value, transformed by the validator.
 
 #### Defined in
 
-[widgets/TextInput.ts:158](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L158)
+[widgets/TextInput.ts:158](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L158)
 
 ___
 
@@ -1070,7 +1070,7 @@ If setting, [setValue](textinput.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Variable.ts#L45)
+[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L45)
 
 • `set` **value**(`value`): `void`
 
@@ -1092,7 +1092,7 @@ If setting, [setValue](textinput.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Variable.ts#L52)
+[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L52)
 
 ___
 
@@ -1109,7 +1109,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L74)
+[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L74)
 
 • `set` **vertical**(`vertical`): `void`
 
@@ -1128,7 +1128,7 @@ verticality of the layout context when populating/resolving layout.
 
 #### Defined in
 
-[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L78)
+[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L78)
 
 ## Methods
 
@@ -1160,7 +1160,7 @@ Mixin(FlexLayout, Labelable, StringVariable).clear
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -1184,7 +1184,7 @@ neccessary.
 
 #### Defined in
 
-[widgets/TextInput.ts:203](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L203)
+[widgets/TextInput.ts:203](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L203)
 
 ___
 
@@ -1220,7 +1220,7 @@ Mixin(FlexLayout, Labelable, StringVariable).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -1251,7 +1251,7 @@ Mixin(FlexLayout, Labelable, StringVariable).findIndexOffsetFromOffset
 
 #### Defined in
 
-[mixins/Labelable.ts:89](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L89)
+[mixins/Labelable.ts:89](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L89)
 
 ___
 
@@ -1282,7 +1282,7 @@ Mixin(FlexLayout, Labelable, StringVariable).findOffsetFromIndex
 
 #### Defined in
 
-[mixins/Labelable.ts:71](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L71)
+[mixins/Labelable.ts:71](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L71)
 
 ___
 
@@ -1307,7 +1307,7 @@ Mixin(FlexLayout, Labelable, StringVariable).forceLayoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -1334,7 +1334,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handleEvent
 
 #### Defined in
 
-[widgets/TextInput.ts:223](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L223)
+[widgets/TextInput.ts:223](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L223)
 
 ___
 
@@ -1362,7 +1362,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handlePainting
 
 #### Defined in
 
-[widgets/TextInput.ts:321](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L321)
+[widgets/TextInput.ts:321](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L321)
 
 ___
 
@@ -1389,7 +1389,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handlePopulateLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L167)
+[mixins/FlexLayout.ts:167](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L167)
 
 ___
 
@@ -1416,7 +1416,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L348)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -1440,7 +1440,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/TextInput.ts:291](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L291)
+[widgets/TextInput.ts:291](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L291)
 
 ___
 
@@ -1468,7 +1468,7 @@ Mixin(FlexLayout, Labelable, StringVariable).handleResolveLayout
 
 #### Defined in
 
-[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/FlexLayout.ts#L212)
+[mixins/FlexLayout.ts:212](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/FlexLayout.ts#L212)
 
 ___
 
@@ -1501,7 +1501,7 @@ Mixin(FlexLayout, Labelable, StringVariable).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1524,7 +1524,7 @@ afterwards.
 
 #### Defined in
 
-[widgets/TextInput.ts:189](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L189)
+[widgets/TextInput.ts:189](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L189)
 
 ___
 
@@ -1546,7 +1546,7 @@ Move the cursor by a given index delta. Calls [moveCursorTo](textinput.md#movecu
 
 #### Defined in
 
-[widgets/TextInput.ts:181](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L181)
+[widgets/TextInput.ts:181](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L181)
 
 ___
 
@@ -1570,7 +1570,7 @@ Sets [_dirty](textinput.md#_dirty) and [cursorOffsetDirty](textinput.md#cursorof
 
 #### Defined in
 
-[widgets/TextInput.ts:167](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L167)
+[widgets/TextInput.ts:167](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L167)
 
 ___
 
@@ -1595,7 +1595,7 @@ Mixin(FlexLayout, Labelable, StringVariable).onFocusDropped
 
 #### Defined in
 
-[widgets/TextInput.ts:217](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/TextInput.ts#L217)
+[widgets/TextInput.ts:217](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/TextInput.ts#L217)
 
 ___
 
@@ -1628,7 +1628,7 @@ Mixin(FlexLayout, Labelable, StringVariable).paint
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1655,7 +1655,7 @@ Mixin(FlexLayout, Labelable, StringVariable).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1683,7 +1683,7 @@ Mixin(FlexLayout, Labelable, StringVariable).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1711,7 +1711,7 @@ Mixin(FlexLayout, Labelable, StringVariable).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1740,7 +1740,7 @@ Mixin(FlexLayout, Labelable, StringVariable).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1767,7 +1767,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setFont
 
 #### Defined in
 
-[mixins/Labelable.ts:172](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L172)
+[mixins/Labelable.ts:172](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L172)
 
 ___
 
@@ -1794,7 +1794,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setMinLabelAscent
 
 #### Defined in
 
-[mixins/Labelable.ts:195](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L195)
+[mixins/Labelable.ts:195](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L195)
 
 ___
 
@@ -1821,7 +1821,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setMinLabelDescent
 
 #### Defined in
 
-[mixins/Labelable.ts:206](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L206)
+[mixins/Labelable.ts:206](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L206)
 
 ___
 
@@ -1848,7 +1848,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setMinLabelWidth
 
 #### Defined in
 
-[mixins/Labelable.ts:184](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L184)
+[mixins/Labelable.ts:184](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L184)
 
 ___
 
@@ -1875,7 +1875,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setText
 
 #### Defined in
 
-[mixins/Labelable.ts:160](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Labelable.ts#L160)
+[mixins/Labelable.ts:160](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Labelable.ts#L160)
 
 ___
 
@@ -1905,7 +1905,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1935,7 +1935,7 @@ Mixin(FlexLayout, Labelable, StringVariable).setValue
 
 #### Defined in
 
-[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/mixins/Variable.ts#L64)
+[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/mixins/Variable.ts#L64)
 
 ___
 
@@ -1956,4 +1956,4 @@ Mixin(FlexLayout, Labelable, StringVariable).updateInheritedTheme
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/widgets/Widget.ts#L65)

@@ -45,7 +45,7 @@ root that this driver is registered to is disabled.
 
 #### Defined in
 
-[core/Driver.ts:27](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Driver.ts#L27)
+[core/Driver.ts:27](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/Driver.ts#L27)
 
 ___
 
@@ -68,7 +68,7 @@ that this driver is registered to is enabled.
 
 #### Defined in
 
-[core/Driver.ts:22](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Driver.ts#L22)
+[core/Driver.ts:22](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/Driver.ts#L22)
 
 ___
 
@@ -93,7 +93,7 @@ Hook called by [Root.dispatchEvent](../classes/root.md#dispatchevent)
 
 #### Defined in
 
-[core/Driver.ts:31](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Driver.ts#L31)
+[core/Driver.ts:31](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/Driver.ts#L31)
 
 ___
 
@@ -117,7 +117,7 @@ Hook called by [Root.requestFocus](../classes/root.md#requestfocus) and [Root.cl
 
 #### Defined in
 
-[core/Driver.ts:29](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Driver.ts#L29)
+[core/Driver.ts:29](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/Driver.ts#L29)
 
 ___
 
@@ -139,4 +139,4 @@ Hook called by [Root.preLayoutUpdate](../classes/root.md#prelayoutupdate)
 
 #### Defined in
 
-[core/Driver.ts:17](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/core/Driver.ts#L17)
+[core/Driver.ts:17](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/core/Driver.ts#L17)

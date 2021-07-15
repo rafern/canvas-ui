@@ -1,13 +1,6 @@
+import { getPointerEventNormPos } from '../helpers/getPointerEventNormPos';
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
-
-function getEventPos(event: PointerEvent, domElem: HTMLElement): [number, number] {
-    const rect = domElem.getBoundingClientRect();
-    return [
-        (event.clientX - rect.left) / rect.width,
-        (event.clientY - rect.top) / rect.height,
-    ];
-}
 
 interface RootDOMBind {
     domElem: HTMLElement,
@@ -77,15 +70,15 @@ export class DOMPointerDriver extends PointerDriver {
         const domElem = rootBind.domElem;
         rootBind.pointermoveListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem));
+                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem));
         }
         rootBind.pointerdownListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem), true);
+                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), true);
         }
         rootBind.pointerupListen = (event: PointerEvent) => {
             if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getEventPos(event, domElem), false);
+                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), false);
         }
         rootBind.pointerleaveListen = (event: PointerEvent) => {
             if(event.isPrimary)

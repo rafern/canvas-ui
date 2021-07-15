@@ -57,7 +57,7 @@ true.
 
 #### Defined in
 
-[events/KeyEvent.ts:19](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/KeyEvent.ts#L19)
+[events/KeyEvent.ts:19](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/KeyEvent.ts#L19)
 
 ## Properties
 
@@ -76,7 +76,7 @@ If null, this event cannot be focused, since events are focused by their
 
 #### Defined in
 
-[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/Event.ts#L19)
+[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/Event.ts#L19)
 
 ___
 
@@ -90,7 +90,7 @@ Web API.
 
 #### Defined in
 
-[events/KeyEvent.ts:19](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/KeyEvent.ts#L19)
+[events/KeyEvent.ts:19](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/KeyEvent.ts#L19)
 
 ___
 
@@ -106,7 +106,7 @@ Can this event be dispatched without a target?
 
 #### Defined in
 
-[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/Event.ts#L21)
+[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/Event.ts#L21)
 
 ___
 
@@ -122,7 +122,7 @@ The target of this event. Can be null
 
 #### Defined in
 
-[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/Event.ts#L12)
+[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/Event.ts#L12)
 
 ## Methods
 
@@ -149,4 +149,4 @@ given target.
 
 #### Defined in
 
-[events/Event.ts:37](https://github.com/playkostudios/canvas-ui/blob/fabb89a/src/events/Event.ts#L37)
+[events/Event.ts:37](https://github.com/playkostudios/canvas-ui/blob/9f91374/src/events/Event.ts#L37)

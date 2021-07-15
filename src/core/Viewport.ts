@@ -1,4 +1,4 @@
-import roundToPower2 from '../helpers/roundToPower2';
+import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
 import { LayoutContext } from './LayoutContext';
 

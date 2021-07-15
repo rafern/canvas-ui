@@ -29,8 +29,9 @@ export * from './events/PointerMove';
 export * from './events/PointerPress';
 export * from './events/PointerRelease';
 // helpers
-export * from './helpers/roundToPower2';
+export * from './helpers/getPointerEventNormPos';
 export * from './helpers/measureTextDims';
+export * from './helpers/roundToPower2';
 // mixins
 export * from './mixins/BoxLayout';
 export * from './mixins/Clickable';
