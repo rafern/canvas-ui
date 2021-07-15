@@ -4,10 +4,10 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
-declare const ViewportWidget_base: import("ts-mixer/dist/types/types").Class<[child: Widget, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], SingleParent & FlexLayout, {
-    prototype: SingleParent;
-} & {
+declare const ViewportWidget_base: import("ts-mixer/dist/types/types").Class<[child: Widget, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & SingleParent, {
     prototype: FlexLayout;
+} & {
+    prototype: SingleParent;
 }>;
 /**
  * A type of container widget which is allowed to be bigger or smaller than its

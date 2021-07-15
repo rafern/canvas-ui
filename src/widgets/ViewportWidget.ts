@@ -21,7 +21,7 @@ import type { Widget } from './Widget';
  *
  * @category Widget
  */
-export class ViewportWidget extends Mixin(SingleParent, FlexLayout) {
+export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
     /** Is the main basis tied to the child's? */
     mainBasisTied: boolean;
     /** Is the cross basis tied to the child's? */

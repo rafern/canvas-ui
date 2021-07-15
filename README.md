@@ -98,3 +98,8 @@ class ExampleClass2 extends Mixin(Mixin1, Mixin2, BaseClass) {
 Note that this does not work with generic classes. For that, follow the
 [ts-mixer documentation](https://www.npmjs.com/package/ts-mixer#mixing-generic-classes).
 There are other special cases which can also be found in the documentation.
+
+__WARNING__: The Mixin function applies constructors from left to right, meaning
+that the rightmost mixin class will override the constructor. Not taking this
+into account will lead to bugs for mixin classes that override the constructor,
+such as the SingleParent/MultiParent mixin classes
