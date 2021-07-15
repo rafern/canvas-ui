@@ -222,6 +222,8 @@ export class FlexLayout extends Widget {
                     length = layoutCtx.maxHeight;
                 else
                     length = layoutCtx.maxWidth;
+
+                length = Math.max(length, this._effectiveMainBasis);
             }
             else
                 length = this._effectiveMainBasis;

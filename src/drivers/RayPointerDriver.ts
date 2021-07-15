@@ -49,7 +49,7 @@ export abstract class RayPointerDriver extends PointerDriver {
     addSource(source: RayPointerSource): void {
         if(!this.sources.has(source)) {
             source.setRayPointerDriver(this);
-            this.sources.add(source)
+            this.sources.add(source);
         }
     }
 
