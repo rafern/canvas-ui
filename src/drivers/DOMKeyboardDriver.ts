@@ -29,12 +29,10 @@ export class DOMKeyboardDriver extends KeyboardDriver {
         // clearing keyboard focus
         if(listenToKeys) {
             domElem.addEventListener('keydown', (event) => {
-                event.preventDefault();
                 this.keyDown(event.key);
             });
 
             domElem.addEventListener('keyup', (event) => {
-                event.preventDefault();
                 this.keyUp(event.key);
             });
         }
