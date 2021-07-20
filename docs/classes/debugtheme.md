@@ -53,7 +53,7 @@ Create a new DebugTheme instance.
 
 #### Defined in
 
-[theme/DebugTheme.ts:10](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/DebugTheme.ts#L10)
+[theme/DebugTheme.ts:10](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/DebugTheme.ts#L10)
 
 ## Properties
 
@@ -70,7 +70,7 @@ theme's property will be used instead
 
 #### Defined in
 
-[theme/Theme.ts:18](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L18)
+[theme/Theme.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L18)
 
 ___
 
@@ -86,7 +86,7 @@ The values associated to each [ThemeProperty](../enums/themeproperty.md) for thi
 
 #### Defined in
 
-[theme/Theme.ts:13](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L13)
+[theme/Theme.ts:13](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L13)
 
 ## Methods
 
@@ -112,7 +112,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Alignment](../e
 
 #### Defined in
 
-[theme/Theme.ts:85](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L85)
+[theme/Theme.ts:85](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L85)
 
 ___
 
@@ -138,7 +138,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Alignment2D](..
 
 #### Defined in
 
-[theme/Theme.ts:91](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L91)
+[theme/Theme.ts:91](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L91)
 
 ___
 
@@ -164,7 +164,7 @@ Equivalent to [getString](debugtheme.md#getstring)
 
 #### Defined in
 
-[theme/DebugTheme.ts:20](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/DebugTheme.ts#L20)
+[theme/DebugTheme.ts:20](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/DebugTheme.ts#L20)
 
 ___
 
@@ -190,7 +190,7 @@ Equivalent to [getString](debugtheme.md#getstring)
 
 #### Defined in
 
-[theme/Theme.ts:103](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L103)
+[theme/Theme.ts:103](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L103)
 
 ___
 
@@ -216,7 +216,7 @@ Same as [getProperty](theme.md#getproperty), but with type checking for number.
 
 #### Defined in
 
-[theme/Theme.ts:69](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L69)
+[theme/Theme.ts:69](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L69)
 
 ___
 
@@ -242,7 +242,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Padding](../int
 
 #### Defined in
 
-[theme/Theme.ts:79](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L79)
+[theme/Theme.ts:79](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L79)
 
 ___
 
@@ -270,7 +270,7 @@ Equivalent to [getNumber](debugtheme.md#getnumber)
 
 #### Defined in
 
-[theme/Theme.ts:111](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L111)
+[theme/Theme.ts:111](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L111)
 
 ___
 
@@ -298,4 +298,4 @@ Same as [getProperty](theme.md#getproperty), but with type checking for string.
 
 #### Defined in
 
-[theme/Theme.ts:57](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/theme/Theme.ts#L57)
+[theme/Theme.ts:57](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L57)

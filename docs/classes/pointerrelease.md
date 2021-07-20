@@ -55,7 +55,7 @@ false.
 
 #### Defined in
 
-[events/PointerRelease.ts:12](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/PointerRelease.ts#L12)
+[events/PointerRelease.ts:12](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/PointerRelease.ts#L12)
 
 ## Properties
 
@@ -74,7 +74,7 @@ If null, this event cannot be focused, since events are focused by their
 
 #### Defined in
 
-[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L19)
+[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L19)
 
 ___
 
@@ -90,7 +90,7 @@ Can this event be dispatched without a target?
 
 #### Defined in
 
-[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L21)
+[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L21)
 
 ___
 
@@ -106,7 +106,7 @@ The target of this event. Can be null
 
 #### Defined in
 
-[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L12)
+[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L12)
 
 ___
 
@@ -122,7 +122,7 @@ Pointer event position's X coordinate in pixels. Not an integer.
 
 #### Defined in
 
-[events/PointerEvent.ts:16](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/PointerEvent.ts#L16)
+[events/PointerEvent.ts:16](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/PointerEvent.ts#L16)
 
 ___
 
@@ -138,7 +138,7 @@ Pointer event position's Y coordinate in pixels. Not an integer.
 
 #### Defined in
 
-[events/PointerEvent.ts:18](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/PointerEvent.ts#L18)
+[events/PointerEvent.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/PointerEvent.ts#L18)
 
 ## Methods
 
@@ -165,7 +165,7 @@ given target.
 
 #### Defined in
 
-[events/PointerRelease.ts:26](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/PointerRelease.ts#L26)
+[events/PointerRelease.ts:26](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/PointerRelease.ts#L26)
 
 ___
 
@@ -193,4 +193,4 @@ with new [x](pointerrelease.md#x) and [y](pointerrelease.md#y) values corrected 
 
 #### Defined in
 
-[events/PointerRelease.ts:22](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/PointerRelease.ts#L22)
+[events/PointerRelease.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/PointerRelease.ts#L22)

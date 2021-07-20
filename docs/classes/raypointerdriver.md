@@ -71,7 +71,7 @@ See [getPointerHint](raypointerdriver.md#getpointerhint)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L42)
+[drivers/PointerDriver.ts:42](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L42)
 
 ___
 
@@ -83,7 +83,7 @@ The sources which this is assigned to
 
 #### Defined in
 
-[drivers/RayPointerDriver.ts:17](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/RayPointerDriver.ts#L17)
+[drivers/RayPointerDriver.ts:17](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerDriver.ts#L17)
 
 ___
 
@@ -101,7 +101,7 @@ event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L33)
+[drivers/PointerDriver.ts:33](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L33)
 
 ## Methods
 
@@ -123,7 +123,7 @@ Add a source. Assigns itself to the given source.
 
 #### Defined in
 
-[drivers/RayPointerDriver.ts:49](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/RayPointerDriver.ts#L49)
+[drivers/RayPointerDriver.ts:49](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerDriver.ts#L49)
 
 ___
 
@@ -148,7 +148,7 @@ Returns a 3-tuple containing, in this order, the intersected root or null if non
 
 #### Defined in
 
-[drivers/RayPointerDriver.ts:26](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/RayPointerDriver.ts#L26)
+[drivers/RayPointerDriver.ts:26](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerDriver.ts#L26)
 
 ___
 
@@ -176,7 +176,7 @@ Returns the given pointer ID's hint. If the pointer ID is not registered, [Point
 
 #### Defined in
 
-[drivers/PointerDriver.ts:240](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L240)
+[drivers/PointerDriver.ts:240](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L240)
 
 ___
 
@@ -201,7 +201,7 @@ Receive a ray from a [RayPointerSource](../interfaces/raypointersource.md).
 
 #### Defined in
 
-[drivers/RayPointerDriver.ts:36](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/RayPointerDriver.ts#L36)
+[drivers/RayPointerDriver.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerDriver.ts#L36)
 
 ___
 
@@ -229,7 +229,7 @@ Pointer will also be unassigned from root.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L210)
+[drivers/PointerDriver.ts:210](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L210)
 
 ___
 
@@ -257,7 +257,7 @@ if the root was being hovered.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L187)
+[drivers/PointerDriver.ts:187](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L187)
 
 ___
 
@@ -289,7 +289,7 @@ and whether its pressing or not.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L105)
+[drivers/PointerDriver.ts:105](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L105)
 
 ___
 
@@ -316,7 +316,7 @@ the disabled root from [states](raypointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L261)
+[drivers/PointerDriver.ts:261](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L261)
 
 ___
 
@@ -342,7 +342,7 @@ Creates a state for the enabled root in [states](raypointerdriver.md#states).
 
 #### Defined in
 
-[drivers/PointerDriver.ts:247](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L247)
+[drivers/PointerDriver.ts:247](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L247)
 
 ___
 
@@ -371,7 +371,7 @@ Hook called by [Root.dispatchEvent](root.md#dispatchevent)
 
 #### Defined in
 
-[drivers/PointerDriver.ts:296](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L296)
+[drivers/PointerDriver.ts:296](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L296)
 
 ___
 
@@ -399,7 +399,7 @@ Hook called by [Root.requestFocus](root.md#requestfocus) and [Root.clearFocus](r
 
 #### Defined in
 
-[drivers/PointerDriver.ts:293](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L293)
+[drivers/PointerDriver.ts:293](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L293)
 
 ___
 
@@ -421,7 +421,7 @@ Returns [nextPointerID](pointerdriver.md#nextpointerid) and increments it
 
 #### Defined in
 
-[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L67)
+[drivers/PointerDriver.ts:67](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L67)
 
 ___
 
@@ -450,7 +450,7 @@ Returns true if the pointer hint changed, else, false
 
 #### Defined in
 
-[drivers/RayPointerDriver.ts:56](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/RayPointerDriver.ts#L56)
+[drivers/RayPointerDriver.ts:56](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerDriver.ts#L56)
 
 ___
 
@@ -480,7 +480,7 @@ state of the root is set to false.
 
 #### Defined in
 
-[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L80)
+[drivers/PointerDriver.ts:80](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L80)
 
 ___
 
@@ -507,4 +507,4 @@ clears its event queue
 
 #### Defined in
 
-[drivers/PointerDriver.ts:279](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/drivers/PointerDriver.ts#L279)
+[drivers/PointerDriver.ts:279](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerDriver.ts#L279)

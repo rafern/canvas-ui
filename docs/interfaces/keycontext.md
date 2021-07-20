@@ -20,7 +20,7 @@ being held down and to store the callback for when a key is pressed.
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyContext.ts:18](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyContext.ts#L18)
+[widgets/VirtualKeyboard/KeyContext.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/VirtualKeyboard/KeyContext.ts#L18)
 
 ___
 
@@ -30,4 +30,4 @@ ___
 
 #### Defined in
 
-[widgets/VirtualKeyboard/KeyContext.ts:19](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/VirtualKeyboard/KeyContext.ts#L19)
+[widgets/VirtualKeyboard/KeyContext.ts:19](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/VirtualKeyboard/KeyContext.ts#L19)

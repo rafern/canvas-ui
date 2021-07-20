@@ -50,7 +50,7 @@ Create a new Event. Sets [target](event.md#target), [focusType](event.md#focusty
 
 #### Defined in
 
-[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L21)
+[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L21)
 
 ## Properties
 
@@ -65,7 +65,7 @@ If null, this event cannot be focused, since events are focused by their
 
 #### Defined in
 
-[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L19)
+[events/Event.ts:19](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L19)
 
 ___
 
@@ -77,7 +77,7 @@ Can this event be dispatched without a target?
 
 #### Defined in
 
-[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L21)
+[events/Event.ts:21](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L21)
 
 ___
 
@@ -89,7 +89,7 @@ The target of this event. Can be null
 
 #### Defined in
 
-[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L12)
+[events/Event.ts:12](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L12)
 
 ## Methods
 
@@ -112,4 +112,4 @@ given target.
 
 #### Defined in
 
-[events/Event.ts:37](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/events/Event.ts#L37)
+[events/Event.ts:37](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/events/Event.ts#L37)

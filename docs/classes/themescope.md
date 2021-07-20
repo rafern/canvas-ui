@@ -87,7 +87,7 @@ Create a new ThemeScope.
 
 #### Defined in
 
-[widgets/ThemeScope.ts:17](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/ThemeScope.ts#L17)
+[widgets/ThemeScope.ts:17](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/ThemeScope.ts#L17)
 
 ## Properties
 
@@ -109,7 +109,7 @@ See [children](themescope.md#children) for the public iterator getter.
 
 #### Defined in
 
-[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Parent.ts#L29)
+[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L29)
 
 ___
 
@@ -125,7 +125,7 @@ Widget will only be painted if dirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -141,7 +141,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -159,7 +159,7 @@ needsClear is true. The background fill style used is
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -176,7 +176,7 @@ this is true. Useful for implementing container widgets.
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -192,7 +192,7 @@ The wanted height after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -208,7 +208,7 @@ The wanted width after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -220,7 +220,7 @@ The theme used for the child.
 
 #### Defined in
 
-[widgets/ThemeScope.ts:17](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/ThemeScope.ts#L17)
+[widgets/ThemeScope.ts:17](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/ThemeScope.ts#L17)
 
 ## Accessors
 
@@ -236,7 +236,7 @@ This widget's child.
 
 #### Defined in
 
-[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/SingleParent.ts#L22)
+[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/SingleParent.ts#L22)
 
 ___
 
@@ -252,7 +252,7 @@ Get amount of children of this parent widget.
 
 #### Defined in
 
-[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Parent.ts#L60)
+[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L60)
 
 ___
 
@@ -269,7 +269,7 @@ children via this iterator; for read-only purposes only.
 
 #### Defined in
 
-[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Parent.ts#L68)
+[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L68)
 
 ___
 
@@ -286,7 +286,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -302,7 +302,7 @@ Check if the widget is dirty. Returns [_dirty](themescope.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -323,7 +323,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -346,7 +346,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -366,7 +366,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -388,7 +388,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -404,7 +404,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](themescope.md#_lay
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -421,7 +421,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -444,7 +444,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -469,7 +469,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L140)
 
 ## Methods
 
@@ -501,7 +501,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -537,7 +537,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -562,7 +562,7 @@ Sets [_layoutDirty](themescope.md#_layoutdirty) and [_dirty](themescope.md#_dirt
 
 #### Defined in
 
-[mixins/Parent.ts:49](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Parent.ts#L49)
+[mixins/Parent.ts:49](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L49)
 
 ___
 
@@ -598,7 +598,7 @@ null if no widget captured the event.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:27](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L27)
+[widgets/PassthroughWidget.ts:27](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L27)
 
 ___
 
@@ -629,7 +629,7 @@ when extending Widget. Should be overridden.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:65](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L65)
+[widgets/PassthroughWidget.ts:65](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L65)
 
 ___
 
@@ -657,7 +657,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:52](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L52)
+[widgets/PassthroughWidget.ts:52](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L52)
 
 ___
 
@@ -684,7 +684,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:42](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L42)
+[widgets/PassthroughWidget.ts:42](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L42)
 
 ___
 
@@ -711,7 +711,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:32](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L32)
+[widgets/PassthroughWidget.ts:32](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L32)
 
 ___
 
@@ -739,7 +739,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/PassthroughWidget.ts:57](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/PassthroughWidget.ts#L57)
+[widgets/PassthroughWidget.ts:57](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/PassthroughWidget.ts#L57)
 
 ___
 
@@ -772,7 +772,7 @@ Calls [updateInheritedTheme](themescope.md#updateinheritedtheme) and [updateThem
 
 #### Defined in
 
-[widgets/ThemeScope.ts:30](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/ThemeScope.ts#L30)
+[widgets/ThemeScope.ts:30](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/ThemeScope.ts#L30)
 
 ___
 
@@ -800,7 +800,7 @@ nothing by default. Can be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -833,7 +833,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -860,7 +860,7 @@ Wrapper for [handlePopulateLayout](themescope.md#handlepopulatelayout). Does not
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -888,7 +888,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -916,7 +916,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -945,7 +945,7 @@ resolved dimensions change, [_dirty](themescope.md#_dirty) is set to true.
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -975,7 +975,7 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](themescope.md
 
 #### Defined in
 
-[widgets/ThemeScope.ts:25](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/widgets/ThemeScope.ts#L25)
+[widgets/ThemeScope.ts:25](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/ThemeScope.ts#L25)
 
 ___
 
@@ -996,4 +996,4 @@ overridden. Does nothing by default.
 
 #### Defined in
 
-[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/ab8ca6c/src/mixins/Parent.ts#L41)
+[mixins/Parent.ts:41](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L41)
