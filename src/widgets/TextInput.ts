@@ -87,7 +87,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         if(this.blinkStart === 0)
             return null;
 
-        const blinkRate = this.theme.getSize(ThemeProperty.BlinkRate);
+        const blinkRate = this.theme.getNumber(ThemeProperty.BlinkRate);
         return Math.trunc(((Date.now() - this.blinkStart) / (500 * blinkRate)) % 2) === 0;
     }
 
@@ -298,22 +298,22 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
             this._dirty = true;
 
         // Update Labelable variables
-        const cursorPadding = this.theme.getSize(ThemeProperty.CursorPadding);
-        const cursorThickness = this.theme.getSize(ThemeProperty.CursorThickness);
+        const cursorPadding = this.theme.getNumber(ThemeProperty.CursorPadding);
+        const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
         const widthError = cursorPadding + cursorThickness;
 
         this.setText(this.text);
         this.setFont(this.theme.getFont(ThemeProperty.InputTextFont));
-        this.setMinLabelWidth(this.theme.getSize(ThemeProperty.InputTextMinWidth) - widthError);
-        this.setMinLabelAscent(this.theme.getSize(ThemeProperty.InputTextMinAscent));
-        this.setMinLabelDescent(this.theme.getSize(ThemeProperty.InputTextMinDescent));
+        this.setMinLabelWidth(this.theme.getNumber(ThemeProperty.InputTextMinWidth) - widthError);
+        this.setMinLabelAscent(this.theme.getNumber(ThemeProperty.InputTextMinAscent));
+        this.setMinLabelDescent(this.theme.getNumber(ThemeProperty.InputTextMinDescent));
 
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.findOffsetFromIndex(this.cursorPos);
             this.cursorOffsetDirty = false;
         }
 
-        this.flexRatio = this.theme.getSize(ThemeProperty.InputTextFlexRatio);
+        this.flexRatio = this.theme.getNumber(ThemeProperty.InputTextFlexRatio);
         this.internalMainBasis = this.labelWidth + widthError;
         this.internalCrossBasis = this.labelHeight;
     }
@@ -346,8 +346,8 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         if(!blinkOn)
             return;
 
-        const cursorPadding = this.theme.getSize(ThemeProperty.CursorPadding);
-        const cursorThickness = this.theme.getSize(ThemeProperty.CursorThickness);
+        const cursorPadding = this.theme.getNumber(ThemeProperty.CursorPadding);
+        const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
         ctx.fillRect(
             x + this.cursorOffset,
             y + cursorPadding,

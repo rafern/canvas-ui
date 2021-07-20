@@ -35,7 +35,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
      */
     private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
         // Find actual length
-        const length = this.theme.getSize(ThemeProperty.CheckboxLength);
+        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
         const actualLength = Math.min(length, width, height);
 
         // Find offset
@@ -57,7 +57,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
 
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Update box width and height from checkbox length
-        const length = this.theme.getSize(ThemeProperty.CheckboxLength);
+        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
         this.boxWidth = length;
         this.boxHeight = length;
     }
@@ -84,7 +84,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
             else
                 ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
 
-            const innerPadding = this.theme.getSize(ThemeProperty.CheckboxInnerPadding);
+            const innerPadding = this.theme.getNumber(ThemeProperty.CheckboxInnerPadding);
             const innerLength = actualLength - innerPadding * 2;
 
             if(innerLength <= 0)

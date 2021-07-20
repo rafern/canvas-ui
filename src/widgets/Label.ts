@@ -88,9 +88,9 @@ export class Label extends Mixin(FlexLayout, Labelable) {
             this.setText(this.textGetter());
 
         this.setFont(this.theme.getFont(ThemeProperty.BodyTextFont));
-        this.setMinLabelWidth(this.theme.getSize(ThemeProperty.LabelMinWidth));
-        this.setMinLabelAscent(this.theme.getSize(ThemeProperty.LabelMinAscent));
-        this.setMinLabelDescent(this.theme.getSize(ThemeProperty.LabelMinDescent));
+        this.setMinLabelWidth(this.theme.getNumber(ThemeProperty.LabelMinWidth));
+        this.setMinLabelAscent(this.theme.getNumber(ThemeProperty.LabelMinAscent));
+        this.setMinLabelDescent(this.theme.getNumber(ThemeProperty.LabelMinDescent));
 
         this.internalMainBasis = this.labelWidth;
         this.internalCrossBasis = this.labelHeight;
