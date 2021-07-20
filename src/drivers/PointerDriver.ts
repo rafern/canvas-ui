@@ -128,7 +128,7 @@ export class PointerDriver implements Driver {
 
                 // If other root has this pointer assigned, unassign it
                 if(otherState.pointer === pointer)
-                    this.unassignPointer(root, state);
+                    this.unassignPointer(otherRoot, otherState);
             }
         }
 
