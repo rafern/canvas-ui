@@ -9,7 +9,7 @@ import { BasicKey } from './BasicKey';
  */
 export class EnterKey extends BasicKey {
     /** Create a new EnterKey. */
-    constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
-        super('Enter', 'Enter', keyContext, themeOverride);
+    constructor(keyContext: KeyContext, flexRatio = 0, mainBasis = 72, crossBasis = 24, themeOverride: Theme | null = null) {
+        super('Enter', 'Enter', keyContext, flexRatio, mainBasis, crossBasis, themeOverride);
     }
 }

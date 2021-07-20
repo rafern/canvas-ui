@@ -26,16 +26,17 @@ being pressed, visually. Useful for implementing widgets such as
 
 ### Properties
 
-- [\_backgroundDirty](filledbutton.md#_backgrounddirty)
 - [\_children](filledbutton.md#_children)
 - [\_dirty](filledbutton.md#_dirty)
 - [\_forced](filledbutton.md#_forced)
+- [\_lastLayoutCtx](filledbutton.md#_lastlayoutctx)
 - [\_layoutDirty](filledbutton.md#_layoutdirty)
 - [backgroundProperty](filledbutton.md#backgroundproperty)
 - [callback](filledbutton.md#callback)
 - [clickState](filledbutton.md#clickstate)
 - [clickStateChanged](filledbutton.md#clickstatechanged)
 - [lastClickState](filledbutton.md#lastclickstate)
+- [lastVertical](filledbutton.md#lastvertical)
 - [needsClear](filledbutton.md#needsclear)
 - [pointerPos](filledbutton.md#pointerpos)
 - [propagatesEvents](filledbutton.md#propagatesevents)
@@ -49,14 +50,20 @@ being pressed, visually. Useful for implementing widgets such as
 - [child](filledbutton.md#child)
 - [childCount](filledbutton.md#childcount)
 - [children](filledbutton.md#children)
+- [crossBasis](filledbutton.md#crossbasis)
 - [dimensions](filledbutton.md#dimensions)
 - [dirty](filledbutton.md#dirty)
 - [enabled](filledbutton.md#enabled)
+- [flexRatio](filledbutton.md#flexratio)
 - [forced](filledbutton.md#forced)
 - [inheritedTheme](filledbutton.md#inheritedtheme)
+- [internalCrossBasis](filledbutton.md#internalcrossbasis)
+- [internalMainBasis](filledbutton.md#internalmainbasis)
 - [layoutDirty](filledbutton.md#layoutdirty)
+- [mainBasis](filledbutton.md#mainbasis)
 - [theme](filledbutton.md#theme)
 - [themeOverride](filledbutton.md#themeoverride)
+- [vertical](filledbutton.md#vertical)
 
 ### Methods
 
@@ -88,7 +95,7 @@ being pressed, visually. Useful for implementing widgets such as
 
 ### constructor
 
-• **new FilledButton**(`child`, `callback?`, `themeOverride?`)
+• **new FilledButton**(`child`, `callback?`, `flexRatio?`, `mainBasis?`, `crossBasis?`, `vertical?`, `themeOverride?`)
 
 Create a new Button.
 
@@ -97,7 +104,11 @@ Create a new Button.
 | Name | Type | Default value |
 | :------ | :------ | :------ |
 | `child` | [`Widget`](widget.md) | `undefined` |
-| `callback` | ``null`` \| [`ButtonCallback`](../README.md#buttoncallback) | `null` |
+| `callback` | ``null`` \| () => `void` | `null` |
+| `flexRatio` | `number` | `1` |
+| `mainBasis` | `number` | `0` |
+| `crossBasis` | `number` | `0` |
+| `vertical` | ``null`` \| `boolean` | `null` |
 | `themeOverride` | ``null`` \| [`Theme`](theme.md) | `null` |
 
 #### Inherited from
@@ -106,25 +117,9 @@ Create a new Button.
 
 #### Defined in
 
-[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Button.ts#L31)
+[widgets/Button.ts:20](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Button.ts#L20)
 
 ## Properties
-
-### \_backgroundDirty
-
-• `Protected` **\_backgroundDirty**: `boolean` = `true`
-
-Is the container's whole background dirty (including padding)?
-
-#### Inherited from
-
-[Button](button.md).[_backgroundDirty](button.md#_backgrounddirty)
-
-#### Defined in
-
-[widgets/BaseContainer.ts:19](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/BaseContainer.ts#L19)
-
-___
 
 ### \_children
 
@@ -144,7 +139,7 @@ See [children](filledbutton.md#children) for the public iterator getter.
 
 #### Defined in
 
-[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L29)
+[mixins/Parent.ts:29](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Parent.ts#L29)
 
 ___
 
@@ -160,7 +155,7 @@ Widget will only be painted if dirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -172,7 +167,23 @@ Is the button currently forced down?
 
 #### Defined in
 
-[widgets/FilledButton.ts:24](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L24)
+[widgets/FilledButton.ts:24](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L24)
+
+___
+
+### \_lastLayoutCtx
+
+• `Protected` **\_lastLayoutCtx**: ``null`` \| [`LayoutContext`](layoutcontext.md) = `null`
+
+Last layout context used for child
+
+#### Inherited from
+
+[Button](button.md).[_lastLayoutCtx](button.md#_lastlayoutctx)
+
+#### Defined in
+
+[widgets/FlexContainer.ts:23](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FlexContainer.ts#L23)
 
 ___
 
@@ -188,7 +199,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -200,13 +211,13 @@ Theme property used for overriding the canvas colour.
 
 #### Defined in
 
-[widgets/FilledButton.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L22)
+[widgets/FilledButton.ts:22](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L22)
 
 ___
 
 ### callback
 
-• **callback**: ``null`` \| [`ButtonCallback`](../README.md#buttoncallback)
+• **callback**: ``null`` \| () => `void`
 
 The callback for clicking this button. If null, the button is not
 clickable but will still absorb events.
@@ -217,7 +228,7 @@ clickable but will still absorb events.
 
 #### Defined in
 
-[widgets/Button.ts:31](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Button.ts#L31)
+[widgets/Button.ts:20](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Button.ts#L20)
 
 ___
 
@@ -233,7 +244,7 @@ The current click state
 
 #### Defined in
 
-[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L36)
+[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L36)
 
 ___
 
@@ -249,7 +260,7 @@ Did the last click event handle result in a click state change?
 
 #### Defined in
 
-[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L38)
+[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L38)
 
 ___
 
@@ -265,7 +276,24 @@ Last click state
 
 #### Defined in
 
-[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L34)
+[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L34)
+
+___
+
+### lastVertical
+
+• **lastVertical**: `boolean` = `true`
+
+Was the last layout vertical or not? Never null. Use this to tell if a
+widget is vertical or not when painting.
+
+#### Inherited from
+
+[Button](button.md).[lastVertical](button.md#lastvertical)
+
+#### Defined in
+
+[mixins/FlexLayout.ts:56](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L56)
 
 ___
 
@@ -283,7 +311,7 @@ needsClear is true. The background fill style used is
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -302,7 +330,7 @@ to [1,1] range.
 
 #### Defined in
 
-[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L47)
+[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L47)
 
 ___
 
@@ -319,7 +347,7 @@ this is true. Useful for implementing container widgets.
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -335,7 +363,7 @@ The wanted height after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -351,7 +379,7 @@ The wanted width after layout resolution.
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -369,7 +397,7 @@ Useful for implementing draggable widgets.
 
 #### Defined in
 
-[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L53)
+[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L53)
 
 ___
 
@@ -385,7 +413,7 @@ Did the last click state change result in a click?
 
 #### Defined in
 
-[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L40)
+[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L40)
 
 ## Accessors
 
@@ -401,7 +429,7 @@ This widget's child.
 
 #### Defined in
 
-[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/SingleParent.ts#L22)
+[mixins/SingleParent.ts:22](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/SingleParent.ts#L22)
 
 ___
 
@@ -417,7 +445,7 @@ Get amount of children of this parent widget.
 
 #### Defined in
 
-[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L60)
+[mixins/Parent.ts:60](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Parent.ts#L60)
 
 ___
 
@@ -434,7 +462,41 @@ children via this iterator; for read-only purposes only.
 
 #### Defined in
 
-[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Parent.ts#L68)
+[mixins/Parent.ts:68](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Parent.ts#L68)
+
+___
+
+### crossBasis
+
+• `get` **crossBasis**(): `number`
+
+The basis added along the cross axis
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:98](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L98)
+
+• `set` **crossBasis**(`crossBasis`): `void`
+
+The basis added along the cross axis
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `crossBasis` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:102](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L102)
 
 ___
 
@@ -451,7 +513,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -467,7 +529,7 @@ Check if the widget is dirty. Returns [_dirty](filledbutton.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -488,7 +550,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -511,7 +573,41 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L96)
+
+___
+
+### flexRatio
+
+• `get` **flexRatio**(): `number`
+
+The flex ratio of the flexbox
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:59](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L59)
+
+• `set` **flexRatio**(`flexRatio`): `void`
+
+The flex ratio of the flexbox
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `flexRatio` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:63](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L63)
 
 ___
 
@@ -525,7 +621,7 @@ ___
 
 #### Defined in
 
-[widgets/FilledButton.ts:70](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L70)
+[widgets/FilledButton.ts:69](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L69)
 
 • `set` **forced**(`forced`): `void`
 
@@ -541,7 +637,7 @@ ___
 
 #### Defined in
 
-[widgets/FilledButton.ts:63](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L63)
+[widgets/FilledButton.ts:62](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L62)
 
 ___
 
@@ -561,7 +657,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -583,7 +679,75 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L180)
+
+___
+
+### internalCrossBasis
+
+• `get` **internalCrossBasis**(): `number`
+
+The internal basis added along the cross axis
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:122](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L122)
+
+• `set` **internalCrossBasis**(`internalCrossBasis`): `void`
+
+The internal basis added along the cross axis
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `internalCrossBasis` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:126](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L126)
+
+___
+
+### internalMainBasis
+
+• `get` **internalMainBasis**(): `number`
+
+The internal basis added along the main axis
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:110](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L110)
+
+• `set` **internalMainBasis**(`internalMainBasis`): `void`
+
+The internal basis added along the main axis
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `internalMainBasis` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:114](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L114)
 
 ___
 
@@ -599,7 +763,41 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](filledbutton.md#_l
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L202)
+
+___
+
+### mainBasis
+
+• `get` **mainBasis**(): `number`
+
+The basis added along the main axis
+
+#### Returns
+
+`number`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:86](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L86)
+
+• `set` **mainBasis**(`mainBasis`): `void`
+
+The basis added along the main axis
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `mainBasis` | `number` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:90](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L90)
 
 ___
 
@@ -616,7 +814,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -639,7 +837,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -664,7 +862,43 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L140)
+
+___
+
+### vertical
+
+• `get` **vertical**(): ``null`` \| `boolean`
+
+Does this flex layout grow vertically? If null, it inherits the
+verticality of the layout context when populating/resolving layout.
+
+#### Returns
+
+``null`` \| `boolean`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:74](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L74)
+
+• `set` **vertical**(`vertical`): `void`
+
+Does this flex layout grow vertically? If null, it inherits the
+verticality of the layout context when populating/resolving layout.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `vertical` | ``null`` \| `boolean` |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[mixins/FlexLayout.ts:78](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/FlexLayout.ts#L78)
 
 ## Methods
 
@@ -696,7 +930,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -732,7 +966,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -757,7 +991,7 @@ Sets [_layoutDirty](filledbutton.md#_layoutdirty) and [_dirty](filledbutton.md#_
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -790,7 +1024,7 @@ Returns normalised coordinates
 
 #### Defined in
 
-[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L66)
+[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L66)
 
 ___
 
@@ -820,7 +1054,7 @@ Updates the current [clickState](filledbutton.md#clickstate) given an event, as 
 
 #### Defined in
 
-[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L122)
+[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L122)
 
 ___
 
@@ -847,7 +1081,7 @@ ___
 
 #### Defined in
 
-[widgets/FilledButton.ts:118](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L118)
+[widgets/FilledButton.ts:106](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L106)
 
 ___
 
@@ -878,7 +1112,7 @@ when extending Widget. Should be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:383](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L383)
+[widgets/Widget.ts:383](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L383)
 
 ___
 
@@ -906,13 +1140,13 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L279)
+[widgets/Widget.ts:279](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L279)
 
 ___
 
 ### handlePostLayoutUpdate
 
-▸ `Protected` **handlePostLayoutUpdate**(`root`): `void`
+▸ `Protected` **handlePostLayoutUpdate**(`_root`): `void`
 
 Generic update method which is called after layout is resolved. Does
 nothing by default. Should be implemented.
@@ -921,19 +1155,19 @@ nothing by default. Should be implemented.
 
 | Name | Type |
 | :------ | :------ |
-| `root` | [`Root`](root.md) |
+| `_root` | [`Root`](root.md) |
 
 #### Returns
 
 `void`
 
-#### Overrides
+#### Inherited from
 
 [Button](button.md).[handlePostLayoutUpdate](button.md#handlepostlayoutupdate)
 
 #### Defined in
 
-[widgets/FilledButton.ts:111](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L111)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -960,7 +1194,7 @@ nothing by default. Should be implemented.
 
 #### Defined in
 
-[widgets/Widget.ts:262](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L262)
+[widgets/Widget.ts:262](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L262)
 
 ___
 
@@ -988,7 +1222,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Defined in
 
-[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L288)
+[widgets/Widget.ts:288](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L288)
 
 ___
 
@@ -1021,7 +1255,7 @@ Calls [updateInheritedTheme](filledbutton.md#updateinheritedtheme) and [updateTh
 
 #### Defined in
 
-[widgets/FilledButton.ts:96](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L96)
+[widgets/FilledButton.ts:93](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L93)
 
 ___
 
@@ -1053,7 +1287,7 @@ Returns true if [pX, pY] is inside the rectangle, else, false
 
 #### Defined in
 
-[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L95)
+[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L95)
 
 ___
 
@@ -1086,7 +1320,7 @@ Returns true if [pX, pY] is inside the rectangle, else, false
 
 #### Defined in
 
-[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L81)
+[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L81)
 
 ___
 
@@ -1114,7 +1348,7 @@ nothing by default. Can be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1147,7 +1381,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1174,7 +1408,7 @@ Wrapper for [handlePopulateLayout](filledbutton.md#handlepopulatelayout). Does n
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1202,7 +1436,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1230,7 +1464,7 @@ overridden.
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1259,7 +1493,7 @@ resolved dimensions change, [_dirty](filledbutton.md#_dirty) is set to true.
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1289,7 +1523,7 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](filledbutton.
 
 #### Defined in
 
-[widgets/FilledButton.ts:74](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L74)
+[widgets/FilledButton.ts:73](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L73)
 
 ___
 
@@ -1301,7 +1535,7 @@ Update the background fill.
 
 Sets [backgroundProperty](filledbutton.md#backgroundproperty) depending on [_forced](filledbutton.md#_forced) and
 [clickState](filledbutton.md#clickstate), calls [inheritTheme](filledbutton.md#inherittheme) and sets
-[_backgroundDirty](filledbutton.md#_backgrounddirty) to true.
+[_backgroundDirty](basecontainer.md#_backgrounddirty) to true.
 
 #### Returns
 
@@ -1309,7 +1543,7 @@ Sets [backgroundProperty](filledbutton.md#backgroundproperty) depending on [_for
 
 #### Defined in
 
-[widgets/FilledButton.ts:33](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/FilledButton.ts#L33)
+[widgets/FilledButton.ts:33](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/FilledButton.ts#L33)
 
 ___
 
@@ -1330,4 +1564,4 @@ overridden. Does nothing by default.
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L65)

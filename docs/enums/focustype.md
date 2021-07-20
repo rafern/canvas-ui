@@ -22,7 +22,7 @@ Used by [KeyPress](../classes/keypress.md) and [KeyRelease](../classes/keyreleas
 
 #### Defined in
 
-[core/FocusType.ts:14](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/FocusType.ts#L14)
+[core/FocusType.ts:14](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/FocusType.ts#L14)
 
 ___
 
@@ -35,4 +35,4 @@ Used by [Leave](../classes/leave.md), [PointerMove](../classes/pointermove.md), 
 
 #### Defined in
 
-[core/FocusType.ts:12](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/FocusType.ts#L12)
+[core/FocusType.ts:12](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/FocusType.ts#L12)

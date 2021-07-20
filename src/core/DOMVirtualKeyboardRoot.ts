@@ -1,8 +1,8 @@
 import { VirtualKeyboard, defaultVirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
-import { defaultTheme } from '../theme/defaultTheme';
-import type { Theme } from '../theme/Theme';
+import { Margin } from '../widgets/Margin';
+import { Theme } from '../theme/Theme';
 import { DOMRoot } from './DOMRoot';
 
 /**
@@ -20,18 +20,23 @@ export class DOMVirtualKeyboardRoot extends DOMRoot {
     /**
      * Creates a new VirtualKeyboardRoot.
      *
-     * Sets {@link child} to a new {@link VirtualKeyboard} with the given
-     * keyboard and {@link VirtualKeyboardTemplate | keyboard template} and
-     * {@link child}'s {@link Widget.inheritedTheme | inherited theme}. Also
-     * sets up a {@link pointerStyleHandler} which simply sets the CSS cursor
-     * style of {@link domElem}. Creates {@link domElem} and
-     * {@link domCanvasContext}.
+     * Sets {@link child} to a new {@link Margin} containing a
+     * {@link VirtualKeyboard} with the given keyboard and
+     * {@link VirtualKeyboardTemplate | keyboard template} and {@link child}'s
+     * {@link Widget.inheritedTheme | inherited theme}. Also sets up a
+     * {@link pointerStyleHandler} which simply sets the CSS cursor style of
+     * {@link domElem}. Creates {@link domElem} and {@link domCanvasContext}.
      *
      * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param theme By default, the theme is {@link defaultTheme}.
+     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, theme: Theme = defaultTheme) {
-        super(new VirtualKeyboard(keyboardDriver, keyboardTemplate), theme);
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, theme: Theme = new Theme()) {
+        super(
+            new Margin(
+                new VirtualKeyboard(keyboardDriver, keyboardTemplate),
+            ),
+            theme,
+        );
         this.keyboardDriver = keyboardDriver;
     }
 

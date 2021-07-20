@@ -9,7 +9,7 @@ import { BasicKey } from './BasicKey';
  */
 export class BackspaceKey extends BasicKey {
     /** Create a new BackspaceKey. */
-    constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
-        super('Backspace', 'Backspace', keyContext, themeOverride);
+    constructor(keyContext: KeyContext, flexRatio = 0, mainBasis = 60, crossBasis = 24, themeOverride: Theme | null = null) {
+        super('Backspace', 'Backspace', keyContext, flexRatio, mainBasis, crossBasis, themeOverride);
     }
 }

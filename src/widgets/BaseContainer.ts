@@ -191,7 +191,7 @@ export class BaseContainer extends SingleParent {
         const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
         if(alignment.horizontal !== Alignment.Stretch) {
             // Get free space for this axis
-            const freeSpace = (right - left) - this.resolvedWidth;
+            const freeSpace = right - left - this.child.dimensions[0];
 
             // Ignore if free space is negative or zero, as in, the child didn't
             // even get the space they requested or just enough space
@@ -217,7 +217,7 @@ export class BaseContainer extends SingleParent {
         // Vertical axis
         if(alignment.vertical !== Alignment.Stretch) {
             // Same logic as above, but for vertical axis
-            const freeSpace = (bottom - top) - this.resolvedHeight;
+            const freeSpace = bottom - top - this.child.dimensions[1];
 
             if(freeSpace > 0) {
                 switch(alignment.vertical) {

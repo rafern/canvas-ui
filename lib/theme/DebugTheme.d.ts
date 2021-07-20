@@ -10,8 +10,8 @@ export declare class DebugTheme extends Theme {
     /**
      * Create a new DebugTheme instance.
      *
-     * @param fallback The actual theme to use. Fill colors will be ignored as they are randomly generated.
+     * @param fallback The actual theme to use. Fill colors will be ignored as they are randomly generated. If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
-    constructor(fallback: Theme);
+    constructor(fallback?: Theme);
     getFill(themeProperty: ThemeProperty): string;
 }

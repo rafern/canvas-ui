@@ -19,7 +19,7 @@ export class GlyphKey extends TextButton {
      * @param altGlyph The alternative glyph to emit/show when shift is held.
      * @param keyContext The {@link KeyContext} shared by other keys to tell when shift is being held in a virtual keyboard.
      */
-    constructor(glyph: string, altGlyph: string | null = null, keyContext: KeyContext, themeOverride: Theme | null = null) {
+    constructor(glyph: string, altGlyph: string | null = null, keyContext: KeyContext, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeOverride: Theme | null = null) {
         if(altGlyph === null)
             altGlyph = glyph;
 
@@ -35,9 +35,8 @@ export class GlyphKey extends TextButton {
         }
 
         super(
-            getGlyph,
-            () => keyContext.callback(getGlyph()),
-            themeOverride,
+            getGlyph, () => keyContext.callback(getGlyph()),
+            flexRatio, mainBasis, crossBasis, false, themeOverride,
         );
     }
 }

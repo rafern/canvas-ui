@@ -1,95 +1,89 @@
-[canvas-ui](../README.md) / Container
+[canvas-ui](../README.md) / TextMargin
 
-# Class: Container
+# Class: TextMargin
 
-A [BaseContainer](basecontainer.md) which always propagates events. Use this widget if
-you are not sure what that means.
+A [Margin](margin.md) which stretches on the vertical axis. Useful for
+horizontally centering labels without making them look weird if they are in
+a row, such as in a [KeyRow](keyrow.md).
 
 ## Hierarchy
 
-- [`BaseContainer`](basecontainer.md)
+- [`Container`](container.md)
 
-  ↳ **`Container`**
-
-  ↳↳ [`Center`](center.md)
-
-  ↳↳ [`Margin`](margin.md)
-
-  ↳↳ [`TextMargin`](textmargin.md)
+  ↳ **`TextMargin`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](container.md#constructor)
+- [constructor](textmargin.md#constructor)
 
 ### Properties
 
-- [\_backgroundDirty](container.md#_backgrounddirty)
-- [\_children](container.md#_children)
-- [\_dirty](container.md#_dirty)
-- [\_layoutDirty](container.md#_layoutdirty)
-- [needsClear](container.md#needsclear)
-- [propagatesEvents](container.md#propagatesevents)
-- [resolvedHeight](container.md#resolvedheight)
-- [resolvedWidth](container.md#resolvedwidth)
+- [\_backgroundDirty](textmargin.md#_backgrounddirty)
+- [\_children](textmargin.md#_children)
+- [\_dirty](textmargin.md#_dirty)
+- [\_layoutDirty](textmargin.md#_layoutdirty)
+- [needsClear](textmargin.md#needsclear)
+- [propagatesEvents](textmargin.md#propagatesevents)
+- [resolvedHeight](textmargin.md#resolvedheight)
+- [resolvedWidth](textmargin.md#resolvedwidth)
 
 ### Accessors
 
-- [child](container.md#child)
-- [childCount](container.md#childcount)
-- [children](container.md#children)
-- [dimensions](container.md#dimensions)
-- [dirty](container.md#dirty)
-- [enabled](container.md#enabled)
-- [inheritedTheme](container.md#inheritedtheme)
-- [layoutDirty](container.md#layoutdirty)
-- [theme](container.md#theme)
-- [themeOverride](container.md#themeoverride)
+- [child](textmargin.md#child)
+- [childCount](textmargin.md#childcount)
+- [children](textmargin.md#children)
+- [dimensions](textmargin.md#dimensions)
+- [dirty](textmargin.md#dirty)
+- [enabled](textmargin.md#enabled)
+- [inheritedTheme](textmargin.md#inheritedtheme)
+- [layoutDirty](textmargin.md#layoutdirty)
+- [theme](textmargin.md#theme)
+- [themeOverride](textmargin.md#themeoverride)
 
 ### Methods
 
-- [clear](container.md#clear)
-- [dispatchEvent](container.md#dispatchevent)
-- [forceLayoutDirty](container.md#forcelayoutdirty)
-- [handleEvent](container.md#handleevent)
-- [handlePainting](container.md#handlepainting)
-- [handlePopulateLayout](container.md#handlepopulatelayout)
-- [handlePostLayoutUpdate](container.md#handlepostlayoutupdate)
-- [handlePreLayoutUpdate](container.md#handleprelayoutupdate)
-- [handleResolveLayout](container.md#handleresolvelayout)
-- [inheritTheme](container.md#inherittheme)
-- [onFocusDropped](container.md#onfocusdropped)
-- [paint](container.md#paint)
-- [populateLayout](container.md#populatelayout)
-- [postLayoutUpdate](container.md#postlayoutupdate)
-- [preLayoutUpdate](container.md#prelayoutupdate)
-- [resolveLayout](container.md#resolvelayout)
-- [setThemeOverride](container.md#setthemeoverride)
-- [updateInheritedTheme](container.md#updateinheritedtheme)
+- [clear](textmargin.md#clear)
+- [dispatchEvent](textmargin.md#dispatchevent)
+- [forceLayoutDirty](textmargin.md#forcelayoutdirty)
+- [handleEvent](textmargin.md#handleevent)
+- [handlePainting](textmargin.md#handlepainting)
+- [handlePopulateLayout](textmargin.md#handlepopulatelayout)
+- [handlePostLayoutUpdate](textmargin.md#handlepostlayoutupdate)
+- [handlePreLayoutUpdate](textmargin.md#handleprelayoutupdate)
+- [handleResolveLayout](textmargin.md#handleresolvelayout)
+- [inheritTheme](textmargin.md#inherittheme)
+- [onFocusDropped](textmargin.md#onfocusdropped)
+- [paint](textmargin.md#paint)
+- [populateLayout](textmargin.md#populatelayout)
+- [postLayoutUpdate](textmargin.md#postlayoutupdate)
+- [preLayoutUpdate](textmargin.md#prelayoutupdate)
+- [resolveLayout](textmargin.md#resolvelayout)
+- [setThemeOverride](textmargin.md#setthemeoverride)
+- [updateInheritedTheme](textmargin.md#updateinheritedtheme)
 
 ## Constructors
 
 ### constructor
 
-• **new Container**(`child`, `themeOverride?`)
+• **new TextMargin**(`child`)
 
-Create a new Container.
+Create a new TextMargin.
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `child` | [`Widget`](widget.md) | `undefined` |
-| `themeOverride` | ``null`` \| [`Theme`](theme.md) | `null` |
+| Name | Type |
+| :------ | :------ |
+| `child` | [`Widget`](widget.md) |
 
 #### Overrides
 
-[BaseContainer](basecontainer.md).[constructor](basecontainer.md#constructor)
+[Container](container.md).[constructor](container.md#constructor)
 
 #### Defined in
 
-[widgets/Container.ts:11](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Container.ts#L11)
+[widgets/TextMargin.ts:15](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/TextMargin.ts#L15)
 
 ## Properties
 
@@ -101,7 +95,7 @@ Is the container's whole background dirty (including padding)?
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[_backgroundDirty](basecontainer.md#_backgrounddirty)
+[Container](container.md).[_backgroundDirty](container.md#_backgrounddirty)
 
 #### Defined in
 
@@ -119,11 +113,11 @@ this array are always valid. If you want to clear this array, set the
 length to zero instead of creating a new instance. readonly still means
 that you can add/remove elements to/from the array.
 
-See [children](container.md#children) for the public iterator getter.
+See [children](textmargin.md#children) for the public iterator getter.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[_children](basecontainer.md#_children)
+[Container](container.md).[_children](container.md#_children)
 
 #### Defined in
 
@@ -139,7 +133,7 @@ Widget will only be painted if dirty is true.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[_dirty](basecontainer.md#_dirty)
+[Container](container.md).[_dirty](container.md#_dirty)
 
 #### Defined in
 
@@ -155,7 +149,7 @@ Widget will only have the layout resolved if layoutDirty is true.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[_layoutDirty](basecontainer.md#_layoutdirty)
+[Container](container.md).[_layoutDirty](container.md#_layoutdirty)
 
 #### Defined in
 
@@ -173,7 +167,7 @@ needsClear is true. The background fill style used is
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[needsClear](basecontainer.md#needsclear)
+[Container](container.md).[needsClear](container.md#needsclear)
 
 #### Defined in
 
@@ -190,7 +184,7 @@ this is true. Useful for implementing container widgets.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[propagatesEvents](basecontainer.md#propagatesevents)
+[Container](container.md).[propagatesEvents](container.md#propagatesevents)
 
 #### Defined in
 
@@ -206,7 +200,7 @@ The wanted height after layout resolution.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[resolvedHeight](basecontainer.md#resolvedheight)
+[Container](container.md).[resolvedHeight](container.md#resolvedheight)
 
 #### Defined in
 
@@ -222,7 +216,7 @@ The wanted width after layout resolution.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[resolvedWidth](basecontainer.md#resolvedwidth)
+[Container](container.md).[resolvedWidth](container.md#resolvedwidth)
 
 #### Defined in
 
@@ -284,7 +278,7 @@ ___
 • `get` **dimensions**(): [`number`, `number`]
 
 Get the resolved dimensions. Returns a 2-tuple containing
-[resolvedWidth](container.md#resolvedwidth) and [resolvedHeight](container.md#resolvedheight).
+[resolvedWidth](textmargin.md#resolvedwidth) and [resolvedHeight](textmargin.md#resolvedheight).
 
 #### Returns
 
@@ -300,7 +294,7 @@ ___
 
 • `get` **dirty**(): `boolean`
 
-Check if the widget is dirty. Returns [_dirty](container.md#_dirty).
+Check if the widget is dirty. Returns [_dirty](textmargin.md#_dirty).
 
 #### Returns
 
@@ -318,8 +312,8 @@ ___
 
 Is this widget enabled? If it isn't, it will act as if it doesn't exist.
 
-If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](container.md#_layoutdirty) is set to true
-and [_dirty](container.md#_dirty) is set to true if enabled or false if not enabled.
+If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](textmargin.md#_layoutdirty) is set to true
+and [_dirty](textmargin.md#_dirty) is set to true if enabled or false if not enabled.
 
 If getting, [_enabled](domroot.md#_enabled) is returned.
 
@@ -335,8 +329,8 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 Is this widget enabled? If it isn't, it will act as if it doesn't exist.
 
-If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](container.md#_layoutdirty) is set to true
-and [_dirty](container.md#_dirty) is set to true if enabled or false if not enabled.
+If changed, [_enabled](domroot.md#_enabled) is set, [_layoutDirty](textmargin.md#_layoutdirty) is set to true
+and [_dirty](textmargin.md#_dirty) is set to true if enabled or false if not enabled.
 
 If getting, [_enabled](domroot.md#_enabled) is returned.
 
@@ -362,7 +356,7 @@ ___
 
 The inherited theme of this widget.
 
-If setting, calls [inheritTheme](container.md#inherittheme).
+If setting, calls [inheritTheme](textmargin.md#inherittheme).
 
 If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
@@ -378,7 +372,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 The inherited theme of this widget.
 
-If setting, calls [inheritTheme](container.md#inherittheme).
+If setting, calls [inheritTheme](textmargin.md#inherittheme).
 
 If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
@@ -402,7 +396,7 @@ ___
 
 • `get` **layoutDirty**(): `boolean`
 
-Check if the widget's layout is dirty. Returns [_layoutDirty](container.md#_layoutdirty).
+Check if the widget's layout is dirty. Returns [_layoutDirty](textmargin.md#_layoutdirty).
 
 #### Returns
 
@@ -440,7 +434,7 @@ theme will be the inherited theme, else, it will be the theme override
 with the inherited theme as the fallback. The fallback of the theme
 override will be ignored and replaced.
 
-If setting, calls [setThemeOverride](container.md#setthemeoverride).
+If setting, calls [setThemeOverride](textmargin.md#setthemeoverride).
 
 If getting, returns [_themeOverride](widget.md#_themeoverride).
 
@@ -459,7 +453,7 @@ theme will be the inherited theme, else, it will be the theme override
 with the inherited theme as the fallback. The fallback of the theme
 override will be ignored and replaced.
 
-If setting, calls [setThemeOverride](container.md#setthemeoverride).
+If setting, calls [setThemeOverride](textmargin.md#setthemeoverride).
 
 If getting, returns [_themeOverride](widget.md#_themeoverride).
 
@@ -503,7 +497,7 @@ The background fill style used is [ThemeProperty.CanvasFill](../enums/themeprope
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[clear](basecontainer.md#clear)
+[Container](container.md).[clear](container.md#clear)
 
 #### Defined in
 
@@ -519,7 +513,7 @@ Called when an event is passed to the Widget. Checks if the target
 matches the Widget, unless the Widget propagates events, or if the event
 is a [PointerEvent](pointerevent.md) and is in the bounds of the Widget. If neither
 of the conditions are true, the event is not captured (null is returned),
-else, the [handleEvent](container.md#handleevent) method is called and its result is
+else, the [handleEvent](textmargin.md#handleevent) method is called and its result is
 returned. Must not be overridden.
 
 #### Parameters
@@ -539,7 +533,7 @@ Returns the widget that captured the event or null if none captured the event.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[dispatchEvent](basecontainer.md#dispatchevent)
+[Container](container.md).[dispatchEvent](container.md#dispatchevent)
 
 #### Defined in
 
@@ -556,7 +550,7 @@ Call only when absolutely neccessary, such as in a resize. If
 implementing a container widget, children should also have their layout
 forced as dirty.
 
-Sets [_layoutDirty](container.md#_layoutdirty) and [_dirty](container.md#_dirty) to true.
+Sets [_layoutDirty](textmargin.md#_layoutdirty) and [_dirty](textmargin.md#_dirty) to true.
 
 #### Returns
 
@@ -564,7 +558,7 @@ Sets [_layoutDirty](container.md#_layoutdirty) and [_dirty](container.md#_dirty)
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[forceLayoutDirty](basecontainer.md#forcelayoutdirty)
+[Container](container.md).[forceLayoutDirty](container.md#forcelayoutdirty)
 
 #### Defined in
 
@@ -600,7 +594,7 @@ null if no widget captured the event.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handleEvent](basecontainer.md#handleevent)
+[Container](container.md).[handleEvent](container.md#handleevent)
 
 #### Defined in
 
@@ -631,7 +625,7 @@ when extending Widget. Should be overridden.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handlePainting](basecontainer.md#handlepainting)
+[Container](container.md).[handlePainting](container.md#handlepainting)
 
 #### Defined in
 
@@ -659,7 +653,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handlePopulateLayout](basecontainer.md#handlepopulatelayout)
+[Container](container.md).[handlePopulateLayout](container.md#handlepopulatelayout)
 
 #### Defined in
 
@@ -686,7 +680,7 @@ nothing by default. Should be implemented.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handlePostLayoutUpdate](basecontainer.md#handlepostlayoutupdate)
+[Container](container.md).[handlePostLayoutUpdate](container.md#handlepostlayoutupdate)
 
 #### Defined in
 
@@ -713,7 +707,7 @@ nothing by default. Should be implemented.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handlePreLayoutUpdate](basecontainer.md#handleprelayoutupdate)
+[Container](container.md).[handlePreLayoutUpdate](container.md#handleprelayoutupdate)
 
 #### Defined in
 
@@ -726,7 +720,7 @@ ___
 ▸ `Protected` **handleResolveLayout**(`layoutCtx`): `void`
 
 The second Widget layout resolution callback. Resolves the layout of this
-widget (sets [resolvedWidth](container.md#resolvedwidth) and [resolvedHeight](container.md#resolvedheight)).Must be
+widget (sets [resolvedWidth](textmargin.md#resolvedwidth) and [resolvedHeight](textmargin.md#resolvedheight)).Must be
 implemented. If called and not implemented, an exception is thrown.
 
 #### Parameters
@@ -741,7 +735,7 @@ implemented. If called and not implemented, an exception is thrown.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[handleResolveLayout](basecontainer.md#handleresolvelayout)
+[Container](container.md).[handleResolveLayout](container.md#handleresolvelayout)
 
 #### Defined in
 
@@ -759,8 +753,8 @@ be. If overridden, the original method should still be called.
 Theme override has priority over inherited theme. Inherited theme should
 be propagated to children so they also have a theme.
 
-Calls [updateInheritedTheme](container.md#updateinheritedtheme) and [updateTheme](widget.md#updatetheme) and sets
-[_layoutDirty](container.md#_layoutdirty) and [_dirty](container.md#_dirty) to true if widget is enabled.
+Calls [updateInheritedTheme](textmargin.md#updateinheritedtheme) and [updateTheme](widget.md#updatetheme) and sets
+[_layoutDirty](textmargin.md#_layoutdirty) and [_dirty](textmargin.md#_dirty) to true if widget is enabled.
 
 #### Parameters
 
@@ -774,7 +768,7 @@ Calls [updateInheritedTheme](container.md#updateinheritedtheme) and [updateTheme
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[inheritTheme](basecontainer.md#inherittheme)
+[Container](container.md).[inheritTheme](container.md#inherittheme)
 
 #### Defined in
 
@@ -802,7 +796,7 @@ nothing by default. Can be overridden.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[onFocusDropped](basecontainer.md#onfocusdropped)
+[Container](container.md).[onFocusDropped](container.md#onfocusdropped)
 
 #### Defined in
 
@@ -816,7 +810,7 @@ ___
 
 Called when the Widget is dirty and the Root is being rendered. Does
 nothing if dirty flag is not set, else, clears the background if
-[needsClear](container.md#needsclear) is true, calls the [handlePainting](container.md#handlepainting) method and
+[needsClear](textmargin.md#needsclear) is true, calls the [handlePainting](textmargin.md#handlepainting) method and
 unsets the dirty flag. Must not be overridden.
 
 #### Parameters
@@ -835,7 +829,7 @@ unsets the dirty flag. Must not be overridden.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[paint](basecontainer.md#paint)
+[Container](container.md).[paint](container.md#paint)
 
 #### Defined in
 
@@ -847,7 +841,7 @@ ___
 
 ▸ **populateLayout**(`layoutCtx`): `void`
 
-Wrapper for [handlePopulateLayout](container.md#handlepopulatelayout). Does nothing if
+Wrapper for [handlePopulateLayout](textmargin.md#handlepopulatelayout). Does nothing if
 [_enabled](domroot.md#_enabled) is false. Must not be overridden.
 
 #### Parameters
@@ -862,7 +856,7 @@ Wrapper for [handlePopulateLayout](container.md#handlepopulatelayout). Does noth
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[populateLayout](basecontainer.md#populatelayout)
+[Container](container.md).[populateLayout](container.md#populatelayout)
 
 #### Defined in
 
@@ -875,7 +869,7 @@ ___
 ▸ **postLayoutUpdate**(`root`): `void`
 
 Generic update method which is called after layout is resolved. Calls
-[handlePostLayoutUpdate](container.md#handlepostlayoutupdate) if widget is enabled. Must not be
+[handlePostLayoutUpdate](textmargin.md#handlepostlayoutupdate) if widget is enabled. Must not be
 overridden.
 
 #### Parameters
@@ -890,7 +884,7 @@ overridden.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[postLayoutUpdate](basecontainer.md#postlayoutupdate)
+[Container](container.md).[postLayoutUpdate](container.md#postlayoutupdate)
 
 #### Defined in
 
@@ -903,7 +897,7 @@ ___
 ▸ **preLayoutUpdate**(`root`): `void`
 
 Generic update method which is called before layout is resolved. Calls
-[handlePreLayoutUpdate](container.md#handleprelayoutupdate) if widget is enabled. Must not be
+[handlePreLayoutUpdate](textmargin.md#handleprelayoutupdate) if widget is enabled. Must not be
 overridden.
 
 #### Parameters
@@ -918,7 +912,7 @@ overridden.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[preLayoutUpdate](basecontainer.md#prelayoutupdate)
+[Container](container.md).[preLayoutUpdate](container.md#prelayoutupdate)
 
 #### Defined in
 
@@ -930,10 +924,10 @@ ___
 
 ▸ **resolveLayout**(`layoutCtx`): `void`
 
-Wrapper for [handleResolveLayout](container.md#handleresolvelayout). Does nothing if
-[_enabled](domroot.md#_enabled) is false or [_layoutDirty](container.md#_layoutdirty) is false. If the
-resolved dimensions change, [_dirty](container.md#_dirty) is set to true.
-[_layoutDirty](container.md#_layoutdirty) is set to false. Must not be overridden.
+Wrapper for [handleResolveLayout](textmargin.md#handleresolvelayout). Does nothing if
+[_enabled](domroot.md#_enabled) is false or [_layoutDirty](textmargin.md#_layoutdirty) is false. If the
+resolved dimensions change, [_dirty](textmargin.md#_dirty) is set to true.
+[_layoutDirty](textmargin.md#_layoutdirty) is set to false. Must not be overridden.
 
 #### Parameters
 
@@ -947,7 +941,7 @@ resolved dimensions change, [_dirty](container.md#_dirty) is set to true.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[resolveLayout](basecontainer.md#resolvelayout)
+[Container](container.md).[resolveLayout](container.md#resolvelayout)
 
 #### Defined in
 
@@ -962,8 +956,8 @@ ___
 Set the theme override of this widget. Should not be overridden, but can
 be. If overridden, the original method should still be called.
 
-Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](container.md#_layoutdirty) and
-[_dirty](container.md#_dirty) to true if widget is enabled.
+Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](textmargin.md#_layoutdirty) and
+[_dirty](textmargin.md#_dirty) to true if widget is enabled.
 
 #### Parameters
 
@@ -977,7 +971,7 @@ Calls [updateTheme](widget.md#updatetheme) and sets [_layoutDirty](container.md#
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[setThemeOverride](basecontainer.md#setthemeoverride)
+[Container](container.md).[setThemeOverride](container.md#setthemeoverride)
 
 #### Defined in
 
@@ -998,7 +992,7 @@ overridden. Does nothing by default.
 
 #### Inherited from
 
-[BaseContainer](basecontainer.md).[updateInheritedTheme](basecontainer.md#updateinheritedtheme)
+[Container](container.md).[updateInheritedTheme](container.md#updateinheritedtheme)
 
 #### Defined in
 

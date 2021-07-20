@@ -1,5 +1,5 @@
 import type { Widget } from '../widgets/Widget';
-import type { Theme } from '../theme/Theme';
+import { Theme } from '../theme/Theme';
 import { Root } from './Root';
 /**
  * Like Root, but for easy use in an HTML page.
@@ -23,7 +23,7 @@ export declare class DOMRoot extends Root {
      * {@link pointerStyleHandler} which simply sets the CSS cursor style of
      * {@link domElem}. Creates {@link domElem} and {@link domCanvasContext}.
      *
-     * @param theme By default, the theme is {@link defaultTheme}.
+     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
     constructor(child: Widget, theme?: Theme);
     /**

@@ -15,5 +15,5 @@ export declare class BasicKey extends TextButton {
      * @param keyCode The {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | key code} to emit in the keyContext's callback when the virtual key is pressed
      * @param keyContext The {@link KeyContext} shared by other virtual keyboard key widgets.
      */
-    constructor(text: string | TextGetter, keyCode: string, keyContext: KeyContext, themeOverride?: Theme | null);
+    constructor(text: string | TextGetter, keyCode: string, keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
 }

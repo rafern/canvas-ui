@@ -25,7 +25,7 @@ The pointer is currently hovering a root.
 
 #### Defined in
 
-[drivers/PointerHint.ts:13](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerHint.ts#L13)
+[drivers/PointerHint.ts:13](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/PointerHint.ts#L13)
 
 ___
 
@@ -37,7 +37,7 @@ The pointer is currently not hovering any root.
 
 #### Defined in
 
-[drivers/PointerHint.ts:11](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerHint.ts#L11)
+[drivers/PointerHint.ts:11](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/PointerHint.ts#L11)
 
 ___
 
@@ -49,4 +49,4 @@ The pointer is currently hovering and pressing a root.
 
 #### Defined in
 
-[drivers/PointerHint.ts:15](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/PointerHint.ts#L15)
+[drivers/PointerHint.ts:15](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/PointerHint.ts#L15)

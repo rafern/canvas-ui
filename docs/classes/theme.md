@@ -30,14 +30,13 @@ A theme. Provides styling for widgets.
 - [getNumber](theme.md#getnumber)
 - [getPadding](theme.md#getpadding)
 - [getProperty](theme.md#getproperty)
-- [getSize](theme.md#getsize)
 - [getString](theme.md#getstring)
 
 ## Constructors
 
 ### constructor
 
-• **new Theme**(`properties`, `fallback?`)
+• **new Theme**(`properties?`, `fallback?`)
 
 Creates a new Theme.
 
@@ -45,14 +44,14 @@ Sets [properties](theme.md#properties) and [fallback](theme.md#fallback).
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `properties` | `Map`<[`ThemeProperty`](../enums/themeproperty.md), `unknown`\> | `undefined` |
-| `fallback` | ``null`` \| [`Theme`](theme.md) | `null` |
+| Name | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `properties` | ``null`` \| `Map`<[`ThemeProperty`](../enums/themeproperty.md), `unknown`\> | `null` | This theme's [ThemeProperty](../enums/themeproperty.md) values. If null, the default theme properties are used, which consist of mostly semi-transparent black backgrounds and azure blue accents, inspired by material design colours. |
+| `fallback` | ``null`` \| [`Theme`](theme.md) | `null` | - |
 
 #### Defined in
 
-[theme/Theme.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L18)
+[theme/Theme.ts:61](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L61)
 
 ## Properties
 
@@ -65,7 +64,7 @@ theme's property will be used instead
 
 #### Defined in
 
-[theme/Theme.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L18)
+[theme/Theme.ts:61](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L61)
 
 ___
 
@@ -77,7 +76,7 @@ The values associated to each [ThemeProperty](../enums/themeproperty.md) for thi
 
 #### Defined in
 
-[theme/Theme.ts:13](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L13)
+[theme/Theme.ts:56](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L56)
 
 ## Methods
 
@@ -99,7 +98,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Alignment](../e
 
 #### Defined in
 
-[theme/Theme.ts:85](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L85)
+[theme/Theme.ts:132](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L132)
 
 ___
 
@@ -121,7 +120,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Alignment2D](..
 
 #### Defined in
 
-[theme/Theme.ts:91](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L91)
+[theme/Theme.ts:138](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L138)
 
 ___
 
@@ -143,7 +142,7 @@ Equivalent to [getString](theme.md#getstring)
 
 #### Defined in
 
-[theme/Theme.ts:97](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L97)
+[theme/Theme.ts:144](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L144)
 
 ___
 
@@ -165,7 +164,7 @@ Equivalent to [getString](theme.md#getstring)
 
 #### Defined in
 
-[theme/Theme.ts:103](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L103)
+[theme/Theme.ts:150](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L150)
 
 ___
 
@@ -187,7 +186,7 @@ Same as [getProperty](theme.md#getproperty), but with type checking for number.
 
 #### Defined in
 
-[theme/Theme.ts:69](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L69)
+[theme/Theme.ts:116](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L116)
 
 ___
 
@@ -209,7 +208,7 @@ Same as [getProperty](theme.md#getproperty), but casts value to [Padding](../int
 
 #### Defined in
 
-[theme/Theme.ts:79](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L79)
+[theme/Theme.ts:126](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L126)
 
 ___
 
@@ -236,41 +235,16 @@ Returns the value associated with the theme property. This could be any type.
 
 #### Defined in
 
-[theme/Theme.ts:38](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L38)
-
-___
-
-### getSize
-
-▸ **getSize**(`themeProperty`): `number`
-
-Equivalent to [getNumber](theme.md#getnumber)
-
-**`deprecated`**
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `themeProperty` | [`ThemeProperty`](../enums/themeproperty.md) |
-
-#### Returns
-
-`number`
-
-#### Defined in
-
-[theme/Theme.ts:111](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L111)
+[theme/Theme.ts:87](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L87)
 
 ___
 
 ### getString
 
-▸ **getString**(`themeProperty`): `string`
+▸ `Private` **getString**(`themeProperty`): `string`
 
 Same as [getProperty](theme.md#getproperty), but with type checking for string.
-
-**`deprecated`**
+For internal use only.
 
 #### Parameters
 
@@ -284,4 +258,4 @@ Same as [getProperty](theme.md#getproperty), but with type checking for string.
 
 #### Defined in
 
-[theme/Theme.ts:57](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/theme/Theme.ts#L57)
+[theme/Theme.ts:106](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/theme/Theme.ts#L106)

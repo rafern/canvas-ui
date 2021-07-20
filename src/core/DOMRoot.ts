@@ -1,6 +1,5 @@
-import { defaultTheme } from '../theme/defaultTheme';
 import type { Widget } from '../widgets/Widget';
-import type { Theme } from '../theme/Theme';
+import { Theme } from '../theme/Theme';
 import { Root } from './Root';
 
 /**
@@ -26,9 +25,9 @@ export class DOMRoot extends Root {
      * {@link pointerStyleHandler} which simply sets the CSS cursor style of
      * {@link domElem}. Creates {@link domElem} and {@link domCanvasContext}.
      *
-     * @param theme By default, the theme is {@link defaultTheme}.
+     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
-    constructor(child: Widget, theme: Theme = defaultTheme) {
+    constructor(child: Widget, theme: Theme = new Theme()) {
         super(child, null, theme);
 
         // Make DOM element, which is a canvas, and get a 2D context for it

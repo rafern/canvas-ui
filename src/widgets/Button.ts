@@ -1,38 +1,27 @@
 import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
 import { Clickable } from '../mixins/Clickable';
-import { BaseContainer } from './BaseContainer';
+import { FlexContainer } from './FlexContainer';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
 /**
- * A function with no input or return values. Used as callbacks for
- * {@link Button}.
- *
- * Note that this has no background fill. If you want one, use
- * {@link FilledButton} instead.
- *
- * @category Widget
- */
-export type ButtonCallback = () => void;
-
-/**
- * A {@link BaseContainer} which can be clicked {@link Clickable} as a button.
+ * A {@link FlexContainer} which can be {@link Clickable | clicked} as a button.
  * Since the button grabs all events, no events are propagated to the child.
  *
  * @category Widget
  */
-export class Button extends Mixin(Clickable, BaseContainer) {
+export class Button extends Mixin(Clickable, FlexContainer) {
     /**
      * The callback for clicking this button. If null, the button is not
      * clickable but will still absorb events.
      */
-    callback: ButtonCallback | null;
+    callback: (() => void) | null;
 
     /** Create a new Button. */
-    constructor(child: Widget, callback: ButtonCallback | null = null, themeOverride: Theme | null = null) {
-        super(child, false, themeOverride);
+    constructor(child: Widget, callback: (() => void) | null = null, flexRatio = 1, mainBasis = 0, crossBasis = 0, vertical: boolean | null = null, themeOverride: Theme | null = null) {
+        super(child, false, flexRatio, mainBasis, crossBasis, vertical, themeOverride);
         this.callback = callback;
     }
 

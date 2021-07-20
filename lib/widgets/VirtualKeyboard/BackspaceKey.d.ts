@@ -8,5 +8,5 @@ import { BasicKey } from './BasicKey';
  */
 export declare class BackspaceKey extends BasicKey {
     /** Create a new BackspaceKey. */
-    constructor(keyContext: KeyContext, themeOverride?: Theme | null);
+    constructor(keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
 }

@@ -1,12 +1,11 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { TextInputHandler } from './TextInputHandler';
-import { defaultTheme } from '../theme/defaultTheme';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import { FocusType } from './FocusType';
 import { Leave } from '../events/Leave';
 import type { Driver } from './Driver';
+import { Theme } from '../theme/Theme';
 import { Viewport } from './Viewport';
 
 /**
@@ -94,9 +93,9 @@ export class Root {
      * Sets {@link child}, {@link pointerStyleHandler} and {@link child}'s
      * {@link Widget.inheritedTheme | inherited theme}.
      *
-     * @param theme By default, the theme is {@link defaultTheme}
+     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
-    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = defaultTheme) {
+    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
         this.viewport = new Viewport();
         this.child = child;
         this.pointerStyleHandler = pointerStyleHandler;

@@ -9,7 +9,7 @@ import { BasicKey } from './BasicKey';
  */
 export class EscapeKey extends BasicKey {
     /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
-        super('Esc', 'Escape', keyContext, themeOverride);
+    constructor(keyContext: KeyContext, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeOverride: Theme | null = null) {
+        super('Esc', 'Escape', keyContext, flexRatio, mainBasis, crossBasis, themeOverride);
     }
 }

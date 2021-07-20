@@ -29,7 +29,7 @@ Clear assigned [RayPointerDriver](../classes/raypointerdriver.md). Rays will no 
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:20](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerSource.ts#L20)
+[drivers/RayPointerSource.ts:20](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/RayPointerSource.ts#L20)
 
 ___
 
@@ -52,7 +52,7 @@ Called when a pointer has their hint changed
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerSource.ts#L22)
+[drivers/RayPointerSource.ts:22](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/RayPointerSource.ts#L22)
 
 ___
 
@@ -76,4 +76,4 @@ use [RayPointerDriver.addSource](../classes/raypointerdriver.md#addsource)
 
 #### Defined in
 
-[drivers/RayPointerSource.ts:18](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/drivers/RayPointerSource.ts#L18)
+[drivers/RayPointerSource.ts:18](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/drivers/RayPointerSource.ts#L18)

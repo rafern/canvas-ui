@@ -10,7 +10,7 @@ import { TextButton } from '../TextButton';
  */
 export class ShiftKey extends TextButton {
     /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
+    constructor(keyContext: KeyContext, flexRatio = 0, mainBasis = 84, crossBasis = 24, themeOverride: Theme | null = null) {
         super(
             'Shift',
             () => {
@@ -18,6 +18,10 @@ export class ShiftKey extends TextButton {
                 this.forced = keyContext.shift;
                 keyContext.callback('Shift');
             },
+            flexRatio,
+            mainBasis,
+            crossBasis,
+            false,
             themeOverride,
         );
 

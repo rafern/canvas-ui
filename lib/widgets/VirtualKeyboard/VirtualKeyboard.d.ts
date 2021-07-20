@@ -31,6 +31,11 @@ export declare class VirtualKeyboard extends Column {
      * Create a new VirtualKeyboard.
      *
      * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
+     * @param flexRatio The flexRatio to use when creating {@link Glyph | Glyphs}
+     * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
+     * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
+     * @param spacingFlexRatio The flexRatio to use when creating {@link Spacing} between each key, in a row
+     * @param spacingBasis The mainBasis to use when creating {@link Spacing} between each key, in a row
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, themeOverride?: Theme | null);
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, flexRatio?: number, mainBasis?: number, crossBasis?: number, spacingFlexRatio?: number, spacingBasis?: number, themeOverride?: Theme | null);
 }

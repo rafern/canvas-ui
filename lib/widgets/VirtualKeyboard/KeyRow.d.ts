@@ -1,6 +1,6 @@
 import type { FilledButton } from '../../widgets/FilledButton';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
+import { Theme } from '../../theme/Theme';
 import { Row } from '../Row';
 /**
  * A template for a single virtual keyboard key. A function that, when called
@@ -41,7 +41,9 @@ export declare type GlyphKeysTemplate = [string, string];
 export declare type KeyRowTemplate = Array<GlyphKeysTemplate | KeyTemplateFunction>;
 /**
  * A {@link Row} of virtual keys ({@link BasicKey}, {@link GlyphKey},
- * {@link ShiftKey}, etc...). Generates given a template.
+ * {@link ShiftKey}, etc...). Generates given a template. {@link Spacing} is
+ * inserted between each key with a given flex ratio and basis;
+ * {@link ThemeProperty.ContainerSpacing} is therefore overridden to be 0.
  *
  * @category Widget
  */
@@ -51,6 +53,12 @@ export declare class KeyRow extends Row {
      *
      * @param rowTemplate Template for this row of virtual keys.
      * @param keyContext The {@link KeyContext} to be shared among all virtual keys in this row.
+     * @param flexRatio The flexRatio to use when creating {@link Glyph | Glyphs}
+     * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
+     * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
+     * @param spacingFlexRatio The flexRatio to use when creating {@link Spacing} between each key
+     * @param spacingBasis The mainBasis to use when creating {@link Spacing} between each key
+     * @param themeOverride The themeOverride to pass to each key widget
      */
-    constructor(rowTemplate: KeyRowTemplate, keyContext: KeyContext, themeOverride?: Theme | null);
+    constructor(rowTemplate: KeyRowTemplate, keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, spacingFlexRatio?: number, spacingBasis?: number, themeOverride?: Theme | null);
 }

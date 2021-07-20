@@ -94,7 +94,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).constructor
 
 #### Defined in
 
-[widgets/Checkbox.ts:15](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Checkbox.ts#L15)
+[widgets/Checkbox.ts:15](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Checkbox.ts#L15)
 
 ## Properties
 
@@ -110,7 +110,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).\_dirty
 
 #### Defined in
 
-[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L23)
+[widgets/Widget.ts:23](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L23)
 
 ___
 
@@ -126,7 +126,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).\_layoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L25)
+[widgets/Widget.ts:25](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L25)
 
 ___
 
@@ -142,7 +142,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).callback
 
 #### Defined in
 
-[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Variable.ts#L29)
+[mixins/Variable.ts:29](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Variable.ts#L29)
 
 ___
 
@@ -158,7 +158,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).clickState
 
 #### Defined in
 
-[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L36)
+[mixins/Clickable.ts:36](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L36)
 
 ___
 
@@ -174,7 +174,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).clickStateChanged
 
 #### Defined in
 
-[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L38)
+[mixins/Clickable.ts:38](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L38)
 
 ___
 
@@ -190,7 +190,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).lastClickState
 
 #### Defined in
 
-[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L34)
+[mixins/Clickable.ts:34](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L34)
 
 ___
 
@@ -208,7 +208,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).needsClear
 
 #### Defined in
 
-[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L31)
+[widgets/Widget.ts:31](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L31)
 
 ___
 
@@ -227,7 +227,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).pointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L47)
+[mixins/Clickable.ts:47](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L47)
 
 ___
 
@@ -244,7 +244,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).propagatesEvents
 
 #### Defined in
 
-[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L36)
+[widgets/Widget.ts:36](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L36)
 
 ___
 
@@ -260,7 +260,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).resolvedHeight
 
 #### Defined in
 
-[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L51)
+[widgets/Widget.ts:51](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L51)
 
 ___
 
@@ -276,7 +276,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).resolvedWidth
 
 #### Defined in
 
-[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L49)
+[widgets/Widget.ts:49](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L49)
 
 ___
 
@@ -294,7 +294,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).startingPointerPos
 
 #### Defined in
 
-[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L53)
+[mixins/Clickable.ts:53](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L53)
 
 ___
 
@@ -310,7 +310,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).wasClick
 
 #### Defined in
 
-[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L40)
+[mixins/Clickable.ts:40](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L40)
 
 ## Accessors
 
@@ -329,7 +329,7 @@ The wanted box height. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:38](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L38)
+[mixins/BoxLayout.ts:38](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L38)
 
 • `set` **boxHeight**(`boxHeight`): `void`
 
@@ -350,7 +350,7 @@ The wanted box height. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:42](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L42)
+[mixins/BoxLayout.ts:42](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L42)
 
 ___
 
@@ -369,7 +369,7 @@ The wanted box width. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:21](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L21)
+[mixins/BoxLayout.ts:21](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L21)
 
 • `set` **boxWidth**(`boxWidth`): `void`
 
@@ -390,7 +390,7 @@ The wanted box width. Set this every frame on
 
 #### Defined in
 
-[mixins/BoxLayout.ts:25](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L25)
+[mixins/BoxLayout.ts:25](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L25)
 
 ___
 
@@ -407,7 +407,7 @@ Get the resolved dimensions. Returns a 2-tuple containing
 
 #### Defined in
 
-[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L192)
+[widgets/Widget.ts:192](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L192)
 
 ___
 
@@ -423,7 +423,7 @@ Check if the widget is dirty. Returns [_dirty](checkbox.md#_dirty).
 
 #### Defined in
 
-[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L197)
+[widgets/Widget.ts:197](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L197)
 
 ___
 
@@ -444,7 +444,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L105)
+[widgets/Widget.ts:105](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L105)
 
 • `set` **enabled**(`enabled`): `void`
 
@@ -467,7 +467,7 @@ If getting, [_enabled](domroot.md#_enabled) is returned.
 
 #### Defined in
 
-[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L96)
+[widgets/Widget.ts:96](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L96)
 
 ___
 
@@ -487,7 +487,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L184)
+[widgets/Widget.ts:184](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L184)
 
 • `set` **inheritedTheme**(`theme`): `void`
 
@@ -509,7 +509,7 @@ If getting, returns [_inheritedTheme](widget.md#_inheritedtheme).
 
 #### Defined in
 
-[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L180)
+[widgets/Widget.ts:180](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L180)
 
 ___
 
@@ -525,7 +525,7 @@ Check if the widget's layout is dirty. Returns [_layoutDirty](checkbox.md#_layou
 
 #### Defined in
 
-[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L202)
+[widgets/Widget.ts:202](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L202)
 
 ___
 
@@ -542,7 +542,7 @@ exception.
 
 #### Defined in
 
-[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L81)
+[widgets/Widget.ts:81](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L81)
 
 ___
 
@@ -565,7 +565,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L144)
+[widgets/Widget.ts:144](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L144)
 
 • `set` **themeOverride**(`theme`): `void`
 
@@ -590,7 +590,7 @@ If getting, returns [_themeOverride](widget.md#_themeoverride).
 
 #### Defined in
 
-[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L140)
+[widgets/Widget.ts:140](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L140)
 
 ___
 
@@ -610,7 +610,7 @@ If setting, [setValue](checkbox.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Variable.ts#L45)
+[mixins/Variable.ts:45](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Variable.ts#L45)
 
 • `set` **value**(`value`): `void`
 
@@ -632,7 +632,7 @@ If setting, [setValue](checkbox.md#setvalue) is called.
 
 #### Defined in
 
-[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Variable.ts#L52)
+[mixins/Variable.ts:52](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Variable.ts#L52)
 
 ## Methods
 
@@ -664,7 +664,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).clear
 
 #### Defined in
 
-[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L365)
+[widgets/Widget.ts:365](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L365)
 
 ___
 
@@ -700,7 +700,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).dispatchEvent
 
 #### Defined in
 
-[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L241)
+[widgets/Widget.ts:241](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L241)
 
 ___
 
@@ -725,7 +725,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).forceLayoutDirty
 
 #### Defined in
 
-[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L338)
+[widgets/Widget.ts:338](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L338)
 
 ___
 
@@ -752,7 +752,7 @@ Returns a 4-tuple containing, in this order, the left edge's offset, the width, 
 
 #### Defined in
 
-[widgets/Checkbox.ts:36](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Checkbox.ts#L36)
+[widgets/Checkbox.ts:36](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Checkbox.ts#L36)
 
 ___
 
@@ -785,7 +785,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).getNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L66)
+[mixins/Clickable.ts:66](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L66)
 
 ___
 
@@ -815,7 +815,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handleClickEvent
 
 #### Defined in
 
-[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L122)
+[mixins/Clickable.ts:122](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L122)
 
 ___
 
@@ -842,7 +842,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handleEvent
 
 #### Defined in
 
-[widgets/Checkbox.ts:48](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Checkbox.ts#L48)
+[widgets/Checkbox.ts:48](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Checkbox.ts#L48)
 
 ___
 
@@ -870,7 +870,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handlePainting
 
 #### Defined in
 
-[widgets/Checkbox.ts:65](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Checkbox.ts#L65)
+[widgets/Checkbox.ts:65](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Checkbox.ts#L65)
 
 ___
 
@@ -897,7 +897,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handlePopulateLayout
 
 #### Defined in
 
-[mixins/BoxLayout.ts:53](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L53)
+[mixins/BoxLayout.ts:53](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L53)
 
 ___
 
@@ -924,7 +924,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handlePostLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L348)
+[widgets/Widget.ts:348](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L348)
 
 ___
 
@@ -948,7 +948,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handlePreLayoutUpdate
 
 #### Defined in
 
-[widgets/Checkbox.ts:58](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Checkbox.ts#L58)
+[widgets/Checkbox.ts:58](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Checkbox.ts#L58)
 
 ___
 
@@ -975,7 +975,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).handleResolveLayout
 
 #### Defined in
 
-[mixins/BoxLayout.ts:61](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/BoxLayout.ts#L61)
+[mixins/BoxLayout.ts:61](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/BoxLayout.ts#L61)
 
 ___
 
@@ -1008,7 +1008,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).inheritTheme
 
 #### Defined in
 
-[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L158)
+[widgets/Widget.ts:158](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L158)
 
 ___
 
@@ -1040,7 +1040,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).isNormalInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L95)
+[mixins/Clickable.ts:95](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L95)
 
 ___
 
@@ -1073,7 +1073,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).isPointInRect
 
 #### Defined in
 
-[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Clickable.ts#L81)
+[mixins/Clickable.ts:81](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Clickable.ts#L81)
 
 ___
 
@@ -1101,7 +1101,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).onFocusDropped
 
 #### Defined in
 
-[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L211)
+[widgets/Widget.ts:211](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L211)
 
 ___
 
@@ -1134,7 +1134,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).paint
 
 #### Defined in
 
-[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L391)
+[widgets/Widget.ts:391](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L391)
 
 ___
 
@@ -1161,7 +1161,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).populateLayout
 
 #### Defined in
 
-[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L296)
+[widgets/Widget.ts:296](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L296)
 
 ___
 
@@ -1189,7 +1189,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).postLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L355)
+[widgets/Widget.ts:355](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L355)
 
 ___
 
@@ -1217,7 +1217,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).preLayoutUpdate
 
 #### Defined in
 
-[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L269)
+[widgets/Widget.ts:269](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L269)
 
 ___
 
@@ -1246,7 +1246,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).resolveLayout
 
 #### Defined in
 
-[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L309)
+[widgets/Widget.ts:309](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L309)
 
 ___
 
@@ -1276,7 +1276,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).setThemeOverride
 
 #### Defined in
 
-[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L116)
+[widgets/Widget.ts:116](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L116)
 
 ___
 
@@ -1306,7 +1306,7 @@ Mixin(BoxLayout, Clickable, BooleanVariable).setValue
 
 #### Defined in
 
-[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/mixins/Variable.ts#L64)
+[mixins/Variable.ts:64](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/mixins/Variable.ts#L64)
 
 ___
 
@@ -1327,4 +1327,4 @@ Mixin(BoxLayout, Clickable, BooleanVariable).updateInheritedTheme
 
 #### Defined in
 
-[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/widgets/Widget.ts#L65)
+[widgets/Widget.ts:65](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/widgets/Widget.ts#L65)

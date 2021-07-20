@@ -1,7 +1,7 @@
-import type { ThemeProperty } from './ThemeProperty';
 import type { Alignment2D } from './Alignment2D';
-import type { Alignment } from './Alignment';
+import { ThemeProperty } from './ThemeProperty';
 import type { Padding } from './Padding';
+import { Alignment } from './Alignment';
 /**
  * A theme. Provides styling for widgets.
  *
@@ -19,8 +19,10 @@ export declare class Theme {
      * Creates a new Theme.
      *
      * Sets {@link properties} and {@link fallback}.
+     *
+     * @param properties This theme's {@link ThemeProperty} values. If null, the default theme properties are used, which consist of mostly semi-transparent black backgrounds and azure blue accents, inspired by material design colours.
      */
-    constructor(properties: Map<ThemeProperty, unknown>, fallback?: Theme | null);
+    constructor(properties?: Map<ThemeProperty, unknown> | null, fallback?: Theme | null);
     /**
      * Get the value associated with a given {@link ThemeProperty}.
      *
@@ -32,9 +34,9 @@ export declare class Theme {
     private getProperty;
     /**
      * Same as {@link getProperty}, but with type checking for string.
-     * @deprecated
+     * For internal use only.
      */
-    getString(themeProperty: ThemeProperty): string;
+    private getString;
     /** Same as {@link getProperty}, but with type checking for number. */
     getNumber(themeProperty: ThemeProperty): number;
     /** Same as {@link getProperty}, but casts value to {@link Padding}. */
@@ -47,9 +49,4 @@ export declare class Theme {
     getFill(themeProperty: ThemeProperty): string;
     /** Equivalent to {@link getString} */
     getFont(themeProperty: ThemeProperty): string;
-    /**
-     * Equivalent to {@link getNumber}
-     * @deprecated
-     */
-    getSize(themeProperty: ThemeProperty): number;
 }

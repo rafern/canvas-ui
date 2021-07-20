@@ -9,5 +9,5 @@ import { TextButton } from '../TextButton';
  */
 export declare class ShiftKey extends TextButton {
     /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, themeOverride?: Theme | null);
+    constructor(keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
 }

@@ -1,7 +1,50 @@
-import type { ThemeProperty } from './ThemeProperty';
 import type { Alignment2D } from './Alignment2D';
-import type { Alignment } from './Alignment';
+import { ThemeProperty } from './ThemeProperty';
 import type { Padding } from './Padding';
+import { Alignment } from './Alignment';
+
+// The default theme's properties. This will be cloned and, therefore, can't be
+// modified
+const defaultThemeProperties = new Map<ThemeProperty, unknown>([
+    [ThemeProperty.CanvasFill, 'rgba(0,0,0,0.5)'], // 50% opaque black
+    [ThemeProperty.ContainerPadding, <Padding>{
+        left: 4,
+        right: 4,
+        top: 4,
+        bottom: 4,
+    }],
+    [ThemeProperty.ContainerAlignment, <Alignment2D>{
+        horizontal: Alignment.Start, vertical: Alignment.Start
+    }],
+    [ThemeProperty.ContainerSpacing, 4],
+    [ThemeProperty.PrimaryFill, 'rgb(0,127,255)'], // Azure blue
+    [ThemeProperty.AccentFill, 'rgb(0,195,255)'], // Greener azure blue
+    [ThemeProperty.BackgroundFill, 'rgb(32,32,32)'], // Dark grey
+    [ThemeProperty.BackgroundGlowFill, 'rgb(48,48,48)'], // Lighter dark grey
+    [ThemeProperty.SliderFlexRatio, 1],
+    [ThemeProperty.SliderMainBasis, 100],
+    [ThemeProperty.SliderCrossBasis, 10],
+    [ThemeProperty.BodyTextFont, '16px sans'],
+    [ThemeProperty.BodyTextFill, 'white'],
+    [ThemeProperty.LabelMinWidth, 0],
+    [ThemeProperty.LabelMinAscent, 0],
+    [ThemeProperty.LabelMinDescent, 3],
+    [ThemeProperty.CheckboxLength, 12],
+    [ThemeProperty.CheckboxInnerPadding, 2],
+    [ThemeProperty.InputBackgroundFill, 'white'],
+    [ThemeProperty.InputTextFont, '16px mono'],
+    [ThemeProperty.InputTextFill, 'black'],
+    [ThemeProperty.InputTextFillDisabled, 'grey'],
+    [ThemeProperty.InputTextFillInvalid, 'red'],
+    [ThemeProperty.InputTextFlexRatio, 1],
+    [ThemeProperty.InputTextMinWidth, 100],
+    [ThemeProperty.InputTextMinAscent, 16],
+    [ThemeProperty.InputTextMinDescent, 3],
+    [ThemeProperty.BlinkRate, 0.8],
+    [ThemeProperty.CursorPadding, 2],
+    [ThemeProperty.CursorThickness, 2],
+    [ThemeProperty.ScrollBarThickness, 10],
+]);
 
 /**
  * A theme. Provides styling for widgets.
@@ -21,9 +64,15 @@ export class Theme {
      * Creates a new Theme.
      *
      * Sets {@link properties} and {@link fallback}.
+     *
+     * @param properties This theme's {@link ThemeProperty} values. If null, the default theme properties are used, which consist of mostly semi-transparent black backgrounds and azure blue accents, inspired by material design colours.
      */
-    constructor(properties: Map<ThemeProperty, unknown>, fallback: Theme | null = null) {
-        this.properties = properties;
+    constructor(properties: Map<ThemeProperty, unknown> | null = null, fallback: Theme | null = null) {
+        if(properties === null)
+            this.properties = new Map(defaultThemeProperties);
+        else
+            this.properties = properties;
+
         this.fallback = fallback;
     }
 
@@ -52,12 +101,10 @@ export class Theme {
 
     /**
      * Same as {@link getProperty}, but with type checking for string.
-     * @deprecated
+     * For internal use only.
      */
-    getString(themeProperty: ThemeProperty): string {
+    private getString(themeProperty: ThemeProperty): string {
         const value = this.getProperty(themeProperty);
-
-        // TODO make this private and remove deprecated
 
         if(typeof value !== 'string')
             throw new Error(`Theme property ${themeProperty} is not a string`);
@@ -102,13 +149,5 @@ export class Theme {
     /** Equivalent to {@link getString} */
     getFont(themeProperty: ThemeProperty): string {
         return this.getString(themeProperty);
-    }
-
-    /**
-     * Equivalent to {@link getNumber}
-     * @deprecated
-     */
-    getSize(themeProperty: ThemeProperty): number {
-        return this.getNumber(themeProperty);
     }
 }

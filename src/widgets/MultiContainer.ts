@@ -35,7 +35,7 @@ export class MultiContainer extends MultiParent {
 
     protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         // Find which widget the event should go to
-        const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
+        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
         for(const child of this.children) {
             // Ignore disabled children
             if(!child.enabled)
@@ -122,7 +122,7 @@ export class MultiContainer extends MultiParent {
 
         // Add spacing to main basis
         const childrenCount = this.childCount;
-        const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
+        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
         if(childrenCount > 1 && spacing > 0) {
             const totalSpacing = spacing * (childrenCount - 1);
             if(usedContext.vertical)
@@ -213,7 +213,7 @@ export class MultiContainer extends MultiParent {
 
         // Dimensions are bounding box of combined resolved children plus
         // spacing
-        const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
+        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
         let totalSpacing = 0;
         if(count > 1 && spacing > 0)
             totalSpacing = spacing * (count - 1);
@@ -232,7 +232,7 @@ export class MultiContainer extends MultiParent {
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
         // Clear background if never cleared before and there is spacing
-        const spacing = this.theme.getSize(ThemeProperty.ContainerSpacing);
+        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
         if(this.backgroundDirty && spacing > 0)
             this.clear(x, y, width, height, ctx);
 

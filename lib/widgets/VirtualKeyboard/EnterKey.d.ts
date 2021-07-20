@@ -8,5 +8,5 @@ import { BasicKey } from './BasicKey';
  */
 export declare class EnterKey extends BasicKey {
     /** Create a new EnterKey. */
-    constructor(keyContext: KeyContext, themeOverride?: Theme | null);
+    constructor(keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
 }

@@ -152,7 +152,7 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Use theme settings for thickness and forbid flex ratio
         this.flexRatio = 0;
-        this.crossBasis = this.theme.getSize(ThemeProperty.ScrollBarThickness);
+        this.crossBasis = this.theme.getNumber(ThemeProperty.ScrollBarThickness);
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {

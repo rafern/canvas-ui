@@ -91,9 +91,9 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
 
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Use theme settings for flex ratio and basis
-        this.flexRatio = this.theme.getSize(ThemeProperty.SliderFlexRatio);
-        this.mainBasis = this.theme.getSize(ThemeProperty.SliderMainBasis);
-        this.crossBasis = this.theme.getSize(ThemeProperty.SliderCrossBasis);
+        this.flexRatio = this.theme.getNumber(ThemeProperty.SliderFlexRatio);
+        this.mainBasis = this.theme.getNumber(ThemeProperty.SliderMainBasis);
+        this.crossBasis = this.theme.getNumber(ThemeProperty.SliderCrossBasis);
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {

@@ -9,7 +9,7 @@ import { BasicKey } from './BasicKey';
  */
 export class SpaceKey extends BasicKey {
     /** Create a new SpaceKey. */
-    constructor(keyContext: KeyContext, themeOverride: Theme | null = null) {
-        super('Space', ' ', keyContext, themeOverride);
+    constructor(keyContext: KeyContext, flexRatio = 1, mainBasis = 84, crossBasis = 24, themeOverride: Theme | null = null) {
+        super('Space', ' ', keyContext, flexRatio, mainBasis, crossBasis, themeOverride);
     }
 }

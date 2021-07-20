@@ -78,11 +78,11 @@ Sets [child](root.md#child), [pointerStyleHandler](root.md#pointerstylehandler) 
 | :------ | :------ | :------ | :------ |
 | `child` | [`Widget`](widget.md) | `undefined` | - |
 | `pointerStyleHandler` | ``null`` \| [`PointerStyleHandler`](../README.md#pointerstylehandler) | `null` | - |
-| `theme` | [`Theme`](theme.md) | `undefined` | By default, the theme is [defaultTheme](../README.md#defaulttheme) |
+| `theme` | [`Theme`](theme.md) | `undefined` | If none supplied, then the default theme found in [Theme.constructor](theme.md#constructor) is used |
 
 #### Defined in
 
-[core/Root.ts:89](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L89)
+[core/Root.ts:88](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L88)
 
 ## Properties
 
@@ -98,7 +98,7 @@ See [pointerStyle](root.md#pointerstyle)
 
 #### Defined in
 
-[core/Root.ts:43](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L43)
+[core/Root.ts:42](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L42)
 
 ___
 
@@ -112,7 +112,7 @@ See [enabled](root.md#enabled)
 
 #### Defined in
 
-[core/Root.ts:30](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L30)
+[core/Root.ts:29](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L29)
 
 ___
 
@@ -129,7 +129,7 @@ See [requestFocus](root.md#requestfocus), [dropFocus](root.md#dropfocus), [clear
 
 #### Defined in
 
-[core/Root.ts:57](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L57)
+[core/Root.ts:56](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L56)
 
 ___
 
@@ -146,7 +146,7 @@ See [getFocusCapturer](root.md#getfocuscapturer)
 
 #### Defined in
 
-[core/Root.ts:69](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L69)
+[core/Root.ts:68](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L68)
 
 ___
 
@@ -163,7 +163,7 @@ See [hasMobileTextInput](root.md#hasmobiletextinput), [usingMobileTextInput](roo
 
 #### Defined in
 
-[core/Root.ts:89](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L89)
+[core/Root.ts:88](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L88)
 
 ___
 
@@ -175,7 +175,7 @@ The Root's child; the parent Widget of all widgets in this Root
 
 #### Defined in
 
-[core/Root.ts:20](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L20)
+[core/Root.ts:19](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L19)
 
 ___
 
@@ -187,7 +187,7 @@ The list of drivers registered to this root
 
 #### Defined in
 
-[core/Root.ts:24](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L24)
+[core/Root.ts:23](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L23)
 
 ___
 
@@ -200,7 +200,7 @@ The pointer style this root wants. Will be set on
 
 #### Defined in
 
-[core/Root.ts:35](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L35)
+[core/Root.ts:34](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L34)
 
 ___
 
@@ -213,7 +213,7 @@ Normally a function which sets the CSS cursor style of the Root's canvas
 
 #### Defined in
 
-[core/Root.ts:48](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L48)
+[core/Root.ts:47](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L47)
 
 ___
 
@@ -229,7 +229,7 @@ See [hasMobileTextInput](root.md#hasmobiletextinput), [usingMobileTextInput](roo
 
 #### Defined in
 
-[core/Root.ts:80](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L80)
+[core/Root.ts:79](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L79)
 
 ___
 
@@ -241,7 +241,7 @@ The internal viewport. Manages drawing
 
 #### Defined in
 
-[core/Root.ts:22](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L22)
+[core/Root.ts:21](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L21)
 
 ## Accessors
 
@@ -257,7 +257,7 @@ The [viewport](root.md#viewport)'s [canvas](viewport.md#canvas)
 
 #### Defined in
 
-[core/Root.ts:173](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L173)
+[core/Root.ts:172](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L172)
 
 ___
 
@@ -274,7 +274,7 @@ The [viewport](root.md#viewport)'s
 
 #### Defined in
 
-[core/Root.ts:121](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L121)
+[core/Root.ts:120](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L120)
 
 ___
 
@@ -290,7 +290,7 @@ The [child](root.md#child)'s [dimensions](widget.md#dimensions)
 
 #### Defined in
 
-[core/Root.ts:128](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L128)
+[core/Root.ts:127](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L127)
 
 ___
 
@@ -312,7 +312,7 @@ See [_enabled](root.md#_enabled)
 
 #### Defined in
 
-[core/Root.ts:141](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L141)
+[core/Root.ts:140](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L140)
 
 • `set` **enabled**(`newEnabled`): `void`
 
@@ -336,7 +336,7 @@ See [_enabled](root.md#_enabled)
 
 #### Defined in
 
-[core/Root.ts:145](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L145)
+[core/Root.ts:144](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L144)
 
 ___
 
@@ -353,7 +353,7 @@ not null and [usingMobileTextInput](root.md#usingmobiletextinput) is false.
 
 #### Defined in
 
-[core/Root.ts:446](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L446)
+[core/Root.ts:445](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L445)
 
 ___
 
@@ -369,7 +369,7 @@ The [viewport](root.md#viewport)'s [maxDimensions](viewport.md#maxdimensions)
 
 #### Defined in
 
-[core/Root.ts:109](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L109)
+[core/Root.ts:108](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L108)
 
 • `set` **maxDimensions**(`maxDimensions`): `void`
 
@@ -387,7 +387,7 @@ The [viewport](root.md#viewport)'s [maxDimensions](viewport.md#maxdimensions)
 
 #### Defined in
 
-[core/Root.ts:113](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L113)
+[core/Root.ts:112](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L112)
 
 ___
 
@@ -405,7 +405,7 @@ See [_mobileTextInUse](root.md#_mobiletextinuse).
 
 #### Defined in
 
-[core/Root.ts:455](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L455)
+[core/Root.ts:454](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L454)
 
 ## Methods
 
@@ -422,7 +422,7 @@ Unregisters all [drivers](root.md#drivers) from the root, by calling
 
 #### Defined in
 
-[core/Root.ts:436](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L436)
+[core/Root.ts:435](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L435)
 
 ___
 
@@ -446,7 +446,7 @@ focus set, [drivers](root.md#drivers) are notified by calling
 
 #### Defined in
 
-[core/Root.ts:377](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L377)
+[core/Root.ts:376](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L376)
 
 ___
 
@@ -477,7 +477,7 @@ focus type of the event will be cleared in the root with
 
 #### Defined in
 
-[core/Root.ts:225](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L225)
+[core/Root.ts:224](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L224)
 
 ___
 
@@ -501,7 +501,7 @@ currently set to a given widget. Achieved by calling [clearFocus](root.md#clearf
 
 #### Defined in
 
-[core/Root.ts:364](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L364)
+[core/Root.ts:363](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L363)
 
 ___
 
@@ -523,7 +523,7 @@ Gets the current [focus](root.md#_foci) of a given type.
 
 #### Defined in
 
-[core/Root.ts:392](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L392)
+[core/Root.ts:391](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L391)
 
 ___
 
@@ -545,7 +545,7 @@ Gets the last [focus capturer](root.md#_focicapturers) of a given type.
 
 #### Defined in
 
-[core/Root.ts:399](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L399)
+[core/Root.ts:398](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L398)
 
 ___
 
@@ -570,7 +570,7 @@ If this is already in use ([usingMobileTextInput](root.md#usingmobiletextinput))
 
 #### Defined in
 
-[core/Root.ts:465](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L465)
+[core/Root.ts:464](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L464)
 
 ___
 
@@ -593,7 +593,7 @@ Returns whether the child was dirty or not. Use this to tell an external 3D libr
 
 #### Defined in
 
-[core/Root.ts:205](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L205)
+[core/Root.ts:204](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L204)
 
 ___
 
@@ -614,7 +614,7 @@ Call this before calling [paint](root.md#paint) and after calling
 
 #### Defined in
 
-[core/Root.ts:312](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L312)
+[core/Root.ts:311](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L311)
 
 ___
 
@@ -634,7 +634,7 @@ Call this before calling [resolveLayout](root.md#resolvelayout)
 
 #### Defined in
 
-[core/Root.ts:290](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L290)
+[core/Root.ts:289](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L289)
 
 ___
 
@@ -658,7 +658,7 @@ registered, nothing happens.
 
 #### Defined in
 
-[core/Root.ts:408](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L408)
+[core/Root.ts:407](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L407)
 
 ___
 
@@ -683,7 +683,7 @@ are notified by calling [Driver.onFocusChanged](../interfaces/driver.md#onfocusc
 
 #### Defined in
 
-[core/Root.ts:346](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L346)
+[core/Root.ts:345](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L345)
 
 ___
 
@@ -705,7 +705,7 @@ Call this before calling [postLayoutUpdate](root.md#postlayoutupdate) and after 
 
 #### Defined in
 
-[core/Root.ts:186](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L186)
+[core/Root.ts:185](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L185)
 
 ___
 
@@ -729,7 +729,7 @@ was not registered, nothing happens.
 
 #### Defined in
 
-[core/Root.ts:423](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L423)
+[core/Root.ts:422](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L422)
 
 ___
 
@@ -754,4 +754,4 @@ pointer style.
 
 #### Defined in
 
-[core/Root.ts:330](https://github.com/playkostudios/canvas-ui/blob/4e43a87/src/core/Root.ts#L330)
+[core/Root.ts:329](https://github.com/playkostudios/canvas-ui/blob/d57dd85/src/core/Root.ts#L329)
