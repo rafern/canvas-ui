@@ -7,6 +7,12 @@ Documentation is available in the [docs folder](docs/README.md).
 Unity integration can be found in the 
 [canvas-ui-unity repository](https://github.com/playkostudios/canvas-ui-unity).
 
+three.js integration can be found in the 
+[canvas-ui-three repository](https://github.com/playkostudios/canvas-ui-three).
+
+Wonderland Engine integration can be found in the 
+[canvas-ui-wl repository](https://github.com/playkostudios/canvas-ui-wl).
+
 ## Example
 
 A simple example with a single canvas, pointer and keyboard input. This can be
