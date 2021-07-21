@@ -1,6 +1,6 @@
 {
   "name": "canvas-ui",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A Typescript UI library which uses HTML canvases",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
