@@ -15,8 +15,9 @@
     "package.json"
   ],
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Playko",
+  "license": "UNLICENSED",
+  "private": true,
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-node-resolve": "^13.0.0",
