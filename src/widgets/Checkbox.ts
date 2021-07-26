@@ -12,6 +12,12 @@ import { Widget } from './Widget';
  * @category Widget
  */
 export class Checkbox extends Widget {
+    /** Horizontal offset. */
+    private offsetX = 0;
+    /** Vertical offset. */
+    private offsetY = 0;
+    /** Actual length after resolving layout. */
+    private actualLength = 0;
     /** The helper for handling pointer clicks */
     protected clickHelper: ClickHelper;
     /** The helper for keeping track of the checkbox value */
@@ -81,9 +87,15 @@ export class Checkbox extends Widget {
             this._dirty = true;
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Find actual length
+        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
+        this.actualLength = Math.min(Math.max(length, minWidth, maxHeight), maxWidth, maxHeight);
+    }
+
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
         // Find checkbox rect
-        const [bx, br, by, _bb] = this.getBoxRect(x, y, width, height);
+        const [bx, br, by, _bb] = this.getBoxRect(x, y, this.width, this.height);
         const actualLength = br - bx;
 
         // Should we use glow colours? (background glow and accent)
