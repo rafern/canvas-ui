@@ -5,11 +5,7 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
-declare const FlexContainer_base: import("ts-mixer/dist/types/types").Class<[child: Widget, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & SingleParent, {
-    prototype: FlexLayout;
-} & {
-    prototype: SingleParent;
-}>;
+declare const FlexContainer_base: import("ts-mixer/dist/types/types").Class<any[], FlexLayout & SingleParent, typeof FlexLayout & typeof SingleParent, false>;
 /**
  * A {@link SingleParent} which contains a single child and automatically paints
  * the child, propagates events (if enabled) and handles layout. Like

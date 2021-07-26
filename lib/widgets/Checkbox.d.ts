@@ -1,28 +1,28 @@
-import { BooleanVariable, VariableCallback } from '../mixins/Variable';
-import { Clickable } from '../mixins/Clickable';
+import { Variable, VariableCallback } from '../aggregates/Variable';
+import { ClickHelper } from '../aggregates/ClickHelper';
 import { BoxLayout } from '../mixins/BoxLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
-declare const Checkbox_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], BoxLayout & Clickable & BooleanVariable, {
-    prototype: BoxLayout;
-} & {
-    prototype: Clickable;
-} & {
-    prototype: BooleanVariable;
-}>;
 /**
  * A checkbox widget; can be ticked or unticked.
  *
  * @category Widget
  */
-export declare class Checkbox extends Checkbox_base {
+export declare class Checkbox extends BoxLayout {
+    /** The helper for handling pointer clicks */
+    protected clickHelper: ClickHelper;
+    /** The helper for keeping track of the checkbox value */
+    protected variable: Variable<boolean>;
     /**
      * Create a new Checkbox.
      *
      * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
     constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
+    /** Is the checkbox checked? */
+    set checked(checked: boolean);
+    get checked(): boolean;
     /**
      * Get the rectangle where the checkbox will be painted.
      *
@@ -33,4 +33,3 @@ export declare class Checkbox extends Checkbox_base {
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
 }
-export {};

@@ -1,16 +1,16 @@
 import { PointerRelease } from '../events/PointerRelease';
 import { PointerPress } from '../events/PointerPress';
 import { PointerEvent } from '../events/PointerEvent';
+import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
-import { Widget } from '../widgets/Widget';
 import { Leave } from '../events/Leave';
 
 /**
- * The current state of a {@link Clickable}
+ * The current state of a {@link ClickHelper}
  *
- * @category Mixin
+ * @category Aggregate
  */
 export enum ClickState {
     /** No pointer is hovering over this clickable widget */
@@ -22,35 +22,42 @@ export enum ClickState {
 }
 
 /**
- * A mixin class for widgets that can be clicked.
+ * An aggregate helper class for widgets that can be clicked.
  *
  * Keeps its current click state as well as its last click state, last pointer
  * position and whether the last click state change resulted in an actual click.
  *
- * @category Mixin
+ * @category Aggregate
  */
-export class Clickable extends Widget {
+export class ClickHelper {
     /** Last click state */
-    protected lastClickState: ClickState = ClickState.Released;
+    lastClickState: ClickState = ClickState.Released;
     /** The current click state */
-    protected clickState: ClickState = ClickState.Released;
+    clickState: ClickState = ClickState.Released;
     /** Did the last click event handle result in a click state change? */
-    protected clickStateChanged = false;
+    clickStateChanged = false;
     /** Did the last click state change result in a click? */
-    protected wasClick = false;
+    wasClick = false;
     /**
      * Last pointer position in normalised coordinates ([0,0] to [1,1]). If
      * there is no last pointer position, such as after a leave event, this will
      * be null. If pointer position was outside box, it will be beyond the [0,0]
      * to [1,1] range.
      */
-    protected pointerPos: [number, number] | null = null;
+    pointerPos: [number, number] | null = null;
     /**
      * Like {@link pointerPos}, but only updated when a hold state begins.
      *
      * Useful for implementing draggable widgets.
      */
-    protected startingPointerPos: [number, number] | null = null;
+    startingPointerPos: [number, number] | null = null;
+
+    /**
+     * Create a new ClickHelper
+     *
+     * @param widget The Widget aggregating this helper
+     */
+    constructor(private widget: Widget) {}
 
     /**
      * Normalise pointer coordinates inside a rectangle
@@ -63,7 +70,7 @@ export class Clickable extends Widget {
      * @param rBottom Rectangle's bottom coordinate, in pixels
      * @returns Returns normalised coordinates
      */
-    protected getNormalInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): [number, number] {
+    getNormalInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): [number, number] {
         return [(pX - rLeft) / (rRight - rLeft), (pY - rTop) / (rBottom - rTop)];
     }
 
@@ -78,7 +85,7 @@ export class Clickable extends Widget {
      * @param rBottom Rectangle's bottom coordinate, in pixels
      * @returns Returns true if [pX, pY] is inside the rectangle, else, false
      */
-    protected isPointInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): boolean {
+    isPointInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): boolean {
         return pX >= rLeft && pX < rRight && pY >= rTop && pY < rBottom;
     }
 
@@ -92,7 +99,7 @@ export class Clickable extends Widget {
      * @param pY Pointer Y coordinate, normalised
      * @returns Returns true if [pX, pY] is inside the rectangle, else, false
      */
-    protected isNormalInRect(pX: number, pY: number): boolean {
+    isNormalInRect(pX: number, pY: number): boolean {
         return pX >= 0 && pX < 1 && pY >= 0 && pY < 1;
     }
 
@@ -119,10 +126,10 @@ export class Clickable extends Widget {
      * {@link _foci | focus}, {@link pointerStyle}, {@link wasClick} and
      * {@link clickStateChanged} flags.
      */
-    protected handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void {
+    handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void {
         if(event instanceof Leave) {
             // Drop focus on this widget if this is a leave event
-            root.dropFocus(FocusType.Pointer, this);
+            root.dropFocus(FocusType.Pointer, this.widget);
             this.pointerPos = null;
             return this.setClickState(ClickState.Released, false);
         }
@@ -138,7 +145,7 @@ export class Clickable extends Widget {
             if(inside)
                 root.pointerStyle = 'pointer';
             else if(event.target === null) {
-                root.dropFocus(FocusType.Pointer, this);
+                root.dropFocus(FocusType.Pointer, this.widget);
                 return this.setClickState(ClickState.Released, false);
             }
 
@@ -146,13 +153,13 @@ export class Clickable extends Widget {
             // pointer coordinates
             if(event instanceof PointerPress) {
                 this.startingPointerPos = this.pointerPos;
-                root.requestFocus(FocusType.Pointer, this);
+                root.requestFocus(FocusType.Pointer, this.widget);
                 return this.setClickState(ClickState.Hold, inside);
             }
 
             // If this is a release event, drop focus
             if(event instanceof PointerRelease) {
-                root.dropFocus(FocusType.Pointer, this);
+                root.dropFocus(FocusType.Pointer, this.widget);
                 if(inside)
                     return this.setClickState(ClickState.Hover, inside);
                 else

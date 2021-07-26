@@ -139,8 +139,8 @@ export class ScrollableViewportWidget extends PassthroughWidget {
 
     /** Reset both scroll offsets to 0. */
     resetScroll(): void {
-        this.hScroll.value = 0;
-        this.vScroll.value = 0;
+        this.hScroll.scroll = 0;
+        this.vScroll.scroll = 0;
     }
 
     override handlePreLayoutUpdate(root: Root): void {
@@ -149,14 +149,14 @@ export class ScrollableViewportWidget extends PassthroughWidget {
         if(outerW < innerW && !this.hScrollHide)
             this.hScroll.enabled = true;
         else {
-            this.hScroll.value = 0;
+            this.hScroll.scroll = 0;
             this.hScroll.enabled = false;
         }
 
         if(outerH < innerH && !this.vScrollHide)
             this.vScroll.enabled = true;
         else {
-            this.vScroll.value = 0;
+            this.vScroll.scroll = 0;
             this.vScroll.enabled = false;
         }
 

@@ -1,6 +1,5 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { BooleanVariable, VariableCallback } from '../mixins/Variable';
-import { Clickable, ClickState } from '../mixins/Clickable';
+import { Variable, VariableCallback } from '../aggregates/Variable';
+import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { BoxLayout } from '../mixins/BoxLayout';
 import type { Event } from '../events/Event';
@@ -12,7 +11,12 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
+export class Checkbox extends BoxLayout {
+    /** The helper for handling pointer clicks */
+    protected clickHelper: ClickHelper;
+    /** The helper for keeping track of the checkbox value */
+    protected variable: Variable<boolean>;
+
     /**
      * Create a new Checkbox.
      *
@@ -24,8 +28,19 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
         super(themeOverride, true, false);
 
         // Save callback and initial value
-        this.callback = callback;
-        this.setValue(initialValue, false);
+        this.variable = new Variable<boolean>(initialValue, callback);
+
+        // Setup click helper
+        this.clickHelper = new ClickHelper(this);
+    }
+
+    /** Is the checkbox checked? */
+    set checked(checked: boolean) {
+        this.variable.value = checked;
+    }
+
+    get checked(): boolean {
+        return this.variable.value;
     }
 
     /**
@@ -48,9 +63,9 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
     protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
         // Check if checkbox rectangle was pressed and swap value if so
         const clickArea = this.getBoxRect(0, 0, width, height);
-        this.handleClickEvent(event, root, clickArea);
-        if(this.clickStateChanged && this.wasClick)
-            this.value = !this.value;
+        this.clickHelper.handleClickEvent(event, root, clickArea);
+        if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick)
+            this.checked = !this.checked;
 
         return this;
     }
@@ -60,6 +75,10 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
         const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
         this.boxWidth = length;
         this.boxHeight = length;
+
+        // Mark as dirty if variable is dirty
+        if(this.variable.dirty)
+            this._dirty = true;
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
@@ -68,7 +87,8 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
         const actualLength = br - bx;
 
         // Should we use glow colours? (background glow and accent)
-        const useGlow = [ClickState.Hover, ClickState.Hold].includes(this.clickState);
+        const useGlow = this.clickHelper.clickState === ClickState.Hover ||
+                        this.clickHelper.clickState === ClickState.Hold;
 
         // Draw unchecked part of checkbox
         if(useGlow)
@@ -78,7 +98,7 @@ export class Checkbox extends Mixin(BoxLayout, Clickable, BooleanVariable) {
         ctx.fillRect(bx, by, actualLength, actualLength);
 
         // Draw checked part of checkbox
-        if(this.value) {
+        if(this.checked) {
             if(useGlow)
                 ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
             else

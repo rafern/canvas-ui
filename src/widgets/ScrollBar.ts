@@ -1,6 +1,5 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { NumberVariable, VariableCallback } from '../mixins/Variable';
-import { Clickable, ClickState } from '../mixins/Clickable';
+import { Variable, VariableCallback } from '../aggregates/Variable';
+import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
@@ -12,7 +11,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
+export class ScrollBar extends FlexLayout {
     /**
      * The scrollbar's end. Maximum value will be
      * max(min(end - {@link barLength}, {@link value}), 0).
@@ -22,6 +21,10 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
     private _barLength: number;
     /** What was the value when dragging began? */
     private dragValue: number;
+    /** The helper for handling pointer clicks/drags */
+    protected clickHelper: ClickHelper;
+    /** The helper for keeping track of the scrollbar's scroll percentage */
+    protected variable: Variable<number>;
 
     /** Create a new ScrollBar */
     constructor(callback: VariableCallback<number> | null = null, end = 100, barLength = 100, initialValue = 0, themeOverride: Theme | null = null) {
@@ -29,11 +32,20 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         // propagate events
         super(themeOverride, true, false);
 
-        this.callback = callback;
-        this.setValue(initialValue, false);
+        this.clickHelper = new ClickHelper(this);
+        this.variable = new Variable<number>(initialValue, callback);
         this._end = end;
         this._barLength = barLength;
         this.dragValue = initialValue;
+    }
+
+    /** The scrollbar's scroll percentage (0 to 1) */
+    set scroll(scroll: number) {
+        this.variable.value = Math.max(Math.min(this._end - this._barLength, scroll), 0);
+    }
+
+    get scroll(): number {
+        return this.variable.value;
     }
 
     /**
@@ -73,13 +85,6 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         }
     }
 
-    override setValue(value: number, doCallback = true): void {
-        super.setValue(
-            Math.max(Math.min(this._end - this._barLength, value), 0),
-            doCallback,
-        );
-    }
-
     /**
      * Get the rectangle where the scrollbar will be painted.
      *
@@ -100,50 +105,49 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
 
     protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
         // Handle click event
-        this.handleClickEvent(
+        this.clickHelper.handleClickEvent(
             event,
             root,
             this.getBarRect(0, 0, width, height),
         );
 
         // If the bar is currently being held, update value
-        if(this.clickState == ClickState.Hold && this.pointerPos !== null) {
+        if(this.clickHelper.clickState == ClickState.Hold && this.clickHelper.pointerPos !== null) {
             // Interpolate and update value, taking drag into account
-            if(this.clickStateChanged) {
+            if(this.clickHelper.clickStateChanged) {
                 // If not inside filled part of bar, snap value
                 let clickVal;
                 if(this.lastVertical)
-                    clickVal = this.pointerPos[1] * this._end;
+                    clickVal = this.clickHelper.pointerPos[1] * this._end;
                 else
-                    clickVal = this.pointerPos[0] * this._end;
+                    clickVal = this.clickHelper.pointerPos[0] * this._end;
 
-                let value = this.value;
-                if(value === null)
-                    value = 0;
-
-                if(clickVal < value || clickVal >= (value + this._barLength)) {
-                    value = clickVal - this._barLength / 2;
-                    this.value = value;
+                let scroll = this.scroll;
+                if(clickVal < scroll || clickVal >= (scroll + this._barLength)) {
+                    scroll = clickVal - this._barLength / 2;
+                    this.scroll = scroll;
                 }
 
-                this.dragValue = value;
+                this.dragValue = scroll;
             }
             else {
-                if(this.startingPointerPos !== null) {
+                if(this.clickHelper.startingPointerPos !== null) {
                     let dragChange;
                     if(this.lastVertical)
-                        dragChange = this.pointerPos[1] - this.startingPointerPos[1];
+                        dragChange = this.clickHelper.pointerPos[1]
+                                     - this.clickHelper.startingPointerPos[1];
                     else
-                        dragChange = this.pointerPos[0] - this.startingPointerPos[0];
+                        dragChange = this.clickHelper.pointerPos[0]
+                                     - this.clickHelper.startingPointerPos[0];
 
-                    this.value = this.dragValue + dragChange * this._end;
+                    this.scroll = this.dragValue + dragChange * this._end;
                 }
             }
         }
 
         // Always flag as dirty if the click state changed (so glow colour takes
         // effect)
-        if(this.clickStateChanged)
+        if(this.clickHelper.clickStateChanged)
             this._dirty = true;
 
         return this;
@@ -153,6 +157,10 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         // Use theme settings for thickness and forbid flex ratio
         this.flexRatio = 0;
         this.crossBasis = this.theme.getNumber(ThemeProperty.ScrollBarThickness);
+
+        // Mark as dirty if variable is dirty
+        if(this.variable.dirty)
+            this._dirty = true;
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
@@ -160,11 +168,7 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         const [sl, sr, st, sb] = this.getBarRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];
 
-        let value = this.value;
-        if(value === null)
-            value = 0;
-
-        const start = value / this._end;
+        const start = this.scroll / this._end;
         const percent = this._barLength / this._end;
 
         // Draw empty part of bar
@@ -174,7 +178,7 @@ export class ScrollBar extends Mixin(FlexLayout, Clickable, NumberVariable) {
         // Draw filled part of bar
         // Use accent colour if hovering or holding
         const accentStates = [ClickState.Hover, ClickState.Hold];
-        if(accentStates.includes(this.clickState))
+        if(accentStates.includes(this.clickHelper.clickState))
             ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);

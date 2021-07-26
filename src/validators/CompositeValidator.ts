@@ -1,5 +1,5 @@
 import type { Validator, UnknownValidator } from './Validator';
-import { VariableCallback } from '../mixins/Variable';
+import { VariableCallback } from '../aggregates/Variable';
 
 /**
  * Creates a new {@link Validator} which is a list of validators merged into

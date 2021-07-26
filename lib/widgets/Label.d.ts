@@ -1,5 +1,5 @@
+import { TextHelper } from '../aggregates/TextHelper';
 import { FlexLayout } from '../mixins/FlexLayout';
-import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 /**
@@ -9,28 +9,25 @@ import type { Root } from '../core/Root';
  * @category Widget
  */
 export declare type TextGetter = () => string;
-declare const Label_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & Labelable, {
-    prototype: FlexLayout;
-} & {
-    prototype: Labelable;
-}>;
 /**
  * A flexbox widget which displays line of text.
  *
  * @category Widget
  */
-export declare class Label extends Label_base {
+export declare class Label extends FlexLayout {
     /**
-     * The text getter. If this is not null, text will be updated with the
-     * return value of this callback, every update.
+     * The text getter source. If this is not null, text will be updated with
+     * the return value of this callback, every update.
      */
     private textGetter;
+    /** The helper for measuring/painting text */
+    protected textHelper: TextHelper;
     /**
      * Create a new Label.
      *
-     * @param text The text source of the label. Has the same behaviour as setting {@link text}.
+     * @param source The text source of the label. Has the same behaviour as setting {@link source}.
      */
-    constructor(text: string | TextGetter, themeOverride?: Theme | null);
+    constructor(source: string | TextGetter, themeOverride?: Theme | null);
     /**
      * This label's text source. If you want to get the current text string,
      * then use {@link currentText} instead.
@@ -41,14 +38,22 @@ export declare class Label extends Label_base {
      * When getting, if {@link textGetter} is set, then it is returned, else,
      * {@link _text} is returned.
      */
-    set text(text: string | TextGetter);
-    get text(): string | TextGetter;
+    set source(source: string | TextGetter);
+    get source(): string | TextGetter;
+    /** The current minimum text width. */
+    set minWidth(minWidth: number);
+    get minWidth(): number;
+    /** The current minimum text ascent height. */
+    set minAscent(minAscent: number);
+    get minAscent(): number;
+    /** The current minimum text descent height. */
+    set minDescent(minDescent: number);
+    get minDescent(): number;
     /**
-     * Gets {@link _text}. If you want to get the current text source, then use
-     * {@link text} instead.
+     * The current text value. If you want to get the current text source, then
+     * use {@link source} instead.
      */
-    get currentText(): string;
+    get text(): string;
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void;
 }
-export {};

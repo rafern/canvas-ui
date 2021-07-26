@@ -1,18 +1,11 @@
 import type { TextValidator } from '../validators/Validator';
-import { StringVariable } from '../mixins/Variable';
+import { TextHelper } from '../aggregates/TextHelper';
 import { FlexLayout } from '../mixins/FlexLayout';
-import { Labelable } from '../mixins/Labelable';
+import { Variable } from '../aggregates/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
-declare const TextInput_base: import("ts-mixer/dist/types/types").Class<[themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean], FlexLayout & Labelable & StringVariable, {
-    prototype: FlexLayout;
-} & {
-    prototype: Labelable;
-} & {
-    prototype: StringVariable;
-}>;
 /**
  * A flexbox widget that allows for a single line of text input.
  *
@@ -27,7 +20,7 @@ declare const TextInput_base: import("ts-mixer/dist/types/types").Class<[themeOv
  *
  * @category Widget
  */
-export declare class TextInput<V> extends TextInput_base {
+export declare class TextInput<V> extends FlexLayout {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -52,6 +45,10 @@ export declare class TextInput<V> extends TextInput_base {
     private _valid;
     /** Last valid value. */
     private _validValue;
+    /** The helper for measuring/painting text */
+    protected textHelper: TextHelper;
+    /** The helper for keeping track of the input value */
+    protected variable: Variable<string>;
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, initialValue?: string, themeOverride?: Theme | null);
     /**
@@ -77,15 +74,27 @@ export declare class TextInput<V> extends TextInput_base {
      */
     get hideText(): boolean;
     set hideText(hideText: boolean);
+    /** The current text value. */
+    set text(text: string);
+    get text(): string;
     /**
      * Get the text as it is shown. If the text is hidden, all characters are
      * replaced with a black circle.
      */
-    get text(): string;
+    get displayedText(): string;
     /** Is the current value in the text input valid? */
     get valid(): boolean;
     /** The last valid value, transformed by the validator. */
     get validValue(): V;
+    /** The current minimum text width. */
+    set minWidth(minWidth: number);
+    get minWidth(): number;
+    /** The current minimum text ascent height. */
+    set minAscent(minAscent: number);
+    get minAscent(): number;
+    /** The current minimum text descent height. */
+    set minDescent(minDescent: number);
+    get minDescent(): number;
     /**
      * Move the cursor to a given index.
      *
@@ -116,4 +125,3 @@ export declare class TextInput<V> extends TextInput_base {
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
 }
-export {};

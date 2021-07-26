@@ -1,4 +1,4 @@
-import type { VariableCallback } from '../mixins/Variable';
+import type { VariableCallback } from '../aggregates/Variable';
 import type { Theme } from '../theme/Theme';
 import type { TextGetter } from './Label';
 import { Row } from './Row';

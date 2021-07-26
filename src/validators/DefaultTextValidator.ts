@@ -1,4 +1,4 @@
-import type { VariableCallback } from '../mixins/Variable';
+import type { VariableCallback } from '../aggregates/Variable';
 import type { TextValidator } from './Validator';
 
 /**

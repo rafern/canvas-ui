@@ -1,12 +1,11 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
 import type { TextValidator } from '../validators/Validator';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
-import { StringVariable } from '../mixins/Variable';
 import { FlexLayout } from '../mixins/FlexLayout';
-import { Labelable } from '../mixins/Labelable';
+import { Variable } from '../aggregates/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
@@ -27,7 +26,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
+export class TextInput<V> extends FlexLayout {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -52,6 +51,10 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
     private _valid;
     /** Last valid value. */
     private _validValue;
+    /** The helper for measuring/painting text */
+    protected textHelper: TextHelper;
+    /** The helper for keeping track of the input value */
+    protected variable: Variable<string>;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, initialValue = '', themeOverride: Theme | null = null) {
@@ -59,10 +62,8 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         // propagate events
         super(themeOverride, false, false);
 
-        this.setValue(initialValue, false);
-        [this._valid, this._validValue] = validator(initialValue);
-
-        this.callback = (text: string) => {
+        this.textHelper = new TextHelper();
+        this.variable = new Variable<string>(initialValue, (text: string) => {
             const [valid, validatedValue] = validator(text);
 
             if(valid)
@@ -72,7 +73,8 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
                 this._valid = valid;
                 this._dirty = true;
             }
-        };
+        });
+        [this._valid, this._validValue] = validator(initialValue);
 
         // TextInputs are always horizontal
         this.vertical = false;
@@ -138,15 +140,24 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         }
     }
 
+    /** The current text value. */
+    set text(text: string) {
+        this.variable.value = text;
+    }
+
+    get text(): string {
+        return this.variable.value;
+    }
+
     /**
      * Get the text as it is shown. If the text is hidden, all characters are
      * replaced with a black circle.
      */
-    get text(): string {
+    get displayedText(): string {
         if(this._hideText)
-            return '●'.repeat(this.value.length);
+            return '●'.repeat(this.variable.value.length);
         else
-            return this.value;
+            return this.variable.value;
     }
 
     /** Is the current value in the text input valid? */
@@ -159,6 +170,33 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         return this._validValue;
     }
 
+    /** The current minimum text width. */
+    set minWidth(minWidth: number) {
+        this.textHelper.minWidth = minWidth;
+    }
+
+    get minWidth(): number {
+        return this.textHelper.minWidth;
+    }
+
+    /** The current minimum text ascent height. */
+    set minAscent(minAscent: number) {
+        this.textHelper.minAscent = minAscent;
+    }
+
+    get minAscent(): number {
+        return this.textHelper.minAscent;
+    }
+
+    /** The current minimum text descent height. */
+    set minDescent(minDescent: number) {
+        this.textHelper.minDescent = minDescent;
+    }
+
+    get minDescent(): number {
+        return this.textHelper.minDescent;
+    }
+
     /**
      * Move the cursor to a given index.
      *
@@ -166,7 +204,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
      */
     moveCursorTo(index: number): void {
         // Update cursor position, checking for boundaries
-        this.cursorPos = Math.min(Math.max(index, 0), this.value.length);
+        this.cursorPos = Math.min(Math.max(index, 0), this.text.length);
 
         // Update cursor offset
         this.cursorOffsetDirty = true;
@@ -188,7 +226,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
      */
     insertText(str: string): void {
         // Insert string in current cursor position
-        this.value = this.value.substring(0, this.cursorPos) + str + this.value.substring(this.cursorPos);
+        this.text = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
         // Move cursor neccessary amount forward
         this.moveCursor(str.length);
     }
@@ -205,11 +243,11 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         // is negative. Deleting characters backwards results in moving the
         // cursor
         if(delta > 0)
-            this.value = this.value.substring(0, this.cursorPos) + this.value.substring(this.cursorPos + delta);
+            this.text = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
         else if(delta < 0) {
             // NOTE, still checking if delta < 0 so that nothing is done if
             // delta is 0
-            this.value = this.value.substring(0, this.cursorPos + delta) + this.value.substring(this.cursorPos);
+            this.text = this.text.substring(0, this.cursorPos + delta) + this.text.substring(this.cursorPos);
             this.moveCursor(delta);
         }
     }
@@ -232,7 +270,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
             // Request keyboard focus if this is a pointer press
             if(event instanceof PointerPress) {
                 // Update cursor position (and offset) from click position
-                [this.cursorPos, this.cursorOffset] = this.findIndexOffsetFromOffset(event.x);
+                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x);
 
                 // Start blinking cursor and mark component as dirty, to
                 // make sure that cursor blink always resets for better
@@ -245,12 +283,12 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
             }
             // Get mobile-friendly text input if available
             else if(event instanceof PointerRelease && root.hasMobileTextInput) {
-                root.getTextInput(this.value).then((newValue: string | null) => {
+                root.getTextInput(this.text).then((newValue: string | null) => {
                     if(newValue === null)
                         return;
 
-                    if(this.value !== newValue) {
-                        this.value = newValue;
+                    if(this.text !== newValue) {
+                        this.text = newValue;
                         this.moveCursorTo(newValue.length);
                     }
                 });
@@ -273,7 +311,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
             else if(event.key === 'Home')
                 this.moveCursorTo(0); // Move cursor to beginning
             else if(event.key === 'End')
-                this.moveCursorTo(this.value.length); // Move cursor to end
+                this.moveCursorTo(this.text.length); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
@@ -302,20 +340,26 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
         const widthError = cursorPadding + cursorThickness;
 
-        this.setText(this.text);
-        this.setFont(this.theme.getFont(ThemeProperty.InputTextFont));
-        this.setMinLabelWidth(this.theme.getNumber(ThemeProperty.InputTextMinWidth) - widthError);
-        this.setMinLabelAscent(this.theme.getNumber(ThemeProperty.InputTextMinAscent));
-        this.setMinLabelDescent(this.theme.getNumber(ThemeProperty.InputTextMinDescent));
+        this.textHelper.text = this.displayedText;
+        this.textHelper.font = this.theme.getFont(ThemeProperty.InputTextFont);
+        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.InputTextMinWidth) - widthError;
+        this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.InputTextMinAscent);
+        this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.InputTextMinDescent);
 
         if(this.cursorOffsetDirty) {
-            this.cursorOffset = this.findOffsetFromIndex(this.cursorPos);
+            this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
             this.cursorOffsetDirty = false;
         }
 
         this.flexRatio = this.theme.getNumber(ThemeProperty.InputTextFlexRatio);
-        this.internalMainBasis = this.labelWidth + widthError;
-        this.internalCrossBasis = this.labelHeight;
+        this.internalMainBasis = this.textHelper.width + widthError;
+        this.internalCrossBasis = this.textHelper.height;
+
+        // Mark as dirty if text helper is dirty
+        if(this.textHelper.dirty) {
+            this._dirty = true;
+            this._layoutDirty = true;
+        }
     }
 
     protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
@@ -334,11 +378,7 @@ export class TextInput<V> extends Mixin(FlexLayout, Labelable, StringVariable) {
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 
-        ctx.fillText(
-            this.text,
-            x,
-            y + height - this.labelDescent,
-        );
+        ctx.fillText(this.displayedText, x, y + height - this.textHelper.descent);
 
         // Paint blink
         const blinkOn = this.blinkOn;

@@ -1,6 +1,5 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import { NumberVariable, VariableCallback } from '../mixins/Variable';
-import { ClickState, Clickable } from '../mixins/Clickable';
+import { Variable, VariableCallback } from '../aggregates/Variable';
+import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
@@ -17,7 +16,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
+export class Slider extends FlexLayout {
     /** The slider's minimum value. */
     private minValue: number;
     /** The slider's maximum value. */
@@ -27,6 +26,10 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
      * fixed increments.
      */
     private snapIncrement: number;
+    /** The helper for handling pointer clicks/drags */
+    protected clickHelper: ClickHelper;
+    /** The helper for keeping track of the slider's value */
+    protected variable: Variable<number>;
 
     /** Create a new Slider */
     constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
@@ -34,14 +37,34 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
         // events
         super(themeOverride, true, false);
 
-        this.callback = callback;
-        this.setValue(initialValue, false);
+        this.clickHelper = new ClickHelper(this);
+        this.variable = new Variable(initialValue, callback);
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
 
         // Sliders are always horizontal
         this.vertical = false;
+    }
+
+    /** The slider's value */
+    set value(value: number) {
+        // Snap to increments if needed
+        if(this.snapIncrement > 0)
+            value = Math.round(value / this.snapIncrement) * this.snapIncrement;
+
+        // Clamp value
+        if(value < this.minValue)
+            value = this.minValue;
+        else if(value > this.maxValue)
+            value = this.maxValue;
+
+        // Update value in variable
+        this.variable.value = value;
+    }
+
+    get value(): number {
+        return this.variable.value;
     }
 
     /**
@@ -57,33 +80,20 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
 
     protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
         // Handle click event
-        this.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
+        this.clickHelper.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
 
         // If this was a click or the slider is currently being held, update
         // value
-        if(((this.clickStateChanged && this.wasClick) || this.clickState == ClickState.Hold)
-            && this.pointerPos !== null) {
+        if(((this.clickHelper.clickStateChanged && this.clickHelper.wasClick) || this.clickHelper.clickState == ClickState.Hold)
+            && this.clickHelper.pointerPos !== null) {
             // Interpolate value
-            const percent = this.pointerPos[0];
-            let newValue = this.minValue + percent * (this.maxValue - this.minValue);
-
-            // Snap to increments if needed
-            if(this.snapIncrement > 0)
-                newValue = Math.round(newValue / this.snapIncrement) * this.snapIncrement;
-
-            // Clamp value
-            if(newValue < this.minValue)
-                newValue = this.minValue;
-            else if(newValue > this.maxValue)
-                newValue = this.maxValue;
-
-            // Update value
-            this.value = newValue;
+            const percent = this.clickHelper.pointerPos[0];
+            this.value = this.minValue + percent * (this.maxValue - this.minValue);
         }
 
         // Always flag as dirty if the click state changed (so glow colour takes
         // effect)
-        if(this.clickStateChanged)
+        if(this.clickHelper.clickStateChanged)
             this._dirty = true;
 
         return this;
@@ -100,17 +110,12 @@ export class Slider extends Mixin(FlexLayout, Clickable, NumberVariable) {
         // Find slider fill percentage
         const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
         const [sw, sh] = [sr - sl, sb - st];
-
-        let value = this.value;
-        if(value === null)
-            value = 0;
-
-        const percent = (value - this.minValue) / (this.maxValue - this.minValue);
+        const percent = (this.value - this.minValue) / (this.maxValue - this.minValue);
 
         // Draw filled part of slider
         // Use accent colour if hovering or holding
         const accentStates = [ClickState.Hover, ClickState.Hold];
-        if(accentStates.includes(this.clickState))
+        if(accentStates.includes(this.clickHelper.clickState))
             ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);

@@ -1,7 +1,6 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { TextHelper } from '../aggregates/TextHelper';
 import { FlexLayout } from '../mixins/FlexLayout';
-import { Labelable } from '../mixins/Labelable';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
@@ -19,24 +18,27 @@ export type TextGetter = () => string;
  *
  * @category Widget
  */
-export class Label extends Mixin(FlexLayout, Labelable) {
+export class Label extends FlexLayout {
     /**
-     * The text getter. If this is not null, text will be updated with the
-     * return value of this callback, every update.
+     * The text getter source. If this is not null, text will be updated with
+     * the return value of this callback, every update.
      */
     private textGetter: TextGetter | null = null;
+    /** The helper for measuring/painting text */
+    protected textHelper: TextHelper;
 
     /**
      * Create a new Label.
      *
-     * @param text The text source of the label. Has the same behaviour as setting {@link text}.
+     * @param source The text source of the label. Has the same behaviour as setting {@link source}.
      */
-    constructor(text: string | TextGetter, themeOverride: Theme | null = null) {
+    constructor(source: string | TextGetter, themeOverride: Theme | null = null) {
         // Labels need a clear background, have no children and don't propagate
         // events
         super(themeOverride, true, false);
 
-        this.text = text;
+        this.textHelper = new TextHelper();
+        this.source = source;
 
         // Default to no flex ratio. This can be overridden
         this.flexRatio = 0;
@@ -58,47 +60,80 @@ export class Label extends Mixin(FlexLayout, Labelable) {
      * When getting, if {@link textGetter} is set, then it is returned, else,
      * {@link _text} is returned.
      */
-    set text(text: string | TextGetter) {
-        if(text instanceof Function)
-            this.textGetter = text;
+    set source(source: string | TextGetter) {
+        if(source instanceof Function)
+            this.textGetter = source;
         else {
             this.textGetter = null;
-            this.setText(text);
+            this.textHelper.text = source;
         }
     }
 
-    get text(): string | TextGetter {
+    get source(): string | TextGetter {
         if(this.textGetter !== null)
             return this.textGetter;
         else
-            return this._text;
+            return this.textHelper.text;
+    }
+
+    /** The current minimum text width. */
+    set minWidth(minWidth: number) {
+        this.textHelper.minWidth = minWidth;
+    }
+
+    get minWidth(): number {
+        return this.textHelper.minWidth;
+    }
+
+    /** The current minimum text ascent height. */
+    set minAscent(minAscent: number) {
+        this.textHelper.minAscent = minAscent;
+    }
+
+    get minAscent(): number {
+        return this.textHelper.minAscent;
+    }
+
+    /** The current minimum text descent height. */
+    set minDescent(minDescent: number) {
+        this.textHelper.minDescent = minDescent;
+    }
+
+    get minDescent(): number {
+        return this.textHelper.minDescent;
     }
 
     /**
-     * Gets {@link _text}. If you want to get the current text source, then use
-     * {@link text} instead.
+     * The current text value. If you want to get the current text source, then
+     * use {@link source} instead.
      */
-    get currentText(): string {
-        return this._text;
+    get text(): string {
+        return this.textHelper.text;
     }
 
     protected override handlePreLayoutUpdate(_root: Root): void {
-        // Update Labelable variables
+        // Update text helper variables
         if(this.textGetter !== null)
-            this.setText(this.textGetter());
+            this.textHelper.text = this.textGetter();
 
-        this.setFont(this.theme.getFont(ThemeProperty.BodyTextFont));
-        this.setMinLabelWidth(this.theme.getNumber(ThemeProperty.LabelMinWidth));
-        this.setMinLabelAscent(this.theme.getNumber(ThemeProperty.LabelMinAscent));
-        this.setMinLabelDescent(this.theme.getNumber(ThemeProperty.LabelMinDescent));
+        this.textHelper.font = this.theme.getFont(ThemeProperty.BodyTextFont);
+        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.LabelMinWidth);
+        this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.LabelMinAscent);
+        this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.LabelMinDescent);
 
-        this.internalMainBasis = this.labelWidth;
-        this.internalCrossBasis = this.labelHeight;
+        this.internalMainBasis = this.textHelper.width;
+        this.internalCrossBasis = this.textHelper.height;
+
+        // Mark as dirty if text helper is dirty
+        if(this.textHelper.dirty) {
+            this._dirty = true;
+            this._layoutDirty = true;
+        }
     }
 
     protected override handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void {
-        ctx.font = this._font;
+        ctx.font = this.textHelper.font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
-        ctx.fillText(this._text, x, y + height - this.labelDescent);
+        ctx.fillText(this.text, x, y + height - this.textHelper.descent);
     }
 }

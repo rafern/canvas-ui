@@ -62,17 +62,17 @@ export enum ThemeProperty {
      */
     BodyTextFill,
     /**
-     * The {@link Labelable._minLabelWidth | minimum width} used for
+     * The {@link TextHelper._minLabelWidth | minimum width} used for
      * {@link Label}.
      */
     LabelMinWidth,
     /**
-     * The {@link Labelable._minLabelAscent | minimum ascent height} used for
+     * The {@link TextHelper._minLabelAscent | minimum ascent height} used for
      * {@link Label}.
      */
     LabelMinAscent,
     /**
-     * The {@link Labelable._minLabelDescent | minimum descent height} used for
+     * The {@link TextHelper._minLabelDescent | minimum descent height} used for
      * {@link Label}.
      */
     LabelMinDescent,
@@ -119,17 +119,17 @@ export enum ThemeProperty {
      */
     InputTextFlexRatio,
     /**
-     * The {@link Labelable._minLabelWidth | minimum width} used for text input
+     * The {@link TextHelper._minLabelWidth | minimum width} used for text input
      * widgets like {@link TextInput}.
      */
     InputTextMinWidth,
     /**
-     * The {@link Labelable._minLabelAscent | minimum ascent height} used for
+     * The {@link TextHelper._minLabelAscent | minimum ascent height} used for
      * text input widgets like {@link TextInput}.
      */
     InputTextMinAscent,
     /**
-     * The {@link Labelable._minLabelDescent | minimum descent height} used for
+     * The {@link TextHelper._minLabelDescent | minimum descent height} used for
      * text input widgets like {@link TextInput}.
      */
     InputTextMinDescent,

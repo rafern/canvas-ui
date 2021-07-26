@@ -1,5 +1,5 @@
+import { ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
-import { ClickState } from '../mixins/Clickable';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
@@ -34,7 +34,7 @@ export class FilledButton extends Button {
         if(this._forced)
             this.backgroundProperty = ThemeProperty.PrimaryFill;
         else {
-            switch(this.clickState) {
+            switch(this.clickHelper.clickState) {
             case ClickState.Hold:
                 this.backgroundProperty = ThemeProperty.AccentFill;
                 break;
@@ -106,7 +106,7 @@ export class FilledButton extends Button {
     protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
         const capturer = super.handleEvent(event, width, height, root);
 
-        if(this.clickStateChanged)
+        if(this.clickHelper.clickStateChanged)
             this.updateBackground();
 
         return capturer;

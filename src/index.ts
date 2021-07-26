@@ -1,3 +1,7 @@
+// aggregates
+export * from './aggregates/ClickHelper';
+export * from './aggregates/TextHelper';
+export * from './aggregates/Variable';
 // core
 export * from './core/DefaultTextInputHandler';
 export * from './core/DOMRoot';
@@ -34,13 +38,10 @@ export * from './helpers/measureTextDims';
 export * from './helpers/roundToPower2';
 // mixins
 export * from './mixins/BoxLayout';
-export * from './mixins/Clickable';
 export * from './mixins/FlexLayout';
-export * from './mixins/Labelable';
 export * from './mixins/MultiParent';
 export * from './mixins/Parent';
 export * from './mixins/SingleParent';
-export * from './mixins/Variable';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
