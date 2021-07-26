@@ -8,7 +8,6 @@ export * from './core/DOMRoot';
 export * from './core/DOMVirtualKeyboardRoot';
 export * from './core/Driver';
 export * from './core/FocusType';
-export * from './core/LayoutContext';
 export * from './core/PointerStyleHandler';
 export * from './core/Root';
 export * from './core/TextInputHandler';
@@ -37,8 +36,6 @@ export * from './helpers/getPointerEventNormPos';
 export * from './helpers/measureTextDims';
 export * from './helpers/roundToPower2';
 // mixins
-export * from './mixins/BoxLayout';
-export * from './mixins/FlexLayout';
 export * from './mixins/MultiParent';
 export * from './mixins/Parent';
 export * from './mixins/SingleParent';

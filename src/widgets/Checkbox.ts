@@ -1,17 +1,17 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
-import { BoxLayout } from '../mixins/BoxLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 
 /**
  * A checkbox widget; can be ticked or unticked.
  *
  * @category Widget
  */
-export class Checkbox extends BoxLayout {
+export class Checkbox extends Widget {
     /** The helper for handling pointer clicks */
     protected clickHelper: ClickHelper;
     /** The helper for keeping track of the checkbox value */
@@ -60,9 +60,9 @@ export class Checkbox extends BoxLayout {
         return [ bx, bx + actualLength, by, by + actualLength ];
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
+    protected override handleEvent(event: Event, root: Root): this {
         // Check if checkbox rectangle was pressed and swap value if so
-        const clickArea = this.getBoxRect(0, 0, width, height);
+        const clickArea = this.getBoxRect(0, 0, this.width, this.height);
         this.clickHelper.handleClickEvent(event, root, clickArea);
         if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick)
             this.checked = !this.checked;

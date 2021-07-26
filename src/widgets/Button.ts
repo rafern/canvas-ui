@@ -27,7 +27,7 @@ export class Button extends FlexContainer {
         this.callback = callback;
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    protected override handleEvent(event: Event, root: Root): Widget | null {
         // Abort if no callback, but still absorb events
         if(this.callback === null) {
             this.clickHelper.clickStateChanged = false;
@@ -35,7 +35,7 @@ export class Button extends FlexContainer {
         }
 
         // Check if button was pressed and call callback if so
-        this.clickHelper.handleClickEvent(event, root, [0, width, 0, height]);
+        this.clickHelper.handleClickEvent(event, root, [0, this.width, 0, this.height]);
         if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick) {
             try {
                 this.callback();

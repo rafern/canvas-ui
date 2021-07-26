@@ -1,4 +1,3 @@
-import type { LayoutContext } from '../core/LayoutContext';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
 import type { FocusType } from '../core/FocusType';
@@ -6,22 +5,22 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
-// XXX This class is abstract, but marking it abstract breaks mixins. Instead,
-//     abstract methods are not marked astract and instead are implemented to
-//     immediately throw an exception
 /**
  * A generic widget. All widgets extend this class.
  *
  * @category Widget
  */
-export class Widget {
+export abstract class Widget {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      */
     private _enabled = true;
     /** Widget will only be painted if dirty is true. */
     protected _dirty = true;
-    /** Widget will only have the layout resolved if layoutDirty is true. */
+    /**
+     * If this is true, widget needs their layout resolved. If implementing a
+     * container, propagate this up.
+     */
     protected _layoutDirty = true;
     /**
      * Widget will have its background automatically cleared when painting if
@@ -45,10 +44,27 @@ export class Widget {
     private _theme: Theme | null = null;
     /** The inherited theme. */
     private _inheritedTheme: Theme | null = null;
-    /** The wanted width after layout resolution. */
-    protected resolvedWidth = 0;
-    /** The wanted height after layout resolution. */
-    protected resolvedHeight = 0;
+    /** Width of widget in pixels. */
+    protected width = 0;
+    /** Height of widget in pixels. */
+    protected height = 0;
+    /** {@link flex} but for internal use. */
+    protected _flex = 0;
+
+    /**
+     * How much this widget will expand relative to other widgets in a flexbox
+     * container. If changed, sets {@link _layoutDirty} to true.
+     */
+    get flex(): number {
+        return this._flex;
+    }
+
+    set flex(flex: number) {
+        if(flex !== this._flex) {
+            this._flex = flex;
+            this._layoutDirty = true;
+        }
+    }
 
     /** Create a new Widget. */
     constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
@@ -187,10 +203,10 @@ export class Widget {
 
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
-     * {@link resolvedWidth} and {@link resolvedHeight}.
+     * {@link width} and {@link height}.
      */
     get dimensions(): [number, number] {
-        return [this.resolvedWidth, this.resolvedHeight];
+        return [this.width, this.height];
     }
 
     /** Check if the widget is dirty. Returns {@link _dirty}. */
@@ -220,7 +236,7 @@ export class Widget {
      * this, for example, or a child widget if implementing a container), or
      * null if no widget captured the event.
      */
-    protected handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null {
+    protected handleEvent(event: Event, _root: Root): Widget | null {
         if(event.target === this ||
            ((event instanceof PointerEvent) && (event.target === null)))
             return this;
@@ -238,20 +254,20 @@ export class Widget {
      *
      * @returns Returns the widget that captured the event or null if none captured the event.
      */
-    dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    dispatchEvent(event: Event, root: Root): Widget | null {
         if(!this._enabled)
             return null;
 
         if(event.target === null) {
             if(event instanceof PointerEvent) {
-                if(event.x < 0 || event.y < 0 || event.x >= width || event.y >= height)
+                if(event.x < 0 || event.y < 0 || event.x >= this.width || event.y >= this.height)
                     return null;
             }
         }
         else if(event.target !== this && !this.propagatesEvents)
             return null;
 
-        return this.handleEvent(event, width, height, root);
+        return this.handleEvent(event, root);
     }
 
     /**
@@ -272,72 +288,65 @@ export class Widget {
     }
 
     /**
-     * The first Widget layout resolution callback. Populates a given
-     * {@link LayoutContext} with the wanted basis and flex ratio. Must be
-     * implemented. If called and not implemented, an exception is thrown.
+     * Resolve layout of this widget. Must be implemented; set {@link width} and
+     * {@link height}.
      */
-    protected handlePopulateLayout(_layoutCtx: LayoutContext): void {
-        throw 'Widget.handlePopulateLayout must be implemented';
-    }
-
-    /**
-     * The second Widget layout resolution callback. Resolves the layout of this
-     * widget (sets {@link resolvedWidth} and {@link resolvedHeight}).Must be
-     * implemented. If called and not implemented, an exception is thrown.
-     */
-    protected handleResolveLayout(_layoutCtx: LayoutContext): void {
-        throw 'Widget.handleResolveLayout must be implemented';
-    }
-
-    /**
-     * Wrapper for {@link handlePopulateLayout}. Does nothing if
-     * {@link _enabled} is false. Must not be overridden.
-     */
-    populateLayout(layoutCtx: LayoutContext): void {
-        if(!this._enabled)
-            return;
-
-        this.handlePopulateLayout(layoutCtx);
-    }
+    protected abstract handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 
     /**
      * Wrapper for {@link handleResolveLayout}. Does nothing if
-     * {@link _enabled} is false or {@link _layoutDirty} is false. If the
-     * resolved dimensions change, {@link _dirty} is set to true.
-     * {@link _layoutDirty} is set to false. Must not be overridden.
+     * {@link _enabled} is false. If the resolved dimensions change,
+     * {@link _dirty} is set to true. {@link _layoutDirty} is set to false. If
+     * the widget is not loose and the layout has non-infinite max constraints,
+     * then the widget is stretched to fit max constraints. Must not be
+     * overridden.
      */
-    resolveLayout(layoutCtx: LayoutContext): void {
+    resolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        if(minWidth > maxWidth)
+            throw 'minWidth must not be greater than maxWidth';
+        if(minWidth < 0)
+            throw 'minWidth must not be lesser than 0';
+        if(minHeight > maxHeight)
+            throw 'minHeight must not be greater than maxHeight';
+        if(minHeight < 0)
+            throw 'minHeight must not be lesser than 0';
+
         if(!this._enabled) {
-            this.resolvedWidth = 0;
-            this.resolvedHeight = 0;
+            this.width = 0;
+            this.height = 0;
             this._layoutDirty = false;
             return;
         }
 
-        if(this._layoutDirty) {
-            const oldWidth = this.resolvedWidth;
-            const oldHeight = this.resolvedHeight;
-            this.handleResolveLayout(layoutCtx);
-            this._layoutDirty = false;
+        const oldWidth = this.width;
+        const oldHeight = this.height;
 
-            if(oldWidth !== this.resolvedWidth || oldHeight !== this.resolvedHeight)
-                this._dirty = true;
+        this.handleResolveLayout(minWidth, maxWidth, minHeight, maxHeight);
 
-            //console.log('Resolved layout of', this.constructor.name);
+        if(this.width < minWidth) {
+            this.width = minWidth;
+            console.warn('Horizontal underflow in widget', this.constructor.name);
         }
-    }
+        else if(this.width > maxWidth) {
+            this.width = maxWidth;
+            console.warn('Horizontal overflow in widget', this.constructor.name);
+        }
 
-    /**
-     * Forcefully mark layout as dirty. If overridden, original must be called.
-     * Call only when absolutely neccessary, such as in a resize. If
-     * implementing a container widget, children should also have their layout
-     * forced as dirty.
-     *
-     * Sets {@link _layoutDirty} and {@link _dirty} to true.
-     */
-    forceLayoutDirty(): void {
-        this._layoutDirty = true;
-        this._dirty = true;
+        if(this.height < minHeight) {
+            this.height = minHeight;
+            console.warn('Vertical underflow in widget', this.constructor.name);
+        }
+        else if(this.height > maxHeight) {
+            this.height = maxHeight;
+            console.warn('Vertical overflow in widget', this.constructor.name);
+        }
+
+        this._layoutDirty = false;
+
+        if(oldWidth !== this.width || oldHeight !== this.height)
+            this._dirty = true;
+
+        //console.log('Resolved layout of', this.constructor.name);
     }
 
     /**
@@ -380,7 +389,7 @@ export class Widget {
      * when extending Widget. Should be overridden.
      */
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void {}
+    protected handlePainting(_x: number, _y: number, _ctx: CanvasRenderingContext2D): void {}
 
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
@@ -388,7 +397,7 @@ export class Widget {
      * {@link needsClear} is true, calls the {@link handlePainting} method and
      * unsets the dirty flag. Must not be overridden.
      */
-    paint(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    paint(x: number, y: number, ctx: CanvasRenderingContext2D): void {
         if(!this._dirty)
             return;
 
@@ -396,10 +405,10 @@ export class Widget {
 
         if(this._enabled) {
             if(this.needsClear)
-                this.clear(x, y, width, height, ctx);
+                this.clear(x, y, this.width, this.height, ctx);
 
             ctx.save();
-            this.handlePainting(x, y, width, height, ctx);
+            this.handlePainting(x, y, ctx);
             ctx.restore();
         }
 
