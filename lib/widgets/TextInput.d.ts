@@ -1,11 +1,11 @@
 import type { TextValidator } from '../validators/Validator';
 import { TextHelper } from '../aggregates/TextHelper';
-import { FlexLayout } from '../mixins/FlexLayout';
 import { Variable } from '../aggregates/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 /**
  * A flexbox widget that allows for a single line of text input.
  *
@@ -20,7 +20,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export declare class TextInput<V> extends FlexLayout {
+export declare class TextInput<V> extends Widget {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -121,7 +121,8 @@ export declare class TextInput<V> extends FlexLayout {
      */
     deleteText(delta: number): void;
     onFocusDropped(focusType: FocusType, _root: Root): void;
-    protected handleEvent(event: Event, _width: number, _height: number, root: Root): this;
+    protected handleEvent(event: Event, root: Root): this;
     protected handlePreLayoutUpdate(root: Root): void;
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
 }

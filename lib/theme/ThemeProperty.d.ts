@@ -41,107 +41,101 @@ export declare enum ThemeProperty {
      * Used for highlighting boxes which use {@link BackgroundFill}.
      */
     BackgroundGlowFill = 7,
-    /** The {@link FlexLayout.flexRatio | flex ratio} used for {@link Slider} */
-    SliderFlexRatio = 8,
-    /** The {@link FlexLayout.mainBasis | main basis} used for {@link Slider} */
-    SliderMainBasis = 9,
-    /**
-     * The {@link FlexLayout.crossBasis | cross basis} used for {@link Slider}
-     */
-    SliderCrossBasis = 10,
+    /** The minimum length of a {@link Slider} */
+    SliderMinLength = 8,
+    /** The thickness of a {@link Slider} */
+    SliderThickness = 9,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style}
      * used for body text (most regular text).
      */
-    BodyTextFont = 11,
+    BodyTextFont = 10,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}
      * used for body text (most regular text).
      */
-    BodyTextFill = 12,
+    BodyTextFill = 11,
     /**
      * The {@link TextHelper._minLabelWidth | minimum width} used for
      * {@link Label}.
      */
-    LabelMinWidth = 13,
+    LabelMinWidth = 12,
     /**
      * The {@link TextHelper._minLabelAscent | minimum ascent height} used for
      * {@link Label}.
      */
-    LabelMinAscent = 14,
+    LabelMinAscent = 13,
     /**
      * The {@link TextHelper._minLabelDescent | minimum descent height} used for
      * {@link Label}.
      */
-    LabelMinDescent = 15,
+    LabelMinDescent = 14,
     /** The length in pixels used for {@link Checkbox}. */
-    CheckboxLength = 16,
+    CheckboxLength = 15,
     /**
      * The {@link Padding} used for {@link Checkbox} between the accent box
      * shown when ticked and the background box.
      */
-    CheckboxInnerPadding = 17,
+    CheckboxInnerPadding = 16,
     /**
      * The background
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}
      * used for input widgets like {@link TextInput}.
      */
-    InputBackgroundFill = 18,
+    InputBackgroundFill = 17,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style}
      * used for text in input widgets like {@link TextInput}.
      */
-    InputTextFont = 19,
+    InputTextFont = 18,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}
      * used for text in input widgets like {@link TextInput}.
      */
-    InputTextFill = 20,
+    InputTextFill = 19,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}
      * used for text in input widgets like {@link TextInput} when disabled.
      */
-    InputTextFillDisabled = 21,
+    InputTextFillDisabled = 20,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}
      * used for text in input widgets like {@link TextInput} when invalid.
      */
-    InputTextFillInvalid = 22,
-    /**
-     * The {@link FlexLayout.flexRatio | flex ratio} used for text input widgets
-     * like {@link TextInput}.
-     */
-    InputTextFlexRatio = 23,
+    InputTextFillInvalid = 21,
     /**
      * The {@link TextHelper._minLabelWidth | minimum width} used for text input
      * widgets like {@link TextInput}.
      */
-    InputTextMinWidth = 24,
+    InputTextMinWidth = 22,
     /**
      * The {@link TextHelper._minLabelAscent | minimum ascent height} used for
      * text input widgets like {@link TextInput}.
      */
-    InputTextMinAscent = 25,
+    InputTextMinAscent = 23,
     /**
      * The {@link TextHelper._minLabelDescent | minimum descent height} used for
      * text input widgets like {@link TextInput}.
      */
-    InputTextMinDescent = 26,
+    InputTextMinDescent = 24,
+    /**
+     * The {@link Padding} between text and border used for text input widgets
+     * like {@link TextInput}.
+     */
+    InputTextInnerPadding = 25,
     /**
      * The blink rate of text cursors in text input widgets like
      * {@link TextInput}. Value in "blinks" per second.
      */
-    BlinkRate = 27,
-    /** The length of empty space around a text cursor in pixels. */
-    CursorPadding = 28,
+    BlinkRate = 26,
     /** The thickness of a text cursor in pixels. */
-    CursorThickness = 29,
+    CursorThickness = 27,
     /** The thickness of a {@link ScrollBar} in pixels. */
-    ScrollBarThickness = 30
+    ScrollBarThickness = 28
 }

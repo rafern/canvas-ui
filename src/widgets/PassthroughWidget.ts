@@ -9,15 +9,17 @@ import { Widget } from './Widget';
  * passing all events through to its child. Useful for widgets that are only
  * used for logic, like {@link ThemeScope}.
  *
+ * Can be constrained to a specific type of children.
+ *
  * Since this does nothing on its own, it should not be used on its own.
  * Instead, extend this class if you are looking for a way to do wrapper widgets
  * that provide extra logic.
  *
  * @category Widget
  */
-export class PassthroughWidget extends SingleParent {
+export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W> {
     /** Create a new PassthroughWidget. */
-    constructor(child: Widget, themeOverride: Theme | null = null) {
+    constructor(child: W, themeOverride: Theme | null = null) {
         // Passthrough widgets dont need a clear background, have a child and
         // propagate events
         super(child, themeOverride, false, true);

@@ -1,13 +1,13 @@
 import type { KeyContext } from './KeyContext';
 import type { Theme } from '../../theme/Theme';
-import { TextButton } from '../TextButton';
+import { VirtualKey } from './VirtualKey';
 /**
- * A {@link TextButton} which acts as a virtual keyboard shift key; toggles
+ * A {@link VirtualKey} which acts as a shift key; toggles
  * {@link KeyContext.shift} on click.
  *
  * @category Widget
  */
-export declare class ShiftKey extends TextButton {
-    /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
+export declare class ShiftKey extends VirtualKey {
+    /** Create a new ShiftKey. */
+    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
 }

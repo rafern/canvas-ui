@@ -7,7 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "build": "rollup -c",
+    "build": "rollup -c -m",
     "docs": "typedoc --readme none --out ./docs/ ./src/index.ts",
     "test": "ws --directory examples"
   },

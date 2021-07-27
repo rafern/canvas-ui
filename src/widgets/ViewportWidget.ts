@@ -11,6 +11,8 @@ import type { Widget } from './Widget';
  * A type of container widget which is allowed to be bigger or smaller than its
  * child.
  *
+ * Can be constrained to a specific type of children.
+ *
  * Allows setting the offset of the child, automatically clips it if neccessary.
  * Otherwise acts like a {@link Container}. Implemented by using a
  * {@link Viewport}; effectively, the child widget is painted to a dedicated
@@ -18,7 +20,7 @@ import type { Widget } from './Widget';
  *
  * @category Widget
  */
-export class ViewportWidget extends SingleParent {
+export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     /** See {@link widthTied}. For internal use only */
     private _widthTied: boolean;
     /** See {@link heightTied}. For internal use only */
@@ -33,7 +35,7 @@ export class ViewportWidget extends SingleParent {
     private _offset: [number, number] = [0, 0];
 
     /** Create a new ViewportWidget. */
-    constructor(child: Widget, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
+    constructor(child: W, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
         // Viewport clears its own background, has a single child and propagates
         // events
         super(child, themeOverride, false, true);

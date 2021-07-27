@@ -5,9 +5,11 @@ import { Parent } from './Parent';
  * A specialised version of the {@link Parent} mixin class for parents with any
  * amount of children and public access to modifying this list of children.
  *
+ * Can be constrained to a specific type of children.
+ *
  * @category Widget
  */
-export abstract class MultiParent extends Parent {
+export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Add child(ren) to this widget.
      *
@@ -18,7 +20,7 @@ export abstract class MultiParent extends Parent {
      * @param children If this is a widget, then it is pushed to {@link _children}. If this is an array of widgets, then each widget is pushed to {@link _children}.
      * @returns Returns this so that the method is chainable.
      */
-    add(children: Widget | Array<Widget>): this {
+    add(children: W | Array<W>): this {
         if(Array.isArray(children)) {
             for(const child of children)
                 this._children.push(child);
@@ -43,7 +45,7 @@ export abstract class MultiParent extends Parent {
      * @param children If this is a widget, then it is removed from {@link _children}. If this is an array of widgets, then each widget is removed from {@link _children}.
      * @returns Returns this so that the method is chainable.
      */
-    remove(children: Widget | Array<Widget>): this {
+    remove(children: W | Array<W>): this {
         if(Array.isArray(children)) {
             for(const child of children) {
                 const pos = this._children.indexOf(child);

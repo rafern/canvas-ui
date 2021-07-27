@@ -1,5 +1,6 @@
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
-import type { KeyRowTemplate } from './KeyRow';
+import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
+import { VirtualKeyRow } from './VirtualKeyRow';
 import type { KeyContext } from './KeyContext';
 import type { Theme } from '../../theme/Theme';
 import { BackspaceKey } from './BackspaceKey';
@@ -8,7 +9,6 @@ import { EnterKey } from './EnterKey';
 import { ShiftKey } from './ShiftKey';
 import { SpaceKey } from './SpaceKey';
 import { Column } from '../Column';
-import { KeyRow } from './KeyRow';
 
 /**
  * A template for the keys in a {@link VirtualKeyboard}. Each member of the
@@ -16,7 +16,7 @@ import { KeyRow } from './KeyRow';
  *
  * @category Widget
  */
-export type VirtualKeyboardTemplate = Array<KeyRowTemplate>;
+export type VirtualKeyboardTemplate = Array<VirtualKeyRowTemplate>;
 
 function EnterKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): EnterKey {
     return new EnterKey(
@@ -72,7 +72,7 @@ export const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate = [
  *
  * Needs a {@link KeyboardDriver} so that key events can be queued.
  *
- * Equivalent to creating a {@link Column} of {@link KeyRow} with a shared
+ * Equivalent to creating a {@link Column} of {@link VirtualKeyRow} with a shared
  * {@link KeyContext}.
  *
  * @category Widget
@@ -85,10 +85,8 @@ export class VirtualKeyboard extends Column {
      * @param flexRatio The flexRatio to use when creating {@link Glyph | Glyphs}
      * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
      * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
-     * @param spacingFlexRatio The flexRatio to use when creating {@link Spacing} between each key, in a row
-     * @param spacingBasis The mainBasis to use when creating {@link Spacing} between each key, in a row
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, spacingFlexRatio = 0.01, spacingBasis = 4, themeOverride: Theme | null = null) {
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeOverride: Theme | null = null) {
         super(themeOverride);
 
         // Make context
@@ -100,9 +98,9 @@ export class VirtualKeyboard extends Column {
         };
 
         for(const rowTemplate of keyboardTemplate) {
-            this.add(new KeyRow(
+            this.add(new VirtualKeyRow(
                 rowTemplate, keyContext, flexRatio, mainBasis, crossBasis,
-                spacingFlexRatio, spacingBasis, themeOverride,
+                themeOverride,
             ));
         }
     }

@@ -1,4 +1,3 @@
-import type { LayoutContext } from '../core/LayoutContext';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -8,14 +7,17 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export declare class Widget {
+export declare abstract class Widget {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      */
     private _enabled;
     /** Widget will only be painted if dirty is true. */
     protected _dirty: boolean;
-    /** Widget will only have the layout resolved if layoutDirty is true. */
+    /**
+     * If this is true, widget needs their layout resolved. If implementing a
+     * container, propagate this up.
+     */
     protected _layoutDirty: boolean;
     /**
      * Widget will have its background automatically cleared when painting if
@@ -39,10 +41,18 @@ export declare class Widget {
     private _theme;
     /** The inherited theme. */
     private _inheritedTheme;
-    /** The wanted width after layout resolution. */
-    protected resolvedWidth: number;
-    /** The wanted height after layout resolution. */
-    protected resolvedHeight: number;
+    /** Width of widget in pixels. */
+    protected width: number;
+    /** Height of widget in pixels. */
+    protected height: number;
+    /** {@link flex} but for internal use. */
+    protected _flex: number;
+    /**
+     * How much this widget will expand relative to other widgets in a flexbox
+     * container. If changed, sets {@link _layoutDirty} to true.
+     */
+    get flex(): number;
+    set flex(flex: number);
     /** Create a new Widget. */
     constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean);
     /**
@@ -109,13 +119,25 @@ export declare class Widget {
     get inheritedTheme(): Theme | null;
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
-     * {@link resolvedWidth} and {@link resolvedHeight}.
+     * {@link width} and {@link height}.
      */
     get dimensions(): [number, number];
-    /** Check if the widget is dirty. Returns {@link _dirty}. */
+    /**
+     * Check if the widget is dirty. Returns {@link _dirty}, as long as
+     * {@link dimensionless} is not true.
+     */
     get dirty(): boolean;
     /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
     get layoutDirty(): boolean;
+    /**
+     * Check if the widget has zero width or height.
+     *
+     * If true, {@link paint} will do nothing and {@link dirty} will be false
+     * even if {@link _dirty} is true.
+     *
+     * Usually becomes true when containers overflow.
+     */
+    get dimensionless(): boolean;
     /**
      * Called when a focus type owned by this Widget has been dropped. Does
      * nothing by default. Can be overridden.
@@ -131,7 +153,7 @@ export declare class Widget {
      * this, for example, or a child widget if implementing a container), or
      * null if no widget captured the event.
      */
-    protected handleEvent(event: Event, _width: number, _height: number, _root: Root): Widget | null;
+    protected handleEvent(event: Event, _root: Root): Widget | null;
     /**
      * Called when an event is passed to the Widget. Checks if the target
      * matches the Widget, unless the Widget propagates events, or if the event
@@ -142,7 +164,7 @@ export declare class Widget {
      *
      * @returns Returns the widget that captured the event or null if none captured the event.
      */
-    dispatchEvent(event: Event, width: number, height: number, root: Root): Widget | null;
+    dispatchEvent(event: Event, root: Root): Widget | null;
     /**
      * Generic update method which is called before layout is resolved. Does
      * nothing by default. Should be implemented.
@@ -155,38 +177,19 @@ export declare class Widget {
      */
     preLayoutUpdate(root: Root): void;
     /**
-     * The first Widget layout resolution callback. Populates a given
-     * {@link LayoutContext} with the wanted basis and flex ratio. Must be
-     * implemented. If called and not implemented, an exception is thrown.
+     * Resolve layout of this widget. Must be implemented; set {@link width} and
+     * {@link height}.
      */
-    protected handlePopulateLayout(_layoutCtx: LayoutContext): void;
-    /**
-     * The second Widget layout resolution callback. Resolves the layout of this
-     * widget (sets {@link resolvedWidth} and {@link resolvedHeight}).Must be
-     * implemented. If called and not implemented, an exception is thrown.
-     */
-    protected handleResolveLayout(_layoutCtx: LayoutContext): void;
-    /**
-     * Wrapper for {@link handlePopulateLayout}. Does nothing if
-     * {@link _enabled} is false. Must not be overridden.
-     */
-    populateLayout(layoutCtx: LayoutContext): void;
+    protected abstract handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
      * Wrapper for {@link handleResolveLayout}. Does nothing if
-     * {@link _enabled} is false or {@link _layoutDirty} is false. If the
-     * resolved dimensions change, {@link _dirty} is set to true.
-     * {@link _layoutDirty} is set to false. Must not be overridden.
+     * {@link _enabled} is false. If the resolved dimensions change,
+     * {@link _dirty} is set to true. {@link _layoutDirty} is set to false. If
+     * the widget is not loose and the layout has non-infinite max constraints,
+     * then the widget is stretched to fit max constraints. Must not be
+     * overridden.
      */
-    resolveLayout(layoutCtx: LayoutContext): void;
-    /**
-     * Forcefully mark layout as dirty. If overridden, original must be called.
-     * Call only when absolutely neccessary, such as in a resize. If
-     * implementing a container widget, children should also have their layout
-     * forced as dirty.
-     *
-     * Sets {@link _layoutDirty} and {@link _dirty} to true.
-     */
-    forceLayoutDirty(): void;
+    resolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
@@ -208,12 +211,13 @@ export declare class Widget {
      * Widget painting callback. By default does nothing. Do painting logic here
      * when extending Widget. Should be overridden.
      */
-    protected handlePainting(_x: number, _y: number, _width: number, _height: number, _ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(_x: number, _y: number, _ctx: CanvasRenderingContext2D): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
      * {@link needsClear} is true, calls the {@link handlePainting} method and
-     * unsets the dirty flag. Must not be overridden.
+     * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
+     * Must not be overridden.
      */
-    paint(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
+    paint(x: number, y: number, ctx: CanvasRenderingContext2D): void;
 }

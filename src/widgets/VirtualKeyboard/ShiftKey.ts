@@ -1,30 +1,29 @@
 import type { KeyContext } from './KeyContext';
 import type { Theme } from '../../theme/Theme';
-import { TextButton } from '../TextButton';
+import { VirtualKey } from './VirtualKey';
 
 /**
- * A {@link TextButton} which acts as a virtual keyboard shift key; toggles
+ * A {@link VirtualKey} which acts as a shift key; toggles
  * {@link KeyContext.shift} on click.
  *
  * @category Widget
  */
-export class ShiftKey extends TextButton {
-    /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, flexRatio = 0, mainBasis = 84, crossBasis = 24, themeOverride: Theme | null = null) {
+export class ShiftKey extends VirtualKey {
+    /** Create a new ShiftKey. */
+    constructor(keyContext: KeyContext, flex = 0, minWidth = 84, minHeight = 24, themeOverride: Theme | null = null) {
         super(
             'Shift',
             () => {
                 keyContext.shift = !keyContext.shift;
-                this.forced = keyContext.shift;
+                this.child.forced = keyContext.shift;
                 keyContext.callback('Shift');
             },
-            flexRatio,
-            mainBasis,
-            crossBasis,
-            false,
+            flex,
+            minWidth,
+            minHeight,
             themeOverride,
         );
 
-        this.forced = keyContext.shift;
+        this.child.forced = keyContext.shift;
     }
 }

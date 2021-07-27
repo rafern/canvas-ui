@@ -9,7 +9,7 @@ import { Label } from './Label';
  *
  * @category Widget
  */
-export class TextButton extends FilledButton {
+export class TextButton extends FilledButton<TextMargin<Label>> {
     /** Create a new TextButton. */
     constructor(text: string | TextGetter, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
         super(
@@ -18,5 +18,10 @@ export class TextButton extends FilledButton {
             ),
             callback, themeOverride
         );
+    }
+
+    /** This button's Label widget */
+    get label(): Label {
+        return this.child.child;
     }
 }

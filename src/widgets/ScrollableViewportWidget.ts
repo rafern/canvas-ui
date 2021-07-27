@@ -1,8 +1,11 @@
 import { ViewportWidget } from './ViewportWidget';
+import type { Widget } from './Widget';
 
 /**
  * A wrapper for a {@link ViewportWidget} which can be scrolled with
  * {@link ScrollBar}.
+ *
+ * Can be constrained to a specific type of children.
  *
  * To avoid an ugly looking layout, scrollbars are automatically hidden if they
  * are not needed. However, you can only tell if a scrollbar is needed after
@@ -15,6 +18,6 @@ import { ViewportWidget } from './ViewportWidget';
  *
  * @category Widget
  */
-export class ScrollableViewportWidget extends ViewportWidget {
+export class ScrollableViewportWidget<W extends Widget = Widget> extends ViewportWidget<W> {
     // TODO
 }

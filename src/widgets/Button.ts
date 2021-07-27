@@ -9,9 +9,11 @@ import type { Widget } from './Widget';
  * A {@link BaseContainer} which can be {@link Clickable | clicked} as a button.
  * Since the button grabs all events, no events are propagated to the child.
  *
+ * Can be constrained to a specific type of children.
+ *
  * @category Widget
  */
-export class Button extends BaseContainer {
+export class Button<W extends Widget = Widget> extends BaseContainer<W> {
     /** The helper for handling pointer clicks */
     protected clickHelper: ClickHelper;
     /**
@@ -21,7 +23,7 @@ export class Button extends BaseContainer {
     callback: (() => void) | null;
 
     /** Create a new Button. */
-    constructor(child: Widget, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
+    constructor(child: W, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
         super(child, false, themeOverride);
         this.clickHelper = new ClickHelper(this);
         this.callback = callback;

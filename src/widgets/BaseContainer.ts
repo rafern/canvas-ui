@@ -11,16 +11,18 @@ import { Widget } from './Widget';
  * A {@link SingleParent} which contains a single child and automatically paints
  * the child, adds padding, propagates events (if enabled) and handles layout.
  *
+ * Can be constrained to a specific type of children.
+ *
  * @category Widget
  */
-export class BaseContainer extends SingleParent {
+export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     /** Horizontal offset of child relative to container. */
     private offsetX = 0;
     /** Vertical offset of child relative to container. */
     private offsetY = 0;
 
     /** Create a new BaseContainer. */
-    constructor(child: Widget, propagateEvents: boolean, themeOverride: Theme | null = null) {
+    constructor(child: W, propagateEvents: boolean, themeOverride: Theme | null = null) {
         // Containers need a clear background, have a child and may propagate
         // events
         super(child, themeOverride, true, propagateEvents);

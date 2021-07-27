@@ -1,10 +1,10 @@
-import { PassthroughWidget } from './PassthroughWidget';
-import type { Theme } from '../theme/Theme';
-import type { Root } from '../core/Root';
+import { ViewportWidget } from './ViewportWidget';
 import type { Widget } from './Widget';
 /**
  * A wrapper for a {@link ViewportWidget} which can be scrolled with
  * {@link ScrollBar}.
+ *
+ * Can be constrained to a specific type of children.
  *
  * To avoid an ugly looking layout, scrollbars are automatically hidden if they
  * are not needed. However, you can only tell if a scrollbar is needed after
@@ -17,54 +17,5 @@ import type { Widget } from './Widget';
  *
  * @category Widget
  */
-export declare class ScrollableViewportWidget extends PassthroughWidget {
-    /** A reference to the created {@link ViewportWidget} for easy access. */
-    private readonly viewport;
-    /**
-     * A reference to the created vertical {@link ScrollBar} for easy access.
-     */
-    private readonly vScroll;
-    /**
-     * A reference to the created horizontal {@link ScrollBar} for easy access.
-     */
-    private readonly hScroll;
-    /**
-     * Hide the vertical scroll bar?
-     *
-     * Used to work around the current limitation of flickering scrollbars. If
-     * you know a scrollbar should be disabled, such as when loading, set this
-     * to true to avoid flickering caused by layout changes.
-     */
-    vScrollHide: boolean;
-    /**
-     * Hide the horizontal scroll bar?
-     *
-     * Used to work around the current limitation of flickering scrollbars. If
-     * you know a scrollbar should be disabled, such as when loading, set this
-     * to true to avoid flickering caused by layout changes.
-     */
-    hScrollHide: boolean;
-    /** Create a new ScrollableViewportWidget. */
-    constructor(child: Widget, vertical: boolean, mainBasisTied?: boolean, crossBasisTied?: boolean, themeOverride?: Theme | null);
-    /**
-     * The {@link viewport}'s
-     * {@link ViewportWidget.maxDimensions | maxDimensions}
-     */
-    get maxDimensions(): [number, number];
-    set maxDimensions(maxDimensions: [number, number]);
-    /** The {@link viewport}'s {@link ViewportWidget.flexRatio | flexRatio} */
-    get flexRatio(): number;
-    set flexRatio(flexRatio: number);
-    /** The {@link viewport}'s {@link ViewportWidget.mainBasis | mainBasis} */
-    get mainBasis(): number;
-    set mainBasis(mainBasis: number);
-    /** The {@link viewport}'s {@link ViewportWidget.crossBasis | crossBasis} */
-    get crossBasis(): number;
-    set crossBasis(crossBasis: number);
-    /** The {@link viewport}'s {@link ViewportWidget.child | child} */
-    get containedChild(): Widget;
-    /** Reset both scroll offsets to 0. */
-    resetScroll(): void;
-    handlePreLayoutUpdate(root: Root): void;
-    handlePostLayoutUpdate(root: Root): void;
+export declare class ScrollableViewportWidget<W extends Widget = Widget> extends ViewportWidget<W> {
 }

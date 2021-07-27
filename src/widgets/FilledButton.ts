@@ -11,13 +11,15 @@ import { Button } from './Button';
  * filled background. Uses a technique similar to {@link ThemeScope} to achieve
  * this.
  *
+ * Can be constrained to a specific type of children.
+ *
  * This button version can also be "forced down"; the button becomes similar to
  * being pressed, visually. Useful for implementing widgets such as
  * {@link ShiftKey}.
  *
  * @category Widget
  */
-export class FilledButton extends Button {
+export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
     /** Is the button currently forced down? */

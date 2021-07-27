@@ -95,6 +95,8 @@ export declare class ClickHelper {
      * Updates the current {@link clickState} given an event, as well as
      * {@link _foci | focus}, {@link pointerStyle}, {@link wasClick} and
      * {@link clickStateChanged} flags.
+     *
+     * @param clickArea A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
     handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
 }

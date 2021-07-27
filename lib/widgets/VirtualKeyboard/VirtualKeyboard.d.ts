@@ -1,5 +1,5 @@
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
-import type { KeyRowTemplate } from './KeyRow';
+import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
 import type { Theme } from '../../theme/Theme';
 import { Column } from '../Column';
 /**
@@ -8,7 +8,7 @@ import { Column } from '../Column';
  *
  * @category Widget
  */
-export declare type VirtualKeyboardTemplate = Array<KeyRowTemplate>;
+export declare type VirtualKeyboardTemplate = Array<VirtualKeyRowTemplate>;
 /**
  * The default template for the keys in a {@link VirtualKeyboard}; A QWERTY
  * keyboard with US layout.
@@ -21,7 +21,7 @@ export declare const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate;
  *
  * Needs a {@link KeyboardDriver} so that key events can be queued.
  *
- * Equivalent to creating a {@link Column} of {@link KeyRow} with a shared
+ * Equivalent to creating a {@link Column} of {@link VirtualKeyRow} with a shared
  * {@link KeyContext}.
  *
  * @category Widget
@@ -34,8 +34,6 @@ export declare class VirtualKeyboard extends Column {
      * @param flexRatio The flexRatio to use when creating {@link Glyph | Glyphs}
      * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
      * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
-     * @param spacingFlexRatio The flexRatio to use when creating {@link Spacing} between each key, in a row
-     * @param spacingBasis The mainBasis to use when creating {@link Spacing} between each key, in a row
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, flexRatio?: number, mainBasis?: number, crossBasis?: number, spacingFlexRatio?: number, spacingBasis?: number, themeOverride?: Theme | null);
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeOverride?: Theme | null);
 }

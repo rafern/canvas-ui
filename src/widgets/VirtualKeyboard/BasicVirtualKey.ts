@@ -1,25 +1,29 @@
 import type { TextGetter } from '../../widgets/Label';
 import type { KeyContext } from './KeyContext';
 import type { Theme } from '../../theme/Theme';
-import { TextButton } from '../TextButton';
+import { VirtualKey } from './VirtualKey';
 
 /**
- * A {@link TextButton} which emits 'Backspace' key presses.
+ * A {@link VirtualKey} which emits key presses of a given key code.
  *
  * @category Widget
  */
-export class BasicKey extends TextButton {
+export class BasicVirtualKey extends VirtualKey {
     /**
-     * Create a new BasicKey.
+     * Create a new BasicVirtualKey.
      *
      * @param text The text to display in the virtual key.
      * @param keyCode The {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | key code} to emit in the keyContext's callback when the virtual key is pressed
      * @param keyContext The {@link KeyContext} shared by other virtual keyboard key widgets.
      */
-    constructor(text: string | TextGetter, keyCode: string, keyContext: KeyContext, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeOverride: Theme | null = null) {
+    constructor(text: string | TextGetter, keyCode: string, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeOverride: Theme | null = null) {
         super(
-            text, () => keyContext.callback(keyCode),
-            flexRatio, mainBasis, crossBasis, false, themeOverride,
+            text,
+            () => keyContext.callback(keyCode),
+            flex,
+            minWidth,
+            minHeight,
+            themeOverride,
         );
     }
 }

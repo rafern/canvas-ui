@@ -11,12 +11,14 @@ import { Widget } from '../widgets/Widget';
  * list. This way, widgets that use this mixin can decide if modifying the list
  * of children should be public or not.
  *
+ * Can be constrained to a specific type of children.
+ *
  * See {@link MultiParent} and {@link SingleParent} for more specialised
  * versions.
  *
  * @category Widget
  */
-export abstract class Parent extends Widget {
+export abstract class Parent<W extends Widget = Widget> extends Widget {
     /**
      * This widget's children. Note that this is marked as readonly so that it
      * cannot be accidentally replaced with a new array. This way, references to
@@ -26,13 +28,13 @@ export abstract class Parent extends Widget {
      *
      * See {@link children} for the public iterator getter.
      */
-    protected readonly _children: Array<Widget>;
+    protected readonly _children: Array<W>;
 
     /**
      * Create a new Parent. Automatically adds all widgets in the input array
      * to {@link _children}.
      */
-    constructor(children: Array<Widget>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
+    constructor(children: Array<W>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
         super(themeOverride, needsClear, propagatesEvents);
 
         this._children = [...children];
@@ -55,7 +57,7 @@ export abstract class Parent extends Widget {
      * Get iterator for children of this parent widget. Cannot modify list of
      * children via this iterator; for read-only purposes only.
      */
-    get children(): Iterable<Widget> {
+    get children(): Iterable<W> {
         return this._children.values();
     }
 }

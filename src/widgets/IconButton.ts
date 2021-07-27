@@ -8,7 +8,7 @@ import { Icon } from './Icon';
  *
  * @category Widget
  */
-export class IconButton extends Button {
+export class IconButton extends Button<Margin<Icon>> {
     /** Create a new IconButton. */
     constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
         super(
@@ -17,5 +17,10 @@ export class IconButton extends Button {
             ),
             callback, themeOverride
         );
+    }
+
+    /** This button's Icon widget */
+    get icon(): Icon {
+        return this.child.child;
     }
 }

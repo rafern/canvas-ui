@@ -8,13 +8,15 @@ import { Button } from './Button';
  * filled background. Uses a technique similar to {@link ThemeScope} to achieve
  * this.
  *
+ * Can be constrained to a specific type of children.
+ *
  * This button version can also be "forced down"; the button becomes similar to
  * being pressed, visually. Useful for implementing widgets such as
  * {@link ShiftKey}.
  *
  * @category Widget
  */
-export declare class FilledButton extends Button {
+export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty;
     /** Is the button currently forced down? */
@@ -31,5 +33,5 @@ export declare class FilledButton extends Button {
     get forced(): boolean;
     protected setThemeOverride(theme: Theme | null): void;
     protected inheritTheme(theme: Theme): void;
-    protected handleEvent(event: Event, width: number, height: number, root: Root): Widget | null;
+    protected handleEvent(event: Event, root: Root): Widget | null;
 }

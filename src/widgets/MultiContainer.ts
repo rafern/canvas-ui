@@ -10,12 +10,14 @@ import { Widget } from './Widget';
  * A {@link MultiParent} which automatically paints children, adds spacing,
  * propagates events and handles layout.
  *
+ * Can be constrained to a specific type of children.
+ *
  * Note that there is no padding. Put this inside a {@link Margin} if padding is
  * needed.
  *
  * @category Widget
  */
-export class MultiContainer extends MultiParent {
+export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     /** Is the container's whole background dirty (including spacing)? */
     private backgroundDirty = true;
     /** Is this container vertical? */

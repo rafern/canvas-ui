@@ -1,7 +1,7 @@
 import { TextHelper } from '../aggregates/TextHelper';
-import { FlexLayout } from '../mixins/FlexLayout';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 /**
  * A function which returns a string. An alternative to supplying a
  * {@link Label} with a string if you have a text value that constantly changes.
@@ -10,11 +10,11 @@ import type { Root } from '../core/Root';
  */
 export declare type TextGetter = () => string;
 /**
- * A flexbox widget which displays line of text.
+ * A widget which displays a line of text.
  *
  * @category Widget
  */
-export declare class Label extends FlexLayout {
+export declare class Label extends Widget {
     /**
      * The text getter source. If this is not null, text will be updated with
      * the return value of this callback, every update.
@@ -55,5 +55,6 @@ export declare class Label extends FlexLayout {
      */
     get text(): string;
     protected handlePreLayoutUpdate(_root: Root): void;
-    protected handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
 }

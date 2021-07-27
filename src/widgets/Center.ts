@@ -9,6 +9,8 @@ import { Theme } from '../theme/Theme';
 /**
  * A {@link Container} with center alignment on both axes and no padding.
  *
+ * Can be constrained to a specific type of children.
+ *
  * Padding and alignment settings are applied via theme overrides, so no theme
  * override can be passed to this widget. If you want to override additional
  * theme properties other than the ones overridden here, then use
@@ -16,9 +18,9 @@ import { Theme } from '../theme/Theme';
  *
  * @category Widget
  */
-export class Center extends Container {
+export class Center<W extends Widget = Widget> extends Container<W> {
     /** Create a new Center. */
-    constructor(child: Widget) {
+    constructor(child: W) {
         const themeOverride = new Theme(new Map<ThemeProperty, unknown>([
             [
                 ThemeProperty.ContainerAlignment,

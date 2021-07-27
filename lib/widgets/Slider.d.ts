@@ -1,9 +1,9 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper } from '../aggregates/ClickHelper';
-import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum
  * value to an inclusive maximum value, with optional snapping along set
@@ -13,7 +13,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export declare class Slider extends FlexLayout {
+export declare class Slider extends Widget {
     /** The slider's minimum value. */
     private minValue;
     /** The slider's maximum value. */
@@ -27,18 +27,22 @@ export declare class Slider extends FlexLayout {
     protected clickHelper: ClickHelper;
     /** The helper for keeping track of the slider's value */
     protected variable: Variable<number>;
+    /** Is this a vertical slider? */
+    protected readonly vertical: boolean;
+    /** The horizontal offset of the slider */
+    private offsetX;
+    /** The vertical offset of the slider */
+    private offsetY;
+    /** The actual width of the slider */
+    private actualWidth;
+    /** The actual height of the slider */
+    private actualHeight;
     /** Create a new Slider */
-    constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, themeOverride?: Theme | null);
+    constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, vertical?: boolean, themeOverride?: Theme | null);
     /** The slider's value */
     set value(value: number);
     get value(): number;
-    /**
-     * Get the rectangle where the slider will be painted.
-     *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
-     */
-    private getSliderRect;
-    protected handleEvent(event: Event, width: number, height: number, root: Root): this;
-    protected handlePreLayoutUpdate(_root: Root): void;
-    protected handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
+    protected handleEvent(event: Event, root: Root): this;
+    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
 }

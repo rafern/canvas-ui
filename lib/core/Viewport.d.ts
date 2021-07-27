@@ -1,5 +1,4 @@
 import type { Widget } from '../widgets/Widget';
-import { LayoutContext } from './LayoutContext';
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
  * used by {@link Root} and {@link ViewportWidget}.
@@ -8,19 +7,20 @@ import { LayoutContext } from './LayoutContext';
  */
 export declare class Viewport {
     /**
-     * Maximum size of viewport. For internal use only.
+     * Constraints of viewport. For internal use only.
      *
-     * See {@link maxDimensions}.
+     * By default, has no minimum width nor height and unconstrained maximum
+     * width and height.
+     *
+     * See {@link constraints}.
      */
-    private _maxDimensions;
-    /** Does the viewport need to force-mark layout as dirty? */
-    private forceLayout;
+    private _constraints;
+    /** Have the constraints been changed? */
+    private dirty;
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
     /** The internal canvas' context. Alpha is enabled. */
     readonly context: CanvasRenderingContext2D;
-    /** Is the layout context vertical? */
-    vertical: boolean;
     /**
      * Create a new Viewport.
      *
@@ -32,32 +32,19 @@ export declare class Viewport {
     /** The current dimensions of the {@link canvas | internal canvas} */
     get canvasDimensions(): [number, number];
     /**
-     * Maximum size of viewport. This is passed as a hint to children.  If an
-     * axis' maximum length is 0, then there is no maximum for that axis, but it
-     * also means that flex components won't expand in that axis.
+     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
+     * containing, respectively, minimum width, maximum width, minimum height
+     * and maximum height.
      *
-     * See {@link _maxDimensions}.
+     * See {@link _constraints}.
      */
-    set maxDimensions(maxDimensions: [number, number]);
-    get maxDimensions(): [number, number];
+    set constraints(constraints: [number, number, number, number]);
+    get constraints(): [number, number, number, number];
     /**
-     * Populates the given child's layout by calling
-     * {@link Widget.populateLayout}.
+     * Resolves the given child's layout by calling {@link Widget.resolveLayout}
+     * with the current {@link constraints}.
      *
-     * If {@link forceLayout} is true, then it is reset to false and
-     * {@link Widget.forceLayoutDirty} is called.
-     *
-     * If the child's layout is not dirty, then populateLayout is not called and
-     * no layout context is returned, else, a layout context is returned which
-     * should be used with {@link resolveChildsLayout}.
-     */
-    populateChildsLayout(child: Widget): LayoutContext | null;
-    /**
-     * Resolves the given child's layout with a given layout context by calling
-     * {@link Widget.resolveLayout}.
-     *
-     * If the child's layout is not dirty or the given layout context is null,
-     * then resolveLayout is not called.
+     * If the child's layout is not dirty, then resolveLayout is not called.
      *
      * Expands {@link canvas} if the new layout is too big for the current
      * canvas. Expansion is done in powers of 2 to avoid issues with external 3D
@@ -65,7 +52,7 @@ export declare class Viewport {
      *
      * @returns Returns true if the child was resized, else, false.
      */
-    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): boolean;
+    resolveChildsLayout(child: Widget): boolean;
     /**
      * Paint a given child to {@link canvas}.
      *

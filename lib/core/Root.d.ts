@@ -87,11 +87,9 @@ export declare class Root {
      * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
      */
     constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
-    /**
-     * The {@link viewport}'s {@link Viewport.maxDimensions | maxDimensions}
-     */
-    get maxDimensions(): [number, number];
-    set maxDimensions(maxDimensions: [number, number]);
+    /** The {@link viewport}'s {@link Viewport.constraints | constraints} */
+    get constraints(): [number, number, number, number];
+    set constraints(constraints: [number, number, number, number]);
     /**
      * The {@link viewport}'s
      * {@link Viewport.canvasDimensions | canvasDimensions}
