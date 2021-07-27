@@ -3,7 +3,8 @@
         <script type='module'>
             import {
                 DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver
+                TextButton, DOMKeyboardDriver, DOMPointerDriver, Spacing,
+                DOMVirtualKeyboardRoot, DebugTheme
             } from './index.esm.js';
 
             // Create the root
@@ -22,33 +23,44 @@
                             .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
                         )
                     )
-                )
+                ),
+                //new DebugTheme(),
             );
 
-            // Create, bind DOM and register the keyboard driver
+            // Create drivers
             const keyboardDriver = new DOMKeyboardDriver();
+            const pointerDriver = new DOMPointerDriver();
+
+            // Create the virtual keyboard root
+            const vkRoot = new DOMVirtualKeyboardRoot(
+                keyboardDriver,
+                undefined,
+                //new DebugTheme(),
+            );
+
+            // Register roots and bind DOM elements to drivers
             keyboardDriver.bindDOMElem(root.domElem);
             root.registerDriver(keyboardDriver);
+            keyboardDriver.bindDOMElem(vkRoot.domElem);
 
-            // Create, bind DOM and register the pointer driver
-            const pointerDriver = new DOMPointerDriver();
             pointerDriver.bindDOMElem(root, root.domElem);
             root.registerDriver(pointerDriver);
+            pointerDriver.bindDOMElem(vkRoot, vkRoot.domElem);
+            vkRoot.registerDriver(pointerDriver);
 
             // Run the update loop
             function updateLoop() {
+                vkRoot.update();
                 root.update();
                 window.requestAnimationFrame(updateLoop);
             }
 
             window.requestAnimationFrame(updateLoop);
 
-            // Add root to body
+            // Add roots to body
             document.body.appendChild(root.domElem);
+            document.body.appendChild(vkRoot.domElem);
         </script>
-        <noscript>
-            Please enable Javascript. This example may not work if running via file:// URIs
-        </noscript>
     </head>
     <body>
     </body>

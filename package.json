@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "rollup -c",
-    "docs": "typedoc --readme none --out ./docs/ ./src/index.ts"
+    "docs": "typedoc --readme none --out ./docs/ ./src/index.ts",
+    "test": "ws --directory examples"
   },
   "files": [
     "lib",
@@ -25,6 +26,7 @@
     "@typescript-eslint/parser": "^4.28.2",
     "eslint": "^7.30.0",
     "eslint-plugin-tree-shaking": "^1.9.2",
+    "local-web-server": "^5.0.0",
     "rollup": "^2.51.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
