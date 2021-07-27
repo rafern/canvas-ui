@@ -12,5 +12,5 @@ export declare class TextButton extends FilledButton<TextMargin<Label>> {
     /** Create a new TextButton. */
     constructor(text: string | TextGetter, callback?: (() => void) | null, themeOverride?: Theme | null);
     /** This button's Label widget */
-    get icon(): Label;
+    get label(): Label;
 }

@@ -16,6 +16,8 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
     private offsetX;
     /** Vertical offset of child relative to container. */
     private offsetY;
+    /** Does the background need to be cleared? */
+    protected backgroundDirty: boolean;
     /** Create a new BaseContainer. */
     constructor(child: W, propagateEvents: boolean, themeOverride?: Theme | null);
     protected handleEvent(event: Event, root: Root): Widget | null;

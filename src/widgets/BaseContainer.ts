@@ -20,12 +20,14 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     private offsetX = 0;
     /** Vertical offset of child relative to container. */
     private offsetY = 0;
+    /** Does the background need to be cleared? */
+    protected backgroundDirty = true;
 
     /** Create a new BaseContainer. */
     constructor(child: W, propagateEvents: boolean, themeOverride: Theme | null = null) {
-        // Containers need a clear background, have a child and may propagate
+        // Containers clear their own background, have a child and may propagate
         // events
-        super(child, themeOverride, true, propagateEvents);
+        super(child, themeOverride, false, propagateEvents);
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
@@ -72,11 +74,12 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         if(childMaxHeight < 0)
             childMaxHeight = 0;
 
-        // Use tight fit if using a stretch alignment
+        // Use tight fit if using a stretch alignment and the max dimensions are
+        // not unconstrained
         const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
-        const childMinWidth = alignment.horizontal == Alignment.Stretch
+        const childMinWidth = (alignment.horizontal === Alignment.Stretch && maxWidth !== Infinity)
                                 ? childMaxWidth : 0;
-        const childMinHeight = alignment.vertical == Alignment.Stretch
+        const childMinHeight = (alignment.vertical === Alignment.Stretch && maxHeight !== Infinity)
                                 ? childMaxHeight : 0;
 
         // Resolve child's layout
@@ -86,8 +89,13 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         const usedHeight = childDims[1] + vPadding;
 
         // Resolve own layout
+        const [oldWidth, oldHeight] = [this.width, this.height];
         this.width = Math.max(minWidth, usedWidth);
         this.height = Math.max(minHeight, usedHeight);
+
+        // Mark background as dirty if size changed
+        if(this.width !== oldWidth || this.height !== oldHeight)
+            this.backgroundDirty = true;
 
         // Horizontal offset
         this.offsetX = padding.left;
@@ -132,6 +140,12 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+        // Clear background if needed
+        if(this.backgroundDirty) {
+            this.clear(x, y, this.width, this.height, ctx);
+            this.backgroundDirty = false;
+        }
+
         // Paint child
         this.child.paint(x + this.offsetX, y + this.offsetY, ctx);
     }
