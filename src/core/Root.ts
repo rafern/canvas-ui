@@ -102,15 +102,13 @@ export class Root {
         this.child.inheritedTheme = theme;
     }
 
-    /**
-     * The {@link viewport}'s {@link Viewport.maxDimensions | maxDimensions}
-     */
-    get maxDimensions(): [number, number] {
-        return this.viewport.maxDimensions;
+    /** The {@link viewport}'s {@link Viewport.constraints | constraints} */
+    get constraints(): [number, number, number, number] {
+        return this.viewport.constraints;
     }
 
-    set maxDimensions(maxDimensions: [number, number]) {
-        this.viewport.maxDimensions = maxDimensions;
+    set constraints(constraints: [number, number, number, number]) {
+        this.viewport.constraints = constraints;
     }
 
     /**
@@ -187,8 +185,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        const layoutCtx = this.viewport.populateChildsLayout(this.child);
-        return this.viewport.resolveChildsLayout(this.child, layoutCtx);
+        return this.viewport.resolveChildsLayout(this.child);
     }
 
     /**
@@ -247,8 +244,7 @@ export class Root {
         this.pointerStyle = 'default';
 
         // Pass event down to internal Container
-        const [width, height] = this.dimensions;
-        const captured = this.child.dispatchEvent(event, width, height, this);
+        const captured = this.child.dispatchEvent(event, this);
         if(captured === null) {
             // If the event wasn't captured but it had a focus, clear the focus
             // NOTE: This is for preventing a component that is no longer
@@ -272,7 +268,7 @@ export class Root {
         // Special case: when the pointer focus capturer changes, dispatch a
         // leave event to the last capturer
         if(event.focusType === FocusType.Pointer && oldCapturer !== null)
-            this.child.dispatchEvent(new Leave(oldCapturer), width, height, this);
+            this.child.dispatchEvent(new Leave(oldCapturer), this);
 
         this._fociCapturers.set(event.focusType, captured);
         for(const driver of this.drivers)

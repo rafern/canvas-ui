@@ -1,9 +1,6 @@
-import { /* tree-shaking no-side-effects-when-called */ Mixin } from 'ts-mixer';
-import type { LayoutContext } from '../core/LayoutContext';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import { SingleParent } from '../mixins/SingleParent';
-import { FlexLayout } from '../mixins/FlexLayout';
+import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import { Viewport } from '../core/Viewport';
@@ -21,43 +18,29 @@ import type { Widget } from './Widget';
  *
  * @category Widget
  */
-export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
-    /** Is the main basis tied to the child's? */
-    mainBasisTied: boolean;
-    /** Is the cross basis tied to the child's? */
-    crossBasisTied: boolean;
+export class ViewportWidget extends SingleParent {
+    /** See {@link widthTied}. For internal use only */
+    private _widthTied: boolean;
+    /** See {@link heightTied}. For internal use only */
+    private _heightTied: boolean;
+    /** See {@link minWidth}. For internal use only */
+    private _minWidth = 0;
+    /** See {@link minHeight}. For internal use only */
+    private _minHeight = 0;
     /** The actual viewport object. */
     private viewport: Viewport;
-    /**
-     * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Useful for implementing scrolling.
-     */
+    /** See {@link offset}. For internal use only */
     private _offset: [number, number] = [0, 0];
-    /**
-     * Layout context used by {@link child}. Can be null if no layout update is
-     * required.
-     */
-    private lastChildLayoutCtx: LayoutContext | null = null;
-    /**
-     * Max dimensions. Not the effective max dimensions; those are set every
-     * frame and are the viewport's max dimensions.
-     */
-    maxDimensions: [number, number] = [0, 0];
-    /**
-     * What were the last dimensions of the viewport widget? Useful for
-     * scrolling,
-     */
-    lastViewportDims: [number, number] = [0, 0];
 
     /** Create a new ViewportWidget. */
-    constructor(child: Widget, mainBasisTied = false, crossBasisTied = false, themeOverride: Theme | null = null) {
+    constructor(child: Widget, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
         // Viewport clears its own background, has a single child and propagates
         // events
         super(child, themeOverride, false, true);
 
         this.viewport = new Viewport();
-        this.mainBasisTied = mainBasisTied;
-        this.crossBasisTied = crossBasisTied;
+        this._widthTied = widthTied;
+        this._heightTied = heightTied;
     }
 
     /**
@@ -69,13 +52,8 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
     }
 
     /**
-     * The offset of {@link child}, used for scrolling.
-     *
-     * If getting, creates a clone of {@link _offset}.
-     *
-     * If setting, sets each value in {@link _offset} to the wanted one, so old
-     * references are still valid. {@link _dirty} is set to true. Nothing
-     * happens if the offset is unchanged.
+     * Offset of {@link child}. Positional events will take this into account,
+     * as well as rendering. Useful for implementing scrolling.
      */
     get offset(): [number, number] {
         return [...this._offset];
@@ -89,37 +67,70 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
         }
     }
 
-    /** Get the main basis of the {@link child} */
-    private getChildMainBasis(vertical: boolean): number {
-        if(this.lastChildLayoutCtx === null)
-            return 0;
-
-        const innerLength = vertical ? this.lastChildLayoutCtx.vBasis
-                                     : this.lastChildLayoutCtx.hBasis;
-
-        if(isNaN(innerLength))
-            return 0;
-
-        return innerLength;
+    /** The {@link Viewport.constraints | Viewport's constraints}. */
+    set constraints(constraints: [number, number, number, number]) {
+        this.viewport.constraints = constraints;
     }
 
-    /** Get the cross basis of the {@link child} */
-    private getChildCrossBasis(vertical: boolean): number {
-        return this.getChildMainBasis(!vertical);
+    get constraints(): [number, number, number, number] {
+        return this.viewport.constraints;
     }
 
-    /** Get the max length along the main axis of the {@link child} */
-    private getMaxMainBasis(vertical: boolean): number {
-        return vertical ? this.maxDimensions[1]
-                        : this.maxDimensions[0];
+    /**
+     * Is the width tied to the child's? If true, width constraints will be
+     * overridden.
+     */
+    get widthTied(): boolean {
+        return this._widthTied;
     }
 
-    /** Get the max length along the cross axis of the {@link child} */
-    private getMaxCrossBasis(vertical: boolean): number {
-        return this.getMaxMainBasis(!vertical);
+    set widthTied(widthTied: boolean) {
+        if(this._widthTied !== widthTied) {
+            this._widthTied = widthTied;
+            this._layoutDirty = true;
+        }
     }
 
-    protected override handleEvent(event: Event, _width: number, _height: number, root: Root): Widget | null {
+    /**
+     * Is the height tied to the child's? If true, height constraints will be
+     * overridden.
+     */
+    get heightTied(): boolean {
+        return this._heightTied;
+    }
+
+    set heightTied(heightTied: boolean) {
+        if(this._heightTied !== heightTied) {
+            this._heightTied = heightTied;
+            this._layoutDirty = true;
+        }
+    }
+
+    /** The minimum width that this widget will try to expand to. */
+    get minWidth(): number {
+        return this._minWidth;
+    }
+
+    set minWidth(minWidth: number) {
+        if(this._minWidth !== minWidth) {
+            this._minWidth = minWidth;
+            this._layoutDirty = true;
+        }
+    }
+
+    /** The minimum height that this widget will try to expand to. */
+    get minHeight(): number {
+        return this._minHeight;
+    }
+
+    set minHeight(minHeight: number) {
+        if(this._minHeight !== minHeight) {
+            this._minHeight = minHeight;
+            this._layoutDirty = true;
+        }
+    }
+
+    protected override handleEvent(event: Event, root: Root): Widget | null {
         // Ignore events with no position and no target
         if(event.target === null && !(event instanceof PointerEvent))
             return null;
@@ -147,22 +158,11 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
         }
 
         // Dispatch event to child
-        return this.child.dispatchEvent(event, vpr - vpl, vpb - vpt, root);
+        return this.child.dispatchEvent(event, root);
     }
 
     protected override handlePreLayoutUpdate(root: Root): void {
-        // If verticality was changed, update it and set dirty. Assume that null
-        // verticality means that it's vertical as Viewports don't inherit
-        // verticality
-        let currentVerticality = this.vertical;
-        if(currentVerticality === null)
-            currentVerticality = true;
-
         const child = this.child;
-        if(currentVerticality !== this.viewport.vertical) {
-            this.viewport.vertical = currentVerticality;
-            child.forceLayoutDirty();
-        }
 
         // Pre-layout update child
         child.preLayoutUpdate(root);
@@ -170,67 +170,10 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
         // If child's layout is dirty set self's layout as dirty
         if(child.layoutDirty)
             this._layoutDirty = true;
-        else
-            return;
-
-        // Populate child's layout context
-        this.lastChildLayoutCtx = this.viewport.populateChildsLayout(child);
-
-        // If a basis is tied, update internal basis to be equal to child's
-        // basis
-        if(this.mainBasisTied) {
-            let basis = this.getChildMainBasis(currentVerticality);
-            const maxBasis = this.getMaxMainBasis(currentVerticality);
-
-            if(maxBasis !== 0 && basis > maxBasis)
-                basis = maxBasis;
-
-            this.internalMainBasis = basis;
-        }
-        else
-            this.internalMainBasis = 0;
-
-        if(this.crossBasisTied) {
-            let basis = this.getChildCrossBasis(currentVerticality);
-            const maxBasis = this.getMaxCrossBasis(currentVerticality);
-
-            if(maxBasis !== 0 && basis > maxBasis)
-                basis = maxBasis;
-
-            this.internalCrossBasis = basis;
-        }
-        else
-            this.internalCrossBasis = 0;
     }
 
     protected override handlePostLayoutUpdate(root: Root): void {
         const child = this.child;
-
-        if(this.lastChildLayoutCtx !== null) {
-            // Update viewport's max dimensions taking into account whether a
-            // basis is tied
-            let [newMaxWidth, newMaxHeight] = [...this.maxDimensions];
-
-            if(this.viewport.vertical ? this.crossBasisTied : this.mainBasisTied) {
-                if(newMaxWidth === 0 || this.resolvedWidth < newMaxWidth)
-                    newMaxWidth = this.resolvedWidth;
-            }
-
-            if(this.viewport.vertical ? this.mainBasisTied : this.crossBasisTied) {
-                if(newMaxHeight === 0 || this.resolvedHeight < newMaxHeight)
-                    newMaxHeight = this.resolvedHeight;
-            }
-
-            this.viewport.maxDimensions = [newMaxWidth, newMaxHeight];
-            this.lastChildLayoutCtx.maxWidth = newMaxWidth;
-            this.lastChildLayoutCtx.maxHeight = newMaxHeight;
-
-            // Resolve child's layout
-            this.viewport.resolveChildsLayout(child, this.lastChildLayoutCtx);
-
-            // Clear layout context, no longer needed
-            this.lastChildLayoutCtx = null;
-        }
 
         // Post-layout update child
         child.postLayoutUpdate(root);
@@ -238,11 +181,61 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
         // If child is dirty, set self as dirty
         if(child.dirty)
             this._dirty = true;
+
+        // If child's layout is dirty and at least one of the axes are tied,
+        // propagate layout dirtiness. Try to resolve layout if no axis is tied.
+        const tied = this._widthTied || this._heightTied;
+        if(child.layoutDirty && tied)
+            this._layoutDirty = true;
+        else if(!tied)
+            this.viewport.resolveChildsLayout(child);
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
-        this.lastViewportDims = [width, height];
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        let normalWidth = true, normalHeight = true;
+        const actualMinWidth = Math.min(Math.max(minWidth, this._minWidth), maxWidth);
+        const actualMinHeight = Math.min(Math.max(minHeight, this._minHeight), maxHeight);
 
+        if(this._widthTied || this._heightTied) {
+            // Resolve child's layout
+            const constraints = this.viewport.constraints;
+
+            if(this._widthTied) {
+                constraints[0] = minWidth;
+                constraints[1] = maxWidth;
+            }
+
+            if(this._heightTied) {
+                constraints[2] = minHeight;
+                constraints[3] = maxHeight;
+            }
+
+            const child = this.child;
+            this.viewport.constraints = constraints;
+            this.viewport.resolveChildsLayout(child);
+
+            // Tie wanted axes. Do regular layout for non-tied axes.
+            if(this._widthTied) {
+                this.width = child.dimensions[0];
+                normalWidth = false;
+            }
+
+            if(this._heightTied) {
+                this.height = child.dimensions[1];
+                normalHeight = false;
+            }
+        }
+
+        // Expand as much as possible if constrained, else, only expand to the
+        // needed dimensions
+        if(normalWidth)
+            this.width = (maxWidth !== Infinity) ? maxWidth : actualMinWidth;
+
+        if(normalHeight)
+            this.height = (maxHeight !== Infinity) ? maxHeight : actualMinHeight;
+    }
+
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
         // Paint child to viewport's canvas
         this.viewport.paintToCanvas(this.child);
 
@@ -253,7 +246,7 @@ export class ViewportWidget extends Mixin(FlexLayout, SingleParent) {
         // These are rounded because clipping and filling doesn't work properly
         // with decimal points
         const drawAreaClip = new Path2D();
-        drawAreaClip.rect(Math.trunc(x), Math.trunc(y), Math.ceil(width), Math.ceil(height));
+        drawAreaClip.rect(Math.trunc(x), Math.trunc(y), Math.ceil(this.width), Math.ceil(this.height));
         ctx.clip(drawAreaClip);
 
         // Clear background

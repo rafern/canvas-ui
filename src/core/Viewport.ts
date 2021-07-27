@@ -1,6 +1,5 @@
 import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
-import { LayoutContext } from './LayoutContext';
 
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -10,21 +9,21 @@ import { LayoutContext } from './LayoutContext';
  */
 export class Viewport {
     /**
-     * Maximum size of viewport. For internal use only.
+     * Constraints of viewport. For internal use only.
      *
-     * See {@link maxDimensions}.
+     * By default, has no minimum width nor height and unconstrained maximum
+     * width and height.
+     *
+     * See {@link constraints}.
      */
-    private _maxDimensions: [number, number] = [0, 0];
-    /** Does the viewport need to force-mark layout as dirty? */
-    private forceLayout = false;
+    private _constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
+    /** Have the constraints been changed? */
+    private dirty = true;
 
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
     /** The internal canvas' context. Alpha is enabled. */
     readonly context: CanvasRenderingContext2D;
-
-    /** Is the layout context vertical? */
-    vertical = true;
 
     /**
      * Create a new Viewport.
@@ -53,63 +52,34 @@ export class Viewport {
     }
 
     /**
-     * Maximum size of viewport. This is passed as a hint to children.  If an
-     * axis' maximum length is 0, then there is no maximum for that axis, but it
-     * also means that flex components won't expand in that axis.
+     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
+     * containing, respectively, minimum width, maximum width, minimum height
+     * and maximum height.
      *
-     * See {@link _maxDimensions}.
+     * See {@link _constraints}.
      */
-    set maxDimensions(maxDimensions: [number, number]) {
-        if(this._maxDimensions[0] !== maxDimensions[0] ||
-           this._maxDimensions[1] !== maxDimensions[1]) {
-            this._maxDimensions[0] = maxDimensions[0];
-            this._maxDimensions[1] = maxDimensions[1];
-            this.forceLayout = true;
+    set constraints(constraints: [number, number, number, number]) {
+        if(this._constraints[0] !== constraints[0] ||
+           this._constraints[1] !== constraints[1] ||
+           this._constraints[2] !== constraints[2] ||
+           this._constraints[3] !== constraints[3]) {
+            this._constraints[0] = constraints[0];
+            this._constraints[1] = constraints[1];
+            this._constraints[2] = constraints[2];
+            this._constraints[3] = constraints[3];
+            this.dirty = true;
         }
     }
 
-    get maxDimensions(): [number, number] {
-        return [this._maxDimensions[0], this._maxDimensions[1]];
+    get constraints(): [number, number, number, number] {
+        return [...this._constraints];
     }
 
     /**
-     * Populates the given child's layout by calling
-     * {@link Widget.populateLayout}.
+     * Resolves the given child's layout by calling {@link Widget.resolveLayout}
+     * with the current {@link constraints}.
      *
-     * If {@link forceLayout} is true, then it is reset to false and
-     * {@link Widget.forceLayoutDirty} is called.
-     *
-     * If the child's layout is not dirty, then populateLayout is not called and
-     * no layout context is returned, else, a layout context is returned which
-     * should be used with {@link resolveChildsLayout}.
-     */
-    populateChildsLayout(child: Widget): LayoutContext | null {
-        // Force layout resolution
-        if(this.forceLayout) {
-            this.forceLayout = false;
-            child.forceLayoutDirty();
-        }
-
-        // If layout is not dirty, no context is returned; update not needed
-        if(!child.layoutDirty)
-            return null;
-
-        // Populate layout context
-        const layoutCtx = new LayoutContext(
-            this._maxDimensions[0], this._maxDimensions[1], this.vertical,
-        );
-
-        child.populateLayout(layoutCtx);
-
-        return layoutCtx;
-    }
-
-    /**
-     * Resolves the given child's layout with a given layout context by calling
-     * {@link Widget.resolveLayout}.
-     *
-     * If the child's layout is not dirty or the given layout context is null,
-     * then resolveLayout is not called.
+     * If the child's layout is not dirty, then resolveLayout is not called.
      *
      * Expands {@link canvas} if the new layout is too big for the current
      * canvas. Expansion is done in powers of 2 to avoid issues with external 3D
@@ -117,18 +87,20 @@ export class Viewport {
      *
      * @returns Returns true if the child was resized, else, false.
      */
-    resolveChildsLayout(child: Widget, layoutCtx: LayoutContext | null): boolean {
-        if(!child.layoutDirty || layoutCtx === null)
+    resolveChildsLayout(child: Widget): boolean {
+        if(!child.layoutDirty && !this.dirty)
             return false;
+
+        // Remove constraints' dirty flag
+        this.dirty = false;
 
         // Resolve child's layout
         const [oldWidth, oldHeight] = child.dimensions;
 
-        child.resolveLayout(layoutCtx);
+        child.resolveLayout(...this.constraints);
 
         const [newWidth, newHeight] = child.dimensions;
 
-        let childResized = false;
         if(newWidth !== oldWidth || newHeight !== oldHeight) {
             // Re-scale canvas if neccessary.
             // Canvas dimensions are rounded to the nearest power of 2, favoring
@@ -142,18 +114,10 @@ export class Viewport {
             if(potentialCHeight > this.canvas.height)
                 this.canvas.height = potentialCHeight;
 
-            childResized = true;
+            return true;
         }
-
-        // Force-mark child as dirty if a resize occurred. A resize of
-        // child components still counts as a resize, hence why this flag is
-        // used instead of the conditional for comparing the old size and the
-        // new size. If it didn't count, then a flex component that expands to
-        // its maximum size would never trigger a redraw even if it changed size
-        if(layoutCtx.sizeChanged || childResized)
-            child.forceLayoutDirty();
-
-        return childResized;
+        else
+            return false;
     }
 
     /**
@@ -167,7 +131,7 @@ export class Viewport {
         // Paint child
         const wasDirty = child.dirty;
         if(wasDirty)
-            child.paint(0, 0, ...child.dimensions, this.context);
+            child.paint(0, 0, this.context);
 
         return wasDirty;
     }

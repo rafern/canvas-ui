@@ -1,26 +1,41 @@
-import { FlexLayout } from '../mixins/FlexLayout';
 import type { Theme } from '../theme/Theme';
+import { Widget } from './Widget';
 
 /**
- * A flexbox widget with empty space.
+ * A widget with empty space.
  *
- * Since flexbox layout will always try to expand the UI, it might not be the
- * best solution for, for example, aligning simple components inside a
- * {@link MultiContainer}. For that, use the {@link Container} widget instead,
- * with an alignment mode of choice. By default will fully expand with no basis
- * in the same direction of the layout context.
+ * Will always try to expand if the layout is constrained, so make sure to set
+ * flex or pass it along the constructor
  *
  * @category Widget
  */
-export class Spacing extends FlexLayout {
+export class Spacing extends Widget {
+    /** The minimum width this will try to expand */
+    minWidth: number;
+    /** The minimum height this will try to expand */
+    minHeight: number;
+
     /** Create a new Spacing. */
-    constructor(flexRatio = 1, mainBasis = 0, crossBasis = 0, vertical: boolean | null = null, themeOverride: Theme | null = null) {
+    constructor(flex = 1, minWidth = 0, minHeight = 0, themeOverride: Theme | null = null) {
         // Spacing needs clear, never has children and doesn't propagate events
         super(themeOverride, true, false);
 
-        this.flexRatio = flexRatio;
-        this.mainBasis = mainBasis;
-        this.crossBasis = crossBasis;
-        this.vertical = vertical;
+        this.flex = flex;
+        this.minWidth = minWidth;
+        this.minHeight = minHeight;
+    }
+
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Try to expand each axis. If axis is not constrained (can't expand),
+        // then try to use the biggest minimum length
+        if(maxWidth !== Infinity)
+            this.width = maxWidth;
+        else
+            this.width = Math.max(minWidth, this.minWidth);
+
+        if(maxHeight !== Infinity)
+            this.height = maxHeight;
+        else
+            this.height = Math.max(minHeight, this.minHeight);
     }
 }

@@ -1,5 +1,4 @@
-import type { LayoutContext } from '../core/LayoutContext';
-import { SingleParent } from '../mixins/SingleParent';
+import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
@@ -24,9 +23,9 @@ export class PassthroughWidget extends SingleParent {
         super(child, themeOverride, false, true);
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
+    protected override handleEvent(event: Event, root: Root): Widget | null {
         // Dispatch event to child
-        return this.child.dispatchEvent(event, width, height, root);
+        return this.child.dispatchEvent(event, root);
     }
 
     protected override handlePreLayoutUpdate(root: Root): void {
@@ -49,21 +48,16 @@ export class PassthroughWidget extends SingleParent {
             this._dirty = true;
     }
 
-    protected override handlePopulateLayout(layoutCtx: LayoutContext): void {
-        // Populate child's layout
-        this.child.populateLayout(layoutCtx);
-    }
-
-    protected override handleResolveLayout(layoutCtx: LayoutContext): void {
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Resolve child's layout and set own resolved dimensions to be equal to
         // the child's
         const child = this.child;
-        child.resolveLayout(layoutCtx);
-        [this.resolvedWidth, this.resolvedHeight] = child.dimensions;
+        child.resolveLayout(minWidth, maxWidth, minHeight, maxHeight);
+        [this.width, this.height] = child.dimensions;
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
         // Paint child
-        this.child.paint(x, y, width, height, ctx);
+        this.child.paint(x, y, ctx);
     }
 }

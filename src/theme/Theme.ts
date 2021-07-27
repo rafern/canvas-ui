@@ -21,9 +21,8 @@ const defaultThemeProperties = new Map<ThemeProperty, unknown>([
     [ThemeProperty.AccentFill, 'rgb(0,195,255)'], // Greener azure blue
     [ThemeProperty.BackgroundFill, 'rgb(32,32,32)'], // Dark grey
     [ThemeProperty.BackgroundGlowFill, 'rgb(48,48,48)'], // Lighter dark grey
-    [ThemeProperty.SliderFlexRatio, 1],
-    [ThemeProperty.SliderMainBasis, 100],
-    [ThemeProperty.SliderCrossBasis, 10],
+    [ThemeProperty.SliderMinLength, 100],
+    [ThemeProperty.SliderThickness, 10],
     [ThemeProperty.BodyTextFont, '16px sans'],
     [ThemeProperty.BodyTextFill, 'white'],
     [ThemeProperty.LabelMinWidth, 0],
@@ -36,13 +35,12 @@ const defaultThemeProperties = new Map<ThemeProperty, unknown>([
     [ThemeProperty.InputTextFill, 'black'],
     [ThemeProperty.InputTextFillDisabled, 'grey'],
     [ThemeProperty.InputTextFillInvalid, 'red'],
-    [ThemeProperty.InputTextFlexRatio, 1],
     [ThemeProperty.InputTextMinWidth, 100],
     [ThemeProperty.InputTextMinAscent, 16],
     [ThemeProperty.InputTextMinDescent, 3],
+    [ThemeProperty.InputTextInnerPadding, 2],
     [ThemeProperty.BlinkRate, 0.8],
-    [ThemeProperty.CursorPadding, 2],
-    [ThemeProperty.CursorThickness, 2],
+    [ThemeProperty.CursorThickness, 1],
     [ThemeProperty.ScrollBarThickness, 10],
 ]);
 

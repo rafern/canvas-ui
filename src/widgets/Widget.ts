@@ -209,14 +209,29 @@ export abstract class Widget {
         return [this.width, this.height];
     }
 
-    /** Check if the widget is dirty. Returns {@link _dirty}. */
+    /**
+     * Check if the widget is dirty. Returns {@link _dirty}, as long as
+     * {@link dimensionless} is not true.
+     */
     get dirty(): boolean {
-        return this._dirty;
+        return this._dirty && !this.dimensionless;
     }
 
     /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
     get layoutDirty(): boolean {
         return this._layoutDirty;
+    }
+
+    /**
+     * Check if the widget has zero width or height.
+     *
+     * If true, {@link paint} will do nothing and {@link dirty} will be false
+     * even if {@link _dirty} is true.
+     *
+     * Usually becomes true when containers overflow.
+     */
+    get dimensionless(): boolean {
+        return this.width == 0 || this.height == 0;
     }
 
     /**
@@ -306,10 +321,14 @@ export abstract class Widget {
             throw 'minWidth must not be greater than maxWidth';
         if(minWidth < 0)
             throw 'minWidth must not be lesser than 0';
+        if(minWidth == Infinity)
+            throw 'minWidth must not be infinite';
         if(minHeight > maxHeight)
             throw 'minHeight must not be greater than maxHeight';
         if(minHeight < 0)
             throw 'minHeight must not be lesser than 0';
+        if(minHeight == Infinity)
+            throw 'minHeight must not be infinite';
 
         if(!this._enabled) {
             this.width = 0;
@@ -332,6 +351,9 @@ export abstract class Widget {
             console.warn('Horizontal overflow in widget', this.constructor.name);
         }
 
+        if(this.width < 0 || this.width == Infinity)
+            throw new Error(`Disallowed width in widget ${this.constructor.name}: ${this.width}`);
+
         if(this.height < minHeight) {
             this.height = minHeight;
             console.warn('Vertical underflow in widget', this.constructor.name);
@@ -340,6 +362,9 @@ export abstract class Widget {
             this.height = maxHeight;
             console.warn('Vertical overflow in widget', this.constructor.name);
         }
+
+        if(this.height < 0 || this.height == Infinity)
+            throw new Error(`Disallowed height in widget ${this.constructor.name}: ${this.height}`);
 
         this._layoutDirty = false;
 
@@ -395,10 +420,11 @@ export abstract class Widget {
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
      * {@link needsClear} is true, calls the {@link handlePainting} method and
-     * unsets the dirty flag. Must not be overridden.
+     * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
+     * Must not be overridden.
      */
     paint(x: number, y: number, ctx: CanvasRenderingContext2D): void {
-        if(!this._dirty)
+        if(this.dimensionless || !this._dirty)
             return;
 
         //console.log('Painted', this.constructor.name);

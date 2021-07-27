@@ -11,12 +11,12 @@ import { Label } from './Label';
  */
 export class TextButton extends FilledButton {
     /** Create a new TextButton. */
-    constructor(text: string | TextGetter, callback: (() => void) | null = null, flexRatio = 1, mainBasis = 0, crossBasis = 0, vertical: boolean | null = false, themeOverride: Theme | null = null) {
+    constructor(text: string | TextGetter, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
         super(
             new TextMargin(
                 new Label(text, themeOverride),
             ),
-            callback, flexRatio, mainBasis, crossBasis, vertical, themeOverride
+            callback, themeOverride
         );
     }
 }

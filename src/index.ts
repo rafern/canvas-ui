@@ -35,10 +35,6 @@ export * from './events/PointerRelease';
 export * from './helpers/getPointerEventNormPos';
 export * from './helpers/measureTextDims';
 export * from './helpers/roundToPower2';
-// mixins
-export * from './mixins/MultiParent';
-export * from './mixins/Parent';
-export * from './mixins/SingleParent';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
@@ -78,10 +74,12 @@ export * from './widgets/Label';
 export * from './widgets/LabelledCheckbox';
 export * from './widgets/Margin';
 export * from './widgets/MultiContainer';
+export * from './widgets/MultiParent';
+export * from './widgets/Parent';
 export * from './widgets/PassthroughWidget';
 export * from './widgets/Row';
 export * from './widgets/ScrollableViewportWidget';
-export * from './widgets/ScrollBar';
+export * from './widgets/SingleParent';
 export * from './widgets/Slider';
 export * from './widgets/Spacing';
 export * from './widgets/TextButton';

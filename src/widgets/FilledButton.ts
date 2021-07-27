@@ -103,8 +103,8 @@ export class FilledButton extends Button {
         super.inheritTheme(modifiedTheme);
     }
 
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): Widget | null {
-        const capturer = super.handleEvent(event, width, height, root);
+    protected override handleEvent(event: Event, root: Root): Widget | null {
+        const capturer = super.handleEvent(event, root);
 
         if(this.clickHelper.clickStateChanged)
             this.updateBackground();

@@ -1,17 +1,17 @@
 import { ClickHelper } from '../aggregates/ClickHelper';
-import { FlexContainer } from './FlexContainer';
+import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
 /**
- * A {@link FlexContainer} which can be {@link Clickable | clicked} as a button.
+ * A {@link BaseContainer} which can be {@link Clickable | clicked} as a button.
  * Since the button grabs all events, no events are propagated to the child.
  *
  * @category Widget
  */
-export class Button extends FlexContainer {
+export class Button extends BaseContainer {
     /** The helper for handling pointer clicks */
     protected clickHelper: ClickHelper;
     /**
@@ -21,8 +21,8 @@ export class Button extends FlexContainer {
     callback: (() => void) | null;
 
     /** Create a new Button. */
-    constructor(child: Widget, callback: (() => void) | null = null, flexRatio = 1, mainBasis = 0, crossBasis = 0, vertical: boolean | null = null, themeOverride: Theme | null = null) {
-        super(child, false, flexRatio, mainBasis, crossBasis, vertical, themeOverride);
+    constructor(child: Widget, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
+        super(child, false, themeOverride);
         this.clickHelper = new ClickHelper(this);
         this.callback = callback;
     }

@@ -1,8 +1,8 @@
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { TextHelper } from '../aggregates/TextHelper';
-import { FlexLayout } from '../mixins/FlexLayout';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 
 /**
  * A function which returns a string. An alternative to supplying a
@@ -14,11 +14,11 @@ export type TextGetter = () => string;
 
 // TODO add support for multiline text with wrapping
 /**
- * A flexbox widget which displays line of text.
+ * A widget which displays a line of text.
  *
  * @category Widget
  */
-export class Label extends FlexLayout {
+export class Label extends Widget {
     /**
      * The text getter source. If this is not null, text will be updated with
      * the return value of this callback, every update.
@@ -39,15 +39,6 @@ export class Label extends FlexLayout {
 
         this.textHelper = new TextHelper();
         this.source = source;
-
-        // Default to no flex ratio. This can be overridden
-        this.flexRatio = 0;
-
-        // Labels are always horizontal
-        // XXX japanese vertical text? completely out of scope for this project,
-        // but if this library is ever published it might be a good idea to add
-        // support
-        this.vertical = false;
     }
 
     /**
@@ -121,9 +112,6 @@ export class Label extends FlexLayout {
         this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.LabelMinAscent);
         this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.LabelMinDescent);
 
-        this.internalMainBasis = this.textHelper.width;
-        this.internalCrossBasis = this.textHelper.height;
-
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
             this._dirty = true;
@@ -131,9 +119,15 @@ export class Label extends FlexLayout {
         }
     }
 
-    protected override handlePainting(x: number, y: number, _width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        this.width = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
+        this.height = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
+    }
+
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+        // TODO clip to prevent drawing outside of widget if you know that the dimensions are too small
         ctx.font = this.textHelper.font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
-        ctx.fillText(this.text, x, y + height - this.textHelper.descent);
+        ctx.fillText(this.text, x, y + this.height - this.textHelper.descent);
     }
 }

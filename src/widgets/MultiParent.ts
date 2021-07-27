@@ -5,9 +5,9 @@ import { Parent } from './Parent';
  * A specialised version of the {@link Parent} mixin class for parents with any
  * amount of children and public access to modifying this list of children.
  *
- * @category Mixin
+ * @category Widget
  */
-export class MultiParent extends Parent {
+export abstract class MultiParent extends Parent {
     /**
      * Add child(ren) to this widget.
      *

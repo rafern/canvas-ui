@@ -4,13 +4,13 @@ import { ThemeProperty } from '../theme/ThemeProperty';
 import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
-import { FlexLayout } from '../mixins/FlexLayout';
 import { Variable } from '../aggregates/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -26,7 +26,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class TextInput<V> extends FlexLayout {
+export class TextInput<V> extends Widget {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -75,9 +75,6 @@ export class TextInput<V> extends FlexLayout {
             }
         });
         [this._valid, this._validValue] = validator(initialValue);
-
-        // TextInputs are always horizontal
-        this.vertical = false;
     }
 
     /**
@@ -258,7 +255,7 @@ export class TextInput<V> extends FlexLayout {
             this.blinkStart = 0;
     }
 
-    protected override handleEvent(event: Event, _width: number, _height: number, root: Root): this {
+    protected override handleEvent(event: Event, root: Root): this {
         // If editing is disabled, abort
         if(!this._editingEnabled)
             return this;
@@ -270,7 +267,8 @@ export class TextInput<V> extends FlexLayout {
             // Request keyboard focus if this is a pointer press
             if(event instanceof PointerPress) {
                 // Update cursor position (and offset) from click position
-                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x);
+                const padding = this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x - padding);
 
                 // Start blinking cursor and mark component as dirty, to
                 // make sure that cursor blink always resets for better
@@ -335,14 +333,10 @@ export class TextInput<V> extends FlexLayout {
         if(this.blinkOn !== this.blinkWasOn)
             this._dirty = true;
 
-        // Update Labelable variables
-        const cursorPadding = this.theme.getNumber(ThemeProperty.CursorPadding);
-        const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
-        const widthError = cursorPadding + cursorThickness;
-
+        // Update TextHelper variables
         this.textHelper.text = this.displayedText;
         this.textHelper.font = this.theme.getFont(ThemeProperty.InputTextFont);
-        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.InputTextMinWidth) - widthError;
+        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.InputTextMinWidth);
         this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.InputTextMinAscent);
         this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.InputTextMinDescent);
 
@@ -351,10 +345,6 @@ export class TextInput<V> extends FlexLayout {
             this.cursorOffsetDirty = false;
         }
 
-        this.flexRatio = this.theme.getNumber(ThemeProperty.InputTextFlexRatio);
-        this.internalMainBasis = this.textHelper.width + widthError;
-        this.internalCrossBasis = this.textHelper.height;
-
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
             this._dirty = true;
@@ -362,10 +352,26 @@ export class TextInput<V> extends FlexLayout {
         }
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Expand as much as possible if constrained, else, only expand to the
+        // needed dimensions
+        const padding = 2 * this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+        if(maxWidth !== Infinity)
+            this.width = maxWidth;
+        else
+            this.width = Math.max(minWidth, this.textHelper.width + padding);
+
+        if(maxHeight !== Infinity)
+            this.height = maxHeight;
+        else
+            this.height = Math.max(minHeight, this.textHelper.height + padding);
+    }
+
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+        // TODO scrolling
         // Paint background
         ctx.fillStyle = this.theme.getFill(ThemeProperty.InputBackgroundFill);
-        ctx.fillRect(x, y, width, height);
+        ctx.fillRect(x, y, this.width, this.height);
 
         // Paint current text value
         ctx.font = this.theme.getFont(ThemeProperty.InputTextFont);
@@ -378,7 +384,8 @@ export class TextInput<V> extends FlexLayout {
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 
-        ctx.fillText(this.displayedText, x, y + height - this.textHelper.descent);
+        const padding = this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+        ctx.fillText(this.displayedText, x + padding, y + this.height - this.textHelper.descent - padding);
 
         // Paint blink
         const blinkOn = this.blinkOn;
@@ -386,13 +393,12 @@ export class TextInput<V> extends FlexLayout {
         if(!blinkOn)
             return;
 
-        const cursorPadding = this.theme.getNumber(ThemeProperty.CursorPadding);
         const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
         ctx.fillRect(
             x + this.cursorOffset,
-            y + cursorPadding,
+            y + padding,
             cursorThickness,
-            height - cursorPadding * 2,
+            this.height - padding * 2,
         );
     }
 }

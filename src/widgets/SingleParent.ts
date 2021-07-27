@@ -6,9 +6,9 @@ import { Parent } from './Parent';
  * A specialised version of the {@link Parent} mixin class for parents with a
  * single mandatory child.
  *
- * @category Mixin
+ * @category Widget
  */
-export class SingleParent extends Parent {
+export abstract class SingleParent extends Parent {
     /**
      * Create a new SingleParent instance.
      *

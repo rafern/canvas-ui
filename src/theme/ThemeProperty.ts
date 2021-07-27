@@ -41,14 +41,10 @@ export enum ThemeProperty {
      * Used for highlighting boxes which use {@link BackgroundFill}.
      */
     BackgroundGlowFill,
-    /** The {@link FlexLayout.flexRatio | flex ratio} used for {@link Slider} */
-    SliderFlexRatio,
-    /** The {@link FlexLayout.mainBasis | main basis} used for {@link Slider} */
-    SliderMainBasis,
-    /**
-     * The {@link FlexLayout.crossBasis | cross basis} used for {@link Slider}
-     */
-    SliderCrossBasis,
+    /** The minimum length of a {@link Slider} */
+    SliderMinLength,
+    /** The thickness of a {@link Slider} */
+    SliderThickness,
     /**
      * The
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style}
@@ -114,11 +110,6 @@ export enum ThemeProperty {
      */
     InputTextFillInvalid,
     /**
-     * The {@link FlexLayout.flexRatio | flex ratio} used for text input widgets
-     * like {@link TextInput}.
-     */
-    InputTextFlexRatio,
-    /**
      * The {@link TextHelper._minLabelWidth | minimum width} used for text input
      * widgets like {@link TextInput}.
      */
@@ -134,12 +125,15 @@ export enum ThemeProperty {
      */
     InputTextMinDescent,
     /**
+     * The {@link Padding} between text and border used for text input widgets
+     * like {@link TextInput}.
+     */
+    InputTextInnerPadding,
+    /**
      * The blink rate of text cursors in text input widgets like
      * {@link TextInput}. Value in "blinks" per second.
      */
     BlinkRate,
-    /** The length of empty space around a text cursor in pixels. */
-    CursorPadding,
     /** The thickness of a text cursor in pixels. */
     CursorThickness,
     /** The thickness of a {@link ScrollBar} in pixels. */

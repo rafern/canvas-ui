@@ -49,27 +49,14 @@ export class Checkbox extends Widget {
         return this.variable.value;
     }
 
-    /**
-     * Get the rectangle where the checkbox will be painted.
-     *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
-     */
-    private getBoxRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
-        // Find actual length
-        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
-        const actualLength = Math.min(length, width, height);
-
-        // Find offset
-        const bx = x + (width - actualLength) / 2;
-        const by = y + (height - actualLength) / 2;
-
-        return [ bx, bx + actualLength, by, by + actualLength ];
-    }
-
     protected override handleEvent(event: Event, root: Root): this {
         // Check if checkbox rectangle was pressed and swap value if so
-        const clickArea = this.getBoxRect(0, 0, this.width, this.height);
-        this.clickHelper.handleClickEvent(event, root, clickArea);
+        this.clickHelper.handleClickEvent(
+            event,
+            root,
+            [this.offsetX, this.actualLength, this.offsetY, this.actualLength],
+        );
+
         if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick)
             this.checked = !this.checked;
 
@@ -77,11 +64,6 @@ export class Checkbox extends Widget {
     }
 
     protected override handlePreLayoutUpdate(_root: Root): void {
-        // Update box width and height from checkbox length
-        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
-        this.boxWidth = length;
-        this.boxHeight = length;
-
         // Mark as dirty if variable is dirty
         if(this.variable.dirty)
             this._dirty = true;
@@ -90,14 +72,23 @@ export class Checkbox extends Widget {
     protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find actual length
         const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
-        this.actualLength = Math.min(Math.max(length, minWidth, maxHeight), maxWidth, maxHeight);
+        this.actualLength = Math.min(length, maxWidth, maxHeight);
+
+        // Resolve width and height
+        this.width = this.actualLength;
+        this.height = this.actualLength;
+
+        if(this.width < minWidth)
+            this.width = minWidth;
+        if(this.height < minHeight)
+            this.height = minHeight;
+
+        // Center checkbox
+        this.offsetX = (this.width - this.actualLength) / 2;
+        this.offsetY = (this.height - this.actualLength) / 2;
     }
 
     protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
-        // Find checkbox rect
-        const [bx, br, by, _bb] = this.getBoxRect(x, y, this.width, this.height);
-        const actualLength = br - bx;
-
         // Should we use glow colours? (background glow and accent)
         const useGlow = this.clickHelper.clickState === ClickState.Hover ||
                         this.clickHelper.clickState === ClickState.Hold;
@@ -107,7 +98,10 @@ export class Checkbox extends Widget {
             ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundGlowFill);
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
-        ctx.fillRect(bx, by, actualLength, actualLength);
+
+        ctx.fillRect(
+            this.offsetX, this.offsetY, this.actualLength, this.actualLength,
+        );
 
         // Draw checked part of checkbox
         if(this.checked) {
@@ -117,12 +111,26 @@ export class Checkbox extends Widget {
                 ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
 
             const innerPadding = this.theme.getNumber(ThemeProperty.CheckboxInnerPadding);
-            const innerLength = actualLength - innerPadding * 2;
+            const innerLength = this.actualLength - innerPadding * 2;
 
-            if(innerLength <= 0)
-                ctx.fillRect(bx, by, actualLength, actualLength);
-            else
-                ctx.fillRect(bx + innerPadding, by + innerPadding, innerLength, innerLength);
+            // Fall back to filling entire checkbox if there isn't enougn space
+            // for padding
+            if(innerLength <= 0) {
+                ctx.fillRect(
+                    x + this.offsetX,
+                    y + this.offsetY,
+                    this.actualLength,
+                    this.actualLength,
+                );
+            }
+            else {
+                ctx.fillRect(
+                    x + this.offsetX + innerPadding,
+                    y + this.offsetY + innerPadding,
+                    innerLength,
+                    innerLength,
+                );
+            }
         }
     }
 }

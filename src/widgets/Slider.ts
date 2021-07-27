@@ -1,12 +1,11 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
-import { FlexLayout } from '../mixins/FlexLayout';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 
-// TODO allow vertical sliders
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum
  * value to an inclusive maximum value, with optional snapping along set
@@ -16,7 +15,7 @@ import type { Root } from '../core/Root';
  *
  * @category Widget
  */
-export class Slider extends FlexLayout {
+export class Slider extends Widget {
     /** The slider's minimum value. */
     private minValue: number;
     /** The slider's maximum value. */
@@ -30,9 +29,19 @@ export class Slider extends FlexLayout {
     protected clickHelper: ClickHelper;
     /** The helper for keeping track of the slider's value */
     protected variable: Variable<number>;
+    /** Is this a vertical slider? */
+    protected readonly vertical: boolean;
+    /** The horizontal offset of the slider */
+    private offsetX = 0;
+    /** The vertical offset of the slider */
+    private offsetY = 0;
+    /** The actual width of the slider */
+    private actualWidth = 0;
+    /** The actual height of the slider */
+    private actualHeight = 0;
 
     /** Create a new Slider */
-    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, vertical = false, themeOverride: Theme | null = null) {
         // Sliders need a clear background, have no children and don't propagate
         // events
         super(themeOverride, true, false);
@@ -42,9 +51,7 @@ export class Slider extends FlexLayout {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
-
-        // Sliders are always horizontal
-        this.vertical = false;
+        this.vertical = vertical;
     }
 
     /** The slider's value */
@@ -67,20 +74,14 @@ export class Slider extends FlexLayout {
         return this.variable.value;
     }
 
-    /**
-     * Get the rectangle where the slider will be painted.
-     *
-     * @returns Returns a 4-tuple containing, in this order, the left edge's offset, the width, the top edge's offset and the height.
-     */
-    private getSliderRect(x: number, y: number, width: number, height: number): [number, number, number, number] {
-        const thickness = Math.min(this.crossBasis, height);
-        const sy = y + (height - thickness) / 2;
-        return [ x, x + width, sy, sy + thickness ];
-    }
-
-    protected override handleEvent(event: Event, width: number, height: number, root: Root): this {
+    protected override handleEvent(event: Event, root: Root): this {
         // Handle click event
-        this.clickHelper.handleClickEvent(event, root, this.getSliderRect(0, 0, width, height));
+        const clickArea: [number, number, number, number] = [
+            this.offsetX, this.offsetX + this.actualWidth,
+            this.offsetY, this.offsetY + this.actualHeight,
+        ];
+
+        this.clickHelper.handleClickEvent(event, root, clickArea);
 
         // If this was a click or the slider is currently being held, update
         // value
@@ -99,18 +100,51 @@ export class Slider extends FlexLayout {
         return this;
     }
 
-    protected override handlePreLayoutUpdate(_root: Root): void {
-        // Use theme settings for flex ratio and basis
-        this.flexRatio = this.theme.getNumber(ThemeProperty.SliderFlexRatio);
-        this.mainBasis = this.theme.getNumber(ThemeProperty.SliderMainBasis);
-        this.crossBasis = this.theme.getNumber(ThemeProperty.SliderCrossBasis);
+    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Get theme properties
+        const thickness = this.theme.getNumber(ThemeProperty.SliderThickness);
+        const minLength = this.theme.getNumber(ThemeProperty.SliderMinLength);
+
+        // Fully expand along main axis if constrained and center along cross
+        // axis
+        if(this.vertical) {
+            // Main axis
+            if(maxHeight != Infinity)
+                this.height = maxHeight;
+            else
+                this.height = Math.max(minLength, minHeight);
+
+            this.actualHeight = this.height;
+            this.offsetY = 0;
+
+            // Cross axis
+            this.width = Math.min(Math.max(thickness, minWidth), maxWidth);
+
+            this.actualWidth = Math.min(this.width, thickness);
+            this.offsetX = (this.width - this.actualWidth) / 2;
+        }
+        else {
+            // Main axis
+            if(maxWidth != Infinity)
+                this.width = maxWidth;
+            else
+                this.width = Math.max(minLength, minWidth);
+
+            this.actualWidth = this.width;
+            this.offsetY = 0;
+
+            // Cross axis
+            this.height = Math.min(Math.max(thickness, minHeight), maxHeight);
+
+            this.actualHeight = Math.min(this.height, thickness);
+            this.offsetX = (this.height - this.actualHeight) / 2;
+        }
     }
 
-    protected override handlePainting(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
-        // Find slider fill percentage
-        const [sl, sr, st, sb] = this.getSliderRect(x, y, width, height);
-        const [sw, sh] = [sr - sl, sb - st];
-        const percent = (this.value - this.minValue) / (this.maxValue - this.minValue);
+    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+        // Correct position with offset
+        x += this.offsetX;
+        y += this.offsetY;
 
         // Draw filled part of slider
         // Use accent colour if hovering or holding
@@ -119,12 +153,12 @@ export class Slider extends FlexLayout {
             ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
-        const fullWidth = percent * sw;
-        ctx.fillRect(sl, st, fullWidth, sh);
+        const fullWidth = this.actualWidth * (this.value - this.minValue) / (this.maxValue - this.minValue);
+        ctx.fillRect(x, y, fullWidth, this.actualHeight);
 
         // Draw empty part of slider
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
-        const emptyWidth = sw - fullWidth;
-        ctx.fillRect(sl + fullWidth, st, emptyWidth, sh);
+        const emptyWidth = this.actualWidth - fullWidth;
+        ctx.fillRect(x + fullWidth, y, emptyWidth, this.actualHeight);
     }
 }

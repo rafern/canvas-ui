@@ -14,9 +14,9 @@ import { Widget } from '../widgets/Widget';
  * See {@link MultiParent} and {@link SingleParent} for more specialised
  * versions.
  *
- * @category Mixin
+ * @category Widget
  */
-export class Parent extends Widget {
+export abstract class Parent extends Widget {
     /**
      * This widget's children. Note that this is marked as readonly so that it
      * cannot be accidentally replaced with a new array. This way, references to
@@ -43,16 +43,6 @@ export class Parent extends Widget {
         if(inheritedTheme !== null) {
             for(const child of this.children)
                 child.inheritedTheme = inheritedTheme;
-        }
-    }
-
-    override forceLayoutDirty(): void {
-        super.forceLayoutDirty();
-        if(this.enabled) {
-            if(this._children !== null) {
-                for(const child of this.children)
-                    child.forceLayoutDirty();
-            }
         }
     }
 

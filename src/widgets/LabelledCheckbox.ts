@@ -17,7 +17,7 @@ export class LabelledCheckbox extends Row {
 
         this.add([
             new Label(text, themeOverride),
-            new Spacing(1, 0, 0, false, themeOverride),
+            new Spacing(1, 0, 0, themeOverride),
             new Checkbox(callback, initialValue, themeOverride),
         ]);
     }

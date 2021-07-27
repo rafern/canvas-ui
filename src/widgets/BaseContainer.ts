@@ -1,7 +1,7 @@
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
-import { SingleParent } from '../mixins/SingleParent';
 import { Alignment } from '../theme/Alignment';
+import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
