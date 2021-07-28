@@ -12,17 +12,16 @@ import { Widget } from './Widget';
  * @category Widget
  */
 export declare class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
-    /** Horizontal offset of child relative to container. */
-    private offsetX;
-    /** Vertical offset of child relative to container. */
-    private offsetY;
     /** Does the background need to be cleared? */
     protected backgroundDirty: boolean;
     /** Create a new BaseContainer. */
     constructor(child: W, propagateEvents: boolean, themeOverride?: Theme | null);
+    protected setThemeOverride(theme: Theme | null): void;
+    protected inheritTheme(theme: Theme): void;
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected afterPositionResolved(): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D): void;
 }

@@ -352,7 +352,7 @@ export class TextInput<V> extends Widget {
         }
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Expand as much as possible if constrained, else, only expand to the
         // needed dimensions
         const padding = 2 * this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
@@ -367,11 +367,11 @@ export class TextInput<V> extends Widget {
             this.height = Math.max(minHeight, this.textHelper.height + padding);
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // TODO scrolling
         // Paint background
         ctx.fillStyle = this.theme.getFill(ThemeProperty.InputBackgroundFill);
-        ctx.fillRect(x, y, this.width, this.height);
+        ctx.fillRect(this.x, this.y, this.width, this.height);
 
         // Paint current text value
         ctx.font = this.theme.getFont(ThemeProperty.InputTextFont);
@@ -385,7 +385,11 @@ export class TextInput<V> extends Widget {
             ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
 
         const padding = this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
-        ctx.fillText(this.displayedText, x + padding, y + this.height - this.textHelper.descent - padding);
+        ctx.fillText(
+            this.displayedText,
+            this.x + padding,
+            this.y + this.height - this.textHelper.descent - padding,
+        );
 
         // Paint blink
         const blinkOn = this.blinkOn;
@@ -395,8 +399,8 @@ export class TextInput<V> extends Widget {
 
         const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
         ctx.fillRect(
-            x + this.cursorOffset,
-            y + padding,
+            this.x + this.cursorOffset,
+            this.y + padding,
             cursorThickness,
             this.height - padding * 2,
         );

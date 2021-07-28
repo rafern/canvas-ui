@@ -25,7 +25,7 @@ export class Spacing extends Widget {
         this.minHeight = minHeight;
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Try to expand each axis. If axis is not constrained (can't expand),
         // then try to use the biggest minimum length
         if(maxWidth !== Infinity)

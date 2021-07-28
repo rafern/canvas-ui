@@ -123,6 +123,6 @@ export declare class TextInput<V> extends Widget {
     onFocusDropped(focusType: FocusType, _root: Root): void;
     protected handleEvent(event: Event, root: Root): this;
     protected handlePreLayoutUpdate(root: Root): void;
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D): void;
 }

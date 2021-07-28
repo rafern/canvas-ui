@@ -22,5 +22,5 @@ export declare class ArtificialConstraint<W extends Widget = Widget> extends Pas
     get constraints(): [number, number, number, number];
     /** Create a new PassthroughWidget. */
     constructor(child: W, constraints?: [number, number, number, number], themeOverride?: Theme | null);
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

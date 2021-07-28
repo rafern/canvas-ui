@@ -22,6 +22,7 @@ export declare class PassthroughWidget<W extends Widget = Widget> extends Single
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected afterPositionResolved(): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D): void;
 }

@@ -1,27 +1,29 @@
+import type { Alignment2D } from '../theme/Alignment2D';
+import { ThemeProperty } from '../theme/ThemeProperty';
+import { Alignment } from '../theme/Alignment';
 import { FilledButton } from './FilledButton';
-import type { Theme } from '../theme/Theme';
 import type { TextGetter } from './Label';
-import { TextMargin } from './TextMargin';
+import { Theme } from '../theme/Theme';
 import { Label } from './Label';
 
 /**
- * A {@link FilledButton} with a {@link Label} inside a {@link TextMargin}.
+ * A {@link FilledButton} with a {@link Label}. Alignment is forced to be
+ * horizontally centered and vertically stretching like in {@link TextMargin}.
  *
  * @category Widget
  */
-export class TextButton extends FilledButton<TextMargin<Label>> {
+export class TextButton extends FilledButton<Label> {
     /** Create a new TextButton. */
     constructor(text: string | TextGetter, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
-        super(
-            new TextMargin(
-                new Label(text, themeOverride),
-            ),
-            callback, themeOverride
+        const containerProperties = new Map(themeOverride?.properties ?? []);
+        containerProperties.set(
+            ThemeProperty.ContainerAlignment,
+            <Alignment2D>{
+                horizontal: Alignment.Center, vertical: Alignment.Stretch,
+            },
         );
-    }
+        const containerThemeOverride = new Theme(containerProperties);
 
-    /** This button's Label widget */
-    get label(): Label {
-        return this.child.child;
+        super(new Label(text, themeOverride), callback, containerThemeOverride);
     }
 }

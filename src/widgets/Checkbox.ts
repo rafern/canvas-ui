@@ -51,10 +51,12 @@ export class Checkbox extends Widget {
 
     protected override handleEvent(event: Event, root: Root): this {
         // Check if checkbox rectangle was pressed and swap value if so
+        const x = this.x + this.offsetX;
+        const y = this.y + this.offsetY;
         this.clickHelper.handleClickEvent(
             event,
             root,
-            [this.offsetX, this.actualLength, this.offsetY, this.actualLength],
+            [x, x + this.actualLength, y, y + this.actualLength],
         );
 
         if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick)
@@ -69,7 +71,7 @@ export class Checkbox extends Widget {
             this._dirty = true;
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find actual length
         const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
         this.actualLength = Math.min(length, maxWidth, maxHeight);
@@ -88,7 +90,7 @@ export class Checkbox extends Widget {
         this.offsetY = (this.height - this.actualLength) / 2;
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Should we use glow colours? (background glow and accent)
         const useGlow = this.clickHelper.clickState === ClickState.Hover ||
                         this.clickHelper.clickState === ClickState.Hold;
@@ -117,16 +119,16 @@ export class Checkbox extends Widget {
             // for padding
             if(innerLength <= 0) {
                 ctx.fillRect(
-                    x + this.offsetX,
-                    y + this.offsetY,
+                    this.x + this.offsetX,
+                    this.y + this.offsetY,
                     this.actualLength,
                     this.actualLength,
                 );
             }
             else {
                 ctx.fillRect(
-                    x + this.offsetX + innerPadding,
-                    y + this.offsetY + innerPadding,
+                    this.x + this.offsetX + innerPadding,
+                    this.y + this.offsetY + innerPadding,
                     innerLength,
                     innerLength,
                 );

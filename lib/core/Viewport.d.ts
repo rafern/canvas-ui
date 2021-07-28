@@ -41,10 +41,11 @@ export declare class Viewport {
     set constraints(constraints: [number, number, number, number]);
     get constraints(): [number, number, number, number];
     /**
-     * Resolves the given child's layout by calling {@link Widget.resolveLayout}
-     * with the current {@link constraints}.
+     * Resolves the given child's layout by calling
+     * {@link Widget.resolveDimensions} with the current {@link constraints},
+     * and {@link Widget.resolvePosition}.
      *
-     * If the child's layout is not dirty, then resolveLayout is not called.
+     * If the child's layout is not dirty, then nothing is done.
      *
      * Expands {@link canvas} if the new layout is too big for the current
      * canvas. Expansion is done in powers of 2 to avoid issues with external 3D

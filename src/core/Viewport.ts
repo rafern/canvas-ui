@@ -41,7 +41,7 @@ export class Viewport {
         // Get context out of canvas
         const context = this.canvas.getContext('2d', { alpha: true });
         if(context === null)
-            throw 'Failed to get canvas context';
+            throw new Error('Failed to get canvas context');
 
         this.context = context;
     }
@@ -76,10 +76,11 @@ export class Viewport {
     }
 
     /**
-     * Resolves the given child's layout by calling {@link Widget.resolveLayout}
-     * with the current {@link constraints}.
+     * Resolves the given child's layout by calling
+     * {@link Widget.resolveDimensions} with the current {@link constraints},
+     * and {@link Widget.resolvePosition}.
      *
-     * If the child's layout is not dirty, then resolveLayout is not called.
+     * If the child's layout is not dirty, then nothing is done.
      *
      * Expands {@link canvas} if the new layout is too big for the current
      * canvas. Expansion is done in powers of 2 to avoid issues with external 3D
@@ -97,7 +98,24 @@ export class Viewport {
         // Resolve child's layout
         const [oldWidth, oldHeight] = child.dimensions;
 
-        child.resolveLayout(...this.constraints);
+        child.resolveDimensions(...this.constraints);
+
+        // Resolve dimensions again, now with maximum constraints. This is so
+        // that widgets that depend on max constraints, such as containers that
+        // handle flexbox layout, work properly. Only do this if constraints
+        // don't already have maximum dimensions.
+        if(this._constraints[1] === Infinity || this._constraints[3] === Infinity) {
+            const [minWidth, maxWidth, minHeight, maxHeight] = this._constraints;
+            const [width, height] = child.dimensions;
+            child.resolveDimensions(
+                minWidth,
+                maxWidth === Infinity ? width : maxWidth,
+                minHeight,
+                maxHeight === Infinity ? height : maxHeight,
+            );
+        }
+
+        child.resolvePosition(0, 0);
 
         const [newWidth, newHeight] = child.dimensions;
 
@@ -106,13 +124,45 @@ export class Viewport {
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
             // requires texture sizes to be powers of 2.
-            const potentialCWidth = roundToPower2(newWidth);
-            if(potentialCWidth > this.canvas.width)
-                this.canvas.width = potentialCWidth;
+            const newCanvasWidth = Math.max(roundToPower2(newWidth), this.canvas.width);
+            const newCanvasHeight = Math.max(roundToPower2(newHeight), this.canvas.height);
 
-            const potentialCHeight = roundToPower2(newHeight);
-            if(potentialCHeight > this.canvas.height)
-                this.canvas.height = potentialCHeight;
+            if(newCanvasWidth !== this.canvas.width || newCanvasHeight !== this.canvas.height) {
+                // Resizing a canvas clears its contents. To mitigate this, copy
+                // the canvas contents to a new canvas, resize the canvas and
+                // copy the contents back. To avoid unnecessary copying, the
+                // canvas will not be copied if the old dimensions of the child
+                // were 0x0
+                // TODO resizing is kinda expensive. maybe find a better way?
+
+                let copyCanvas = null;
+                if(oldWidth !== 0 && oldHeight !== 0) {
+                    copyCanvas = document.createElement('canvas');
+                    const copyCtx = copyCanvas.getContext('2d');
+                    if(copyCtx === null)
+                        throw new Error('Failed to get context of temporary canvas for resizing original canvas');
+
+                    copyCtx.globalCompositeOperation = 'copy';
+                    copyCtx.drawImage(
+                        this.canvas,
+                        0, 0, newWidth, newHeight,
+                        0, 0, newWidth, newHeight,
+                    );
+                }
+
+                this.canvas.width = newCanvasWidth;
+                this.canvas.height = newCanvasHeight;
+
+                if(copyCanvas !== null) {
+                    this.context.globalCompositeOperation = 'copy';
+                    this.context.drawImage(
+                        copyCanvas,
+                        0, 0, newWidth, newHeight,
+                        0, 0, newWidth, newHeight,
+                    );
+                    this.context.globalCompositeOperation = 'source-over';
+                }
+            }
 
             return true;
         }
@@ -131,7 +181,7 @@ export class Viewport {
         // Paint child
         const wasDirty = child.dirty;
         if(wasDirty)
-            child.paint(0, 0, this.context);
+            child.paint(this.context);
 
         return wasDirty;
     }

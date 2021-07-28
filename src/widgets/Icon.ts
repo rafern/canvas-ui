@@ -105,7 +105,7 @@ export class Icon extends Widget {
 
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find dimensions
         let wantedWidth = this._imageWidth;
         if(wantedWidth === null) {
@@ -155,7 +155,7 @@ export class Icon extends Widget {
         return this._rotation;
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
         if(!this._image?.complete) {
             this.lastSrc = null;
@@ -170,8 +170,8 @@ export class Icon extends Widget {
         if(this.rotation !== 0) {
             ctx.save();
             ctx.translate(
-                x + this.offsetX + this.actualWidth / 2,
-                y + this.offsetY + this.actualHeight / 2,
+                this.x + this.offsetX + this.actualWidth / 2,
+                this.y + this.offsetY + this.actualHeight / 2,
             );
             tdx = -this.actualWidth / 2;
             tdy = -this.actualHeight / 2;

@@ -37,7 +37,7 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
         }
 
         // Check if button was pressed and call callback if so
-        this.clickHelper.handleClickEvent(event, root, [0, this.width, 0, this.height]);
+        this.clickHelper.handleClickEvent(event, root, [this.x, this.x + this.width, this.y, this.y + this.height]);
         if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick) {
             try {
                 this.callback();

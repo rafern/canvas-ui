@@ -43,6 +43,6 @@ export declare class Slider extends Widget {
     set value(value: number);
     get value(): number;
     protected handleEvent(event: Event, root: Root): this;
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D): void;
 }

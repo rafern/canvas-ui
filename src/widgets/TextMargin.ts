@@ -8,7 +8,7 @@ import { Theme } from '../theme/Theme';
 /**
  * A {@link Margin} which stretches on the vertical axis. Useful for
  * horizontally centering labels without making them look weird if they are in
- * a row, such as in a {@link VirtualKeyRow}.
+ * a row.
  *
  * Can be constrained to a specific type of children.
  *

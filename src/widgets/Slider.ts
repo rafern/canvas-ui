@@ -76,12 +76,11 @@ export class Slider extends Widget {
 
     protected override handleEvent(event: Event, root: Root): this {
         // Handle click event
-        const clickArea: [number, number, number, number] = [
-            this.offsetX, this.offsetX + this.actualWidth,
-            this.offsetY, this.offsetY + this.actualHeight,
-        ];
-
-        this.clickHelper.handleClickEvent(event, root, clickArea);
+        const x = this.x + this.offsetX;
+        const y = this.y + this.offsetY;
+        this.clickHelper.handleClickEvent(event, root, [
+            x, x + this.actualWidth, y, y + this.actualHeight,
+        ]);
 
         // If this was a click or the slider is currently being held, update
         // value
@@ -100,7 +99,7 @@ export class Slider extends Widget {
         return this;
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Get theme properties
         const thickness = this.theme.getNumber(ThemeProperty.SliderThickness);
         const minLength = this.theme.getNumber(ThemeProperty.SliderMinLength);
@@ -141,15 +140,13 @@ export class Slider extends Widget {
         }
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Correct position with offset
-        x += this.offsetX;
-        y += this.offsetY;
+        const x = this.x + this.offsetX;
+        const y = this.y + this.offsetY;
 
-        // Draw filled part of slider
-        // Use accent colour if hovering or holding
-        const accentStates = [ClickState.Hover, ClickState.Hold];
-        if(accentStates.includes(this.clickHelper.clickState))
+        // Draw filled part of slider. Use accent colour if hovering or holding
+        if(this.clickHelper.clickState === ClickState.Hover || this.clickHelper.clickState === ClickState.Hold)
             ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
         else
             ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);

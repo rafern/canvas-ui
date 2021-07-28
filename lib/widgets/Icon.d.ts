@@ -58,7 +58,7 @@ export declare class Icon extends Widget {
     get imageHeight(): number | null;
     set imageHeight(imageHeight: number | null);
     protected handlePreLayoutUpdate(_root: Root): void;
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
      * This icon's rotation. Useful for implementing spinners.
      *
@@ -68,5 +68,5 @@ export declare class Icon extends Widget {
      */
     set rotation(rotation: number);
     get rotation(): number;
-    protected handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D): void;
 }

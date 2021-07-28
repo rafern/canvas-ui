@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <script type='module'>
@@ -60,6 +61,11 @@
             // Add roots to body
             document.body.appendChild(root.domElem);
             document.body.appendChild(vkRoot.domElem);
+
+            // workaround for firefox bug TODO remove me
+            const p = document.createElement('p');
+            p.textContent = 'workaround for firefox bug 1722155 (remove me in future)';
+            document.body.appendChild(p);
         </script>
     </head>
     <body>

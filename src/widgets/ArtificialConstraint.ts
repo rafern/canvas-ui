@@ -44,18 +44,15 @@ export class ArtificialConstraint<W extends Widget = Widget> extends Passthrough
         this._constraints = [...constraints];
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Further restrict constraints
-        if(this._constraints[0] > minWidth)
-            minWidth = this._constraints[0];
-        if(this._constraints[1] < maxWidth)
-            maxWidth = this._constraints[1];
-        if(this._constraints[2] > minHeight)
-            minHeight = this._constraints[2];
-        if(this._constraints[3] < maxHeight)
-            maxHeight = this._constraints[3];
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Further restrict constraints. Make sure that minimum constraints
+        // aren't greater than maximum constraints
+        maxWidth = Math.min(this._constraints[1], maxWidth);
+        maxHeight = Math.min(this._constraints[3], maxHeight);
+        minWidth = Math.min(Math.max(this._constraints[0], minWidth), maxWidth);
+        minHeight = Math.min(Math.max(this._constraints[2], minHeight), maxHeight);
 
-        // Resolve layout
-        super.handleResolveLayout(minWidth, maxWidth, minHeight, maxHeight);
+        // Resolve dimensions
+        super.handleResolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
     }
 }

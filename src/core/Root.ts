@@ -179,6 +179,8 @@ export class Root {
      *
      * Call this before calling {@link postLayoutUpdate} and after calling
      * {@link preLayoutUpdate}
+     *
+     * @returns Returns true if viewport was resized
      */
     resolveLayout(): boolean {
         // Don't do anything if Root is disabled

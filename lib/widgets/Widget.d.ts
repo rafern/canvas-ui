@@ -45,6 +45,10 @@ export declare abstract class Widget {
     protected width: number;
     /** Height of widget in pixels. */
     protected height: number;
+    /** Absolute horizontal offset of widget in pixels. */
+    protected x: number;
+    /** Absolute vertical offset of widget in pixels. */
+    protected y: number;
     /** {@link flex} but for internal use. */
     protected _flex: number;
     /**
@@ -123,6 +127,11 @@ export declare abstract class Widget {
      */
     get dimensions(): [number, number];
     /**
+     * Get the resolved position. Returns a 2-tuple containing {@link x} and
+     * {@link y}.
+     */
+    get position(): [number, number];
+    /**
      * Check if the widget is dirty. Returns {@link _dirty}, as long as
      * {@link dimensionless} is not true.
      */
@@ -177,19 +186,31 @@ export declare abstract class Widget {
      */
     preLayoutUpdate(root: Root): void;
     /**
-     * Resolve layout of this widget. Must be implemented; set {@link width} and
-     * {@link height}.
+     * Resolve dimensions of this widget. Must be implemented; set {@link width}
+     * and {@link height}.
      */
-    protected abstract handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected abstract handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
-     * Wrapper for {@link handleResolveLayout}. Does nothing if
+     * Wrapper for {@link handleResolveDimensions}. Does nothing if
      * {@link _enabled} is false. If the resolved dimensions change,
      * {@link _dirty} is set to true. {@link _layoutDirty} is set to false. If
      * the widget is not loose and the layout has non-infinite max constraints,
      * then the widget is stretched to fit max constraints. Must not be
      * overridden.
      */
-    resolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    resolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    /**
+     * Called after resolving position of this widget. Should be implemented if
+     * widget is a container; call resolvePosition of children. Does nothing by
+     * default.
+     */
+    protected afterPositionResolved(): void;
+    /**
+     * Set the position of this widget and calls {@link afterPositionResolved}.
+     * If the resolved position changes, sets {@link _dirty} to true. Does
+     * nothing if {@link _enabled} is false. Must not be overridden.
+     */
+    resolvePosition(x: number, y: number): void;
     /**
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
@@ -204,14 +225,44 @@ export declare abstract class Widget {
     /**
      * Paiting utility: clears background of widget. Should not be overridden.
      *
+     * Rounds to nearest pixels; no subpixel clearing.
+     *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
      */
-    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void;
+    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
+    /**
+     * Paiting utility: start a clear operation with no clipping path, the user
+     * has to add their own paths to the context. Should not be overridden.
+     *
+     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     */
+    protected clearStart(ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
+    /**
+     * Paiting utility: end a clear operation (from {@link clearStart}). Should
+     * not be overridden.
+     *
+     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillRule The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
+     */
+    protected clearEnd(ctx: CanvasRenderingContext2D, fillRule?: CanvasFillRule): void;
+    /**
+     * Paiting/layout utility: rounds the bounds of a rectangle to the nearest
+     * pixels.
+     *
+     * @param roundInwards Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
+     * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
+     */
+    protected roundRect(x: number, y: number, width: number, height: number, roundInwards?: boolean): [number, number, number, number];
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
      * when extending Widget. Should be overridden.
      */
-    protected handlePainting(_x: number, _y: number, _ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(_ctx: CanvasRenderingContext2D): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
@@ -219,5 +270,5 @@ export declare abstract class Widget {
      * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
      * Must not be overridden.
      */
-    paint(x: number, y: number, ctx: CanvasRenderingContext2D): void;
+    paint(ctx: CanvasRenderingContext2D): void;
 }

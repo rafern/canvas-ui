@@ -1,6 +1,7 @@
 let measureContext: CanvasRenderingContext2D | null = null;
 const measurePadding = new Map();
-const CIRCUMFIX_CHAR = '-';
+// XXX make sure to use a character that isn't affected by kerning
+const CIRCUMFIX_CHAR = '|';
 
 /**
  * Measures the dimensions of a given string of text with a given font.
@@ -24,7 +25,7 @@ export function measureTextDims(text: string, font: string): [number, number, nu
         const tempCanvas = document.createElement('canvas');
         measureContext = tempCanvas.getContext('2d');
         if(measureContext === null)
-            throw 'Failed to get canvas context';
+            throw new Error('Failed to get canvas context');
     }
 
     measureContext.font = font;

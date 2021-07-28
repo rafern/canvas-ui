@@ -193,7 +193,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.viewport.resolveChildsLayout(child);
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         let normalWidth = true, normalHeight = true;
         const actualMinWidth = Math.min(Math.max(minWidth, this._minWidth), maxWidth);
         const actualMinHeight = Math.min(Math.max(minHeight, this._minHeight), maxHeight);
@@ -237,7 +237,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.height = (maxHeight !== Infinity) ? maxHeight : actualMinHeight;
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Paint child to viewport's canvas
         this.viewport.paintToCanvas(this.child);
 
@@ -248,7 +248,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // These are rounded because clipping and filling doesn't work properly
         // with decimal points
         const drawAreaClip = new Path2D();
-        drawAreaClip.rect(Math.trunc(x), Math.trunc(y), Math.ceil(this.width), Math.ceil(this.height));
+        drawAreaClip.rect(
+            Math.trunc(this.x), Math.trunc(this.y),
+            Math.ceil(this.width), Math.ceil(this.height),
+        );
         ctx.clip(drawAreaClip);
 
         // Clear background
@@ -259,8 +262,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Draw canvas with offset in passed context
         const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
-        const xDst = x + xOffset;
-        const yDst = y + yOffset;
+        const xDst = this.x + xOffset;
+        const yDst = this.y + yOffset;
         const offsetClip = new Path2D();
         offsetClip.rect(Math.trunc(xDst), Math.trunc(yDst), Math.ceil(innerWidth), Math.ceil(innerHeight));
         ctx.clip(offsetClip);

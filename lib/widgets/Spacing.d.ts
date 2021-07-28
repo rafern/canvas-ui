@@ -15,5 +15,5 @@ export declare class Spacing extends Widget {
     minHeight: number;
     /** Create a new Spacing. */
     constructor(flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
-    protected handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

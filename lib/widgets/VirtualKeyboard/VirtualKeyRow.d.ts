@@ -54,7 +54,7 @@ export declare class VirtualKeyRow extends Row<VirtualKey> {
      * @param flex The flex to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minWidth The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minHeight The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param themeOverride The themeOverride to pass to each key widget
+     * @param themeOverride The themeOverride to pass to each key widget and this row
      */
     constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
 }

@@ -48,6 +48,10 @@ export abstract class Widget {
     protected width = 0;
     /** Height of widget in pixels. */
     protected height = 0;
+    /** Absolute horizontal offset of widget in pixels. */
+    protected x = 0;
+    /** Absolute vertical offset of widget in pixels. */
+    protected y = 0;
     /** {@link flex} but for internal use. */
     protected _flex = 0;
 
@@ -96,7 +100,7 @@ export abstract class Widget {
      */
     get theme(): Theme {
         if(this._theme === null)
-            throw 'Widget theme is not ready';
+            throw new Error('Widget theme is not ready');
 
         return this._theme;
     }
@@ -210,6 +214,14 @@ export abstract class Widget {
     }
 
     /**
+     * Get the resolved position. Returns a 2-tuple containing {@link x} and
+     * {@link y}.
+     */
+    get position(): [number, number] {
+        return [this.x, this.y];
+    }
+
+    /**
      * Check if the widget is dirty. Returns {@link _dirty}, as long as
      * {@link dimensionless} is not true.
      */
@@ -275,7 +287,7 @@ export abstract class Widget {
 
         if(event.target === null) {
             if(event instanceof PointerEvent) {
-                if(event.x < 0 || event.y < 0 || event.x >= this.width || event.y >= this.height)
+                if(event.x < this.x || event.y < this.y || event.x >= this.x + this.width || event.y >= this.y + this.height)
                     return null;
             }
         }
@@ -303,33 +315,21 @@ export abstract class Widget {
     }
 
     /**
-     * Resolve layout of this widget. Must be implemented; set {@link width} and
-     * {@link height}.
+     * Resolve dimensions of this widget. Must be implemented; set {@link width}
+     * and {@link height}.
      */
-    protected abstract handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    protected abstract handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 
     /**
-     * Wrapper for {@link handleResolveLayout}. Does nothing if
+     * Wrapper for {@link handleResolveDimensions}. Does nothing if
      * {@link _enabled} is false. If the resolved dimensions change,
      * {@link _dirty} is set to true. {@link _layoutDirty} is set to false. If
      * the widget is not loose and the layout has non-infinite max constraints,
      * then the widget is stretched to fit max constraints. Must not be
      * overridden.
      */
-    resolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        if(minWidth > maxWidth)
-            throw 'minWidth must not be greater than maxWidth';
-        if(minWidth < 0)
-            throw 'minWidth must not be lesser than 0';
-        if(minWidth == Infinity)
-            throw 'minWidth must not be infinite';
-        if(minHeight > maxHeight)
-            throw 'minHeight must not be greater than maxHeight';
-        if(minHeight < 0)
-            throw 'minHeight must not be lesser than 0';
-        if(minHeight == Infinity)
-            throw 'minHeight must not be infinite';
-
+    resolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Do nothing if disabled
         if(!this._enabled) {
             this.width = 0;
             this.height = 0;
@@ -337,41 +337,92 @@ export abstract class Widget {
             return;
         }
 
+        // Validate constraints
+        if(minWidth == Infinity)
+            throw new Error('minWidth must not be infinite');
+        if(minWidth > maxWidth)
+            throw new Error(`minWidth (${minWidth}) must not be greater than maxWidth ${maxWidth}`);
+        if(minWidth < 0)
+            throw new Error(`minWidth (${minWidth}) must not be lesser than 0`);
+        if(minHeight == Infinity)
+            throw new Error('minHeight must not be infinite');
+        if(minHeight > maxHeight)
+            throw new Error(`minHeight (${minHeight}) must not be greater than maxHeight ${maxHeight}`);
+        if(minHeight < 0)
+            throw new Error(`minHeight (${minHeight}) must not be lesser than 0`);
+
+        // Keep track of old dimensions to compare later
         const oldWidth = this.width;
         const oldHeight = this.height;
 
-        this.handleResolveLayout(minWidth, maxWidth, minHeight, maxHeight);
+        // Resolve dimensions
+        this.handleResolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
 
+        // Validate resolved dimensions, handling overflows, underflows and
+        // invalid dimensions
         if(this.width < minWidth) {
             this.width = minWidth;
-            console.warn('Horizontal underflow in widget', this.constructor.name);
+            console.warn('Horizontal underflow in widget');
+            console.trace();
         }
         else if(this.width > maxWidth) {
             this.width = maxWidth;
-            console.warn('Horizontal overflow in widget', this.constructor.name);
+            console.warn('Horizontal overflow in widget');
+            console.trace();
         }
 
-        if(this.width < 0 || this.width == Infinity)
-            throw new Error(`Disallowed width in widget ${this.constructor.name}: ${this.width}`);
+        if(this.width < 0 || !isFinite(this.width) || isNaN(this.width))
+            throw new Error(`Disallowed width (${this.width}) in widget`);
 
         if(this.height < minHeight) {
             this.height = minHeight;
-            console.warn('Vertical underflow in widget', this.constructor.name);
+            console.warn('Vertical underflow in widget');
+            console.trace();
         }
         else if(this.height > maxHeight) {
             this.height = maxHeight;
-            console.warn('Vertical overflow in widget', this.constructor.name);
+            console.warn('Vertical overflow in widget');
+            console.trace();
         }
 
-        if(this.height < 0 || this.height == Infinity)
-            throw new Error(`Disallowed height in widget ${this.constructor.name}: ${this.height}`);
+        if(this.height < 0 || !isFinite(this.height) || isNaN(this.height))
+            throw new Error(`Disallowed height (${this.height}) in widget`);
 
+        // Clear layout dirty flag
         this._layoutDirty = false;
 
+        // If dimensions changed (compare with tracked old dimensions), then set
+        // dirty flag
         if(oldWidth !== this.width || oldHeight !== this.height)
             this._dirty = true;
 
         //console.log('Resolved layout of', this.constructor.name);
+    }
+
+    /**
+     * Called after resolving position of this widget. Should be implemented if
+     * widget is a container; call resolvePosition of children. Does nothing by
+     * default.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    protected afterPositionResolved(): void {}
+
+    /**
+     * Set the position of this widget and calls {@link afterPositionResolved}.
+     * If the resolved position changes, sets {@link _dirty} to true. Does
+     * nothing if {@link _enabled} is false. Must not be overridden.
+     */
+    resolvePosition(x: number, y: number): void {
+        // Mark as dirty if position changed
+        if(x !== this.x || y !== this.y)
+            this._dirty = true;
+
+        // Set position
+        this.x = x;
+        this.y = y;
+
+        // Call hook
+        this.afterPositionResolved();
     }
 
     /**
@@ -394,12 +445,19 @@ export abstract class Widget {
     /**
      * Paiting utility: clears background of widget. Should not be overridden.
      *
+     * Rounds to nearest pixels; no subpixel clearing.
+     *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
      */
-    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D): void {
+    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+        if(fillStyle === null)
+            fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
+
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
+        ctx.fillStyle = fillStyle;
         ctx.beginPath();
         // These are rounded because clipping and filling doesn't
         // work properly with decimal points
@@ -410,11 +468,61 @@ export abstract class Widget {
     }
 
     /**
+     * Paiting utility: start a clear operation with no clipping path, the user
+     * has to add their own paths to the context. Should not be overridden.
+     *
+     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     */
+    protected clearStart(ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+        if(fillStyle === null)
+            fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'copy';
+        ctx.fillStyle = fillStyle;
+        ctx.beginPath();
+    }
+
+    /**
+     * Paiting utility: end a clear operation (from {@link clearStart}). Should
+     * not be overridden.
+     *
+     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     *
+     * @param fillRule The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
+     */
+    protected clearEnd(ctx: CanvasRenderingContext2D, fillRule: CanvasFillRule = 'nonzero'): void {
+        ctx.clip(fillRule);
+        ctx.fill();
+        ctx.restore();
+    }
+
+    /**
+     * Paiting/layout utility: rounds the bounds of a rectangle to the nearest
+     * pixels.
+     *
+     * @param roundInwards Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
+     * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
+     */
+    protected roundRect(x: number, y: number, width: number, height: number, roundInwards = false): [number, number, number, number] {
+        // Decide rounding functions
+        const roundDown = roundInwards ? Math.ceil : Math.floor;
+        const roundUp = roundInwards ? Math.floor : Math.ceil;
+
+        // Round rectangle
+        x = roundDown(x);
+        y = roundDown(y);
+        return [x, y, roundUp(x + width) - x, roundUp(y + height) - y];
+    }
+
+    /**
      * Widget painting callback. By default does nothing. Do painting logic here
      * when extending Widget. Should be overridden.
      */
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePainting(_x: number, _y: number, _ctx: CanvasRenderingContext2D): void {}
+    protected handlePainting(_ctx: CanvasRenderingContext2D): void {}
 
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
@@ -423,7 +531,7 @@ export abstract class Widget {
      * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
      * Must not be overridden.
      */
-    paint(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    paint(ctx: CanvasRenderingContext2D): void {
         if(this.dimensionless || !this._dirty)
             return;
 
@@ -431,10 +539,10 @@ export abstract class Widget {
 
         if(this._enabled) {
             if(this.needsClear)
-                this.clear(x, y, this.width, this.height, ctx);
+                this.clear(this.x, this.y, this.width, this.height, ctx);
 
             ctx.save();
-            this.handlePainting(x, y, ctx);
+            this.handlePainting(ctx);
             ctx.restore();
         }
 

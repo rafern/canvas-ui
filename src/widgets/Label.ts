@@ -119,15 +119,15 @@ export class Label extends Widget {
         }
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         this.width = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
         this.height = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // TODO clip to prevent drawing outside of widget if you know that the dimensions are too small
         ctx.font = this.textHelper.font;
         ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
-        ctx.fillText(this.text, x, y + this.height - this.textHelper.descent);
+        ctx.fillText(this.text, this.x, this.y + this.height - this.textHelper.descent);
     }
 }

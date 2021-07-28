@@ -1,4 +1,3 @@
-import { ThemeProperty } from '../../theme/ThemeProperty';
 import { GlyphVirtualKey } from './GlyphVirtualKey';
 import type { KeyContext } from './KeyContext';
 import type { VirtualKey } from './VirtualKey';
@@ -60,12 +59,10 @@ export class VirtualKeyRow extends Row<VirtualKey> {
      * @param flex The flex to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minWidth The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minHeight The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param themeOverride The themeOverride to pass to each key widget
+     * @param themeOverride The themeOverride to pass to each key widget and this row
      */
     constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeOverride: Theme | null = null) {
-        super(new Theme(new Map<ThemeProperty, unknown>([
-            [ThemeProperty.ContainerSpacing, 0],
-        ])));
+        super(themeOverride);
 
         for(const entry of rowTemplate) {
             if(typeof entry === 'function') {

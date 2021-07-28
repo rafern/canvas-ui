@@ -1,5 +1,4 @@
 import { ThemeProperty } from '../theme/ThemeProperty';
-import { PointerEvent } from '../events/PointerEvent';
 import { Alignment } from '../theme/Alignment';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
@@ -16,10 +15,6 @@ import { Widget } from './Widget';
  * @category Widget
  */
 export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
-    /** Horizontal offset of child relative to container. */
-    private offsetX = 0;
-    /** Vertical offset of child relative to container. */
-    private offsetY = 0;
     /** Does the background need to be cleared? */
     protected backgroundDirty = true;
 
@@ -30,11 +25,17 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         super(child, themeOverride, false, propagateEvents);
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
-        // Correct pointer events for padding
-        if(event instanceof PointerEvent)
-            event = event.correctOffset(this.offsetX, this.offsetY);
+    protected override setThemeOverride(theme: Theme | null): void {
+        super.setThemeOverride(theme);
+        this.backgroundDirty = true;
+    }
 
+    protected override inheritTheme(theme: Theme): void {
+        super.inheritTheme(theme);
+        this.backgroundDirty = true;
+    }
+
+    protected override handleEvent(event: Event, root: Root): Widget | null {
         // Dispatch event to child
         return this.child.dispatchEvent(event, root);
     }
@@ -57,9 +58,13 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         // If child is dirty, set self as dirty
         if(child.dirty)
             this._dirty = true;
+
+        // If background is dirty, set self as dirty
+        if(this.backgroundDirty)
+            this._dirty = true;
     }
 
-    protected override handleResolveLayout(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Get padding
         const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
         const hPadding = padding.left + padding.right;
@@ -74,31 +79,44 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         if(childMaxHeight < 0)
             childMaxHeight = 0;
 
-        // Use tight fit if using a stretch alignment and the max dimensions are
-        // not unconstrained
+        // Provide minimum constraints if using stretch alignment, correcting
+        // for padding. If maximum constraints are available (not infinite), use
+        // those instead
+        // TODO ^^^^^^
         const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
-        const childMinWidth = (alignment.horizontal === Alignment.Stretch && maxWidth !== Infinity)
-                                ? childMaxWidth : 0;
-        const childMinHeight = (alignment.vertical === Alignment.Stretch && maxHeight !== Infinity)
-                                ? childMaxHeight : 0;
+        const childMinWidth = alignment.horizontal === Alignment.Stretch
+                                ? Math.max(minWidth - hPadding, 0) : 0;
+        const childMinHeight = alignment.vertical === Alignment.Stretch
+                                ? Math.max(minHeight - vPadding, 0) : 0;
 
-        // Resolve child's layout
-        this.child.resolveLayout(childMinWidth, childMaxWidth, childMinHeight, childMaxHeight);
-        const childDims = this.child.dimensions;
-        const usedWidth = childDims[0] + hPadding;
-        const usedHeight = childDims[1] + vPadding;
+        // Resolve child's dimensions
+        const [oldChildWidth, oldChildHeight] = this.child.dimensions;
+        this.child.resolveDimensions(childMinWidth, childMaxWidth, childMinHeight, childMaxHeight);
+        const [childWidth, childHeight] = this.child.dimensions;
 
-        // Resolve own layout
+        // Resolve own dimensions
         const [oldWidth, oldHeight] = [this.width, this.height];
-        this.width = Math.max(minWidth, usedWidth);
-        this.height = Math.max(minHeight, usedHeight);
+        this.width = Math.max(minWidth, childWidth + hPadding);
+        this.height = Math.max(minHeight, childHeight + vPadding);
 
-        // Mark background as dirty if size changed
-        if(this.width !== oldWidth || this.height !== oldHeight)
+        // Mark background as dirty if own size or child's size changed
+        if(this.width !== oldWidth || this.height !== oldHeight ||
+           childWidth !== oldChildWidth || childHeight !== oldChildHeight)
             this.backgroundDirty = true;
+    }
+
+    protected override afterPositionResolved(): void {
+        // Get padding and alignment
+        const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
+        const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
+
+        // Calculate used space
+        const [childWidth, childHeight] = this.child.dimensions;
+        const usedWidth = childWidth + padding.left + padding.right;
+        const usedHeight = childHeight + padding.top + padding.bottom;
 
         // Horizontal offset
-        this.offsetX = padding.left;
+        let childX = this.x + padding.left;
         if(alignment.horizontal !== Alignment.Stretch) {
             // Get free space for this axis
             const freeSpace = this.width - usedWidth;
@@ -111,17 +129,17 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
                 // an enum?
                 switch(alignment.horizontal) {
                     case Alignment.Center:
-                        this.offsetX += freeSpace / 2;
+                        childX += freeSpace / 2;
                         break;
                     case Alignment.End:
-                        this.offsetX += freeSpace;
+                        childX += freeSpace;
                         break;
                 }
             }
         }
 
         // Vertical offset
-        this.offsetY = padding.top;
+        let childY = this.y + padding.top;
         if(alignment.vertical !== Alignment.Stretch) {
             // Same logic as above, but for vertical axis
             const freeSpace = this.height - usedHeight;
@@ -129,24 +147,36 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             if(freeSpace > 0) {
                 switch(alignment.vertical) {
                     case Alignment.Center:
-                        this.offsetY += freeSpace / 2;
+                        childY += freeSpace / 2;
                         break;
                     case Alignment.End:
-                        this.offsetY += freeSpace;
+                        childY += freeSpace;
                         break;
                 }
             }
         }
+
+        // Resolve child's position
+        const [oldChildX, oldChildY] = this.child.position;
+        this.child.resolvePosition(childX, childY);
+
+        // If child's position changed, mark background as dirty
+        if(oldChildX !== childX || oldChildY !== childY)
+            this.backgroundDirty = true;
     }
 
-    protected override handlePainting(x: number, y: number, ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Clear background if needed
         if(this.backgroundDirty) {
-            this.clear(x, y, this.width, this.height, ctx);
+            this.clearStart(ctx);
+            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
+            ctx.rect(...this.roundRect(...this.child.position, ...this.child.dimensions, true));
+            this.clearEnd(ctx, 'evenodd');
+
             this.backgroundDirty = false;
         }
 
         // Paint child
-        this.child.paint(x + this.offsetX, y + this.offsetY, ctx);
+        this.child.paint(ctx);
     }
 }
