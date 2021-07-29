@@ -46,7 +46,9 @@ const defaultThemeProperties = new Map<ThemeProperty, unknown>([
     [ThemeProperty.InputTextInnerPadding, 2],
     [ThemeProperty.BlinkRate, 0.8],
     [ThemeProperty.CursorThickness, 1],
-    [ThemeProperty.ScrollBarThickness, 10],
+    [ThemeProperty.ScrollBarThickness, 8],
+    [ThemeProperty.ScrollBarMinPercent, 0.1],
+    [ThemeProperty.ScrollBarMinPixels, 20],
 ]);
 
 /**

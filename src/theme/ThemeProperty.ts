@@ -140,6 +140,20 @@ export enum ThemeProperty {
     BlinkRate,
     /** The thickness of a text cursor in pixels. */
     CursorThickness,
-    /** The thickness of a {@link ScrollBar} in pixels. */
+    /**
+     * The thickness of a {@link ScrollableViewportWidget}'s scrollbar in
+     * pixels.
+     */
     ScrollBarThickness,
+    /**
+     * The minimum length of the filled part of a
+     * {@link ScrollableViewportWidget}'s scrollbar in percentage of total
+     * length.
+     */
+    ScrollBarMinPercent,
+    /**
+     * The minimum length of the filled part of a
+     * {@link ScrollableViewportWidget}'s scrollbar in pixels.
+     */
+    ScrollBarMinPixels,
 }

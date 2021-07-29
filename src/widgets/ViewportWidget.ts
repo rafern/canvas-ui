@@ -35,12 +35,14 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     private _offset: [number, number] = [0, 0];
 
     /** Create a new ViewportWidget. */
-    constructor(child: W, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
+    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
         // Viewport clears its own background, has a single child and propagates
         // events
         super(child, themeOverride, false, true);
 
         this.viewport = new Viewport();
+        this._minWidth = minWidth;
+        this._minHeight = minHeight;
         this._widthTied = widthTied;
         this._heightTied = heightTied;
     }
@@ -194,19 +196,26 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        if(this._minWidth === 0 && !this._widthTied)
+            console.warn('ViewportWidget has no minimum width and width isn\' tied, therefore, it will be dimensionless. Set a minimum width and/or tie the width');
+        if(this._minHeight === 0 && !this._heightTied)
+            console.warn('ViewportWidget has no minimum height and height isn\' tied, therefore, it will be dimensionless. Set a minimum height and/or tie the height');
+
         let normalWidth = true, normalHeight = true;
+        const effectiveMinWidth = Math.max(minWidth, this._minWidth);
+        const effectiveMinheight = Math.max(minHeight, this._minHeight);
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
             const constraints = this.viewport.constraints;
 
             if(this._widthTied) {
-                constraints[0] = minWidth;
+                constraints[0] = effectiveMinWidth;
                 constraints[1] = maxWidth;
             }
 
             if(this._heightTied) {
-                constraints[2] = minHeight;
+                constraints[2] = effectiveMinheight;
                 constraints[3] = maxHeight;
             }
 
@@ -228,10 +237,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
         // Expand to the needed dimensions
         if(normalWidth)
-            this.width = Math.min(Math.max(minWidth, this._minWidth), maxWidth);
+            this.width = Math.min(effectiveMinWidth, maxWidth);
 
         if(normalHeight)
-            this.height = Math.min(Math.max(minHeight, this._minHeight), maxHeight);
+            this.height = Math.min(effectiveMinheight, maxHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
