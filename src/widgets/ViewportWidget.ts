@@ -195,8 +195,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         let normalWidth = true, normalHeight = true;
-        const actualMinWidth = Math.min(Math.max(minWidth, this._minWidth), maxWidth);
-        const actualMinHeight = Math.min(Math.max(minHeight, this._minHeight), maxHeight);
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
@@ -228,13 +226,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             }
         }
 
-        // Expand as much as possible if constrained, else, only expand to the
-        // needed dimensions
+        // Expand to the needed dimensions
         if(normalWidth)
-            this.width = (maxWidth !== Infinity) ? maxWidth : actualMinWidth;
+            this.width = Math.min(Math.max(minWidth, this._minWidth), maxWidth);
 
         if(normalHeight)
-            this.height = (maxHeight !== Infinity) ? maxHeight : actualMinHeight;
+            this.height = Math.min(Math.max(minHeight, this._minHeight), maxHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {

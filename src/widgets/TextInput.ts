@@ -353,18 +353,10 @@ export class TextInput<V> extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Expand as much as possible if constrained, else, only expand to the
-        // needed dimensions
+        // Only expand to the needed dimensions
         const padding = 2 * this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
-        if(maxWidth !== Infinity)
-            this.width = maxWidth;
-        else
-            this.width = Math.max(minWidth, this.textHelper.width + padding);
-
-        if(maxHeight !== Infinity)
-            this.height = maxHeight;
-        else
-            this.height = Math.max(minHeight, this.textHelper.height + padding);
+        this.width = Math.min(Math.max(minWidth, this.textHelper.width + padding), maxWidth);
+        this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
