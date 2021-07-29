@@ -1,5 +1,7 @@
+import type { FlexAlignment2D } from './FlexAlignment2D';
 import type { Alignment2D } from './Alignment2D';
 import { ThemeProperty } from './ThemeProperty';
+import { FlexAlignment } from './FlexAlignment';
 import type { Padding } from './Padding';
 import { Alignment } from './Alignment';
 
@@ -16,7 +18,10 @@ const defaultThemeProperties = new Map<ThemeProperty, unknown>([
     [ThemeProperty.ContainerAlignment, <Alignment2D>{
         horizontal: Alignment.Start, vertical: Alignment.Start
     }],
-    [ThemeProperty.ContainerSpacing, 4],
+    [ThemeProperty.MultiContainerSpacing, 4],
+    [ThemeProperty.MultiContainerAlignment, <FlexAlignment2D>{
+        main: FlexAlignment.Start, cross: Alignment.Start
+    }],
     [ThemeProperty.PrimaryFill, 'rgb(0,127,255)'], // Azure blue
     [ThemeProperty.AccentFill, 'rgb(0,195,255)'], // Greener azure blue
     [ThemeProperty.BackgroundFill, 'rgb(32,32,32)'], // Dark grey
@@ -110,6 +115,19 @@ export class Theme {
         return value;
     }
 
+    /** Validate a potential (Flex)Alignment ratio. For internal use only */
+    private validateAlignmentType<T>(value: unknown): T | number {
+        // TODO proper type safety
+        if(typeof value === 'number') {
+            if(value < 0 || value > 1)
+                throw new Error(`(Flex)Alignment ratio of ${value} (< 0 or > 1) not allowed`);
+
+            return value;
+        }
+        else
+            return value as T;
+    }
+
     /** Same as {@link getProperty}, but with type checking for number. */
     getNumber(themeProperty: ThemeProperty): number {
         const value = this.getProperty(themeProperty);
@@ -126,16 +144,40 @@ export class Theme {
         return this.getProperty(themeProperty) as Padding;
     }
 
-    /** Same as {@link getProperty}, but casts value to {@link Alignment}. */
-    getAlignment(themeProperty: ThemeProperty): Alignment {
-        // TODO proper type safety
-        return this.getProperty(themeProperty) as Alignment;
+    /**
+     * Same as {@link getProperty}, but casts value to {@link Alignment} or
+     * number (for ratio alignment).
+     */
+    getAlignment(themeProperty: ThemeProperty): Alignment | number {
+        return this.validateAlignmentType(this.getProperty(themeProperty));
     }
 
     /** Same as {@link getProperty}, but casts value to {@link Alignment2D}. */
     getAlignment2D(themeProperty: ThemeProperty): Alignment2D {
         // TODO proper type safety
-        return this.getProperty(themeProperty) as Alignment2D;
+        const value = this.getProperty(themeProperty) as Alignment2D;
+        this.validateAlignmentType(value.horizontal);
+        this.validateAlignmentType(value.vertical);
+        return value;
+    }
+
+    /**
+     * Same as {@link getProperty}, but casts value to {@link FlexAlignment} or
+     * number (for ratio alignment).
+     */
+    getFlexAlignment(themeProperty: ThemeProperty): FlexAlignment | number {
+        return this.validateAlignmentType(this.getProperty(themeProperty));
+    }
+
+    /**
+     * Same as {@link getProperty}, but casts value to {@link FlexAlignment2D}.
+     */
+    getFlexAlignment2D(themeProperty: ThemeProperty): FlexAlignment2D {
+        // TODO proper type safety
+        const value = this.getProperty(themeProperty) as FlexAlignment2D;
+        this.validateAlignmentType(value.main);
+        this.validateAlignmentType(value.cross);
+        return value;
     }
 
     /** Equivalent to {@link getString} */

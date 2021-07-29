@@ -11,10 +11,14 @@ export enum ThemeProperty {
     CanvasFill,
     /** The {@link Padding} used in {@link Container}. */
     ContainerPadding,
-    /** The spacing length between widgets in {@link MultiContainer}. */
-    ContainerSpacing,
     /** The alignment in {@link Container} for when there is extra space. */
     ContainerAlignment,
+    /** The spacing length between widgets in {@link MultiContainer}. */
+    MultiContainerSpacing,
+    /**
+     * The alignment in {@link MultiContainer} for when there is unused space.
+     */
+    MultiContainerAlignment,
     /**
      * The primary
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}.

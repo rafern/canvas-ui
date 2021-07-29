@@ -122,20 +122,11 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             const freeSpace = this.width - usedWidth;
 
             // Ignore if free space is negative or zero, as in, the child didn't
-            // even get the space they requested or just enough space
-            if(freeSpace > 0) {
-                // Distribute free space according to chosen alignment mode
-                // XXX Couldn't this be simplified by using a ratio instead of
-                // an enum?
-                switch(alignment.horizontal) {
-                    case Alignment.Center:
-                        childX += freeSpace / 2;
-                        break;
-                    case Alignment.End:
-                        childX += freeSpace;
-                        break;
-                }
-            }
+            // even get the space they requested or just enough space. If there
+            // is free space, distribute free space according to chosen
+            // alignment ratio
+            if(freeSpace > 0)
+                childX += freeSpace * alignment.horizontal;
         }
 
         // Vertical offset
@@ -144,16 +135,8 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             // Same logic as above, but for vertical axis
             const freeSpace = this.height - usedHeight;
 
-            if(freeSpace > 0) {
-                switch(alignment.vertical) {
-                    case Alignment.Center:
-                        childY += freeSpace / 2;
-                        break;
-                    case Alignment.End:
-                        childY += freeSpace;
-                        break;
-                }
-            }
+            if(freeSpace > 0)
+                childY += freeSpace * alignment.vertical;
         }
 
         // Resolve child's position
