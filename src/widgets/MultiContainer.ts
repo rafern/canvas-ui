@@ -4,6 +4,8 @@ import { MultiParent } from './MultiParent';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
+import { Alignment } from '../theme/Alignment';
+import { FlexAlignment } from '../theme/FlexAlignment';
 
 /**
  * A {@link MultiParent} which automatically paints children, adds spacing,
@@ -23,6 +25,8 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     private vertical: boolean;
     /** The unused space along the main axis after resolving dimensions */
     private unusedSpace = 0;
+    /** The number of enabled children in this container */
+    private enabledChildCount = 0;
 
     /** Create a MultiContainer. */
     constructor(vertical: boolean, themeOverride: Theme | null = null) {
@@ -73,24 +77,25 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // TODO vertical alignment (non-stretch where min cross length = 0)
         // Resolve children's layout with loose constraints along the main axis
         // to get their wanted dimensions and calculate total flex ratio
-        let totalFlex = 0;
-        let crossLength = 0;
-        let minCrossAxis = this.vertical ? maxWidth : maxHeight;
+        let totalFlex = 0, crossLength = 0, minCrossAxis = 0;
         const maxLength = this.vertical ? maxHeight : maxWidth;
 
-        if(minCrossAxis == Infinity)
-            minCrossAxis = 0;
+        const alignment = this.theme.getFlexAlignment2D(ThemeProperty.MultiContainerAlignment);
+        if(alignment.cross === Alignment.Stretch) {
+            minCrossAxis = this.vertical ? maxWidth : maxHeight;
+            if(minCrossAxis == Infinity)
+                minCrossAxis = 0;
+        }
 
-        let enabledChildCount = 0;
+        this.enabledChildCount = 0;
         for(const child of this.children) {
             // Ignore disabled children
             if(!child.enabled)
                 continue;
 
-            enabledChildCount++;
+            this.enabledChildCount++;
 
             const [oldChildWidth, oldChildHeight] = child.dimensions;
 
@@ -115,8 +120,8 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             crossLength = minCrossLength;
 
         // Get free space
-        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
-        let usedSpace = Math.max(enabledChildCount - 1, 0) * spacing;
+        const spacing = this.theme.getNumber(ThemeProperty.MultiContainerSpacing);
+        let usedSpace = Math.max(this.enabledChildCount - 1, 0) * spacing;
         for(const child of this.children) {
             // Ignore disabled children
             if(!child.enabled)
@@ -256,37 +261,50 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     }
 
     protected override afterPositionResolved(): void {
-        // TODO cross axis alignment
         // Align children
-        const spacing = this.theme.getNumber(ThemeProperty.ContainerSpacing);
-        // eslint-disable-next-line no-constant-condition
-        if(false /*this.unusedSpace > 0*/) {
-            // TODO actual alignment modes using this.unusedSpace
-        }
-        else {
-            let mainOffset = this.vertical ? this.y : this.x;
-            for(const child of this.children) {
-                // Ignore disabled children
-                if(!child.enabled)
-                    continue;
+        const alignment = this.theme.getFlexAlignment2D(ThemeProperty.MultiContainerAlignment);
+        const around = alignment.main === FlexAlignment.SpaceAround;
+        const between = alignment.main === FlexAlignment.SpaceBetween || around;
+        // TODO remove as number once typescript 4.4 releases
+        const mainRatio = (between ? 0 : alignment.main as number);
+        const crossRatio = (alignment.cross === Alignment.Stretch ? 0 : alignment.cross);
+        const effectiveChildren = this.enabledChildCount - 1 + (around ? 2 : 0);
+        let extraSpacing;
+        if(effectiveChildren <= 0)
+            extraSpacing = 0;
+        else
+            extraSpacing = this.unusedSpace / effectiveChildren;
 
-                const [oldChildX, oldChildY] = child.position;
+        let spacing = this.theme.getNumber(ThemeProperty.MultiContainerSpacing);
+        if(between)
+            spacing += extraSpacing;
 
-                if(this.vertical) {
-                    child.resolvePosition(this.x, mainOffset);
-                    mainOffset += child.dimensions[1] + spacing;
-                }
-                else {
-                    child.resolvePosition(mainOffset, this.y);
-                    mainOffset += child.dimensions[0] + spacing;
-                }
+        let mainOffset = (this.vertical ? this.y : this.x) + mainRatio * this.unusedSpace;
+        if(around)
+            mainOffset += extraSpacing;
 
-                const [childX, childY] = child.position;
+        for(const child of this.children) {
+            // Ignore disabled children
+            if(!child.enabled)
+                continue;
 
-                // Mark background as dirty if child's position changed
-                if(childX !== oldChildX || childY !== oldChildY)
-                    this.backgroundDirty = true;
+            const [oldChildX, oldChildY] = child.position;
+            const [childWidth, childHeight] = child.dimensions;
+
+            if(this.vertical) {
+                child.resolvePosition(this.x + crossRatio * (this.width - childWidth), mainOffset);
+                mainOffset += childHeight + spacing;
             }
+            else {
+                child.resolvePosition(mainOffset, this.y + crossRatio * (this.height - childHeight));
+                mainOffset += childWidth + spacing;
+            }
+
+            const [childX, childY] = child.position;
+
+            // Mark background as dirty if child's position changed
+            if(childX !== oldChildX || childY !== oldChildY)
+                this.backgroundDirty = true;
         }
     }
 

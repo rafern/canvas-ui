@@ -20,7 +20,7 @@ const defaultThemeProperties = new Map<ThemeProperty, unknown>([
     }],
     [ThemeProperty.MultiContainerSpacing, 4],
     [ThemeProperty.MultiContainerAlignment, <FlexAlignment2D>{
-        main: FlexAlignment.Start, cross: Alignment.Start
+        main: FlexAlignment.SpaceBetween, cross: Alignment.Stretch
     }],
     [ThemeProperty.PrimaryFill, 'rgb(0,127,255)'], // Azure blue
     [ThemeProperty.AccentFill, 'rgb(0,195,255)'], // Greener azure blue
