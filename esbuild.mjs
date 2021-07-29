@@ -1,4 +1,4 @@
-import Lws from 'lws';
+import LocalWebServer from 'local-web-server';
 
 let devMode = false;
 for(const arg of process.argv.slice(2)) {
@@ -9,7 +9,7 @@ for(const arg of process.argv.slice(2)) {
 if(devMode) {
     console.log('Development mode enabled; files will be watched and a test server started');
     console.warn('Note that .d.ts files are not generated in this mode');
-    Lws.create({ directory: 'examples', https: true }).then(lws => {
+    LocalWebServer.create({ directory: 'examples', https: true }).then(lws => {
         lws.on('verbose', (key, value) => {
             if(key === 'server.listening') {
                 const urls = [];

@@ -25,7 +25,7 @@
     "esbuild": "^0.12.16",
     "eslint": "^7.30.0",
     "eslint-plugin-tree-shaking": "^1.9.2",
-    "lws": "^4.0.2",
+    "local-web-server": "^5.0.0",
     "typedoc": "^0.21.2",
     "typedoc-plugin-markdown": "^3.10.2",
     "typescript": "^4.3.2"
