@@ -274,8 +274,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         const xSrc = xDst - origXDst;
         const ySrc = yDst - origYDst;
 
-        // Paint canvas
-        ctx.globalCompositeOperation = 'copy';
+        // Clear background and paint canvas
+        this.clearStart(ctx);
+        ctx.rect(vpX, vpY, vpW, vpH);
+        ctx.clip();
         ctx.drawImage(
             this.viewport.canvas,
             xSrc,
@@ -287,11 +289,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             wClipped,
             hClipped,
         );
-        ctx.globalCompositeOperation = 'source-over';
-
-        // Clear background
-        this.clearStart(ctx);
-        ctx.rect(vpX, vpY, vpW, vpH);
         ctx.rect(xDst, yDst, wClipped, hClipped);
         this.clearEnd(ctx, 'evenodd');
     }
