@@ -256,20 +256,17 @@ export abstract class Widget {
 
     /**
      * Widget event handling callback. If the event is to be captured, the
-     * capturer is returned, else, null. By default, this will do nothing and
-     * capture the event if it is targetted at itself or is a
-     * {@link PointerEvent}, but not a {@link PointerWheel}. Should be
-     * overridden.
+     * capturer is returned, else, null.
+     *
+     * By default, this will do nothing and capture the event if it is targetted
+     * at itself.
      *
      * If overriding, return the widget that has captured the event (could be
      * this, for example, or a child widget if implementing a container), or
      * null if no widget captured the event.
      */
     protected handleEvent(event: Event, _root: Root): Widget | null {
-        if(event.target === this ||
-           ((event instanceof PointerEvent) &&
-            (event.target === null) &&
-            !(event instanceof PointerWheel)))
+        if(event.target === this)
             return this;
         else
             return null;
