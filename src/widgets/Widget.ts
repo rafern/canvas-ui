@@ -512,9 +512,10 @@ export abstract class Widget {
         const roundUp = roundInwards ? Math.floor : Math.ceil;
 
         // Round rectangle
-        x = roundDown(x);
-        y = roundDown(y);
-        return [x, y, roundUp(x + width) - x, roundUp(y + height) - y];
+        return [
+            roundDown(x), roundDown(y),
+            roundUp(x + width) - x, roundUp(y + height) - y,
+        ];
     }
 
     /**

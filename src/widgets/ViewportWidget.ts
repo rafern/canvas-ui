@@ -142,9 +142,9 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Drop event if it is a positional event with no target outside the
         // child's viewport
         const [innerWidth, innerHeight] = this.child.dimensions;
-        const vpl = this.offset[0];
+        const vpl = this.x + this.offset[0];
         const vpr = vpl + innerWidth;
-        const vpt = this.offset[1];
+        const vpt = this.y + this.offset[1];
         const vpb = vpt + innerHeight;
         if(event instanceof PointerEvent) {
             if(event.target === null) {
@@ -247,45 +247,47 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Paint child to viewport's canvas
         this.viewport.paintToCanvas(this.child);
 
-        // Save context
-        ctx.save();
-
-        // Clip to drawing area
-        // These are rounded because clipping and filling doesn't work properly
-        // with decimal points
-        const drawAreaClip = new Path2D();
-        drawAreaClip.rect(
-            Math.trunc(this.x), Math.trunc(this.y),
-            Math.ceil(this.width), Math.ceil(this.height),
-        );
-        ctx.clip(drawAreaClip);
-
         // Clear background
-        ctx.globalCompositeOperation = 'copy';
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
-        ctx.fill(drawAreaClip);
+        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);
+        this.clear(vpX, vpY, vpW, vpH, ctx);
 
-        // Draw canvas with offset in passed context
+        // Calculate child's source and destination
         const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
-        const xDst = this.x + xOffset;
-        const yDst = this.y + yOffset;
-        const offsetClip = new Path2D();
-        offsetClip.rect(Math.trunc(xDst), Math.trunc(yDst), Math.ceil(innerWidth), Math.ceil(innerHeight));
-        ctx.clip(offsetClip);
+
+        // viewport right and bottom
+        const vpR = vpX + vpW;
+        const vpB = vpY + vpH;
+
+        // original child destination left and top
+        const origXDst = this.x + xOffset;
+        const origYDst = this.y + yOffset;
+
+        // clipped child destination left, top, width and height
+        const xDst = Math.min(Math.max(origXDst, vpX), vpR);
+        const yDst = Math.min(Math.max(origYDst, vpY), vpB);
+        const wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
+        const hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
+
+        // Abort if outside of bounds
+        if(wClipped === 0 || hClipped === 0)
+            return;
+
+        // child source left and top
+        const xSrc = xDst - origXDst;
+        const ySrc = yDst - origYDst;
+
+        // Paint canvas
         ctx.drawImage(
             this.viewport.canvas,
-            0,
-            0,
-            innerWidth,
-            innerHeight,
+            xSrc,
+            ySrc,
+            wClipped,
+            hClipped,
             xDst,
             yDst,
-            innerWidth,
-            innerHeight,
+            wClipped,
+            hClipped,
         );
-
-        // Restore context
-        ctx.restore();
     }
 }
