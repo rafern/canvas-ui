@@ -1,4 +1,3 @@
-import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
@@ -247,11 +246,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Paint child to viewport's canvas
         this.viewport.paintToCanvas(this.child);
 
-        // Clear background
-        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);
-        this.clear(vpX, vpY, vpW, vpH, ctx);
-
         // Calculate child's source and destination
+        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);
         const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
 
@@ -264,10 +260,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         const origYDst = this.y + yOffset;
 
         // clipped child destination left, top, width and height
-        const xDst = Math.min(Math.max(origXDst, vpX), vpR);
-        const yDst = Math.min(Math.max(origYDst, vpY), vpB);
-        const wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
-        const hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
+        let xDst = Math.min(Math.max(origXDst, vpX), vpR);
+        let yDst = Math.min(Math.max(origYDst, vpY), vpB);
+        let wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
+        let hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
+        [xDst, yDst, wClipped, hClipped] = this.roundRect(xDst, yDst, wClipped, hClipped);
 
         // Abort if outside of bounds
         if(wClipped === 0 || hClipped === 0)
@@ -278,6 +275,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         const ySrc = yDst - origYDst;
 
         // Paint canvas
+        ctx.globalCompositeOperation = 'copy';
         ctx.drawImage(
             this.viewport.canvas,
             xSrc,
@@ -289,5 +287,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             wClipped,
             hClipped,
         );
+        ctx.globalCompositeOperation = 'source-over';
+
+        // Clear background
+        this.clearStart(ctx);
+        ctx.rect(vpX, vpY, vpW, vpH);
+        ctx.rect(xDst, yDst, wClipped, hClipped);
+        this.clearEnd(ctx, 'evenodd');
     }
 }

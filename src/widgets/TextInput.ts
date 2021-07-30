@@ -11,6 +11,7 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
+import { PointerWheel } from '../events/PointerWheel';
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -255,12 +256,16 @@ export class TextInput<V> extends Widget {
             this.blinkStart = 0;
     }
 
-    protected override handleEvent(event: Event, root: Root): this {
+    protected override handleEvent(event: Event, root: Root): this | null {
         // If editing is disabled, abort
         if(!this._editingEnabled)
             return this;
 
-        if(event instanceof PointerEvent) {
+        if(event instanceof PointerWheel) {
+            // Don't capture wheel events
+            return null;
+        }
+        else if(event instanceof PointerEvent) {
             // If this is a pointer event, set pointer style and handle clicks
             root.pointerStyle = 'text';
 

@@ -1,4 +1,5 @@
 import { ClickHelper } from '../aggregates/ClickHelper';
+import { PointerWheel } from '../events/PointerWheel';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -30,6 +31,10 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
+        // Ignore wheel events
+        if(event instanceof PointerWheel)
+            return null;
+
         // Abort if no callback, but still absorb events
         if(this.callback === null) {
             this.clickHelper.clickStateChanged = false;

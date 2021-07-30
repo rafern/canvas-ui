@@ -1,6 +1,7 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { PointerWheel } from '../events/PointerWheel';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
@@ -74,7 +75,11 @@ export class Slider extends Widget {
         return this.variable.value;
     }
 
-    protected override handleEvent(event: Event, root: Root): this {
+    protected override handleEvent(event: Event, root: Root): this | null {
+        // Ignore wheel events
+        if(event instanceof PointerWheel)
+            return null;
+
         // Handle click event
         const x = this.x + this.offsetX;
         const y = this.y + this.offsetY;

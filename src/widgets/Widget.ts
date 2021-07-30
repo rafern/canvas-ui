@@ -1,5 +1,6 @@
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { PointerEvent } from '../events/PointerEvent';
+import { PointerWheel } from '../events/PointerWheel';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -257,7 +258,8 @@ export abstract class Widget {
      * Widget event handling callback. If the event is to be captured, the
      * capturer is returned, else, null. By default, this will do nothing and
      * capture the event if it is targetted at itself or is a
-     * {@link PointerEvent}. Should be overridden.
+     * {@link PointerEvent}, but not a {@link PointerWheel}. Should be
+     * overridden.
      *
      * If overriding, return the widget that has captured the event (could be
      * this, for example, or a child widget if implementing a container), or
@@ -265,7 +267,9 @@ export abstract class Widget {
      */
     protected handleEvent(event: Event, _root: Root): Widget | null {
         if(event.target === this ||
-           ((event instanceof PointerEvent) && (event.target === null)))
+           ((event instanceof PointerEvent) &&
+            (event.target === null) &&
+            !(event instanceof PointerWheel)))
             return this;
         else
             return null;
@@ -512,10 +516,9 @@ export abstract class Widget {
         const roundUp = roundInwards ? Math.floor : Math.ceil;
 
         // Round rectangle
-        return [
-            roundDown(x), roundDown(y),
-            roundUp(x + width) - x, roundUp(y + height) - y,
-        ];
+        x = roundDown(x);
+        y = roundDown(y);
+        return [x, y, roundUp(x + width) - x, roundUp(y + height) - y];
     }
 
     /**

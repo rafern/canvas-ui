@@ -8,6 +8,7 @@ interface RootDOMBind {
     pointerdownListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     pointerupListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
+    wheelListen: ((this: HTMLElement, event: WheelEvent) => void) | null,
 }
 
 /**
@@ -84,12 +85,23 @@ export class DOMPointerDriver extends PointerDriver {
             if(event.isPrimary)
                 this.leavePointer(root, this.mousePointerID);
         }
+        rootBind.wheelListen = (event: WheelEvent) => {
+            let deltaX = event.deltaX;
+            let deltaY = event.deltaY;
+            if(deltaX === 0 && event.getModifierState('Shift')) {
+                deltaX = deltaY;
+                deltaY = 0;
+            }
+
+            this.wheelPointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), deltaX, deltaY);
+        }
 
         // Add listeners to DOM element
         domElem.addEventListener('pointermove', rootBind.pointermoveListen);
         domElem.addEventListener('pointerdown', rootBind.pointerdownListen);
         domElem.addEventListener('pointerup', rootBind.pointerupListen);
         domElem.addEventListener('pointerleave', rootBind.pointerleaveListen);
+        domElem.addEventListener('wheel', rootBind.wheelListen);
     }
 
     /**
@@ -112,6 +124,10 @@ export class DOMPointerDriver extends PointerDriver {
         if(rootBind.pointerleaveListen !== null) {
             rootBind.domElem.removeEventListener('pointerleave', rootBind.pointerleaveListen);
             rootBind.pointerleaveListen = null;
+        }
+        if(rootBind.wheelListen !== null) {
+            rootBind.domElem.removeEventListener('wheel', rootBind.wheelListen);
+            rootBind.wheelListen = null;
         }
     }
 

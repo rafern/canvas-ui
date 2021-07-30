@@ -12,36 +12,28 @@
             const label = new Label('Hello world!');
             const inputLabel = new Label('');
             const root = new DOMRoot(
-                new Column()
-                .add(new Label('Above viewport'))
-                .add(
-                    new Row()
-                    .add(new Label('Before'))
-                    .add(
-                        new ScrollableViewportWidget(
-                            new Margin(
-                                new Column()
-                                .add(label)
-                                .add(inputLabel)
-                                .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
-                                .add(
-                                    new Center(
-                                        new Row()
-                                        .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
-                                        .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
-                                    )
+                new Margin(
+                    new ScrollableViewportWidget(
+                        new Margin(
+                            new Column()
+                            .add(label)
+                            .add(inputLabel)
+                            .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
+                            .add(
+                                new Center(
+                                    new Row()
+                                    .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
+                                    .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
                                 )
-                            ),
-                            500,
-                            70,
-                            false,
-                            false,
-                            ScrollbarMode.Overlay,
-                        )
+                            )
+                        ),
+                        70,
+                        70,
+                        false,
+                        false,
+                        ScrollbarMode.Overlay,
                     )
-                    .add(new Label('After'))
                 )
-                .add(new Label('Below viewport'))
             );
 
             // Create, bind DOM and register the keyboard driver

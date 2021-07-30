@@ -1,5 +1,6 @@
 import { PointerRelease } from '../events/PointerRelease';
 import { PointerPress } from '../events/PointerPress';
+import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
@@ -88,6 +89,56 @@ export class PointerDriver implements Driver {
     }
 
     /**
+     * Check if a given pointer can queue an event to a given root. Also
+     * automatically assigns pointer to root if possible. For internal use only.
+     *
+     * @param state The root's state. Although the function could technically get the state itself, it's passed to avoid repetition since you will need the state yourself
+     * @param givingActiveInput Is the pointer giving active input (pressing button or scrolling)? If so, then it can auto-assign if the root is not being pressed by another pointer
+     */
+    private canQueueEvent(root: Root, pointer: number, state: PointerDriverState, givingActiveInput: boolean): boolean {
+        // If there is no pointer assigned, assign this one
+        const firstAssign = state.pointer === null;
+        if(firstAssign)
+            state.pointer = pointer;
+
+        // If pointer is entering this root for the first time, then find which
+        // root the pointer was assigned to and queue a leave event
+        const pointerMatches = state.pointer === pointer;
+        if(!pointerMatches || firstAssign) {
+            for(const [otherRoot, otherState] of this.states) {
+                // Ignore if its this root
+                if(otherRoot === root)
+                    continue;
+
+                // If other root has this pointer assigned, unassign it
+                if(otherState.pointer === pointer)
+                    this.unassignPointer(otherRoot, otherState);
+            }
+        }
+
+        // Ignore if pointer is not the assigned one and not giving active input
+        // or being pressed by the assigned pointer
+        if(!pointerMatches && (!givingActiveInput || state.pressing))
+            return false;
+        else {
+            // Replace assigned pointer and clear old assigned pointer's hint if
+            // pointer changed and giving active input
+            if(givingActiveInput && state.pointer !== pointer) {
+                this.unassignPointer(root, state);
+                state.pointer = pointer;
+            }
+
+            return true;
+        }
+    }
+
+    /** Denormalise normalised pointer coordinates. Internal use only. */
+    private denormaliseCoords(root: Root, xNorm: number, yNorm: number): [number, number] {
+        const [width, height] = root.dimensions;
+        return [xNorm * width, yNorm * height];
+    }
+
+    /**
      * Queue up a pointer event to a given root. The type of
      * {@link PointerEvent} is decided automatically based on the root's state
      * and whether its pressing or not.
@@ -107,69 +158,28 @@ export class PointerDriver implements Driver {
         if(typeof state === 'undefined')
             return;
 
-        // If there is no pointer assigned, assign this one
-        const firstAssign = state.pointer === null;
-        if(firstAssign)
-            state.pointer = pointer;
-
         // If press state was not supplied, then it hasn't changed. Use the last
         // state
         if(pressing === null)
             pressing = state.pressing;
 
-        // If pointer is entering this root for the first time, then find which
-        // root the pointer was assigned to and queue a leave event
-        const pointerMatches = state.pointer === pointer;
-        if(!pointerMatches || firstAssign) {
-            for(const [otherRoot, otherState] of this.states) {
-                // Ignore if its this root
-                if(otherRoot === root)
-                    continue;
-
-                // If other root has this pointer assigned, unassign it
-                if(otherState.pointer === pointer)
-                    this.unassignPointer(otherRoot, otherState);
-            }
-        }
-
-        // Ignore if pointer is not the assigned one and not pressing or being
-        // pressed by the assigned pointer
-        if(!pointerMatches && (!pressing || state.pressing))
+        // Abort if this pointer can't queue an event to the target root
+        if(!this.canQueueEvent(root, pointer, state, pressing))
             return;
 
-        // Translate to canvas coordinates
-        const [width, height] = root.dimensions;
-        const x = xNorm * width;
-        const y = yNorm * height;
-
-        // Get event type
-        let e;
+        // Update state and queue up event
+        state.hovering = true;
+        const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
         if(pressing !== state.pressing) {
             if(pressing)
-                e = new PointerPress(x, y);
+                state.eventQueue.push(new PointerPress(x, y));
             else
-                e = new PointerRelease(x, y);
+                state.eventQueue.push(new PointerRelease(x, y));
 
             state.pressing = pressing;
-
-            if(pressing) {
-                // Replace assigned pointer and clear old assigned pointer's
-                // hint
-                if(state.pointer !== pointer && state.pointer !== null) {
-                    state.eventQueue.push(
-                        new Leave(root.getFocusCapturer(FocusType.Pointer))
-                    );
-                    this.setPointerHint(state.pointer, PointerHint.None);
-                    state.pointer = pointer;
-                }
-            }
         }
         else
-            e = new PointerMove(x, y);
-
-        // Queue event and update hovering flag
-        state.eventQueue.push(e);
-        state.hovering = true;
+            state.eventQueue.push(new PointerMove(x, y));
 
         // Update pointer's hint
         if(state.pressing)
@@ -210,6 +220,31 @@ export class PointerDriver implements Driver {
     leaveAnyPointer(pointer: number): void {
         for(const root of this.states.keys())
             this.leavePointer(root, pointer);
+    }
+
+    /**
+     * Queue up a mouse wheel event in a given 2D direction. Event will only be
+     * queued if the root was being hovered.
+     *
+     * @param pointer The registered pointer ID
+     * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate of the pointer event. 0 is the left edge of the root, while 1 is the right edge of the root.
+     * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
+     * @param deltaX How much was scrolled horizontally, in pixels
+     * @param deltaY How much was scrolled vertically, in pixels
+     */
+    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number): void {
+        const state = this.states.get(root);
+        if(typeof state === 'undefined')
+            return;
+
+        // Abort if this pointer can't queue an event to the target root
+        if(!this.canQueueEvent(root, pointer, state, true))
+            return;
+
+        // Update state and queue up event
+        state.hovering = true;
+        const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
+        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY));
     }
 
     /**

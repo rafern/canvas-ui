@@ -136,8 +136,6 @@ export class ClickHelper {
             return this.setClickState(ClickState.Released, false);
         }
         else if(event instanceof PointerEvent) {
-            // Ignore non-pointer events
-
             // Normalise pointer coordinates in click area
             this.pointerPos = this.getNormalInRect(event.x, event.y, ...clickArea);
 

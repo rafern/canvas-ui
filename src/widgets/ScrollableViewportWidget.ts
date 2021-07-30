@@ -7,6 +7,7 @@ import type { Event } from '../events/Event';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { Leave } from '../events/Leave';
+import { PointerWheel } from '../events/PointerWheel';
 
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
@@ -265,6 +266,14 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         return false;
     }
 
+    /** Handle a wheel scroll event. For internal use only. */
+    private handleWheelEvent(event: PointerWheel): void {
+        const offset = this.offset;
+        offset[0] -= event.deltaX;
+        offset[1] -= event.deltaY;
+        this.offset = offset;
+    }
+
     protected override handleEvent(event: Event, root: Root): Widget | null {
         // Try to drag a scrollbar if this is a pointer or leave event with no
         // target or target on this
@@ -289,12 +298,25 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                 grabbedEvent = true;
 
             // If the event was grabbed by either scrollbar, capture it
-            if(grabbedEvent)
+            if(grabbedEvent) {
+                // If this is a wheel event, handle it
+                if(event instanceof PointerWheel)
+                    this.handleWheelEvent(event);
+
                 return this;
+            }
         }
 
         // Pass event along
-        return super.handleEvent(event, root);
+        const capturer = super.handleEvent(event, root);
+
+        // If this is a wheel event and nobody captured the event, try scrolling
+        if(capturer === null && event instanceof PointerWheel) {
+            this.handleWheelEvent(event);
+            return this;
+        }
+
+        return capturer;
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
