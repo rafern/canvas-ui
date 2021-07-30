@@ -180,13 +180,19 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         ];
 
         // Handle click event
-        let grabbedEvent = false;
         const clickHelper = this.getClickHelper(vertical);
         clickHelper.handleClickEvent(event, root, clickArea);
+
         const clickState = clickHelper.clickState;
-        if(clickState === ClickState.Hold && clickHelper.pointerPos !== null &&
-           event instanceof PointerEvent) {
-            grabbedEvent = true;
+        const stateChanged = clickHelper.clickStateChanged;
+        if(stateChanged)
+            this._dirty = true;
+
+        if(clickState === ClickState.Hold) {
+            // Abort if state is not valid, but grab the event
+            if(clickHelper.pointerPos === null || !(event instanceof PointerEvent))
+                return true;
+
             const axisIndex = vertical ? 1 : 0;
             const scroll = this.scroll;
 
@@ -220,7 +226,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             else
                 thisOffset = clickHelper.pointerPos[axisIndex];
 
-            if(clickHelper.clickStateChanged) {
+            if(stateChanged) {
                 // If this was outside the filled area, snap scrollbar
                 if(!inFilledArea) {
                     const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
@@ -245,19 +251,18 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                 scroll[axisIndex] = this.startingScroll + dragDiff / (1 - barLength);
                 this.scroll = scroll;
             }
+
+            return true;
         }
         else if(clickState === ClickState.Hover)
-            grabbedEvent = true;
-        else if(clickState === ClickState.Released && clickHelper.clickStateChanged) {
+            return true;
+        else if(stateChanged) {
             // Release this scrollbar
             this.verticalDragged = null;
-            grabbedEvent = true;
+            return true;
         }
 
-        if(clickHelper.clickStateChanged)
-            this._dirty = true;
-
-        return grabbedEvent;
+        return false;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
@@ -272,9 +277,15 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             const yNeeded = childHeight > this.height;
 
             let grabbedEvent = false;
-            if(!this.widthTied && (xNeeded || !overlay) && this.handleEventScrollbar(false, yNeeded || forceCorner, event, root))
+
+            // Only handle event in scrollbar if the scrollbar is shown and
+            // needed (layout mode shows unneeded scrollbars)
+            if(!this.widthTied && (xNeeded || !overlay) &&
+               this.handleEventScrollbar(false, yNeeded || forceCorner, event, root))
                 grabbedEvent = true;
-            if(!this.heightTied && (yNeeded || !overlay) && this.handleEventScrollbar(true, xNeeded || forceCorner, event, root))
+
+            if(!this.heightTied && (yNeeded || !overlay) &&
+               this.handleEventScrollbar(true, xNeeded || forceCorner, event, root))
                 grabbedEvent = true;
 
             // If the event was grabbed by either scrollbar, capture it
