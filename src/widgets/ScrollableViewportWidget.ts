@@ -56,6 +56,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private startingScroll = 0;
     /** What was the normalised offset when starting drag? */
     private startingOffset = 0;
+    /** How much has been scrolled even after failing to scroll? */
+    private scrollFail: [number, number] = [0, 0];
 
     /**
      * Create a new ScrollableViewportWidget.
@@ -266,12 +268,52 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         return false;
     }
 
-    /** Handle a wheel scroll event. For internal use only. */
-    private handleWheelEvent(event: PointerWheel): void {
+    /** Clamp offset in-place to valid scroll values. For internal use only. */
+    private clampOffset(offset: [number, number]): void {
+        const [childWidth, childHeight] = this.child.dimensions;
+
+        const minX = -(childWidth - this.effectiveWidth);
+        if(minX >= 0)
+            offset[0] = 0;
+        else if(offset[0] < minX)
+            offset[0] = minX;
+
+        const minY = -(childHeight - this.effectiveHeight);
+        if(minY >= 0)
+            offset[1] = 0;
+        else if(offset[1] < minY)
+            offset[1] = minY;
+    }
+
+    /**
+     * Handle a wheel scroll event. Also increments {@link scrollFail} if
+     * scrolling fails, or resets it on success. If there are too many scroll
+     * failures, this will return false. The limit is completely arbitrary; set
+     * to 500 for now. For internal use only.
+     *
+     * @returns Returns true if this changed the scroll value
+     */
+    private handleWheelEvent(event: PointerWheel): boolean {
         const offset = this.offset;
+        const [oldX, oldY] = offset;
         offset[0] -= event.deltaX;
         offset[1] -= event.deltaY;
+        this.clampOffset(offset);
         this.offset = offset;
+        const [newX, newY] = this.offset;
+
+        const success = newX !== oldX || newY !== oldY;
+        if(success) {
+            this.scrollFail[0] = 0;
+            this.scrollFail[1] = 0;
+        }
+        else {
+            this.scrollFail[0] += Math.abs(event.deltaX);
+            this.scrollFail[1] += Math.abs(event.deltaY);
+        }
+
+        const failLimit = 500;
+        return this.scrollFail[0] < failLimit && this.scrollFail[1] < failLimit;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
@@ -310,11 +352,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // Pass event along
         const capturer = super.handleEvent(event, root);
 
-        // If this is a wheel event and nobody captured the event, try scrolling
-        if(capturer === null && event instanceof PointerWheel) {
-            this.handleWheelEvent(event);
+        // If this is a wheel event and nobody captured the event, try
+        // scrolling. If scrolling did indeed occur, then capture the event.
+        if(capturer === null && event instanceof PointerWheel && this.handleWheelEvent(event))
             return this;
-        }
 
         return capturer;
     }
@@ -366,20 +407,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
         // Keep scroll in bounds
         const offset = this.offset;
-        const [childWidth, childHeight] = this.child.dimensions;
-
-        const minX = -(childWidth - this.effectiveWidth);
-        if(minX >= 0)
-            offset[0] = 0;
-        else if(offset[0] < minX)
-            offset[0] = minX;
-
-        const minY = -(childHeight - this.effectiveHeight);
-        if(minY >= 0)
-            offset[1] = 0;
-        else if(offset[1] < minY)
-            offset[1] = minY;
-
+        this.clampOffset(offset);
         this.offset = offset;
     }
 

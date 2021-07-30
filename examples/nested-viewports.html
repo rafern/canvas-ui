@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='module'>
+            import {
+                DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
+                TextButton, DOMKeyboardDriver, DOMPointerDriver, Spacing,
+                DOMVirtualKeyboardRoot, DebugTheme, ScrollableViewportWidget,
+                ScrollbarMode,
+            } from './index.esm.js';
+
+            // Create the root
+            const label = new Label('Hello world!');
+            const inputLabel = new Label('');
+            const viewport = new ScrollableViewportWidget(
+                new Column()
+                .add(
+                    new ScrollableViewportWidget(
+                        new Margin(
+                            new Column()
+                            .add(label)
+                            .add(inputLabel)
+                            .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
+                            .add(
+                                new Center(
+                                    new Row()
+                                    .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
+                                    .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
+                                )
+                            )
+                        ),
+                        170,
+                        70,
+                        false,
+                        false,
+                        ScrollbarMode.Layout,
+                    )
+                )
+                .add(new Label('Hello 1'))
+                .add(new Label('Hello 2'))
+                .add(new Label('Hello 3'))
+                .add(new Label('Hello 4'))
+                .add(new Label('Hello 5'))
+                .add(new Label('Hello 6'))
+                .add(new Label('Hello 7')),
+                200,
+                200,
+                false,
+                false,
+                ScrollbarMode.Layout,
+            )
+
+            const root = new DOMRoot(
+                viewport,
+                //new DebugTheme(),
+            );
+
+            // Create drivers
+            const keyboardDriver = new DOMKeyboardDriver();
+            const pointerDriver = new DOMPointerDriver();
+
+            // Create the virtual keyboard root
+            const vkRoot = new DOMVirtualKeyboardRoot(
+                keyboardDriver,
+                undefined,
+                //new DebugTheme(),
+            );
+
+            // Register roots and bind DOM elements to drivers
+            keyboardDriver.bindDOMElem(root.domElem);
+            root.registerDriver(keyboardDriver);
+            keyboardDriver.bindDOMElem(vkRoot.domElem);
+
+            pointerDriver.bindDOMElem(root, root.domElem);
+            root.registerDriver(pointerDriver);
+            pointerDriver.bindDOMElem(vkRoot, vkRoot.domElem);
+            vkRoot.registerDriver(pointerDriver);
+
+            // Run the update loop
+            function updateLoop() {
+                vkRoot.update();
+                root.update();
+                window.requestAnimationFrame(updateLoop);
+            }
+
+            window.requestAnimationFrame(updateLoop);
+
+            // Add roots to body
+            document.body.appendChild(root.domElem);
+            document.body.appendChild(vkRoot.domElem);
+
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
