@@ -56,8 +56,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private startingScroll = 0;
     /** What was the normalised offset when starting drag? */
     private startingOffset = 0;
-    /** How much has been scrolled even after failing to scroll? */
-    private scrollFail: [number, number] = [0, 0];
+    /** When was the last scroll attempt in milliseconds since Unix epoch? */
+    private lastScroll = 0;
 
     /**
      * Create a new ScrollableViewportWidget.
@@ -286,12 +286,12 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     /**
-     * Handle a wheel scroll event. Also increments {@link scrollFail} if
-     * scrolling fails, or resets it on success. If there are too many scroll
-     * failures, this will return false. The limit is completely arbitrary; set
-     * to 500 for now. For internal use only.
+     * Handle a wheel scroll event. If scrolling fails due to being at the
+     * limit, this returns true if the last scroll attempt happened less than
+     * 200 milliseconds ago. This behaviour is disabled if
+     * {@link PointerWheel.fromDrag} is true.
      *
-     * @returns Returns true if this changed the scroll value
+     * @returns Returns true if this changed scroll was successful
      */
     private handleWheelEvent(event: PointerWheel): boolean {
         const offset = this.offset;
@@ -303,17 +303,18 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         const [newX, newY] = this.offset;
 
         const success = newX !== oldX || newY !== oldY;
-        if(success) {
-            this.scrollFail[0] = 0;
-            this.scrollFail[1] = 0;
-        }
-        else {
-            this.scrollFail[0] += Math.abs(event.deltaX);
-            this.scrollFail[1] += Math.abs(event.deltaY);
-        }
+        const last = this.lastScroll;
+        const now = (new Date()).getTime();
+        this.lastScroll = now;
 
-        const failLimit = 500;
-        return this.scrollFail[0] < failLimit && this.scrollFail[1] < failLimit;
+        if(success)
+            return true;
+
+        if(event.fromDrag)
+            return false;
+
+        const elapsed = now - last;
+        return elapsed < 200;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {

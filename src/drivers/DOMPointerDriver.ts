@@ -22,8 +22,15 @@ export class DOMPointerDriver extends PointerDriver {
     /** The HTML DOM element and listeners that each root is bound to */
     // XXX using weakmap so it auto-unbinds once a root stops existing
     private domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
-    /** The pointer ID of the mouse. Registered in constructor */
-    private mousePointerID: number; // TODO support multiple "mouse" pointers for multitouch
+    /** The mapping between each DOM pointer ID and canvas-ui pointer ID */
+    private pointers: Map<number, number> = new Map();
+    /**
+     * The pointer ID of the mouse. Registered in constructor. This is needed
+     * due to wheel events not being part of the DOM PointerEvent interface and
+     * therefore not having a pointerID field. This is also safe because there
+     * can only be one mouse.
+     */
+    private mousePointerID: number;
 
     /**
      * Create a new DOMPointerDriver.
@@ -33,7 +40,7 @@ export class DOMPointerDriver extends PointerDriver {
     constructor() {
         super();
 
-        this.mousePointerID = this.registerPointer();
+        this.mousePointerID = this.registerPointer(false);
     }
 
     /**
@@ -56,10 +63,31 @@ export class DOMPointerDriver extends PointerDriver {
                 pointerleaveListen: null,
             };
             this.domElems.set(root, rootBind);
+            domElem.style.touchAction = 'none';
         }
 
         if(root.enabled)
             this.addListeners(root, rootBind);
+    }
+
+    /**
+     * Get the canvas-ui pointer ID of a given event. If the event has a pointer
+     * which hasn't been registered yet, then it is registered automatically
+     */
+    private getPointerID(event: PointerEvent): number {
+        let pointerID = this.pointers.get(event.pointerId);
+
+        if(typeof pointerID === 'undefined') {
+            const isMouse = event.pointerType === 'mouse';
+            if(isMouse)
+                pointerID = this.mousePointerID;
+            else
+                pointerID = this.registerPointer(true);
+
+            this.pointers.set(event.pointerId, pointerID);
+        }
+
+        return pointerID;
     }
 
     /**
@@ -70,20 +98,20 @@ export class DOMPointerDriver extends PointerDriver {
         // root DOM bind so they can be removed later when needed
         const domElem = rootBind.domElem;
         rootBind.pointermoveListen = (event: PointerEvent) => {
-            if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem));
+            const pointerID = this.getPointerID(event);
+            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem));
         }
         rootBind.pointerdownListen = (event: PointerEvent) => {
-            if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), true);
+            const pointerID = this.getPointerID(event);
+            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem), true);
         }
         rootBind.pointerupListen = (event: PointerEvent) => {
-            if(event.isPrimary)
-                this.movePointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), false);
+            const pointerID = this.getPointerID(event);
+            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem), false);
         }
         rootBind.pointerleaveListen = (event: PointerEvent) => {
-            if(event.isPrimary)
-                this.leavePointer(root, this.mousePointerID);
+            const pointerID = this.getPointerID(event);
+            this.leavePointer(root, pointerID);
         }
         rootBind.wheelListen = (event: WheelEvent) => {
             let deltaX = event.deltaX;

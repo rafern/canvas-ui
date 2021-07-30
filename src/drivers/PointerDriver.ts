@@ -1,4 +1,5 @@
 import { PointerRelease } from '../events/PointerRelease';
+import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
@@ -15,6 +16,8 @@ interface PointerDriverState {
     pointer: number | null;
     pressing: boolean;
     hovering: boolean;
+    dragLast: [number, number] | null;
+    dragOrigin: [number, number];
 }
 
 /**
@@ -41,6 +44,10 @@ export class PointerDriver implements Driver {
      * See {@link getPointerHint}
      */
     protected hints: Map<number, PointerHint> = new Map();
+    /**
+     * The dragToScroll value of every pointer ID. See {@link registerPointer}.
+     */
+    private dragToScroll: Map<number, boolean> = new Map();
 
     /** Unassign a pointer from a given root and its state. */
     private unassignPointer(root: Root, state: PointerDriverState) {
@@ -58,16 +65,19 @@ export class PointerDriver implements Driver {
         }
         state.hovering = false;
         state.pressing = false;
+        state.dragLast = null;
     }
 
     /**
      * Register a new pointer.
      *
+     * @param dragToScroll If true, then dragging will result in PointerWheel events if no widget captures the events.
      * @returns Returns {@link nextPointerID} and increments it
      */
-    registerPointer(): number {
+    registerPointer(dragToScroll = false): number {
         const newID = this.nextPointerID++;
         this.setPointerHint(newID, PointerHint.None);
+        this.dragToScroll.set(newID, dragToScroll);
         return newID;
     }
 
@@ -86,6 +96,7 @@ export class PointerDriver implements Driver {
         }
 
         this.hints.delete(pointer);
+        this.dragToScroll.delete(pointer);
     }
 
     /**
@@ -203,6 +214,7 @@ export class PointerDriver implements Driver {
         if(state.hovering && state.pointer == pointer) {
             state.hovering = false;
             state.pressing = false;
+            state.dragLast = null;
             state.eventQueue.push(
                 new Leave(root.getFocusCapturer(FocusType.Pointer))
             );
@@ -244,7 +256,7 @@ export class PointerDriver implements Driver {
         // Update state and queue up event
         state.hovering = true;
         const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
-        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY));
+        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY, false));
     }
 
     /**
@@ -286,6 +298,8 @@ export class PointerDriver implements Driver {
             pointer: null,
             pressing: false,
             hovering: false,
+            dragLast: null,
+            dragOrigin: [0, 0],
         });
     }
 
@@ -297,11 +311,12 @@ export class PointerDriver implements Driver {
         // Dispatch leave event
         root.dispatchEvent(new Leave());
 
-        // Reset hint for assigned pointer
+        // Reset hint for assigned pointer and stop dragging
         const state = this.states.get(root);
-        if(typeof state !== 'undefined' && state.pointer !== null)
+        if(typeof state !== 'undefined' && state.pointer !== null) {
             this.setPointerHint(state.pointer, PointerHint.None);
-
+            state.dragLast = null;
+        }
 
         // Delete state for UI thats about to get disabled
         this.states.delete(root);
@@ -316,9 +331,43 @@ export class PointerDriver implements Driver {
         if(typeof state === 'undefined')
             return;
 
+        // Check if drag to scroll is enabled for this root
+        const dragToScroll = state.pointer === null
+                                ? false
+                                : this.dragToScroll.get(state.pointer);
+
         // Dispatch all queued events for this root
-        for(const event of state.eventQueue)
-            root.dispatchEvent(event);
+        for(const event of state.eventQueue) {
+            // If this is a pointer event and pointer is dragging, continue
+            // doing dragging logic
+            if(event instanceof PointerEvent && state.dragLast !== null) {
+                const [startX, startY] = state.dragLast;
+                root.dispatchEvent(new PointerWheel(
+                    ...state.dragOrigin,
+                    startX - event.x, startY - event.y,
+                    true,
+                ));
+
+                if(event instanceof PointerRelease)
+                    state.dragLast = null;
+                else {
+                    state.dragLast[0] = event.x;
+                    state.dragLast[1] = event.y;
+                }
+
+                continue;
+            }
+
+            // Dispatch event. If nobody captures the event, dragToScroll is
+            // enabled and this is a pointer press, then start dragging
+            if(root.dispatchEvent(event))
+                state.dragLast = null;
+            else if(dragToScroll && event instanceof PointerPress) {
+                state.dragLast = [event.x, event.y];
+                state.dragOrigin[0] = event.x;
+                state.dragOrigin[1] = event.y;
+            }
+        }
 
         // Clear queue
         state.eventQueue.length = 0;

@@ -219,11 +219,13 @@ export class Root {
      * the event due to the widget not existing anymore or being disabled, the
      * focus type of the event will be cleared in the root with
      * {@link clearFocus}.
+     *
+     * @returns Returns true if the event was captured
      */
-    dispatchEvent(event: Event): void {
+    dispatchEvent(event: Event): boolean {
         // Ignore event if Root is disabled
         if(!this.enabled)
-            return;
+            return false;
 
         // If event is focusable and is missing a target...
         if(event.focusType !== null && event.target === null) {
@@ -235,7 +237,7 @@ export class Root {
 
             if(event.needsFocus && focus === null) {
                 //console.warn('Dropped event due to lack of target', event);
-                return;
+                return false;
             }
 
             // Set event target
@@ -261,11 +263,11 @@ export class Root {
 
         // Update focus capturer if it changed
         if(event.focusType === null)
-            return;
+            return captured !== null;
 
         const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
         if(oldCapturer === captured)
-            return;
+            return captured !== null;
 
         // Special case: when the pointer focus capturer changes, dispatch a
         // leave event to the last capturer
@@ -275,6 +277,8 @@ export class Root {
         this._fociCapturers.set(event.focusType, captured);
         for(const driver of this.drivers)
             driver.onFocusCapturerChanged(this, event.focusType, oldCapturer, captured);
+
+        return captured !== null;
     }
 
     /**
