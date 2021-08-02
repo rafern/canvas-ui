@@ -1,4 +1,5 @@
 import { measureTextDims } from '../helpers/measureTextDims';
+import { multiFlagField } from '../decorators/FlagFields';
 
 /**
  * An aggregate helper class for widgets that contain text.
@@ -9,16 +10,36 @@ import { measureTextDims } from '../helpers/measureTextDims';
  * @category Aggregate
  */
 export class TextHelper {
-    /** The current string of text */
-    private _text = '';
-    /** The current font used for rendering text */
-    private _font = '';
-    /** The current minimum text width */
-    private _minWidth = 0;
-    /** The current minimum text ascent height */
-    private _minAscent = 0;
-    /** The current minimum text descent height */
-    private _minDescent = 0;
+    /**
+     * The current string of text.
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    text = '';
+    /**
+     * The current font used for rendering text.
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    font = '';
+    /**
+     * The current minimum text width.
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    minWidth = 0;
+    /**
+     * The current minimum text ascent height.
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    minAscent = 0;
+    /**
+     * The current minimum text descent height.
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    minDescent = 0;
 
     /**
      * The current text width corrected for minimum width. May be outdated.
@@ -60,11 +81,11 @@ export class TextHelper {
             return;
 
         // Measure text dimensions
-        const [ width, ascent, descent ] = measureTextDims(this._text, this._font);
+        const [ width, ascent, descent ] = measureTextDims(this.text, this.font);
 
-        this._width = Math.max(width, this._minWidth);
-        this._ascent = Math.max(ascent, this._minAscent);
-        this._descent = Math.max(descent, this._minDescent);
+        this._width = Math.max(width, this.minWidth);
+        this._ascent = Math.max(ascent, this.minAscent);
+        this._descent = Math.max(descent, this.minDescent);
 
         // Mark as clean
         this.measureDirty = false;
@@ -85,7 +106,7 @@ export class TextHelper {
 
         // Cut text up to given index and measure its length, this length is the
         // offset at the given index
-        return measureTextDims(this._text.substring(0, index), this._font)[0];
+        return measureTextDims(this.text.substring(0, index), this.font)[0];
     }
 
     /**
@@ -105,14 +126,14 @@ export class TextHelper {
         // For each character, find index at which offset is smaller than
         // total length minus half length of current character
         let index = 0, buffer = '', lastLength = 0;
-        for(const char of this._text) {
+        for(const char of this.text) {
             // Add next character to buffer
             buffer += char;
 
             // Measure text buffer length and critical offset, which is text
             // buffer's length minus length of half character, equivalent to
             // average between last length and current length
-            const bufferLength = measureTextDims(buffer, this._font)[0];
+            const bufferLength = measureTextDims(buffer, this.font)[0];
             // bl - (bl - ll) / 2 = bl - bl / 2 + ll / 2 = (bl + ll) / 2
             const criticalOffset = (bufferLength + lastLength) / 2;
 
@@ -127,13 +148,7 @@ export class TextHelper {
         }
 
         // Offset is after full length of text, return index after end
-        return [this._text.length, lastLength];
-    }
-
-    /** Sets {@link _dirty} and {@link measureDirty} to true. */
-    private setDirty(): void {
-        this._dirty = true;
-        this.measureDirty = true;
+        return [this.text.length, lastLength];
     }
 
     /** The current text width. Re-measures text if neccessary. */
@@ -161,85 +176,5 @@ export class TextHelper {
     get height(): number {
         this.updateTextDims();
         return this._ascent + this._descent;
-    }
-
-    /**
-     * The current string of text.
-     *
-     * Sets {@link _text} and calls {@link setDirty} if changed.
-     */
-    set text(text: string) {
-        if(this._text !== text) {
-            this._text = text;
-            this.setDirty();
-        }
-    }
-
-    get text(): string {
-        return this._text;
-    }
-
-    /**
-     * The current font used for rendering text.
-     *
-     * Sets {@link _font} and calls {@link setDirty} if changed.
-     */
-    set font(font: string) {
-        if(this._font !== font) {
-            this._font = font;
-            this.setDirty();
-        }
-    }
-
-    get font(): string {
-        return this._font;
-    }
-
-    /**
-     * The current minimum text width.
-     *
-     * Sets {@link _minWidth} and calls {@link setDirty} if changed.
-     */
-    set minWidth(minWidth: number) {
-        if(this._minWidth !== minWidth) {
-            this._minWidth = minWidth;
-            this.setDirty();
-        }
-    }
-
-    get minWidth(): number {
-        return this._minWidth;
-    }
-
-    /**
-     * The current minimum text ascent height.
-     *
-     * Sets {@link _minAscent} and calls {@link setDirty} if changed.
-     */
-    set minAscent(minAscent: number) {
-        if(this._minAscent !== minAscent) {
-            this._minAscent = minAscent;
-            this.setDirty();
-        }
-    }
-
-    get minAscent(): number {
-        return this._minAscent;
-    }
-
-    /**
-     * The current minimum text descent height.
-     *
-     * Sets {@link _minDescent} and calls {@link setDirty} if changed.
-     */
-    set minDescent(minDescent: number) {
-        if(this._minDescent !== minDescent) {
-            this._minDescent = minDescent;
-            this.setDirty();
-        }
-    }
-
-    get minDescent(): number {
-        return this._minDescent;
     }
 }

@@ -1,9 +1,11 @@
 import type { TextValidator } from '../validators/Validator';
+import { multiFlagField } from '../decorators/FlagFields';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperty } from '../theme/ThemeProperty';
 import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
+import { PointerWheel } from '../events/PointerWheel';
 import { Variable } from '../aggregates/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
@@ -11,7 +13,6 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
-import { PointerWheel } from '../events/PointerWheel';
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -46,8 +47,12 @@ export class TextInput<V> extends Widget {
     private cursorOffsetDirty = false;
     /** Is editing enabled? */
     private _editingEnabled = true;
-    /** Is the text hidden? */
-    private _hideText = false;
+    /**
+     * Is the text hidden?
+     * @multiFlagField(['cursorOffsetDirty', '_dirty'])
+     */
+    @multiFlagField(['cursorOffsetDirty', '_dirty'])
+    hideText = false;
     /** Is the text valid? */
     private _valid;
     /** Last valid value. */
@@ -117,27 +122,6 @@ export class TextInput<V> extends Widget {
         }
     }
 
-    /**
-     * Is the text hidden?
-     *
-     * Tied to {@link _hideText}. If changed, {@link _dirty} and
-     * {@link cursorOffsetDirty} are set to true.
-     */
-    get hideText(): boolean {
-        return this._hideText;
-    }
-
-    set hideText(hideText: boolean) {
-        if(this._hideText !== hideText) {
-            this._hideText = hideText;
-
-            // Mark as dirty and cursor offset as dirty; the text is
-            // (de)obfuscated
-            this.cursorOffsetDirty = true;
-            this._dirty = true;
-        }
-    }
-
     /** The current text value. */
     set text(text: string) {
         this.variable.value = text;
@@ -152,7 +136,7 @@ export class TextInput<V> extends Widget {
      * replaced with a black circle.
      */
     get displayedText(): string {
-        if(this._hideText)
+        if(this.hideText)
             return '●'.repeat(this.variable.value.length);
         else
             return this.variable.value;

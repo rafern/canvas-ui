@@ -1,0 +1,195 @@
+/**
+ * A decorator for a public field which sets calls a callback if the property's
+ * value is changed.
+ *
+ * @param callback The callback to call if the value changes. `this` is bound.
+ * @category Decorator
+ */
+export function watchField(callback: () => void) {
+    return function(target: any, propertyKey: string): void {
+        const curValues = new WeakMap();
+        Object.defineProperty(target, propertyKey, {
+            set: function(value) {
+                if(value !== curValues.get(this)) {
+                    callback.call(this);
+                    curValues.set(this, value);
+                }
+            },
+            get: function() {
+                return curValues.get(this);
+            },
+            enumerable: true,
+            configurable: true,
+        });
+    }
+}
+
+/**
+ * A {@link watchField} which sets a given flag to true.
+ *
+ * @param flagKey The key of the flag property to set to true
+ * @category Decorator
+ */
+export function flagField(flagKey: string): (target: any, propertyKey: string) => void {
+    return watchField(function(this: any) {
+        console.warn('flag', flagKey, 'set');
+        this[flagKey] = true;
+    });
+}
+
+/**
+ * A {@link flagField} where the flag key is `_dirty`.
+ *
+ * @category Decorator
+ */
+export const paintField = flagField('_dirty');
+
+/**
+ * A {@link flagField} where the flag key is `_layoutDirty`.
+ *
+ * @category Decorator
+ */
+export const layoutField = flagField('_layoutDirty');
+
+/**
+ * A {@link watchField} which sets a given array of flags to true.
+ *
+ * @param flagKeys An array containing the keys of each flag property to set to true
+ * @category Decorator
+ */
+export function multiFlagField(flagKeys: Array<string>): (target: any, propertyKey: string) => void {
+    return watchField(function(this: any) {
+        console.warn('flags', flagKeys.join(', '), 'set');
+        for(const flagKey of flagKeys)
+            this[flagKey] = true;
+    });
+}
+
+/**
+ * A {@link multiFlagField} where the flag keys are `_dirty` and `_layoutDirty`.
+ *
+ * @category Decorator
+ */
+export const paintLayoutField = multiFlagField(['_dirty', '_layoutDirty']);
+
+/**
+ * Similar to {@link watchField}, but for array fields, like tuples. Getting the
+ * property returns a shallow copy of the tuple, setting the value uses a
+ * shallow copy of the input value if the current value is not an array. If both
+ * the new value and the current value are arrays, then the current value's
+ * members are updated; no shallow copy is created.
+ *
+ * @param callback The callback to call if the value changes. `this` is bound.
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function watchArrayField(callback: () => void, allowNonArrays = false) {
+    return function(target: any, propertyKey: string): void {
+        const curValues = new WeakMap<any, Array<any>>();
+        Object.defineProperty(target, propertyKey, {
+            set: function(value: any) {
+                if(Array.isArray(value)) {
+                    const curTuple = curValues.get(this);
+                    if(Array.isArray(curTuple)) {
+                        if(value.length !== curTuple.length) {
+                            callback.call(this);
+                            curTuple.length = value.length;
+                            for(let i = 0; i < value.length; i++)
+                                curTuple[i] = value[i];
+                        }
+                        else {
+                            for(let i = 0; i < value.length; i++) {
+                                if(curTuple[i] !== value[i]) {
+                                    callback.call(this);
+                                    for(let j = 0; j < value.length; j++)
+                                        curTuple[j] = value[j];
+
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        callback.call(this);
+                        curValues.set(this, [...value]);
+                    }
+                }
+                else {
+                    if(allowNonArrays) {
+                        callback.call(this);
+                        curValues.set(this, value);
+                    }
+                    else
+                        throw new Error('Value must be an array');
+                }
+            },
+            get: function() {
+                const curTuple = curValues.get(this);
+                if(!Array.isArray(curTuple))
+                    return curTuple;
+
+                return [...curTuple];
+            },
+            enumerable: true,
+            configurable: true,
+        });
+    }
+}
+
+/**
+ * A {@link watchArrayField} which sets a given flag to true.
+ *
+ * @param flagKey The key of the flag property to set to true
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function flagArrayField(flagKey: string, allowNonArrays = false): (target: any, propertyKey: string) => void {
+    return watchArrayField(function(this: any) {
+        this[flagKey] = true;
+    }, allowNonArrays);
+}
+
+/**
+ * A {@link flagArrayField} where the flag key is `_dirty`.
+ *
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function paintArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+    return flagArrayField('_dirty', allowNonArrays);
+}
+
+/**
+ * A {@link flagArrayField} where the flag key is `_layoutDirty`.
+ *
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function layoutArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+    return flagArrayField('_layoutDirty', allowNonArrays);
+}
+
+/**
+ * A {@link watchArrayField} which sets a given array of flags to true.
+ *
+ * @param flagKeys An array containing the keys of each flag property to set to true
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function multiFlagArrayField(flagKeys: Array<string>, allowNonArrays = false): (target: any, propertyKey: string) => void {
+    return watchArrayField(function(this: any) {
+        for(const flagKey of flagKeys)
+            this[flagKey] = true;
+    }, allowNonArrays);
+}
+
+/**
+ * A {@link multiFlagArrayField} where the flag keys are `_dirty` and
+ * `_layoutDirty`.
+ *
+ * @param allowNonArrays Allow values which are not arrays to be used?
+ * @category Decorator
+ */
+export function paintLayoutArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+    return multiFlagArrayField(['_dirty', '_layoutDirty'], allowNonArrays);
+}

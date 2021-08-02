@@ -1,3 +1,4 @@
+import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -15,17 +16,33 @@ export class Icon extends Widget {
      * the image source changed and if the image is fully loaded.
      */
     private lastSrc: string | null = null;
-    /** The current image rotation in radians. */
-    private _rotation = 0;
+    /**
+     * The current image rotation in radians.
+     * @paintField
+     */
+    @paintField
+    rotation = 0;
     /**
      * The view box of this Icon, useful if the image used for the icon is a
      * spritesheet. If null, the entire image will be used.
+     * @paintLayoutArrayField(true)
      */
+    @paintLayoutArrayField(true)
     viewBox: [number, number, number, number] | null;
-    /** See {@link imageWidth}. For internal use only */
-    private _imageWidth: number | null;
-    /** See {@link imageHeight}. For internal use only */
-    private _imageHeight: number | null;
+    /**
+     * The wanted width. If null, the image's width will be used, taking
+     * {@link viewBox} into account.
+     * @layoutField
+     */
+    @layoutField
+    imageWidth: number | null = null;
+    /**
+     * The wanted height. If null, the image's height will be used, taking
+     * {@link viewBox} into account.
+     * @layoutField
+     */
+    @layoutField
+    imageHeight: number | null = null;
     /** Horizontal offset. */
     private offsetX = 0;
     /** Vertical offset. */
@@ -42,8 +59,8 @@ export class Icon extends Widget {
         super(themeOverride, true, false);
 
         this._image = image;
-        this._imageWidth = width;
-        this._imageHeight = height;
+        this.imageWidth = width;
+        this.imageHeight = height;
         this.viewBox = viewBox;
     }
 
@@ -66,48 +83,17 @@ export class Icon extends Widget {
         return this._image;
     }
 
-    /**
-     * The wanted width. If null, the image's width will be used, taking
-     * {@link viewBox} into account.
-     */
-    get imageWidth(): number | null {
-        return this._imageWidth;
-    }
-
-    set imageWidth(imageWidth: number | null) {
-        if(this._imageWidth !== imageWidth) {
-            this._imageWidth = imageWidth;
-            this._layoutDirty = true;
-        }
-    }
-
-    /**
-     * The wanted height. If null, the image's height will be used, taking
-     * {@link viewBox} into account.
-     */
-    get imageHeight(): number | null {
-        return this._imageHeight;
-    }
-
-    set imageHeight(imageHeight: number | null) {
-        if(this._imageHeight !== imageHeight) {
-            this._imageHeight = imageHeight;
-            this._layoutDirty = true;
-        }
-    }
-
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet
         if(this._image?.src !== this.lastSrc && this._image?.complete)
             this._dirty = true;
-
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find dimensions
-        let wantedWidth = this._imageWidth;
+        let wantedWidth = this.imageWidth;
         if(wantedWidth === null) {
             if(this.viewBox === null)
                 wantedWidth = this._image.width;
@@ -117,7 +103,7 @@ export class Icon extends Widget {
 
         this.width = Math.max(Math.min(wantedWidth, maxWidth), minWidth);
 
-        let wantedHeight = this._imageHeight;
+        let wantedHeight = this.imageHeight;
         if(wantedHeight === null) {
             if(this.viewBox === null)
                 wantedHeight = this._image.height;
@@ -137,24 +123,6 @@ export class Icon extends Widget {
         this.offsetY = (this.height - this.actualHeight) / 2;
     }
 
-    /**
-     * This icon's rotation. Useful for implementing spinners.
-     *
-     * Sets {@link _rotation} if changed and sets {@link _dirty} to true.
-     *
-     * If getting, returns {@link _rotation}.
-     */
-    set rotation(rotation: number) {
-        if(rotation !== this._rotation) {
-            this._rotation = rotation;
-            this._dirty = true;
-        }
-    }
-
-    get rotation(): number {
-        return this._rotation;
-    }
-
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // Abort if icon isn't ready yet
         if(!this._image?.complete) {
@@ -165,10 +133,14 @@ export class Icon extends Widget {
         // Mark as not needing to be drawn by setting the source
         this.lastSrc = this._image.src;
 
-        // Translate and rotate if rotation is not 0
+        // Translate, rotate and clip if rotation is not 0
         let tdx = this.offsetX, tdy = this.offsetY;
-        if(this.rotation !== 0) {
+        const rotated = this.rotation !== 0;
+        if(rotated) {
             ctx.save();
+            ctx.beginPath();
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.clip();
             ctx.translate(
                 this.x + this.offsetX + this.actualWidth / 2,
                 this.y + this.offsetY + this.actualHeight / 2,
@@ -193,7 +165,7 @@ export class Icon extends Widget {
         }
 
         // Revert transformation
-        if(this.rotation !== 0)
+        if(rotated)
             ctx.restore();
     }
 }

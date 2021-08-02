@@ -1,3 +1,4 @@
+import { paintArrayField } from '../decorators/FlagFields';
 import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
 
@@ -9,14 +10,16 @@ import type { Widget } from '../widgets/Widget';
  */
 export class Viewport {
     /**
-     * Constraints of viewport. For internal use only.
+     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
+     * containing, respectively, minimum width, maximum width, minimum height
+     * and maximum height.
      *
      * By default, has no minimum width nor height and unconstrained maximum
      * width and height.
-     *
-     * See {@link constraints}.
+     * @paintArrayField()
      */
-    private _constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
+    @paintArrayField()
+    constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
     /** Have the constraints been changed? */
     private dirty = true;
 
@@ -52,30 +55,6 @@ export class Viewport {
     }
 
     /**
-     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
-     * containing, respectively, minimum width, maximum width, minimum height
-     * and maximum height.
-     *
-     * See {@link _constraints}.
-     */
-    set constraints(constraints: [number, number, number, number]) {
-        if(this._constraints[0] !== constraints[0] ||
-           this._constraints[1] !== constraints[1] ||
-           this._constraints[2] !== constraints[2] ||
-           this._constraints[3] !== constraints[3]) {
-            this._constraints[0] = constraints[0];
-            this._constraints[1] = constraints[1];
-            this._constraints[2] = constraints[2];
-            this._constraints[3] = constraints[3];
-            this.dirty = true;
-        }
-    }
-
-    get constraints(): [number, number, number, number] {
-        return [...this._constraints];
-    }
-
-    /**
      * Resolves the given child's layout by calling
      * {@link Widget.resolveDimensions} with the current {@link constraints},
      * and {@link Widget.resolvePosition}.
@@ -97,15 +76,15 @@ export class Viewport {
 
         // Resolve child's layout
         const [oldWidth, oldHeight] = child.dimensions;
+        const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
-        child.resolveDimensions(...this.constraints);
+        child.resolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
 
         // Resolve dimensions again, now with maximum constraints. This is so
         // that widgets that depend on max constraints, such as containers that
         // handle flexbox layout, work properly. Only do this if constraints
         // don't already have maximum dimensions.
-        if(this._constraints[1] === Infinity || this._constraints[3] === Infinity) {
-            const [minWidth, maxWidth, minHeight, maxHeight] = this._constraints;
+        if(maxWidth === Infinity || maxHeight === Infinity) {
             const [width, height] = child.dimensions;
             child.resolveDimensions(
                 minWidth,
@@ -138,6 +117,9 @@ export class Viewport {
                 let copyCanvas = null;
                 if(oldWidth !== 0 && oldHeight !== 0) {
                     copyCanvas = document.createElement('canvas');
+                    copyCanvas.width = oldWidth;
+                    copyCanvas.height = oldHeight;
+
                     const copyCtx = copyCanvas.getContext('2d');
                     if(copyCtx === null)
                         throw new Error('Failed to get context of temporary canvas for resizing original canvas');
@@ -157,8 +139,8 @@ export class Viewport {
                     this.context.globalCompositeOperation = 'copy';
                     this.context.drawImage(
                         copyCanvas,
-                        0, 0, newWidth, newHeight,
-                        0, 0, newWidth, newHeight,
+                        0, 0, copyCanvas.width, copyCanvas.height,
+                        0, 0, copyCanvas.width, copyCanvas.height,
                     );
                     this.context.globalCompositeOperation = 'source-over';
                 }

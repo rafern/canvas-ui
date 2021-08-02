@@ -1,3 +1,4 @@
+import { layoutArrayField } from '../decorators/FlagFields';
 import { PassthroughWidget } from './PassthroughWidget';
 import type { Theme } from '../theme/Theme';
 import type { Widget } from './Widget';
@@ -20,22 +21,8 @@ export class ArtificialConstraint<W extends Widget = Widget> extends Passthrough
      * height. Changing this sets {@link _layoutDirty} to true. Constraints are
      * only applied if they are more restrictive than the original constraints.
      */
-    set constraints(constraints: [number, number, number, number]) {
-        if(this._constraints[0] !== constraints[0] ||
-           this._constraints[1] !== constraints[1] ||
-           this._constraints[2] !== constraints[2] ||
-           this._constraints[3] !== constraints[3]) {
-            this._constraints[0] = constraints[0];
-            this._constraints[1] = constraints[1];
-            this._constraints[2] = constraints[2];
-            this._constraints[3] = constraints[3];
-            this._layoutDirty = true;
-        }
-    }
-
-    get constraints(): [number, number, number, number] {
-        return [...this._constraints];
-    }
+    @layoutArrayField()
+    constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
 
     /** Create a new PassthroughWidget. */
     constructor(child: W, constraints: [number, number, number, number] = [0, Infinity, 0, Infinity], themeOverride: Theme | null = null) {

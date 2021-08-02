@@ -1,5 +1,6 @@
 import { ClickState } from '../aggregates/ClickHelper';
 import { ThemeProperty } from '../theme/ThemeProperty';
+import { watchField } from '../decorators/FlagFields';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
@@ -22,8 +23,12 @@ import { Button } from './Button';
 export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
-    /** Is the button currently forced down? */
-    private _forced = false;
+    /**
+     * Is the button currently forced down?
+     * @watchField(FilledButton.prototype.updateBackground)
+     */
+    @watchField(FilledButton.prototype.updateBackground)
+    forced = false;
 
     /**
      * Update the background fill.
@@ -33,7 +38,7 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
      * {@link _backgroundDirty} to true.
      */
     private updateBackground(): void {
-        if(this._forced)
+        if(this.forced)
             this.backgroundProperty = ThemeProperty.PrimaryFill;
         else {
             switch(this.clickHelper.clickState) {
@@ -50,7 +55,15 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
         }
 
         // Update inherited theme
-        const overrideValue = this.theme.getFill(this.backgroundProperty);
+        let overrideValue;
+        try {
+            overrideValue = this.theme.getFill(this.backgroundProperty);
+        }
+        catch(_e) {
+            // Abort if theme is not ready
+            return;
+        }
+
         const modifiedTheme = new Theme(
             new Map([
                 [ThemeProperty.CanvasFill, overrideValue],
@@ -59,17 +72,6 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
         );
 
         super.inheritTheme(modifiedTheme);
-    }
-
-    set forced(forced: boolean) {
-        if(forced !== this._forced) {
-            this._forced = forced;
-            this.updateBackground();
-        }
-    }
-
-    get forced(): boolean {
-        return this._forced;
     }
 
     protected override setThemeOverride(theme: Theme | null): void {
