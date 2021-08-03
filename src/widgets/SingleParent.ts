@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Widget } from '../widgets/Widget';
-import type { Theme } from '../theme/Theme';
 import { Parent } from './Parent';
 
 /**
@@ -14,8 +14,8 @@ export abstract class SingleParent<W extends Widget = Widget> extends Parent<W> 
      *
      * @param child The mandatory single child of this widget. Cannot be changed later, unless {@link _children} is changed directly via the widget using this mixin.
      */
-    constructor(child: W, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
-        super([child], themeOverride, needsClear, propagatesEvents);
+    constructor(child: W, needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
+        super([child], needsClear, propagatesEvents, themeProperties);
     }
 
     /** This widget's child. */

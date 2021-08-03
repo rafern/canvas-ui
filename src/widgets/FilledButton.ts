@@ -1,11 +1,12 @@
 import { ClickState } from '../aggregates/ClickHelper';
-import { ThemeProperty } from '../theme/ThemeProperty';
 import { watchField } from '../decorators/FlagFields';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
+import { FillStyle } from '../theme/FillStyle';
+import { ThemeProperties } from '../theme/ThemeProperties';
 
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
@@ -22,7 +23,7 @@ import { Button } from './Button';
  */
 export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
-    private backgroundProperty: ThemeProperty = ThemeProperty.BackgroundFill;
+    private backgroundProperty = 'backgroundFill';
     /**
      * Is the button currently forced down?
      * @watchField(FilledButton.prototype.updateBackground)
@@ -38,73 +39,83 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
      * {@link _backgroundDirty} to true.
      */
     private updateBackground(): void {
+        const oldProperty = this.backgroundProperty;
+
         if(this.forced)
-            this.backgroundProperty = ThemeProperty.PrimaryFill;
+            this.backgroundProperty = 'primaryFill';
         else {
             switch(this.clickHelper.clickState) {
             case ClickState.Hold:
-                this.backgroundProperty = ThemeProperty.AccentFill;
+                this.backgroundProperty = 'accentFill';
                 break;
             case ClickState.Hover:
-                this.backgroundProperty = ThemeProperty.BackgroundGlowFill;
+                this.backgroundProperty = 'backgroundGlowFill';
                 break;
             default:
-                this.backgroundProperty = ThemeProperty.BackgroundFill;
+                this.backgroundProperty = 'backgroundFill';
                 break;
             }
         }
 
-        // Update inherited theme
-        let overrideValue;
-        try {
-            overrideValue = this.theme.getFill(this.backgroundProperty);
+        // Update inherited theme of children and mark background as dirty if
+        // property changed
+        if(oldProperty !== this.backgroundProperty) {
+            this.backgroundDirty = true;
+            this.setChildrensTheme();
         }
-        catch(_e) {
-            // Abort if theme is not ready
+    }
+
+    private getBackgroundFill(): FillStyle {
+        switch(this.backgroundProperty) {
+            case 'primaryFill':
+                return this.primaryFill;
+            case 'accentFill':
+                return this.accentFill;
+            case 'backgroundGlowFill':
+                return this.backgroundGlowFill;
+            case 'backgroundFill':
+                return this.backgroundFill;
+            default:
+                throw new Error(`Unknown theme property: ${this.backgroundProperty}`);
+        }
+    }
+
+    override set inheritedTheme(theme: Theme | undefined) {
+        if(theme === this.fallbackTheme)
             return;
-        }
 
-        const modifiedTheme = new Theme(
-            new Map([
-                [ThemeProperty.CanvasFill, overrideValue],
-            ]),
-            this.inheritedTheme?.fallback,
-        );
-
-        super.inheritTheme(modifiedTheme);
+        this.fallbackTheme = theme;
+        this.setChildrensTheme();
     }
 
-    protected override setThemeOverride(theme: Theme | null): void {
-        if(theme === null)
-            return super.setThemeOverride(null);
-
-        // Create new theme with the canvas colour set to the override's
-        // background and use that as the theme override. If override doesn't
-        // have the wanted property, it will throw an exception.
-        try {
-            const overrideValue = theme.getFill(this.backgroundProperty);
-            const modifiedTheme = new Theme(new Map([
-                [ThemeProperty.CanvasFill, overrideValue],
-            ]));
-
-            super.setThemeOverride(modifiedTheme);
-        }
-        catch(_e) {
-            return super.setThemeOverride(null);
-        }
+    override get inheritedTheme(): Theme | undefined {
+        return this.fallbackTheme;
     }
 
-    protected override inheritTheme(theme: Theme): void {
-        // Create theme with fallback to new theme with overridden canvas colour
-        const canvasValue = theme.getFill(this.backgroundProperty);
-        const modifiedTheme = new Theme(
-            new Map([
-                [ThemeProperty.CanvasFill, canvasValue],
-            ]),
-            theme,
-        );
+    private setChildrensTheme(): void {
+        // Create new theme with an overridden canvasFill value
+        const themeOverride = new Theme(<ThemeProperties>{
+            canvasFill: this.getBackgroundFill(),
+        }, this.fallbackTheme);
 
-        super.inheritTheme(modifiedTheme);
+        for(const child of this.children)
+            child.inheritedTheme = themeOverride;
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        if(property === null) {
+            this._layoutDirty = true;
+            this.backgroundDirty = true;
+            this.setChildrensTheme();
+        }
+        else if(property === this.backgroundFill) {
+            this.backgroundDirty = true;
+            this.setChildrensTheme();
+        }
+        else if(property === 'containerPadding')
+            this._layoutDirty = true;
+        else if(property === 'containerAlignment')
+            this._layoutDirty = true;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {

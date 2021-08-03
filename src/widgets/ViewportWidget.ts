@@ -1,8 +1,8 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
@@ -43,10 +43,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     private _offset: [number, number] = [0, 0];
 
     /** Create a new ViewportWidget. */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, themeOverride: Theme | null = null) {
+    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, themeProperties?: ThemeProperties) {
         // Viewport clears its own background, has a single child and propagates
         // events
-        super(child, themeOverride, false, true);
+        super(child, false, true, themeProperties);
 
         this.viewport = new Viewport();
         this.minWidth = minWidth;
@@ -120,6 +120,17 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._heightTied = heightTied;
             this._layoutDirty = true;
         }
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'canvasFill')
+            this._dirty = true;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {

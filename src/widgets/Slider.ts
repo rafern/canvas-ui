@@ -1,9 +1,8 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -42,10 +41,10 @@ export class Slider extends Widget {
     private actualHeight = 0;
 
     /** Create a new Slider */
-    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, vertical = false, themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, vertical = false, themeProperties?: ThemeProperties) {
         // Sliders need a clear background, have no children and don't propagate
         // events
-        super(themeOverride, true, false);
+        super(true, false, themeProperties);
 
         this.clickHelper = new ClickHelper(this);
         this.variable = new Variable(initialValue, callback);
@@ -73,6 +72,25 @@ export class Slider extends Widget {
 
     get value(): number {
         return this.variable.value;
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'sliderThickness' ||
+                property === 'sliderMinLength')
+        {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'accentFill' ||
+                property === 'primaryFill' ||
+                property === 'backgroundFill')
+            this._dirty = true;
     }
 
     protected override handleEvent(event: Event, root: Root): this | null {
@@ -106,8 +124,8 @@ export class Slider extends Widget {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Get theme properties
-        const thickness = this.theme.getNumber(ThemeProperty.SliderThickness);
-        const minLength = this.theme.getNumber(ThemeProperty.SliderMinLength);
+        const thickness = this.sliderThickness;
+        const minLength = this.sliderMinLength;
 
         // Fully expand along main axis if constrained and center along cross
         // axis
@@ -152,14 +170,14 @@ export class Slider extends Widget {
 
         // Draw filled part of slider. Use accent colour if hovering or holding
         if(this.clickHelper.clickState === ClickState.Hover || this.clickHelper.clickState === ClickState.Hold)
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
+            ctx.fillStyle = this.accentFill;
         else
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
+            ctx.fillStyle = this.primaryFill;
         const fullWidth = this.actualWidth * (this.value - this.minValue) / (this.maxValue - this.minValue);
         ctx.fillRect(x, y, fullWidth, this.actualHeight);
 
         // Draw empty part of slider
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
+        ctx.fillStyle = this.backgroundFill;
         const emptyWidth = this.actualWidth - fullWidth;
         ctx.fillRect(x + fullWidth, y, emptyWidth, this.actualHeight);
     }

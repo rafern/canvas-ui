@@ -1,8 +1,8 @@
 import { ClickHelper } from '../aggregates/ClickHelper';
 import { PointerWheel } from '../events/PointerWheel';
 import { BaseContainer } from './BaseContainer';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
@@ -24,8 +24,8 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
     callback: (() => void) | null;
 
     /** Create a new Button. */
-    constructor(child: W, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
-        super(child, false, themeOverride);
+    constructor(child: W, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
+        super(child, false, themeProperties);
         this.clickHelper = new ClickHelper(this);
         this.callback = callback;
     }

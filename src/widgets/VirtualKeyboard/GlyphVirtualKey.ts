@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { ArtificialConstraint } from '../ArtificialConstraint';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 import { TextButton } from '../TextButton';
 
 /**
@@ -20,7 +20,7 @@ export class GlyphVirtualKey extends ArtificialConstraint<TextButton> {
      * @param altGlyph The alternative glyph to emit/show when shift is held.
      * @param keyContext The {@link KeyContext} shared by other keys to tell when shift is being held in a virtual keyboard.
      */
-    constructor(glyph: string, altGlyph: string | null = null, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeOverride: Theme | null = null) {
+    constructor(glyph: string, altGlyph: string | null = null, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeProperties?: ThemeProperties) {
         if(altGlyph === null)
             altGlyph = glyph;
 
@@ -37,10 +37,10 @@ export class GlyphVirtualKey extends ArtificialConstraint<TextButton> {
 
         super(
             new TextButton(
-                getGlyph, () => keyContext.callback(getGlyph()), themeOverride,
+                getGlyph, () => keyContext.callback(getGlyph()), themeProperties,
             ),
             [minWidth, Infinity, minHeight, Infinity],
-            themeOverride,
+            themeProperties,
         );
 
         this.flex = flex;

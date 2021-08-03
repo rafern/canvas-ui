@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { BaseContainer } from './BaseContainer';
-import type { Theme } from '../theme/Theme';
 import type { Widget } from './Widget';
 
 /**
@@ -12,7 +12,7 @@ import type { Widget } from './Widget';
  */
 export class Container<W extends Widget = Widget> extends BaseContainer<W> {
     /** Create a new Container. */
-    constructor(child: W, themeOverride: Theme | null = null) {
-        super(child, true, themeOverride);
+    constructor(child: W, themeProperties?: ThemeProperties) {
+        super(child, true, themeProperties);
     }
 }

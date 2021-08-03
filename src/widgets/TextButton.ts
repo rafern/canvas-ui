@@ -1,9 +1,8 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Alignment2D } from '../theme/Alignment2D';
-import { ThemeProperty } from '../theme/ThemeProperty';
 import { Alignment } from '../theme/Alignment';
 import { FilledButton } from './FilledButton';
 import type { TextGetter } from './Label';
-import { Theme } from '../theme/Theme';
 import { Label } from './Label';
 
 /**
@@ -14,16 +13,13 @@ import { Label } from './Label';
  */
 export class TextButton extends FilledButton<Label> {
     /** Create a new TextButton. */
-    constructor(text: string | TextGetter, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
-        const containerProperties = new Map(themeOverride?.properties ?? []);
-        containerProperties.set(
-            ThemeProperty.ContainerAlignment,
-            <Alignment2D>{
-                horizontal: Alignment.Center, vertical: Alignment.Stretch,
-            },
-        );
-        const containerThemeOverride = new Theme(containerProperties);
+    constructor(text: string | TextGetter, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
+        const themePropertiesClone: ThemeProperties = {...themeProperties};
 
-        super(new Label(text, themeOverride), callback, containerThemeOverride);
+        themePropertiesClone.containerAlignment = <Alignment2D>{
+            horizontal: Alignment.Center, vertical: Alignment.Stretch,
+        };
+
+        super(new Label(text, themeProperties), callback, themePropertiesClone);
     }
 }

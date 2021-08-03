@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 import { VirtualKey } from './VirtualKey';
 
 /**
@@ -10,7 +10,7 @@ import { VirtualKey } from './VirtualKey';
  */
 export class ShiftKey extends VirtualKey {
     /** Create a new ShiftKey. */
-    constructor(keyContext: KeyContext, flex = 0, minWidth = 84, minHeight = 24, themeOverride: Theme | null = null) {
+    constructor(keyContext: KeyContext, flex = 0, minWidth = 84, minHeight = 24, themeProperties?: ThemeProperties) {
         super(
             'Shift',
             () => {
@@ -21,7 +21,7 @@ export class ShiftKey extends VirtualKey {
             flex,
             minWidth,
             minHeight,
-            themeOverride,
+            themeProperties,
         );
 
         this.child.forced = keyContext.shift;

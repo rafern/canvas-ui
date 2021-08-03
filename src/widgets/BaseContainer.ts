@@ -1,8 +1,7 @@
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Alignment } from '../theme/Alignment';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -19,20 +18,25 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     protected backgroundDirty = true;
 
     /** Create a new BaseContainer. */
-    constructor(child: W, propagateEvents: boolean, themeOverride: Theme | null = null) {
+    constructor(child: W, propagateEvents: boolean, themeProperties?: ThemeProperties) {
         // Containers clear their own background, have a child and may propagate
         // events
-        super(child, themeOverride, false, propagateEvents);
+        super(child, false, propagateEvents, themeProperties);
     }
 
-    protected override setThemeOverride(theme: Theme | null): void {
-        super.setThemeOverride(theme);
-        this.backgroundDirty = true;
-    }
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
 
-    protected override inheritTheme(theme: Theme): void {
-        super.inheritTheme(theme);
-        this.backgroundDirty = true;
+        if(property === null) {
+            this._layoutDirty = true;
+            this.backgroundDirty = true;
+        }
+        else if(property === 'canvasFill')
+            this.backgroundDirty = true;
+        else if(property === 'containerPadding')
+            this._layoutDirty = true;
+        else if(property === 'containerAlignment')
+            this._layoutDirty = true;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
@@ -66,7 +70,7 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Get padding
-        const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
+        const padding = this.containerPadding;
         const hPadding = padding.left + padding.right;
         const vPadding = padding.top + padding.bottom;
         let childMaxWidth = maxWidth - hPadding;
@@ -83,7 +87,7 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         // for padding. If maximum constraints are available (not infinite), use
         // those instead
         // TODO ^^^^^^
-        const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
+        const alignment = this.containerAlignment;
         const childMinWidth = alignment.horizontal === Alignment.Stretch
                                 ? Math.max(minWidth - hPadding, 0) : 0;
         const childMinHeight = alignment.vertical === Alignment.Stretch
@@ -107,8 +111,8 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override afterPositionResolved(): void {
         // Get padding and alignment
-        const padding = this.theme.getPadding(ThemeProperty.ContainerPadding);
-        const alignment = this.theme.getAlignment2D(ThemeProperty.ContainerAlignment);
+        const padding = this.containerPadding;
+        const alignment = this.containerAlignment;
 
         // Calculate used space
         const [childWidth, childHeight] = this.child.dimensions;

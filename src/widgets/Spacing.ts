@@ -1,4 +1,4 @@
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Widget } from './Widget';
 
 /**
@@ -16,9 +16,9 @@ export class Spacing extends Widget {
     minHeight: number;
 
     /** Create a new Spacing. */
-    constructor(flex = 1, minWidth = 0, minHeight = 0, themeOverride: Theme | null = null) {
+    constructor(flex = 1, minWidth = 0, minHeight = 0, themeProperties?: ThemeProperties) {
         // Spacing needs clear, never has children and doesn't propagate events
-        super(themeOverride, true, false);
+        super(true, false, themeProperties);
 
         this.flex = flex;
         this.minWidth = minWidth;

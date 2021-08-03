@@ -1,6 +1,5 @@
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../aggregates/TextHelper';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -32,10 +31,10 @@ export class Label extends Widget {
      *
      * @param source The text source of the label. Has the same behaviour as setting {@link source}.
      */
-    constructor(source: string | TextGetter, themeOverride: Theme | null = null) {
+    constructor(source: string | TextGetter, themeProperties?: ThemeProperties) {
         // Labels need a clear background, have no children and don't propagate
         // events
-        super(themeOverride, true, false);
+        super(true, false, themeProperties);
 
         this.textHelper = new TextHelper();
         this.source = source;
@@ -102,15 +101,34 @@ export class Label extends Widget {
         return this.textHelper.text;
     }
 
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'bodyTextFont' ||
+                property === 'labelMinWidth' ||
+                property === 'labelMinAscent' ||
+                property === 'labelMinDescent')
+        {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'bodyTextFill')
+            this._dirty = true;
+    }
+
     protected override handlePreLayoutUpdate(_root: Root): void {
         // Update text helper variables
         if(this.textGetter !== null)
             this.textHelper.text = this.textGetter();
 
-        this.textHelper.font = this.theme.getFont(ThemeProperty.BodyTextFont);
-        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.LabelMinWidth);
-        this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.LabelMinAscent);
-        this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.LabelMinDescent);
+        this.textHelper.font = this.bodyTextFont;
+        this.textHelper.minWidth = this.labelMinWidth;
+        this.textHelper.minAscent = this.labelMinAscent;
+        this.textHelper.minDescent = this.labelMinDescent;
 
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
@@ -127,7 +145,7 @@ export class Label extends Widget {
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // TODO clip to prevent drawing outside of widget if you know that the dimensions are too small
         ctx.font = this.textHelper.font;
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.BodyTextFill);
+        ctx.fillStyle = this.bodyTextFill;
         ctx.fillText(this.text, this.x, this.y + this.height - this.textHelper.descent);
     }
 }

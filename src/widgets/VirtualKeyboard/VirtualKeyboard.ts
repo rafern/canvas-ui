@@ -1,8 +1,8 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
 import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
 import { VirtualKeyRow } from './VirtualKeyRow';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 import { BackspaceKey } from './BackspaceKey';
 import { EscapeKey } from './EscapeKey';
 import { EnterKey } from './EnterKey';
@@ -18,33 +18,33 @@ import { Column } from '../Column';
  */
 export type VirtualKeyboardTemplate = Array<VirtualKeyRowTemplate>;
 
-function EnterKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): EnterKey {
+function EnterKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): EnterKey {
     return new EnterKey(
-        keyContext, undefined, undefined, undefined, themeOverride,
+        keyContext, undefined, undefined, undefined, themeProperties,
     );
 }
 
-function ShiftKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): ShiftKey {
+function ShiftKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): ShiftKey {
     return new ShiftKey(
-        keyContext, undefined, undefined, undefined, themeOverride,
+        keyContext, undefined, undefined, undefined, themeProperties,
     );
 }
 
-function BackspaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): BackspaceKey {
+function BackspaceKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): BackspaceKey {
     return new BackspaceKey(
-        keyContext, undefined, undefined, undefined, themeOverride,
+        keyContext, undefined, undefined, undefined, themeProperties,
     );
 }
 
-function SpaceKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): SpaceKey {
+function SpaceKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): SpaceKey {
     return new SpaceKey(
-        keyContext, undefined, undefined, undefined, themeOverride,
+        keyContext, undefined, undefined, undefined, themeProperties,
     );
 }
 
-function EscapeKeyTemplate(keyContext: KeyContext, themeOverride: Theme | null): EscapeKey {
+function EscapeKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): EscapeKey {
     return new EscapeKey(
-        keyContext, undefined, undefined, undefined, themeOverride,
+        keyContext, undefined, undefined, undefined, themeProperties,
     );
 }
 
@@ -86,8 +86,8 @@ export class VirtualKeyboard extends Column {
      * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
      * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeOverride: Theme | null = null) {
-        super(themeOverride);
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeProperties?: ThemeProperties) {
+        super(themeProperties);
 
         // Make context
         const keyContext = <KeyContext>{
@@ -100,7 +100,7 @@ export class VirtualKeyboard extends Column {
         for(const rowTemplate of keyboardTemplate) {
             this.add(new VirtualKeyRow(
                 rowTemplate, keyContext, flexRatio, mainBasis, crossBasis,
-                themeOverride,
+                themeProperties,
             ));
         }
     }

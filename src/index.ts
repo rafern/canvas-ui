@@ -38,12 +38,14 @@ export * from './helpers/roundToPower2';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
+export * from './theme/BaseTheme';
 export * from './theme/DebugTheme';
+export * from './theme/FillStyle';
 export * from './theme/FlexAlignment';
 export * from './theme/FlexAlignment2D';
 export * from './theme/Padding';
 export * from './theme/Theme';
-export * from './theme/ThemeProperty';
+export * from './theme/ThemeProperties';
 // validators
 export * from './validators/CompositeValidator';
 export * from './validators/DefaultTextValidator';

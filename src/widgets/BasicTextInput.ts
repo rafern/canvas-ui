@@ -1,6 +1,6 @@
 import { MakeDefaultTextValidatorWithCallback } from '../validators/DefaultTextValidator';
+import type { ThemeProperties } from "../theme/ThemeProperties";
 import type { VariableCallback } from '../aggregates/Variable';
-import type { Theme } from "../theme/Theme";
 import { TextInput } from "./TextInput";
 
 /**
@@ -17,8 +17,8 @@ export class BasicTextInput extends TextInput<string> {
      *
      * @param callback An optional callback called when the text changes. If null, then no callback is called.
      */
-    constructor(callback: VariableCallback<string> | null = null, initialValue = '', themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<string> | null = null, initialValue = '', themeProperties?: ThemeProperties) {
         const validator = MakeDefaultTextValidatorWithCallback(callback);
-        super(validator, initialValue, themeOverride);
+        super(validator, initialValue, themeProperties);
     }
 }

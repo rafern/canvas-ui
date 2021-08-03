@@ -13,22 +13,24 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Add child(ren) to this widget.
      *
-     * {@link _layoutDirty} and {@link _dirty} are set to true and
-     * {@link updateInheritedTheme} is called so that new children inherit this
-     * widget's theme.
+     * {@link _layoutDirty} and {@link _dirty} are set to true and each child's
+     * {@link inheritedTheme} is set so that new children inherit this widget's
+     * theme.
      *
      * @param children If this is a widget, then it is pushed to {@link _children}. If this is an array of widgets, then each widget is pushed to {@link _children}.
      * @returns Returns this so that the method is chainable.
      */
     add(children: W | Array<W>): this {
         if(Array.isArray(children)) {
-            for(const child of children)
+            for(const child of children) {
                 this._children.push(child);
+                child.inheritedTheme = this.inheritedTheme;
+            }
         }
-        else
+        else {
             this._children.push(children);
-
-        this.updateInheritedTheme();
+            children.inheritedTheme = this.inheritedTheme;
+        }
 
         this._layoutDirty = true;
         this._dirty = true;
@@ -38,9 +40,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Remove child(ren) from this widget.
      *
-     * {@link _layoutDirty} and {@link _dirty} are set to true and
-     * {@link updateInheritedTheme} is called so that new children inherit this
-     * widget's theme.
+     * {@link _layoutDirty} and {@link _dirty} are set to true.
      *
      * @param children If this is a widget, then it is removed from {@link _children}. If this is an array of widgets, then each widget is removed from {@link _children}.
      * @returns Returns this so that the method is chainable.
@@ -58,8 +58,6 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
             if(pos !== -1)
                 this._children.splice(pos, 1);
         }
-
-        this.updateInheritedTheme();
 
         this._layoutDirty = true;
         this._dirty = true;

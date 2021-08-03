@@ -1,7 +1,7 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { GlyphVirtualKey } from './GlyphVirtualKey';
 import type { KeyContext } from './KeyContext';
 import type { VirtualKey } from './VirtualKey';
-import { Theme } from '../../theme/Theme';
 import { Row } from '../Row';
 
 /**
@@ -10,11 +10,11 @@ import { Row } from '../Row';
  * which can be used as a virtual keyboard key widget.
  *
  * Example:
- * const template: VirtualKeyTemplate = (keyContext, themeOverride) => new BackspaceKey(keyContext, themeOverride);
+ * const template: VirtualKeyTemplate = (keyContext, themeProperties) => new BackspaceKey(keyContext, themeProperties);
  *
  * @category Widget
  */
-export type VirtualKeyTemplate = (keyContext: KeyContext, themeOverride: Theme | null) => VirtualKey;
+export type VirtualKeyTemplate = (keyContext: KeyContext, themeProperties?: ThemeProperties) => VirtualKey;
 
 /**
  * A template for multiple {@link GlyphVirtualKey} virtual keyboard keys. A
@@ -37,7 +37,7 @@ export type GlyphVirtualKeysTemplate = [string, string];
  * {@link GlyphVirtualKeysTemplate} and {@link VirtualKeyTemplate}.
  *
  * Example:
- * const backspaceTemplate: VirtualKeyTemplate = (keyContext, themeOverride) => new BackspaceKey(keyContext, themeOverride);
+ * const backspaceTemplate: VirtualKeyTemplate = (keyContext, themeProperties) => new BackspaceKey(keyContext, themeProperties);
  * const rowTemplate: VirtualKeyRowTemplate = [['`1234567890-=', '~!@#$%^&*()_+'], backspaceTemplate];
  *
  * @category Widget
@@ -59,16 +59,16 @@ export class VirtualKeyRow extends Row<VirtualKey> {
      * @param flex The flex to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minWidth The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
      * @param minHeight The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param themeOverride The themeOverride to pass to each key widget and this row
+     * @param themeProperties The themeProperties to pass to each key widget and this row
      */
-    constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeOverride: Theme | null = null) {
-        super(themeOverride);
+    constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeProperties?: ThemeProperties) {
+        super(themeProperties);
 
         for(const entry of rowTemplate) {
             if(typeof entry === 'function') {
                 // Entry is in template function format
                 const templateFunction = entry;
-                this.add(templateFunction(keyContext, themeOverride));
+                this.add(templateFunction(keyContext, themeProperties));
             }
             else if(typeof entry[0] === 'string' && typeof entry[1] === 'string') {
                 // Entry is in multiple glyphs format
@@ -86,7 +86,7 @@ export class VirtualKeyRow extends Row<VirtualKey> {
                         flex,
                         minWidth,
                         minHeight,
-                        themeOverride,
+                        themeProperties,
                     ));
                 }
             }

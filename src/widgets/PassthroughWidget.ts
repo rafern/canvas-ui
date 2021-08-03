@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -19,10 +19,10 @@ import { Widget } from './Widget';
  */
 export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W> {
     /** Create a new PassthroughWidget. */
-    constructor(child: W, themeOverride: Theme | null = null) {
+    constructor(child: W, themeProperties?: ThemeProperties) {
         // Passthrough widgets dont need a clear background, have a child and
         // propagate events
-        super(child, themeOverride, false, true);
+        super(child, false, true, themeProperties);
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {

@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutArrayField } from '../decorators/FlagFields';
 import { PassthroughWidget } from './PassthroughWidget';
-import type { Theme } from '../theme/Theme';
 import type { Widget } from './Widget';
 
 /**
@@ -25,8 +25,8 @@ export class ArtificialConstraint<W extends Widget = Widget> extends Passthrough
     constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
 
     /** Create a new PassthroughWidget. */
-    constructor(child: W, constraints: [number, number, number, number] = [0, Infinity, 0, Infinity], themeOverride: Theme | null = null) {
-        super(child, themeOverride);
+    constructor(child: W, constraints: [number, number, number, number] = [0, Infinity, 0, Infinity], themeProperties?: ThemeProperties) {
+        super(child, themeProperties);
 
         this._constraints = [...constraints];
     }

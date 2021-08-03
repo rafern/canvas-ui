@@ -1,13 +1,12 @@
-import { ViewportWidget } from './ViewportWidget';
-import type { Theme } from '../theme/Theme';
-import type { Widget } from './Widget';
-import { ThemeProperty } from '../theme/ThemeProperty';
-import { Root } from '../core/Root';
-import type { Event } from '../events/Event';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
-import { Leave } from '../events/Leave';
 import { PointerWheel } from '../events/PointerWheel';
+import { ViewportWidget } from './ViewportWidget';
+import type { Event } from '../events/Event';
+import { Leave } from '../events/Leave';
+import type { Widget } from './Widget';
+import { Root } from '../core/Root';
 
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
@@ -64,8 +63,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      *
      * If an axis is tied, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, scrollbarMode = ScrollbarMode.Overlay, themeOverride: Theme | null = null) {
-        super(child, minWidth, minHeight, widthTied, heightTied, themeOverride);
+    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, scrollbarMode = ScrollbarMode.Overlay, themeProperties?: ThemeProperties) {
+        super(child, minWidth, minHeight, widthTied, heightTied, themeProperties);
 
         this._scrollbarMode = scrollbarMode;
         this.horizontalClickHelper = new ClickHelper(this);
@@ -317,6 +316,23 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         return elapsed < 200;
     }
 
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === 'scrollBarThickness')
+        {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'backgroundFill' ||
+                property === 'scrollBarMinPercent' ||
+                property === 'scrollBarMinPixels' ||
+                property === 'primaryFill' ||
+                property === 'accentFill' ||
+                property === 'backgroundGlowFill')
+            this._dirty = true;
+    }
+
     protected override handleEvent(event: Event, root: Root): Widget | null {
         // Try to drag a scrollbar if this is a pointer or leave event with no
         // target or target on this
@@ -363,7 +379,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Check whether to reserve space or not
-        const thickness = this.theme.getNumber(ThemeProperty.ScrollBarThickness);
+        const thickness = this.scrollBarThickness;
         const reserve = this._scrollbarMode === ScrollbarMode.Layout;
         const reserveX = reserve && !this.heightTied;
         const reserveY = reserve && !this.widthTied;
@@ -429,8 +445,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
         // Paint corner if it is forced
         if(forceCorner) {
-            const thickness = this.theme.getNumber(ThemeProperty.ScrollBarThickness);
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
+            const thickness = this.scrollBarThickness;
+            ctx.fillStyle = this.backgroundFill;
             ctx.fillRect(
                 this.x + this.width - thickness,
                 this.y + this.height - thickness,
@@ -452,9 +468,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         const percent = this.scroll[axisIndex];
         const childLength = this.child.dimensions[axisIndex];
         const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
-        const thickness = this.theme.getNumber(ThemeProperty.ScrollBarThickness);
-        const minPercent = this.theme.getNumber(ThemeProperty.ScrollBarMinPercent);
-        const minPixels = this.theme.getNumber(ThemeProperty.ScrollBarMinPixels);
+        const thickness = this.scrollBarThickness;
+        const minPercent = this.scrollBarMinPercent;
+        const minPixels = this.scrollBarMinPixels;
 
         let viewportLengthCorner = viewportLength;
         if(overlay)
@@ -524,7 +540,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
         // Paint background if not in overlay mode
         if(this._scrollbarMode !== ScrollbarMode.Overlay) {
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
+            ctx.fillStyle = this.backgroundFill;
             ctx.fillRect(...bgRect);
         }
 
@@ -533,16 +549,16 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             const clickHelper = this.getClickHelper(vertical);
             switch(clickHelper.clickState) {
                 case ClickState.Released:
-                    ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
+                    ctx.fillStyle = this.primaryFill;
                     break;
                 case ClickState.Hover:
                 case ClickState.Hold:
-                    ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
+                    ctx.fillStyle = this.accentFill;
                     break;
             }
         }
         else
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundGlowFill);
+            ctx.fillStyle = this.backgroundGlowFill;
 
         ctx.fillRect(...fillRect);
     }

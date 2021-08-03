@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { ArtificialConstraint } from '../ArtificialConstraint';
 import type { TextGetter } from '../../widgets/Label';
-import type { Theme } from '../../theme/Theme';
 import { TextButton } from '../TextButton';
 
 /**
@@ -19,11 +19,11 @@ export class VirtualKey extends ArtificialConstraint<TextButton> {
      * @param text The text to display in the virtual key.
      * @param callback The callback called when the button is pressed.
      */
-    constructor(text: string | TextGetter, callback: () => void, flex = 0, minWidth = 24, minHeight = 24, themeOverride: Theme | null = null) {
+    constructor(text: string | TextGetter, callback: () => void, flex = 0, minWidth = 24, minHeight = 24, themeProperties?: ThemeProperties) {
         super(
-            new TextButton(text, callback, themeOverride),
+            new TextButton(text, callback, themeProperties),
             [minWidth, Infinity, minHeight, Infinity],
-            themeOverride,
+            themeProperties,
         );
 
         this.flex = flex;

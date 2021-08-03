@@ -5,14 +5,15 @@
  * @param callback The callback to call if the value changes. `this` is bound.
  * @category Decorator
  */
-export function watchField(callback: () => void) {
+export function watchField(callback: (oldValue: any) => void) {
     return function(target: any, propertyKey: string): void {
         const curValues = new WeakMap();
         Object.defineProperty(target, propertyKey, {
             set: function(value) {
-                if(value !== curValues.get(this)) {
-                    callback.call(this);
+                const oldValue = curValues.get(this);
+                if(value !== oldValue) {
                     curValues.set(this, value);
+                    callback.call(this, oldValue);
                 }
             },
             get: function() {
@@ -92,17 +93,19 @@ export function watchArrayField(callback: () => void, allowNonArrays = false) {
                     const curTuple = curValues.get(this);
                     if(Array.isArray(curTuple)) {
                         if(value.length !== curTuple.length) {
-                            callback.call(this);
                             curTuple.length = value.length;
                             for(let i = 0; i < value.length; i++)
                                 curTuple[i] = value[i];
+
+                            callback.call(this);
                         }
                         else {
                             for(let i = 0; i < value.length; i++) {
                                 if(curTuple[i] !== value[i]) {
-                                    callback.call(this);
                                     for(let j = 0; j < value.length; j++)
                                         curTuple[j] = value[j];
+
+                                    callback.call(this);
 
                                     return;
                                 }
@@ -110,14 +113,14 @@ export function watchArrayField(callback: () => void, allowNonArrays = false) {
                         }
                     }
                     else {
-                        callback.call(this);
                         curValues.set(this, [...value]);
+                        callback.call(this);
                     }
                 }
                 else {
                     if(allowNonArrays) {
-                        callback.call(this);
                         curValues.set(this, value);
+                        callback.call(this);
                     }
                     else
                         throw new Error('Value must be an array');

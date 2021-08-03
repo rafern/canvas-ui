@@ -1,9 +1,8 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -29,16 +28,37 @@ export class Checkbox extends Widget {
      *
      * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
-    constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeOverride: Theme | null = null) {
+    constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeProperties?: ThemeProperties) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
-        super(themeOverride, true, false);
+        super(true, false, themeProperties);
 
         // Save callback and initial value
         this.variable = new Variable<boolean>(initialValue, callback);
 
         // Setup click helper
         this.clickHelper = new ClickHelper(this);
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'checkboxLength') {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'backgroundGlowFill' ||
+                property === 'backgroundFill' ||
+                property === 'accentFill' ||
+                property === 'primaryFill' ||
+                property === 'checkboxInnerPadding')
+        {
+            this._dirty = true;
+        }
     }
 
     /** Is the checkbox checked? */
@@ -78,7 +98,7 @@ export class Checkbox extends Widget {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find actual length
-        const length = this.theme.getNumber(ThemeProperty.CheckboxLength);
+        const length = this.checkboxLength;
         this.actualLength = Math.min(length, maxWidth, maxHeight);
 
         // Resolve width and height
@@ -102,9 +122,9 @@ export class Checkbox extends Widget {
 
         // Draw unchecked part of checkbox
         if(useGlow)
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundGlowFill);
+            ctx.fillStyle = this.backgroundGlowFill;
         else
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.BackgroundFill);
+            ctx.fillStyle = this.backgroundFill;
 
         ctx.fillRect(
             this.offsetX, this.offsetY, this.actualLength, this.actualLength,
@@ -113,11 +133,11 @@ export class Checkbox extends Widget {
         // Draw checked part of checkbox
         if(this.checked) {
             if(useGlow)
-                ctx.fillStyle = this.theme.getFill(ThemeProperty.AccentFill);
+                ctx.fillStyle = this.accentFill;
             else
-                ctx.fillStyle = this.theme.getFill(ThemeProperty.PrimaryFill);
+                ctx.fillStyle = this.primaryFill;
 
-            const innerPadding = this.theme.getNumber(ThemeProperty.CheckboxInnerPadding);
+            const innerPadding = this.checkboxInnerPadding;
             const innerLength = this.actualLength - innerPadding * 2;
 
             // Fall back to filling entire checkbox if there isn't enougn space

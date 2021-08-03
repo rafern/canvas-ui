@@ -1,9 +1,8 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Alignment2D } from '../theme/Alignment2D';
-import { ThemeProperty } from '../theme/ThemeProperty';
 import { Alignment } from '../theme/Alignment';
 import { Container } from './Container';
 import type { Widget } from './Widget';
-import { Theme } from '../theme/Theme';
 
 /**
  * A {@link Container} with center alignment on both axes and default padding,
@@ -14,21 +13,21 @@ import { Theme } from '../theme/Theme';
  * Alignment settings are applied via theme overrides, so no theme override can
  * be passed to this widget. If you want to override additional theme properties
  * other than the one overridden here, then use {@link Container} instead.
+ * Alignment settings are applied via theme properties; if you pass this
+ * property, it will be ignored in a clone of the theme properties. If you want
+ * to override this theme property property, then use {@link Container} instead.
  *
  * @category Widget
  */
 export class Margin<W extends Widget = Widget> extends Container<W> {
     /** Create a new Margin. */
-    constructor(child: W) {
-        const themeOverride = new Theme(new Map<ThemeProperty, unknown>([
-            [
-                ThemeProperty.ContainerAlignment,
-                <Alignment2D>{
-                    horizontal: Alignment.Center, vertical: Alignment.Center,
-                },
-            ],
-        ]));
+    constructor(child: W, themeProperties?: ThemeProperties) {
+        const themePropertiesClone: ThemeProperties = {...themeProperties};
 
-        super(child, themeOverride);
+        themePropertiesClone.containerAlignment = <Alignment2D>{
+            horizontal: Alignment.Center, vertical: Alignment.Center,
+        };
+
+        super(child, themePropertiesClone);
     }
 }

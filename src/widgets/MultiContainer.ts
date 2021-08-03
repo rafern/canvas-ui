@@ -1,11 +1,10 @@
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
+import { FlexAlignment } from '../theme/FlexAlignment';
+import { Alignment } from '../theme/Alignment';
 import type { Event } from '../events/Event';
 import { MultiParent } from './MultiParent';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
-import { Alignment } from '../theme/Alignment';
-import { FlexAlignment } from '../theme/FlexAlignment';
 
 /**
  * A {@link MultiParent} which automatically paints children, adds spacing,
@@ -29,12 +28,27 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     private enabledChildCount = 0;
 
     /** Create a MultiContainer. */
-    constructor(vertical: boolean, themeOverride: Theme | null = null) {
+    constructor(vertical: boolean, themeProperties?: ThemeProperties) {
         // MultiContainers clear their own background, have children and
         // propagate events
-        super([], themeOverride, false, true);
+        super([], false, true, themeProperties);
 
         this.vertical = vertical;
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this.backgroundDirty = true;
+        }
+        else if(property === 'canvasFill')
+            this.backgroundDirty = true;
+        else if(property === 'multiContainerAlignment')
+            this._layoutDirty = true;
+        else if(property === 'multiContainerSpacing')
+            this._layoutDirty = true;
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
@@ -82,7 +96,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         let totalFlex = 0, crossLength = 0, minCrossAxis = 0;
         const maxLength = this.vertical ? maxHeight : maxWidth;
 
-        const alignment = this.theme.getFlexAlignment2D(ThemeProperty.MultiContainerAlignment);
+        const alignment = this.multiContainerAlignment;
         if(alignment.cross === Alignment.Stretch) {
             minCrossAxis = this.vertical ? maxWidth : maxHeight;
             if(minCrossAxis == Infinity)
@@ -120,7 +134,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             crossLength = minCrossLength;
 
         // Get free space
-        const spacing = this.theme.getNumber(ThemeProperty.MultiContainerSpacing);
+        const spacing = this.multiContainerSpacing;
         let usedSpace = Math.max(this.enabledChildCount - 1, 0) * spacing;
         for(const child of this.children) {
             // Ignore disabled children
@@ -262,7 +276,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
 
     protected override afterPositionResolved(): void {
         // Align children
-        const alignment = this.theme.getFlexAlignment2D(ThemeProperty.MultiContainerAlignment);
+        const alignment = this.multiContainerAlignment;
         const around = alignment.main === FlexAlignment.SpaceAround;
         const between = alignment.main === FlexAlignment.SpaceBetween || around;
         // TODO remove as number once typescript 4.4 releases
@@ -275,7 +289,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         else
             extraSpacing = this.unusedSpace / effectiveChildren;
 
-        let spacing = this.theme.getNumber(ThemeProperty.MultiContainerSpacing);
+        let spacing = this.multiContainerSpacing;
         if(between)
             spacing += extraSpacing;
 

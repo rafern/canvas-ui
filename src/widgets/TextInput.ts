@@ -1,7 +1,7 @@
 import type { TextValidator } from '../validators/Validator';
 import { multiFlagField } from '../decorators/FlagFields';
 import { PointerRelease } from '../events/PointerRelease';
-import { ThemeProperty } from '../theme/ThemeProperty';
+import { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
@@ -10,7 +10,6 @@ import { Variable } from '../aggregates/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -63,10 +62,10 @@ export class TextInput<V> extends Widget {
     protected variable: Variable<string>;
 
     /** Create a new TextInput. */
-    constructor(validator: TextValidator<V>, initialValue = '', themeOverride: Theme | null = null) {
+    constructor(validator: TextValidator<V>, initialValue = '', themeProperties?: ThemeProperties) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
-        super(themeOverride, false, false);
+        super(false, false, themeProperties);
 
         this.textHelper = new TextHelper();
         this.variable = new Variable<string>(initialValue, (text: string) => {
@@ -83,6 +82,31 @@ export class TextInput<V> extends Widget {
         [this._valid, this._validValue] = validator(initialValue);
     }
 
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'inputTextInnerPadding' ||
+                property === 'inputTextFont' ||
+                property === 'inputTextMinAscent' ||
+                property === 'inputTextMinDescent')
+        {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'inputBackgroundFill' ||
+                property === 'inputTextFill' ||
+                property === 'inputTextFillInvalid' ||
+                property === 'inputTextFillDisabled' ||
+                property === 'cursorThickness')
+        {
+            this._dirty = true;
+        }
+    }
+
     /**
      * Is the text cursor shown?
      *
@@ -92,7 +116,7 @@ export class TextInput<V> extends Widget {
         if(this.blinkStart === 0)
             return null;
 
-        const blinkRate = this.theme.getNumber(ThemeProperty.BlinkRate);
+        const blinkRate = this.blinkRate;
         return Math.trunc(((Date.now() - this.blinkStart) / (500 * blinkRate)) % 2) === 0;
     }
 
@@ -256,7 +280,7 @@ export class TextInput<V> extends Widget {
             // Request keyboard focus if this is a pointer press
             if(event instanceof PointerPress) {
                 // Update cursor position (and offset) from click position
-                const padding = this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+                const padding = this.inputTextInnerPadding;
                 [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x - padding);
 
                 // Start blinking cursor and mark component as dirty, to
@@ -324,10 +348,10 @@ export class TextInput<V> extends Widget {
 
         // Update TextHelper variables
         this.textHelper.text = this.displayedText;
-        this.textHelper.font = this.theme.getFont(ThemeProperty.InputTextFont);
-        this.textHelper.minWidth = this.theme.getNumber(ThemeProperty.InputTextMinWidth);
-        this.textHelper.minAscent = this.theme.getNumber(ThemeProperty.InputTextMinAscent);
-        this.textHelper.minDescent = this.theme.getNumber(ThemeProperty.InputTextMinDescent);
+        this.textHelper.font = this.inputTextFont;
+        this.textHelper.minWidth = this.inputTextMinWidth;
+        this.textHelper.minAscent = this.inputTextMinAscent;
+        this.textHelper.minDescent = this.inputTextMinDescent;
 
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
@@ -343,7 +367,7 @@ export class TextInput<V> extends Widget {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Only expand to the needed dimensions
-        const padding = 2 * this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+        const padding = 2 * this.inputTextInnerPadding;
         this.width = Math.min(Math.max(minWidth, this.textHelper.width + padding), maxWidth);
         this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
@@ -351,21 +375,21 @@ export class TextInput<V> extends Widget {
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
         // TODO scrolling
         // Paint background
-        ctx.fillStyle = this.theme.getFill(ThemeProperty.InputBackgroundFill);
+        ctx.fillStyle = this.inputBackgroundFill;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
         // Paint current text value
-        ctx.font = this.theme.getFont(ThemeProperty.InputTextFont);
+        ctx.font = this.inputTextFont;
         if(this._editingEnabled) {
             if(this._valid)
-                ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFill);
+                ctx.fillStyle = this.inputTextFill;
             else
-                ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillInvalid);
+                ctx.fillStyle = this.inputTextFillInvalid;
         }
         else
-            ctx.fillStyle = this.theme.getFill(ThemeProperty.InputTextFillDisabled);
+            ctx.fillStyle = this.inputTextFillDisabled;
 
-        const padding = this.theme.getNumber(ThemeProperty.InputTextInnerPadding);
+        const padding = this.inputTextInnerPadding;
         ctx.fillText(
             this.displayedText,
             this.x + padding,
@@ -378,7 +402,7 @@ export class TextInput<V> extends Widget {
         if(!blinkOn)
             return;
 
-        const cursorThickness = this.theme.getNumber(ThemeProperty.CursorThickness);
+        const cursorThickness = this.cursorThickness;
         ctx.fillRect(
             this.x + this.cursorOffset,
             this.y + padding,

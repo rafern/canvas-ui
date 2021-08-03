@@ -1,4 +1,4 @@
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Button } from './Button';
 import { Margin } from './Margin';
 import { Icon } from './Icon';
@@ -10,12 +10,12 @@ import { Icon } from './Icon';
  */
 export class IconButton extends Button<Margin<Icon>> {
     /** Create a new IconButton. */
-    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, callback: (() => void) | null = null, themeOverride: Theme | null = null) {
+    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
         super(
             new Margin(
-                new Icon(image, width, height, viewBox, themeOverride),
+                new Icon(image, width, height, viewBox, themeProperties),
             ),
-            callback, themeOverride
+            callback, themeProperties
         );
     }
 

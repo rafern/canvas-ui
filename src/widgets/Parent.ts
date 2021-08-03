@@ -1,3 +1,4 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
 
@@ -34,18 +35,20 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
      * Create a new Parent. Automatically adds all widgets in the input array
      * to {@link _children}.
      */
-    constructor(children: Array<W>, themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
-        super(themeOverride, needsClear, propagatesEvents);
+    constructor(children: Array<W>, needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
+        super(needsClear, propagatesEvents, themeProperties);
 
         this._children = [...children];
     }
 
-    protected override updateInheritedTheme(): void {
-        const inheritedTheme = this.inheritedTheme;
-        if(inheritedTheme !== null) {
-            for(const child of this.children)
-                child.inheritedTheme = inheritedTheme;
-        }
+    override set inheritedTheme(theme: Theme | undefined) {
+        super.inheritedTheme = theme;
+        for(const child of this.children)
+            child.inheritedTheme = theme;
+    }
+
+    override get inheritedTheme(): Theme | undefined {
+        return super.inheritedTheme;
     }
 
     /** Get amount of children of this parent widget. */

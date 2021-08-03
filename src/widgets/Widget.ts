@@ -1,16 +1,18 @@
-import { ThemeProperty } from '../theme/ThemeProperty';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
 import type { FocusType } from '../core/FocusType';
+import { BaseTheme } from '../theme/BaseTheme';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 
 /**
- * A generic widget. All widgets extend this class.
+ * A generic widget. All widgets extend this class. All widgets extend
+ * {@link BaseTheme} so that the theme in use can be overridden.
  *
  * @category Widget
  */
-export abstract class Widget {
+export abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      */
@@ -33,17 +35,6 @@ export abstract class Widget {
      * this is true. Useful for implementing container widgets.
      */
     readonly propagatesEvents: boolean;
-    /**
-     * The theme override used by the Widget. If this is null, the Widget's
-     * theme will be the inherited theme, else, it will be the theme override
-     * with the inherited theme as the fallback. The fallback of the theme
-     * override will be ignored and replaced.
-     */
-    private _themeOverride: Theme | null;
-    /** The current theme in use by the Widget. */
-    private _theme: Theme | null = null;
-    /** The inherited theme. */
-    private _inheritedTheme: Theme | null = null;
     /** Width of widget in pixels. */
     protected width = 0;
     /** Height of widget in pixels. */
@@ -71,38 +62,11 @@ export abstract class Widget {
     }
 
     /** Create a new Widget. */
-    constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean) {
+    constructor(needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
+        super(themeProperties);
+
         this.needsClear = needsClear;
         this.propagatesEvents = propagatesEvents;
-        this._themeOverride = themeOverride;
-    }
-
-    /**
-     * Called when the inherited theme of this Widget is updated. Can be
-     * overridden. Does nothing by default.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected updateInheritedTheme(): void {}
-
-    /** Update this widget's current theme, with theme override set up. */
-    private updateTheme(): void {
-        if(this._themeOverride === null)
-            this._theme = this._inheritedTheme;
-        else {
-            this._themeOverride.fallback = this._inheritedTheme;
-            this._theme = this._themeOverride;
-        }
-    }
-
-    /**
-     * The current theme in use by the Widget. If there is no theme, throws an
-     * exception.
-     */
-    get theme(): Theme {
-        if(this._theme === null)
-            throw new Error('Widget theme is not ready');
-
-        return this._theme;
     }
 
     /**
@@ -127,82 +91,25 @@ export abstract class Widget {
     }
 
     /**
-     * Set the theme override of this widget. Should not be overridden, but can
-     * be. If overridden, the original method should still be called.
-     *
-     * Calls {@link updateTheme} and sets {@link _layoutDirty} and
-     * {@link _dirty} to true if widget is enabled.
-     */
-    protected setThemeOverride(theme: Theme | null): void {
-        // Abort if theme hasn't changed
-        if(this._themeOverride === theme)
-            return;
-
-        this._themeOverride = theme;
-        this.updateTheme();
-
-        if(this._enabled) {
-            this._layoutDirty = true;
-            this._dirty = true;
-        }
-    }
-
-    /**
-     * The theme override used by the Widget. If this is null, the Widget's
-     * theme will be the inherited theme, else, it will be the theme override
-     * with the inherited theme as the fallback. The fallback of the theme
-     * override will be ignored and replaced.
-     *
-     * If setting, calls {@link setThemeOverride}.
-     *
-     * If getting, returns {@link _themeOverride}.
-     */
-    set themeOverride(theme: Theme | null) {
-        this.setThemeOverride(theme);
-    }
-
-    get themeOverride(): Theme | null {
-        return this._themeOverride;
-    }
-
-    /**
-     * Set the inherited theme of this widget. Should not be overridden, but can
-     * be. If overridden, the original method should still be called.
-     *
-     * Theme override has priority over inherited theme. Inherited theme should
-     * be propagated to children so they also have a theme.
-     *
-     * Calls {@link updateInheritedTheme} and {@link updateTheme} and sets
-     * {@link _layoutDirty} and {@link _dirty} to true if widget is enabled.
-     */
-    protected inheritTheme(theme: Theme | null): void {
-        // Abort if theme hasn't changed
-        if(this._inheritedTheme === theme)
-            return;
-
-        this._inheritedTheme = theme;
-        this.updateInheritedTheme();
-        this.updateTheme();
-
-        if(this._enabled) {
-            this._layoutDirty = true;
-            this._dirty = true;
-        }
-    }
-
-    /**
      * The inherited theme of this widget.
      *
      * If setting, calls {@link inheritTheme}.
      *
      * If getting, returns {@link _inheritedTheme}.
      */
-    set inheritedTheme(theme: Theme | null) {
-        this.inheritTheme(theme);
+    set inheritedTheme(theme: Theme | undefined) {
+        this.fallbackTheme = theme;
     }
 
-    get inheritedTheme(): Theme | null {
-        return this._inheritedTheme;
+    get inheritedTheme(): Theme | undefined {
+        return this.fallbackTheme;
+    }
+
+    protected override onThemeUpdated(property: string | null = null): void {
+        super.onThemeUpdated(property);
+
+        if(this.needsClear && (property === null || property === 'canvasFill'))
+            this._dirty = true;
     }
 
     /**
@@ -452,12 +359,9 @@ export abstract class Widget {
      * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
      */
     protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
-        if(fillStyle === null)
-            fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
-
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
-        ctx.fillStyle = fillStyle;
+        ctx.fillStyle = fillStyle ?? this.canvasFill;
         ctx.beginPath();
         // These are rounded because clipping and filling doesn't
         // work properly with decimal points
@@ -476,12 +380,9 @@ export abstract class Widget {
      * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
      */
     protected clearStart(ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
-        if(fillStyle === null)
-            fillStyle = this.theme.getFill(ThemeProperty.CanvasFill);
-
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
-        ctx.fillStyle = fillStyle;
+        ctx.fillStyle = fillStyle ?? this.canvasFill;
         ctx.beginPath();
     }
 

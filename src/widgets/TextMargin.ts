@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Alignment2D } from '../theme/Alignment2D';
-import { ThemeProperty } from '../theme/ThemeProperty';
 import { Alignment } from '../theme/Alignment';
 import { Container } from './Container';
 import type { Widget } from './Widget';
@@ -16,16 +16,13 @@ import { Theme } from '../theme/Theme';
  */
 export class TextMargin<W extends Widget = Widget> extends Container<W> {
     /** Create a new TextMargin. */
-    constructor(child: W) {
-        const themeOverride = new Theme(new Map<ThemeProperty, unknown>([
-            [
-                ThemeProperty.ContainerAlignment,
-                <Alignment2D>{
-                    horizontal: Alignment.Center, vertical: Alignment.Stretch,
-                },
-            ],
-        ]));
+    constructor(child: W, themeProperties?: ThemeProperties) {
+        const themePropertiesClone: ThemeProperties = {...themeProperties};
 
-        super(child, themeOverride);
+        themePropertiesClone.containerAlignment = <Alignment2D>{
+            horizontal: Alignment.Center, vertical: Alignment.Stretch,
+        };
+
+        super(child, themePropertiesClone);
     }
 }

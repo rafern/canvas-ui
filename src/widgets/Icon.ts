@@ -1,5 +1,5 @@
 import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -53,10 +53,10 @@ export class Icon extends Widget {
     private actualHeight = 0;
 
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeOverride: Theme | null = null) {
+    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeProperties?: ThemeProperties) {
         // Icons need a clear background, have no children and don't propagate
         // events
-        super(themeOverride, true, false);
+        super(true, false, themeProperties);
 
         this._image = image;
         this.imageWidth = width;
