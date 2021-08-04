@@ -103,9 +103,6 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
                 minCrossAxis = this.vertical ? minWidth : minHeight;
         }
 
-        if(this.constructor.name === 'VirtualKeyRow')
-            console.log(minCrossAxis, this.vertical ? maxWidth : maxHeight, this.vertical ? minWidth : minHeight);
-
         this.enabledChildCount = 0;
         for(const child of this.children) {
             // Ignore disabled children

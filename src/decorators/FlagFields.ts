@@ -33,7 +33,6 @@ export function watchField(callback: (oldValue: any) => void) {
  */
 export function flagField(flagKey: string): (target: any, propertyKey: string) => void {
     return watchField(function(this: any) {
-        console.warn('flag', flagKey, 'set');
         this[flagKey] = true;
     });
 }
@@ -60,7 +59,6 @@ export const layoutField = flagField('_layoutDirty');
  */
 export function multiFlagField(flagKeys: Array<string>): (target: any, propertyKey: string) => void {
     return watchField(function(this: any) {
-        console.warn('flags', flagKeys.join(', '), 'set');
         for(const flagKey of flagKeys)
             this[flagKey] = true;
     });
