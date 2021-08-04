@@ -30,6 +30,22 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
      */
     @watchField(FilledButton.prototype.updateBackground)
     forced = false;
+    /** The inherited theme for the child */
+    private childTheme: Theme;
+
+    /** Create a new FilledButton. */
+    constructor(child: W, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
+        super(child, callback, themeProperties);
+
+        // Make theme that will be inherited by child. Later, this theme's
+        // canvasFill property will be changed, notifying the child. Make the
+        // child inherit the theme. fallbackTheme is also later set when this
+        // widget inherits a theme
+        this.childTheme = new Theme(<ThemeProperties>{
+            canvasFill: this.getBackgroundFill(),
+        });
+        this.child.inheritedTheme = this.childTheme;
+    }
 
     /**
      * Update the background fill.
@@ -57,11 +73,10 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             }
         }
 
-        // Update inherited theme of children and mark background as dirty if
-        // property changed
+        // Update canvasFill property of child's theme
         if(oldProperty !== this.backgroundProperty) {
             this.backgroundDirty = true;
-            this.setChildrensTheme();
+            this.childTheme.canvasFill = this.getBackgroundFill();
         }
     }
 
@@ -85,32 +100,22 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             return;
 
         this.fallbackTheme = theme;
-        this.setChildrensTheme();
+        this.childTheme.fallbackTheme = theme;
     }
 
     override get inheritedTheme(): Theme | undefined {
         return this.fallbackTheme;
     }
 
-    private setChildrensTheme(): void {
-        // Create new theme with an overridden canvasFill value
-        const themeOverride = new Theme(<ThemeProperties>{
-            canvasFill: this.getBackgroundFill(),
-        }, this.fallbackTheme);
-
-        for(const child of this.children)
-            child.inheritedTheme = themeOverride;
-    }
-
     protected override onThemeUpdated(property: string | null = null): void {
         if(property === null) {
             this._layoutDirty = true;
             this.backgroundDirty = true;
-            this.setChildrensTheme();
+            this.childTheme.canvasFill = this.getBackgroundFill();
         }
         else if(property === this.backgroundFill) {
             this.backgroundDirty = true;
-            this.setChildrensTheme();
+            this.childTheme.canvasFill = this.getBackgroundFill();
         }
         else if(property === 'containerPadding')
             this._layoutDirty = true;
@@ -125,5 +130,9 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             this.updateBackground();
 
         return capturer;
+    }
+
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+        this.handleBaseContainerPainting(ctx, this.getBackgroundFill());
     }
 }

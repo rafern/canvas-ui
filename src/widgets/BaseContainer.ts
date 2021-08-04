@@ -1,4 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { FillStyle } from '../theme/FillStyle';
 import { Alignment } from '../theme/Alignment';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
@@ -86,12 +87,22 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         // Provide minimum constraints if using stretch alignment, correcting
         // for padding. If maximum constraints are available (not infinite), use
         // those instead
-        // TODO ^^^^^^
         const alignment = this.containerAlignment;
-        const childMinWidth = alignment.horizontal === Alignment.Stretch
-                                ? Math.max(minWidth - hPadding, 0) : 0;
-        const childMinHeight = alignment.vertical === Alignment.Stretch
-                                ? Math.max(minHeight - vPadding, 0) : 0;
+        let childMinWidth = 0;
+        if(alignment.horizontal === Alignment.Stretch) {
+            if(childMaxWidth !== Infinity)
+                childMinWidth = childMaxWidth;
+            else
+                childMinWidth = Math.max(minWidth - hPadding, 0);
+        }
+
+        let childMinHeight = 0;
+        if(alignment.vertical === Alignment.Stretch) {
+            if(childMaxHeight !== Infinity)
+                childMinHeight = childMaxHeight;
+            else
+                childMinHeight = Math.max(minHeight - vPadding, 0);
+        }
 
         // Resolve child's dimensions
         const [oldChildWidth, oldChildHeight] = this.child.dimensions;
@@ -152,10 +163,14 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             this.backgroundDirty = true;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    /**
+     * Implementation of handlePainting; separate from handlePainting so that
+     * the fillStyle for the background clear can be overridden.
+     */
+    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, fillStyle: FillStyle | null = null): void {
         // Clear background if needed
         if(this.backgroundDirty) {
-            this.clearStart(ctx);
+            this.clearStart(ctx, fillStyle);
             ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
             ctx.rect(...this.roundRect(...this.child.position, ...this.child.dimensions, true));
             this.clearEnd(ctx, 'evenodd');
@@ -165,5 +180,9 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
 
         // Paint child
         this.child.paint(ctx);
+    }
+
+    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+        this.handleBaseContainerPainting(ctx);
     }
 }

@@ -11,6 +11,14 @@ export class Theme extends BaseTheme {
         this.subscribers = new Set();
     }
 
+    override get fallbackTheme(): Theme | undefined {
+        return super.fallbackTheme;
+    }
+
+    override set fallbackTheme(newTheme: Theme | undefined) {
+        super.fallbackTheme = newTheme;
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         // Notify all subscribers
         for(const listener of this.subscribers)

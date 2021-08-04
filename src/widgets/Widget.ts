@@ -90,13 +90,7 @@ export abstract class Widget extends BaseTheme {
         return this._enabled;
     }
 
-    /**
-     * The inherited theme of this widget.
-     *
-     * If setting, calls {@link inheritTheme}.
-     *
-     * If getting, returns {@link _inheritedTheme}.
-     */
+    /** The inherited theme of this widget. Sets {@link fallbackTheme}. */
     set inheritedTheme(theme: Theme | undefined) {
         this.fallbackTheme = theme;
     }

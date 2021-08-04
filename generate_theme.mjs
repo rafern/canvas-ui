@@ -134,7 +134,7 @@ const ctorIndentStr = ' '.repeat(ctorIndent);
 const fieldsIndentStr = ' '.repeat(fieldsIndent);
 for(const [property, options] of Object.entries(config.properties)) {
     // ctor
-    ctorLines.push(`${ctorIndentStr}this.${property} = ${config.basetheme_ctor_themeproperties_arg_name}.${property};`);
+    ctorLines.push(`${ctorIndentStr}this._${property} = ${config.basetheme_ctor_themeproperties_arg_name}.${property};`);
 
     // fields
     fieldsLines.push(`${fieldsIndentStr}/** See {@link ${property}}. For internal use only. */`);

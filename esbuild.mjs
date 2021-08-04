@@ -8,7 +8,7 @@ for(const arg of process.argv.slice(2)) {
 
 if(devMode) {
     console.log('Development mode enabled; files will be watched and a test server started');
-    console.warn('Note that .d.ts files are not generated in this mode');
+    console.warn('Note that .d.ts files are not generated in this mode and output will not be minified');
     LocalWebServer.create({ directory: 'examples', https: true }).then(lws => {
         lws.on('verbose', (key, value) => {
             if(key === 'server.listening') {
@@ -30,9 +30,10 @@ if(devMode) {
 
 import('esbuild').then(esbuild => esbuild.build({
     bundle: true,
-    minify: true,
+    minify: !devMode,
     sourcemap: true,
     watch: devMode,
+    keepNames: devMode,
     target: 'es6',
     format: 'esm',
     logLevel: 'info',

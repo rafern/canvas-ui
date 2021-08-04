@@ -44,11 +44,17 @@ export function measureTextDims(text: string, font: string): [number, number, nu
     // TODO cache a limited amount of text measurements
 
     // Measure text dimensions with a circumfix character so that whitespaces
-    // are measurable, correcting for circumfix character's length
-    const dims = measureContext.measureText(CIRCUMFIX_CHAR + text + CIRCUMFIX_CHAR);
+    // are measurable, correcting for circumfix character's length. Measure
+    // again but without circumfix. Pick the biggest left/right of the two, but
+    // use circumfix ascent and descent
+    const dimsCircumfix = measureContext.measureText(CIRCUMFIX_CHAR + text + CIRCUMFIX_CHAR);
+    const dims = measureContext.measureText(text);
+    const left = Math.max(Math.abs(dims.actualBoundingBoxLeft), Math.abs(dimsCircumfix.actualBoundingBoxLeft) - suffixLength);
+    const right = Math.max(Math.abs(dims.actualBoundingBoxRight), Math.abs(dimsCircumfix.actualBoundingBoxRight) - suffixLength);
+
     return [
-        Math.abs(dims.actualBoundingBoxLeft) + Math.abs(dims.actualBoundingBoxRight) - suffixLength * 2,
-        Math.abs(dims.actualBoundingBoxAscent),
-        Math.abs(dims.actualBoundingBoxDescent),
+        left + right,
+        Math.abs(dimsCircumfix.actualBoundingBoxAscent),
+        Math.abs(dimsCircumfix.actualBoundingBoxDescent),
     ];
 }

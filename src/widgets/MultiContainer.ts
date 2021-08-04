@@ -100,8 +100,11 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         if(alignment.cross === Alignment.Stretch) {
             minCrossAxis = this.vertical ? maxWidth : maxHeight;
             if(minCrossAxis == Infinity)
-                minCrossAxis = 0;
+                minCrossAxis = this.vertical ? minWidth : minHeight;
         }
+
+        if(this.constructor.name === 'VirtualKeyRow')
+            console.log(minCrossAxis, this.vertical ? maxWidth : maxHeight, this.vertical ? minWidth : minHeight);
 
         this.enabledChildCount = 0;
         for(const child of this.children) {
@@ -168,39 +171,35 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             // Set unused space to 0; no alignment should be done
             this.unusedSpace = 0;
 
-            // Shrink widgets that are in the overflown section of the container
-            // if there is lack of space
-            if(freeSpace >= 0)
-                return;
-
+            // Resolve children's layout, but now with strict constraints so
+            // that they stretch properly and shrink children if neccessary (on
+            // overflow)
             let spaceLeft = maxLength;
             for(const child of this.children) {
                 // Ignore disabled children
                 if(!child.enabled)
                     continue;
 
-                const childLength = this.vertical ? child.dimensions[1]
-                                                  : child.dimensions[0];
+                const [oldChildWidth, oldChildHeight] = child.dimensions;
 
-                if(childLength > spaceLeft) {
-                    // Shrink widget
-                    const [oldChildWidth, oldChildHeight] = child.dimensions;
-
-                    if(this.vertical)
-                        child.resolveDimensions(minCrossAxis, maxWidth, 0, spaceLeft);
-                    else
-                        child.resolveDimensions(0, spaceLeft, minCrossAxis, maxHeight);
-
-                    const [childWidth, childHeight] = child.dimensions;
-
-                    // Mark background as dirty if child's dimensions changed
-                    if(childWidth !== oldChildWidth || childHeight !== oldChildHeight)
-                        this.backgroundDirty = true;
-
-                    spaceLeft = 0;
+                if(this.vertical) {
+                    const wantedLength = Math.min(spaceLeft, oldChildHeight);
+                    child.resolveDimensions(minCrossAxis, maxWidth, wantedLength, wantedLength);
                 }
-                else
-                    spaceLeft = Math.max(0, spaceLeft - childLength - spacing);
+                else {
+                    const wantedLength = Math.min(spaceLeft, oldChildWidth);
+                    child.resolveDimensions(wantedLength, wantedLength, minCrossAxis, maxHeight);
+                }
+
+                const [childWidth, childHeight] = child.dimensions;
+
+                // Mark background as dirty if child's dimensions changed
+                if(childWidth !== oldChildWidth || childHeight !== oldChildHeight)
+                    this.backgroundDirty = true;
+
+                const childLength = this.vertical ? oldChildHeight
+                                                  : oldChildWidth;
+                spaceLeft = Math.max(0, spaceLeft - childLength - spacing);
             }
 
             return;

@@ -43,6 +43,9 @@ export class BaseTheme implements ThemeProperties {
             newTheme.subscribe(this.listener);
         }
 
+        // Set theme
+        this._fallbackTheme = newTheme;
+
         // Notify that the fallback theme has changed
         this.onThemeUpdated();
     }
@@ -58,38 +61,38 @@ export class BaseTheme implements ThemeProperties {
             return;
 
         // XXX BASETHEME CTOR AUTO-GENERATED CODE START
-        this.canvasFill = properties.canvasFill;
-        this.containerPadding = properties.containerPadding;
-        this.containerAlignment = properties.containerAlignment;
-        this.multiContainerSpacing = properties.multiContainerSpacing;
-        this.multiContainerAlignment = properties.multiContainerAlignment;
-        this.primaryFill = properties.primaryFill;
-        this.accentFill = properties.accentFill;
-        this.backgroundFill = properties.backgroundFill;
-        this.backgroundGlowFill = properties.backgroundGlowFill;
-        this.sliderMinLength = properties.sliderMinLength;
-        this.sliderThickness = properties.sliderThickness;
-        this.bodyTextFont = properties.bodyTextFont;
-        this.bodyTextFill = properties.bodyTextFill;
-        this.labelMinWidth = properties.labelMinWidth;
-        this.labelMinAscent = properties.labelMinAscent;
-        this.labelMinDescent = properties.labelMinDescent;
-        this.checkboxLength = properties.checkboxLength;
-        this.checkboxInnerPadding = properties.checkboxInnerPadding;
-        this.inputBackgroundFill = properties.inputBackgroundFill;
-        this.inputTextFont = properties.inputTextFont;
-        this.inputTextFill = properties.inputTextFill;
-        this.inputTextFillDisabled = properties.inputTextFillDisabled;
-        this.inputTextFillInvalid = properties.inputTextFillInvalid;
-        this.inputTextMinWidth = properties.inputTextMinWidth;
-        this.inputTextMinAscent = properties.inputTextMinAscent;
-        this.inputTextMinDescent = properties.inputTextMinDescent;
-        this.inputTextInnerPadding = properties.inputTextInnerPadding;
-        this.blinkRate = properties.blinkRate;
-        this.cursorThickness = properties.cursorThickness;
-        this.scrollBarThickness = properties.scrollBarThickness;
-        this.scrollBarMinPercent = properties.scrollBarMinPercent;
-        this.scrollBarMinPixels = properties.scrollBarMinPixels;
+        this._canvasFill = properties.canvasFill;
+        this._containerPadding = properties.containerPadding;
+        this._containerAlignment = properties.containerAlignment;
+        this._multiContainerSpacing = properties.multiContainerSpacing;
+        this._multiContainerAlignment = properties.multiContainerAlignment;
+        this._primaryFill = properties.primaryFill;
+        this._accentFill = properties.accentFill;
+        this._backgroundFill = properties.backgroundFill;
+        this._backgroundGlowFill = properties.backgroundGlowFill;
+        this._sliderMinLength = properties.sliderMinLength;
+        this._sliderThickness = properties.sliderThickness;
+        this._bodyTextFont = properties.bodyTextFont;
+        this._bodyTextFill = properties.bodyTextFill;
+        this._labelMinWidth = properties.labelMinWidth;
+        this._labelMinAscent = properties.labelMinAscent;
+        this._labelMinDescent = properties.labelMinDescent;
+        this._checkboxLength = properties.checkboxLength;
+        this._checkboxInnerPadding = properties.checkboxInnerPadding;
+        this._inputBackgroundFill = properties.inputBackgroundFill;
+        this._inputTextFont = properties.inputTextFont;
+        this._inputTextFill = properties.inputTextFill;
+        this._inputTextFillDisabled = properties.inputTextFillDisabled;
+        this._inputTextFillInvalid = properties.inputTextFillInvalid;
+        this._inputTextMinWidth = properties.inputTextMinWidth;
+        this._inputTextMinAscent = properties.inputTextMinAscent;
+        this._inputTextMinDescent = properties.inputTextMinDescent;
+        this._inputTextInnerPadding = properties.inputTextInnerPadding;
+        this._blinkRate = properties.blinkRate;
+        this._cursorThickness = properties.cursorThickness;
+        this._scrollBarThickness = properties.scrollBarThickness;
+        this._scrollBarMinPercent = properties.scrollBarMinPercent;
+        this._scrollBarMinPixels = properties.scrollBarMinPixels;
         // XXX BASETHEME CTOR AUTO-GENERATED CODE END
     }
 

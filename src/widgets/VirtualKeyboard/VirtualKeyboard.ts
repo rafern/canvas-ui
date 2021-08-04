@@ -1,6 +1,9 @@
 import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
+import type { FlexAlignment2D } from '../../theme/FlexAlignment2D';
 import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
+import { FlexAlignment } from '../../theme/FlexAlignment';
+import { Alignment } from '../../theme/Alignment';
 import { VirtualKeyRow } from './VirtualKeyRow';
 import type { KeyContext } from './KeyContext';
 import { BackspaceKey } from './BackspaceKey';
@@ -73,7 +76,8 @@ export const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate = [
  * Needs a {@link KeyboardDriver} so that key events can be queued.
  *
  * Equivalent to creating a {@link Column} of {@link VirtualKeyRow} with a shared
- * {@link KeyContext}.
+ * {@link KeyContext}. Key rows will be created with SpaceBetween main alignment
+ * and Stretch cross alignment.
  *
  * @category Widget
  */
@@ -87,7 +91,13 @@ export class VirtualKeyboard extends Column {
      * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeProperties?: ThemeProperties) {
-        super(themeProperties);
+        const themePropertiesClone: ThemeProperties = {...themeProperties};
+
+        themePropertiesClone.multiContainerAlignment = <FlexAlignment2D>{
+            main: FlexAlignment.SpaceBetween, cross: Alignment.Stretch,
+        };
+
+        super(themePropertiesClone);
 
         // Make context
         const keyContext = <KeyContext>{
@@ -100,7 +110,7 @@ export class VirtualKeyboard extends Column {
         for(const rowTemplate of keyboardTemplate) {
             this.add(new VirtualKeyRow(
                 rowTemplate, keyContext, flexRatio, mainBasis, crossBasis,
-                themeProperties,
+                themePropertiesClone,
             ));
         }
     }
