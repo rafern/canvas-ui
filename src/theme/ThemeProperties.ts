@@ -31,12 +31,10 @@ export interface ThemeProperties {
     bodyTextFont?: string;
     /** The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for body text (most regular text). */
     bodyTextFill?: FillStyle;
-    /** The {@link TextHelper._minLabelWidth | minimum width} used for {@link Label}. */
-    labelMinWidth?: number;
-    /** The {@link TextHelper._minLabelAscent | minimum ascent height} used for {@link Label}. */
-    labelMinAscent?: number;
-    /** The {@link TextHelper._minLabelDescent | minimum descent height} used for {@link Label}. */
-    labelMinDescent?: number;
+    /** The height of each line of text in body text (most regular text). If null, it will be automatically detected. */
+    bodyTextHeight?: number | null;
+    /** The spacing between each line of text in body text (most regular text). If null, it will be automatically detected. */
+    bodyTextSpacing?: number | null;
     /** The length in pixels used for {@link Checkbox}. */
     checkboxLength?: number;
     /** The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box. */
@@ -51,12 +49,10 @@ export interface ThemeProperties {
     inputTextFillDisabled?: FillStyle;
     /** The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for text in input widgets like {@link TextInput} when invalid. */
     inputTextFillInvalid?: FillStyle;
-    /** The {@link TextHelper._minLabelWidth | minimum width} used for text input widgets like {@link TextInput}. */
-    inputTextMinWidth?: number;
-    /** The {@link TextHelper._minLabelAscent | minimum ascent height} used for text input widgets like {@link TextInput}. */
-    inputTextMinAscent?: number;
-    /** The {@link TextHelper._minLabelDescent | minimum descent height} used for text input widgets like {@link TextInput}. */
-    inputTextMinDescent?: number;
+    /** The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected. */
+    inputTextHeight?: number | null;
+    /** The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected. */
+    inputTextSpacing?: number | null;
     /** The {@link Padding} between text and border used for text input widgets like {@link TextInput}. */
     inputTextInnerPadding?: number;
     /** The blink rate of text cursors in text input widgets like {@link TextInput}. Value in "blinks" per second. */

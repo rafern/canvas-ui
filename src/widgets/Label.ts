@@ -66,33 +66,6 @@ export class Label extends Widget {
             return this.textHelper.text;
     }
 
-    /** The current minimum text width. */
-    set minWidth(minWidth: number) {
-        this.textHelper.minWidth = minWidth;
-    }
-
-    get minWidth(): number {
-        return this.textHelper.minWidth;
-    }
-
-    /** The current minimum text ascent height. */
-    set minAscent(minAscent: number) {
-        this.textHelper.minAscent = minAscent;
-    }
-
-    get minAscent(): number {
-        return this.textHelper.minAscent;
-    }
-
-    /** The current minimum text descent height. */
-    set minDescent(minDescent: number) {
-        this.textHelper.minDescent = minDescent;
-    }
-
-    get minDescent(): number {
-        return this.textHelper.minDescent;
-    }
-
     /**
      * The current text value. If you want to get the current text source, then
      * use {@link source} instead.
@@ -126,9 +99,8 @@ export class Label extends Widget {
             this.textHelper.text = this.textGetter();
 
         this.textHelper.font = this.bodyTextFont;
-        this.textHelper.minWidth = this.labelMinWidth;
-        this.textHelper.minAscent = this.labelMinAscent;
-        this.textHelper.minDescent = this.labelMinDescent;
+        this.textHelper.lineHeight = this.bodyTextHeight;
+        this.textHelper.lineSpacing = this.bodyTextSpacing;
 
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
@@ -138,14 +110,15 @@ export class Label extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        this.textHelper.maxWidth = maxWidth;
+        if(this.textHelper.dirty)
+            this._dirty = true;
+
         this.width = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
         this.height = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
-        // TODO clip to prevent drawing outside of widget if you know that the dimensions are too small
-        ctx.font = this.textHelper.font;
-        ctx.fillStyle = this.bodyTextFill;
-        ctx.fillText(this.text, this.x, this.y + this.height - this.textHelper.descent);
+        this.textHelper.paint(ctx, this.bodyTextFill, this.x, this.y);
     }
 }

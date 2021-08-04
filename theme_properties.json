@@ -76,20 +76,15 @@
             "default": "'white'",
             "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for body text (most regular text)."
         },
-        "labelMinWidth": {
-            "type": "number",
-            "default": "0",
-            "description": "The {@link TextHelper._minLabelWidth | minimum width} used for {@link Label}."
+        "bodyTextHeight": {
+            "type": "number | null",
+            "default": "null",
+            "description": "The height of each line of text in body text (most regular text). If null, it will be automatically detected."
         },
-        "labelMinAscent": {
-            "type": "number",
-            "default": "0",
-            "description": "The {@link TextHelper._minLabelAscent | minimum ascent height} used for {@link Label}."
-        },
-        "labelMinDescent": {
-            "type": "number",
-            "default": "3",
-            "description": "The {@link TextHelper._minLabelDescent | minimum descent height} used for {@link Label}."
+        "bodyTextSpacing": {
+            "type": "number | null",
+            "default": "null",
+            "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected."
         },
         "checkboxLength": {
             "type": "number",
@@ -126,20 +121,15 @@
             "default": "'red'",
             "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for text in input widgets like {@link TextInput} when invalid."
         },
-        "inputTextMinWidth": {
-            "type": "number",
-            "default": "10",
-            "description": "The {@link TextHelper._minLabelWidth | minimum width} used for text input widgets like {@link TextInput}."
+        "inputTextHeight": {
+            "type": "number | null",
+            "default": "null",
+            "description": "The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
         },
-        "inputTextMinAscent": {
-            "type": "number",
-            "default": "16",
-            "description": "The {@link TextHelper._minLabelAscent | minimum ascent height} used for text input widgets like {@link TextInput}."
-        },
-        "inputTextMinDescent": {
-            "type": "number",
-            "default": "3",
-            "description": "The {@link TextHelper._minLabelDescent | minimum descent height} used for text input widgets like {@link TextInput}."
+        "inputTextSpacing": {
+            "type": "number | null",
+            "default": "null",
+            "description": "The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
         },
         "inputTextInnerPadding": {
             "type": "number",

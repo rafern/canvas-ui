@@ -74,9 +74,8 @@ export class BaseTheme implements ThemeProperties {
         this._sliderThickness = properties.sliderThickness;
         this._bodyTextFont = properties.bodyTextFont;
         this._bodyTextFill = properties.bodyTextFill;
-        this._labelMinWidth = properties.labelMinWidth;
-        this._labelMinAscent = properties.labelMinAscent;
-        this._labelMinDescent = properties.labelMinDescent;
+        this._bodyTextHeight = properties.bodyTextHeight;
+        this._bodyTextSpacing = properties.bodyTextSpacing;
         this._checkboxLength = properties.checkboxLength;
         this._checkboxInnerPadding = properties.checkboxInnerPadding;
         this._inputBackgroundFill = properties.inputBackgroundFill;
@@ -84,9 +83,8 @@ export class BaseTheme implements ThemeProperties {
         this._inputTextFill = properties.inputTextFill;
         this._inputTextFillDisabled = properties.inputTextFillDisabled;
         this._inputTextFillInvalid = properties.inputTextFillInvalid;
-        this._inputTextMinWidth = properties.inputTextMinWidth;
-        this._inputTextMinAscent = properties.inputTextMinAscent;
-        this._inputTextMinDescent = properties.inputTextMinDescent;
+        this._inputTextHeight = properties.inputTextHeight;
+        this._inputTextSpacing = properties.inputTextSpacing;
         this._inputTextInnerPadding = properties.inputTextInnerPadding;
         this._blinkRate = properties.blinkRate;
         this._cursorThickness = properties.cursorThickness;
@@ -279,45 +277,31 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link labelMinWidth}. For internal use only. */
-    private _labelMinWidth?: number;
+    /** See {@link bodyTextHeight}. For internal use only. */
+    private _bodyTextHeight?: number | null;
 
-    get labelMinWidth(): number {
-        return this._labelMinWidth ?? this._fallbackTheme?.labelMinWidth ?? 0;
+    get bodyTextHeight(): number | null {
+        return this._bodyTextHeight ?? this._fallbackTheme?.bodyTextHeight ?? null;
     }
 
-    set labelMinWidth(value: number | undefined) {
-        if(this._labelMinWidth !== value) {
-            this._labelMinWidth = value;
-            this.onThemeUpdated('labelMinWidth');
+    set bodyTextHeight(value: number | null | undefined) {
+        if(this._bodyTextHeight !== value) {
+            this._bodyTextHeight = value;
+            this.onThemeUpdated('bodyTextHeight');
         }
     }
 
-    /** See {@link labelMinAscent}. For internal use only. */
-    private _labelMinAscent?: number;
+    /** See {@link bodyTextSpacing}. For internal use only. */
+    private _bodyTextSpacing?: number | null;
 
-    get labelMinAscent(): number {
-        return this._labelMinAscent ?? this._fallbackTheme?.labelMinAscent ?? 0;
+    get bodyTextSpacing(): number | null {
+        return this._bodyTextSpacing ?? this._fallbackTheme?.bodyTextSpacing ?? null;
     }
 
-    set labelMinAscent(value: number | undefined) {
-        if(this._labelMinAscent !== value) {
-            this._labelMinAscent = value;
-            this.onThemeUpdated('labelMinAscent');
-        }
-    }
-
-    /** See {@link labelMinDescent}. For internal use only. */
-    private _labelMinDescent?: number;
-
-    get labelMinDescent(): number {
-        return this._labelMinDescent ?? this._fallbackTheme?.labelMinDescent ?? 3;
-    }
-
-    set labelMinDescent(value: number | undefined) {
-        if(this._labelMinDescent !== value) {
-            this._labelMinDescent = value;
-            this.onThemeUpdated('labelMinDescent');
+    set bodyTextSpacing(value: number | null | undefined) {
+        if(this._bodyTextSpacing !== value) {
+            this._bodyTextSpacing = value;
+            this.onThemeUpdated('bodyTextSpacing');
         }
     }
 
@@ -419,45 +403,31 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextMinWidth}. For internal use only. */
-    private _inputTextMinWidth?: number;
+    /** See {@link inputTextHeight}. For internal use only. */
+    private _inputTextHeight?: number | null;
 
-    get inputTextMinWidth(): number {
-        return this._inputTextMinWidth ?? this._fallbackTheme?.inputTextMinWidth ?? 10;
+    get inputTextHeight(): number | null {
+        return this._inputTextHeight ?? this._fallbackTheme?.inputTextHeight ?? null;
     }
 
-    set inputTextMinWidth(value: number | undefined) {
-        if(this._inputTextMinWidth !== value) {
-            this._inputTextMinWidth = value;
-            this.onThemeUpdated('inputTextMinWidth');
+    set inputTextHeight(value: number | null | undefined) {
+        if(this._inputTextHeight !== value) {
+            this._inputTextHeight = value;
+            this.onThemeUpdated('inputTextHeight');
         }
     }
 
-    /** See {@link inputTextMinAscent}. For internal use only. */
-    private _inputTextMinAscent?: number;
+    /** See {@link inputTextSpacing}. For internal use only. */
+    private _inputTextSpacing?: number | null;
 
-    get inputTextMinAscent(): number {
-        return this._inputTextMinAscent ?? this._fallbackTheme?.inputTextMinAscent ?? 16;
+    get inputTextSpacing(): number | null {
+        return this._inputTextSpacing ?? this._fallbackTheme?.inputTextSpacing ?? null;
     }
 
-    set inputTextMinAscent(value: number | undefined) {
-        if(this._inputTextMinAscent !== value) {
-            this._inputTextMinAscent = value;
-            this.onThemeUpdated('inputTextMinAscent');
-        }
-    }
-
-    /** See {@link inputTextMinDescent}. For internal use only. */
-    private _inputTextMinDescent?: number;
-
-    get inputTextMinDescent(): number {
-        return this._inputTextMinDescent ?? this._fallbackTheme?.inputTextMinDescent ?? 3;
-    }
-
-    set inputTextMinDescent(value: number | undefined) {
-        if(this._inputTextMinDescent !== value) {
-            this._inputTextMinDescent = value;
-            this.onThemeUpdated('inputTextMinDescent');
+    set inputTextSpacing(value: number | null | undefined) {
+        if(this._inputTextSpacing !== value) {
+            this._inputTextSpacing = value;
+            this.onThemeUpdated('inputTextSpacing');
         }
     }
 

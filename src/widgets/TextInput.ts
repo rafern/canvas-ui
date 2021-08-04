@@ -176,33 +176,6 @@ export class TextInput<V> extends Widget {
         return this._validValue;
     }
 
-    /** The current minimum text width. */
-    set minWidth(minWidth: number) {
-        this.textHelper.minWidth = minWidth;
-    }
-
-    get minWidth(): number {
-        return this.textHelper.minWidth;
-    }
-
-    /** The current minimum text ascent height. */
-    set minAscent(minAscent: number) {
-        this.textHelper.minAscent = minAscent;
-    }
-
-    get minAscent(): number {
-        return this.textHelper.minAscent;
-    }
-
-    /** The current minimum text descent height. */
-    set minDescent(minDescent: number) {
-        this.textHelper.minDescent = minDescent;
-    }
-
-    get minDescent(): number {
-        return this.textHelper.minDescent;
-    }
-
     /**
      * Move the cursor to a given index.
      *
@@ -281,7 +254,7 @@ export class TextInput<V> extends Widget {
             if(event instanceof PointerPress) {
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
-                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x - padding);
+                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x - this.x - padding);
 
                 // Start blinking cursor and mark component as dirty, to
                 // make sure that cursor blink always resets for better
@@ -327,6 +300,10 @@ export class TextInput<V> extends Widget {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
             }
+            else if(event.key === 'Enter')
+                this.insertText('\n');
+            else if(event.key === 'Tab')
+                this.insertText('\t');
             else
                 return this; // Ignore key if it is unknown
 
@@ -349,9 +326,8 @@ export class TextInput<V> extends Widget {
         // Update TextHelper variables
         this.textHelper.text = this.displayedText;
         this.textHelper.font = this.inputTextFont;
-        this.textHelper.minWidth = this.inputTextMinWidth;
-        this.textHelper.minAscent = this.inputTextMinAscent;
-        this.textHelper.minDescent = this.inputTextMinDescent;
+        this.textHelper.lineHeight = this.inputTextHeight;
+        this.textHelper.lineSpacing = this.inputTextSpacing;
 
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
@@ -367,6 +343,10 @@ export class TextInput<V> extends Widget {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Only expand to the needed dimensions
+        this.textHelper.maxWidth = maxWidth;
+        if(this.textHelper.dirty)
+            this._dirty = true;
+
         const padding = 2 * this.inputTextInnerPadding;
         this.width = Math.min(Math.max(minWidth, this.textHelper.width + padding), maxWidth);
         this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
@@ -379,22 +359,18 @@ export class TextInput<V> extends Widget {
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
         // Paint current text value
-        ctx.font = this.inputTextFont;
+        let fillStyle;
         if(this._editingEnabled) {
             if(this._valid)
-                ctx.fillStyle = this.inputTextFill;
+                fillStyle = this.inputTextFill;
             else
-                ctx.fillStyle = this.inputTextFillInvalid;
+                fillStyle = this.inputTextFillInvalid;
         }
         else
-            ctx.fillStyle = this.inputTextFillDisabled;
+            fillStyle = this.inputTextFillDisabled;
 
         const padding = this.inputTextInnerPadding;
-        ctx.fillText(
-            this.displayedText,
-            this.x + padding,
-            this.y + this.height - this.textHelper.descent - padding,
-        );
+        this.textHelper.paint(ctx, fillStyle, this.x + padding, this.y + padding)
 
         // Paint blink
         const blinkOn = this.blinkOn;
@@ -403,11 +379,12 @@ export class TextInput<V> extends Widget {
             return;
 
         const cursorThickness = this.cursorThickness;
+        ctx.fillStyle = fillStyle;
         ctx.fillRect(
-            this.x + this.cursorOffset,
+            this.x + padding + this.cursorOffset,
             this.y + padding,
             cursorThickness,
-            this.height - padding * 2,
+            this.textHelper.actualLineHeight + this.textHelper.actualLineSpacing,
         );
     }
 }

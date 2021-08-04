@@ -1,4 +1,5 @@
 import { KeyboardDriver } from './KeyboardDriver';
+import { FocusType } from '../core/FocusType';
 
 /**
  * A {@link KeyboardDriver} which listens for key events from HTML DOM elements.
@@ -29,6 +30,12 @@ export class DOMKeyboardDriver extends KeyboardDriver {
         // clearing keyboard focus
         if(listenToKeys) {
             domElem.addEventListener('keydown', (event) => {
+                if(event.key === 'Tab') {
+                    const currentFocus = this.getFocusedRoot()?.getFocus(FocusType.Keyboard) ?? null;
+                    if(currentFocus !== null)
+                        event.preventDefault();
+                }
+
                 this.keyDown(event.key);
             });
 
