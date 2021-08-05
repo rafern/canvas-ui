@@ -1,6 +1,12 @@
 import { KeyboardDriver } from './KeyboardDriver';
 import { FocusType } from '../core/FocusType';
 
+const PREVENT_DEFAULT_KEYS = new Set([
+    'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp',
+    'End', 'Home', 'PageDown', 'PageUp',
+    'Tab', ' ',
+]);
+
 /**
  * A {@link KeyboardDriver} which listens for key events from HTML DOM elements.
  *
@@ -30,7 +36,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
         // clearing keyboard focus
         if(listenToKeys) {
             domElem.addEventListener('keydown', (event) => {
-                if(event.key === 'Tab') {
+                if(PREVENT_DEFAULT_KEYS.has(event.key)) {
                     const currentFocus = this.getFocusedRoot()?.getFocus(FocusType.Keyboard) ?? null;
                     if(currentFocus !== null)
                         event.preventDefault();

@@ -213,7 +213,7 @@ export class TextHelper {
 
                     if(text[i] === '\n') {
                         // Newline character. Break line
-                        this._lineRanges.push([lineStart, i]);
+                        this._lineRanges.push([lineStart, i + 1]);
                         lineStart = i + 1;
                     }
                     else {
@@ -267,17 +267,41 @@ export class TextHelper {
      *
      * See {@link findIndexOffsetFromOffset} for the opposite.
      *
-     * @returns Returns the horizontal offset, in pixels. Note that this is not neccessarily an integer.
+     * @returns Returns a 2-tuple containing the offset, in pixels. Vertical offset in the tuple is at the top of the character. Note that this is not neccessarily an integer.
      */
-    findOffsetFromIndex(index: number): number {
+    findOffsetFromIndex(index: number): [number, number] {
         // If index is 0 or an invalid negative number, it is at the beginning
         if(index <= 0)
-            return 0;
+            return [0, 0];
+
+        // Check which line the index is in
+        let line = 0;
+        const ranges = this.lineRanges;
+        for(const range of ranges) {
+            if(index < range[1])
+                break;
+
+            line++;
+        }
+
+        // Special case; the index is after the end, pick the end of the text
+        if(line >= ranges.length) {
+            line = ranges.length - 1;
+            index = this.text.length;
+        }
+
+        // Get line start index
+        const lineStart = ranges[line][0];
+        if(index < lineStart)
+            index = lineStart;
 
         // Cut text up to given index and measure its length, this length is the
-        // offset at the given index
-        const metrics = measureTextDims(this.text.substring(0, index), this.font);
-        return metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
+        // offset at the given index, ignoring newline character
+        const metrics = measureTextDims(this.text.slice(lineStart, index), this.font);
+        return [
+            metrics.width + Math.max(0, metrics.actualBoundingBoxLeft),
+            line * (this.actualLineHeight + this.actualLineSpacing),
+        ];
     }
 
     /**
@@ -286,20 +310,39 @@ export class TextHelper {
      *
      * See {@link findOffsetFromIndex} for the opposite.
      *
-     * @returns Returns a tuple containing the index of the character at the offset and the horizontal offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
+     * @returns Returns a 2-tuple containing the index of the character at the offset and a 2-tuple containing the offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
      */
-    findIndexOffsetFromOffset(offset: number): [number, number] {
-        // If offset is before first character, default to index 0
-        if(offset <= 0)
-            return [0, 0];
+    findIndexOffsetFromOffset(offset: [number, number]): [number, [number, number]] {
+        // If offset is before or at first character, default to index 0
+        const fullLineHeight = this.actualLineHeight + this.actualLineSpacing;
+        if((offset[0] <= 0 && offset[1] < fullLineHeight) || offset[1] < 0)
+            return [0, [0, 0]];
+
+        // Find line being selected
+        const line = Math.floor(offset[1] / fullLineHeight);
+
+        // If this is beyond the last line, pick the last character
+        const ranges = this.lineRanges;
+        if(line >= ranges.length) {
+            const index = this.text.length;
+            return [index, this.findOffsetFromIndex(index)];
+        }
 
         // TODO This has linear complexity, use a binary search instead
         // For each character, find index at which offset is smaller than
         // total length minus half length of current character
-        let index = 0, buffer = '', lastLength = 0;
-        for(const char of this.text) {
+        let buffer = '', lastLength = 0;
+        const vOffset = line * fullLineHeight;
+        const [lineStart, lineEnd] = ranges[line];
+        for(let i = lineStart; i < lineEnd; i++) {
             // Add next character to buffer
+            const char = this.text[i];
             buffer += char;
+
+            // Special case; this is a newline, stop now so that the index after
+            // the newline isn't picked
+            if(char === '\n')
+                return [i, [lastLength, vOffset]];
 
             // Measure text buffer length and critical offset, which is text
             // buffer's length minus length of half character, equivalent to
@@ -310,16 +353,15 @@ export class TextHelper {
 
             // If offset is before critical offset, this is the index we're
             // looking for
-            if(offset < criticalOffset)
-                return [index, lastLength];
+            if(offset[0] < criticalOffset)
+                return [i, [lastLength, vOffset]];
 
-            // Update index and last length
-            index++;
+            // Update last length
             lastLength = bufferLength;
         }
 
         // Offset is after full length of text, return index after end
-        return [this.text.length, lastLength];
+        return [lineEnd, [lastLength, vOffset]];
     }
 
     /** The current text width. Re-measures text if neccessary. */
@@ -365,5 +407,16 @@ export class TextHelper {
     get actualLineSpacing(): number {
         this.updateTextDims();
         return this._lineSpacing;
+    }
+
+    /**
+     * Get the height between the start of each line; the full line height.
+     *
+     * Equivalent to the sum of {@link actualLineHeight} and
+     * {@link actualLineSpacing}
+     */
+    get fullLineHeight(): number {
+        this.updateTextDims();
+        return this._lineHeight + this._lineSpacing;
     }
 }

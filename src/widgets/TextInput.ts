@@ -41,7 +41,7 @@ export class TextInput<V> extends Widget {
     /** Current cursor position (index, not offset). */
     private cursorPos = 0;
     /** Current cursor offset in pixels. */
-    private cursorOffset = 0;
+    private cursorOffset = [0, 0];
     /** Does the cursor offset need to be updated? */
     private cursorOffsetDirty = false;
     /** Is editing enabled? */
@@ -176,6 +176,22 @@ export class TextInput<V> extends Widget {
         return this._validValue;
     }
 
+    /** The current line number, starting from 0. */
+    get line(): number {
+        const line = Math.floor(
+            this.cursorOffset[1] / this.textHelper.fullLineHeight,
+        );
+
+        if(line < 0)
+            return 0;
+
+        const lineMax = Math.max(this.textHelper.lineRanges.length, 1);
+        if(line < lineMax)
+            return line;
+        else
+            return lineMax - 1;
+    }
+
     /**
      * Move the cursor to a given index.
      *
@@ -197,6 +213,68 @@ export class TextInput<V> extends Widget {
      */
     moveCursor(delta: number): void {
         this.moveCursorTo(this.cursorPos + delta);
+    }
+
+    /**
+     * Move the cursor given a given pointer offset.
+     *
+     * @param offsetX The horizontal offset in pixels, relative to the text area with padding removed
+     * @param offsetY The vertical offset in pixels, relative to the text area with padding removed
+     */
+    moveCursorFromOffset(offsetX: number, offsetY: number): void {
+        [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(
+            [ offsetX, offsetY ],
+        );
+
+        // Start blinking cursor and mark component as dirty, to
+        // make sure that cursor blink always resets for better
+        // feedback
+        this.blinkStart = Date.now();
+        this._dirty = true;
+    }
+
+    /**
+     * Move the cursor by a given line delta. Calls {@link moveCursorFromOffset}
+     *
+     * @param delta The change in line; if a positive number, the cursor will be moved down by that amount, else, the cursor will be moved up by that amount.
+     */
+    moveCursorLine(delta: number): void {
+        this.moveCursorFromOffset(
+            this.cursorOffset[0],
+            this.cursorOffset[1] + (0.5 + delta) * this.textHelper.fullLineHeight,
+        );
+    }
+
+    /**
+     * Move the cursor to the start of the line. Calls {@link moveCursorTo}
+     */
+    moveCursorStart(): void {
+        // Special case for empty text (which has no line ranges)
+        const ranges =  this.textHelper.lineRanges;
+        if(ranges.length === 0)
+            this.moveCursorTo(0);
+        else
+            this.moveCursorTo(ranges[this.line][0]);
+    }
+
+    /**
+     * Move the cursor to the end of the line. Calls {@link moveCursorTo}
+     */
+    moveCursorEnd(): void {
+        // Special case for empty text (which has no line ranges)
+        const ranges =  this.textHelper.lineRanges;
+        if(ranges.length === 0) {
+            this.moveCursorTo(0);
+            return;
+        }
+
+        let candidateIndex = ranges[this.line][1];
+
+        // Special case for newlines, since they occupy a character in the range
+        if(candidateIndex > 0 && this.text[candidateIndex - 1] === '\n')
+            candidateIndex--;
+
+        this.moveCursorTo(candidateIndex);
     }
 
     /**
@@ -254,13 +332,9 @@ export class TextInput<V> extends Widget {
             if(event instanceof PointerPress) {
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
-                [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(event.x - this.x - padding);
-
-                // Start blinking cursor and mark component as dirty, to
-                // make sure that cursor blink always resets for better
-                // feedback
-                this.blinkStart = Date.now();
-                this._dirty = true;
+                this.moveCursorFromOffset(
+                    event.x - this.x - padding, event.y - this.y - padding,
+                );
 
                 // Request focus
                 root.requestFocus(FocusType.Keyboard, this);
@@ -292,10 +366,18 @@ export class TextInput<V> extends Widget {
                 this.moveCursor(-1); // Move cursor left
             else if(event.key === 'ArrowRight')
                 this.moveCursor(1); // Move cursor right
+            else if(event.key === 'ArrowUp')
+                this.moveCursorLine(-1); // Move cursor up
+            else if(event.key === 'ArrowDown')
+                this.moveCursorLine(1); // Move cursor down
+            else if(event.key === 'PageUp')
+                this.moveCursorLine(-5); // Move cursor up x5
+            else if(event.key === 'PageDown')
+                this.moveCursorLine(5); // Move cursor down x5
             else if(event.key === 'Home')
-                this.moveCursorTo(0); // Move cursor to beginning
+                this.moveCursorStart(); // Move cursor to beginning
             else if(event.key === 'End')
-                this.moveCursorTo(this.text.length); // Move cursor to end
+                this.moveCursorEnd(); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
@@ -381,8 +463,8 @@ export class TextInput<V> extends Widget {
         const cursorThickness = this.cursorThickness;
         ctx.fillStyle = fillStyle;
         ctx.fillRect(
-            this.x + padding + this.cursorOffset,
-            this.y + padding,
+            this.x + padding + this.cursorOffset[0],
+            this.y + padding + this.cursorOffset[1],
             cursorThickness,
             this.textHelper.actualLineHeight + this.textHelper.actualLineSpacing,
         );
