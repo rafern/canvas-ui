@@ -71,9 +71,17 @@ export class TextInput<V> extends Widget {
      */
     @layoutField
     wrapText = false;
+    /**
+     * An input filter; a function which dictates whether a certain input can be
+     * inserted in the text. If the function returns false given the input,
+     * then the input will not be inserted in the text. Useful for preventing
+     * newlines or forcing numeric input. Note that the input is not
+     * neccessarily a character; it can be a whole sentence.
+     */
+    inputFilter: ((input: string) => boolean) | null = null;
 
     /** Create a new TextInput. */
-    constructor(validator: TextValidator<V>, initialValue = '', themeProperties?: ThemeProperties) {
+    constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
         super(false, false, themeProperties);
@@ -91,6 +99,7 @@ export class TextInput<V> extends Widget {
             }
         });
         [this._valid, this._validValue] = validator(initialValue);
+        this.inputFilter = inputFilter;
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -293,6 +302,10 @@ export class TextInput<V> extends Widget {
      * afterwards.
      */
     insertText(str: string): void {
+        // Abort if input can't be inserted
+        if(this.inputFilter !== null && !this.inputFilter(str))
+            return;
+
         // Insert string in current cursor position
         this.text = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
         // Move cursor neccessary amount forward

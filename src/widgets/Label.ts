@@ -1,4 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { layoutField } from '../decorators/FlagFields';
 import { TextHelper } from '../aggregates/TextHelper';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -25,6 +26,9 @@ export class Label extends Widget {
     private textGetter: TextGetter | null = null;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
+    /** Is text wrapping enabled? If not, text will clipped on overflow */
+    @layoutField
+    wrapText = false;
 
     /**
      * Create a new Label.
@@ -110,7 +114,7 @@ export class Label extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        this.textHelper.maxWidth = maxWidth;
+        this.textHelper.maxWidth = this.wrapText ? maxWidth : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
@@ -119,6 +123,19 @@ export class Label extends Widget {
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+        // Start clipping if text wrapping is disabled
+        if(!this.wrapText) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.clip();
+        }
+
+        // Paint text
         this.textHelper.paint(ctx, this.bodyTextFill, this.x, this.y);
+
+        // Stop clipping if text wrapping is disabled
+        if(!this.wrapText)
+            ctx.restore();
     }
 }

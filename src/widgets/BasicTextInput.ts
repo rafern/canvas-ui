@@ -13,12 +13,13 @@ export class BasicTextInput extends TextInput<string> {
      * Create a new BasicTextInput.
      *
      * Equivalent to creating a new {@link TextInput} instance with a validator
-     * created by {@link MakeDefaultTextValidatorWithCallback}.
+     * created by {@link MakeDefaultTextValidatorWithCallback} and no input
+     * filter.
      *
      * @param callback An optional callback called when the text changes. If null, then no callback is called.
      */
     constructor(callback: VariableCallback<string> | null = null, initialValue = '', themeProperties?: ThemeProperties) {
         const validator = MakeDefaultTextValidatorWithCallback(callback);
-        super(validator, initialValue, themeProperties);
+        super(validator, null, initialValue, themeProperties);
     }
 }
