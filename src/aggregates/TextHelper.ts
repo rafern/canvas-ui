@@ -135,10 +135,11 @@ export class TextHelper {
 
             const text = this.text;
             // eslint-disable-next-line no-constant-condition
-            while(lineStart <= text.length) {
+            while(true) {
                 // Where is the next newline?
                 const newline = this.text.indexOf('\n', lineStart);
-                const end = newline === -1 ? text.length : newline;
+                const atEnd = newline === -1;
+                const end = atEnd ? text.length : (newline + 1);
 
                 // Measure this block of text and add it to the line ranges
                 const metrics = measureTextDims(text.slice(lineStart, end), this.font);
@@ -149,8 +150,12 @@ export class TextHelper {
                 this._height += fullLineHeight;
                 this._lineRanges.push([lineStart, end]);
 
+                // At end, abort
+                if(atEnd)
+                    break;
+
                 // Set start of next line
-                lineStart = end + 1;
+                lineStart = end;
             }
         }
         else {

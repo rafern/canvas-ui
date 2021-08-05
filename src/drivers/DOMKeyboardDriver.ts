@@ -2,9 +2,8 @@ import { KeyboardDriver } from './KeyboardDriver';
 import { FocusType } from '../core/FocusType';
 
 const PREVENT_DEFAULT_KEYS = new Set([
-    'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp',
-    'End', 'Home', 'PageDown', 'PageUp',
-    'Tab', ' ',
+    'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'End', 'Home',
+    'PageDown', 'PageUp', 'Tab', ' ',
 ]);
 
 /**

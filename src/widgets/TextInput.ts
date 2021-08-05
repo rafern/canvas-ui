@@ -1,5 +1,5 @@
+import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
 import type { TextValidator } from '../validators/Validator';
-import { multiFlagField } from '../decorators/FlagFields';
 import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../aggregates/TextHelper';
@@ -60,6 +60,17 @@ export class TextInput<V> extends Widget {
     protected textHelper: TextHelper;
     /** The helper for keeping track of the input value */
     protected variable: Variable<string>;
+    /**
+     * Current offset of the text in the text box. Used on overflow.
+     * @paintArrayField()
+     */
+    @paintArrayField()
+    private offset = [0, 0];
+    /**
+     * Is text wrapping enabled? If not, text will be panned if needed
+     */
+    @layoutField
+    wrapText = false;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, initialValue = '', themeProperties?: ThemeProperties) {
@@ -333,7 +344,8 @@ export class TextInput<V> extends Widget {
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
                 this.moveCursorFromOffset(
-                    event.x - this.x - padding, event.y - this.y - padding,
+                    event.x - this.x - padding + this.offset[0],
+                    event.y - this.y - padding + this.offset[1],
                 );
 
                 // Request focus
@@ -425,20 +437,88 @@ export class TextInput<V> extends Widget {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Only expand to the needed dimensions
-        this.textHelper.maxWidth = maxWidth;
+        const padding = 2 * this.inputTextInnerPadding;
+        this.textHelper.maxWidth = this.wrapText ? Math.max(maxWidth - padding, 0) : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
-        const padding = 2 * this.inputTextInnerPadding;
         this.width = Math.min(Math.max(minWidth, this.textHelper.width + padding), maxWidth);
         this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 
+    protected override handlePostLayoutUpdate(_root: Root): void {
+        // Check if panning is needed
+        const padding = this.inputTextInnerPadding;
+        const innerWidth = this.textHelper.width;
+        const innerHeight = this.textHelper.height;
+        const usableWidth = this.width - padding * 2;
+        const usableHeight = this.height - padding * 2;
+        const candidateOffset = this.offset;
+        const [cursorX, cursorY] = this.cursorOffset;
+
+        if(innerWidth > usableWidth) {
+            // Horizontal panning needed
+            const deadZone = Math.min(20, usableWidth / 2);
+            const left = candidateOffset[0] + deadZone;
+            const right = candidateOffset[0] + usableWidth - deadZone;
+
+            // Pan right
+            if(cursorX > right)
+                candidateOffset[0] += cursorX - right;
+
+            // Pan left
+            if(cursorX < left)
+                candidateOffset[0] -= left - cursorX;
+
+            // Clamp
+            if(candidateOffset[0] + usableWidth > innerWidth)
+                candidateOffset[0] = innerWidth - usableWidth;
+            if(candidateOffset[0] < 0)
+                candidateOffset[0] = 0;
+        }
+        else {
+            // Horizontal panning not needed
+            candidateOffset[0] = 0;
+        }
+
+        if(innerHeight > usableHeight) {
+            // Vertical panning needed
+            const deadZone = Math.min(10, usableHeight / 2);
+            const top = candidateOffset[1] + deadZone;
+            const bottom = candidateOffset[1] + usableHeight - deadZone - this.textHelper.fullLineHeight;
+
+            // Pan down
+            if(cursorY > bottom)
+                candidateOffset[1] += cursorY - bottom;
+
+            // Pan up
+            if(cursorY < top)
+                candidateOffset[1] -= top - cursorY;
+
+            // Clamp
+            if(candidateOffset[1] + usableHeight > innerHeight)
+                candidateOffset[1] = innerHeight - usableHeight;
+            if(candidateOffset[1] < 0)
+                candidateOffset[1] = 0;
+        }
+        else {
+            // Vertical panning not needed
+            candidateOffset[1] = 0;
+        }
+
+        this.offset = candidateOffset;
+    }
+
     protected override handlePainting(ctx: CanvasRenderingContext2D): void {
-        // TODO scrolling
         // Paint background
         ctx.fillStyle = this.inputBackgroundFill;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        // Start clipping
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.clip();
 
         // Paint current text value
         let fillStyle;
@@ -452,21 +532,27 @@ export class TextInput<V> extends Widget {
             fillStyle = this.inputTextFillDisabled;
 
         const padding = this.inputTextInnerPadding;
-        this.textHelper.paint(ctx, fillStyle, this.x + padding, this.y + padding)
+        this.textHelper.paint(
+            ctx, fillStyle,
+            this.x + padding - this.offset[0],
+            this.y + padding - this.offset[1],
+        );
 
         // Paint blink
         const blinkOn = this.blinkOn;
         this.blinkWasOn = blinkOn;
-        if(!blinkOn)
-            return;
+        if(blinkOn) {
+            const cursorThickness = this.cursorThickness;
+            ctx.fillStyle = fillStyle;
+            ctx.fillRect(
+                this.x + padding + this.cursorOffset[0] - this.offset[0],
+                this.y + padding + this.cursorOffset[1] - this.offset[1],
+                cursorThickness,
+                this.textHelper.actualLineHeight + this.textHelper.actualLineSpacing,
+            );
+        }
 
-        const cursorThickness = this.cursorThickness;
-        ctx.fillStyle = fillStyle;
-        ctx.fillRect(
-            this.x + padding + this.cursorOffset[0],
-            this.y + padding + this.cursorOffset[1],
-            cursorThickness,
-            this.textHelper.actualLineHeight + this.textHelper.actualLineSpacing,
-        );
+        // Stop clipping
+        ctx.restore();
     }
 }

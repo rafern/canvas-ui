@@ -263,13 +263,11 @@ export abstract class Widget extends BaseTheme {
         // invalid dimensions
         if(this.width < minWidth) {
             this.width = minWidth;
-            console.warn('Horizontal underflow in widget');
-            console.trace();
+            console.error('Horizontal underflow in widget');
         }
         else if(this.width > maxWidth) {
             this.width = maxWidth;
-            console.warn('Horizontal overflow in widget');
-            console.trace();
+            console.error('Horizontal overflow in widget');
         }
 
         if(this.width < 0 || !isFinite(this.width) || isNaN(this.width))
@@ -277,13 +275,11 @@ export abstract class Widget extends BaseTheme {
 
         if(this.height < minHeight) {
             this.height = minHeight;
-            console.warn('Vertical underflow in widget');
-            console.trace();
+            console.error('Vertical underflow in widget');
         }
         else if(this.height > maxHeight) {
             this.height = maxHeight;
-            console.warn('Vertical overflow in widget');
-            console.trace();
+            console.error('Vertical overflow in widget');
         }
 
         if(this.height < 0 || !isFinite(this.height) || isNaN(this.height))
