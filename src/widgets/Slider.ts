@@ -163,7 +163,7 @@ export class Slider extends Widget {
         }
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
         // Correct position with offset
         const x = this.x + this.offsetX;
         const y = this.y + this.offsetY;

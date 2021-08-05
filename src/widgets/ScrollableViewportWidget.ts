@@ -428,9 +428,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         this.offset = offset;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
         // Paint viewport
-        super.handlePainting(ctx);
+        super.handlePainting(ctx, forced);
 
         // Paint scrollbars
         const [childWidth, childHeight] = this.child.dimensions;

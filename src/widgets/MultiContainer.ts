@@ -318,7 +318,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         }
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
         // Paint children and build clipping region if background is dirty
         const clipRects: [number, number, number, number][] = [];
         for(const child of this.children) {
@@ -327,7 +327,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
                 continue;
 
             // Paint child
-            child.paint(ctx);
+            child.paint(ctx, forced);
 
             // Add to clipping region if needed
             if(this.backgroundDirty)

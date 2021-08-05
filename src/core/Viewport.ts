@@ -157,14 +157,13 @@ export class Viewport {
      *
      * Nothing is done if the child was not dirty.
      *
+     * @param force Force re-paint even if {@link dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paintToCanvas(child: Widget): boolean {
+    paintToCanvas(child: Widget, force: boolean): boolean {
         // Paint child
         const wasDirty = child.dirty;
-        if(wasDirty)
-            child.paint(this.context);
-
+        child.paint(this.context, force);
         return wasDirty;
     }
 }

@@ -115,7 +115,7 @@ export class Checkbox extends Widget {
         this.offsetY = (this.height - this.actualLength) / 2;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
         // Should we use glow colours? (background glow and accent)
         const useGlow = this.clickHelper.clickState === ClickState.Hover ||
                         this.clickHelper.clickState === ClickState.Hold;

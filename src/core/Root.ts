@@ -205,7 +205,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.paintToCanvas(this.child);
+        return this.viewport.paintToCanvas(this.child, false);
     }
 
     /**

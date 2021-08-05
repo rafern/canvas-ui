@@ -318,9 +318,10 @@ export class TextHelper {
      * @returns Returns a 2-tuple containing the index of the character at the offset and a 2-tuple containing the offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
      */
     findIndexOffsetFromOffset(offset: [number, number]): [number, [number, number]] {
-        // If offset is before or at first character, default to index 0
+        // If offset is before or at first character or text is mepty, default
+        // to index 0
         const fullLineHeight = this.actualLineHeight + this.actualLineSpacing;
-        if((offset[0] <= 0 && offset[1] < fullLineHeight) || offset[1] < 0)
+        if(this.text === '' || (offset[0] <= 0 && offset[1] < fullLineHeight) || offset[1] < 0)
             return [0, [0, 0]];
 
         // Find line being selected

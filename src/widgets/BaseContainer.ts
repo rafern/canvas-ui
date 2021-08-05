@@ -167,7 +167,7 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
      * Implementation of handlePainting; separate from handlePainting so that
      * the fillStyle for the background clear can be overridden.
      */
-    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, fillStyle: FillStyle | null = null): void {
+    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle: FillStyle | null = null): void {
         // Clear background if needed
         if(this.backgroundDirty) {
             this.clearStart(ctx, fillStyle);
@@ -179,10 +179,10 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Paint child
-        this.child.paint(ctx);
+        this.child.paint(ctx, forced);
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
-        this.handleBaseContainerPainting(ctx);
+    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
+        this.handleBaseContainerPainting(ctx, forced);
     }
 }

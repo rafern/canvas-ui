@@ -242,9 +242,9 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.height = Math.min(effectiveMinheight, maxHeight);
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
         // Paint child to viewport's canvas
-        this.viewport.paintToCanvas(this.child);
+        this.viewport.paintToCanvas(this.child, forced);
 
         // Calculate child's source and destination
         const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);

@@ -123,7 +123,7 @@ export class Icon extends Widget {
         this.offsetY = (this.height - this.actualHeight) / 2;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
         // Abort if icon isn't ready yet
         if(!this._image?.complete) {
             this.lastSrc = null;

@@ -132,7 +132,7 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
         return capturer;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
-        this.handleBaseContainerPainting(ctx, this.getBackgroundFill());
+    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
+        this.handleBaseContainerPainting(ctx, forced, this.getBackgroundFill());
     }
 }

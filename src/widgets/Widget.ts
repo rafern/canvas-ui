@@ -410,10 +410,13 @@ export abstract class Widget extends BaseTheme {
 
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
-     * when extending Widget. Should be overridden.
+     * when extending Widget. Even if {@link dirty} is false, if this method is
+     * called, then the widget must still be painted. Should be overridden.
+     *
+     * @param forced Was this widget force-painted? If calling a child's paint method, propagate this value
      */
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePainting(_ctx: CanvasRenderingContext2D): void {}
+    protected handlePainting(_ctx: CanvasRenderingContext2D, _forced: boolean): void {}
 
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
@@ -421,9 +424,11 @@ export abstract class Widget extends BaseTheme {
      * {@link needsClear} is true, calls the {@link handlePainting} method and
      * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
      * Must not be overridden.
+     *
+     * @param force Force re-paint even if {@link dirty} is false
      */
-    paint(ctx: CanvasRenderingContext2D): void {
-        if(this.dimensionless || !this._dirty)
+    paint(ctx: CanvasRenderingContext2D, force = false): void {
+        if(this.dimensionless || (!this._dirty && !force))
             return;
 
         //console.log('Painted', this.constructor.name);
@@ -433,7 +438,7 @@ export abstract class Widget extends BaseTheme {
                 this.clear(this.x, this.y, this.width, this.height, ctx);
 
             ctx.save();
-            this.handlePainting(ctx);
+            this.handlePainting(ctx, force);
             ctx.restore();
         }
 

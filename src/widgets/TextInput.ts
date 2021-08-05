@@ -522,7 +522,7 @@ export class TextInput<V> extends Widget {
         this.offset = candidateOffset;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D): void {
+    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
         // Paint background
         ctx.fillStyle = this.inputBackgroundFill;
         ctx.fillRect(this.x, this.y, this.width, this.height);
