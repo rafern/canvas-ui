@@ -28,7 +28,7 @@ export class Label extends Widget {
     protected textHelper: TextHelper;
     /** Is text wrapping enabled? If not, text will clipped on overflow */
     @layoutField
-    wrapText = false;
+    wrapText = true;
 
     /**
      * Create a new Label.

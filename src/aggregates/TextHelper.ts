@@ -2,6 +2,29 @@ import { measureTextDims } from '../helpers/measureTextDims';
 import { multiFlagField } from '../decorators/FlagFields';
 import { FillStyle } from '../theme/FillStyle';
 
+const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
+
+/**
+ * A text render group. Contains all neccessary information to position a piece
+ * of text. A 3-tuple containing, respectively, the inclusive index where the
+ * piece of text starts, the exclusive index where the piece of text ends
+ * (including characters that aren't rendered, such as newlines) and the right
+ * horizontal offset of the piece of text. For characters that override their
+ * measured size, the text range will have a size of 1, else, it is a hint
+ * containing the pre-measured size, for optimisation reasons.
+ *
+ * @category Aggregate
+ */
+export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: number];
+
+/**
+ * A line range. Contains all neccessary information to render a line of text.
+ * An array of text render groups.
+ *
+ * @category Aggregate
+ */
+export type LineRange = Array<TextRenderGroup>;
+
 /**
  * An aggregate helper class for widgets that contain text.
  *
@@ -19,9 +42,9 @@ export class TextHelper {
     text = '';
     /**
      * The current font used for rendering text.
-     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
+     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])
      */
-    @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
+    @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])
     font = '';
     /**
      * The current maximum text width. If not Infinite, then text will be
@@ -33,17 +56,24 @@ export class TextHelper {
     /**
      * The height of each line of text when wrapped. If null, then the helper
      * will try to automatically detect it.
-     * @multiFlagField(['_dirty', 'lineHeightSpacingDirty'])
+     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
      */
-    @multiFlagField(['_dirty', 'lineHeightSpacingDirty'])
+    @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
     lineHeight: number | null = null;
     /**
      * The amount of spacing between lines. If null, then the helper will try to
      * automatically detect it.
-     * @multiFlagField(['_dirty', 'measureDirty'])
+     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
      */
-    @multiFlagField(['_dirty', 'measureDirty'])
+    @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
     lineSpacing: number | null = null;
+    /**
+     * The amount of spaces that each tab character is equivalent to. By
+     * default, it is equivalent to 4 spaces.
+     * @multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])
+    tabWidth = 4;
 
     /** The current largest text width. May be outdated. */
     private _width = 0;
@@ -53,15 +83,19 @@ export class TextHelper {
     private _lineHeight = 0;
     /** The current {@link lineSpacing}. May be outdated */
     private _lineSpacing = 0;
+    /** The actual {@link tabWidth} in pixels. May be outdated */
+    private _tabWidth = 0;
 
     /** Does the text need to be re-measured? */
     private measureDirty = true;
     /** Does the line height or spacing need to be re-measured? */
     private lineHeightSpacingDirty = true;
+    /** Does the tab width need to be re-measured? */
+    private tabWidthDirty = true;
     /** Has the text (or properties associated with it) changed? */
     private _dirty = false;
     /** See {@link lineRanges}. For internal use only. */
-    private _lineRanges: Array<[number, number]> = [];
+    private _lineRanges: Array<LineRange> = [];
 
     /**
      * Has the text (or properties associated with it) changed? Resets
@@ -71,6 +105,172 @@ export class TextHelper {
         const wasDirty = this._dirty;
         this._dirty = false;
         return wasDirty;
+    }
+
+    /**
+     * Measure a slice of text taking left offset into account. If left offset
+     * is 0, then this will also add the left bounding box overhang. If not,
+     * then it will just return the width.
+     *
+     * Only for slices of text which have no width-overriding characters, else,
+     * you will get wrong measurements.
+     *
+     * @returns Returns the new horizontal offset
+     */
+    private measureTextSlice(left: number, start: number, end: number): number {
+        const metrics = measureTextDims(this.text.slice(start, end), this.font);
+        if(left === 0)
+            return metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
+        else
+            return left + metrics.width;
+    }
+
+    /**
+     * Get width from line range start to index. Handles out of bounds indices,
+     * but keeps them in the same line
+     */
+    private getLineRangeWidthUntil(range: LineRange, index: number): number {
+        // If before or at first group's start index, 0 width
+        if(index <= range[0][0])
+            return 0;
+
+        // Find text render group that this index belongs to
+        let groupIndex = 0;
+        for(; groupIndex < range.length; groupIndex++) {
+            // If index is at this group's end, return group's right value.
+            // Since width-overriding groups always have a length of 1, this
+            // will also succeed for those
+            const group = range[groupIndex];
+            const groupEnd = group[1];
+            if(index == groupEnd)
+                return group[2];
+            else if(index >= group[0] && index < groupEnd)
+                break;
+        }
+
+        // If index was after line end, pick end of last group
+        if(groupIndex === range.length)
+            return range[groupIndex - 1][2];
+
+        // Find left value
+        let left = 0;
+        if(groupIndex > 0)
+            left = range[groupIndex - 1][2];
+
+        // Measure the slice of text
+        return this.measureTextSlice(left, range[groupIndex][0], index);
+    }
+
+    /**
+     * Similar to {@link measureTextDims}, but uses text render groups for
+     * optimisation purposes and for the ability of individual characters to
+     * override their natively measured size; tabs having a dynamic size that
+     * aligns them to multiples of a value and newlines having no length.
+     *
+     * @param start The inclusive index to start measuring at. If there are render groups and unmeasured text before this index, then this value will be overridden to include the unmeasured text. Render groups will also be merged if they don't override width.
+     * @param end The exclusive index to stop measuring at.
+     * @param lineRange The current text render groups for this line of text. This will be updated in place.
+     * @param maxWidth The maximum width of a line of text. If the line contains a single character, this will be ignored.
+     * @returns Returns true if the line range was modified and it fit into the maximum width
+     */
+    measureText(start: number, end: number, maxWidth: number, lineRange: LineRange): boolean {
+        // Remove render groups that intersect the range that will be measured.
+        // Removing a group means that the group will have to be re-measured and
+        // therefore start is overridden
+        let wantedGroups = 0;
+        for(; wantedGroups < lineRange.length; wantedGroups++) {
+            const group: TextRenderGroup = lineRange[wantedGroups];
+            if(start >= group[0] && start < group[1]) {
+                start = group[0];
+                break;
+            }
+        }
+
+        // Correct start value
+        if(wantedGroups > 0) {
+            let lastGroup: TextRenderGroup | null = lineRange[wantedGroups - 1];
+            if(lastGroup[1] !== start) {
+                start = lastGroup[1];
+
+                if(--wantedGroups > 0)
+                    lastGroup = lineRange[wantedGroups];
+                else
+                    lastGroup = null;
+            }
+
+            if(lastGroup !== null &&
+               !WIDTH_OVERRIDING_CHARS.has(this.text[lastGroup[0]]) &&
+               !WIDTH_OVERRIDING_CHARS.has(this.text[start])) {
+                start = lastGroup[0];
+                wantedGroups--;
+            }
+        }
+
+        // Find left horizontal offset
+        let left = 0;
+        if(wantedGroups > 0)
+            left = lineRange[wantedGroups - 1][2];
+
+        // Measure range of text, potentially splitting it into render groups
+        let groupStart = start;
+        const addedGroups: Array<TextRenderGroup> = [];
+        while(groupStart < end) {
+            if(this.text[groupStart] === '\t') {
+                // Align to tab width
+                const tabWidth = this.actualTabWidth;
+                left = (Math.floor(left / tabWidth) + 1) * tabWidth;
+                addedGroups.push([groupStart, ++groupStart, left]);
+            }
+            else if(this.text[groupStart] === '\n') {
+                // Make it 0-width and ignore all other text
+                addedGroups.push([groupStart, ++groupStart, left]);
+
+                if(groupStart < end)
+                    console.warn('measureText called with text range where newline was at the middle of the range instead of at the end. Some text was ignored');
+
+                break;
+            }
+            else {
+                // Find group end index; at next width-overriding character or
+                // at end
+                let nextNewline = this.text.indexOf('\n', groupStart + 1);
+                if(nextNewline === -1)
+                    nextNewline = Infinity;
+
+                let nextTab = this.text.indexOf('\t', groupStart + 1);
+                if(nextTab === -1)
+                    nextTab = Infinity;
+
+                const groupEnd = Math.min(nextNewline, nextTab, end);
+
+                // Measure group
+                left = this.measureTextSlice(left, groupStart, groupEnd);
+                addedGroups.push([groupStart, groupEnd, left]);
+
+                groupStart = groupEnd;
+            }
+        }
+
+        // Check if this fits in maximum width
+        const groupCount = wantedGroups + addedGroups.length;
+        const lastGroup = addedGroups[addedGroups.length - 1]
+                            ?? lineRange[wantedGroups - 1]
+                            ?? null;
+
+        if(lastGroup === null) {
+            // Lines ranges must have at least one group
+            lineRange.length = 0;
+            lineRange.push([start, start, 0]);
+            return true;
+        }
+        else if((groupCount === 1 && (lastGroup[1] - lastGroup[0]) <= 1) ||
+                lastGroup[2] <= maxWidth) {
+            lineRange.length = wantedGroups;
+            lineRange.push(...addedGroups);
+            return true;
+        }
+        else
+            return false;
     }
 
     /**
@@ -111,6 +311,12 @@ export class TextHelper {
                 this.measureDirty = true;
         }
 
+        // Update tab width if needed
+        if(this.tabWidthDirty) {
+            this.tabWidthDirty = false;
+            this._tabWidth = measureTextDims(' ', this.font).width * this.tabWidth;
+        }
+
         // Abort if measurement not needed
         if(!this.measureDirty)
             return;
@@ -125,6 +331,8 @@ export class TextHelper {
             // line and width to 0 if maxWidth is not set or maxWidth if set
             this._height = fullLineHeight;
             this._width = this.maxWidth === Infinity ? 0 : this.maxWidth;
+            this._lineRanges.length = 1;
+            this._lineRanges[0] = [[0, 0, 0]];
         }
         else if(this.maxWidth === Infinity) {
             // Don't wrap text, but split lines when there's a newline character
@@ -142,13 +350,14 @@ export class TextHelper {
                 const end = atEnd ? text.length : (newline + 1);
 
                 // Measure this block of text and add it to the line ranges
-                const metrics = measureTextDims(text.slice(lineStart, end), this.font);
-                const width = metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
-                if(width > this._width)
-                    this._width = width;
+                const range: LineRange = [];
+                this.measureText(lineStart, end, Infinity, range);
+                this._lineRanges.push(range);
 
                 this._height += fullLineHeight;
-                this._lineRanges.push([lineStart, end]);
+                const width = range[range.length - 1][2];
+                if(width > this._width)
+                    this._width = width;
 
                 // At end, abort
                 if(atEnd)
@@ -161,79 +370,82 @@ export class TextHelper {
         else {
             // Wrap text
             this._lineRanges.length = 0;
+            let range: LineRange = [[0, 0, 0]];
             const text = this.text;
             const spaceRegex = /\s/;
-            let lineStart = 0;
             let wordStart = -1;
 
-            for(let i = 0; i <= text.length; i++) {
+            for(let i = 0; i <= text.length;) {
                 const isSpace = spaceRegex.test(text[i]);
                 const atEnd = i === text.length;
 
                 // If this is a whitespace, wrap the previous word and check
                 // where this character fits
                 if(isSpace || atEnd) {
-                    // Try wrapping word if any
-                    if(wordStart >= 0) {
-                        let metrics = measureTextDims(text.slice(lineStart, i), this.font);
-                        let width = metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
-                        if(width > this.maxWidth) {
-                            // TODO further wrap if word doesnt fit in new line. if so, break the word
-                            // Overflow, check if word fits in new line
-                            let j = i;
-                            // eslint-disable-next-line no-constant-condition
-                            for(; j > wordStart; j--) {
-                                metrics = measureTextDims(text.slice(wordStart, j), this.font);
-                                width = metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
-                                if(width <= this.maxWidth)
+                    // Try fitting word if any
+                    if(wordStart >= 0 && !this.measureText(wordStart, i, this.maxWidth, range)) {
+                        // Overflow, check if word fits in new line
+                        const newRange: LineRange = [];
+                        if(this.measureText(wordStart, i, this.maxWidth, newRange)) {
+                            // Fits in new line. Push old line to line ranges if
+                            // it had any text render groups
+                            if(range.length === 0)
+                                throw new Error('Unexpected line range without any render groups');
+                            this._lineRanges.push(range);
+                            range = newRange;
+                        }
+                        else {
+                            // Doesn't fit in new line. Fit as much as possible
+                            // in current line and move rest to new line by
+                            // backtracking to where the split occurs. Don't
+                            // reverse this loop; although it may seem more
+                            // efficient, it breaks when the word is broken
+                            // across more than 2 lines
+                            let j = wordStart;
+                            for(; j < i - 1; j++) {
+                                if(!this.measureText(j, j + 1, this.maxWidth, range))
                                     break;
                             }
+                            this._lineRanges.push(range);
+                            range = newRange;
 
-                            if(i === j || lineStart !== wordStart) {
-                                // Word fits in a new line or there was text
-                                // before the word that needed wrapping
-                                this._lineRanges.push([lineStart, wordStart]);
-                                lineStart = wordStart;
-                            }
-
-                            if(i !== j) {
-                                // Break word; it was too big even in a new line
-                                // Backtrack to part where word was broken
-                                this._lineRanges.push([wordStart, j]);
-                                i = j;
-                                wordStart = j;
-                                lineStart = j;
-                                continue;
-                            }
+                            i = j;
+                            wordStart = j;
+                            continue;
                         }
                     }
 
                     wordStart = -1;
 
-                    // Try fitting whitespace character
-                    if(atEnd) {
-                        this._lineRanges.push([lineStart, i]);
+                    // End line
+                    if(atEnd && range.length > 0) {
+                        this._lineRanges.push(range);
                         break;
                     }
 
+                    // Try fitting whitespace character
                     if(text[i] === '\n') {
-                        // Newline character. Break line
-                        this._lineRanges.push([lineStart, i + 1]);
-                        lineStart = i + 1;
+                        // Newline character. Break line, but measure text
+                        // anyways to update line range
+                        this.measureText(i, i + 1, Infinity, range);
+                        this._lineRanges.push(range);
+                        range = [];
                     }
-                    else {
-                        // Regular whitespace character
-                        const metrics = measureTextDims(text.slice(lineStart, i + 1), this.font);
-                        const width = metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
-                        if(width > this.maxWidth) {
-                            // Overflow, put whitespace in next line
-                            this._lineRanges.push([lineStart, i]);
-                            lineStart = i;
-                        }
+                    else if(!this.measureText(i, i + 1, this.maxWidth, range)) {
+                        // Regular whitespace character overflow: put whitespace
+                        // in next line but measure it anyways to update line
+                        // range
+                        this._lineRanges.push(range);
+                        range = [];
+                        this.measureText(i, i + 1, Infinity, range);
                     }
                 }
                 else if(wordStart === -1)
                     wordStart = i;
+
+                // Incrementing down here so that we don't have to do i = j - 1
+                // when splitting words
+                i++;
             }
 
             // Calculate dimensions
@@ -258,7 +470,15 @@ export class TextHelper {
         const fullLineHeight = this._lineHeight + this._lineSpacing;
         let yOffset = y + this._lineHeight;
         for(const range of this._lineRanges) {
-            ctx.fillText(this.text.slice(...range), x, yOffset);
+            let left = 0;
+            for(const group of range) {
+                // Skip render groups which contain width-overidding characters
+                // since they are always whitespace characters
+                if(!WIDTH_OVERRIDING_CHARS.has(this.text[group[0]]))
+                    ctx.fillText(this.text.slice(group[0], group[1]), x + left, yOffset);
+
+                left = group[2];
+            }
             yOffset += fullLineHeight;
         }
 
@@ -274,38 +494,32 @@ export class TextHelper {
      *
      * @returns Returns a 2-tuple containing the offset, in pixels. Vertical offset in the tuple is at the top of the character. Note that this is not neccessarily an integer.
      */
-    findOffsetFromIndex(index: number): [number, number] {
-        // If index is 0 or an invalid negative number, it is at the beginning
-        if(index <= 0)
+    findOffsetFromIndex(index: number): [x: number, yTop: number] {
+        // If index is 0, an invalid negative number or there are no lines, it
+        // is at the beginning
+        const lineRanges = this.lineRanges;
+        if(index <= 0 || lineRanges.length === 0)
             return [0, 0];
 
         // Check which line the index is in
         let line = 0;
-        const ranges = this.lineRanges;
-        for(const range of ranges) {
-            if(index < range[1])
+        for(const range of lineRanges) {
+            if(index < range[range.length - 1][1])
                 break;
 
             line++;
         }
 
         // Special case; the index is after the end, pick the end of the text
-        if(line >= ranges.length) {
-            line = ranges.length - 1;
+        if(line >= lineRanges.length) {
+            line = lineRanges.length - 1;
             index = this.text.length;
         }
 
-        // Get line start index
-        const lineStart = ranges[line][0];
-        if(index < lineStart)
-            index = lineStart;
-
-        // Cut text up to given index and measure its length, this length is the
-        // offset at the given index, ignoring newline character
-        const metrics = measureTextDims(this.text.slice(lineStart, index), this.font);
+        // Get horizontal offset
         return [
-            metrics.width + Math.max(0, metrics.actualBoundingBoxLeft),
-            line * (this.actualLineHeight + this.actualLineSpacing),
+            this.getLineRangeWidthUntil(lineRanges[line], index),
+            line * this.fullLineHeight,
         ];
     }
 
@@ -318,9 +532,9 @@ export class TextHelper {
      * @returns Returns a 2-tuple containing the index of the character at the offset and a 2-tuple containing the offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
      */
     findIndexOffsetFromOffset(offset: [number, number]): [number, [number, number]] {
-        // If offset is before or at first character or text is mepty, default
-        // to index 0
-        const fullLineHeight = this.actualLineHeight + this.actualLineSpacing;
+        // If offset is before or at first character, text is empty or there are
+        // no lines, default to index 0
+        const fullLineHeight = this.fullLineHeight;
         if(this.text === '' || (offset[0] <= 0 && offset[1] < fullLineHeight) || offset[1] < 0)
             return [0, [0, 0]];
 
@@ -334,40 +548,40 @@ export class TextHelper {
             return [index, this.findOffsetFromIndex(index)];
         }
 
-        // TODO This has linear complexity, use a binary search instead
+        // If this is an empty line, stop
+        const yOffset = line * fullLineHeight;
+        const range = ranges[line];
+        if(range.length === 1 && range[0][0] === range[0][1])
+            return [range[0][0], [range[0][2], yOffset]];
+
+        // TODO This has linear complexity, use binary search instead if possible
         // For each character, find index at which offset is smaller than
         // total length minus half length of current character
-        let buffer = '', lastLength = 0;
-        const vOffset = line * fullLineHeight;
-        const [lineStart, lineEnd] = ranges[line];
+        let lastLength = 0;
+        const lineStart = range[0][0];
+
+        // Special case; if line range ends with a newline, ignore last
+        // character
+        let lineEnd = range[range.length - 1][1];
+        if(this.text[lineEnd - 1] === '\n')
+            lineEnd--;
+
         for(let i = lineStart; i < lineEnd; i++) {
-            // Add next character to buffer
-            const char = this.text[i];
-            buffer += char;
-
-            // Special case; this is a newline, stop now so that the index after
-            // the newline isn't picked
-            if(char === '\n')
-                return [i, [lastLength, vOffset]];
-
-            // Measure text buffer length and critical offset, which is text
-            // buffer's length minus length of half character, equivalent to
-            // average between last length and current length
-            const metrics = measureTextDims(buffer, this.font);
-            const bufferLength = metrics.width + Math.max(0, metrics.actualBoundingBoxLeft);
-            const criticalOffset = (bufferLength + lastLength) / 2;
+            // Measure length from this index to the next
+            const length = this.getLineRangeWidthUntil(range, i + 1);
+            const criticalOffset = (length + lastLength) / 2;
 
             // If offset is before critical offset, this is the index we're
             // looking for
             if(offset[0] < criticalOffset)
-                return [i, [lastLength, vOffset]];
+                return [i, [lastLength, yOffset]];
 
             // Update last length
-            lastLength = bufferLength;
+            lastLength = length;
         }
 
         // Offset is after full length of text, return index after end
-        return [lineEnd, [lastLength, vOffset]];
+        return [lineEnd, [lastLength, yOffset]];
     }
 
     /** The current text width. Re-measures text if neccessary. */
@@ -392,7 +606,7 @@ export class TextHelper {
      * is a tuple containing the starting index of a line of text and the ending
      * index (exclusive) of a line of text.
      */
-    get lineRanges(): Array<[number, number]> {
+    get lineRanges(): Array<LineRange> {
         this.updateTextDims();
         return [...this._lineRanges];
     }
@@ -413,6 +627,12 @@ export class TextHelper {
     get actualLineSpacing(): number {
         this.updateTextDims();
         return this._lineSpacing;
+    }
+
+    /** Get the current tab width in pixels. Re-measures if neccessary */
+    get actualTabWidth(): number {
+        this.updateTextDims();
+        return this._tabWidth;
     }
 
     /**

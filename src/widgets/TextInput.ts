@@ -70,7 +70,7 @@ export class TextInput<V> extends Widget {
      * Is text wrapping enabled? If not, text will be panned if needed
      */
     @layoutField
-    wrapText = false;
+    wrapText = true;
     /**
      * An input filter; a function which dictates whether a certain input can be
      * inserted in the text. If the function returns false given the input,
@@ -269,32 +269,24 @@ export class TextInput<V> extends Widget {
      * Move the cursor to the start of the line. Calls {@link moveCursorTo}
      */
     moveCursorStart(): void {
-        // Special case for empty text (which has no line ranges)
-        const ranges =  this.textHelper.lineRanges;
-        if(ranges.length === 0)
-            this.moveCursorTo(0);
-        else
-            this.moveCursorTo(ranges[this.line][0]);
+        this.moveCursorTo(this.textHelper.lineRanges[this.line][0][0]);
     }
 
     /**
      * Move the cursor to the end of the line. Calls {@link moveCursorTo}
      */
     moveCursorEnd(): void {
-        // Special case for empty text (which has no line ranges)
-        const ranges =  this.textHelper.lineRanges;
-        if(ranges.length === 0) {
-            this.moveCursorTo(0);
-            return;
-        }
+        const range = this.textHelper.lineRanges[this.line];
+        const groupIndex = range.length - 1;
+        const group = range[groupIndex];
+        const lastIndex = group[1];
 
-        let candidateIndex = ranges[this.line][1];
-
-        // Special case for newlines, since they occupy a character in the range
-        if(candidateIndex > 0 && this.text[candidateIndex - 1] === '\n')
-            candidateIndex--;
-
-        this.moveCursorTo(candidateIndex);
+        // Special case for newline in line with contents, since it counts as a
+        // character
+        if(lastIndex > 0 && this.text[lastIndex - 1] === '\n' && group[0] !== group[1])
+            this.moveCursorTo(lastIndex - 1);
+        else
+            this.moveCursorTo(lastIndex);
     }
 
     /**
