@@ -396,16 +396,13 @@ export class TextInput<V> extends Widget {
             // Request keyboard focus if this is a pointer press
             if(event instanceof PointerPress || event instanceof PointerMove) {
                 const isPress = event instanceof PointerPress;
-                if(isPress) {
+                if(isPress)
                     this.dragging = true;
-                    console.log('press')
-                }
                 else if(!this.dragging)
                     return this;
 
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
-                console.log('call', this.dragging);
                 this.moveCursorFromOffset(
                     event.x - this.x - padding + this.offset[0],
                     event.y - this.y - padding + this.offset[1],
@@ -418,7 +415,6 @@ export class TextInput<V> extends Widget {
             // Get mobile-friendly text input if available
             else if(event instanceof PointerRelease) {
                 this.dragging = false;
-                console.log('release')
 
                 if(root.hasMobileTextInput) {
                     root.getTextInput(this.text).then((newValue: string | null) => {
