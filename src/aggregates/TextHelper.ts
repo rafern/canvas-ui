@@ -6,16 +6,18 @@ const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
 
 /**
  * A text render group. Contains all neccessary information to position a piece
- * of text. A 3-tuple containing, respectively, the inclusive index where the
+ * of text. A 4-tuple containing, respectively, the inclusive index where the
  * piece of text starts, the exclusive index where the piece of text ends
- * (including characters that aren't rendered, such as newlines) and the right
- * horizontal offset of the piece of text. For characters that override their
- * measured size, the text range will have a size of 1, else, it is a hint
- * containing the pre-measured size, for optimisation reasons.
+ * (including characters that aren't rendered, such as newlines), the right
+ * horizontal offset of the piece of text and whether the piece of text
+ * overrides width or not. For characters that override width, the text range
+ * will have a size of 1 and will not be merged with other text render groups,
+ * else, it is a hint containing the pre-measured size, for optimisation
+ * reasons, and may be merged with other text render groups.
  *
  * @category Aggregate
  */
-export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: number];
+export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: number, overridesWidth: boolean];
 
 /**
  * A line range. Contains all neccessary information to render a line of text.
@@ -186,7 +188,9 @@ export class TextHelper {
             }
         }
 
-        // Correct start value
+        // Correct start value; attempt to merge with previous groups or expand
+        // the measurement to include previous parts of text that haven't been
+        // measured yet
         if(wantedGroups > 0) {
             let lastGroup: TextRenderGroup | null = lineRange[wantedGroups - 1];
             if(lastGroup[1] !== start) {
@@ -198,9 +202,7 @@ export class TextHelper {
                     lastGroup = null;
             }
 
-            if(lastGroup !== null &&
-               !WIDTH_OVERRIDING_CHARS.has(this.text[lastGroup[0]]) &&
-               !WIDTH_OVERRIDING_CHARS.has(this.text[start])) {
+            if(lastGroup !== null && !lastGroup[3] && !WIDTH_OVERRIDING_CHARS.has(this.text[start])) {
                 start = lastGroup[0];
                 wantedGroups--;
             }
@@ -219,11 +221,11 @@ export class TextHelper {
                 // Align to tab width
                 const tabWidth = this.actualTabWidth;
                 left = (Math.floor(left / tabWidth) + 1) * tabWidth;
-                addedGroups.push([groupStart, ++groupStart, left]);
+                addedGroups.push([groupStart, ++groupStart, left, true]);
             }
             else if(this.text[groupStart] === '\n') {
                 // Make it 0-width and ignore all other text
-                addedGroups.push([groupStart, ++groupStart, left]);
+                addedGroups.push([groupStart, ++groupStart, left, true]);
 
                 if(groupStart < end)
                     console.warn('measureText called with text range where newline was at the middle of the range instead of at the end. Some text was ignored');
@@ -245,7 +247,7 @@ export class TextHelper {
 
                 // Measure group
                 left = this.measureTextSlice(left, groupStart, groupEnd);
-                addedGroups.push([groupStart, groupEnd, left]);
+                addedGroups.push([groupStart, groupEnd, left, false]);
 
                 groupStart = groupEnd;
             }
@@ -260,7 +262,7 @@ export class TextHelper {
         if(lastGroup === null) {
             // Lines ranges must have at least one group
             lineRange.length = 0;
-            lineRange.push([start, start, 0]);
+            lineRange.push([start, start, 0, false]);
             return true;
         }
         else if((groupCount === 1 && (lastGroup[1] - lastGroup[0]) <= 1) ||
@@ -332,7 +334,7 @@ export class TextHelper {
             this._height = fullLineHeight;
             this._width = this.maxWidth === Infinity ? 0 : this.maxWidth;
             this._lineRanges.length = 1;
-            this._lineRanges[0] = [[0, 0, 0]];
+            this._lineRanges[0] = [[0, 0, 0, false]];
         }
         else if(this.maxWidth === Infinity) {
             // Don't wrap text, but split lines when there's a newline character
@@ -425,13 +427,13 @@ export class TextHelper {
                         if(range.length === 0) {
                             const lastLineRange = this._lineRanges[this._lineRanges.length - 1];
                             if(lastLineRange === undefined)
-                                range.push([0, 0, 0]);
+                                range.push([0, 0, 0, false]);
                             else {
                                 const lastGroup = lastLineRange[lastLineRange.length - 1];
                                 if(lastGroup === undefined)
-                                    range.push([0, 0, 0]);
+                                    range.push([0, 0, 0, false]);
                                 else
-                                    range.push([lastGroup[1], lastGroup[1], 0]);
+                                    range.push([lastGroup[1], lastGroup[1], 0, false]);
                             }
                         }
 
