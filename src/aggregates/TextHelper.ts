@@ -370,7 +370,7 @@ export class TextHelper {
         else {
             // Wrap text
             this._lineRanges.length = 0;
-            let range: LineRange = [[0, 0, 0]];
+            let range: LineRange = [];
             const text = this.text;
             const spaceRegex = /\s/;
             let wordStart = -1;
@@ -418,7 +418,23 @@ export class TextHelper {
                     wordStart = -1;
 
                     // End line
-                    if(atEnd && range.length > 0) {
+                    if(atEnd) {
+                        // If there isn't a render group in the line range yet,
+                        // add it. Use last group's position. If there isn't a
+                        // last group, default to the very beginning
+                        if(range.length === 0) {
+                            const lastLineRange = this._lineRanges[this._lineRanges.length - 1];
+                            if(lastLineRange === undefined)
+                                range.push([0, 0, 0]);
+                            else {
+                                const lastGroup = lastLineRange[lastLineRange.length - 1];
+                                if(lastGroup === undefined)
+                                    range.push([0, 0, 0]);
+                                else
+                                    range.push([lastGroup[1], lastGroup[1], 0]);
+                            }
+                        }
+
                         this._lineRanges.push(range);
                         break;
                     }
