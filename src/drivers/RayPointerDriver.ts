@@ -32,8 +32,11 @@ export abstract class RayPointerDriver extends PointerDriver {
      * @param pressing Is the pointer being pressed? If null, the previous pressing state is used
      * @param origin The world position where the ray is starting
      * @param direction A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    handlePointerRay(pointer: number, pressing: boolean | null, origin: [number, number, number], direction: [number, number, number]): void {
+    handlePointerRay(pointer: number, pressing: boolean | null, origin: [number, number, number], direction: [number, number, number], shift: boolean, ctrl: boolean, alt: boolean): void {
         // Cast a ray and get the root that intersects with the ray and the
         // intersection coordinates
         const [root, xNorm, yNorm] = this.castRay(origin, direction);
@@ -42,7 +45,7 @@ export abstract class RayPointerDriver extends PointerDriver {
         if(root === null)
             this.leaveAnyPointer(pointer);
         else
-            this.movePointer(root, pointer, xNorm, yNorm, pressing);
+            this.movePointer(root, pointer, xNorm, yNorm, pressing, shift, ctrl, alt);
     }
 
     /** Add a source. Assigns itself to the given source. */

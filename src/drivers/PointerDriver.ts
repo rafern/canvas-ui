@@ -157,14 +157,17 @@ export class PointerDriver implements Driver {
      * @param pointer The registered pointer ID
      * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate of the pointer event. 0 is the left edge of the root, while 1 is the right edge of the root.
      * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
-     * @param pressing Is the pointer pressed?
+     * @param pressing Is the pointer pressed? If null, then the last pressing state will be used
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      *
      * If null, the last pressing state is used, meaning that the pressing state
      * has not changed. Useful if getting pointer movement in an event based
      * environment where you only know when a pointer press occurs, but not if
      * the pointer is pressed or not
      */
-    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean | null = null): void {
+    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean | null, shift: boolean, ctrl: boolean, alt: boolean): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
@@ -183,14 +186,14 @@ export class PointerDriver implements Driver {
         const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
         if(pressing !== state.pressing) {
             if(pressing)
-                state.eventQueue.push(new PointerPress(x, y));
+                state.eventQueue.push(new PointerPress(x, y, shift, ctrl, alt));
             else
-                state.eventQueue.push(new PointerRelease(x, y));
+                state.eventQueue.push(new PointerRelease(x, y, shift, ctrl, alt));
 
             state.pressing = pressing;
         }
         else
-            state.eventQueue.push(new PointerMove(x, y));
+            state.eventQueue.push(new PointerMove(x, y, shift, ctrl, alt));
 
         // Update pointer's hint
         if(state.pressing)
@@ -243,8 +246,11 @@ export class PointerDriver implements Driver {
      * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
      * @param deltaX How much was scrolled horizontally, in pixels
      * @param deltaY How much was scrolled vertically, in pixels
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number): void {
+    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number, shift: boolean, ctrl: boolean, alt: boolean): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
@@ -256,7 +262,7 @@ export class PointerDriver implements Driver {
         // Update state and queue up event
         state.hovering = true;
         const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
-        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY, false));
+        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY, false, shift, ctrl, alt));
     }
 
     /**
@@ -345,7 +351,7 @@ export class PointerDriver implements Driver {
                 root.dispatchEvent(new PointerWheel(
                     ...state.dragOrigin,
                     startX - event.x, startY - event.y,
-                    true,
+                    false, false, false, true,
                 ));
 
                 if(event instanceof PointerRelease)

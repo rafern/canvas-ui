@@ -17,23 +17,19 @@ export class PointerWheel extends PointerEvent {
     /** Was this wheel event created from a pointer drag? */
     readonly fromDrag: boolean;
 
-    /**
-     * Create a new PointerWheel. Sets {@link x}, {@link y}, {@link deltaX},
-     * {@link deltaY}, {@link fromDrag}, {@link target}, {@link focusType} to
-     * {@link FocusType.Pointer} and {@link needsFocus} to false.
-     */
-    constructor(x: number, y: number, deltaX: number, deltaY: number, fromDrag: boolean, target: Widget | null = null) {
-        super(x, y, target, FocusType.Pointer);
+    /** Create a new PointerWheel. */
+    constructor(x: number, y: number, deltaX: number, deltaY: number, fromDrag: boolean, shift: boolean, ctrl: boolean, alt: boolean, target: Widget | null = null) {
+        super(x, y, shift, ctrl, alt, target, FocusType.Pointer);
         this.deltaX = deltaX;
         this.deltaY = deltaY;
         this.fromDrag = fromDrag;
     }
 
     correctOffset(xOffset: number, yOffset: number): PointerWheel {
-        return new PointerWheel(this.x - xOffset, this.y - yOffset, this.deltaX, this.deltaY, this.fromDrag, this.target);
+        return new PointerWheel(this.x - xOffset, this.y - yOffset, this.deltaX, this.deltaY, this.fromDrag, this.shift, this.ctrl, this.alt, this.target);
     }
 
     cloneWithTarget(target: Widget | null): PointerWheel {
-        return new PointerWheel(this.x, this.y, this.deltaX, this.deltaY, this.fromDrag, target);
+        return new PointerWheel(this.x, this.y, this.deltaX, this.deltaY, this.fromDrag, this.shift, this.ctrl, this.alt, target);
     }
 }

@@ -295,8 +295,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private handleWheelEvent(event: PointerWheel): boolean {
         const offset = this.offset;
         const [oldX, oldY] = offset;
-        offset[0] -= event.deltaX;
-        offset[1] -= event.deltaY;
+        offset[0] -= event.shift ? event.deltaY : event.deltaX;
+        offset[1] -= event.shift ? event.deltaX : event.deltaY;
         this.clampOffset(offset);
         this.offset = offset;
         const [newX, newY] = this.offset;

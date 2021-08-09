@@ -27,6 +27,7 @@ export * from './events/KeyEvent';
 export * from './events/KeyPress';
 export * from './events/KeyRelease';
 export * from './events/Leave';
+export * from './events/ModifierEvent';
 export * from './events/PointerEvent';
 export * from './events/PointerMove';
 export * from './events/PointerPress';
@@ -54,8 +55,10 @@ export * from './validators/IntValidator';
 export * from './validators/RangeValidator';
 export * from './validators/Validator';
 // widgets
+export * from './widgets/VirtualKeyboard/AltKey';
 export * from './widgets/VirtualKeyboard/BackspaceKey';
 export * from './widgets/VirtualKeyboard/BasicVirtualKey';
+export * from './widgets/VirtualKeyboard/ControlKey';
 export * from './widgets/VirtualKeyboard/EnterKey';
 export * from './widgets/VirtualKeyboard/EscapeKey';
 export * from './widgets/VirtualKeyboard/GlyphVirtualKey';

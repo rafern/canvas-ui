@@ -9,12 +9,14 @@
 export type KeyContextCallback = (key: string) => void;
 
 /**
- * An object shared by virtual keyboard key widgets to tell whether shift is
- * being held down and to store the callback for when a key is pressed.
+ * An object shared by virtual keyboard key widgets to tell which modifier keys
+ * are being pressed and to store the callback for when a key is pressed.
  *
  * @category Widget
  */
 export interface KeyContext {
     callback: KeyContextCallback,
     shift: boolean,
+    ctrl: boolean,
+    alt: boolean,
 }

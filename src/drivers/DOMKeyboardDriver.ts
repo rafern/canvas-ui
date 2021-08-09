@@ -6,6 +6,10 @@ const PREVENT_DEFAULT_KEYS = new Set([
     'PageDown', 'PageUp', 'Tab', ' ',
 ]);
 
+function unpackKeyboardEvent(event: KeyboardEvent): [key: string, shift: boolean, ctrl: boolean, alt: boolean] {
+    return [event.key, event.shiftKey, event.ctrlKey, event.altKey];
+}
+
 /**
  * A {@link KeyboardDriver} which listens for key events from HTML DOM elements.
  *
@@ -41,11 +45,11 @@ export class DOMKeyboardDriver extends KeyboardDriver {
                         event.preventDefault();
                 }
 
-                this.keyDown(event.key);
+                this.keyDown(...unpackKeyboardEvent(event));
             });
 
             domElem.addEventListener('keyup', (event) => {
-                this.keyUp(event.key);
+                this.keyUp(...unpackKeyboardEvent(event));
             });
         }
 

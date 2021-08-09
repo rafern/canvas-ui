@@ -11,6 +11,10 @@ interface RootDOMBind {
     wheelListen: ((this: HTMLElement, event: WheelEvent) => void) | null,
 }
 
+function unpackModifiers(event: MouseEvent): [shift: boolean, ctrl: boolean, alt: boolean] {
+    return [event.shiftKey, event.ctrlKey, event.altKey];
+}
+
 /**
  * A {@link PointerDriver} which listens for pointer events from HTML DOM
  * elements. Each HTML DOM element is bound to a specific root, which synergizes
@@ -99,15 +103,30 @@ export class DOMPointerDriver extends PointerDriver {
         const domElem = rootBind.domElem;
         rootBind.pointermoveListen = (event: PointerEvent) => {
             const pointerID = this.getPointerID(event);
-            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem));
+            this.movePointer(
+                root, pointerID,
+                ...getPointerEventNormPos(event, domElem),
+                null,
+                ...unpackModifiers(event),
+            );
         }
         rootBind.pointerdownListen = (event: PointerEvent) => {
             const pointerID = this.getPointerID(event);
-            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem), true);
+            this.movePointer(
+                root, pointerID,
+                ...getPointerEventNormPos(event, domElem),
+                true,
+                ...unpackModifiers(event),
+            );
         }
         rootBind.pointerupListen = (event: PointerEvent) => {
             const pointerID = this.getPointerID(event);
-            this.movePointer(root, pointerID, ...getPointerEventNormPos(event, domElem), false);
+            this.movePointer(
+                root, pointerID,
+                ...getPointerEventNormPos(event, domElem),
+                false,
+                ...unpackModifiers(event),
+            );
         }
         rootBind.pointerleaveListen = (event: PointerEvent) => {
             const pointerID = this.getPointerID(event);
@@ -121,7 +140,12 @@ export class DOMPointerDriver extends PointerDriver {
                 deltaY = 0;
             }
 
-            this.wheelPointer(root, this.mousePointerID, ...getPointerEventNormPos(event, domElem), deltaX, deltaY);
+            this.wheelPointer(
+                root, this.mousePointerID,
+                ...getPointerEventNormPos(event, domElem),
+                event.deltaX, event.deltaY,
+                ...unpackModifiers(event),
+            );
         }
 
         // Add listeners to DOM element

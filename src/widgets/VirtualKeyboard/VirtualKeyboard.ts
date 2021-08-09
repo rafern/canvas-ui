@@ -102,9 +102,16 @@ export class VirtualKeyboard extends Column {
         // Make context
         const keyContext = <KeyContext>{
             callback: (key: string) => {
-                keyboardDriver.keyPress(key);
+                keyboardDriver.keyPress(
+                    key,
+                    keyContext.shift,
+                    keyContext.ctrl,
+                    keyContext.alt,
+                );
             },
             shift: false,
+            ctrl: false,
+            alt: false,
         };
 
         for(const rowTemplate of keyboardTemplate) {

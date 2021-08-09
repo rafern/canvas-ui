@@ -75,24 +75,30 @@ export class KeyboardDriver implements Driver {
      * Push a new {@link KeyPress} event to {@link eventQueues}.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyDown(key: string): void {
+    keyDown(key: string, shift: boolean, ctrl: boolean, alt: boolean): void {
         this.keysDown.add(key);
         const eventQueue = this.getEventQueue(this.focus);
         if(eventQueue !== null)
-            eventQueue.push(new KeyPress(key, null));
+            eventQueue.push(new KeyPress(key, shift, ctrl, alt, null));
     }
 
     /**
      * Push a new {@link KeyRelease} event to {@link eventQueues}.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyUp(key: string): void {
+    keyUp(key: string, shift: boolean, ctrl: boolean, alt: boolean): void {
         if(this.keysDown.delete(key)) {
             const eventQueue = this.getEventQueue(this.focus);
             if(eventQueue !== null)
-                eventQueue.push(new KeyRelease(key, null));
+                eventQueue.push(new KeyRelease(key, shift, ctrl, alt, null));
         }
     }
 
@@ -101,12 +107,15 @@ export class KeyboardDriver implements Driver {
      * down before calling ({@link isKeyDown}), keyUp is not called.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyPress(key: string): void {
+    keyPress(key: string, shift: boolean, ctrl: boolean, alt: boolean): void {
         const wasDown = this.isKeyDown(key);
-        this.keyDown(key);
+        this.keyDown(key, shift, ctrl, alt);
         if(!wasDown)
-            this.keyUp(key);
+            this.keyUp(key, shift, ctrl, alt);
     }
 
     /**

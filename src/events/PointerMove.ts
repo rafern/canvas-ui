@@ -10,20 +10,16 @@ import { Widget } from '../widgets/Widget';
  * @category Event
  */
 export class PointerMove extends PointerEvent {
-    /**
-     * Create a new PointerMove. Sets {@link x}, {@link y}, {@link target},
-     * {@link focusType} to {@link FocusType.Pointer} and {@link needsFocus} to
-     * false.
-     */
-    constructor(x: number, y: number, target: Widget | null = null) {
-        super(x, y, target, FocusType.Pointer);
+    /** Create a new PointerMove. */
+    constructor(x: number, y: number, shift: boolean, ctrl: boolean, alt: boolean, target: Widget | null = null) {
+        super(x, y, shift, ctrl, alt, target, FocusType.Pointer);
     }
 
     correctOffset(xOffset: number, yOffset: number): PointerMove {
-        return new PointerMove(this.x - xOffset, this.y - yOffset, this.target);
+        return new PointerMove(this.x - xOffset, this.y - yOffset, this.shift, this.ctrl, this.alt, this.target);
     }
 
     cloneWithTarget(target: Widget | null): PointerMove {
-        return new PointerMove(this.x, this.y, target);
+        return new PointerMove(this.x, this.y, this.shift, this.ctrl, this.alt, target);
     }
 }
