@@ -6,14 +6,27 @@ const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
 
 /**
  * A text render group. Contains all neccessary information to position a piece
- * of text. A 4-tuple containing, respectively, the inclusive index where the
- * piece of text starts, the exclusive index where the piece of text ends
- * (including characters that aren't rendered, such as newlines), the right
- * horizontal offset of the piece of text and whether the piece of text
- * overrides width or not. For characters that override width, the text range
- * will have a size of 1 and will not be merged with other text render groups,
- * else, it is a hint containing the pre-measured size, for optimisation
- * reasons, and may be merged with other text render groups.
+ * of text.
+ *
+ * A 4-tuple containing, respectively, the inclusive index where the piece of
+ * text starts, the exclusive index where the piece of text ends (including
+ * characters that aren't rendered, such as newlines), the right horizontal
+ * offset of the piece of text and whether the piece of text overrides width or
+ * not.
+ *
+ * For characters that override width, the text range should have a length of 1
+ * and will not be merged with other text render groups, else, it is a hint
+ * containing the pre-measured size, for optimisation reasons, and may be merged
+ * with other text render groups. Width-overidding groups where the text range
+ * length is greater than 1 will have the length of each individual character as
+ * an interpolation of the total length, where each character has equal width,
+ * which is cheap, but innacurate; this is the reason why it is preferred to
+ * have length 1 text range for width-overriding groups although you may still
+ * want this for specific reasons (such as trailing space removal).
+ * Width-overriding groups are also only meant to be used for whitespaces and
+ * will therefore not be painted.
+ *
+ * Note that 0-width text render groups are valid and used for empty lines.
  *
  * @category Aggregate
  */
@@ -26,6 +39,27 @@ export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: numb
  * @category Aggregate
  */
 export type LineRange = Array<TextRenderGroup>;
+
+/**
+ * The mode to use for text wrapping in {@link TextHelper}.
+ *
+ * @category Aggregate
+ */
+export enum WrapMode {
+    /**
+     * Whitespaces always have width. The default wrapping mode for input
+     * widgets
+     */
+    Normal,
+    /**
+     * Whitespaces at the end of a line which result in an overflow have no
+     * width. The default wrapping mode for widgets that display text, since
+     * spaces at the beginning of a line due to wrapping looks weird in
+     * {@link Label | labels}. Whitespaces at the beginning of a new line are
+     * still kept, as they are deliberate.
+     */
+    Shrink,
+}
 
 /**
  * An aggregate helper class for widgets that contain text.
@@ -76,6 +110,12 @@ export class TextHelper {
      */
     @multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])
     tabWidth = 4;
+    /**
+     * The mode for text wrapping
+     * @multiFlagField(['_dirty', 'measureDirty'])
+     */
+    @multiFlagField(['_dirty', 'measureDirty'])
+    wrapMode: WrapMode = WrapMode.Normal;
 
     /** The current largest text width. May be outdated. */
     private _width = 0;
@@ -140,8 +180,8 @@ export class TextHelper {
         let groupIndex = 0;
         for(; groupIndex < range.length; groupIndex++) {
             // If index is at this group's end, return group's right value.
-            // Since width-overriding groups always have a length of 1, this
-            // will also succeed for those
+            // Most width-overriding groups have a length of 1 and therefore
+            // just stop here
             const group = range[groupIndex];
             const groupEnd = group[1];
             if(index == groupEnd)
@@ -159,8 +199,13 @@ export class TextHelper {
         if(groupIndex > 0)
             left = range[groupIndex - 1][2];
 
-        // Measure the slice of text
-        return this.measureTextSlice(left, range[groupIndex][0], index);
+        // Measure the slice of text. Interpolate if it's a width-overidding
+        // group
+        const group = range[groupIndex];
+        if(group[3])
+            return left + group[2] * (index - group[0]) / (group[1] - group[0]);
+        else
+            return this.measureTextSlice(left, group[0], index);
     }
 
     /**
@@ -175,7 +220,7 @@ export class TextHelper {
      * @param maxWidth The maximum width of a line of text. If the line contains a single character, this will be ignored.
      * @returns Returns true if the line range was modified and it fit into the maximum width
      */
-    measureText(start: number, end: number, maxWidth: number, lineRange: LineRange): boolean {
+    private measureText(start: number, end: number, maxWidth: number, lineRange: LineRange): boolean {
         // Remove render groups that intersect the range that will be measured.
         // Removing a group means that the group will have to be re-measured and
         // therefore start is overridden
@@ -452,10 +497,31 @@ export class TextHelper {
                     else if(!this.measureText(i, i + 1, this.maxWidth, range)) {
                         // Regular whitespace character overflow: put whitespace
                         // in next line but measure it anyways to update line
-                        // range
-                        this._lineRanges.push(range);
-                        range = [];
-                        this.measureText(i, i + 1, Infinity, range);
+                        // range. If in the shrink wrap mode, then group up as
+                        // many whitespaces as possible and make a zero-width
+                        // group out of them
+                        if(this.wrapMode === WrapMode.Shrink) {
+                            const spaceGroupStart = i;
+                            do {
+                                i++;
+                            } while(text[i] !== '\n' && spaceRegex.test(text[i]));
+
+                            const lastGroup = range[range.length - 1];
+                            range.push([
+                                spaceGroupStart,
+                                i,
+                                lastGroup !== undefined ? lastGroup[2] : 0,
+                                true,
+                            ]);
+                            this._lineRanges.push(range);
+                            range = [];
+                            continue;
+                        }
+                        else {
+                            this._lineRanges.push(range);
+                            range = [];
+                            this.measureText(i, i + 1, Infinity, range);
+                        }
                     }
                 }
                 else if(wordStart === -1)
@@ -485,15 +551,29 @@ export class TextHelper {
         ctx.textBaseline = 'alphabetic';
 
         // Paint line (or lines) of text
-        const fullLineHeight = this._lineHeight + this._lineSpacing;
+        const fullLineHeight = this.fullLineHeight;
         let yOffset = y + this._lineHeight;
+        let toggle = false;
         for(const range of this._lineRanges) {
             let left = 0;
             for(const group of range) {
-                // Skip render groups which contain width-overidding characters
-                // since they are always whitespace characters
-                if(!WIDTH_OVERRIDING_CHARS.has(this.text[group[0]]))
+                // Skip width-overidding or zero-width render groups
+                if(!group[3] && group[2] > left) {
+                    /*ctx.fillStyle = toggle ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
+                    ctx.fillRect(x + left, yOffset - this._lineHeight, group[2] - left, fullLineHeight);
+                    toggle = !toggle;
+                    ctx.fillStyle = fillStyle;*/
                     ctx.fillText(this.text.slice(group[0], group[1]), x + left, yOffset);
+                }
+                /*else {
+                    let debugWidth = group[2] - left;
+                    ctx.fillStyle = debugWidth > 0 ? 'rgba(0, 0, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)';
+                    if(debugWidth == 0)
+                        debugWidth = 4;
+                    else if(debugWidth < 0)
+                        throw new Error('Unexpected group with negative width');
+                    ctx.fillRect(x + left, yOffset - this._lineHeight, debugWidth, fullLineHeight);
+                }*/
 
                 left = group[2];
             }

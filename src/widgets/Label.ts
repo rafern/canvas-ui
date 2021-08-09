@@ -1,6 +1,6 @@
+import { TextHelper, WrapMode } from '../aggregates/TextHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
-import { TextHelper } from '../aggregates/TextHelper';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
@@ -41,6 +41,7 @@ export class Label extends Widget {
         super(true, false, themeProperties);
 
         this.textHelper = new TextHelper();
+        this.textHelper.wrapMode = WrapMode.Shrink;
         this.source = source;
     }
 
