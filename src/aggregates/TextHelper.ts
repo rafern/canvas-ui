@@ -553,7 +553,7 @@ export class TextHelper {
         // Paint line (or lines) of text
         const fullLineHeight = this.fullLineHeight;
         let yOffset = y + this._lineHeight;
-        let toggle = false;
+        //let toggle = false;
         for(const range of this._lineRanges) {
             let left = 0;
             for(const group of range) {
