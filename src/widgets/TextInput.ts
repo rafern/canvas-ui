@@ -76,7 +76,7 @@ export class TextInput<V> extends Widget {
      * Is text wrapping enabled? If not, text will be panned if needed
      */
     @layoutField
-    wrapText = false;
+    wrapText = true;
     /**
      * An input filter; a function which dictates whether a certain input can be
      * inserted in the text. If the function returns false given the input,
