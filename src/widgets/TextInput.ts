@@ -348,6 +348,7 @@ export class TextInput<V> extends Widget {
             return;
 
         if(this.cursorPos !== this.selectPos) {
+            // Delete selection
             const start = Math.min(this.cursorPos, this.selectPos);
             const end = Math.max(this.cursorPos, this.selectPos);
             this.text = this.text.substring(0, start) + this.text.substring(end);
