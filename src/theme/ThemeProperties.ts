@@ -41,6 +41,8 @@ export interface ThemeProperties {
     checkboxInnerPadding?: number;
     /** The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for input widgets like {@link TextInput}. */
     inputBackgroundFill?: FillStyle;
+    /** The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for input widgets like {@link TextInput} when text is selected. */
+    inputSelectBackgroundFill?: FillStyle;
     /** The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for text in input widgets like {@link TextInput}. */
     inputTextFont?: string;
     /** The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for text in input widgets like {@link TextInput}. */

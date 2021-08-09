@@ -101,6 +101,11 @@
             "default": "'white'",
             "description": "The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for input widgets like {@link TextInput}."
         },
+        "inputSelectBackgroundFill": {
+            "type": "FillStyle",
+            "default": "'rgb(0,195,255)'",
+            "description": "The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for input widgets like {@link TextInput} when text is selected."
+        },
         "inputTextFont": {
             "type": "string",
             "default": "'16px mono'",

@@ -79,6 +79,7 @@ export class BaseTheme implements ThemeProperties {
         this._checkboxLength = properties.checkboxLength;
         this._checkboxInnerPadding = properties.checkboxInnerPadding;
         this._inputBackgroundFill = properties.inputBackgroundFill;
+        this._inputSelectBackgroundFill = properties.inputSelectBackgroundFill;
         this._inputTextFont = properties.inputTextFont;
         this._inputTextFill = properties.inputTextFill;
         this._inputTextFillDisabled = properties.inputTextFillDisabled;
@@ -344,6 +345,20 @@ export class BaseTheme implements ThemeProperties {
         if(this._inputBackgroundFill !== value) {
             this._inputBackgroundFill = value;
             this.onThemeUpdated('inputBackgroundFill');
+        }
+    }
+
+    /** See {@link inputSelectBackgroundFill}. For internal use only. */
+    private _inputSelectBackgroundFill?: FillStyle;
+
+    get inputSelectBackgroundFill(): FillStyle {
+        return this._inputSelectBackgroundFill ?? this._fallbackTheme?.inputSelectBackgroundFill ?? 'rgb(0,195,255)';
+    }
+
+    set inputSelectBackgroundFill(value: FillStyle | undefined) {
+        if(this._inputSelectBackgroundFill !== value) {
+            this._inputSelectBackgroundFill = value;
+            this.onThemeUpdated('inputSelectBackgroundFill');
         }
     }
 

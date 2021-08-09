@@ -6,11 +6,13 @@ import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
+import { PointerMove } from '../events/PointerMove';
 import { Variable } from '../aggregates/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
+import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
 /**
@@ -41,7 +43,11 @@ export class TextInput<V> extends Widget {
     /** Current cursor position (index, not offset). */
     private cursorPos = 0;
     /** Current cursor offset in pixels. */
-    private cursorOffset = [0, 0];
+    private cursorOffset: [number, number] = [0, 0];
+    /** Current cursor selection start position (index, not offset). */
+    private selectPos = 0;
+    /** Current cursor selection start offset in pixels. */
+    private selectOffset: [number, number] = [0, 0];
     /** Does the cursor offset need to be updated? */
     private cursorOffsetDirty = false;
     /** Is editing enabled? */
@@ -70,7 +76,7 @@ export class TextInput<V> extends Widget {
      * Is text wrapping enabled? If not, text will be panned if needed
      */
     @layoutField
-    wrapText = true;
+    wrapText = false;
     /**
      * An input filter; a function which dictates whether a certain input can be
      * inserted in the text. If the function returns false given the input,
@@ -79,6 +85,8 @@ export class TextInput<V> extends Widget {
      * neccessarily a character; it can be a whole sentence.
      */
     inputFilter: ((input: string) => boolean) | null = null;
+    /** Is the pointer dragging? */
+    private dragging = false;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
@@ -158,7 +166,7 @@ export class TextInput<V> extends Widget {
             // Disable blinking and reset cursor position if disabled
             if(!editingEnabled) {
                 this.blinkStart = 0;
-                this.moveCursorTo(0);
+                this.moveCursorTo(0, false);
             }
 
             // Mark as dirty; the text color changes
@@ -216,10 +224,15 @@ export class TextInput<V> extends Widget {
      * Move the cursor to a given index.
      *
      * Sets {@link _dirty} and {@link cursorOffsetDirty} to true.
+     *
+     * @param select Should this do text selection?
      */
-    moveCursorTo(index: number): void {
+    moveCursorTo(index: number, select: boolean): void {
         // Update cursor position, checking for boundaries
         this.cursorPos = Math.min(Math.max(index, 0), this.text.length);
+
+        if(!select)
+            this.selectPos = this.cursorPos;
 
         // Update cursor offset
         this.cursorOffsetDirty = true;
@@ -231,8 +244,8 @@ export class TextInput<V> extends Widget {
      *
      * @param delta The change in index; if a positive number, the cursor will be moved right by that amount, else, the cursor will be moved left by that amount.
      */
-    moveCursor(delta: number): void {
-        this.moveCursorTo(this.cursorPos + delta);
+    moveCursor(delta: number, select: boolean): void {
+        this.moveCursorTo(this.cursorPos + delta, select);
     }
 
     /**
@@ -240,11 +253,17 @@ export class TextInput<V> extends Widget {
      *
      * @param offsetX The horizontal offset in pixels, relative to the text area with padding removed
      * @param offsetY The vertical offset in pixels, relative to the text area with padding removed
+     * @param select Should this do text selection?
      */
-    moveCursorFromOffset(offsetX: number, offsetY: number): void {
+    moveCursorFromOffset(offsetX: number, offsetY: number, select: boolean): void {
         [this.cursorPos, this.cursorOffset] = this.textHelper.findIndexOffsetFromOffset(
             [ offsetX, offsetY ],
         );
+
+        if(!select) {
+            this.selectPos = this.cursorPos;
+            this.selectOffset = this.cursorOffset;
+        }
 
         // Start blinking cursor and mark component as dirty, to
         // make sure that cursor blink always resets for better
@@ -258,24 +277,25 @@ export class TextInput<V> extends Widget {
      *
      * @param delta The change in line; if a positive number, the cursor will be moved down by that amount, else, the cursor will be moved up by that amount.
      */
-    moveCursorLine(delta: number): void {
+    moveCursorLine(delta: number, select: boolean): void {
         this.moveCursorFromOffset(
             this.cursorOffset[0],
             this.cursorOffset[1] + (0.5 + delta) * this.textHelper.fullLineHeight,
+            select,
         );
     }
 
     /**
      * Move the cursor to the start of the line. Calls {@link moveCursorTo}
      */
-    moveCursorStart(): void {
-        this.moveCursorTo(this.textHelper.lineRanges[this.line][0][0]);
+    moveCursorStart(select: boolean): void {
+        this.moveCursorTo(this.textHelper.lineRanges[this.line][0][0], select);
     }
 
     /**
      * Move the cursor to the end of the line. Calls {@link moveCursorTo}
      */
-    moveCursorEnd(): void {
+    moveCursorEnd(select: boolean): void {
         const range = this.textHelper.lineRanges[this.line];
         const groupIndex = range.length - 1;
         const group = range[groupIndex];
@@ -284,9 +304,9 @@ export class TextInput<V> extends Widget {
         // Special case for newline in line with contents, since it counts as a
         // character
         if(lastIndex > 0 && this.text[lastIndex - 1] === '\n' && group[0] !== group[1])
-            this.moveCursorTo(lastIndex - 1);
+            this.moveCursorTo(lastIndex - 1, select);
         else
-            this.moveCursorTo(lastIndex);
+            this.moveCursorTo(lastIndex, select);
     }
 
     /**
@@ -298,35 +318,58 @@ export class TextInput<V> extends Widget {
         if(this.inputFilter !== null && !this.inputFilter(str))
             return;
 
-        // Insert string in current cursor position
-        this.text = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
-        // Move cursor neccessary amount forward
-        this.moveCursor(str.length);
+        if(this.selectPos === this.cursorPos) {
+            // Insert string in current cursor position
+            this.text = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
+            // Move cursor neccessary amount forward
+            this.moveCursor(str.length, false);
+        }
+        else {
+            const start = Math.min(this.cursorPos, this.selectPos);
+            const end = Math.max(this.cursorPos, this.selectPos);
+
+            // Replace text in selection with the one being inserted
+            this.text = this.text.substring(0, start) + str + this.text.substring(end);
+            // Move cursor to end of selection after insert
+            this.moveCursorTo(start + str.length, false);
+        }
     }
 
     /**
      * Deletes a certain amount of characters in a given direction from the
      * current cursor index. Calls {@link moveCursorTo} afterwards if
-     * neccessary.
+     * neccessary. If text is being selected, delta is ignored and the selection
+     * is deleted instead. Note that a delta of zero doesn't delete anything.
      *
      * @param delta The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
      */
     deleteText(delta: number): void {
-        // Delete characters forwards if delta is positive, backwards if delta
-        // is negative. Deleting characters backwards results in moving the
-        // cursor
-        if(delta > 0)
+        if(delta === 0)
+            return;
+
+        if(this.cursorPos !== this.selectPos) {
+            const start = Math.min(this.cursorPos, this.selectPos);
+            const end = Math.max(this.cursorPos, this.selectPos);
+            this.text = this.text.substring(0, start) + this.text.substring(end);
+            this.cursorPos = this.selectPos = start;
+            this.cursorOffsetDirty = true;
+        }
+        else if(delta > 0) {
+            // Delete forwards
             this.text = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
-        else if(delta < 0) {
+        }
+        else {
+            // Delete backwards
             // NOTE, still checking if delta < 0 so that nothing is done if
             // delta is 0
             this.text = this.text.substring(0, this.cursorPos + delta) + this.text.substring(this.cursorPos);
-            this.moveCursor(delta);
+            this.moveCursor(delta, false);
         }
     }
 
     override onFocusDropped(focusType: FocusType, _root: Root): void {
-        // Stop blinking cursor if keyboard focus lost
+        // Stop blinking cursor if keyboard focus lost and stop dragging if
+        // pointer focus is lost
         if(focusType === FocusType.Keyboard)
             this.blinkStart = 0;
     }
@@ -336,7 +379,13 @@ export class TextInput<V> extends Widget {
         if(!this._editingEnabled)
             return this;
 
-        if(event instanceof PointerWheel) {
+        if(event instanceof Leave) {
+            // Stop dragging if the pointer leaves the text input, since it
+            // won't receive pointer release events outside the widget
+            this.dragging = false;
+            return this;
+        }
+        else if(event instanceof PointerWheel) {
             // Don't capture wheel events
             return null;
         }
@@ -345,28 +394,43 @@ export class TextInput<V> extends Widget {
             root.pointerStyle = 'text';
 
             // Request keyboard focus if this is a pointer press
-            if(event instanceof PointerPress) {
+            if(event instanceof PointerPress || event instanceof PointerMove) {
+                const isPress = event instanceof PointerPress;
+                if(isPress) {
+                    this.dragging = true;
+                    console.log('press')
+                }
+                else if(!this.dragging)
+                    return this;
+
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
+                console.log('call', this.dragging);
                 this.moveCursorFromOffset(
                     event.x - this.x - padding + this.offset[0],
                     event.y - this.y - padding + this.offset[1],
+                    !isPress && this.dragging,
                 );
 
                 // Request focus
                 root.requestFocus(FocusType.Keyboard, this);
             }
             // Get mobile-friendly text input if available
-            else if(event instanceof PointerRelease && root.hasMobileTextInput) {
-                root.getTextInput(this.text).then((newValue: string | null) => {
-                    if(newValue === null)
-                        return;
+            else if(event instanceof PointerRelease) {
+                this.dragging = false;
+                console.log('release')
 
-                    if(this.text !== newValue) {
-                        this.text = newValue;
-                        this.moveCursorTo(newValue.length);
-                    }
-                });
+                if(root.hasMobileTextInput) {
+                    root.getTextInput(this.text).then((newValue: string | null) => {
+                        if(newValue === null)
+                            return;
+
+                        if(this.text !== newValue) {
+                            this.text = newValue;
+                            this.moveCursorTo(newValue.length, false);
+                        }
+                    });
+                }
             }
 
             return this;
@@ -380,21 +444,21 @@ export class TextInput<V> extends Widget {
             else if(event.key === 'Delete')
                 this.deleteText(1); // Delete forwards
             else if(event.key === 'ArrowLeft')
-                this.moveCursor(-1); // Move cursor left
+                this.moveCursor(-1, event.shift); // Move cursor left
             else if(event.key === 'ArrowRight')
-                this.moveCursor(1); // Move cursor right
+                this.moveCursor(1, event.shift); // Move cursor right
             else if(event.key === 'ArrowUp')
-                this.moveCursorLine(-1); // Move cursor up
+                this.moveCursorLine(-1, event.shift); // Move cursor up
             else if(event.key === 'ArrowDown')
-                this.moveCursorLine(1); // Move cursor down
+                this.moveCursorLine(1, event.shift); // Move cursor down
             else if(event.key === 'PageUp')
-                this.moveCursorLine(-5); // Move cursor up x5
+                this.moveCursorLine(-5, event.shift); // Move cursor up x5
             else if(event.key === 'PageDown')
-                this.moveCursorLine(5); // Move cursor down x5
+                this.moveCursorLine(5, event.shift); // Move cursor down x5
             else if(event.key === 'Home')
-                this.moveCursorStart(); // Move cursor to beginning
+                this.moveCursorStart(event.shift); // Move cursor to beginning
             else if(event.key === 'End')
-                this.moveCursorEnd(); // Move cursor to end
+                this.moveCursorEnd(event.shift); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
                 return this;
@@ -430,6 +494,14 @@ export class TextInput<V> extends Widget {
 
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
+
+            if(this.selectPos === this.cursorPos) {
+                this.selectOffset[0] = this.cursorOffset[0];
+                this.selectOffset[1] = this.cursorOffset[1];
+            }
+            else
+                this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
+
             this.cursorOffsetDirty = false;
         }
 
@@ -488,9 +560,10 @@ export class TextInput<V> extends Widget {
 
         if(innerHeight > usableHeight) {
             // Vertical panning needed
-            const deadZone = Math.min(10, usableHeight / 2);
+            const fullLineHeight = this.textHelper.fullLineHeight;
+            const deadZone = usableHeight < 2 * fullLineHeight ? 0 : fullLineHeight / 2;
             const top = candidateOffset[1] + deadZone;
-            const bottom = candidateOffset[1] + usableHeight - deadZone - this.textHelper.fullLineHeight;
+            const bottom = candidateOffset[1] + usableHeight - deadZone - fullLineHeight;
 
             // Pan down
             if(cursorY > bottom)
@@ -525,6 +598,70 @@ export class TextInput<V> extends Widget {
         ctx.rect(this.x, this.y, this.width, this.height);
         ctx.clip();
 
+        // Paint background for selection if there is a selection
+        const padding = this.inputTextInnerPadding;
+        if(this.cursorPos !== this.selectPos) {
+            ctx.fillStyle = this.inputSelectBackgroundFill;
+            if(this.cursorOffset[1] === this.selectOffset[1]) {
+                // Same line
+                const left = Math.min(this.cursorOffset[0], this.selectOffset[0]);
+                const right = Math.max(this.cursorOffset[0], this.selectOffset[0]);
+                ctx.fillRect(
+                    this.x + padding + left - this.offset[0],
+                    this.y + padding + this.cursorOffset[1] - this.offset[1],
+                    right - left,
+                    this.textHelper.fullLineHeight,
+                );
+            }
+            else {
+                // Spans multiple lines
+                let topOffset: [number, number], bottomOffset: [number, number];
+                if(this.cursorOffset[1] < this.selectOffset[1]) {
+                    topOffset = this.cursorOffset;
+                    bottomOffset = this.selectOffset;
+                }
+                else {
+                    bottomOffset = this.cursorOffset;
+                    topOffset = this.selectOffset;
+                }
+
+                // Top line:
+                const fullLineHeight = this.textHelper.fullLineHeight;
+                const topWidth = this.width + this.offset[0] - topOffset[0] - padding;
+                if(topWidth > 0) {
+                    ctx.fillRect(
+                        this.x + padding + topOffset[0] - this.offset[0],
+                        this.y + padding + topOffset[1] - this.offset[1],
+                        topWidth,
+                        fullLineHeight,
+                    );
+                }
+
+                // Bottom line:
+                const bottomWidth = bottomOffset[0] + padding - this.offset[0];
+                if(bottomWidth > 0) {
+                    ctx.fillRect(
+                        this.x,
+                        this.y + padding + bottomOffset[1] - this.offset[1],
+                        bottomWidth,
+                        fullLineHeight,
+                    );
+                }
+
+                // Middle lines:
+                const middleYOffset = topOffset[1] + fullLineHeight;
+                const middleHeight = bottomOffset[1] - middleYOffset;
+                if(middleHeight > 0) {
+                    ctx.fillRect(
+                        this.x,
+                        this.y + padding + middleYOffset - this.offset[1],
+                        this.width,
+                        middleHeight,
+                    );
+                }
+            }
+        }
+
         // Paint current text value
         let fillStyle;
         if(this._editingEnabled) {
@@ -536,7 +673,6 @@ export class TextInput<V> extends Widget {
         else
             fillStyle = this.inputTextFillDisabled;
 
-        const padding = this.inputTextInnerPadding;
         this.textHelper.paint(
             ctx, fillStyle,
             this.x + padding - this.offset[0],
@@ -547,13 +683,12 @@ export class TextInput<V> extends Widget {
         const blinkOn = this.blinkOn;
         this.blinkWasOn = blinkOn;
         if(blinkOn) {
-            const cursorThickness = this.cursorThickness;
             ctx.fillStyle = fillStyle;
             ctx.fillRect(
                 this.x + padding + this.cursorOffset[0] - this.offset[0],
                 this.y + padding + this.cursorOffset[1] - this.offset[1],
-                cursorThickness,
-                this.textHelper.actualLineHeight + this.textHelper.actualLineSpacing,
+                this.cursorThickness,
+                this.textHelper.fullLineHeight,
             );
         }
 
