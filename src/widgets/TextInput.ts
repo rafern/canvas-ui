@@ -310,6 +310,52 @@ export class TextInput<V> extends Widget {
     }
 
     /**
+     * Move the cursor by skipping over a number of words. Calls
+     * {@link moveCursorTo}
+     *
+     * @param delta The change in words; if a positive number, the cursor skip this amount of words, else, it will do the same, but backwards.
+     */
+    moveCursorWord(delta: number, select: boolean): void {
+        if(delta == 0)
+            return;
+
+        const wordRegex = /\w/;
+        const text = this.text;
+        let targetPos = this.cursorPos;
+
+        if(delta > 0) {
+            while(delta > 0) {
+                let insideWord = false;
+                for(; targetPos <= text.length; targetPos++) {
+                    if(targetPos < text.length && wordRegex.test(text[targetPos]))
+                        insideWord = true;
+                    else if(insideWord)
+                        break;
+                }
+
+                delta--;
+            }
+        }
+        else {
+            while(delta < 0) {
+                targetPos--;
+                let insideWord = false;
+                for(; targetPos >= 0; targetPos--) {
+                    if(targetPos >= 0 && wordRegex.test(text[targetPos]))
+                        insideWord = true;
+                    else if(insideWord)
+                        break;
+                }
+
+                targetPos++;
+                delta++;
+            }
+        }
+
+        this.moveCursorTo(targetPos, select);
+    }
+
+    /**
      * Insert text at the current cursor index. Calls {@link moveCursorTo}
      * afterwards.
      */
@@ -440,10 +486,18 @@ export class TextInput<V> extends Widget {
                 this.deleteText(-1); // Delete backwards
             else if(event.key === 'Delete')
                 this.deleteText(1); // Delete forwards
-            else if(event.key === 'ArrowLeft')
-                this.moveCursor(-1, event.shift); // Move cursor left
-            else if(event.key === 'ArrowRight')
-                this.moveCursor(1, event.shift); // Move cursor right
+            else if(event.key === 'ArrowLeft') {
+                if(event.ctrl)
+                    this.moveCursorWord(-1, event.shift); // Back-skip a word
+                else
+                    this.moveCursor(-1, event.shift); // Move cursor left
+            }
+            else if(event.key === 'ArrowRight') {
+                if(event.ctrl)
+                    this.moveCursorWord(1, event.shift); // Skip a word
+                else
+                    this.moveCursor(1, event.shift); // Move cursor right
+            }
             else if(event.key === 'ArrowUp')
                 this.moveCursorLine(-1, event.shift); // Move cursor up
             else if(event.key === 'ArrowDown')
