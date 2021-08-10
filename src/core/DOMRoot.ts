@@ -1,3 +1,4 @@
+import { TextPasteEvent } from '../events/TextPasteEvent';
 import type { Widget } from '../widgets/Widget';
 import { Theme } from '../theme/Theme';
 import { Root } from './Root';
@@ -45,6 +46,14 @@ export class DOMRoot extends Root {
         this.pointerStyleHandler = (newPointerStyle: string): void => {
             this.domElem.style.cursor = newPointerStyle;
         };
+
+        // Listen to paste events
+        this.domElem.addEventListener('paste', event => {
+            event.preventDefault();
+            if(event.clipboardData !== null)
+                this.dispatchEvent(new TextPasteEvent(event.clipboardData.getData('text')));
+        });
+        this.domElem.contentEditable = 'true';
     }
 
     /**

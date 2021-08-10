@@ -32,6 +32,8 @@ export * from './events/PointerEvent';
 export * from './events/PointerMove';
 export * from './events/PointerPress';
 export * from './events/PointerRelease';
+export * from './events/PointerWheel';
+export * from './events/TextPasteEvent';
 // helpers
 export * from './helpers/getPointerEventNormPos';
 export * from './helpers/measureTextDims';

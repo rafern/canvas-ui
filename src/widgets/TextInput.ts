@@ -1,7 +1,8 @@
 import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
 import type { TextValidator } from '../validators/Validator';
-import { PointerRelease } from '../events/PointerRelease';
 import { ThemeProperties } from '../theme/ThemeProperties';
+import { PointerRelease } from '../events/PointerRelease';
+import { TextPasteEvent } from '../events/TextPasteEvent';
 import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
@@ -87,6 +88,13 @@ export class TextInput<V> extends Widget {
     inputFilter: ((input: string) => boolean) | null = null;
     /** Is the pointer dragging? */
     private dragging = false;
+    /** When was the last pointer click? For detecting double-clicks */
+    private lastClick = 0;
+    /**
+     * If double-click dragging, what was the cursor position on the first
+     * double-click? This will be null if not double-click dragging
+     */
+    private doubleDragStart: number | null = null;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
@@ -356,6 +364,56 @@ export class TextInput<V> extends Widget {
     }
 
     /**
+     * Deletes a range of text and moves the cursor to the start of the range.
+     *
+     * @param start The inclusive index of the start of the text range
+     * @param end The exclusive index of the end of the text range
+     */
+    deleteRange(start: number, end: number): void {
+        if(start === end)
+            return;
+
+        // Delete text
+        this.text = this.text.substring(0, start) + this.text.substring(end);
+
+        // Update cursor position
+        this.cursorPos = this.selectPos = start;
+        this.cursorOffsetDirty = true;
+    }
+
+    /**
+     * Like {@link moveCursorWord}, but for deleting words. Calls
+     * {@link moveCursorWord} and {@link deleteRange}. If text is being
+     * selected, delta is ignored and the selection is deleted instead. Note
+     * that a delta of zero doesn't delete anything.
+     */
+    deleteWord(delta: number): void {
+        if(delta === 0)
+            return;
+
+        // Delete selection
+        if(this.cursorPos !== this.selectPos) {
+            this.deleteRange(
+                Math.min(this.cursorPos, this.selectPos),
+                Math.max(this.cursorPos, this.selectPos),
+            );
+            return;
+        }
+
+        // Move cursor by wanted words
+        const oldPos = this.cursorPos;
+        this.moveCursorWord(delta, false);
+
+        // If cursor position is different, delete
+        if(oldPos !== this.cursorPos) {
+            this.deleteRange(
+                Math.min(oldPos, this.cursorPos),
+                Math.max(oldPos, this.cursorPos),
+            );
+        }
+    }
+
+    /**
      * Insert text at the current cursor index. Calls {@link moveCursorTo}
      * afterwards.
      */
@@ -383,9 +441,10 @@ export class TextInput<V> extends Widget {
 
     /**
      * Deletes a certain amount of characters in a given direction from the
-     * current cursor index. Calls {@link moveCursorTo} afterwards if
-     * neccessary. If text is being selected, delta is ignored and the selection
-     * is deleted instead. Note that a delta of zero doesn't delete anything.
+     * current cursor index. Calls {@link deleteRange} or {@link moveCursorTo}
+     * if neccessary. If text is being selected, delta is ignored and the
+     * selection is deleted instead. Note that a delta of zero doesn't delete
+     * anything.
      *
      * @param delta The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
      */
@@ -395,11 +454,10 @@ export class TextInput<V> extends Widget {
 
         if(this.cursorPos !== this.selectPos) {
             // Delete selection
-            const start = Math.min(this.cursorPos, this.selectPos);
-            const end = Math.max(this.cursorPos, this.selectPos);
-            this.text = this.text.substring(0, start) + this.text.substring(end);
-            this.cursorPos = this.selectPos = start;
-            this.cursorOffsetDirty = true;
+            this.deleteRange(
+                Math.min(this.cursorPos, this.selectPos),
+                Math.max(this.cursorPos, this.selectPos),
+            );
         }
         else if(delta > 0) {
             // Delete forwards
@@ -412,6 +470,36 @@ export class TextInput<V> extends Widget {
             this.text = this.text.substring(0, this.cursorPos + delta) + this.text.substring(this.cursorPos);
             this.moveCursor(delta, false);
         }
+    }
+
+    /**
+     * Select a range of text (either word or non-word, but not both) which
+     * includes the given cursor position
+     *
+     * @returns Returns a 2-tuple with, respectively, the start and end of the range
+     */
+    private selectRangeAt(pos: number): [number, number] {
+        const text = this.text;
+        const wordRegex = /\w/;
+        const isWord = wordRegex.test(text[pos]);
+        const midPos = pos;
+
+        // Grow left
+        for(; pos >= 0; pos--) {
+            if(wordRegex.test(text[pos]) !== isWord)
+                break;
+        }
+
+        const startPos = pos + 1;
+
+        // Grow right
+        pos = midPos;
+        for(; pos < text.length; pos++) {
+            if(wordRegex.test(text[pos]) !== isWord)
+                break;
+        }
+
+        return [startPos, pos];
     }
 
     override onFocusDropped(focusType: FocusType, _root: Root): void {
@@ -430,6 +518,7 @@ export class TextInput<V> extends Widget {
             // Stop dragging if the pointer leaves the text input, since it
             // won't receive pointer release events outside the widget
             this.dragging = false;
+            this.doubleDragStart = null;
             return this;
         }
         else if(event instanceof PointerWheel) {
@@ -443,12 +532,24 @@ export class TextInput<V> extends Widget {
             // Request keyboard focus if this is a pointer press
             if(event instanceof PointerPress || event instanceof PointerMove) {
                 const isPress = event instanceof PointerPress;
-                if(isPress)
+                let doubleClick = false;
+                if(isPress) {
                     this.dragging = true;
+                    this.doubleDragStart = null;
+                    const clickTime = (new Date()).getTime();
+
+                    // Clicking again in less than 500 milliseconds counts as a
+                    // double click
+                    if(clickTime - this.lastClick < 500)
+                        doubleClick = true;
+
+                    this.lastClick = clickTime;
+                }
                 else if(!this.dragging)
                     return this;
 
                 // Update cursor position (and offset) from click position
+                const lastCursorPos = this.cursorPos;
                 const padding = this.inputTextInnerPadding;
                 this.moveCursorFromOffset(
                     event.x - this.x - padding + this.offset[0],
@@ -456,13 +557,46 @@ export class TextInput<V> extends Widget {
                     !isPress && this.dragging,
                 );
 
+                // If this was a double-click and the cursor position didn't
+                // change, start double-click dragging
+                if(doubleClick && this.cursorPos === lastCursorPos) {
+                    this.doubleDragStart = this.cursorPos;
+                    this.lastClick = 0;
+                }
+
+                // If double-click dragging, select ranges of text
+                if(this.doubleDragStart !== null) {
+                    // Get the text range at the cursor and at the start of the
+                    // double click drag, then mush them together into a single
+                    // range
+                    const [doubleStart, doubleEnd] = this.selectRangeAt(this.doubleDragStart);
+                    const [curStart, curEnd] = this.selectRangeAt(this.cursorPos);
+                    const start = Math.min(doubleStart, curStart);
+                    const end = Math.max(doubleEnd, curEnd);
+
+                    // Set cursor positions. Get the drag direction and swap
+                    // cursor and select pos depending on the direction
+                    if(this.cursorPos >= this.doubleDragStart) {
+                        this.selectPos = start;
+                        this.cursorPos = end;
+                    }
+                    else {
+                        this.selectPos = end;
+                        this.cursorPos = start;
+                    }
+
+                    this.cursorOffsetDirty = true;
+                }
+
                 // Request focus
                 root.requestFocus(FocusType.Keyboard, this);
             }
-            // Get mobile-friendly text input if available
             else if(event instanceof PointerRelease) {
+                // Stop dragging
                 this.dragging = false;
+                this.doubleDragStart = null;
 
+                // Get mobile-friendly text input if available
                 if(root.hasMobileTextInput) {
                     root.getTextInput(this.text).then((newValue: string | null) => {
                         if(newValue === null)
@@ -479,25 +613,58 @@ export class TextInput<V> extends Widget {
             return this;
         }
         else if(event instanceof KeyPress) {
-            // If this is a key press, do the key's action
+            // Stop dragging
+            this.dragging = false;
+            this.doubleDragStart = null;
+
+            // Ignore all key presses with alt modifier
+            if(event.alt)
+                return this;
+
+            // Ignore most key presses if control is pressed
+            if(event.ctrl) {
+                if(event.key === 'Backspace')
+                    this.deleteWord(-1); // Delete word backwards
+                else if(event.key === 'Delete')
+                    this.deleteWord(1); // Delete word forwards
+                else if(event.key === 'ArrowLeft')
+                    this.moveCursorWord(-1, event.shift); // Back-skip a word
+                else if(event.key === 'ArrowRight')
+                    this.moveCursorWord(1, event.shift); // Skip a word
+                else if(event.key === 'c' || event.key === 'C') {
+                    // Copy selected text to clipboard, if any
+                    if(this.cursorPos === this.selectPos)
+                        return this;
+
+                    const selectedText = this.text.slice(
+                        Math.min(this.cursorPos, this.selectPos),
+                        Math.max(this.cursorPos, this.selectPos),
+                    );
+
+                    if(navigator.clipboard)
+                        navigator.clipboard.writeText(selectedText);
+                    else
+                        return this;
+                }
+                else
+                    return this;
+
+                // Reset blink time for better feedback
+                this.blinkStart = Date.now();
+                return this;
+            }
+
+            // Regular key presses:
             if(event.key.length === 1)
                 this.insertText(event.key); // Insert character
             else if(event.key === 'Backspace')
                 this.deleteText(-1); // Delete backwards
             else if(event.key === 'Delete')
                 this.deleteText(1); // Delete forwards
-            else if(event.key === 'ArrowLeft') {
-                if(event.ctrl)
-                    this.moveCursorWord(-1, event.shift); // Back-skip a word
-                else
-                    this.moveCursor(-1, event.shift); // Move cursor left
-            }
-            else if(event.key === 'ArrowRight') {
-                if(event.ctrl)
-                    this.moveCursorWord(1, event.shift); // Skip a word
-                else
-                    this.moveCursor(1, event.shift); // Move cursor right
-            }
+            else if(event.key === 'ArrowLeft')
+                this.moveCursor(-1, event.shift); // Move cursor left
+            else if(event.key === 'ArrowRight')
+                this.moveCursor(1, event.shift); // Move cursor right
             else if(event.key === 'ArrowUp')
                 this.moveCursorLine(-1, event.shift); // Move cursor up
             else if(event.key === 'ArrowDown')
@@ -512,7 +679,7 @@ export class TextInput<V> extends Widget {
                 this.moveCursorEnd(event.shift); // Move cursor to end
             else if(event.key === 'Escape') {
                 root.dropFocus(FocusType.Keyboard, this); // Drop focus
-                return this;
+                return this; // Return now so that blink time isn't reset
             }
             else if(event.key === 'Enter')
                 this.insertText('\n');
@@ -520,6 +687,13 @@ export class TextInput<V> extends Widget {
                 this.insertText('\t');
             else
                 return this; // Ignore key if it is unknown
+
+            // Reset blink time for better feedback
+            this.blinkStart = Date.now();
+        }
+        else if(event instanceof TextPasteEvent) {
+            // Insert pasted text
+            this.insertText(event.text);
 
             // Reset blink time for better feedback
             this.blinkStart = Date.now();
