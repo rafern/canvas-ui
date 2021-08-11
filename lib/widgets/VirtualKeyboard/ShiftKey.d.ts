@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 import { VirtualKey } from './VirtualKey';
 /**
  * A {@link VirtualKey} which acts as a shift key; toggles
@@ -9,5 +9,5 @@ import { VirtualKey } from './VirtualKey';
  */
 export declare class ShiftKey extends VirtualKey {
     /** Create a new ShiftKey. */
-    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
+    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
 }

@@ -8,12 +8,8 @@ import { Widget } from '../widgets/Widget';
  * @category Event
  */
 export declare class PointerMove extends PointerEvent {
-    /**
-     * Create a new PointerMove. Sets {@link x}, {@link y}, {@link target},
-     * {@link focusType} to {@link FocusType.Pointer} and {@link needsFocus} to
-     * false.
-     */
-    constructor(x: number, y: number, target?: Widget | null);
+    /** Create a new PointerMove. */
+    constructor(x: number, y: number, shift: boolean, ctrl: boolean, alt: boolean, target?: Widget | null);
     correctOffset(xOffset: number, yOffset: number): PointerMove;
     cloneWithTarget(target: Widget | null): PointerMove;
 }

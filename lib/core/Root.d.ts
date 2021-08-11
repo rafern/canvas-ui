@@ -148,8 +148,10 @@ export declare class Root {
      * the event due to the widget not existing anymore or being disabled, the
      * focus type of the event will be cleared in the root with
      * {@link clearFocus}.
+     *
+     * @returns Returns true if the event was captured
      */
-    dispatchEvent(event: Event): void;
+    dispatchEvent(event: Event): boolean;
     /**
      * Do a pre-layout update; calls {@link drivers}' {@link Driver.update} and
      * {@link child}'s {@link Widget.preLayoutUpdate}. Does nothing if root is

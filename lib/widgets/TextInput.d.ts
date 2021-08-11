@@ -1,9 +1,9 @@
 import type { TextValidator } from '../validators/Validator';
+import { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../aggregates/TextHelper';
 import { Variable } from '../aggregates/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -35,12 +35,19 @@ export declare class TextInput<V> extends Widget {
     private cursorPos;
     /** Current cursor offset in pixels. */
     private cursorOffset;
+    /** Current cursor selection start position (index, not offset). */
+    private selectPos;
+    /** Current cursor selection start offset in pixels. */
+    private selectOffset;
     /** Does the cursor offset need to be updated? */
     private cursorOffsetDirty;
     /** Is editing enabled? */
     private _editingEnabled;
-    /** Is the text hidden? */
-    private _hideText;
+    /**
+     * Is the text hidden?
+     * @multiFlagField(['cursorOffsetDirty', '_dirty'])
+     */
+    hideText: boolean;
     /** Is the text valid? */
     private _valid;
     /** Last valid value. */
@@ -49,8 +56,35 @@ export declare class TextInput<V> extends Widget {
     protected textHelper: TextHelper;
     /** The helper for keeping track of the input value */
     protected variable: Variable<string>;
+    /**
+     * Current offset of the text in the text box. Used on overflow.
+     * @paintArrayField()
+     */
+    private offset;
+    /**
+     * Is text wrapping enabled? If not, text will be panned if needed
+     */
+    wrapText: boolean;
+    /**
+     * An input filter; a function which dictates whether a certain input can be
+     * inserted in the text. If the function returns false given the input,
+     * then the input will not be inserted in the text. Useful for preventing
+     * newlines or forcing numeric input. Note that the input is not
+     * neccessarily a character; it can be a whole sentence.
+     */
+    inputFilter: ((input: string) => boolean) | null;
+    /** Is the pointer dragging? */
+    private dragging;
+    /** When was the last pointer click? For detecting double-clicks */
+    private lastClick;
+    /**
+     * If double-click dragging, what was the cursor position on the first
+     * double-click? This will be null if not double-click dragging
+     */
+    private doubleDragStart;
     /** Create a new TextInput. */
-    constructor(validator: TextValidator<V>, initialValue?: string, themeOverride?: Theme | null);
+    constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, themeProperties?: ThemeProperties);
+    protected onThemeUpdated(property?: string | null): void;
     /**
      * Is the text cursor shown?
      *
@@ -66,14 +100,6 @@ export declare class TextInput<V> extends Widget {
      */
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
-    /**
-     * Is the text hidden?
-     *
-     * Tied to {@link _hideText}. If changed, {@link _dirty} and
-     * {@link cursorOffsetDirty} are set to true.
-     */
-    get hideText(): boolean;
-    set hideText(hideText: boolean);
     /** The current text value. */
     set text(text: string);
     get text(): string;
@@ -86,27 +112,65 @@ export declare class TextInput<V> extends Widget {
     get valid(): boolean;
     /** The last valid value, transformed by the validator. */
     get validValue(): V;
-    /** The current minimum text width. */
-    set minWidth(minWidth: number);
-    get minWidth(): number;
-    /** The current minimum text ascent height. */
-    set minAscent(minAscent: number);
-    get minAscent(): number;
-    /** The current minimum text descent height. */
-    set minDescent(minDescent: number);
-    get minDescent(): number;
+    /** The current line number, starting from 0. */
+    get line(): number;
     /**
      * Move the cursor to a given index.
      *
      * Sets {@link _dirty} and {@link cursorOffsetDirty} to true.
+     *
+     * @param select Should this do text selection?
      */
-    moveCursorTo(index: number): void;
+    moveCursorTo(index: number, select: boolean): void;
     /**
      * Move the cursor by a given index delta. Calls {@link moveCursorTo}
      *
      * @param delta The change in index; if a positive number, the cursor will be moved right by that amount, else, the cursor will be moved left by that amount.
      */
-    moveCursor(delta: number): void;
+    moveCursor(delta: number, select: boolean): void;
+    /**
+     * Move the cursor given a given pointer offset.
+     *
+     * @param offsetX The horizontal offset in pixels, relative to the text area with padding removed
+     * @param offsetY The vertical offset in pixels, relative to the text area with padding removed
+     * @param select Should this do text selection?
+     */
+    moveCursorFromOffset(offsetX: number, offsetY: number, select: boolean): void;
+    /**
+     * Move the cursor by a given line delta. Calls {@link moveCursorFromOffset}
+     *
+     * @param delta The change in line; if a positive number, the cursor will be moved down by that amount, else, the cursor will be moved up by that amount.
+     */
+    moveCursorLine(delta: number, select: boolean): void;
+    /**
+     * Move the cursor to the start of the line. Calls {@link moveCursorTo}
+     */
+    moveCursorStart(select: boolean): void;
+    /**
+     * Move the cursor to the end of the line. Calls {@link moveCursorTo}
+     */
+    moveCursorEnd(select: boolean): void;
+    /**
+     * Move the cursor by skipping over a number of words. Calls
+     * {@link moveCursorTo}
+     *
+     * @param delta The change in words; if a positive number, the cursor skip this amount of words, else, it will do the same, but backwards.
+     */
+    moveCursorWord(delta: number, select: boolean): void;
+    /**
+     * Deletes a range of text and moves the cursor to the start of the range.
+     *
+     * @param start The inclusive index of the start of the text range
+     * @param end The exclusive index of the end of the text range
+     */
+    deleteRange(start: number, end: number): void;
+    /**
+     * Like {@link moveCursorWord}, but for deleting words. Calls
+     * {@link moveCursorWord} and {@link deleteRange}. If text is being
+     * selected, delta is ignored and the selection is deleted instead. Note
+     * that a delta of zero doesn't delete anything.
+     */
+    deleteWord(delta: number): void;
     /**
      * Insert text at the current cursor index. Calls {@link moveCursorTo}
      * afterwards.
@@ -114,15 +178,25 @@ export declare class TextInput<V> extends Widget {
     insertText(str: string): void;
     /**
      * Deletes a certain amount of characters in a given direction from the
-     * current cursor index. Calls {@link moveCursorTo} afterwards if
-     * neccessary.
+     * current cursor index. Calls {@link deleteRange} or {@link moveCursorTo}
+     * if neccessary. If text is being selected, delta is ignored and the
+     * selection is deleted instead. Note that a delta of zero doesn't delete
+     * anything.
      *
      * @param delta The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
      */
     deleteText(delta: number): void;
+    /**
+     * Select a range of text (either word or non-word, but not both) which
+     * includes the given cursor position
+     *
+     * @returns Returns a 2-tuple with, respectively, the start and end of the range
+     */
+    private selectRangeAt;
     onFocusDropped(focusType: FocusType, _root: Root): void;
-    protected handleEvent(event: Event, root: Root): this;
+    protected handleEvent(event: Event, root: Root): this | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePostLayoutUpdate(_root: Root): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

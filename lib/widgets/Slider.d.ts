@@ -1,7 +1,7 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper } from '../aggregates/ClickHelper';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -38,11 +38,12 @@ export declare class Slider extends Widget {
     /** The actual height of the slider */
     private actualHeight;
     /** Create a new Slider */
-    constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, vertical?: boolean, themeOverride?: Theme | null);
+    constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, vertical?: boolean, themeProperties?: ThemeProperties);
     /** The slider's value */
     set value(value: number);
     get value(): number;
-    protected handleEvent(event: Event, root: Root): this;
+    protected onThemeUpdated(property?: string | null): void;
+    protected handleEvent(event: Event, root: Root): this | null;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

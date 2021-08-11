@@ -1,4 +1,4 @@
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -14,17 +14,29 @@ export declare class Icon extends Widget {
      * the image source changed and if the image is fully loaded.
      */
     private lastSrc;
-    /** The current image rotation in radians. */
-    private _rotation;
+    /**
+     * The current image rotation in radians.
+     * @paintField
+     */
+    rotation: number;
     /**
      * The view box of this Icon, useful if the image used for the icon is a
      * spritesheet. If null, the entire image will be used.
+     * @paintLayoutArrayField(true)
      */
     viewBox: [number, number, number, number] | null;
-    /** See {@link imageWidth}. For internal use only */
-    private _imageWidth;
-    /** See {@link imageHeight}. For internal use only */
-    private _imageHeight;
+    /**
+     * The wanted width. If null, the image's width will be used, taking
+     * {@link viewBox} into account.
+     * @layoutField
+     */
+    imageWidth: number | null;
+    /**
+     * The wanted height. If null, the image's height will be used, taking
+     * {@link viewBox} into account.
+     * @layoutField
+     */
+    imageHeight: number | null;
     /** Horizontal offset. */
     private offsetX;
     /** Vertical offset. */
@@ -34,7 +46,7 @@ export declare class Icon extends Widget {
     /** Actual image height */
     private actualHeight;
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeOverride?: Theme | null);
+    constructor(image: HTMLImageElement, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
     /**
      * The image used by this Icon.
      *
@@ -45,28 +57,7 @@ export declare class Icon extends Widget {
      */
     set image(image: HTMLImageElement);
     get image(): HTMLImageElement;
-    /**
-     * The wanted width. If null, the image's width will be used, taking
-     * {@link viewBox} into account.
-     */
-    get imageWidth(): number | null;
-    set imageWidth(imageWidth: number | null);
-    /**
-     * The wanted height. If null, the image's height will be used, taking
-     * {@link viewBox} into account.
-     */
-    get imageHeight(): number | null;
-    set imageHeight(imageHeight: number | null);
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    /**
-     * This icon's rotation. Useful for implementing spinners.
-     *
-     * Sets {@link _rotation} if changed and sets {@link _dirty} to true.
-     *
-     * If getting, returns {@link _rotation}.
-     */
-    set rotation(rotation: number);
-    get rotation(): number;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

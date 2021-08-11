@@ -7,14 +7,15 @@ import type { Widget } from '../widgets/Widget';
  */
 export declare class Viewport {
     /**
-     * Constraints of viewport. For internal use only.
+     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
+     * containing, respectively, minimum width, maximum width, minimum height
+     * and maximum height.
      *
      * By default, has no minimum width nor height and unconstrained maximum
      * width and height.
-     *
-     * See {@link constraints}.
+     * @paintArrayField()
      */
-    private _constraints;
+    constraints: [number, number, number, number];
     /** Have the constraints been changed? */
     private dirty;
     /** The internal canvas. Widgets are painted to this */
@@ -31,15 +32,6 @@ export declare class Viewport {
     constructor(startingWidth?: number, startingHeight?: number);
     /** The current dimensions of the {@link canvas | internal canvas} */
     get canvasDimensions(): [number, number];
-    /**
-     * Layout constraints of viewport when resolving widget's layout. A 4-tuple
-     * containing, respectively, minimum width, maximum width, minimum height
-     * and maximum height.
-     *
-     * See {@link _constraints}.
-     */
-    set constraints(constraints: [number, number, number, number]);
-    get constraints(): [number, number, number, number];
     /**
      * Resolves the given child's layout by calling
      * {@link Widget.resolveDimensions} with the current {@link constraints},
@@ -59,7 +51,8 @@ export declare class Viewport {
      *
      * Nothing is done if the child was not dirty.
      *
+     * @param force Force re-paint even if {@link dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paintToCanvas(child: Widget): boolean;
+    paintToCanvas(child: Widget, force: boolean): boolean;
 }

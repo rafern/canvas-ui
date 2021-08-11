@@ -47,21 +47,30 @@ export declare class KeyboardDriver implements Driver {
      * Push a new {@link KeyPress} event to {@link eventQueues}.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyDown(key: string): void;
+    keyDown(key: string, shift: boolean, ctrl: boolean, alt: boolean): void;
     /**
      * Push a new {@link KeyRelease} event to {@link eventQueues}.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyUp(key: string): void;
+    keyUp(key: string, shift: boolean, ctrl: boolean, alt: boolean): void;
     /**
      * Calls {@link keyDown} followed by {@link keyUp}. If the key was already
      * down before calling ({@link isKeyDown}), keyUp is not called.
      *
      * @param key Must follow the {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | KeyboardEvent.key} Web API.
+     * @param shift Is shift being pressed?
+     * @param ctrl Is control being pressed?
+     * @param alt Is alt being pressed?
      */
-    keyPress(key: string): void;
+    keyPress(key: string, shift: boolean, ctrl: boolean, alt: boolean): void;
     /**
      * Check if a key is pressed.
      *

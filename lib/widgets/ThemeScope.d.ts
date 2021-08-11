@@ -18,6 +18,6 @@ export declare class ThemeScope<W extends Widget = Widget> extends PassthroughWi
     private scopeTheme;
     /** Create a new ThemeScope. */
     constructor(child: W, themeOverride: Theme);
-    setThemeOverride(scopeTheme: Theme): void;
-    inheritTheme(_theme: Theme): void;
+    set inheritedTheme(_theme: Theme | undefined);
+    get inheritedTheme(): Theme | undefined;
 }

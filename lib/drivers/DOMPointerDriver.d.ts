@@ -10,7 +10,14 @@ import type { Root } from '../core/Root';
 export declare class DOMPointerDriver extends PointerDriver {
     /** The HTML DOM element and listeners that each root is bound to */
     private domElems;
-    /** The pointer ID of the mouse. Registered in constructor */
+    /** The mapping between each DOM pointer ID and canvas-ui pointer ID */
+    private pointers;
+    /**
+     * The pointer ID of the mouse. Registered in constructor. This is needed
+     * due to wheel events not being part of the DOM PointerEvent interface and
+     * therefore not having a pointerID field. This is also safe because there
+     * can only be one mouse.
+     */
     private mousePointerID;
     /**
      * Create a new DOMPointerDriver.
@@ -26,6 +33,11 @@ export declare class DOMPointerDriver extends PointerDriver {
      * if root is enabled.
      */
     bindDOMElem(root: Root, domElem: HTMLElement): void;
+    /**
+     * Get the canvas-ui pointer ID of a given event. If the event has a pointer
+     * which hasn't been registered yet, then it is registered automatically
+     */
+    private getPointerID;
     /**
      * Add pointer event listeners to root's DOM element.
      */

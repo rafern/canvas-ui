@@ -4,22 +4,23 @@
  *
  * @category Theme
  */
-export declare enum Alignment {
+export declare const enum Alignment {
     /** Give the extra space to the child, potentially stretching it. */
-    Stretch = 0,
+    Stretch = "stretch",
     /**
      * Align the child to the start of the container, having the extra space at
-     * the end.
+     * the end. Equivalent to using a ratio of 0.
      */
-    Start = 1,
+    Start = 0,
     /**
      * Align the child to the center of the container, having the extra space
-     * split equally to both the start and the end.
+     * split equally to both the start and the end. Equivalent to using a ratio
+     * of 0.5.
      */
-    Center = 2,
+    Center = 0.5,
     /**
      * Align the child to the end of the container, having the extra space at
-     * the start.
+     * the start. Equivalent to using a ratio of 1.
      */
-    End = 3
+    End = 1
 }

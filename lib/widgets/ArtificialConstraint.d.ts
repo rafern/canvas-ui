@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PassthroughWidget } from './PassthroughWidget';
-import type { Theme } from '../theme/Theme';
 import type { Widget } from './Widget';
 /**
  * A {@link PassthroughWidget} which imposes further layout constraints onto a
@@ -18,9 +18,8 @@ export declare class ArtificialConstraint<W extends Widget = Widget> extends Pas
      * height. Changing this sets {@link _layoutDirty} to true. Constraints are
      * only applied if they are more restrictive than the original constraints.
      */
-    set constraints(constraints: [number, number, number, number]);
-    get constraints(): [number, number, number, number];
+    constraints: [number, number, number, number];
     /** Create a new PassthroughWidget. */
-    constructor(child: W, constraints?: [number, number, number, number], themeOverride?: Theme | null);
+    constructor(child: W, constraints?: [number, number, number, number], themeProperties?: ThemeProperties);
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

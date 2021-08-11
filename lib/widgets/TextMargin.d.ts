@@ -1,3 +1,4 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Container } from './Container';
 import type { Widget } from './Widget';
 /**
@@ -11,5 +12,5 @@ import type { Widget } from './Widget';
  */
 export declare class TextMargin<W extends Widget = Widget> extends Container<W> {
     /** Create a new TextMargin. */
-    constructor(child: W);
+    constructor(child: W, themeProperties?: ThemeProperties);
 }

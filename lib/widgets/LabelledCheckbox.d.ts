@@ -1,5 +1,5 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { VariableCallback } from '../aggregates/Variable';
-import type { Theme } from '../theme/Theme';
 import type { TextGetter } from './Label';
 import { Row } from './Row';
 /**
@@ -8,5 +8,5 @@ import { Row } from './Row';
  * @category Widget
  */
 export declare class LabelledCheckbox extends Row {
-    constructor(text: string | TextGetter, callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
+    constructor(text: string | TextGetter, callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeProperties?: ThemeProperties);
 }

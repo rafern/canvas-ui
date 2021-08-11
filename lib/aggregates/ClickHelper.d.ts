@@ -45,6 +45,8 @@ export declare class ClickHelper {
      * Useful for implementing draggable widgets.
      */
     startingPointerPos: [number, number] | null;
+    /** Which pointer button should count as a click? Left button by default */
+    pointerButton: number;
     /**
      * Create a new ClickHelper
      *

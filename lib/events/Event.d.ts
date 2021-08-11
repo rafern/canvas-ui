@@ -18,10 +18,7 @@ export declare abstract class Event {
     readonly focusType: FocusType | null;
     /** Can this event be dispatched without a target? */
     readonly needsFocus: boolean;
-    /**
-     * Create a new Event. Sets {@link target}, {@link focusType} and
-     * {@link needsFocus}
-     */
+    /** Create a new Event. */
     constructor(target: Widget | null, focusType: FocusType | null, needsFocus: boolean);
     /**
      * Create a new Event with the same properties as this, except with a new

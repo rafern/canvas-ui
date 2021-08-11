@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { BasicVirtualKey } from './BasicVirtualKey';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 /**
  * A {@link BasicVirtualKey} which emits 'Backspace' key presses.
  *
@@ -8,5 +8,5 @@ import type { Theme } from '../../theme/Theme';
  */
 export declare class BackspaceKey extends BasicVirtualKey {
     /** Create a new BackspaceKey. */
-    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
+    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
 }

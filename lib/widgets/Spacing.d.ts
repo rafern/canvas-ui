@@ -1,4 +1,4 @@
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Widget } from './Widget';
 /**
  * A widget with empty space.
@@ -14,6 +14,6 @@ export declare class Spacing extends Widget {
     /** The minimum height this will try to expand */
     minHeight: number;
     /** Create a new Spacing. */
-    constructor(flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
+    constructor(flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -18,11 +18,11 @@ import { Widget } from './Widget';
  */
 export declare class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W> {
     /** Create a new PassthroughWidget. */
-    constructor(child: W, themeOverride?: Theme | null);
+    constructor(child: W, themeProperties?: ThemeProperties);
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
 }

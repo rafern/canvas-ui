@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
 import { MultiParent } from './MultiParent';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -21,12 +21,15 @@ export declare class MultiContainer<W extends Widget = Widget> extends MultiPare
     private vertical;
     /** The unused space along the main axis after resolving dimensions */
     private unusedSpace;
+    /** The number of enabled children in this container */
+    private enabledChildCount;
     /** Create a MultiContainer. */
-    constructor(vertical: boolean, themeOverride?: Theme | null);
+    constructor(vertical: boolean, themeProperties?: ThemeProperties);
+    protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
 }

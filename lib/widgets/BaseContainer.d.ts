@@ -1,6 +1,7 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
+import { FillStyle } from '../theme/FillStyle';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -15,13 +16,17 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
     /** Does the background need to be cleared? */
     protected backgroundDirty: boolean;
     /** Create a new BaseContainer. */
-    constructor(child: W, propagateEvents: boolean, themeOverride?: Theme | null);
-    protected setThemeOverride(theme: Theme | null): void;
-    protected inheritTheme(theme: Theme): void;
+    constructor(child: W, propagateEvents: boolean, themeProperties?: ThemeProperties);
+    protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    /**
+     * Implementation of handlePainting; separate from handlePainting so that
+     * the fillStyle for the background clear can be overridden.
+     */
+    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle?: FillStyle | null): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
 }

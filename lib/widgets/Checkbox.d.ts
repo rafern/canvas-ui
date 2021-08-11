@@ -1,7 +1,7 @@
 import { Variable, VariableCallback } from '../aggregates/Variable';
 import { ClickHelper } from '../aggregates/ClickHelper';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
-import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -25,12 +25,13 @@ export declare class Checkbox extends Widget {
      *
      * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
-    constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeOverride?: Theme | null);
+    constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeProperties?: ThemeProperties);
+    protected onThemeUpdated(property?: string | null): void;
     /** Is the checkbox checked? */
     set checked(checked: boolean);
     get checked(): boolean;
-    protected handleEvent(event: Event, root: Root): this;
+    protected handleEvent(event: Event, root: Root): this | null;
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

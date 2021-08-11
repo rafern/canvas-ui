@@ -1,6 +1,6 @@
+import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { ArtificialConstraint } from '../ArtificialConstraint';
 import type { KeyContext } from './KeyContext';
-import type { Theme } from '../../theme/Theme';
 import { TextButton } from '../TextButton';
 /**
  * A {@link VirtualKey} which emits key presses for a given glyph (character),
@@ -19,5 +19,5 @@ export declare class GlyphVirtualKey extends ArtificialConstraint<TextButton> {
      * @param altGlyph The alternative glyph to emit/show when shift is held.
      * @param keyContext The {@link KeyContext} shared by other keys to tell when shift is being held in a virtual keyboard.
      */
-    constructor(glyph: string, altGlyph: string | null | undefined, keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeOverride?: Theme | null);
+    constructor(glyph: string, altGlyph: string | null | undefined, keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
 }

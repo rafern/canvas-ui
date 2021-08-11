@@ -3,6 +3,7 @@ import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
+import { ThemeProperties } from '../theme/ThemeProperties';
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
  * filled background. Uses a technique similar to {@link ThemeScope} to achieve
@@ -19,8 +20,15 @@ import { Button } from './Button';
 export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty;
-    /** Is the button currently forced down? */
-    private _forced;
+    /**
+     * Is the button currently forced down?
+     * @watchField(FilledButton.prototype.updateBackground)
+     */
+    forced: boolean;
+    /** The inherited theme for the child */
+    private childTheme;
+    /** Create a new FilledButton. */
+    constructor(child: W, callback?: (() => void) | null, themeProperties?: ThemeProperties);
     /**
      * Update the background fill.
      *
@@ -29,9 +37,10 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
      * {@link _backgroundDirty} to true.
      */
     private updateBackground;
-    set forced(forced: boolean);
-    get forced(): boolean;
-    protected setThemeOverride(theme: Theme | null): void;
-    protected inheritTheme(theme: Theme): void;
+    private getBackgroundFill;
+    set inheritedTheme(theme: Theme | undefined);
+    get inheritedTheme(): Theme | undefined;
+    protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): Widget | null;
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
 }

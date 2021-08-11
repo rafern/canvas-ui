@@ -1,13 +1,16 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
+import { BaseTheme } from '../theme/BaseTheme';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
 /**
- * A generic widget. All widgets extend this class.
+ * A generic widget. All widgets extend this class. All widgets extend
+ * {@link BaseTheme} so that the theme in use can be overridden.
  *
  * @category Widget
  */
-export declare abstract class Widget {
+export declare abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      */
@@ -30,17 +33,6 @@ export declare abstract class Widget {
      * this is true. Useful for implementing container widgets.
      */
     readonly propagatesEvents: boolean;
-    /**
-     * The theme override used by the Widget. If this is null, the Widget's
-     * theme will be the inherited theme, else, it will be the theme override
-     * with the inherited theme as the fallback. The fallback of the theme
-     * override will be ignored and replaced.
-     */
-    private _themeOverride;
-    /** The current theme in use by the Widget. */
-    private _theme;
-    /** The inherited theme. */
-    private _inheritedTheme;
     /** Width of widget in pixels. */
     protected width: number;
     /** Height of widget in pixels. */
@@ -58,19 +50,7 @@ export declare abstract class Widget {
     get flex(): number;
     set flex(flex: number);
     /** Create a new Widget. */
-    constructor(themeOverride: Theme | null, needsClear: boolean, propagatesEvents: boolean);
-    /**
-     * Called when the inherited theme of this Widget is updated. Can be
-     * overridden. Does nothing by default.
-     */
-    protected updateInheritedTheme(): void;
-    /** Update this widget's current theme, with theme override set up. */
-    private updateTheme;
-    /**
-     * The current theme in use by the Widget. If there is no theme, throws an
-     * exception.
-     */
-    get theme(): Theme;
+    constructor(needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties);
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
@@ -81,46 +61,10 @@ export declare abstract class Widget {
      */
     set enabled(enabled: boolean);
     get enabled(): boolean;
-    /**
-     * Set the theme override of this widget. Should not be overridden, but can
-     * be. If overridden, the original method should still be called.
-     *
-     * Calls {@link updateTheme} and sets {@link _layoutDirty} and
-     * {@link _dirty} to true if widget is enabled.
-     */
-    protected setThemeOverride(theme: Theme | null): void;
-    /**
-     * The theme override used by the Widget. If this is null, the Widget's
-     * theme will be the inherited theme, else, it will be the theme override
-     * with the inherited theme as the fallback. The fallback of the theme
-     * override will be ignored and replaced.
-     *
-     * If setting, calls {@link setThemeOverride}.
-     *
-     * If getting, returns {@link _themeOverride}.
-     */
-    set themeOverride(theme: Theme | null);
-    get themeOverride(): Theme | null;
-    /**
-     * Set the inherited theme of this widget. Should not be overridden, but can
-     * be. If overridden, the original method should still be called.
-     *
-     * Theme override has priority over inherited theme. Inherited theme should
-     * be propagated to children so they also have a theme.
-     *
-     * Calls {@link updateInheritedTheme} and {@link updateTheme} and sets
-     * {@link _layoutDirty} and {@link _dirty} to true if widget is enabled.
-     */
-    protected inheritTheme(theme: Theme | null): void;
-    /**
-     * The inherited theme of this widget.
-     *
-     * If setting, calls {@link inheritTheme}.
-     *
-     * If getting, returns {@link _inheritedTheme}.
-     */
-    set inheritedTheme(theme: Theme | null);
-    get inheritedTheme(): Theme | null;
+    /** The inherited theme of this widget. Sets {@link fallbackTheme}. */
+    set inheritedTheme(theme: Theme | undefined);
+    get inheritedTheme(): Theme | undefined;
+    protected onThemeUpdated(property?: string | null): void;
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
      * {@link width} and {@link height}.
@@ -154,9 +98,10 @@ export declare abstract class Widget {
     onFocusDropped(_focusType: FocusType, _root: Root): void;
     /**
      * Widget event handling callback. If the event is to be captured, the
-     * capturer is returned, else, null. By default, this will do nothing and
-     * capture the event if it is targetted at itself or is a
-     * {@link PointerEvent}. Should be overridden.
+     * capturer is returned, else, null.
+     *
+     * By default, this will do nothing and capture the event if it is targetted
+     * at itself.
      *
      * If overriding, return the widget that has captured the event (could be
      * this, for example, or a child widget if implementing a container), or
@@ -199,6 +144,13 @@ export declare abstract class Widget {
      * overridden.
      */
     resolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
+    /**
+     * Like {@link resolveDimensions} but for widgets at the top of the widget
+     * tree (the child of the {@link Root}). This retries dimension resolving if
+     * there is at least one unconstrained axis so that flex layout works even
+     * in infinite layout.
+     */
+    resolveDimensionsAsTop(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
      * Called after resolving position of this widget. Should be implemented if
      * widget is a container; call resolvePosition of children. Does nothing by
@@ -260,15 +212,27 @@ export declare abstract class Widget {
     protected roundRect(x: number, y: number, width: number, height: number, roundInwards?: boolean): [number, number, number, number];
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
-     * when extending Widget. Should be overridden.
+     * when extending Widget. Even if {@link dirty} is false, if this method is
+     * called, then the widget must still be painted. Should be overridden.
+     *
+     * @param forced Was this widget force-painted? If calling a child's paint method, propagate this value
      */
-    protected handlePainting(_ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(_ctx: CanvasRenderingContext2D, _forced: boolean): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
      * {@link needsClear} is true, calls the {@link handlePainting} method and
-     * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
-     * Must not be overridden.
+     * unsets the dirty flag. Automatically calls {@link dryPaint} if
+     * {@link dimensionless} is true. Must not be overridden.
+     *
+     * @param force Force re-paint even if {@link dirty} is false
      */
-    paint(ctx: CanvasRenderingContext2D): void;
+    paint(ctx: CanvasRenderingContext2D, force?: boolean): void;
+    /**
+     * Unset this widget's dirty flag. Call this when painting a child that you
+     * know will not be visible, such as if clipping and the child is out of
+     * bounds. If implementing a container widget, override this so that each
+     * child widget's dryPaint method is called.
+     */
+    dryPaint(): void;
 }

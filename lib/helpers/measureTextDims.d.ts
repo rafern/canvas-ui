@@ -4,8 +4,8 @@
  * Note that the first time calling this function is slower than subsequent
  * calls because a dedicated canvas context must be created.
  *
- * @returns Returns a tuple containing, in this order, the width of the text, the text's ascent length and the text's descent length. The actual height can be found by summing the ascent and descent.
+ * @returns Returns a the TextMetrics of the measured text.
  *
  * @category Helper
  */
-export declare function measureTextDims(text: string, font: string): [number, number, number];
+export declare function measureTextDims(text: string, font: string): TextMetrics;

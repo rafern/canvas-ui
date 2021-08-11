@@ -1,5 +1,5 @@
 import { TextHelper } from '../aggregates/TextHelper';
-import type { Theme } from '../theme/Theme';
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
@@ -22,12 +22,14 @@ export declare class Label extends Widget {
     private textGetter;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
+    /** Is text wrapping enabled? If not, text will clipped on overflow */
+    wrapText: boolean;
     /**
      * Create a new Label.
      *
      * @param source The text source of the label. Has the same behaviour as setting {@link source}.
      */
-    constructor(source: string | TextGetter, themeOverride?: Theme | null);
+    constructor(source: string | TextGetter, themeProperties?: ThemeProperties);
     /**
      * This label's text source. If you want to get the current text string,
      * then use {@link currentText} instead.
@@ -40,21 +42,13 @@ export declare class Label extends Widget {
      */
     set source(source: string | TextGetter);
     get source(): string | TextGetter;
-    /** The current minimum text width. */
-    set minWidth(minWidth: number);
-    get minWidth(): number;
-    /** The current minimum text ascent height. */
-    set minAscent(minAscent: number);
-    get minAscent(): number;
-    /** The current minimum text descent height. */
-    set minDescent(minDescent: number);
-    get minDescent(): number;
     /**
      * The current text value. If you want to get the current text source, then
      * use {@link source} instead.
      */
     get text(): string;
+    protected onThemeUpdated(property?: string | null): void;
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

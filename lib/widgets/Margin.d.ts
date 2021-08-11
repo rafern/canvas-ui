@@ -1,3 +1,4 @@
+import type { ThemeProperties } from '../theme/ThemeProperties';
 import { Container } from './Container';
 import type { Widget } from './Widget';
 /**
@@ -9,10 +10,13 @@ import type { Widget } from './Widget';
  * Alignment settings are applied via theme overrides, so no theme override can
  * be passed to this widget. If you want to override additional theme properties
  * other than the one overridden here, then use {@link Container} instead.
+ * Alignment settings are applied via theme properties; if you pass this
+ * property, it will be ignored in a clone of the theme properties. If you want
+ * to override this theme property property, then use {@link Container} instead.
  *
  * @category Widget
  */
 export declare class Margin<W extends Widget = Widget> extends Container<W> {
     /** Create a new Margin. */
-    constructor(child: W);
+    constructor(child: W, themeProperties?: ThemeProperties);
 }
