@@ -8,6 +8,7 @@ import { Label } from './Label';
 /**
  * A {@link FilledButton} with a {@link Label}. Alignment is forced to be
  * horizontally centered and vertically stretching like in {@link TextMargin}.
+ * Text-wrapping is disabled so that text is centered properly.
  *
  * @category Widget
  */
@@ -20,6 +21,8 @@ export class TextButton extends FilledButton<Label> {
             horizontal: Alignment.Center, vertical: Alignment.Stretch,
         };
 
-        super(new Label(text, themeProperties), callback, themePropertiesClone);
+        const label = new Label(text, themeProperties);
+        label.wrapText = false;
+        super(label, callback, themePropertiesClone);
     }
 }
