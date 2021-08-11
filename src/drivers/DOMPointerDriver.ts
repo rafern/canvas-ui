@@ -4,11 +4,10 @@ import type { Root } from '../core/Root';
 
 interface RootDOMBind {
     domElem: HTMLElement,
-    pointermoveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
-    pointerdownListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
-    pointerupListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
+    pointerListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     wheelListen: ((this: HTMLElement, event: WheelEvent) => void) | null,
+    contextMenuListen: ((this: HTMLElement, event: MouseEvent) => void) | null
 }
 
 function unpackModifiers(event: MouseEvent): [shift: boolean, ctrl: boolean, alt: boolean] {
@@ -61,10 +60,10 @@ export class DOMPointerDriver extends PointerDriver {
         else {
             rootBind = <RootDOMBind>{
                 domElem,
-                pointermoveListen: null,
-                pointerdownListen: null,
-                pointerupListen: null,
+                pointerListen: null,
                 pointerleaveListen: null,
+                wheelListen: null,
+                contextMenuListen: null,
             };
             this.domElems.set(root, rootBind);
             domElem.style.touchAction = 'none';
@@ -101,36 +100,16 @@ export class DOMPointerDriver extends PointerDriver {
         // Make listeners for mouse events, queueing events. Add them to the
         // root DOM bind so they can be removed later when needed
         const domElem = rootBind.domElem;
-        rootBind.pointermoveListen = (event: PointerEvent) => {
-            const pointerID = this.getPointerID(event);
+        rootBind.pointerListen = (event: PointerEvent) => {
             this.movePointer(
-                root, pointerID,
+                root, this.getPointerID(event),
                 ...getPointerEventNormPos(event, domElem),
-                null,
-                ...unpackModifiers(event),
-            );
-        }
-        rootBind.pointerdownListen = (event: PointerEvent) => {
-            const pointerID = this.getPointerID(event);
-            this.movePointer(
-                root, pointerID,
-                ...getPointerEventNormPos(event, domElem),
-                true,
-                ...unpackModifiers(event),
-            );
-        }
-        rootBind.pointerupListen = (event: PointerEvent) => {
-            const pointerID = this.getPointerID(event);
-            this.movePointer(
-                root, pointerID,
-                ...getPointerEventNormPos(event, domElem),
-                false,
+                event.buttons,
                 ...unpackModifiers(event),
             );
         }
         rootBind.pointerleaveListen = (event: PointerEvent) => {
-            const pointerID = this.getPointerID(event);
-            this.leavePointer(root, pointerID);
+            this.leavePointer(root, this.getPointerID(event));
         }
         rootBind.wheelListen = (event: WheelEvent) => {
             let deltaX = event.deltaX;
@@ -147,13 +126,18 @@ export class DOMPointerDriver extends PointerDriver {
                 ...unpackModifiers(event),
             );
         }
+        rootBind.contextMenuListen = (event: MouseEvent) => {
+            // Prevent right-click from opening context menu
+            event.preventDefault();
+        }
 
         // Add listeners to DOM element
-        domElem.addEventListener('pointermove', rootBind.pointermoveListen);
-        domElem.addEventListener('pointerdown', rootBind.pointerdownListen);
-        domElem.addEventListener('pointerup', rootBind.pointerupListen);
+        domElem.addEventListener('pointermove', rootBind.pointerListen);
+        domElem.addEventListener('pointerdown', rootBind.pointerListen);
+        domElem.addEventListener('pointerup', rootBind.pointerListen);
         domElem.addEventListener('pointerleave', rootBind.pointerleaveListen);
         domElem.addEventListener('wheel', rootBind.wheelListen);
+        domElem.addEventListener('contextmenu', rootBind.contextMenuListen);
     }
 
     /**
@@ -161,17 +145,11 @@ export class DOMPointerDriver extends PointerDriver {
      * listeners in root's bind.
      */
     private removeListeners(rootBind: RootDOMBind) {
-        if(rootBind.pointermoveListen !== null) {
-            rootBind.domElem.removeEventListener('pointermove', rootBind.pointermoveListen);
-            rootBind.pointermoveListen = null;
-        }
-        if(rootBind.pointerdownListen !== null) {
-            rootBind.domElem.removeEventListener('pointerdown', rootBind.pointerdownListen);
-            rootBind.pointerdownListen = null;
-        }
-        if(rootBind.pointerupListen !== null) {
-            rootBind.domElem.removeEventListener('pointerup', rootBind.pointerupListen);
-            rootBind.pointerupListen = null;
+        if(rootBind.pointerListen !== null) {
+            rootBind.domElem.removeEventListener('pointermove', rootBind.pointerListen);
+            rootBind.domElem.removeEventListener('pointerdown', rootBind.pointerListen);
+            rootBind.domElem.removeEventListener('pointerup', rootBind.pointerListen);
+            rootBind.pointerListen = null;
         }
         if(rootBind.pointerleaveListen !== null) {
             rootBind.domElem.removeEventListener('pointerleave', rootBind.pointerleaveListen);
@@ -180,6 +158,10 @@ export class DOMPointerDriver extends PointerDriver {
         if(rootBind.wheelListen !== null) {
             rootBind.domElem.removeEventListener('wheel', rootBind.wheelListen);
             rootBind.wheelListen = null;
+        }
+        if(rootBind.contextMenuListen !== null) {
+            rootBind.domElem.removeEventListener('contextmenu', rootBind.contextMenuListen);
+            rootBind.contextMenuListen = null;
         }
     }
 

@@ -28,6 +28,7 @@ export * from './events/KeyPress';
 export * from './events/KeyRelease';
 export * from './events/Leave';
 export * from './events/ModifierEvent';
+export * from './events/PointerButtonEvent';
 export * from './events/PointerEvent';
 export * from './events/PointerMove';
 export * from './events/PointerPress';

@@ -51,6 +51,8 @@ export class ClickHelper {
      * Useful for implementing draggable widgets.
      */
     startingPointerPos: [number, number] | null = null;
+    /** Which pointer button should count as a click? Left button by default */
+    pointerButton = 0;
 
     /**
      * Create a new ClickHelper
@@ -150,15 +152,15 @@ export class ClickHelper {
             }
 
             // If this is a press event, request focus and set starting
-            // pointer coordinates
-            if(event instanceof PointerPress) {
+            // pointer coordinates. Ignore if wrong button
+            if(event instanceof PointerPress && event.button === this.pointerButton) {
                 this.startingPointerPos = this.pointerPos;
                 root.requestFocus(FocusType.Pointer, this.widget);
                 return this.setClickState(ClickState.Hold, inside);
             }
 
-            // If this is a release event, drop focus
-            if(event instanceof PointerRelease) {
+            // If this is a release event, drop focus. Ignore if wrong button
+            if(event instanceof PointerRelease && event.button === this.pointerButton) {
                 root.dropFocus(FocusType.Pointer, this.widget);
                 if(inside)
                     return this.setClickState(ClickState.Hover, inside);

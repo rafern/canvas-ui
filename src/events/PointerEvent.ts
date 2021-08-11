@@ -3,11 +3,9 @@ import { ModifierEvent } from './ModifierEvent';
 import { FocusType } from '../core/FocusType';
 
 /**
- * A pointer {@link Event}. This is an abstract class and is implemented in the
- * child classes {@link PointerMove}, {@link PointerPress} and
- * {@link PointerRelease}.
+ * A pointer {@link Event}.
  *
- * Has a focus type of decided by the child classes and does not need focus.
+ * Has a focus type decided by the child classes and does not need focus.
  *
  * @category Event
  */

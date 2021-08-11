@@ -529,9 +529,10 @@ export class TextInput<V> extends Widget {
             // If this is a pointer event, set pointer style and handle clicks
             root.pointerStyle = 'text';
 
-            // Request keyboard focus if this is a pointer press
+            // Request keyboard focus if this is a pointer press with the
+            // primary button
             if(event instanceof PointerPress || event instanceof PointerMove) {
-                const isPress = event instanceof PointerPress;
+                const isPress = event instanceof PointerPress && event.isPrimary();
                 let doubleClick = false;
                 if(isPress) {
                     this.dragging = true;
@@ -591,7 +592,7 @@ export class TextInput<V> extends Widget {
                 // Request focus
                 root.requestFocus(FocusType.Keyboard, this);
             }
-            else if(event instanceof PointerRelease) {
+            else if(event instanceof PointerRelease && event.isPrimary()) {
                 // Stop dragging
                 this.dragging = false;
                 this.doubleDragStart = null;
@@ -691,7 +692,7 @@ export class TextInput<V> extends Widget {
             // Reset blink time for better feedback
             this.blinkStart = Date.now();
         }
-        else if(event instanceof TextPasteEvent) {
+        else if(event instanceof TextPasteEvent && event.target === this) {
             // Insert pasted text
             this.insertText(event.text);
 

@@ -14,7 +14,7 @@ import { Leave } from '../events/Leave';
 interface PointerDriverState {
     eventQueue: Array<Event>;
     pointer: number | null;
-    pressing: boolean;
+    pressing: number;
     hovering: boolean;
     dragLast: [number, number] | null;
     dragOrigin: [number, number];
@@ -64,7 +64,7 @@ export class PointerDriver implements Driver {
             );
         }
         state.hovering = false;
-        state.pressing = false;
+        state.pressing = 0;
         state.dragLast = null;
     }
 
@@ -129,7 +129,7 @@ export class PointerDriver implements Driver {
 
         // Ignore if pointer is not the assigned one and not giving active input
         // or being pressed by the assigned pointer
-        if(!pointerMatches && (!givingActiveInput || state.pressing))
+        if(!pointerMatches && (!givingActiveInput || state.pressing > 0))
             return false;
         else {
             // Replace assigned pointer and clear old assigned pointer's hint if
@@ -157,7 +157,7 @@ export class PointerDriver implements Driver {
      * @param pointer The registered pointer ID
      * @param xNorm The normalised (non-integer range from 0 to 1) X coordinate of the pointer event. 0 is the left edge of the root, while 1 is the right edge of the root.
      * @param yNorm The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
-     * @param pressing Is the pointer pressed? If null, then the last pressing state will be used
+     * @param pressing Is the pointer pressed? If null, then the last pressing state will be used. A bitmask where each set bit represents a different button being pressed
      * @param shift Is shift being pressed?
      * @param ctrl Is control being pressed?
      * @param alt Is alt being pressed?
@@ -167,7 +167,7 @@ export class PointerDriver implements Driver {
      * environment where you only know when a pointer press occurs, but not if
      * the pointer is pressed or not
      */
-    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: boolean | null, shift: boolean, ctrl: boolean, alt: boolean): void {
+    movePointer(root: Root, pointer: number, xNorm: number, yNorm: number, pressing: number | null, shift: boolean, ctrl: boolean, alt: boolean): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
@@ -178,17 +178,29 @@ export class PointerDriver implements Driver {
             pressing = state.pressing;
 
         // Abort if this pointer can't queue an event to the target root
-        if(!this.canQueueEvent(root, pointer, state, pressing))
+        if(!this.canQueueEvent(root, pointer, state, pressing > 0))
             return;
 
         // Update state and queue up event
         state.hovering = true;
         const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
         if(pressing !== state.pressing) {
-            if(pressing)
-                state.eventQueue.push(new PointerPress(x, y, shift, ctrl, alt));
-            else
-                state.eventQueue.push(new PointerRelease(x, y, shift, ctrl, alt));
+            // Get how many bits in the bitmask you need to check
+            const bits = Math.floor(Math.log2(Math.max(pressing, state.pressing)));
+
+            // Check which buttons changed and generate an event for each
+            for(let bit = 0; bit <= bits; bit++) {
+                const wasPressed = ((state.pressing >> bit) & 0x1) === 1;
+                const isPressed = ((pressing >> bit) & 0x1) === 1;
+
+                if(wasPressed === isPressed)
+                    continue;
+
+                if(isPressed)
+                    state.eventQueue.push(new PointerPress(x, y, bit, shift, ctrl, alt));
+                else
+                    state.eventQueue.push(new PointerRelease(x, y, bit, shift, ctrl, alt));
+            }
 
             state.pressing = pressing;
         }
@@ -196,7 +208,7 @@ export class PointerDriver implements Driver {
             state.eventQueue.push(new PointerMove(x, y, shift, ctrl, alt));
 
         // Update pointer's hint
-        if(state.pressing)
+        if(state.pressing > 0)
             this.setPointerHint(pointer, PointerHint.Pressing);
         else
             this.setPointerHint(pointer, PointerHint.Hovering);
@@ -216,7 +228,7 @@ export class PointerDriver implements Driver {
         // Queue leave event if this is the assigned pointer and if hovering
         if(state.hovering && state.pointer == pointer) {
             state.hovering = false;
-            state.pressing = false;
+            state.pressing = 0;
             state.dragLast = null;
             state.eventQueue.push(
                 new Leave(root.getFocusCapturer(FocusType.Pointer))
@@ -302,7 +314,7 @@ export class PointerDriver implements Driver {
         this.states.set(root, <PointerDriverState>{
             eventQueue: [],
             pointer: null,
-            pressing: false,
+            pressing: 0,
             hovering: false,
             dragLast: null,
             dragOrigin: [0, 0],
