@@ -739,13 +739,15 @@ export class TextInput<V> extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Only expand to the needed dimensions
+        // Only expand to the needed dimensions, but take minimum width from
+        // theme into account
         const padding = 2 * this.inputTextInnerPadding;
         this.textHelper.maxWidth = this.wrapText ? Math.max(maxWidth - padding, 0) : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
-        this.width = Math.min(Math.max(minWidth, this.textHelper.width + padding), maxWidth);
+        const effectiveMinWidth = Math.min(Math.max(this.inputTextMinWidth, minWidth), maxWidth);
+        this.width = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
         this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 

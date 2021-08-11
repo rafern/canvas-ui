@@ -51,6 +51,13 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         return super.inheritedTheme;
     }
 
+    override dryPaint(): void {
+        super.dryPaint();
+
+        for(const child of this.children)
+            child.dryPaint();
+    }
+
     /** Get amount of children of this parent widget. */
     get childCount(): number {
         return this._children.length;

@@ -57,6 +57,8 @@ export interface ThemeProperties {
     inputTextSpacing?: number | null;
     /** The {@link Padding} between text and border used for text input widgets like {@link TextInput}. */
     inputTextInnerPadding?: number;
+    /** The default minimum width of text input widgets like {@link TextInput}. */
+    inputTextMinWidth?: number;
     /** The blink rate of text cursors in text input widgets like {@link TextInput}. Value in "blinks" per second. */
     blinkRate?: number;
     /** The thickness of a text cursor in pixels. */

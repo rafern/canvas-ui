@@ -63,8 +63,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      *
      * If an axis is tied, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, scrollbarMode = ScrollbarMode.Overlay, themeProperties?: ThemeProperties) {
-        super(child, minWidth, minHeight, widthTied, heightTied, themeProperties);
+    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, scrollbarMode = ScrollbarMode.Overlay, useViewport = false, themeProperties?: ThemeProperties) {
+        super(child, minWidth, minHeight, widthTied, heightTied, useViewport, themeProperties);
 
         this._scrollbarMode = scrollbarMode;
         this.horizontalClickHelper = new ClickHelper(this);

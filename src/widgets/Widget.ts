@@ -297,6 +297,29 @@ export abstract class Widget extends BaseTheme {
     }
 
     /**
+     * Like {@link resolveDimensions} but for widgets at the top of the widget
+     * tree (the child of the {@link Root}). This retries dimension resolving if
+     * there is at least one unconstrained axis so that flex layout works even
+     * in infinite layout.
+     */
+    resolveDimensionsAsTop(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        this.resolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
+
+        // Resolve dimensions again, now with maximum constraints. This is so
+        // that widgets that depend on max constraints, such as containers that
+        // handle flexbox layout, work properly. Only do this if constraints
+        // don't already have maximum dimensions.
+        if(maxWidth === Infinity || maxHeight === Infinity) {
+            this.resolveDimensions(
+                minWidth,
+                maxWidth === Infinity ? this.width : maxWidth,
+                minHeight,
+                maxHeight === Infinity ? this.height : maxHeight,
+            );
+        }
+    }
+
+    /**
      * Called after resolving position of this widget. Should be implemented if
      * widget is a container; call resolvePosition of children. Does nothing by
      * default.
@@ -422,13 +445,16 @@ export abstract class Widget extends BaseTheme {
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
      * {@link needsClear} is true, calls the {@link handlePainting} method and
-     * unsets the dirty flag. Does nothing if {@link dimensionless} is true.
-     * Must not be overridden.
+     * unsets the dirty flag. Automatically calls {@link dryPaint} if
+     * {@link dimensionless} is true. Must not be overridden.
      *
      * @param force Force re-paint even if {@link dirty} is false
      */
     paint(ctx: CanvasRenderingContext2D, force = false): void {
-        if(this.dimensionless || (!this._dirty && !force))
+        if(this.dimensionless)
+            return this.dryPaint();
+
+        if(!this._dirty && !force)
             return;
 
         //console.log('Painted', this.constructor.name);
@@ -442,6 +468,16 @@ export abstract class Widget extends BaseTheme {
             ctx.restore();
         }
 
+        this._dirty = false;
+    }
+
+    /**
+     * Unset this widget's dirty flag. Call this when painting a child that you
+     * know will not be visible, such as if clipping and the child is out of
+     * bounds. If implementing a container widget, override this so that each
+     * child widget's dryPaint method is called.
+     */
+    dryPaint(): void {
         this._dirty = false;
     }
 }

@@ -141,6 +141,11 @@
             "default": "2",
             "description": "The {@link Padding} between text and border used for text input widgets like {@link TextInput}."
         },
+        "inputTextMinWidth": {
+            "type": "number",
+            "default": "100",
+            "description": "The default minimum width of text input widgets like {@link TextInput}."
+        },
         "blinkRate": {
             "type": "number",
             "default": "0.8",

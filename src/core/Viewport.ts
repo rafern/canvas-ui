@@ -78,22 +78,7 @@ export class Viewport {
         const [oldWidth, oldHeight] = child.dimensions;
         const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
-        child.resolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
-
-        // Resolve dimensions again, now with maximum constraints. This is so
-        // that widgets that depend on max constraints, such as containers that
-        // handle flexbox layout, work properly. Only do this if constraints
-        // don't already have maximum dimensions.
-        if(maxWidth === Infinity || maxHeight === Infinity) {
-            const [width, height] = child.dimensions;
-            child.resolveDimensions(
-                minWidth,
-                maxWidth === Infinity ? width : maxWidth,
-                minHeight,
-                maxHeight === Infinity ? height : maxHeight,
-            );
-        }
-
+        child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
         child.resolvePosition(0, 0);
 
         const [newWidth, newHeight] = child.dimensions;

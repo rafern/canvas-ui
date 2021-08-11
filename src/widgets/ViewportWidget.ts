@@ -14,9 +14,9 @@ import type { Widget } from './Widget';
  * Can be constrained to a specific type of children.
  *
  * Allows setting the offset of the child, automatically clips it if neccessary.
- * Otherwise acts like a {@link Container}. Implemented by using a
- * {@link Viewport}; effectively, the child widget is painted to a dedicated
- * canvas.
+ * Otherwise acts like a {@link Container}. Implemented by force re-painting the
+ * child and clipping it or, optionally, by using a {@link Viewport} to paint
+ * the child widget to a dedicated canvas.
  *
  * @category Widget
  */
@@ -37,30 +37,33 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
      */
     @layoutField
     minHeight: number;
-    /** The actual viewport object. */
-    private viewport: Viewport;
+    /** The actual viewport object, or null if the child is just clipped. */
+    private viewport: Viewport | null;
     /** See {@link offset}. For internal use only */
     private _offset: [number, number] = [0, 0];
+    /**
+     * Child constraints for resolving layout. May be different than
+     * {@link viewport}'s constraints. By default, this is 0 minimum and
+     * Infinity maximum per axis
+     */
+    private _constraints: [minWidth: number, maxWidth: number, minHeight: number, maxHeight: number] = [0, Infinity, 0, Infinity];
+    /** Force child re-layout? Only used when not using a Viewport */
+    private forceReLayout = true;
+    /** Force child re-paint? Only used when not using a Viewport */
+    private forceRePaint = true;
 
     /** Create a new ViewportWidget. */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, themeProperties?: ThemeProperties) {
+    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, useViewport = false, themeProperties?: ThemeProperties) {
         // Viewport clears its own background, has a single child and propagates
         // events
         super(child, false, true, themeProperties);
 
-        this.viewport = new Viewport();
+        this.viewport = useViewport ? new Viewport() : null;
         this.minWidth = minWidth;
         this.minHeight = minHeight;
         this._widthTied = widthTied;
         this._heightTied = heightTied;
-    }
-
-    /**
-     * Get {@link viewport}'s
-     * {@link Viewport.canvasDimensions | canvasDimensions}.
-     */
-    get canvasDimensions(): [number, number] {
-        return this.viewport.canvasDimensions;
+        this._constraints = [0, Infinity, 0, Infinity];
     }
 
     /**
@@ -78,22 +81,46 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._offset[0] = offset[0];
             this._offset[1] = offset[1];
             this._dirty = true;
+            this.correctChildPosition();
         }
     }
 
-    /** The {@link Viewport.constraints | Viewport's constraints}. */
+    /**
+     * Accessor for {@link _constraints}. If using a {@link Viewport}, its
+     * constraints are also updated, but may be different due to
+     * {@link widthTied} or {@link heightTied}.
+     */
     set constraints(constraints: [number, number, number, number]) {
-        this.viewport.constraints = constraints;
+        // Not using @flagArrayField because this also needs to set the
+        // viewport's constraints if set, although @watchArrayField could be
+        // used (TODO?)
+        if (constraints[0] !== this._constraints[0] ||
+            constraints[1] !== this._constraints[1] ||
+            constraints[2] !== this._constraints[2] ||
+            constraints[3] !== this._constraints[3])
+        {
+            // Update own constraints
+            this._constraints[0] = constraints[0];
+            this._constraints[1] = constraints[1];
+            this._constraints[2] = constraints[2];
+            this._constraints[3] = constraints[3];
+
+            // Update viewport's constaints or flag force layout
+            if(this.viewport !== null)
+                this.viewport.constraints = constraints;
+            else
+                this.forceReLayout = true;
+        }
     }
 
     get constraints(): [number, number, number, number] {
-        return this.viewport.constraints;
+        return [...this._constraints];
     }
 
     /**
      * Is the width tied to the child's? If true, width constraints will be
-     * overridden. Not using {@link paintArrayField | @paintArrayField()} so
-     * that the accessor can be overridden.
+     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
+     * the accessor can be overridden.
      */
     get widthTied(): boolean {
         return this._widthTied;
@@ -108,8 +135,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     /**
      * Is the height tied to the child's? If true, height constraints will be
-     * overridden. Not using {@link paintArrayField | @paintArrayField()} so
-     * that the accessor can be overridden.
+     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
+     * the accessor can be overridden.
      */
     get heightTied(): boolean {
         return this._heightTied;
@@ -139,7 +166,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             return null;
 
         // Drop event if it is a positional event with no target outside the
-        // child's viewport
+        // child's viewport. Only correct position if using a Viewport
         const [innerWidth, innerHeight] = this.child.dimensions;
         const vpl = this.x + this.offset[0];
         const vpr = vpl + innerWidth;
@@ -157,7 +184,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
                     return null;
             }
 
-            event = event.correctOffset(vpl, vpt);
+            if(this.viewport !== null)
+                event = event.correctOffset(vpl, vpt);
         }
 
         // Dispatch event to child
@@ -170,13 +198,24 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Pre-layout update child
         child.preLayoutUpdate(root);
 
-        // If child's layout is dirty set self's layout as dirty
-        if(child.layoutDirty)
+        // If child's layout is dirty and at least one of the axes are tied,
+        // propagate layout dirtiness. Try to resolve layout if no axis is tied.
+        const tied = this._widthTied || this._heightTied;
+        if(!tied) {
+            if(this.viewport !== null)
+                this.viewport.resolveChildsLayout(child);
+            else if(child.layoutDirty || this.forceReLayout) {
+                child.resolveDimensionsAsTop(...this._constraints);
+                this.correctChildPosition();
+            }
+        }
+        else if(child.layoutDirty)
             this._layoutDirty = true;
     }
 
     protected override handlePostLayoutUpdate(root: Root): void {
         const child = this.child;
+        this.forceReLayout = false;
 
         // Post-layout update child
         child.postLayoutUpdate(root);
@@ -184,14 +223,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // If child is dirty, set self as dirty
         if(child.dirty)
             this._dirty = true;
-
-        // If child's layout is dirty and at least one of the axes are tied,
-        // propagate layout dirtiness. Try to resolve layout if no axis is tied.
-        const tied = this._widthTied || this._heightTied;
-        if(child.layoutDirty && tied)
-            this._layoutDirty = true;
-        else if(!tied)
-            this.viewport.resolveChildsLayout(child);
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
@@ -206,7 +237,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
-            const constraints = this.viewport.constraints;
+            const constraints = this._constraints;
 
             if(this._widthTied) {
                 constraints[0] = effectiveMinWidth;
@@ -219,8 +250,14 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             }
 
             const child = this.child;
-            this.viewport.constraints = constraints;
-            this.viewport.resolveChildsLayout(child);
+            if(this.viewport === null) {
+                child.resolveDimensionsAsTop(...constraints);
+                this.correctChildPosition();
+            }
+            else {
+                this.viewport.constraints = constraints;
+                this.viewport.resolveChildsLayout(child);
+            }
 
             // Tie wanted axes. Do regular layout for non-tied axes.
             if(this._widthTied) {
@@ -242,9 +279,29 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.height = Math.min(effectiveMinheight, maxHeight);
     }
 
+    protected override afterPositionResolved(): void {
+        this.correctChildPosition();
+
+        // If the viewport widget changes position, but the child doesn't, then
+        // previously clipped parts may become visible, so force repaint if not
+        // using a viewport
+        if(this.viewport === null)
+            this.forceRePaint = true;
+    }
+
+    private correctChildPosition(): void {
+        if(this.viewport !== null)
+            return;
+
+        // Correct child's position only if not using a Viewport
+        const [xOffset, yOffset] = this.offset;
+        this.child.resolvePosition(this.x + xOffset, this.y + yOffset);
+    }
+
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
         // Paint child to viewport's canvas
-        this.viewport.paintToCanvas(this.child, forced);
+        if(this.viewport !== null)
+            this.viewport.paintToCanvas(this.child, forced);
 
         // Calculate child's source and destination
         const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);
@@ -267,8 +324,13 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         [xDst, yDst, wClipped, hClipped] = this.roundRect(xDst, yDst, wClipped, hClipped);
 
         // Abort if outside of bounds
-        if(wClipped === 0 || hClipped === 0)
+        if(wClipped === 0 || hClipped === 0) {
+            if(this.viewport === null)
+                this.child.dryPaint();
+
+            this.forceRePaint = false;
             return;
+        }
 
         // child source left and top
         const xSrc = xDst - origXDst;
@@ -278,18 +340,31 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         this.clearStart(ctx);
         ctx.rect(vpX, vpY, vpW, vpH);
         ctx.clip();
-        ctx.drawImage(
-            this.viewport.canvas,
-            xSrc,
-            ySrc,
-            wClipped,
-            hClipped,
-            xDst,
-            yDst,
-            wClipped,
-            hClipped,
-        );
+        if(this.viewport !== null) {
+            ctx.drawImage(
+                this.viewport.canvas,
+                xSrc,
+                ySrc,
+                wClipped,
+                hClipped,
+                xDst,
+                yDst,
+                wClipped,
+                hClipped,
+            );
+        }
         ctx.rect(xDst, yDst, wClipped, hClipped);
         this.clearEnd(ctx, 'evenodd');
+
+        if(this.viewport === null) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.rect(xDst, yDst, wClipped, hClipped);
+            ctx.clip();
+            this.child.paint(ctx, forced || this.forceRePaint);
+            ctx.restore();
+        }
+
+        this.forceRePaint = false;
     }
 }

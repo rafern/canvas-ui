@@ -87,6 +87,7 @@ export class BaseTheme implements ThemeProperties {
         this._inputTextHeight = properties.inputTextHeight;
         this._inputTextSpacing = properties.inputTextSpacing;
         this._inputTextInnerPadding = properties.inputTextInnerPadding;
+        this._inputTextMinWidth = properties.inputTextMinWidth;
         this._blinkRate = properties.blinkRate;
         this._cursorThickness = properties.cursorThickness;
         this._scrollBarThickness = properties.scrollBarThickness;
@@ -457,6 +458,20 @@ export class BaseTheme implements ThemeProperties {
         if(this._inputTextInnerPadding !== value) {
             this._inputTextInnerPadding = value;
             this.onThemeUpdated('inputTextInnerPadding');
+        }
+    }
+
+    /** See {@link inputTextMinWidth}. For internal use only. */
+    private _inputTextMinWidth?: number;
+
+    get inputTextMinWidth(): number {
+        return this._inputTextMinWidth ?? this._fallbackTheme?.inputTextMinWidth ?? 100;
+    }
+
+    set inputTextMinWidth(value: number | undefined) {
+        if(this._inputTextMinWidth !== value) {
+            this._inputTextMinWidth = value;
+            this.onThemeUpdated('inputTextMinWidth');
         }
     }
 
