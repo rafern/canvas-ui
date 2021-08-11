@@ -1,6 +1,6 @@
 {
   "name": "canvas-ui",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A Typescript UI library which uses HTML canvases",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "build": "tsc && node esbuild.mjs",
     "dev": "node esbuild.mjs --dev",
-    "docs": "typedoc --readme none --out ./docs/ ./src/index.ts",
+    "docs": "typedoc --out ./docs/ ./src/index.ts",
     "generate_theme": "node generate_theme.mjs"
   },
   "files": [
@@ -28,11 +28,9 @@
     "eslint-plugin-tree-shaking": "^1.9.2",
     "local-web-server": "^5.0.0",
     "typedoc": "^0.21.2",
-    "typedoc-plugin-markdown": "^3.10.2",
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "ts-mixer": "^6.0.0",
     "tslib": "^2.2.0"
   }
 }
