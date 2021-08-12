@@ -203,46 +203,44 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         }
 
         // Resolve children's layout with constraints restricted to distributed
-        // free space. Calculate used space after flexbox calculations. Skip if
-        // none of the children have a flex ratio (or else there is a division
-        // by zero)
+        // free space. Calculate used space after flexbox calculations.
         let usedSpaceAfter = 0;
-        if(totalFlex === 0)
-            usedSpaceAfter = usedSpace;
-        else {
-            for(const child of this.children) {
-                // Ignore disabled children
-                if(!child.enabled)
-                    continue;
+        let freeSpacePerFlex = 0;
+        if(totalFlex > 0)
+            freeSpacePerFlex = freeSpace / totalFlex;
 
-                // Add spacing to used space if this is not the first widget
-                if(usedSpaceAfter !== 0)
-                    usedSpaceAfter += spacing;
+        for(const child of this.children) {
+            // Ignore disabled children
+            if(!child.enabled)
+                continue;
 
-                const dedicatedSpace = freeSpace * child.flex / totalFlex;
-                const [oldChildWidth, oldChildHeight] = child.dimensions;
-                if(this.vertical) {
-                    const wantedLength = dedicatedSpace + oldChildHeight;
-                    child.resolveDimensions(
-                        minCrossAxis, maxWidth,
-                        wantedLength, wantedLength,
-                    );
-                }
-                else {
-                    const wantedLength = dedicatedSpace + oldChildWidth;
-                    child.resolveDimensions(
-                        wantedLength, wantedLength,
-                        minCrossAxis, maxHeight,
-                    );
-                }
+            // Add spacing to used space if this is not the first widget
+            if(usedSpaceAfter !== 0)
+                usedSpaceAfter += spacing;
 
-                const [childWidth, childHeight] = child.dimensions;
-                usedSpaceAfter += this.vertical ? childHeight : childWidth;
-
-                // Mark background as dirty if child's dimensions changed
-                if(childWidth !== oldChildWidth || childHeight !== oldChildHeight)
-                    this.backgroundDirty = true;
+            const dedicatedSpace = freeSpacePerFlex * child.flex;
+            const [oldChildWidth, oldChildHeight] = child.dimensions;
+            if(this.vertical) {
+                const wantedLength = dedicatedSpace + oldChildHeight;
+                child.resolveDimensions(
+                    minCrossAxis, maxWidth,
+                    wantedLength, wantedLength,
+                );
             }
+            else {
+                const wantedLength = dedicatedSpace + oldChildWidth;
+                child.resolveDimensions(
+                    wantedLength, wantedLength,
+                    minCrossAxis, maxHeight,
+                );
+            }
+
+            const [childWidth, childHeight] = child.dimensions;
+            usedSpaceAfter += this.vertical ? childHeight : childWidth;
+
+            // Mark background as dirty if child's dimensions changed
+            if(childWidth !== oldChildWidth || childHeight !== oldChildHeight)
+                this.backgroundDirty = true;
         }
 
         // Resolve width and height
@@ -330,12 +328,12 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             child.paint(ctx, forced);
 
             // Add to clipping region if needed
-            if(this.backgroundDirty)
+            if(this.backgroundDirty || forced)
                 clipRects.push(this.roundRect(...child.position, ...child.dimensions));
         }
 
         // Clear background if needed
-        if(this.backgroundDirty) {
+        if(this.backgroundDirty || forced) {
             this.clearStart(ctx);
             ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
             for(const clipRect of clipRects)

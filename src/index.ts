@@ -1,18 +1,17 @@
-// aggregates
-export * from './aggregates/ClickHelper';
-export * from './aggregates/TextHelper';
-export * from './aggregates/Variable';
 // core
 export * from './core/DefaultTextInputHandler';
 export * from './core/DOMRoot';
 export * from './core/DOMVirtualKeyboardRoot';
 export * from './core/Driver';
 export * from './core/FocusType';
+export * from './core/LayoutConstraints';
 export * from './core/PointerStyleHandler';
 export * from './core/Root';
 export * from './core/TextInputHandler';
 export * from './core/Viewport';
 export * from './core/VirtualKeyboardRoot';
+// decorators
+export * from './decorators/FlagFields';
 // drivers
 export * from './drivers/DOMKeyboardDriver';
 export * from './drivers/DOMPointerDriver';
@@ -36,9 +35,12 @@ export * from './events/PointerRelease';
 export * from './events/PointerWheel';
 export * from './events/TextPasteEvent';
 // helpers
+export * from './helpers/ClickHelper';
 export * from './helpers/getPointerEventNormPos';
 export * from './helpers/measureTextDims';
 export * from './helpers/roundToPower2';
+export * from './helpers/TextHelper';
+export * from './helpers/Variable';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';

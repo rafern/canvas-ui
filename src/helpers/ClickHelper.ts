@@ -10,7 +10,7 @@ import { Leave } from '../events/Leave';
 /**
  * The current state of a {@link ClickHelper}
  *
- * @category Aggregate
+ * @category Helper
  */
 export enum ClickState {
     /** No pointer is hovering over this clickable widget */
@@ -27,7 +27,7 @@ export enum ClickState {
  * Keeps its current click state as well as its last click state, last pointer
  * position and whether the last click state change resulted in an actual click.
  *
- * @category Aggregate
+ * @category Helper
  */
 export class ClickHelper {
     /** Last click state */
@@ -53,13 +53,17 @@ export class ClickHelper {
     startingPointerPos: [number, number] | null = null;
     /** Which pointer button should count as a click? Left button by default */
     pointerButton = 0;
+    /** The Widget aggregating this helper */
+    private widget: Widget;
 
     /**
      * Create a new ClickHelper
      *
      * @param widget The Widget aggregating this helper
      */
-    constructor(private widget: Widget) {}
+    constructor(widget: Widget) {
+        this.widget = widget;
+    }
 
     /**
      * Normalise pointer coordinates inside a rectangle

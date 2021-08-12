@@ -150,7 +150,7 @@ export class KeyboardDriver implements Driver {
     }
 
     /**
-     * Dispatches all {@link eventQueue | queued events } for the root and
+     * Dispatches all {@link eventQueues | queued events } for the root and
      * clears its event queue
      */
     update(root: Root): void {

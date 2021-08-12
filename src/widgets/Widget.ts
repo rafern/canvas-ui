@@ -27,7 +27,7 @@ export abstract class Widget extends BaseTheme {
     /**
      * Widget will have its background automatically cleared when painting if
      * needsClear is true. The background fill style used is
-     * {@link ThemeProperty.CanvasFill}.
+     * {@link canvasFill}.
      */
     readonly needsClear: boolean;
     /**
@@ -241,16 +241,27 @@ export abstract class Widget extends BaseTheme {
         // Validate constraints
         if(minWidth == Infinity)
             throw new Error('minWidth must not be infinite');
-        if(minWidth > maxWidth)
-            throw new Error(`minWidth (${minWidth}) must not be greater than maxWidth ${maxWidth}`);
-        if(minWidth < 0)
-            throw new Error(`minWidth (${minWidth}) must not be lesser than 0`);
+        if(minWidth > maxWidth) {
+            // Not throwing here because floating pointer precision errors
+            // sometimes trigger this due to tight constraints
+            console.warn(`minWidth (${minWidth}) must not be greater than maxWidth (${maxWidth}). Set minWidth to maxWidth. This may be caused by floating pointer precision errors`);
+            minWidth = maxWidth;
+        }
+        if(minWidth < 0) {
+            console.warn(`minWidth (${minWidth}) must not be lesser than 0. Set minWidth to 0. This may be caused by floating pointer precision errors`);
+            minWidth = 0;
+        }
+
         if(minHeight == Infinity)
             throw new Error('minHeight must not be infinite');
-        if(minHeight > maxHeight)
-            throw new Error(`minHeight (${minHeight}) must not be greater than maxHeight ${maxHeight}`);
-        if(minHeight < 0)
-            throw new Error(`minHeight (${minHeight}) must not be lesser than 0`);
+        if(minHeight > maxHeight) {
+            console.warn(`minHeight (${minHeight}) must not be greater than maxHeight (${maxHeight}). Set minHeight to maxHeight. This may be caused by floating pointer precision errors`);
+            minHeight = maxHeight;
+        }
+        if(minHeight < 0) {
+            console.warn(`minHeight (${minHeight}) must not be lesser than 0. Set minHeight to 0. This may be caused by floating pointer precision errors`);
+            minHeight = 0;
+        }
 
         // Keep track of old dimensions to compare later
         const oldWidth = this.width;
@@ -369,7 +380,7 @@ export abstract class Widget extends BaseTheme {
      *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
      */
     protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
         ctx.save();
@@ -390,7 +401,7 @@ export abstract class Widget extends BaseTheme {
      *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
      */
     protected clearStart(ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
         ctx.save();
@@ -402,8 +413,6 @@ export abstract class Widget extends BaseTheme {
     /**
      * Paiting utility: end a clear operation (from {@link clearStart}). Should
      * not be overridden.
-     *
-     * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
      * @param fillRule The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
      */

@@ -18,28 +18,32 @@ export class Icon extends Widget {
     private lastSrc: string | null = null;
     /**
      * The current image rotation in radians.
-     * @paintField
+     *
+     * @decorator `@paintField`
      */
     @paintField
     rotation = 0;
     /**
      * The view box of this Icon, useful if the image used for the icon is a
      * spritesheet. If null, the entire image will be used.
-     * @paintLayoutArrayField(true)
+     *
+     * @decorator `@paintLayoutArrayField(true)`
      */
     @paintLayoutArrayField(true)
     viewBox: [number, number, number, number] | null;
     /**
      * The wanted width. If null, the image's width will be used, taking
      * {@link viewBox} into account.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     @layoutField
     imageWidth: number | null = null;
     /**
      * The wanted height. If null, the image's height will be used, taking
      * {@link viewBox} into account.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     @layoutField
     imageHeight: number | null = null;
@@ -87,8 +91,10 @@ export class Icon extends Widget {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet
-        if(this._image?.src !== this.lastSrc && this._image?.complete)
+        if(this._image?.src !== this.lastSrc && this._image?.complete) {
+            this._layoutDirty = true;
             this._dirty = true;
+        }
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
@@ -134,7 +140,7 @@ export class Icon extends Widget {
         this.lastSrc = this._image.src;
 
         // Translate, rotate and clip if rotation is not 0
-        let tdx = this.offsetX, tdy = this.offsetY;
+        let tdx = this.x + this.offsetX, tdy = this.y + this.offsetY;
         const rotated = this.rotation !== 0;
         if(rotated) {
             ctx.save();

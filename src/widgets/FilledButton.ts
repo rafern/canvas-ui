@@ -1,17 +1,16 @@
-import { ClickState } from '../aggregates/ClickHelper';
+import { ThemeProperties } from '../theme/ThemeProperties';
 import { watchField } from '../decorators/FlagFields';
+import { ClickState } from '../helpers/ClickHelper';
+import { FillStyle } from '../theme/FillStyle';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
-import { FillStyle } from '../theme/FillStyle';
-import { ThemeProperties } from '../theme/ThemeProperties';
 
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
- * filled background. Uses a technique similar to {@link ThemeScope} to achieve
- * this.
+ * filled background.
  *
  * Can be constrained to a specific type of children.
  *
@@ -24,9 +23,11 @@ import { ThemeProperties } from '../theme/ThemeProperties';
 export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty = 'backgroundFill';
+    // TODO I'm not a big fan of using a prototype's method as a callback :|
     /**
      * Is the button currently forced down?
-     * @watchField(FilledButton.prototype.updateBackground)
+     *
+     * @decorator `@watchField(FilledButton.prototype.updateBackground)`
      */
     @watchField(FilledButton.prototype.updateBackground)
     forced = false;

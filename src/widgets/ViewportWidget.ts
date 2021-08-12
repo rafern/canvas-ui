@@ -1,3 +1,4 @@
+import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
@@ -27,13 +28,15 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     private _heightTied: boolean;
     /**
      * The minimum width that this widget will try to expand to.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     @layoutField
     minWidth: number;
     /**
      * The minimum height that this widget will try to expand to.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     @layoutField
     minHeight: number;
@@ -46,11 +49,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
      * {@link viewport}'s constraints. By default, this is 0 minimum and
      * Infinity maximum per axis
      */
-    private _constraints: [minWidth: number, maxWidth: number, minHeight: number, maxHeight: number] = [0, Infinity, 0, Infinity];
+    private _constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
     /** Force child re-layout? Only used when not using a Viewport */
-    private forceReLayout = true;
+    protected forceReLayout = true;
     /** Force child re-paint? Only used when not using a Viewport */
-    private forceRePaint = true;
+    protected forceRePaint = true;
 
     /** Create a new ViewportWidget. */
     constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, useViewport = false, themeProperties?: ThemeProperties) {
@@ -68,15 +71,14 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     /**
      * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Useful for implementing scrolling. Not using
-     * {@link paintArrayField | @paintArrayField()} so that the accessor can be
-     * overridden.
+     * as well as rendering. Useful for implementing scrolling.
      */
     get offset(): [number, number] {
         return [...this._offset];
     }
 
     set offset(offset: [number, number]) {
+        // Not using @paintArrayField so that accessor can be overridden
         if(this._offset[0] !== offset[0] || this._offset[1] !== offset[1]) {
             this._offset[0] = offset[0];
             this._offset[1] = offset[1];
@@ -90,7 +92,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
      * constraints are also updated, but may be different due to
      * {@link widthTied} or {@link heightTied}.
      */
-    set constraints(constraints: [number, number, number, number]) {
+    set constraints(constraints: LayoutConstraints) {
         // Not using @flagArrayField because this also needs to set the
         // viewport's constraints if set, although @watchArrayField could be
         // used (TODO?)
@@ -113,39 +115,41 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
     }
 
-    get constraints(): [number, number, number, number] {
+    get constraints(): LayoutConstraints {
         return [...this._constraints];
     }
 
     /**
      * Is the width tied to the child's? If true, width constraints will be
-     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
-     * the accessor can be overridden.
+     * ignored.
      */
     get widthTied(): boolean {
         return this._widthTied;
     }
 
     set widthTied(widthTied: boolean) {
+        // Not using @paintArrayField so that accessor can be overridden
         if(this._widthTied !== widthTied) {
             this._widthTied = widthTied;
             this._layoutDirty = true;
+            this.forceReLayout = true;
         }
     }
 
     /**
      * Is the height tied to the child's? If true, height constraints will be
-     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
-     * the accessor can be overridden.
+     * ignored.
      */
     get heightTied(): boolean {
         return this._heightTied;
     }
 
     set heightTied(heightTied: boolean) {
+        // Not using @paintArrayField so that accessor can be overridden
         if(this._heightTied !== heightTied) {
             this._heightTied = heightTied;
             this._layoutDirty = true;
+            this.forceReLayout = true;
         }
     }
 
@@ -226,18 +230,13 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        if(this.minWidth === 0 && !this._widthTied)
-            console.warn('ViewportWidget has no minimum width and width isn\' tied, therefore, it will be dimensionless. Set a minimum width and/or tie the width');
-        if(this.minHeight === 0 && !this._heightTied)
-            console.warn('ViewportWidget has no minimum height and height isn\' tied, therefore, it will be dimensionless. Set a minimum height and/or tie the height');
-
         let normalWidth = true, normalHeight = true;
         const effectiveMinWidth = Math.max(minWidth, this.minWidth);
         const effectiveMinheight = Math.max(minHeight, this.minHeight);
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
-            const constraints = this._constraints;
+            const constraints: LayoutConstraints = [...this._constraints];
 
             if(this._widthTied) {
                 constraints[0] = effectiveMinWidth;
@@ -277,6 +276,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
         if(normalHeight)
             this.height = Math.min(effectiveMinheight, maxHeight);
+
+        if(this.width === 0 && this.minWidth === 0 && !this._widthTied)
+            console.warn('ViewportWidget has no minimum width and width isn\'t tied, therefore, it may be dimensionless. Set a minimum width and/or tie the width');
+        if(this.height === 0 && this.minHeight === 0 && !this._heightTied)
+            console.warn('ViewportWidget has no minimum height and height isn\'t tied, therefore, it may be dimensionless. Set a minimum height and/or tie the height');
     }
 
     protected override afterPositionResolved(): void {

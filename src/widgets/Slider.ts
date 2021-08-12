@@ -1,5 +1,5 @@
-import { Variable, VariableCallback } from '../aggregates/Variable';
-import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
+import { Variable, VariableCallback } from '../helpers/Variable';
+import { ClickHelper, ClickState } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import type { Event } from '../events/Event';
@@ -46,8 +46,11 @@ export class Slider extends Widget {
         // events
         super(true, false, themeProperties);
 
+        if(maxValue < minValue)
+            throw new Error('Slider max value can\'t be smaller than minimum value');
+
         this.clickHelper = new ClickHelper(this);
-        this.variable = new Variable(initialValue, callback);
+        this.variable = new Variable(Math.max(initialValue, minValue), callback);
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
@@ -120,6 +123,12 @@ export class Slider extends Widget {
             this._dirty = true;
 
         return this;
+    }
+
+    protected override handlePostLayoutUpdate(_root: Root): void {
+        // Mark as dirty if variable is dirty
+        if(this.variable.dirty)
+            this._dirty = true;
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {

@@ -5,12 +5,12 @@ import { Widget } from '../widgets/Widget';
 /**
  * A mixin class for widgets which may have children.
  *
- * Overrides {@link updateInheritedTheme} so that inherited themes are
- * propagated to children, and {@link forceLayoutDirty} so that forcing layout
- * as dirty is propagated to children. Also provides utilities for getting the
- * amount of children, a public iterator for children and a protected child
- * list. This way, widgets that use this mixin can decide if modifying the list
- * of children should be public or not.
+ * Overrides the {@link inheritedTheme} accessor so that inherited themes are
+ * propagated to children, and {@link dryPaint} so that dry painting this parent
+ * also dry paints the children. Also provides utilities for getting the amount
+ * of children, a public iterator for children and a protected child list. This
+ * way, widgets that extend this class can decide if modifying the list of
+ * children should be public or not.
  *
  * Can be constrained to a specific type of children.
  *

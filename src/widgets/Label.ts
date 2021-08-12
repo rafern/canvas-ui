@@ -1,5 +1,5 @@
-import { TextHelper, WrapMode } from '../aggregates/TextHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { TextHelper, WrapMode } from '../helpers/TextHelper';
 import { layoutField } from '../decorators/FlagFields';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -26,7 +26,11 @@ export class Label extends Widget {
     private textGetter: TextGetter | null = null;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
-    /** Is text wrapping enabled? If not, text will clipped on overflow */
+    /**
+     * Is text wrapping enabled? If not, text will clipped on overflow
+     *
+     * @decorator `@layoutField`
+     */
     @layoutField
     wrapText = true;
 
@@ -47,13 +51,14 @@ export class Label extends Widget {
 
     /**
      * This label's text source. If you want to get the current text string,
-     * then use {@link currentText} instead.
+     * then use {@link text} instead.
      *
-     * When setting, if text is a {@link TextGetter}, then {@link textGetter} is
-     * set, else, {@link setText} is called.
+     * When setting, if source is a {@link TextGetter}, then {@link textGetter}
+     * is set, else, {@link textGetter} is set to null and and the
+     * {@link textHelper}'s {@link TextHelper.text | text} is set.
      *
      * When getting, if {@link textGetter} is set, then it is returned, else,
-     * {@link _text} is returned.
+     * {@link textHelper}.{@link TextHelper.text | text} is returned.
      */
     set source(source: string | TextGetter) {
         if(source instanceof Function)

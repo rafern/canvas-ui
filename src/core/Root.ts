@@ -174,8 +174,7 @@ export class Root {
     /**
      * Resolve the layout of this root. Does nothing if root is disabled.
      *
-     * Calls {@link viewport}'s {@link Viewport.populateChildsLayout} and
-     * {@link resolveChildsLayout} with {@link child}
+     * Calls {@link viewport}'s {@link resolveChildsLayout} with {@link child}
      *
      * Call this before calling {@link postLayoutUpdate} and after calling
      * {@link preLayoutUpdate}

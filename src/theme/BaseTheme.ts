@@ -8,8 +8,8 @@ import { Alignment } from './Alignment';
 import type { Theme } from './Theme';
 
 /**
- * Provides styling for {@link Widget | Widgets}. Despite each property being
- * possibly undefined, getting a property is guaranteed to return a valid value.
+ * The base class for {@link Widget} and {@link Theme}. The backbone of the
+ * theming system.
  *
  * @category Theme
  */
@@ -54,6 +54,7 @@ export class BaseTheme implements ThemeProperties {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     protected onThemeUpdated(_property: string | null = null): void {}
 
+    /** Create a new BaseTheme */
     constructor(properties?: ThemeProperties, fallbackTheme?: Theme) {
         this._fallbackTheme = fallbackTheme;
 

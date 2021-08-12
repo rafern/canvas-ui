@@ -28,7 +28,7 @@ const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
  *
  * Note that 0-width text render groups are valid and used for empty lines.
  *
- * @category Aggregate
+ * @category Helper
  */
 export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: number, overridesWidth: boolean];
 
@@ -36,14 +36,14 @@ export type TextRenderGroup = [rangeStart: number, rangeEnd: number, right: numb
  * A line range. Contains all neccessary information to render a line of text.
  * An array of text render groups.
  *
- * @category Aggregate
+ * @category Helper
  */
 export type LineRange = Array<TextRenderGroup>;
 
 /**
  * The mode to use for text wrapping in {@link TextHelper}.
  *
- * @category Aggregate
+ * @category Helper
  */
 export enum WrapMode {
     /**
@@ -67,52 +67,59 @@ export enum WrapMode {
  * Contains utilities for measuring text dimensions, converting between offsets
  * in pixels and text indices and painting.
  *
- * @category Aggregate
+ * @category Helper
  */
 export class TextHelper {
     /**
      * The current string of text.
-     * @multiFlagField(['_dirty', 'measureDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty'])
     text = '';
     /**
      * The current font used for rendering text.
-     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])
     font = '';
     /**
      * The current maximum text width. If not Infinite, then text will be
      * wrapped.
-     * @multiFlagField(['_dirty', 'measureDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty'])
     maxWidth = Infinity;
     /**
      * The height of each line of text when wrapped. If null, then the helper
      * will try to automatically detect it.
-     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
     lineHeight: number | null = null;
     /**
      * The amount of spacing between lines. If null, then the helper will try to
      * automatically detect it.
-     * @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty'])
     lineSpacing: number | null = null;
     /**
      * The amount of spaces that each tab character is equivalent to. By
      * default, it is equivalent to 4 spaces.
-     * @multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty', 'tabWidthDirty'])
     tabWidth = 4;
     /**
      * The mode for text wrapping
-     * @multiFlagField(['_dirty', 'measureDirty'])
+     *
+     * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
     @multiFlagField(['_dirty', 'measureDirty'])
     wrapMode: WrapMode = WrapMode.Normal;
@@ -680,6 +687,67 @@ export class TextHelper {
 
         // Offset is after full length of text, return index after end
         return [lineEnd, [lastLength, yOffset]];
+    }
+
+    /**
+     * Get a line number from a given cursor index. If out of bounds, returns
+     * nearest in-bounds line. Line numbers start at 0.
+     */
+    getLine(index: number): number {
+        if(index <= 0)
+            return 0;
+
+        const lineRanges = this.lineRanges;
+        for(let line = 0; line < lineRanges.length; line++) {
+            const lineRange = lineRanges[line];
+            const lastGroup = lineRange[lineRange.length - 1];
+            if(index < lastGroup[1])
+                return line;
+        }
+
+        return lineRanges.length - 1;
+    }
+
+    /**
+     * Get the index of the start of a line. If out of bounds, returns the
+     * nearest in-bounds index
+     */
+    getLineStart(line: number): number {
+        if(line <= 0)
+            return 0;
+
+        const lineRanges = this.lineRanges;
+        if(line >= lineRanges.length) {
+            const lastLine = lineRanges[lineRanges.length - 1];
+            return lastLine[lastLine.length - 1][1];
+        }
+
+        return lineRanges[line][0][0];
+    }
+
+    /**
+     * Get the index of the end of a line.
+     *
+     * @param includeNewlines If false, newline characters will be ignored and the end will be at their index, instead of after their index
+     */
+    getLineEnd(line: number, includeNewlines = true): number {
+        if(line < 0)
+            return 0;
+
+        const lineRanges = this.lineRanges;
+        if(line >= lineRanges.length) {
+            const lastLine = lineRanges[lineRanges.length - 1];
+            return lastLine[lastLine.length - 1][1];
+        }
+
+        const lineRange = lineRanges[line];
+        const lastGroup = lineRange[lineRange.length - 1];
+        const lastIndex = lastGroup[1];
+        if(!includeNewlines && lastIndex > 0 &&
+           this.text[lastIndex - 1] === '\n' && lastGroup[0] !== lastGroup[1])
+            return lastIndex - 1;
+        else
+            return lastIndex;
     }
 
     /** The current text width. Re-measures text if neccessary. */

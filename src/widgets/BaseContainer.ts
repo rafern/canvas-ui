@@ -169,7 +169,7 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
      */
     protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle: FillStyle | null = null): void {
         // Clear background if needed
-        if(this.backgroundDirty) {
+        if(this.backgroundDirty || forced) {
             this.clearStart(ctx, fillStyle);
             ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
             ctx.rect(...this.roundRect(...this.child.position, ...this.child.dimensions, true));

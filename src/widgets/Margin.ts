@@ -10,9 +10,6 @@ import type { Widget } from './Widget';
  *
  * Can be constrained to a specific type of children.
  *
- * Alignment settings are applied via theme overrides, so no theme override can
- * be passed to this widget. If you want to override additional theme properties
- * other than the one overridden here, then use {@link Container} instead.
  * Alignment settings are applied via theme properties; if you pass this
  * property, it will be ignored in a clone of the theme properties. If you want
  * to override this theme property property, then use {@link Container} instead.

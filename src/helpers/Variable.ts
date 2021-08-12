@@ -1,7 +1,7 @@
 /**
  * A callback for when the value of a {@link Variable} changes.
  *
- * @category Aggregate
+ * @category Helper
  */
 export type VariableCallback<V> = (value: V) => void;
 
@@ -14,13 +14,15 @@ export type VariableCallback<V> = (value: V) => void;
  *
  * @template V The type of {@link value}.
  *
- * @category Aggregate
+ * @category Helper
  */
 export class Variable<V> {
     /** The current value, for internal use. */
     private _value: V;
     /** Has the value changed? */
     private _dirty = false;
+    /** The callback function called when the value is changed */
+    private callback: VariableCallback<V> | null;
 
     /**
      * Create a new Variable.
@@ -28,8 +30,9 @@ export class Variable<V> {
      * @param initialValue The initial value of this variable. Sets {@link _value}.
      * @param callback The callback for when the value is changed.
      */
-    constructor(initialValue: V, private callback: VariableCallback<V> | null = null) {
+    constructor(initialValue: V, callback: VariableCallback<V> | null = null) {
         this._value = initialValue;
+        this.callback = callback;
     }
 
     /**

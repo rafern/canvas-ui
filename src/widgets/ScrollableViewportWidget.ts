@@ -1,4 +1,4 @@
-import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
+import { ClickHelper, ClickState } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
@@ -57,6 +57,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private startingOffset = 0;
     /** When was the last scroll attempt in milliseconds since Unix epoch? */
     private lastScroll = 0;
+    /** Was the horizontal scrollbar painted last frame? */
+    private horizWasPainted = false;
+    /** Was the vertical scrollbar painted last frame? */
+    private vertWasPainted = false;
 
     /**
      * Create a new ScrollableViewportWidget.
@@ -429,18 +433,29 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
+        // Check which scrollbars need painting and update forceRePaint flag
+        const [childWidth, childHeight] = this.child.dimensions;
+        const xNeeded = childWidth > this.width;
+        const yNeeded = childHeight > this.height;
+        const paintX = this.scrollbarNeedsPaint(false, xNeeded);
+        const paintY = this.scrollbarNeedsPaint(true, yNeeded);
+
+        if(this.horizWasPainted !== paintX || this.vertWasPainted !== paintY) {
+            this.horizWasPainted = paintX;
+            this.vertWasPainted = paintY;
+            this.forceRePaint = true;
+        }
+
         // Paint viewport
         super.handlePainting(ctx, forced);
 
         // Paint scrollbars
-        const [childWidth, childHeight] = this.child.dimensions;
-        const xNeeded = childWidth > this.width;
-        const yNeeded = childHeight > this.height;
-        const forceCorner = this._scrollbarMode === ScrollbarMode.Layout && (!this.widthTied && !this.heightTied);
+        const forceCorner = this._scrollbarMode === ScrollbarMode.Layout &&
+                            (!this.widthTied && !this.heightTied);
 
-        if(!this.widthTied)
+        if(paintX)
             this.paintScrollbar(false, xNeeded, yNeeded || forceCorner, ctx);
-        if(!this.heightTied)
+        if(paintY)
             this.paintScrollbar(true, yNeeded, xNeeded || forceCorner, ctx);
 
         // Paint corner if it is forced
@@ -528,13 +543,16 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         ];
     }
 
+    /** Check if a scrollbar needs to be painted */
+    private scrollbarNeedsPaint(vertical: boolean, needed: boolean): boolean {
+        if(!needed && this._scrollbarMode === ScrollbarMode.Overlay)
+            return false;
+
+        return !(vertical ? this.heightTied : this.widthTied);
+    }
+
     /** Paint a scrollbar. For internal use only */
     private paintScrollbar(vertical: boolean, needed: boolean, corner: boolean, ctx: CanvasRenderingContext2D): void {
-        // If the scrollbar isn't needed and the is an overlay, don't paint
-        const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
-        if(!needed && overlay)
-            return;
-
         // Get rectangles
         const [fillRect, bgRect] = this.getScrollbarRects(vertical, corner);
 

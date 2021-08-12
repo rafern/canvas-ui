@@ -1,3 +1,4 @@
+import type { LayoutConstraints } from './LayoutConstraints';
 import { paintArrayField } from '../decorators/FlagFields';
 import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
@@ -16,10 +17,11 @@ export class Viewport {
      *
      * By default, has no minimum width nor height and unconstrained maximum
      * width and height.
-     * @paintArrayField()
+     *
+     * @decorator `@paintArrayField()`
      */
     @paintArrayField()
-    constraints: [number, number, number, number] = [0, Infinity, 0, Infinity];
+    constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
     /** Have the constraints been changed? */
     private dirty = true;
 

@@ -5,11 +5,8 @@
  * @category Core
  */
 export enum FocusType {
-    /**
-     * Used by {@link Leave}, {@link PointerMove}, {@link PointerPress} and
-     * {@link PointerRelease}
-     */
+    /** Used for widgets that need pointer input, such as {@link Button} */
     Pointer = 0,
-    /** Used by {@link KeyPress} and {@link KeyRelease} */
+    /** Used for widgets that need text input, such as {@link TextInput} */
     Keyboard = 1,
 }

@@ -3,6 +3,12 @@ import type { Alignment2D } from './Alignment2D';
 import type { FillStyle } from './FillStyle';
 import type { Padding } from './Padding';
 
+/**
+ * Something which contains all properties of a theme. Use this interface for
+ * creating new {@link Theme | themes}.
+ *
+ * @category Theme
+ */
 export interface ThemeProperties {
     // XXX THEMEPROPERTIES AUTO-GENERATED CODE START
     /** The canvas background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. */

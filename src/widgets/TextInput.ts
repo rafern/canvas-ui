@@ -3,12 +3,12 @@ import type { TextValidator } from '../validators/Validator';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerRelease } from '../events/PointerRelease';
 import { TextPasteEvent } from '../events/TextPasteEvent';
-import { TextHelper } from '../aggregates/TextHelper';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
-import { Variable } from '../aggregates/Variable';
+import { TextHelper } from '../helpers/TextHelper';
+import { Variable } from '../helpers/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
@@ -26,7 +26,7 @@ import { Widget } from './Widget';
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @template V The type of {@link value}; the type of the transformed value returned by the validator.
+ * @template V The type of {@link validValue}; the type of the transformed value returned by the validator.
  *
  * @category Widget
  */
@@ -55,7 +55,8 @@ export class TextInput<V> extends Widget {
     private _editingEnabled = true;
     /**
      * Is the text hidden?
-     * @multiFlagField(['cursorOffsetDirty', '_dirty'])
+     *
+     * @decorator `@multiFlagField(['cursorOffsetDirty', '_dirty'])`
      */
     @multiFlagField(['cursorOffsetDirty', '_dirty'])
     hideText = false;
@@ -69,12 +70,15 @@ export class TextInput<V> extends Widget {
     protected variable: Variable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
-     * @paintArrayField()
+     *
+     * @decorator `@paintArrayField()`
      */
     @paintArrayField()
     private offset = [0, 0];
     /**
      * Is text wrapping enabled? If not, text will be panned if needed
+     *
+     * @decorator `@layoutField`
      */
     @layoutField
     wrapText = true;
@@ -88,13 +92,19 @@ export class TextInput<V> extends Widget {
     inputFilter: ((input: string) => boolean) | null = null;
     /** Is the pointer dragging? */
     private dragging = false;
-    /** When was the last pointer click? For detecting double-clicks */
+    /** When was the last pointer click? For detecting double/triple-clicks */
     private lastClick = 0;
     /**
-     * If double-click dragging, what was the cursor position on the first
-     * double-click? This will be null if not double-click dragging
+     * The cursor position when dragging was started. Used for
+     * double/triple-click dragging.
      */
-    private doubleDragStart: number | null = null;
+    private dragStart = -1;
+    /**
+     * How many clicks have there been after a first click where the time
+     * between each click is less than 500 ms. Used for detecting double/triple
+     * clicks
+     */
+    private successiveClickCount: 0 | 1 | 2 = 0;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
@@ -214,18 +224,7 @@ export class TextInput<V> extends Widget {
 
     /** The current line number, starting from 0. */
     get line(): number {
-        const line = Math.floor(
-            this.cursorOffset[1] / this.textHelper.fullLineHeight,
-        );
-
-        if(line < 0)
-            return 0;
-
-        const lineMax = Math.max(this.textHelper.lineRanges.length, 1);
-        if(line < lineMax)
-            return line;
-        else
-            return lineMax - 1;
+        return this.textHelper.getLine(this.cursorPos);
     }
 
     /**
@@ -297,24 +296,14 @@ export class TextInput<V> extends Widget {
      * Move the cursor to the start of the line. Calls {@link moveCursorTo}
      */
     moveCursorStart(select: boolean): void {
-        this.moveCursorTo(this.textHelper.lineRanges[this.line][0][0], select);
+        this.moveCursorTo(this.textHelper.getLineStart(this.line), select);
     }
 
     /**
      * Move the cursor to the end of the line. Calls {@link moveCursorTo}
      */
     moveCursorEnd(select: boolean): void {
-        const range = this.textHelper.lineRanges[this.line];
-        const groupIndex = range.length - 1;
-        const group = range[groupIndex];
-        const lastIndex = group[1];
-
-        // Special case for newline in line with contents, since it counts as a
-        // character
-        if(lastIndex > 0 && this.text[lastIndex - 1] === '\n' && group[0] !== group[1])
-            this.moveCursorTo(lastIndex - 1, select);
-        else
-            this.moveCursorTo(lastIndex, select);
+        this.moveCursorTo(this.textHelper.getLineEnd(this.line, false), select);
     }
 
     /**
@@ -518,7 +507,7 @@ export class TextInput<V> extends Widget {
             // Stop dragging if the pointer leaves the text input, since it
             // won't receive pointer release events outside the widget
             this.dragging = false;
-            this.doubleDragStart = null;
+            this.lastClick = 0;
             return this;
         }
         else if(event instanceof PointerWheel) {
@@ -532,17 +521,22 @@ export class TextInput<V> extends Widget {
             // Request keyboard focus if this is a pointer press with the
             // primary button
             if(event instanceof PointerPress || event instanceof PointerMove) {
-                const isPress = event instanceof PointerPress && event.isPrimary();
-                let doubleClick = false;
+                const isPress = event instanceof PointerPress && event.isPrimary;
                 if(isPress) {
                     this.dragging = true;
-                    this.doubleDragStart = null;
                     const clickTime = (new Date()).getTime();
 
-                    // Clicking again in less than 500 milliseconds counts as a
-                    // double click
-                    if(clickTime - this.lastClick < 500)
-                        doubleClick = true;
+                    // Count successive clicks. Clicks counts as successive if
+                    // they come after the last click in less than 500 ms
+                    if(clickTime - this.lastClick < 500) {
+                        this.successiveClickCount++;
+                        // Wrap click counter around (there's no action above
+                        // triple click)
+                        if(this.successiveClickCount > 2)
+                            this.successiveClickCount = 0;
+                    }
+                    else
+                        this.successiveClickCount = 0;
 
                     this.lastClick = clickTime;
                 }
@@ -550,7 +544,6 @@ export class TextInput<V> extends Widget {
                     return this;
 
                 // Update cursor position (and offset) from click position
-                const lastCursorPos = this.cursorPos;
                 const padding = this.inputTextInnerPadding;
                 this.moveCursorFromOffset(
                     event.x - this.x - padding + this.offset[0],
@@ -558,26 +551,44 @@ export class TextInput<V> extends Widget {
                     !isPress && this.dragging,
                 );
 
-                // If this was a double-click and the cursor position didn't
-                // change, start double-click dragging
-                if(doubleClick && this.cursorPos === lastCursorPos) {
-                    this.doubleDragStart = this.cursorPos;
-                    this.lastClick = 0;
+                if(isPress) {
+                    // Prevent successive clicks from one cursor position to
+                    // another from counting as successive clicks
+                    if(this.cursorPos !== this.dragStart)
+                        this.successiveClickCount = 0;
+
+                    this.dragStart = this.cursorPos;
                 }
 
-                // If double-click dragging, select ranges of text
-                if(this.doubleDragStart !== null) {
-                    // Get the text range at the cursor and at the start of the
-                    // double click drag, then mush them together into a single
-                    // range
-                    const [doubleStart, doubleEnd] = this.selectRangeAt(this.doubleDragStart);
-                    const [curStart, curEnd] = this.selectRangeAt(this.cursorPos);
-                    const start = Math.min(doubleStart, curStart);
-                    const end = Math.max(doubleEnd, curEnd);
+                if(this.successiveClickCount > 0) {
+                    let start, end;
+
+                    if(this.successiveClickCount === 1) {
+                        // If double-click dragging, select ranges of text
+                        // Get the text range at the cursor and at the start of the
+                        // double click drag, then mush them together into a single
+                        // range
+                        const [doubleStart, doubleEnd] = this.selectRangeAt(this.dragStart);
+                        const [curStart, curEnd] = this.selectRangeAt(this.cursorPos);
+                        start = Math.min(doubleStart, curStart);
+                        end = Math.max(doubleEnd, curEnd);
+                    }
+                    else {
+                        // If triple-click dragging, select lines of text
+                        const startPos = Math.min(this.cursorPos, this.dragStart);
+                        const startLine = this.textHelper.getLine(startPos);
+                        start = this.textHelper.getLineStart(startLine);
+
+                        const endPos = Math.max(this.cursorPos, this.dragStart);
+                        const endLine = this.textHelper.getLine(endPos);
+                        // Include newlines so that deleting a triple-click
+                        // selection deletes entire lines
+                        end = this.textHelper.getLineEnd(endLine);
+                    }
 
                     // Set cursor positions. Get the drag direction and swap
                     // cursor and select pos depending on the direction
-                    if(this.cursorPos >= this.doubleDragStart) {
+                    if(this.cursorPos >= this.dragStart) {
                         this.selectPos = start;
                         this.cursorPos = end;
                     }
@@ -592,10 +603,9 @@ export class TextInput<V> extends Widget {
                 // Request focus
                 root.requestFocus(FocusType.Keyboard, this);
             }
-            else if(event instanceof PointerRelease && event.isPrimary()) {
+            else if(event instanceof PointerRelease && event.isPrimary) {
                 // Stop dragging
                 this.dragging = false;
-                this.doubleDragStart = null;
 
                 // Get mobile-friendly text input if available
                 if(root.hasMobileTextInput) {
@@ -616,7 +626,7 @@ export class TextInput<V> extends Widget {
         else if(event instanceof KeyPress) {
             // Stop dragging
             this.dragging = false;
-            this.doubleDragStart = null;
+            this.lastClick = 0;
 
             // Ignore all key presses with alt modifier
             if(event.alt)

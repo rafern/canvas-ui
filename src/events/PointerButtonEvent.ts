@@ -31,32 +31,32 @@ export abstract class PointerButtonEvent extends PointerEvent {
     }
 
     /** Is the button affected the left/primary button? */
-    isLeft(): boolean {
+    get isLeft(): boolean {
         return this.button === 0;
     }
 
     /** Alias for {@link isLeft} */
-    isPrimary(): boolean {
-        return this.isLeft();
+    get isPrimary(): boolean {
+        return this.isLeft;
     }
 
     /** Is the button affected the right/secondary button? */
-    isRight(): boolean {
+    get isRight(): boolean {
         return this.button === 1;
     }
 
     /** Alias for {@link isRight} */
-    isSecondary(): boolean {
-        return this.isRight();
+    get isSecondary(): boolean {
+        return this.isRight;
     }
 
     /** Is the button affected the middle/tertiary button? */
-    isMiddle(): boolean {
+    get isMiddle(): boolean {
         return this.button === 2;
     }
 
     /** Alias for {@link isMiddle} */
-    isTertiary(): boolean {
-        return this.isMiddle();
+    get isTertiary(): boolean {
+        return this.isMiddle;
     }
 }

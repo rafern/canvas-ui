@@ -10,7 +10,9 @@ import { Row } from '../Row';
  * which can be used as a virtual keyboard key widget.
  *
  * Example:
+ * ```typescript
  * const template: VirtualKeyTemplate = (keyContext, themeProperties) => new BackspaceKey(keyContext, themeProperties);
+ * ```
  *
  * @category Widget
  */
@@ -37,8 +39,10 @@ export type GlyphVirtualKeysTemplate = [string, string];
  * {@link GlyphVirtualKeysTemplate} and {@link VirtualKeyTemplate}.
  *
  * Example:
+ * ```typescript
  * const backspaceTemplate: VirtualKeyTemplate = (keyContext, themeProperties) => new BackspaceKey(keyContext, themeProperties);
  * const rowTemplate: VirtualKeyRowTemplate = [['`1234567890-=', '~!@#$%^&*()_+'], backspaceTemplate];
+ * ```
  *
  * @category Widget
  */

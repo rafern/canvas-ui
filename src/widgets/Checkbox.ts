@@ -1,5 +1,5 @@
-import { Variable, VariableCallback } from '../aggregates/Variable';
-import { ClickHelper, ClickState } from '../aggregates/ClickHelper';
+import { Variable, VariableCallback } from '../helpers/Variable';
+import { ClickHelper, ClickState } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import type { Event } from '../events/Event';
@@ -84,13 +84,19 @@ export class Checkbox extends Widget {
             [x, x + this.actualLength, y, y + this.actualLength],
         );
 
-        if(this.clickHelper.clickStateChanged && this.clickHelper.wasClick)
-            this.checked = !this.checked;
+        // Always flag as dirty if the click state changed (so glow colour takes
+        // effect). Toggle value if clicked
+        if(this.clickHelper.clickStateChanged) {
+            this._dirty = true;
+
+            if(this.clickHelper.wasClick)
+                this.checked = !this.checked;
+        }
 
         return this;
     }
 
-    protected override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePostLayoutUpdate(_root: Root): void {
         // Mark as dirty if variable is dirty
         if(this.variable.dirty)
             this._dirty = true;
@@ -126,8 +132,10 @@ export class Checkbox extends Widget {
         else
             ctx.fillStyle = this.backgroundFill;
 
+        const checkboxX = this.offsetX + this.x;
+        const checkboxY = this.offsetY + this.y;
         ctx.fillRect(
-            this.offsetX, this.offsetY, this.actualLength, this.actualLength,
+            checkboxX, checkboxY, this.actualLength, this.actualLength,
         );
 
         // Draw checked part of checkbox
@@ -144,16 +152,16 @@ export class Checkbox extends Widget {
             // for padding
             if(innerLength <= 0) {
                 ctx.fillRect(
-                    this.x + this.offsetX,
-                    this.y + this.offsetY,
+                    checkboxX,
+                    checkboxY,
                     this.actualLength,
                     this.actualLength,
                 );
             }
             else {
                 ctx.fillRect(
-                    this.x + this.offsetX + innerPadding,
-                    this.y + this.offsetY + innerPadding,
+                    checkboxX + innerPadding,
+                    checkboxY + innerPadding,
                     innerLength,
                     innerLength,
                 );

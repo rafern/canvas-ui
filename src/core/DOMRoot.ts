@@ -54,6 +54,10 @@ export class DOMRoot extends Root {
                 this.dispatchEvent(new TextPasteEvent(event.clipboardData.getData('text')));
         });
         this.domElem.contentEditable = 'true';
+
+        // Remove styling added by contenteditable
+        this.domElem.style.outline = '0px solid transparent';
+        this.domElem.style.cursor = 'default';
     }
 
     /**
