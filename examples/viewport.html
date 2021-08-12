@@ -4,35 +4,77 @@
         <script type='module'>
             import {
                 DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver,
-                ScrollableViewportWidget, ScrollbarMode,
+                TextButton, DOMKeyboardDriver, DOMPointerDriver, Slider,
+                ScrollableViewportWidget, ScrollbarMode, LabelledCheckbox,
+                ArtificialConstraint, Container, Alignment, ThemeScope, Theme,
             } from './index.esm.js';
 
-            // Create the root
+            // Create viewport with its child
+            const initialMinWidth = 75;
+            const initialMinHeight = 75;
             const label = new Label('Hello world!');
             const inputLabel = new Label('');
+            const viewport = new ScrollableViewportWidget(
+                new ThemeScope(
+                    new Margin(
+                        new Column()
+                        .add(label)
+                        .add(inputLabel)
+                        .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
+                        .add(
+                            new Center(
+                                new Row()
+                                .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
+                                .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
+                            )
+                        )
+                    ),
+                    new Theme({ canvasFill: 'red' }),
+                ),
+                initialMinWidth,
+                initialMinHeight,
+                false,
+                false,
+                ScrollbarMode.Overlay,
+            );
+
+            // Create the options UI
+            const widthLabel = new Label(`Minimum width: ${initialMinWidth}`);
+            const heightLabel = new Label(`Minimum height: ${initialMinHeight}`);
+            const controls = new Container(
+                new ArtificialConstraint(
+                    new Column()
+                    .add(new LabelledCheckbox('Width tied', tied => viewport.widthTied = tied, false))
+                    .add(new LabelledCheckbox('Height tied', tied => viewport.heightTied = tied, false))
+                    .add(new LabelledCheckbox('Overlay scrollbars', overlay => {
+                        viewport.scrollbarMode = overlay ? ScrollbarMode.Overlay
+                                                         : ScrollbarMode.Layout;
+                    }, true))
+                    .add(widthLabel)
+                    .add(new Slider(min => {
+                        viewport.minWidth = min;
+                        widthLabel.source = `Minimum width: ${min}`;
+                    }, 0, 500, 1, initialMinWidth))
+                    .add(heightLabel)
+                    .add(new Slider(min => {
+                        viewport.minHeight = min;
+                        heightLabel.source = `Minimum height: ${min}`;
+                    }, 0, 500, 1, initialMinHeight)),
+                    [0, 175, 0, Infinity]
+                )
+            );
+            controls.containerAlignment = {
+                horizontal: Alignment.Start, vertical: Alignment.Start,
+            };
+
+            // Create the root
             const root = new DOMRoot(
                 new Margin(
-                    new ScrollableViewportWidget(
-                        new Margin(
-                            new Column()
-                            .add(label)
-                            .add(inputLabel)
-                            .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
-                            .add(
-                                new Center(
-                                    new Row()
-                                    .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
-                                    .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
-                                )
-                            )
-                        ),
-                        70,
-                        70,
-                        false,
-                        false,
-                        ScrollbarMode.Overlay,
-                    )
+                    new Column()
+                    .add(new Label('Options:'))
+                    .add(controls)
+                    .add(new Label('Result:\n- Viewport is purple\n- Child is red'))
+                    .add(new ThemeScope(viewport, new Theme({ canvasFill: 'purple' })))
                 )
             );
 

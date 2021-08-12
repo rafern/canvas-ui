@@ -5,7 +5,7 @@
             import {
                 DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
                 TextButton, DOMKeyboardDriver, DOMPointerDriver, Spacing,
-                DOMVirtualKeyboardRoot, DebugTheme
+                DOMVirtualKeyboardRoot,
             } from './index.esm.js';
 
             // Create the root
@@ -25,7 +25,6 @@
                         )
                     )
                 ),
-                //new DebugTheme(),
             );
 
             // Create drivers
@@ -33,11 +32,7 @@
             const pointerDriver = new DOMPointerDriver();
 
             // Create the virtual keyboard root
-            const vkRoot = new DOMVirtualKeyboardRoot(
-                keyboardDriver,
-                undefined,
-                //new DebugTheme(),
-            );
+            const vkRoot = new DOMVirtualKeyboardRoot(keyboardDriver);
 
             // Register roots and bind DOM elements to drivers
             keyboardDriver.bindDOMElem(root.domElem);
@@ -61,11 +56,6 @@
             // Add roots to body
             document.body.appendChild(root.domElem);
             document.body.appendChild(vkRoot.domElem);
-
-            // workaround for firefox bug TODO remove me
-            const p = document.createElement('p');
-            p.textContent = 'workaround for firefox bug 1722155 (remove me in future)';
-            document.body.appendChild(p);
         </script>
     </head>
     <body>
