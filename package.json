@@ -1,5 +1,5 @@
 {
-  "name": "@canvas-ui/canvas-ui",
+  "name": "@rafern/canvas-ui",
   "version": "3.0.0",
   "description": "A Typescript UI library which uses HTML canvases",
   "main": "lib/index.js",
