@@ -6,7 +6,7 @@ import { Root } from '../core/Root';
  * A {@link PointerDriver} which gets pointer events from raycasts in a 3D
  * engine's world. This is an abstract class and must be implemented. For an
  * example, see
- * [canvas-ui-three](https://github.com/playkostudios/canvas-ui-three)'s
+ * [canvas-ui-three](https://github.com/rafern/canvas-ui-three)'s
  * ThreeRayPointerDriver implementation.
  *
  * @category Driver
