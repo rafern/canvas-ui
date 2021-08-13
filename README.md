@@ -2,7 +2,7 @@
 
 A Typescript UI library which uses HTML canvases.
 
-Documentation is available in the [docs folder](docs/README.md).
+Documentation is available on [Github pages](https://rafern.github.io/canvas-ui/).
 
 Unity integration can be found in the 
 [canvas-ui-unity repository](https://github.com/rafern/canvas-ui-unity).
@@ -12,6 +12,19 @@ three.js integration can be found in the
 
 Wonderland Engine integration can be found in the 
 [canvas-ui-wl repository](https://github.com/rafern/canvas-ui-wl).
+
+## Contributing
+
+To check for linter errors, run `npm run lint`
+
+To build this project, run `npm run build`
+
+To build this project in watch mode and with unminified output run `npm run dev`
+
+To re-generate the documentation, run `npm run docs`
+
+To add/modify theme properties, modify the `theme_properties.json` file and run
+`npm run generate_theme`
 
 ## Example
 
