@@ -1,4 +1,4 @@
-import type { VariableCallback } from '../aggregates/Variable';
+import type { VariableCallback } from '../helpers/Variable';
 import type { TextValidator } from './Validator';
 /**
  * A {@link TextValidator} which does nothing. Always reports a string as valid

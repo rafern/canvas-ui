@@ -1,0 +1,580 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>canvas-ui</title>
+	<meta name="description" content="Documentation for canvas-ui">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">canvas-ui</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>canvas-ui</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#canvas-ui" id="canvas-ui" style="color: inherit; text-decoration: none;">
+					<h1>canvas-ui</h1>
+				</a>
+				<p>A Typescript UI library which uses HTML canvases.</p>
+				<p>Documentation is available in the <a href="docs/README.md">docs folder</a>.</p>
+				<p>Unity integration can be found in the
+				<a href="https://github.com/playkostudios/canvas-ui-unity">canvas-ui-unity repository</a>.</p>
+				<p>three.js integration can be found in the
+				<a href="https://github.com/playkostudios/canvas-ui-three">canvas-ui-three repository</a>.</p>
+				<p>Wonderland Engine integration can be found in the
+				<a href="https://github.com/playkostudios/canvas-ui-wl">canvas-ui-wl repository</a>.</p>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h2>Example</h2>
+				</a>
+				<p>A simple example with a single canvas, pointer and keyboard input. This can be
+				found in <code>examples/simple.html</code></p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">DOMRoot</span><span style="color: #000000">, </span><span style="color: #001080">Label</span><span style="color: #000000">, </span><span style="color: #001080">Margin</span><span style="color: #000000">, </span><span style="color: #001080">Column</span><span style="color: #000000">, </span><span style="color: #001080">Row</span><span style="color: #000000">, </span><span style="color: #001080">Center</span><span style="color: #000000">, </span><span style="color: #001080">BasicTextInput</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">TextButton</span><span style="color: #000000">, </span><span style="color: #001080">DOMKeyboardDriver</span><span style="color: #000000">, </span><span style="color: #001080">DOMPointerDriver</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;../lib/index.esm.js&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// Create the root</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">label</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Hello world!&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">inputLabel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">root</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMRoot</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Margin</span><span style="color: #000000">(</span>
+<span style="color: #000000">        </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Column</span><span style="color: #000000">()</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">label</span><span style="color: #000000">)</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">inputLabel</span><span style="color: #000000">)</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">BasicTextInput</span><span style="color: #000000">(</span><span style="color: #001080">text</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">inputLabel</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">`Text input: </span><span style="color: #0000FF">${</span><span style="color: #001080">text</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">))</span>
+<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span>
+<span style="color: #000000">            </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Center</span><span style="color: #000000">(</span>
+<span style="color: #000000">                </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Row</span><span style="color: #000000">()</span>
+<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 1&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 1 clicked!&#039;</span><span style="color: #000000">))</span>
+<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 2&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 2 clicked!&#039;</span><span style="color: #000000">))</span>
+<span style="color: #000000">            )</span>
+<span style="color: #000000">        )</span>
+<span style="color: #000000">    )</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #008000">// Create, bind DOM and register the keyboard driver</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">keyboardDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMKeyboardDriver</span><span style="color: #000000">();</span>
+<span style="color: #001080">keyboardDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">keyboardDriver</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Create, bind DOM and register the pointer driver</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pointerDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMPointerDriver</span><span style="color: #000000">();</span>
+<span style="color: #001080">pointerDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">, </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">pointerDriver</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Run the update loop</span>
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">updateLoop</span><span style="color: #000000">() {</span>
+<span style="color: #000000">    </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">update</span><span style="color: #000000">();</span>
+<span style="color: #000000">    </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Add root to body</span>
+<span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #001080">body</span><span style="color: #000000">.</span><span style="color: #795E26">appendChild</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#using-mixins" id="using-mixins" style="color: inherit; text-decoration: none;">
+					<h2>Using mixins</h2>
+				</a>
+				<p>Mixins are a type of class which provides partial functionality. canvas-ui uses
+					mixins to provide more reusability. Mixins are created with
+					<a href="https://www.npmjs.com/package/ts-mixer">ts-mixer</a>, so if you want to create
+				custom classes which uses mixins, make sure to install this package with:</p>
+				<pre><code class="language-sh"><span style="color: #000000">npm install --save-dev ts-mixer</span>
+</code></pre>
+				<p>If you are creating a class which only extends a single mixin, then that class
+				can be created with regular inheritance:</p>
+				<pre><code class="language-typescript"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">MixinClass</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>If you are creating a class which extends multiple mixins, or a class and
+				multiple mixins, then ts-mixer must be used:</p>
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Mixin</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;ts-mixer&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass1</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass2</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">, </span><span style="color: #001080">BaseClass</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<p>Note that this does not work with generic classes. For that, follow the
+					<a href="https://www.npmjs.com/package/ts-mixer#mixing-generic-classes">ts-mixer documentation</a>.
+				There are other special cases which can also be found in the documentation.</p>
+				<p><strong>WARNING</strong>: The Mixin function applies constructors from left to right, meaning
+					that the rightmost mixin class will override the constructor. Not taking this
+					into account will lead to bugs for mixin classes that override the constructor,
+				such as the SingleParent/MultiParent mixin classes</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/alignment.html" class="tsd-kind-icon">Alignment</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/clickstate.html" class="tsd-kind-icon">Click<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/flexalignment.html" class="tsd-kind-icon">Flex<wbr>Alignment</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/focustype.html" class="tsd-kind-icon">Focus<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/pointerhint.html" class="tsd-kind-icon">Pointer<wbr>Hint</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/scrollbarmode.html" class="tsd-kind-icon">Scrollbar<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/wrapmode.html" class="tsd-kind-icon">Wrap<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/altkey.html" class="tsd-kind-icon">Alt<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/artificialconstraint.html" class="tsd-kind-icon">Artificial<wbr>Constraint</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backspacekey.html" class="tsd-kind-icon">Backspace<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/basecontainer.html" class="tsd-kind-icon">Base<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basetheme.html" class="tsd-kind-icon">Base<wbr>Theme</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basictextinput.html" class="tsd-kind-icon">Basic<wbr>Text<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/basicvirtualkey.html" class="tsd-kind-icon">Basic<wbr>Virtual<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/button.html" class="tsd-kind-icon">Button</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/center.html" class="tsd-kind-icon">Center</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/checkbox.html" class="tsd-kind-icon">Checkbox</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clickhelper.html" class="tsd-kind-icon">Click<wbr>Helper</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/column.html" class="tsd-kind-icon">Column</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/container.html" class="tsd-kind-icon">Container</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/controlkey.html" class="tsd-kind-icon">Control<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/domkeyboarddriver.html" class="tsd-kind-icon">DOMKeyboard<wbr>Driver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/dompointerdriver.html" class="tsd-kind-icon">DOMPointer<wbr>Driver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/domroot.html" class="tsd-kind-icon">DOMRoot</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/domvirtualkeyboardroot.html" class="tsd-kind-icon">DOMVirtual<wbr>Keyboard<wbr>Root</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/debugtheme.html" class="tsd-kind-icon">Debug<wbr>Theme</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/enterkey.html" class="tsd-kind-icon">Enter<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/escapekey.html" class="tsd-kind-icon">Escape<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/filledbutton.html" class="tsd-kind-icon">Filled<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/glyphvirtualkey.html" class="tsd-kind-icon">Glyph<wbr>Virtual<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/icon.html" class="tsd-kind-icon">Icon</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/iconbutton.html" class="tsd-kind-icon">Icon<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keyevent.html" class="tsd-kind-icon">Key<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keypress.html" class="tsd-kind-icon">Key<wbr>Press</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keyrelease.html" class="tsd-kind-icon">Key<wbr>Release</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keyboarddriver.html" class="tsd-kind-icon">Keyboard<wbr>Driver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/label.html" class="tsd-kind-icon">Label</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/labelledcheckbox.html" class="tsd-kind-icon">Labelled<wbr>Checkbox</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/leave.html" class="tsd-kind-icon">Leave</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/margin.html" class="tsd-kind-icon">Margin</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/modifierevent.html" class="tsd-kind-icon">Modifier<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/multicontainer.html" class="tsd-kind-icon">Multi<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/multiparent.html" class="tsd-kind-icon">Multi<wbr>Parent</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/parent.html" class="tsd-kind-icon">Parent</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/passthroughwidget.html" class="tsd-kind-icon">Passthrough<wbr>Widget</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerbuttonevent.html" class="tsd-kind-icon">Pointer<wbr>Button<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerdriver.html" class="tsd-kind-icon">Pointer<wbr>Driver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerevent.html" class="tsd-kind-icon">Pointer<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointermove.html" class="tsd-kind-icon">Pointer<wbr>Move</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerpress.html" class="tsd-kind-icon">Pointer<wbr>Press</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerrelease.html" class="tsd-kind-icon">Pointer<wbr>Release</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pointerwheel.html" class="tsd-kind-icon">Pointer<wbr>Wheel</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/raypointerdriver.html" class="tsd-kind-icon">Ray<wbr>Pointer<wbr>Driver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/root.html" class="tsd-kind-icon">Root</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/row.html" class="tsd-kind-icon">Row</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/scrollableviewportwidget.html" class="tsd-kind-icon">Scrollable<wbr>Viewport<wbr>Widget</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/shiftkey.html" class="tsd-kind-icon">Shift<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/singleparent.html" class="tsd-kind-icon">Single<wbr>Parent</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/slider.html" class="tsd-kind-icon">Slider</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spacekey.html" class="tsd-kind-icon">Space<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spacing.html" class="tsd-kind-icon">Spacing</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textbutton.html" class="tsd-kind-icon">Text<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/texthelper.html" class="tsd-kind-icon">Text<wbr>Helper</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/textinput.html" class="tsd-kind-icon">Text<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/textmargin.html" class="tsd-kind-icon">Text<wbr>Margin</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textpasteevent.html" class="tsd-kind-icon">Text<wbr>Paste<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/theme.html" class="tsd-kind-icon">Theme</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/themescope.html" class="tsd-kind-icon">Theme<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/variable.html" class="tsd-kind-icon">Variable</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/viewport.html" class="tsd-kind-icon">Viewport</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/viewportwidget.html" class="tsd-kind-icon">Viewport<wbr>Widget</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualkey.html" class="tsd-kind-icon">Virtual<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualkeyrow.html" class="tsd-kind-icon">Virtual<wbr>Key<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualkeyboard.html" class="tsd-kind-icon">Virtual<wbr>Keyboard</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualkeyboardroot.html" class="tsd-kind-icon">Virtual<wbr>Keyboard<wbr>Root</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/widget.html" class="tsd-kind-icon">Widget</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/alignment2d.html" class="tsd-kind-icon">Alignment2D</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/driver.html" class="tsd-kind-icon">Driver</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/flexalignment2d.html" class="tsd-kind-icon">Flex<wbr>Alignment2D</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keycontext.html" class="tsd-kind-icon">Key<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/padding.html" class="tsd-kind-icon">Padding</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/raypointersource.html" class="tsd-kind-icon">Ray<wbr>Pointer<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/themeproperties.html" class="tsd-kind-icon">Theme<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#fillstyle" class="tsd-kind-icon">Fill<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#glyphvirtualkeystemplate" class="tsd-kind-icon">Glyph<wbr>Virtual<wbr>Keys<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#keycontextcallback" class="tsd-kind-icon">Key<wbr>Context<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#layoutconstraints" class="tsd-kind-icon">Layout<wbr>Constraints</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#linerange" class="tsd-kind-icon">Line<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#pointerstylehandler" class="tsd-kind-icon">Pointer<wbr>Style<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#textgetter" class="tsd-kind-icon">Text<wbr>Getter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#textinputhandler" class="tsd-kind-icon">Text<wbr>Input<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#textrendergroup" class="tsd-kind-icon">Text<wbr>Render<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#textvalidator" class="tsd-kind-icon">Text<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#unknownvalidator" class="tsd-kind-icon">Unknown<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#validator" class="tsd-kind-icon">Validator</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="modules.html#variablecallback" class="tsd-kind-icon">Variable<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#virtualkeyrowtemplate" class="tsd-kind-icon">Virtual<wbr>Key<wbr>Row<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#virtualkeytemplate" class="tsd-kind-icon">Virtual<wbr>Key<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#virtualkeyboardtemplate" class="tsd-kind-icon">Virtual<wbr>Keyboard<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#defaultvirtualkeyboardtemplate" class="tsd-kind-icon">default<wbr>Virtual<wbr>Keyboard<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#defaulttextinputhandler" class="tsd-kind-icon">Default<wbr>Text<wbr>Input<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#defaulttextvalidator" class="tsd-kind-icon">Default<wbr>Text<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#floatvalidator" class="tsd-kind-icon">Float<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#intvalidator" class="tsd-kind-icon">Int<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#makecompositevalidator" class="tsd-kind-icon">Make<wbr>Composite<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#makedefaulttextvalidatorwithcallback" class="tsd-kind-icon">Make<wbr>Default<wbr>Text<wbr>Validator<wbr>With<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#makerangevalidator" class="tsd-kind-icon">Make<wbr>Range<wbr>Validator</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#flagarrayfield" class="tsd-kind-icon">flag<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#flagfield" class="tsd-kind-icon">flag<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpointereventnormpos" class="tsd-kind-icon">get<wbr>Pointer<wbr>Event<wbr>Norm<wbr>Pos</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#layoutarrayfield" class="tsd-kind-icon">layout<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#layoutfield" class="tsd-kind-icon">layout<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#measuretextdims" class="tsd-kind-icon">measure<wbr>Text<wbr>Dims</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#multiflagarrayfield" class="tsd-kind-icon">multi<wbr>Flag<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#multiflagfield" class="tsd-kind-icon">multi<wbr>Flag<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#paintarrayfield" class="tsd-kind-icon">paint<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#paintfield" class="tsd-kind-icon">paint<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#paintlayoutarrayfield" class="tsd-kind-icon">paint<wbr>Layout<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#paintlayoutfield" class="tsd-kind-icon">paint<wbr>Layout<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#roundtopower2" class="tsd-kind-icon">round<wbr>ToPower2</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#watcharrayfield" class="tsd-kind-icon">watch<wbr>Array<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#watchfield" class="tsd-kind-icon">watch<wbr>Field</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
-import { Variable, VariableCallback } from '../aggregates/Variable';
-import { ClickHelper } from '../aggregates/ClickHelper';
+import { Variable, VariableCallback } from '../helpers/Variable';
+import { ClickHelper } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
@@ -44,6 +44,7 @@ export declare class Slider extends Widget {
     get value(): number;
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): this | null;
+    protected handlePostLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

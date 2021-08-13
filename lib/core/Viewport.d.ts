@@ -1,3 +1,4 @@
+import type { LayoutConstraints } from './LayoutConstraints';
 import type { Widget } from '../widgets/Widget';
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -13,9 +14,10 @@ export declare class Viewport {
      *
      * By default, has no minimum width nor height and unconstrained maximum
      * width and height.
-     * @paintArrayField()
+     *
+     * @decorator `@paintArrayField()`
      */
-    constraints: [number, number, number, number];
+    constraints: LayoutConstraints;
     /** Have the constraints been changed? */
     private dirty;
     /** The internal canvas. Widgets are painted to this */

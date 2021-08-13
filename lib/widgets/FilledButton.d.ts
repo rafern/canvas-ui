@@ -1,13 +1,12 @@
+import { ThemeProperties } from '../theme/ThemeProperties';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
-import { ThemeProperties } from '../theme/ThemeProperties';
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
- * filled background. Uses a technique similar to {@link ThemeScope} to achieve
- * this.
+ * filled background.
  *
  * Can be constrained to a specific type of children.
  *
@@ -22,7 +21,8 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     private backgroundProperty;
     /**
      * Is the button currently forced down?
-     * @watchField(FilledButton.prototype.updateBackground)
+     *
+     * @decorator `@watchField(FilledButton.prototype.updateBackground)`
      */
     forced: boolean;
     /** The inherited theme for the child */

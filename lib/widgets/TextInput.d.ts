@@ -1,7 +1,7 @@
 import type { TextValidator } from '../validators/Validator';
 import { ThemeProperties } from '../theme/ThemeProperties';
-import { TextHelper } from '../aggregates/TextHelper';
-import { Variable } from '../aggregates/Variable';
+import { TextHelper } from '../helpers/TextHelper';
+import { Variable } from '../helpers/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
@@ -16,7 +16,7 @@ import { Widget } from './Widget';
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @template V The type of {@link value}; the type of the transformed value returned by the validator.
+ * @template V The type of {@link validValue}; the type of the transformed value returned by the validator.
  *
  * @category Widget
  */
@@ -45,7 +45,8 @@ export declare class TextInput<V> extends Widget {
     private _editingEnabled;
     /**
      * Is the text hidden?
-     * @multiFlagField(['cursorOffsetDirty', '_dirty'])
+     *
+     * @decorator `@multiFlagField(['cursorOffsetDirty', '_dirty'])`
      */
     hideText: boolean;
     /** Is the text valid? */
@@ -58,11 +59,14 @@ export declare class TextInput<V> extends Widget {
     protected variable: Variable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
-     * @paintArrayField()
+     *
+     * @decorator `@paintArrayField()`
      */
     private offset;
     /**
      * Is text wrapping enabled? If not, text will be panned if needed
+     *
+     * @decorator `@layoutField`
      */
     wrapText: boolean;
     /**
@@ -75,13 +79,19 @@ export declare class TextInput<V> extends Widget {
     inputFilter: ((input: string) => boolean) | null;
     /** Is the pointer dragging? */
     private dragging;
-    /** When was the last pointer click? For detecting double-clicks */
+    /** When was the last pointer click? For detecting double/triple-clicks */
     private lastClick;
     /**
-     * If double-click dragging, what was the cursor position on the first
-     * double-click? This will be null if not double-click dragging
+     * The cursor position when dragging was started. Used for
+     * double/triple-click dragging.
      */
-    private doubleDragStart;
+    private dragStart;
+    /**
+     * How many clicks have there been after a first click where the time
+     * between each click is less than 500 ms. Used for detecting double/triple
+     * clicks
+     */
+    private successiveClickCount;
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, themeProperties?: ThemeProperties);
     protected onThemeUpdated(property?: string | null): void;

@@ -1,3 +1,4 @@
+import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
@@ -23,12 +24,14 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     private _heightTied;
     /**
      * The minimum width that this widget will try to expand to.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     minWidth: number;
     /**
      * The minimum height that this widget will try to expand to.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     minHeight: number;
     /** The actual viewport object, or null if the child is just clipped. */
@@ -42,16 +45,14 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      */
     private _constraints;
     /** Force child re-layout? Only used when not using a Viewport */
-    private forceReLayout;
+    protected forceReLayout: boolean;
     /** Force child re-paint? Only used when not using a Viewport */
-    private forceRePaint;
+    protected forceRePaint: boolean;
     /** Create a new ViewportWidget. */
     constructor(child: W, minWidth?: number, minHeight?: number, widthTied?: boolean, heightTied?: boolean, useViewport?: boolean, themeProperties?: ThemeProperties);
     /**
      * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Useful for implementing scrolling. Not using
-     * {@link paintArrayField | @paintArrayField()} so that the accessor can be
-     * overridden.
+     * as well as rendering. Useful for implementing scrolling.
      */
     get offset(): [number, number];
     set offset(offset: [number, number]);
@@ -60,19 +61,17 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      * constraints are also updated, but may be different due to
      * {@link widthTied} or {@link heightTied}.
      */
-    set constraints(constraints: [number, number, number, number]);
-    get constraints(): [number, number, number, number];
+    set constraints(constraints: LayoutConstraints);
+    get constraints(): LayoutConstraints;
     /**
      * Is the width tied to the child's? If true, width constraints will be
-     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
-     * the accessor can be overridden.
+     * ignored.
      */
     get widthTied(): boolean;
     set widthTied(widthTied: boolean);
     /**
      * Is the height tied to the child's? If true, height constraints will be
-     * ignored. Not using {@link paintArrayField | @paintArrayField()} so that
-     * the accessor can be overridden.
+     * ignored.
      */
     get heightTied(): boolean;
     set heightTied(heightTied: boolean);

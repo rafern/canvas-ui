@@ -1,3 +1,4 @@
+import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PassthroughWidget } from './PassthroughWidget';
 import type { Widget } from './Widget';
@@ -17,9 +18,11 @@ export declare class ArtificialConstraint<W extends Widget = Widget> extends Pas
      * respectively, minimum width, maximum width, minimum height and maximum
      * height. Changing this sets {@link _layoutDirty} to true. Constraints are
      * only applied if they are more restrictive than the original constraints.
+     *
+     * @decorator `@layoutArrayField()`
      */
-    constraints: [number, number, number, number];
+    constraints: LayoutConstraints;
     /** Create a new PassthroughWidget. */
-    constructor(child: W, constraints?: [number, number, number, number], themeProperties?: ThemeProperties);
+    constructor(child: W, constraints?: LayoutConstraints, themeProperties?: ThemeProperties);
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

@@ -1,12 +1,13 @@
-import { ClickHelper } from '../aggregates/ClickHelper';
-import { BaseContainer } from './BaseContainer';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ClickHelper } from '../helpers/ClickHelper';
+import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 /**
- * A {@link BaseContainer} which can be {@link Clickable | clicked} as a button.
- * Since the button grabs all events, no events are propagated to the child.
+ * A {@link BaseContainer} which can be {@link ClickHelper | clicked} as a
+ * button. Since the button grabs all events, no events are propagated to the
+ * child.
  *
  * Can be constrained to a specific type of children.
  *

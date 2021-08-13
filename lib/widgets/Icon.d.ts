@@ -16,25 +16,29 @@ export declare class Icon extends Widget {
     private lastSrc;
     /**
      * The current image rotation in radians.
-     * @paintField
+     *
+     * @decorator `@paintField`
      */
     rotation: number;
     /**
      * The view box of this Icon, useful if the image used for the icon is a
      * spritesheet. If null, the entire image will be used.
-     * @paintLayoutArrayField(true)
+     *
+     * @decorator `@paintLayoutArrayField(true)`
      */
     viewBox: [number, number, number, number] | null;
     /**
      * The wanted width. If null, the image's width will be used, taking
      * {@link viewBox} into account.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     imageWidth: number | null;
     /**
      * The wanted height. If null, the image's height will be used, taking
      * {@link viewBox} into account.
-     * @layoutField
+     *
+     * @decorator `@layoutField`
      */
     imageHeight: number | null;
     /** Horizontal offset. */

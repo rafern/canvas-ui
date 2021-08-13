@@ -25,7 +25,7 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Widget will have its background automatically cleared when painting if
      * needsClear is true. The background fill style used is
-     * {@link ThemeProperty.CanvasFill}.
+     * {@link canvasFill}.
      */
     readonly needsClear: boolean;
     /**
@@ -181,7 +181,7 @@ export declare abstract class Widget extends BaseTheme {
      *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
      */
     protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
@@ -190,14 +190,12 @@ export declare abstract class Widget extends BaseTheme {
      *
      * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link ThemeProperty.CanvasFill} is used
+     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
      */
     protected clearStart(ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
      * Paiting utility: end a clear operation (from {@link clearStart}). Should
      * not be overridden.
-     *
-     * The background fill style used is {@link ThemeProperty.CanvasFill}.
      *
      * @param fillRule The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
      */

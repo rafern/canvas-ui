@@ -89,7 +89,7 @@ export declare class KeyboardDriver implements Driver {
      */
     onDisable(root: Root): void;
     /**
-     * Dispatches all {@link eventQueue | queued events } for the root and
+     * Dispatches all {@link eventQueues | queued events } for the root and
      * clears its event queue
      */
     update(root: Root): void;

@@ -51,6 +51,10 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
     private startingOffset;
     /** When was the last scroll attempt in milliseconds since Unix epoch? */
     private lastScroll;
+    /** Was the horizontal scrollbar painted last frame? */
+    private horizWasPainted;
+    /** Was the vertical scrollbar painted last frame? */
+    private vertWasPainted;
     /**
      * Create a new ScrollableViewportWidget.
      *
@@ -111,6 +115,8 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      * @returns Returns a 2-tuple with 2 4-tuples. The first one is the scrollbar fill rectangle and the second one is the background fill rectangle. Each rectangle 4-tuple contains, respectively, horizontal offset, vertical offset, width and height
      */
     private getScrollbarRects;
+    /** Check if a scrollbar needs to be painted */
+    private scrollbarNeedsPaint;
     /** Paint a scrollbar. For internal use only */
     private paintScrollbar;
 }
