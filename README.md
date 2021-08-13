@@ -5,107 +5,34 @@ A Typescript UI library which uses HTML canvases.
 Documentation is available in the [docs folder](docs/README.md).
 
 Unity integration can be found in the 
-[canvas-ui-unity repository](https://github.com/playkostudios/canvas-ui-unity).
+[canvas-ui-unity repository](https://github.com/rafern/canvas-ui-unity).
 
 three.js integration can be found in the 
-[canvas-ui-three repository](https://github.com/playkostudios/canvas-ui-three).
+[canvas-ui-three repository](https://github.com/rafern/canvas-ui-three).
 
 Wonderland Engine integration can be found in the 
-[canvas-ui-wl repository](https://github.com/playkostudios/canvas-ui-wl).
+[canvas-ui-wl repository](https://github.com/rafern/canvas-ui-wl).
 
 ## Example
 
-A simple example with a single canvas, pointer and keyboard input. This can be
-found in `examples/simple.html`
+Examples can be found in the `examples` folder
 
-```typescript
-import {
-    DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-    TextButton, DOMKeyboardDriver, DOMPointerDriver
-} from '../lib/index.esm.js';
+## Special thanks
 
-// Create the root
-const label = new Label('Hello world!');
-const inputLabel = new Label('');
-const root = new DOMRoot(
-    new Margin(
-        new Column()
-        .add(label)
-        .add(inputLabel)
-        .add(new BasicTextInput(text => inputLabel.text = `Text input: ${text}`))
-        .add(
-            new Center(
-                new Row()
-                .add(new TextButton('Button 1', () => label.text = 'Button 1 clicked!'))
-                .add(new TextButton('Button 2', () => label.text = 'Button 2 clicked!'))
-            )
-        )
-    )
-);
+Special thanks to Playko ([website](https://www.playko.com/),
+[github](https://github.com/playkostudios)) where this project started and is
+currently being developed at.
 
-// Create, bind DOM and register the keyboard driver
-const keyboardDriver = new DOMKeyboardDriver();
-keyboardDriver.bindDOMElem(root.domElem);
-root.registerDriver(keyboardDriver);
+## License
 
-// Create, bind DOM and register the pointer driver
-const pointerDriver = new DOMPointerDriver();
-pointerDriver.bindDOMElem(root, root.domElem);
-root.registerDriver(pointerDriver);
+This project is licensed under the MIT license (see the LICENSE file)
 
-// Run the update loop
-function updateLoop() {
-    root.update();
-    window.requestAnimationFrame(updateLoop);
-}
-
-window.requestAnimationFrame(updateLoop);
-
-// Add root to body
-document.body.appendChild(root.domElem);
-```
-
-
-## Using mixins
-
-Mixins are a type of class which provides partial functionality. canvas-ui uses
-mixins to provide more reusability. Mixins are created with
-[ts-mixer](https://www.npmjs.com/package/ts-mixer), so if you want to create
-custom classes which uses mixins, make sure to install this package with:
-
-```sh
-npm install --save-dev ts-mixer
-```
-
-If you are creating a class which only extends a single mixin, then that class
-can be created with regular inheritance:
-
-```typescript
-class ExampleClass extends MixinClass {
-    // Implementation goes here
-}
-```
-
-If you are creating a class which extends multiple mixins, or a class and
-multiple mixins, then ts-mixer must be used:
-
-```typescript
-import { Mixin } from 'ts-mixer';
-
-class ExampleClass1 extends Mixin(Mixin1, Mixin2) {
-    // Implementation goes here
-}
-
-class ExampleClass2 extends Mixin(Mixin1, Mixin2, BaseClass) {
-    // Implementation goes here
-}
-```
-
-Note that this does not work with generic classes. For that, follow the
-[ts-mixer documentation](https://www.npmjs.com/package/ts-mixer#mixing-generic-classes).
-There are other special cases which can also be found in the documentation.
-
-__WARNING__: The Mixin function applies constructors from left to right, meaning
-that the rightmost mixin class will override the constructor. Not taking this
-into account will lead to bugs for mixin classes that override the constructor,
-such as the SingleParent/MultiParent mixin classes
+This project uses the following open-source projects:
+- [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin) licensed under the MIT license
+- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser) licensed under the BSD 2-Clause license
+- [esbuild](https://github.com/evanw/esbuild) licensed under the MIT license
+- [eslint](https://github.com/eslint/eslint) licensed under the MIT license
+- [eslint-plugin-tree-shaking](https://github.com/lukastaegert/eslint-plugin-tree-shaking) licensed under the MIT license
+- [local-web-server](https://github.com/lwsjs/local-web-server) licensed under the MIT license
+- [typedoc](https://github.com/TypeStrong/TypeDoc) licensed under the Apache 2.0 license
+- [typescript](https://github.com/Microsoft/TypeScript) licensed under the Apache 2.0 license
