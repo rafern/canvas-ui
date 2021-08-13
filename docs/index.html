@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>canvas-ui</title>
-	<meta name="description" content="Documentation for canvas-ui">
+	<title>@canvas-ui/canvas-ui</title>
+	<meta name="description" content="Documentation for @canvas-ui/canvas-ui">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script async src="assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">canvas-ui</a>
+					<a href="index.html" class="title">@canvas-ui/canvas-ui</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -50,7 +50,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<h1>canvas-ui</h1>
+			<h1>@canvas-ui/canvas-ui</h1>
 		</div>
 	</div>
 </header>
@@ -62,97 +62,47 @@
 					<h1>canvas-ui</h1>
 				</a>
 				<p>A Typescript UI library which uses HTML canvases.</p>
-				<p>Documentation is available in the <a href="docs/README.md">docs folder</a>.</p>
+				<p>Documentation is available on <a href="https://rafern.github.io/canvas-ui/">Github pages</a>.</p>
 				<p>Unity integration can be found in the
-				<a href="https://github.com/playkostudios/canvas-ui-unity">canvas-ui-unity repository</a>.</p>
+				<a href="https://github.com/rafern/canvas-ui-unity">canvas-ui-unity repository</a>.</p>
 				<p>three.js integration can be found in the
-				<a href="https://github.com/playkostudios/canvas-ui-three">canvas-ui-three repository</a>.</p>
+				<a href="https://github.com/rafern/canvas-ui-three">canvas-ui-three repository</a>.</p>
 				<p>Wonderland Engine integration can be found in the
-				<a href="https://github.com/playkostudios/canvas-ui-wl">canvas-ui-wl repository</a>.</p>
+				<a href="https://github.com/rafern/canvas-ui-wl">canvas-ui-wl repository</a>.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>To check for linter errors, run <code>npm run lint</code></p>
+				<p>To build this project, run <code>npm run build</code></p>
+				<p>To build this project in watch mode and with unminified output run <code>npm run dev</code></p>
+				<p>To re-generate the documentation, run <code>npm run docs</code></p>
+				<p>To add/modify theme properties, modify the <code>theme_properties.json</code> file and run
+				<code>npm run generate_theme</code></p>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h2>Example</h2>
 				</a>
-				<p>A simple example with a single canvas, pointer and keyboard input. This can be
-				found in <code>examples/simple.html</code></p>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">DOMRoot</span><span style="color: #000000">, </span><span style="color: #001080">Label</span><span style="color: #000000">, </span><span style="color: #001080">Margin</span><span style="color: #000000">, </span><span style="color: #001080">Column</span><span style="color: #000000">, </span><span style="color: #001080">Row</span><span style="color: #000000">, </span><span style="color: #001080">Center</span><span style="color: #000000">, </span><span style="color: #001080">BasicTextInput</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">TextButton</span><span style="color: #000000">, </span><span style="color: #001080">DOMKeyboardDriver</span><span style="color: #000000">, </span><span style="color: #001080">DOMPointerDriver</span>
-<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;../lib/index.esm.js&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #008000">// Create the root</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">label</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Hello world!&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">inputLabel</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Label</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">root</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMRoot</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Margin</span><span style="color: #000000">(</span>
-<span style="color: #000000">        </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Column</span><span style="color: #000000">()</span>
-<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">label</span><span style="color: #000000">)</span>
-<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #001080">inputLabel</span><span style="color: #000000">)</span>
-<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">BasicTextInput</span><span style="color: #000000">(</span><span style="color: #001080">text</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">inputLabel</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">`Text input: </span><span style="color: #0000FF">${</span><span style="color: #001080">text</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">))</span>
-<span style="color: #000000">        .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span>
-<span style="color: #000000">            </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Center</span><span style="color: #000000">(</span>
-<span style="color: #000000">                </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Row</span><span style="color: #000000">()</span>
-<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 1&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 1 clicked!&#039;</span><span style="color: #000000">))</span>
-<span style="color: #000000">                .</span><span style="color: #795E26">add</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">TextButton</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Button 2&#039;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">label</span><span style="color: #000000">.</span><span style="color: #001080">text</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;Button 2 clicked!&#039;</span><span style="color: #000000">))</span>
-<span style="color: #000000">            )</span>
-<span style="color: #000000">        )</span>
-<span style="color: #000000">    )</span>
-<span style="color: #000000">);</span>
-
-<span style="color: #008000">// Create, bind DOM and register the keyboard driver</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">keyboardDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMKeyboardDriver</span><span style="color: #000000">();</span>
-<span style="color: #001080">keyboardDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
-<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">keyboardDriver</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">// Create, bind DOM and register the pointer driver</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">pointerDriver</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">DOMPointerDriver</span><span style="color: #000000">();</span>
-<span style="color: #001080">pointerDriver</span><span style="color: #000000">.</span><span style="color: #795E26">bindDOMElem</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">, </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
-<span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">registerDriver</span><span style="color: #000000">(</span><span style="color: #001080">pointerDriver</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">// Run the update loop</span>
-<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">updateLoop</span><span style="color: #000000">() {</span>
-<span style="color: #000000">    </span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #795E26">update</span><span style="color: #000000">();</span>
-<span style="color: #000000">    </span><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
-
-<span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">requestAnimationFrame</span><span style="color: #000000">(</span><span style="color: #001080">updateLoop</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">// Add root to body</span>
-<span style="color: #001080">document</span><span style="color: #000000">.</span><span style="color: #001080">body</span><span style="color: #000000">.</span><span style="color: #795E26">appendChild</span><span style="color: #000000">(</span><span style="color: #001080">root</span><span style="color: #000000">.</span><span style="color: #001080">domElem</span><span style="color: #000000">);</span>
-</code></pre>
-				<a href="#using-mixins" id="using-mixins" style="color: inherit; text-decoration: none;">
-					<h2>Using mixins</h2>
+				<p>Examples can be found in the <code>examples</code> folder</p>
+				<a href="#special-thanks" id="special-thanks" style="color: inherit; text-decoration: none;">
+					<h2>Special thanks</h2>
 				</a>
-				<p>Mixins are a type of class which provides partial functionality. canvas-ui uses
-					mixins to provide more reusability. Mixins are created with
-					<a href="https://www.npmjs.com/package/ts-mixer">ts-mixer</a>, so if you want to create
-				custom classes which uses mixins, make sure to install this package with:</p>
-				<pre><code class="language-sh"><span style="color: #000000">npm install --save-dev ts-mixer</span>
-</code></pre>
-				<p>If you are creating a class which only extends a single mixin, then that class
-				can be created with regular inheritance:</p>
-				<pre><code class="language-typescript"><span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #267F99">MixinClass</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
-<span style="color: #000000">}</span>
-</code></pre>
-				<p>If you are creating a class which extends multiple mixins, or a class and
-				multiple mixins, then ts-mixer must be used:</p>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Mixin</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;ts-mixer&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass1</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
-<span style="color: #000000">}</span>
-
-<span style="color: #0000FF">class</span><span style="color: #000000"> </span><span style="color: #267F99">ExampleClass2</span><span style="color: #000000"> </span><span style="color: #0000FF">extends</span><span style="color: #000000"> </span><span style="color: #795E26">Mixin</span><span style="color: #000000">(</span><span style="color: #001080">Mixin1</span><span style="color: #000000">, </span><span style="color: #001080">Mixin2</span><span style="color: #000000">, </span><span style="color: #001080">BaseClass</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// Implementation goes here</span>
-<span style="color: #000000">}</span>
-</code></pre>
-				<p>Note that this does not work with generic classes. For that, follow the
-					<a href="https://www.npmjs.com/package/ts-mixer#mixing-generic-classes">ts-mixer documentation</a>.
-				There are other special cases which can also be found in the documentation.</p>
-				<p><strong>WARNING</strong>: The Mixin function applies constructors from left to right, meaning
-					that the rightmost mixin class will override the constructor. Not taking this
-					into account will lead to bugs for mixin classes that override the constructor,
-				such as the SingleParent/MultiParent mixin classes</p>
+				<p>Special thanks to Playko (<a href="https://www.playko.com/">website</a>,
+					<a href="https://github.com/playkostudios">github</a>) where this project started and is
+				currently being developed at.</p>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h2>License</h2>
+				</a>
+				<p>This project is licensed under the MIT license (see the LICENSE file)</p>
+				<p>This project uses the following open-source projects:</p>
+				<ul>
+					<li><a href="https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin">@typescript-eslint/eslint-plugin</a> licensed under the MIT license</li>
+					<li><a href="https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser">@typescript-eslint/parser</a> licensed under the BSD 2-Clause license</li>
+					<li><a href="https://github.com/evanw/esbuild">esbuild</a> licensed under the MIT license</li>
+					<li><a href="https://github.com/eslint/eslint">eslint</a> licensed under the MIT license</li>
+					<li><a href="https://github.com/lukastaegert/eslint-plugin-tree-shaking">eslint-plugin-tree-shaking</a> licensed under the MIT license</li>
+					<li><a href="https://github.com/lwsjs/local-web-server">local-web-server</a> licensed under the MIT license</li>
+					<li><a href="https://github.com/TypeStrong/TypeDoc">typedoc</a> licensed under the Apache 2.0 license</li>
+					<li><a href="https://github.com/Microsoft/TypeScript">typescript</a> licensed under the Apache 2.0 license</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
