@@ -21,7 +21,7 @@ export declare abstract class RayPointerDriver extends PointerDriver {
      * @param direction A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
      * @returns Returns a 3-tuple containing, in this order, the intersected root or null if none intersected, the normalised x axis of the intersection and the normalised y axis of the intersection. If no root was intersected, use bogus values for x and y
      */
-    protected abstract castRay(origin: [number, number, number], direction: [number, number, number]): [Root | null, number, number];
+    abstract castRay(origin: [number, number, number], direction: [number, number, number]): [Root | null, number, number];
     /**
      * Receive a ray from a {@link RayPointerSource}.
      *
