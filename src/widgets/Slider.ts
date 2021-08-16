@@ -167,13 +167,13 @@ export class Slider extends Widget {
                 this.width = Math.max(minLength, minWidth);
 
             this.actualWidth = this.width;
-            this.offsetY = 0;
+            this.offsetX = 0;
 
             // Cross axis
             this.height = Math.min(Math.max(thickness, minHeight), maxHeight);
 
             this.actualHeight = Math.min(this.height, thickness);
-            this.offsetX = (this.height - this.actualHeight) / 2;
+            this.offsetY = (this.height - this.actualHeight) / 2;
         }
     }
 
