@@ -112,13 +112,6 @@ export class DOMPointerDriver extends PointerDriver {
             this.leavePointer(root, this.getPointerID(event));
         }
         rootBind.wheelListen = (event: WheelEvent) => {
-            let deltaX = event.deltaX;
-            let deltaY = event.deltaY;
-            if(deltaX === 0 && event.getModifierState('Shift')) {
-                deltaX = deltaY;
-                deltaY = 0;
-            }
-
             this.wheelPointer(
                 root, this.mousePointerID,
                 ...getPointerEventNormPos(event, domElem),
