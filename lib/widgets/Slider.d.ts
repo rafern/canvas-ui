@@ -42,6 +42,8 @@ export declare class Slider extends Widget {
     /** The slider's value */
     set value(value: number);
     get value(): number;
+    /** Set the slider's value, optionally disabling callback */
+    setValue(value: number, doCallback?: boolean): void;
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): this | null;
     protected handlePostLayoutUpdate(_root: Root): void;

@@ -59,6 +59,15 @@ export class Slider extends Widget {
 
     /** The slider's value */
     set value(value: number) {
+        this.setValue(value);
+    }
+
+    get value(): number {
+        return this.variable.value;
+    }
+
+    /** Set the slider's value, optionally disabling callback */
+    setValue(value: number, doCallback = true): void {
         // Snap to increments if needed
         if(this.snapIncrement > 0)
             value = Math.round(value / this.snapIncrement) * this.snapIncrement;
@@ -70,11 +79,7 @@ export class Slider extends Widget {
             value = this.maxValue;
 
         // Update value in variable
-        this.variable.value = value;
-    }
-
-    get value(): number {
-        return this.variable.value;
+        this.variable.setValue(value, doCallback);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
