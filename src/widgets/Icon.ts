@@ -174,4 +174,13 @@ export class Icon extends Widget {
         if(rotated)
             ctx.restore();
     }
+
+    override dryPaint(): void {
+        if(this._image?.complete)
+            this.lastSrc = this._image.src;
+        else
+            this.lastSrc = null;
+
+        super.dryPaint();
+    }
 }

@@ -19,7 +19,7 @@ export declare class Viewport {
      */
     constraints: LayoutConstraints;
     /** Have the constraints been changed? */
-    private dirty;
+    private _dirty;
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
     /** The internal canvas' context. Alpha is enabled. */

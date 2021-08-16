@@ -32,4 +32,5 @@ export declare class MultiContainer<W extends Widget = Widget> extends MultiPare
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    dryPaint(): void;
 }

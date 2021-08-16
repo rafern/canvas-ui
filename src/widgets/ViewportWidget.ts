@@ -206,8 +206,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // propagate layout dirtiness. Try to resolve layout if no axis is tied.
         const tied = this._widthTied || this._heightTied;
         if(!tied) {
-            if(this.viewport !== null)
+            if(this.viewport !== null) {
+                this.viewport.constraints = this._constraints;
                 this.viewport.resolveChildsLayout(child);
+            }
             else if(child.layoutDirty || this.forceReLayout) {
                 child.resolveDimensionsAsTop(...this._constraints);
                 this.correctChildPosition();
@@ -231,8 +233,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         let normalWidth = true, normalHeight = true;
-        const effectiveMinWidth = Math.max(minWidth, this.minWidth);
-        const effectiveMinheight = Math.max(minHeight, this.minHeight);
+        const effectiveMinWidth = Math.min(Math.max(minWidth, this.minWidth), maxWidth);
+        const effectiveMinHeight = Math.min(Math.max(minHeight, this.minHeight), maxHeight);
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
@@ -244,7 +246,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             }
 
             if(this._heightTied) {
-                constraints[2] = effectiveMinheight;
+                constraints[2] = effectiveMinHeight;
                 constraints[3] = maxHeight;
             }
 
@@ -275,7 +277,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.width = Math.min(effectiveMinWidth, maxWidth);
 
         if(normalHeight)
-            this.height = Math.min(effectiveMinheight, maxHeight);
+            this.height = Math.min(effectiveMinHeight, maxHeight);
 
         if(this.width === 0 && this.minWidth === 0 && !this._widthTied)
             console.warn('ViewportWidget has no minimum width and width isn\'t tied, therefore, it may be dimensionless. Set a minimum width and/or tie the width');

@@ -185,4 +185,9 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
         this.handleBaseContainerPainting(ctx, forced);
     }
+
+    override dryPaint(): void {
+        this.backgroundDirty = false;
+        super.dryPaint();
+    }
 }

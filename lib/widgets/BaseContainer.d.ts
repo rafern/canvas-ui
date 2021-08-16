@@ -29,4 +29,5 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
      */
     protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle?: FillStyle | null): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    dryPaint(): void;
 }

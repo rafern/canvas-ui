@@ -64,4 +64,5 @@ export declare class Icon extends Widget {
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    dryPaint(): void;
 }

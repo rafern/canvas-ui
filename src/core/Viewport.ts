@@ -23,7 +23,7 @@ export class Viewport {
     @paintArrayField()
     constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
     /** Have the constraints been changed? */
-    private dirty = true;
+    private _dirty = true;
 
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
@@ -70,11 +70,11 @@ export class Viewport {
      * @returns Returns true if the child was resized, else, false.
      */
     resolveChildsLayout(child: Widget): boolean {
-        if(!child.layoutDirty && !this.dirty)
+        if(!child.layoutDirty && !this._dirty)
             return false;
 
         // Remove constraints' dirty flag
-        this.dirty = false;
+        this._dirty = false;
 
         // Resolve child's layout
         const [oldWidth, oldHeight] = child.dimensions;
