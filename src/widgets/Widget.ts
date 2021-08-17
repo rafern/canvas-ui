@@ -124,15 +124,18 @@ export abstract class Widget extends BaseTheme {
 
     /**
      * Check if the widget is dirty. Returns {@link _dirty}, as long as
-     * {@link dimensionless} is not true.
+     * {@link dimensionless} is not true and {@link _enabled} is true.
      */
     get dirty(): boolean {
-        return this._dirty && !this.dimensionless;
+        return this._dirty && !this.dimensionless && this._enabled;
     }
 
-    /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
+    /**
+     * Check if the widget's layout is dirty. Returns {@link _layoutDirty} as
+     * long as {@link _enabled} is true.
+     */
     get layoutDirty(): boolean {
-        return this._layoutDirty;
+        return this._layoutDirty && this._enabled;
     }
 
     /**

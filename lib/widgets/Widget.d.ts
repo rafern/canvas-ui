@@ -77,10 +77,13 @@ export declare abstract class Widget extends BaseTheme {
     get position(): [number, number];
     /**
      * Check if the widget is dirty. Returns {@link _dirty}, as long as
-     * {@link dimensionless} is not true.
+     * {@link dimensionless} is not true and {@link _enabled} is true.
      */
     get dirty(): boolean;
-    /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
+    /**
+     * Check if the widget's layout is dirty. Returns {@link _layoutDirty} as
+     * long as {@link _enabled} is true.
+     */
     get layoutDirty(): boolean;
     /**
      * Check if the widget has zero width or height.
