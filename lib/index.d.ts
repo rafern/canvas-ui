@@ -1,3 +1,4 @@
+export * from './core/DebugInjector';
 export * from './core/DefaultTextInputHandler';
 export * from './core/DOMRoot';
 export * from './core/DOMVirtualKeyboardRoot';

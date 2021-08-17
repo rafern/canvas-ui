@@ -33,7 +33,7 @@ import('esbuild').then(esbuild => esbuild.build({
     minify: !devMode,
     sourcemap: true,
     watch: devMode,
-    keepNames: devMode,
+    keepNames: true,
     target: 'es6',
     format: 'esm',
     logLevel: 'info',
