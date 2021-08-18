@@ -1,5 +1,6 @@
 import type { FlexAlignment2D } from './FlexAlignment2D';
 import type { ThemeProperties } from './ThemeProperties';
+import { TextAlignMode } from '../helpers/TextHelper';
 import type { Alignment2D } from './Alignment2D';
 import type { FillStyle } from './FillStyle';
 import type { Padding } from './Padding';
@@ -86,6 +87,10 @@ export declare class BaseTheme implements ThemeProperties {
     private _bodyTextSpacing?;
     get bodyTextSpacing(): number | null;
     set bodyTextSpacing(value: number | null | undefined);
+    /** See {@link bodyTextAlign}. For internal use only. */
+    private _bodyTextAlign?;
+    get bodyTextAlign(): TextAlignMode | number;
+    set bodyTextAlign(value: TextAlignMode | number | undefined);
     /** See {@link checkboxLength}. For internal use only. */
     private _checkboxLength?;
     get checkboxLength(): number;
@@ -134,6 +139,10 @@ export declare class BaseTheme implements ThemeProperties {
     private _inputTextMinWidth?;
     get inputTextMinWidth(): number;
     set inputTextMinWidth(value: number | undefined);
+    /** See {@link inputTextAlign}. For internal use only. */
+    private _inputTextAlign?;
+    get inputTextAlign(): TextAlignMode | number;
+    set inputTextAlign(value: TextAlignMode | number | undefined);
     /** See {@link blinkRate}. For internal use only. */
     private _blinkRate?;
     get blinkRate(): number;

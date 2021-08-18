@@ -50,7 +50,7 @@ export declare class Icon extends Widget {
     /** Actual image height */
     private actualHeight;
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
+    constructor(image: HTMLImageElement | string, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
     /**
      * The image used by this Icon.
      *

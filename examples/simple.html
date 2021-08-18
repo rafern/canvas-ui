@@ -3,11 +3,9 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver, injectDebugCode
+                DOMRoot, Label, Margin, Column, Row, BasicTextInput, TextButton,
+                DOMKeyboardDriver, DOMPointerDriver, Alignment, FlexAlignment
             } from './index.esm.js';
-
-            injectDebugCode();
 
             // Create the root
             const label = new Label('Hello world!');
@@ -19,11 +17,12 @@
                     .add(inputLabel)
                     .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
                     .add(
-                        new Center(
-                            new Row()
-                            .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
-                            .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
-                        )
+                        new Row({
+                            multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
+                        }).add([
+                            new TextButton('Button 1', () => label.source = 'Button 1 clicked!'),
+                            new TextButton('Button 2', () => label.source = 'Button 2 clicked!'),
+                        ])
                     )
                 )
             );

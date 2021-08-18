@@ -1,5 +1,6 @@
 import type { FlexAlignment2D } from './FlexAlignment2D';
 import type { ThemeProperties } from './ThemeProperties';
+import { TextAlignMode } from '../helpers/TextHelper';
 import type { Alignment2D } from './Alignment2D';
 import { FlexAlignment } from './FlexAlignment';
 import type { FillStyle } from './FillStyle';
@@ -77,6 +78,7 @@ export class BaseTheme implements ThemeProperties {
         this._bodyTextFill = properties.bodyTextFill;
         this._bodyTextHeight = properties.bodyTextHeight;
         this._bodyTextSpacing = properties.bodyTextSpacing;
+        this._bodyTextAlign = properties.bodyTextAlign;
         this._checkboxLength = properties.checkboxLength;
         this._checkboxInnerPadding = properties.checkboxInnerPadding;
         this._inputBackgroundFill = properties.inputBackgroundFill;
@@ -89,6 +91,7 @@ export class BaseTheme implements ThemeProperties {
         this._inputTextSpacing = properties.inputTextSpacing;
         this._inputTextInnerPadding = properties.inputTextInnerPadding;
         this._inputTextMinWidth = properties.inputTextMinWidth;
+        this._inputTextAlign = properties.inputTextAlign;
         this._blinkRate = properties.blinkRate;
         this._cursorThickness = properties.cursorThickness;
         this._scrollBarThickness = properties.scrollBarThickness;
@@ -308,6 +311,20 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
+    /** See {@link bodyTextAlign}. For internal use only. */
+    private _bodyTextAlign?: TextAlignMode | number;
+
+    get bodyTextAlign(): TextAlignMode | number {
+        return this._bodyTextAlign ?? this._fallbackTheme?.bodyTextAlign ?? TextAlignMode.Start;
+    }
+
+    set bodyTextAlign(value: TextAlignMode | number | undefined) {
+        if(this._bodyTextAlign !== value) {
+            this._bodyTextAlign = value;
+            this.onThemeUpdated('bodyTextAlign');
+        }
+    }
+
     /** See {@link checkboxLength}. For internal use only. */
     private _checkboxLength?: number;
 
@@ -473,6 +490,20 @@ export class BaseTheme implements ThemeProperties {
         if(this._inputTextMinWidth !== value) {
             this._inputTextMinWidth = value;
             this.onThemeUpdated('inputTextMinWidth');
+        }
+    }
+
+    /** See {@link inputTextAlign}. For internal use only. */
+    private _inputTextAlign?: TextAlignMode | number;
+
+    get inputTextAlign(): TextAlignMode | number {
+        return this._inputTextAlign ?? this._fallbackTheme?.inputTextAlign ?? TextAlignMode.Start;
+    }
+
+    set inputTextAlign(value: TextAlignMode | number | undefined) {
+        if(this._inputTextAlign !== value) {
+            this._inputTextAlign = value;
+            this.onThemeUpdated('inputTextAlign');
         }
     }
 

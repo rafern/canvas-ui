@@ -57,10 +57,16 @@ export class Icon extends Widget {
     private actualHeight = 0;
 
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeProperties?: ThemeProperties) {
+    constructor(image: HTMLImageElement | string, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeProperties?: ThemeProperties) {
         // Icons need a clear background, have no children and don't propagate
         // events
         super(true, false, themeProperties);
+
+        if(typeof image === 'string') {
+            const imgElem = document.createElement('img');
+            imgElem.src = image;
+            image = imgElem;
+        }
 
         this._image = image;
         this.imageWidth = width;

@@ -3,10 +3,10 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver, Slider,
+                DOMRoot, Label, Margin, Column, Row, BasicTextInput, TextButton,
+                DOMKeyboardDriver, DOMPointerDriver, Slider, FlexAlignment,
                 ScrollableViewportWidget, ScrollbarMode, LabelledCheckbox,
-                ArtificialConstraint, Container, Alignment, ThemeScope, Theme,
+                ArtificialConstraint, Container, Alignment, ThemeScope, Theme
             } from './index.esm.js';
 
             // Create viewport with its child
@@ -22,11 +22,12 @@
                         .add(inputLabel)
                         .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
                         .add(
-                            new Center(
-                                new Row()
-                                .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
-                                .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
-                            )
+                            new Row({
+                                multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
+                            }).add([
+                                new TextButton('Button 1', () => label.source = 'Button 1 clicked!'),
+                                new TextButton('Button 2', () => label.source = 'Button 2 clicked!'),
+                            ])
                         )
                     ),
                     new Theme({ canvasFill: 'red' }),

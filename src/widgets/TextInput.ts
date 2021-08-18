@@ -134,6 +134,7 @@ export class TextInput<V> extends Widget {
         if(property === null) {
             this._layoutDirty = true;
             this._dirty = true;
+            this.cursorOffsetDirty = true;
         }
         else if(property === 'inputTextInnerPadding' ||
                 property === 'inputTextFont' ||
@@ -151,6 +152,8 @@ export class TextInput<V> extends Widget {
         {
             this._dirty = true;
         }
+        else if(property === 'inputTextAlign')
+            this.cursorOffsetDirty = true;
     }
 
     /**
@@ -727,6 +730,7 @@ export class TextInput<V> extends Widget {
         this.textHelper.font = this.inputTextFont;
         this.textHelper.lineHeight = this.inputTextHeight;
         this.textHelper.lineSpacing = this.inputTextSpacing;
+        this.textHelper.alignMode = this.inputTextAlign;
 
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {

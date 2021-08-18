@@ -86,6 +86,11 @@
             "default": "null",
             "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected."
         },
+        "bodyTextAlign": {
+            "type": "TextAlignMode | number",
+            "default": "TextAlignMode.Start",
+            "description": "The default text alignment mode of body text (most regular text)."
+        },
         "checkboxLength": {
             "type": "number",
             "default": "12",
@@ -145,6 +150,11 @@
             "type": "number",
             "default": "100",
             "description": "The default minimum width of text input widgets like {@link TextInput}."
+        },
+        "inputTextAlign": {
+            "type": "TextAlignMode | number",
+            "default": "TextAlignMode.Start",
+            "description": "The default text alignment mode of text input widgets like {@link TextInput}."
         },
         "blinkRate": {
             "type": "number",

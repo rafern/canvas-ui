@@ -1,3 +1,4 @@
+import type { TextAlignMode } from '../helpers/TextHelper';
 import type { FlexAlignment2D } from './FlexAlignment2D';
 import type { Alignment2D } from './Alignment2D';
 import type { FillStyle } from './FillStyle';
@@ -39,6 +40,8 @@ export interface ThemeProperties {
     bodyTextHeight?: number | null;
     /** The spacing between each line of text in body text (most regular text). If null, it will be automatically detected. */
     bodyTextSpacing?: number | null;
+    /** The default text alignment mode of body text (most regular text). */
+    bodyTextAlign?: TextAlignMode | number;
     /** The length in pixels used for {@link Checkbox}. */
     checkboxLength?: number;
     /** The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box. */
@@ -63,6 +66,8 @@ export interface ThemeProperties {
     inputTextInnerPadding?: number;
     /** The default minimum width of text input widgets like {@link TextInput}. */
     inputTextMinWidth?: number;
+    /** The default text alignment mode of text input widgets like {@link TextInput}. */
+    inputTextAlign?: TextAlignMode | number;
     /** The blink rate of text cursors in text input widgets like {@link TextInput}. Value in "blinks" per second. */
     blinkRate?: number;
     /** The thickness of a text cursor in pixels. */

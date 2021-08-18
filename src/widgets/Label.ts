@@ -110,6 +110,7 @@ export class Label extends Widget {
         this.textHelper.font = this.bodyTextFont;
         this.textHelper.lineHeight = this.bodyTextHeight;
         this.textHelper.lineSpacing = this.bodyTextSpacing;
+        this.textHelper.alignMode = this.bodyTextAlign;
 
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
