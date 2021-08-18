@@ -392,7 +392,7 @@ export abstract class Widget extends BaseTheme {
         ctx.beginPath();
         // These are rounded because clipping and filling doesn't
         // work properly with decimal points
-        ctx.rect(...this.roundRect(x, y, width, height));
+        ctx.rect(...this.roundRect(x, y, width, height, true));
         ctx.clip();
         ctx.fill();
         ctx.restore();
