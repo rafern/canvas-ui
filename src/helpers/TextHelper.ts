@@ -62,6 +62,20 @@ export enum WrapMode {
 }
 
 /**
+ * The mode to use for text alignment in {@link TextHelper}.
+ *
+ * @category Helper
+ */
+export enum TextAlignMode {
+    /** Align to the start of the line. Equivalent to a ratio of 0. */
+    Start = 0,
+    /** Align to the center of the line. Equivalent to a ratio of 0.5. */
+    Center = 0.5,
+    /** Align to the end of the line. Equivalent to a ratio of 0.5. */
+    End = 1,
+}
+
+/**
  * An aggregate helper class for widgets that contain text.
  *
  * Contains utilities for measuring text dimensions, converting between offsets
@@ -86,7 +100,7 @@ export class TextHelper {
     font = '';
     /**
      * The current maximum text width. If not Infinite, then text will be
-     * wrapped.
+     * wrapped and width will be set to maxWidth.
      *
      * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
@@ -123,6 +137,15 @@ export class TextHelper {
      */
     @multiFlagField(['_dirty', 'measureDirty'])
     wrapMode: WrapMode = WrapMode.Normal;
+    /**
+     * The text alignment mode. Can also be a ratio.
+     *
+     * Note that this only aligns text in the text's width. If you have wrapping
+     * disabled (maxWidth === Infinity), then you may still need to align the
+     * widget that uses this text helper with a {@link BaseContainer}.
+     */
+    @multiFlagField(['_dirty'])
+    alignMode: TextAlignMode | number = TextAlignMode.Start;
 
     /** The current largest text width. May be outdated. */
     private _width = 0;
@@ -561,16 +584,20 @@ export class TextHelper {
         const fullLineHeight = this.fullLineHeight;
         let yOffset = y + this._lineHeight;
         //let toggle = false;
-        for(const range of this._lineRanges) {
+        const lineRanges = this.lineRanges;
+        for(let line = 0; line < lineRanges.length; line++) {
             let left = 0;
+            const shift = this.getLineShift(line);
+            const range = lineRanges[line];
+
             for(const group of range) {
                 // Skip width-overidding or zero-width render groups
                 if(!group[3] && group[2] > left) {
                     /*ctx.fillStyle = toggle ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
-                    ctx.fillRect(x + left, yOffset - this._lineHeight, group[2] - left, fullLineHeight);
+                    ctx.fillRect(x + left + shift, yOffset - this._lineHeight, group[2] - left, fullLineHeight);
                     toggle = !toggle;
                     ctx.fillStyle = fillStyle;*/
-                    ctx.fillText(this.text.slice(group[0], group[1]), x + left, yOffset);
+                    ctx.fillText(this.text.slice(group[0], group[1]), x + left + shift, yOffset);
                 }
                 /*else {
                     let debugWidth = group[2] - left;
@@ -579,7 +606,7 @@ export class TextHelper {
                         debugWidth = 4;
                     else if(debugWidth < 0)
                         throw new Error('Unexpected group with negative width');
-                    ctx.fillRect(x + left, yOffset - this._lineHeight, debugWidth, fullLineHeight);
+                    ctx.fillRect(x + left + shift, yOffset - this._lineHeight, debugWidth, fullLineHeight);
                 }*/
 
                 left = group[2];
@@ -604,7 +631,7 @@ export class TextHelper {
         // is at the beginning
         const lineRanges = this.lineRanges;
         if(index <= 0 || lineRanges.length === 0)
-            return [0, 0];
+            return [this.getLineShift(0), 0];
 
         // Check which line the index is in
         let line = 0;
@@ -623,7 +650,7 @@ export class TextHelper {
 
         // Get horizontal offset
         return [
-            this.getLineRangeWidthUntil(lineRanges[line], index),
+            this.getLineRangeWidthUntil(lineRanges[line], index) + this.getLineShift(line),
             line * this.fullLineHeight,
         ];
     }
@@ -640,8 +667,9 @@ export class TextHelper {
         // If offset is before or at first character, text is empty or there are
         // no lines, default to index 0
         const fullLineHeight = this.fullLineHeight;
-        if(this.text === '' || (offset[0] <= 0 && offset[1] < fullLineHeight) || offset[1] < 0)
-            return [0, [0, 0]];
+        const firstShift = this.getLineShift(0);
+        if(this.text === '' || (offset[0] <= firstShift && offset[1] < fullLineHeight) || offset[1] < 0)
+            return [0, [firstShift, 0]];
 
         // Find line being selected
         const line = Math.floor(offset[1] / fullLineHeight);
@@ -656,8 +684,9 @@ export class TextHelper {
         // If this is an empty line, stop
         const yOffset = line * fullLineHeight;
         const range = ranges[line];
+        const shift = this.getLineShift(line);
         if(range.length === 1 && range[0][0] === range[0][1])
-            return [range[0][0], [range[0][2], yOffset]];
+            return [range[0][0], [range[0][2] + shift, yOffset]];
 
         // TODO This has linear complexity, use binary search instead if possible
         // For each character, find index at which offset is smaller than
@@ -671,6 +700,7 @@ export class TextHelper {
         if(this.text[lineEnd - 1] === '\n')
             lineEnd--;
 
+        const xOffsetUnshifted = offset[0] - shift;
         for(let i = lineStart; i < lineEnd; i++) {
             // Measure length from this index to the next
             const length = this.getLineRangeWidthUntil(range, i + 1);
@@ -678,15 +708,15 @@ export class TextHelper {
 
             // If offset is before critical offset, this is the index we're
             // looking for
-            if(offset[0] < criticalOffset)
-                return [i, [lastLength, yOffset]];
+            if(xOffsetUnshifted < criticalOffset)
+                return [i, [lastLength + shift, yOffset]];
 
             // Update last length
             lastLength = length;
         }
 
         // Offset is after full length of text, return index after end
-        return [lineEnd, [lastLength, yOffset]];
+        return [lineEnd, [lastLength + shift, yOffset]];
     }
 
     /**
@@ -748,6 +778,27 @@ export class TextHelper {
             return lastIndex - 1;
         else
             return lastIndex;
+    }
+
+    /**
+     * Get the horizontal offset, in pixels, of the start of a line. Takes text
+     * wrapping into account. Line indices before first line will be treated as
+     * the first line, after the last line will be treated as a new empty line.
+     */
+    getLineShift(line: number): number {
+        // No need to do any logic if aligned to the start
+        const ratio: number = this.alignMode;
+        if(ratio === 0)
+            return 0;
+
+        const lineRanges = this.lineRanges;
+        if(line < 0)
+            line = 0;
+        else if(line >= lineRanges.length)
+            return this.width * ratio;
+
+        const lineRange = lineRanges[line];
+        return (this.width - lineRange[lineRange.length - 1][2]) * ratio;
     }
 
     /** The current text width. Re-measures text if neccessary. */
