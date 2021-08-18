@@ -4,8 +4,10 @@
         <script type='module'>
             import {
                 DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver
+                TextButton, DOMKeyboardDriver, DOMPointerDriver, injectDebugCode
             } from './index.esm.js';
+
+            injectDebugCode();
 
             // Create the root
             const label = new Label('Hello world!');

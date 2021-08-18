@@ -12,7 +12,6 @@ import { Widget } from './Widget';
  */
 export type TextGetter = () => string;
 
-// TODO add support for multiline text with wrapping
 /**
  * A widget which displays a line of text.
  *

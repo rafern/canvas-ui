@@ -54,6 +54,19 @@ export declare enum WrapMode {
     Shrink = 1
 }
 /**
+ * The mode to use for text alignment in {@link TextHelper}.
+ *
+ * @category Helper
+ */
+export declare enum TextAlignMode {
+    /** Align to the start of the line. Equivalent to a ratio of 0. */
+    Start = 0,
+    /** Align to the center of the line. Equivalent to a ratio of 0.5. */
+    Center = 0.5,
+    /** Align to the end of the line. Equivalent to a ratio of 0.5. */
+    End = 1
+}
+/**
  * An aggregate helper class for widgets that contain text.
  *
  * Contains utilities for measuring text dimensions, converting between offsets
@@ -76,7 +89,7 @@ export declare class TextHelper {
     font: string;
     /**
      * The current maximum text width. If not Infinite, then text will be
-     * wrapped.
+     * wrapped and width will be set to maxWidth.
      *
      * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
@@ -108,6 +121,14 @@ export declare class TextHelper {
      * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
      */
     wrapMode: WrapMode;
+    /**
+     * The text alignment mode. Can also be a ratio.
+     *
+     * Note that this only aligns text in the text's width. If you have wrapping
+     * disabled (maxWidth === Infinity), then you may still need to align the
+     * widget that uses this text helper with a {@link BaseContainer}.
+     */
+    alignMode: TextAlignMode | number;
     /** The current largest text width. May be outdated. */
     private _width;
     /** The current total text height. May be outdated. */
@@ -167,6 +188,15 @@ export declare class TextHelper {
      * {@link measureDirty} to false. Does nothing if measurement is not needed.
      */
     private updateTextDims;
+    /**
+     * Paint a single text render group with a given offset and left value for
+     * checking if the group is zero-width. left value must not be shifted.
+     *
+     * Used mainly for injecting debug code; you won't get much use out of this
+     * method unless you have a very specific need.
+     */
+    paintGroup(ctx: CanvasRenderingContext2D, group: TextRenderGroup, left: number, x: number, y: number): void;
+    /** Paint all line ranges. */
     paint(ctx: CanvasRenderingContext2D, fillStyle: FillStyle, x: number, y: number): void;
     /**
      * Get the horizontal offset, in pixels, of the beginning of a character at
@@ -202,6 +232,12 @@ export declare class TextHelper {
      * @param includeNewlines If false, newline characters will be ignored and the end will be at their index, instead of after their index
      */
     getLineEnd(line: number, includeNewlines?: boolean): number;
+    /**
+     * Get the horizontal offset, in pixels, of the start of a line. Takes text
+     * wrapping into account. Line indices before first line will be treated as
+     * the first line, after the last line will be treated as a new empty line.
+     */
+    getLineShift(line: number): number;
     /** The current text width. Re-measures text if neccessary. */
     get width(): number;
     /** The current total text height. Re-measures text if neccessary. */

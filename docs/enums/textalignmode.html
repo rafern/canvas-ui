@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PointerHint | @rafern/canvas-ui</title>
+	<title>TextAlignMode | @rafern/canvas-ui</title>
 	<meta name="description" content="Documentation for @rafern/canvas-ui">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,10 +55,10 @@
 					<a href="../modules.html">@rafern/canvas-ui</a>
 				</li>
 				<li>
-					<a href="pointerhint.html">PointerHint</a>
+					<a href="textalignmode.html">TextAlignMode</a>
 				</li>
 			</ul>
-			<h1>Enumeration PointerHint</h1>
+			<h1>Enumeration TextAlignMode</h1>
 		</div>
 	</div>
 </header>
@@ -68,10 +68,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A <a href="../classes/pointerdriver.html">PointerDriver</a>&#39;s pointer hint; each registered pointer has a pointer
-							hint which tracks whether the pointer is not in use, hovering a root or
-							pressing a root. Useful for styling pointers depending on if they are
-						hovering/pressing a root or not.</p>
+						<p>The mode to use for text alignment in <a href="../classes/texthelper.html">TextHelper</a>.</p>
 					</div>
 				</div>
 			</section>
@@ -82,9 +79,9 @@
 						<section class="tsd-index-section ">
 							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="pointerhint.html#hovering" class="tsd-kind-icon">Hovering</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="pointerhint.html#none" class="tsd-kind-icon">None</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="pointerhint.html#pressing" class="tsd-kind-icon">Pressing</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="textalignmode.html#center" class="tsd-kind-icon">Center</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="textalignmode.html#end" class="tsd-kind-icon">End</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="textalignmode.html#start" class="tsd-kind-icon">Start</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,47 +90,47 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Enumeration members</h2>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="hovering" class="tsd-anchor"></a>
-					<h3>Hovering</h3>
-					<div class="tsd-signature tsd-kind-icon">Hovering<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
+					<a name="center" class="tsd-anchor"></a>
+					<h3>Center</h3>
+					<div class="tsd-signature tsd-kind-icon">Center<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0.5</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/drivers/PointerHint.ts#L13">drivers/PointerHint.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/helpers/TextHelper.ts#L73">helpers/TextHelper.ts:73</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The pointer is currently hovering a root.</p>
+							<p>Align to the center of the line. Equivalent to a ratio of 0.5.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="none" class="tsd-anchor"></a>
-					<h3>None</h3>
-					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
+					<a name="end" class="tsd-anchor"></a>
+					<h3>End</h3>
+					<div class="tsd-signature tsd-kind-icon">End<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/drivers/PointerHint.ts#L11">drivers/PointerHint.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/helpers/TextHelper.ts#L75">helpers/TextHelper.ts:75</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The pointer is currently not hovering any root.</p>
+							<p>Align to the end of the line. Equivalent to a ratio of 0.5.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="pressing" class="tsd-anchor"></a>
-					<h3>Pressing</h3>
-					<div class="tsd-signature tsd-kind-icon">Pressing<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
+					<a name="start" class="tsd-anchor"></a>
+					<h3>Start</h3>
+					<div class="tsd-signature tsd-kind-icon">Start<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/drivers/PointerHint.ts#L15">drivers/PointerHint.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/66adf6c/src/helpers/TextHelper.ts#L71">helpers/TextHelper.ts:71</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The pointer is currently hovering and pressing a root.</p>
+							<p>Align to the start of the line. Equivalent to a ratio of 0.</p>
 						</div>
 					</div>
 				</section>
@@ -152,16 +149,16 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-enum">
-						<a href="pointerhint.html" class="tsd-kind-icon">Pointer<wbr>Hint</a>
+						<a href="textalignmode.html" class="tsd-kind-icon">Text<wbr>Align<wbr>Mode</a>
 						<ul>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="pointerhint.html#hovering" class="tsd-kind-icon">Hovering</a>
+								<a href="textalignmode.html#center" class="tsd-kind-icon">Center</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="pointerhint.html#none" class="tsd-kind-icon">None</a>
+								<a href="textalignmode.html#end" class="tsd-kind-icon">End</a>
 							</li>
 							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="pointerhint.html#pressing" class="tsd-kind-icon">Pressing</a>
+								<a href="textalignmode.html#start" class="tsd-kind-icon">Start</a>
 							</li>
 						</ul>
 					</li>

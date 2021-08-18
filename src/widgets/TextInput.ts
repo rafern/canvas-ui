@@ -728,19 +728,6 @@ export class TextInput<V> extends Widget {
         this.textHelper.lineHeight = this.inputTextHeight;
         this.textHelper.lineSpacing = this.inputTextSpacing;
 
-        if(this.cursorOffsetDirty) {
-            this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
-
-            if(this.selectPos === this.cursorPos) {
-                this.selectOffset[0] = this.cursorOffset[0];
-                this.selectOffset[1] = this.cursorOffset[1];
-            }
-            else
-                this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
-
-            this.cursorOffsetDirty = false;
-        }
-
         // Mark as dirty if text helper is dirty
         if(this.textHelper.dirty) {
             this._dirty = true;
@@ -762,6 +749,21 @@ export class TextInput<V> extends Widget {
     }
 
     protected override handlePostLayoutUpdate(_root: Root): void {
+        // Update cursor offset. Needs to be updated post-layout because it is
+        // dependent on maxWidth
+        if(this.cursorOffsetDirty) {
+            this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
+
+            if(this.selectPos === this.cursorPos) {
+                this.selectOffset[0] = this.cursorOffset[0];
+                this.selectOffset[1] = this.cursorOffset[1];
+            }
+            else
+                this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
+
+            this.cursorOffsetDirty = false;
+        }
+
         // Check if panning is needed
         const padding = this.inputTextInnerPadding;
         const innerWidth = this.textHelper.width;

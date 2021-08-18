@@ -568,6 +568,20 @@ export class TextHelper {
         }
     }
 
+    /**
+     * Paint a single text render group with a given offset and left value for
+     * checking if the group is zero-width. left value must not be shifted.
+     *
+     * Used mainly for injecting debug code; you won't get much use out of this
+     * method unless you have a very specific need.
+     */
+    paintGroup(ctx: CanvasRenderingContext2D, group: TextRenderGroup, left: number, x: number, y: number): void {
+        // Skip width-overidding or zero-width render groups
+        if(!group[3] && group[2] > left)
+            ctx.fillText(this.text.slice(group[0], group[1]), x, y);
+    }
+
+    /** Paint all line ranges. */
     paint(ctx: CanvasRenderingContext2D, fillStyle: FillStyle, x: number, y: number): void {
         // Clip
         ctx.save();
@@ -580,37 +594,20 @@ export class TextHelper {
         ctx.fillStyle = fillStyle;
         ctx.textBaseline = 'alphabetic';
 
+        // Update line ranges if needed
+        this.updateTextDims();
+
         // Paint line (or lines) of text
         const fullLineHeight = this.fullLineHeight;
         let yOffset = y + this._lineHeight;
-        //let toggle = false;
-        const lineRanges = this.lineRanges;
-        for(let line = 0; line < lineRanges.length; line++) {
+        for(let line = 0; line < this._lineRanges.length; line++) {
             let left = 0;
             const shift = this.getLineShift(line);
-            const range = lineRanges[line];
-
-            for(const group of range) {
-                // Skip width-overidding or zero-width render groups
-                if(!group[3] && group[2] > left) {
-                    /*ctx.fillStyle = toggle ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
-                    ctx.fillRect(x + left + shift, yOffset - this._lineHeight, group[2] - left, fullLineHeight);
-                    toggle = !toggle;
-                    ctx.fillStyle = fillStyle;*/
-                    ctx.fillText(this.text.slice(group[0], group[1]), x + left + shift, yOffset);
-                }
-                /*else {
-                    let debugWidth = group[2] - left;
-                    ctx.fillStyle = debugWidth > 0 ? 'rgba(0, 0, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)';
-                    if(debugWidth == 0)
-                        debugWidth = 4;
-                    else if(debugWidth < 0)
-                        throw new Error('Unexpected group with negative width');
-                    ctx.fillRect(x + left + shift, yOffset - this._lineHeight, debugWidth, fullLineHeight);
-                }*/
-
+            for(const group of this._lineRanges[line]) {
+                this.paintGroup(ctx, group, left, x + left + shift, yOffset);
                 left = group[2];
             }
+
             yOffset += fullLineHeight;
         }
 
@@ -627,15 +624,17 @@ export class TextHelper {
      * @returns Returns a 2-tuple containing the offset, in pixels. Vertical offset in the tuple is at the top of the character. Note that this is not neccessarily an integer.
      */
     findOffsetFromIndex(index: number): [x: number, yTop: number] {
+        // Update line ranges if needed
+        this.updateTextDims();
+
         // If index is 0, an invalid negative number or there are no lines, it
         // is at the beginning
-        const lineRanges = this.lineRanges;
-        if(index <= 0 || lineRanges.length === 0)
+        if(index <= 0 || this._lineRanges.length === 0)
             return [this.getLineShift(0), 0];
 
         // Check which line the index is in
         let line = 0;
-        for(const range of lineRanges) {
+        for(const range of this._lineRanges) {
             if(index < range[range.length - 1][1])
                 break;
 
@@ -643,14 +642,14 @@ export class TextHelper {
         }
 
         // Special case; the index is after the end, pick the end of the text
-        if(line >= lineRanges.length) {
-            line = lineRanges.length - 1;
+        if(line >= this._lineRanges.length) {
+            line = this._lineRanges.length - 1;
             index = this.text.length;
         }
 
         // Get horizontal offset
         return [
-            this.getLineRangeWidthUntil(lineRanges[line], index) + this.getLineShift(line),
+            this.getLineRangeWidthUntil(this._lineRanges[line], index) + this.getLineShift(line),
             line * this.fullLineHeight,
         ];
     }
@@ -674,16 +673,18 @@ export class TextHelper {
         // Find line being selected
         const line = Math.floor(offset[1] / fullLineHeight);
 
+        // Update line ranges if needed
+        this.updateTextDims();
+
         // If this is beyond the last line, pick the last character
-        const ranges = this.lineRanges;
-        if(line >= ranges.length) {
+        if(line >= this._lineRanges.length) {
             const index = this.text.length;
             return [index, this.findOffsetFromIndex(index)];
         }
 
         // If this is an empty line, stop
         const yOffset = line * fullLineHeight;
-        const range = ranges[line];
+        const range = this._lineRanges[line];
         const shift = this.getLineShift(line);
         if(range.length === 1 && range[0][0] === range[0][1])
             return [range[0][0], [range[0][2] + shift, yOffset]];
@@ -727,15 +728,17 @@ export class TextHelper {
         if(index <= 0)
             return 0;
 
-        const lineRanges = this.lineRanges;
-        for(let line = 0; line < lineRanges.length; line++) {
-            const lineRange = lineRanges[line];
+        // Update line ranges if needed
+        this.updateTextDims();
+
+        for(let line = 0; line < this._lineRanges.length; line++) {
+            const lineRange = this._lineRanges[line];
             const lastGroup = lineRange[lineRange.length - 1];
             if(index < lastGroup[1])
                 return line;
         }
 
-        return lineRanges.length - 1;
+        return this._lineRanges.length - 1;
     }
 
     /**
@@ -746,13 +749,15 @@ export class TextHelper {
         if(line <= 0)
             return 0;
 
-        const lineRanges = this.lineRanges;
-        if(line >= lineRanges.length) {
-            const lastLine = lineRanges[lineRanges.length - 1];
+        // Update line ranges if needed
+        this.updateTextDims();
+
+        if(line >= this._lineRanges.length) {
+            const lastLine = this._lineRanges[this._lineRanges.length - 1];
             return lastLine[lastLine.length - 1][1];
         }
 
-        return lineRanges[line][0][0];
+        return this._lineRanges[line][0][0];
     }
 
     /**
@@ -764,13 +769,15 @@ export class TextHelper {
         if(line < 0)
             return 0;
 
-        const lineRanges = this.lineRanges;
-        if(line >= lineRanges.length) {
-            const lastLine = lineRanges[lineRanges.length - 1];
+        // Update line ranges if needed
+        this.updateTextDims();
+
+        if(line >= this._lineRanges.length) {
+            const lastLine = this._lineRanges[this._lineRanges.length - 1];
             return lastLine[lastLine.length - 1][1];
         }
 
-        const lineRange = lineRanges[line];
+        const lineRange = this._lineRanges[line];
         const lastGroup = lineRange[lineRange.length - 1];
         const lastIndex = lastGroup[1];
         if(!includeNewlines && lastIndex > 0 &&
@@ -791,13 +798,15 @@ export class TextHelper {
         if(ratio === 0)
             return 0;
 
-        const lineRanges = this.lineRanges;
+        // Update line ranges if needed
+        this.updateTextDims();
+
         if(line < 0)
             line = 0;
-        else if(line >= lineRanges.length)
+        else if(line >= this._lineRanges.length)
             return this.width * ratio;
 
-        const lineRange = lineRanges[line];
+        const lineRange = this._lineRanges[line];
         return (this.width - lineRange[lineRange.length - 1][2]) * ratio;
     }
 

@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import type { TextRenderGroup } from '../helpers/TextHelper';
 import { MultiContainer } from '../widgets/MultiContainer';
 import { BaseContainer } from '../widgets/BaseContainer';
+import type { FillStyle } from '../theme/FillStyle';
+import { TextHelper } from '../helpers/TextHelper';
 import { BaseTheme } from '../theme/BaseTheme';
 import { Widget } from '../widgets/Widget';
 
@@ -269,6 +272,52 @@ export function injectDebugCode(): void {
     injectRandomFillFeature(BaseTheme, 'inputTextFillDisabled');
     // randomfill.BaseTheme.inputTextFillInvalid
     injectRandomFillFeature(BaseTheme, 'inputTextFillInvalid');
+
+    // textrendergroups; special debug feature for TextRenderGroup
+    features.set(
+        'textrendergroups',
+        [
+            false,
+            `Draw text render groups in a TextHelper with alternating background colours (green and red). Width overriding groups have a blue background and zero-width groups have a black background. Throws an exception on negative width groups`,
+        ]
+    );
+
+    const textHelperAlternate: WeakMap<TextHelper, boolean> = new Map();
+    const textHelperPaintOrig = TextHelper.prototype.paint;
+    TextHelper.prototype.paint = function(ctx: CanvasRenderingContext2D, fillStyle: FillStyle, x: number, y: number): void {
+        textHelperAlternate.set(this, false);
+        textHelperPaintOrig.apply(this, [ctx, fillStyle, x, y]);
+    };
+
+    const textHelperPaintGroupOrig = TextHelper.prototype.paintGroup;
+    TextHelper.prototype.paintGroup = function(ctx: CanvasRenderingContext2D, group: TextRenderGroup, left: number, x: number, y: number): void {
+        if(isDebugFeatureEnabled('textrendergroups')) {
+            const origFillStyle = ctx.fillStyle;
+            const height = this.actualLineHeight;
+            const fullHeight = this.fullLineHeight;
+            if(!group[3] && group[2] > left) {
+                const alternate = textHelperAlternate.get(this);
+                ctx.fillStyle = alternate ? 'rgba(255, 0, 0, 0.5)'
+                                          : 'rgba(0, 255, 0, 0.5)';
+                ctx.fillRect(x, y - height, group[2] - left, fullHeight);
+                textHelperAlternate.set(this, !alternate);
+                ctx.fillStyle = origFillStyle;
+            }
+            else {
+                let debugWidth = group[2] - left;
+                ctx.fillStyle = debugWidth > 0 ? 'rgba(0, 0, 255, 0.5)'
+                                               : 'rgba(0, 0, 0, 0.5)';
+                if(debugWidth == 0)
+                    debugWidth = 4;
+                else if(debugWidth < 0)
+                    throw new Error('Unexpected group with negative width');
+
+                ctx.fillRect(x, y - height, debugWidth, fullHeight);
+            }
+        }
+
+        textHelperPaintGroupOrig.apply(this, [ctx, group, left, x, y]);
+    };
 
     // Make debug functions available in global scope
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
