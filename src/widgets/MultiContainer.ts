@@ -335,7 +335,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         // Clear background if needed
         if(this.backgroundDirty || forced) {
             this.clearStart(ctx);
-            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
+            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height, true));
             for(const clipRect of clipRects)
                 ctx.rect(...clipRect);
             this.clearEnd(ctx, 'evenodd');

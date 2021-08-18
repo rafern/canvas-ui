@@ -310,7 +310,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.viewport.paintToCanvas(this.child, forced);
 
         // Calculate child's source and destination
-        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height);
+        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height, true);
         const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
 
@@ -327,7 +327,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         let yDst = Math.min(Math.max(origYDst, vpY), vpB);
         let wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
         let hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
-        [xDst, yDst, wClipped, hClipped] = this.roundRect(xDst, yDst, wClipped, hClipped);
+        [xDst, yDst, wClipped, hClipped] = this.roundRect(xDst, yDst, wClipped, hClipped, true);
 
         // Abort if outside of bounds
         if(wClipped === 0 || hClipped === 0) {

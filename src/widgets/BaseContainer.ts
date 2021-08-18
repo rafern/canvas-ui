@@ -171,7 +171,7 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         // Clear background if needed
         if(this.backgroundDirty || forced) {
             this.clearStart(ctx, fillStyle);
-            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height));
+            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height, true));
             ctx.rect(...this.roundRect(...this.child.position, ...this.child.dimensions, true));
             this.clearEnd(ctx, 'evenodd');
 
