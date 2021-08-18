@@ -329,7 +329,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
 
             // Add to clipping region if needed
             if(this.backgroundDirty || forced)
-                clipRects.push(this.roundRect(...child.position, ...child.dimensions));
+                clipRects.push(this.roundRect(...child.position, ...child.dimensions, true));
         }
 
         // Clear background if needed
