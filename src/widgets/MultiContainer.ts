@@ -105,9 +105,12 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
 
         this.enabledChildCount = 0;
         for(const child of this.children) {
-            // Ignore disabled children
-            if(!child.enabled)
+            // Resolve dimensions of disabled children with zero-width
+            // constraints just so layout dirty flag is cleared
+            if(!child.enabled) {
+                child.resolveDimensions(0, 0, 0, 0);
                 continue;
+            }
 
             this.enabledChildCount++;
 
@@ -320,15 +323,12 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         // Paint children and build clipping region if background is dirty
         const clipRects: [number, number, number, number][] = [];
         for(const child of this.children) {
-            // Ignore disabled children
-            if(!child.enabled)
-                continue;
-
             // Paint child
             child.paint(ctx, forced);
 
-            // Add to clipping region if needed
-            if(this.backgroundDirty || forced)
+            // Add to clipping region if needed. Don't add disabled children to
+            // clipping region
+            if(child.enabled && (this.backgroundDirty || forced))
                 clipRects.push(this.roundRect(...child.position, ...child.dimensions, true));
         }
 

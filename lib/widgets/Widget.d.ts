@@ -54,8 +54,8 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
-     * If changed, {@link _enabled} is set, {@link _layoutDirty} is set to true
-     * and {@link _dirty} is set to true if enabled or false if not enabled.
+     * If changed, {@link _enabled} is set and {@link _dirty} and
+     * {@link _layoutDirty} are set to true.
      *
      * If getting, {@link _enabled} is returned.
      */
@@ -77,13 +77,10 @@ export declare abstract class Widget extends BaseTheme {
     get position(): [number, number];
     /**
      * Check if the widget is dirty. Returns {@link _dirty}, as long as
-     * {@link dimensionless} is not true and {@link _enabled} is true.
+     * {@link dimensionless} is not true.
      */
     get dirty(): boolean;
-    /**
-     * Check if the widget's layout is dirty. Returns {@link _layoutDirty} as
-     * long as {@link _enabled} is true.
-     */
+    /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
     get layoutDirty(): boolean;
     /**
      * Check if the widget has zero width or height.
