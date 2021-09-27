@@ -6,6 +6,10 @@ const PREVENT_DEFAULT_KEYS = new Set([
     'PageDown', 'PageUp', 'Tab', ' ',
 ]);
 
+const PREVENT_DEFAULT_CTRL_KEYS = new Set([
+    'a', 'A',
+]);
+
 function unpackKeyboardEvent(event: KeyboardEvent): [key: string, shift: boolean, ctrl: boolean, alt: boolean] {
     return [event.key, event.shiftKey, event.ctrlKey, event.altKey];
 }
@@ -39,7 +43,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
         // clearing keyboard focus
         if(listenToKeys) {
             domElem.addEventListener('keydown', (event) => {
-                if(PREVENT_DEFAULT_KEYS.has(event.key)) {
+                if(PREVENT_DEFAULT_KEYS.has(event.key) || (PREVENT_DEFAULT_CTRL_KEYS.has(event.key) && event.ctrlKey)) {
                     const currentFocus = this.getFocusedRoot()?.getFocus(FocusType.Keyboard) ?? null;
                     if(currentFocus !== null)
                         event.preventDefault();

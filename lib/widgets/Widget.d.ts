@@ -1,5 +1,6 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
+import type { Padding } from '../theme/Padding';
 import { BaseTheme } from '../theme/BaseTheme';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
@@ -43,6 +44,13 @@ export declare abstract class Widget extends BaseTheme {
     protected y: number;
     /** {@link flex} but for internal use. */
     protected _flex: number;
+    /**
+     * The {@link Root} that this widget is currently inside.
+     * Note that this will replace the root argument in the update functions,
+     * but for now, both can be used. For now, this value is set whenever
+     * {@link preLayoutUpdate} is called.
+     */
+    protected root: Root | null;
     /**
      * How much this widget will expand relative to other widgets in a flexbox
      * container. If changed, sets {@link _layoutDirty} to true.
@@ -233,4 +241,49 @@ export declare abstract class Widget extends BaseTheme {
      * child widget's dryPaint method is called.
      */
     dryPaint(): void;
+    /**
+     * Force a full theme update. An alias for {@link onThemeUpdated}(null).
+     * Used by {@link Root.resolution}
+     */
+    forceThemeUpdate(): void;
+    /** Scale a given font string by a given scaling factor */
+    protected scaleFont(font: string, factor: number): string;
+    get containerPadding(): Padding;
+    set containerPadding(value: Padding | undefined);
+    get multiContainerSpacing(): number;
+    set multiContainerSpacing(value: number | undefined);
+    get sliderMinLength(): number;
+    set sliderMinLength(value: number | undefined);
+    get sliderThickness(): number;
+    set sliderThickness(value: number | undefined);
+    private _cachedFont_bodyTextFont;
+    private _cachedLastFont_bodyTextFont;
+    get bodyTextFont(): string;
+    set bodyTextFont(value: string | undefined);
+    get bodyTextHeight(): number | null;
+    set bodyTextHeight(value: number | null | undefined);
+    get bodyTextSpacing(): number | null;
+    set bodyTextSpacing(value: number | null | undefined);
+    get checkboxLength(): number;
+    set checkboxLength(value: number | undefined);
+    get checkboxInnerPadding(): number;
+    set checkboxInnerPadding(value: number | undefined);
+    private _cachedFont_inputTextFont;
+    private _cachedLastFont_inputTextFont;
+    get inputTextFont(): string;
+    set inputTextFont(value: string | undefined);
+    get inputTextHeight(): number | null;
+    set inputTextHeight(value: number | null | undefined);
+    get inputTextSpacing(): number | null;
+    set inputTextSpacing(value: number | null | undefined);
+    get inputTextInnerPadding(): number;
+    set inputTextInnerPadding(value: number | undefined);
+    get inputTextMinWidth(): number;
+    set inputTextMinWidth(value: number | undefined);
+    get cursorThickness(): number;
+    set cursorThickness(value: number | undefined);
+    get scrollBarThickness(): number;
+    set scrollBarThickness(value: number | undefined);
+    get scrollBarMinPixels(): number;
+    set scrollBarMinPixels(value: number | undefined);
 }

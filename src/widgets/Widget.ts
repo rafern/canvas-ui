@@ -1,10 +1,14 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
 import type { FocusType } from '../core/FocusType';
+import type { Padding } from '../theme/Padding';
 import { BaseTheme } from '../theme/BaseTheme';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+
+const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
+const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
 
 /**
  * A generic widget. All widgets extend this class. All widgets extend
@@ -45,6 +49,14 @@ export abstract class Widget extends BaseTheme {
     protected y = 0;
     /** {@link flex} but for internal use. */
     protected _flex = 0;
+    /**
+     * The {@link Root} that this widget is currently inside.
+     * Note that this will replace the root argument in the update functions,
+     * but for now, both can be used. For now, this value is set whenever
+     * {@link preLayoutUpdate} is called.
+     */
+    protected root: Root | null = null;
+    // ^^^ TODO remove future use mention when root argument is removed
 
     /**
      * How much this widget will expand relative to other widgets in a flexbox
@@ -211,6 +223,7 @@ export abstract class Widget extends BaseTheme {
      * overridden.
      */
     preLayoutUpdate(root: Root): void {
+        this.root = root;
         if(this._enabled)
             this.handlePreLayoutUpdate(root);
     }
@@ -490,4 +503,228 @@ export abstract class Widget extends BaseTheme {
     dryPaint(): void {
         this._dirty = false;
     }
+
+    /**
+     * Force a full theme update. An alias for {@link onThemeUpdated}(null).
+     * Used by {@link Root.resolution}
+     */
+    forceThemeUpdate(): void {
+        this.onThemeUpdated();
+    }
+
+    /** Scale a given font string by a given scaling factor */
+    protected scaleFont(font: string, factor: number): string {
+        // Find font-size
+        let findPos = font.search(fontSizeRegex);
+        let suffix, value, matchSize = 0;
+        if(findPos == -1) {
+            // font-size not found. Try to find absolute/relative sizes and
+            // convert them to scaled rem sizes. For relative sizes, you can't
+            // tell the parent element's font size, so assume it has 1rem of
+            // size
+            if((findPos = font.search('xx-small')) !== -1)
+                value = 0.5625 * factor, matchSize = 8;
+            else if((findPos = font.search('x-small')) !== -1)
+                value = 0.625 * factor, matchSize = 7;
+            else if((findPos = font.search('small')) !== -1)
+                value = 0.8333 * factor, matchSize = 5;
+            else if((findPos = font.search('medium')) !== -1)
+                value = factor, matchSize = 6;
+            else if((findPos = font.search('large')) !== -1)
+                value = 1.125 * factor, matchSize = 5;
+            else if((findPos = font.search('x-large')) !== -1)
+                value = 1.5 * factor, matchSize = 7;
+            else if((findPos = font.search('xx-large')) !== -1)
+                value = 2 * factor, matchSize = 8;
+            else if((findPos = font.search('smaller')) !== -1)
+                value = 0.8333 * factor, matchSize = 7;
+            else if((findPos = font.search('larger')) !== -1)
+                value = 1.125 * factor, matchSize = 6;
+            else
+                value = factor; // not found, assume 1rem original font size
+
+            suffix = 'rem';
+        } else {
+            // font-size found. Find out match size
+            const match = font.match(fontSizeRegex);
+            if(match === null)
+                throw new Error('Unexpected null font-size match'); // this should never happen
+
+            const matchStr = match[0];
+            matchSize = matchStr.length;
+
+            // Find suffix in match
+            const suffixMatch = matchStr.match(fontSizeSuffixCharsRegex);
+            if(suffixMatch === null)
+                throw new Error('Unexpected null font-size suffix match'); // this should also never happen
+
+            suffix = suffixMatch[0];
+
+            // Parse numeric part of match and scale it
+            value = parseFloat(matchStr) * factor;
+        }
+
+        // Replace size in font string with new scaled one
+        return font.substring(0, findPos) + value.toString() + suffix + font.substring(findPos + matchSize, font.length);
+    }
+
+    // XXX WIDGET AUTO-GENERATED CODE START
+    override get containerPadding(): Padding {
+        const pad = super.containerPadding, res = this.root?.resolution ?? 1;
+        return <Padding>{left: pad.left * res, right: pad.right * res, top: pad.top * res, bottom: pad.bottom * res}
+    }
+
+    override set containerPadding(value: Padding | undefined) {
+        super.containerPadding = value;
+    }
+
+    override get multiContainerSpacing(): number {
+        return super.multiContainerSpacing * (this.root?.resolution ?? 1);
+    }
+
+    override set multiContainerSpacing(value: number | undefined) {
+        super.multiContainerSpacing = value;
+    }
+
+    override get sliderMinLength(): number {
+        return super.sliderMinLength * (this.root?.resolution ?? 1);
+    }
+
+    override set sliderMinLength(value: number | undefined) {
+        super.sliderMinLength = value;
+    }
+
+    override get sliderThickness(): number {
+        return super.sliderThickness * (this.root?.resolution ?? 1);
+    }
+
+    override set sliderThickness(value: number | undefined) {
+        super.sliderThickness = value;
+    }
+
+    private _cachedFont_bodyTextFont = '';
+    private _cachedLastFont_bodyTextFont = '';
+
+    override get bodyTextFont(): string {
+        const superVal = super.bodyTextFont;
+        if(superVal !== this._cachedLastFont_bodyTextFont) {
+            this._cachedLastFont_bodyTextFont = superVal;
+            this._cachedFont_bodyTextFont = this.scaleFont(superVal, this.root?.resolution ?? 1);
+        }
+        return this._cachedFont_bodyTextFont;
+    }
+
+    override set bodyTextFont(value: string | undefined) {
+        super.bodyTextFont = value;
+    }
+
+    override get bodyTextHeight(): number | null {
+        const superVal = super.bodyTextHeight;
+        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+    }
+
+    override set bodyTextHeight(value: number | null | undefined) {
+        super.bodyTextHeight = value;
+    }
+
+    override get bodyTextSpacing(): number | null {
+        const superVal = super.bodyTextSpacing;
+        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+    }
+
+    override set bodyTextSpacing(value: number | null | undefined) {
+        super.bodyTextSpacing = value;
+    }
+
+    override get checkboxLength(): number {
+        return super.checkboxLength * (this.root?.resolution ?? 1);
+    }
+
+    override set checkboxLength(value: number | undefined) {
+        super.checkboxLength = value;
+    }
+
+    override get checkboxInnerPadding(): number {
+        return super.checkboxInnerPadding * (this.root?.resolution ?? 1);
+    }
+
+    override set checkboxInnerPadding(value: number | undefined) {
+        super.checkboxInnerPadding = value;
+    }
+
+    private _cachedFont_inputTextFont = '';
+    private _cachedLastFont_inputTextFont = '';
+
+    override get inputTextFont(): string {
+        const superVal = super.inputTextFont;
+        if(superVal !== this._cachedLastFont_inputTextFont) {
+            this._cachedLastFont_inputTextFont = superVal;
+            this._cachedFont_inputTextFont = this.scaleFont(superVal, this.root?.resolution ?? 1);
+        }
+        return this._cachedFont_inputTextFont;
+    }
+
+    override set inputTextFont(value: string | undefined) {
+        super.inputTextFont = value;
+    }
+
+    override get inputTextHeight(): number | null {
+        const superVal = super.inputTextHeight;
+        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+    }
+
+    override set inputTextHeight(value: number | null | undefined) {
+        super.inputTextHeight = value;
+    }
+
+    override get inputTextSpacing(): number | null {
+        const superVal = super.inputTextSpacing;
+        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+    }
+
+    override set inputTextSpacing(value: number | null | undefined) {
+        super.inputTextSpacing = value;
+    }
+
+    override get inputTextInnerPadding(): number {
+        return super.inputTextInnerPadding * (this.root?.resolution ?? 1);
+    }
+
+    override set inputTextInnerPadding(value: number | undefined) {
+        super.inputTextInnerPadding = value;
+    }
+
+    override get inputTextMinWidth(): number {
+        return super.inputTextMinWidth * (this.root?.resolution ?? 1);
+    }
+
+    override set inputTextMinWidth(value: number | undefined) {
+        super.inputTextMinWidth = value;
+    }
+
+    override get cursorThickness(): number {
+        return super.cursorThickness * (this.root?.resolution ?? 1);
+    }
+
+    override set cursorThickness(value: number | undefined) {
+        super.cursorThickness = value;
+    }
+
+    override get scrollBarThickness(): number {
+        return super.scrollBarThickness * (this.root?.resolution ?? 1);
+    }
+
+    override set scrollBarThickness(value: number | undefined) {
+        super.scrollBarThickness = value;
+    }
+
+    override get scrollBarMinPixels(): number {
+        return super.scrollBarMinPixels * (this.root?.resolution ?? 1);
+    }
+
+    override set scrollBarMinPixels(value: number | undefined) {
+        super.scrollBarMinPixels = value;
+    }
+
+    // XXX WIDGET AUTO-GENERATED CODE END
 }

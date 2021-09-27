@@ -86,6 +86,8 @@ export class Root {
      * {@link getTextInput}
      */
     protected _mobileTextInUse = false;
+    /** See {@link resolution} */
+    private _resolution = 1;
 
     /**
      * Creates a new Root.
@@ -483,5 +485,21 @@ export class Root {
         }
 
         return null;
+    }
+
+    /**
+     * The resolution of this Root; theme properties that are absolute sizes in
+     * pixels will automatically be multiplied by this value. Keep this value in
+     * mind when implementing your own properties that have absolute sizes.
+     */
+    get resolution(): number {
+        return this._resolution;
+    }
+
+    set resolution(resolution: number) {
+        if(this._resolution !== resolution) {
+            this._resolution = resolution;
+            this.child.forceThemeUpdate();
+        }
     }
 }

@@ -36,4 +36,8 @@ export declare class DOMRoot extends Root {
      * {@link postLayoutUpdate} and {@link paint}.
      */
     update(): void;
+    get resolution(): number;
+    set resolution(resolution: number);
+    /** Apply CSS scaling to the DOM element depending on the Root resolution */
+    private autoScale;
 }

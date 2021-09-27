@@ -78,12 +78,29 @@ export class DOMRoot extends Root {
             this.domElem.style.removeProperty('display');
 
         this.preLayoutUpdate();
-        if(this.resolveLayout())
+        if(this.resolveLayout()) {
             [this.domElem.width, this.domElem.height] = this.dimensions;
+            this.autoScale();
+        }
         this.postLayoutUpdate();
         if(this.paint()) {
             this.domCanvasContext.globalCompositeOperation = 'copy';
             this.domCanvasContext.drawImage(this.canvas, 0, 0);
         }
+    }
+
+    override get resolution(): number {
+        return super.resolution;
+    }
+
+    override set resolution(resolution: number) {
+        super.resolution = resolution;
+        this.autoScale();
+    }
+
+    /** Apply CSS scaling to the DOM element depending on the Root resolution */
+    private autoScale(): void {
+        this.domElem.style.width = (this.domElem.width / this.resolution).toString() + 'px';
+        this.domElem.style.height = (this.domElem.height / this.resolution).toString() + 'px';
     }
 }

@@ -78,6 +78,8 @@ export declare class Root {
      * {@link getTextInput}
      */
     protected _mobileTextInUse: boolean;
+    /** See {@link resolution} */
+    private _resolution;
     /**
      * Creates a new Root.
      *
@@ -235,4 +237,11 @@ export declare class Root {
      * @returns If this is already in use ({@link usingMobileTextInput}), returns null, else, returns a string typed by the user.
      */
     getTextInput(initialInput?: string): Promise<string | null>;
+    /**
+     * The resolution of this Root; theme properties that are absolute sizes in
+     * pixels will automatically be multiplied by this value. Keep this value in
+     * mind when implementing your own properties that have absolute sizes.
+     */
+    get resolution(): number;
+    set resolution(resolution: number);
 }

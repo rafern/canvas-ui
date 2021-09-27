@@ -259,7 +259,7 @@ export class BaseTheme implements ThemeProperties {
     private _bodyTextFont?: string;
 
     get bodyTextFont(): string {
-        return this._bodyTextFont ?? this._fallbackTheme?.bodyTextFont ?? '16px sans';
+        return this._bodyTextFont ?? this._fallbackTheme?.bodyTextFont ?? '1rem sans-serif';
     }
 
     set bodyTextFont(value: string | undefined) {
@@ -385,7 +385,7 @@ export class BaseTheme implements ThemeProperties {
     private _inputTextFont?: string;
 
     get inputTextFont(): string {
-        return this._inputTextFont ?? this._fallbackTheme?.inputTextFont ?? '16px mono';
+        return this._inputTextFont ?? this._fallbackTheme?.inputTextFont ?? '1rem monospace';
     }
 
     set inputTextFont(value: string | undefined) {

@@ -25,11 +25,17 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     /**
      * The minimum width that this widget will try to expand to.
      *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
+     *
      * @decorator `@layoutField`
      */
     minWidth: number;
     /**
      * The minimum height that this widget will try to expand to.
+     *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
      *
      * @decorator `@layoutField`
      */
@@ -41,7 +47,10 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     /**
      * Child constraints for resolving layout. May be different than
      * {@link viewport}'s constraints. By default, this is 0 minimum and
-     * Infinity maximum per axis
+     * Infinity maximum per axis.
+     *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
      */
     private _constraints;
     /** Force child re-layout? Only used when not using a Viewport */
@@ -75,6 +84,12 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      */
     get heightTied(): boolean;
     set heightTied(heightTied: boolean);
+    /** {@link minWidth}, but scaled according to {@link Root.resolution} */
+    get scaledMinWidth(): number;
+    /** {@link minHeight}, but scaled according to {@link Root.resolution} */
+    get scaledMinHeight(): number;
+    /** {@link constraints}, but scaled according to {@link Root.resolution} */
+    get scaledConstraints(): [number, number, number, number];
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;

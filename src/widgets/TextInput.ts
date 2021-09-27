@@ -660,6 +660,12 @@ export class TextInput<V> extends Widget {
                     else
                         return this;
                 }
+                else if(event.key === 'a' || event.key === 'A') {
+                    this.cursorPos = this.text.length;
+                    this.selectPos = 0;
+                    this.cursorOffsetDirty = true;
+                    this._dirty = true;
+                }
                 else
                     return this;
 

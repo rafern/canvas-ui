@@ -19,6 +19,9 @@ export declare class ArtificialConstraint<W extends Widget = Widget> extends Pas
      * height. Changing this sets {@link _layoutDirty} to true. Constraints are
      * only applied if they are more restrictive than the original constraints.
      *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
+     *
      * @decorator `@layoutArrayField()`
      */
     constraints: LayoutConstraints;

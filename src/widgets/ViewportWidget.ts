@@ -29,12 +29,18 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     /**
      * The minimum width that this widget will try to expand to.
      *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
+     *
      * @decorator `@layoutField`
      */
     @layoutField
     minWidth: number;
     /**
      * The minimum height that this widget will try to expand to.
+     *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
      *
      * @decorator `@layoutField`
      */
@@ -47,7 +53,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     /**
      * Child constraints for resolving layout. May be different than
      * {@link viewport}'s constraints. By default, this is 0 minimum and
-     * Infinity maximum per axis
+     * Infinity maximum per axis.
+     *
+     * Will be automatically scaled depending on the current {@link Root}'s
+     * resolution.
      */
     private _constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
     /** Force child re-layout? Only used when not using a Viewport */
@@ -153,6 +162,27 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
     }
 
+    /** {@link minWidth}, but scaled according to {@link Root.resolution} */
+    get scaledMinWidth(): number {
+        return this.minWidth * (this.root?.resolution ?? 1);
+    }
+
+    /** {@link minHeight}, but scaled according to {@link Root.resolution} */
+    get scaledMinHeight(): number {
+        return this.minHeight * (this.root?.resolution ?? 1);
+    }
+
+    /** {@link constraints}, but scaled according to {@link Root.resolution} */
+    get scaledConstraints(): [number, number, number, number] {
+        const res = this.root?.resolution ?? 1;
+        return [
+            this._constraints[0] * res,
+            this._constraints[1] * res,
+            this._constraints[2] * res,
+            this._constraints[3] * res,
+        ];
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         super.onThemeUpdated(property);
 
@@ -207,11 +237,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         const tied = this._widthTied || this._heightTied;
         if(!tied) {
             if(this.viewport !== null) {
-                this.viewport.constraints = this._constraints;
+                this.viewport.constraints = this.scaledConstraints;
                 this.viewport.resolveChildsLayout(child);
             }
             else if(child.layoutDirty || this.forceReLayout) {
-                child.resolveDimensionsAsTop(...this._constraints);
+                child.resolveDimensionsAsTop(...this.scaledConstraints);
                 this.correctChildPosition();
             }
         }
@@ -233,12 +263,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         let normalWidth = true, normalHeight = true;
-        const effectiveMinWidth = Math.min(Math.max(minWidth, this.minWidth), maxWidth);
-        const effectiveMinHeight = Math.min(Math.max(minHeight, this.minHeight), maxHeight);
+        const effectiveMinWidth = Math.min(Math.max(minWidth, this.scaledMinWidth), maxWidth);
+        const effectiveMinHeight = Math.min(Math.max(minHeight, this.scaledMinHeight), maxHeight);
 
         if(this._widthTied || this._heightTied) {
             // Resolve child's layout
-            const constraints: LayoutConstraints = [...this._constraints];
+            const constraints: LayoutConstraints = this.scaledConstraints;
 
             if(this._widthTied) {
                 constraints[0] = effectiveMinWidth;

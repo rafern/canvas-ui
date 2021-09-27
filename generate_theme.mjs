@@ -36,6 +36,12 @@ if(!('themeproperties_delimiter_start' in config) || typeof config.themeproperti
     showError('Config file is missing a valid property "themeproperties_delimiter_start"; must contain the starting delimiter (usually a comment) for where to put theme property fields for the ThemeProperties interface');
 if(!('themeproperties_delimiter_end' in config) || typeof config.themeproperties_delimiter_end !== 'string')
     showError('Config file is missing a valid property "themeproperties_delimiter_end"; must contain the ending delimiter (usually a comment) for where to put theme property fields for the ThemeProperties interface');
+if(!('widget_path' in config) || typeof config.widget_path !== 'string')
+    showError('Config file is missing a valid property "widget_path"; must contain path to source code file defining the Widget class');
+if(!('widget_delimiter_start' in config) || typeof config.widget_delimiter_start !== 'string')
+    showError('Config file is missing a valid property "widget_delimiter_start"; must contain the starting delimiter (usually a comment) for where to put theme property fields for the Widget class');
+if(!('widget_delimiter_end' in config) || typeof config.widget_delimiter_end !== 'string')
+    showError('Config file is missing a valid property "widget_delimiter_end"; must contain the ending delimiter (usually a comment) for where to put theme property fields for the Widget class');
 if(!('basetheme_ctor_themeproperties_arg_name' in config) || typeof config.basetheme_ctor_themeproperties_arg_name !== 'string')
     showError('Config file is missing a valid property "basetheme_ctor_themeproperties_arg_name"; must contain the argument name in the BaseTheme constructor of the optional theme properties');
 if(!('basetheme_fallback_theme_name' in config) || typeof config.basetheme_fallback_theme_name !== 'string')
@@ -57,6 +63,10 @@ for(const [property, options] of Object.entries(config.properties)) {
     if(!('description' in options) || typeof options.description !== 'string')
         showError('Config file theme property value is missing a valid property "description"; must be a string containing the description of the theme property, used for docstrings. Preferably, use typedoc tags in the string (such as {@link linkurl | this will be displayed instead of the link url})');
 }
+
+
+
+
 
 // Read BaseTheme file
 console.log(`Reading BaseTheme file (${config.basetheme_path})...`);
@@ -127,7 +137,6 @@ else if(baseThemeCtorEnd > baseThemeFieldsStart && baseThemeCtorEnd < baseThemeF
 // Generate code for BaseTheme
 console.log('Generating code for BaseTheme...');
 
-// generate code for ctor and fields
 const ctorLines = [];
 const fieldsLines = [];
 const ctorIndentStr = ' '.repeat(ctorIndent);
@@ -137,14 +146,15 @@ for(const [property, options] of Object.entries(config.properties)) {
     ctorLines.push(`${ctorIndentStr}this._${property} = ${config.basetheme_ctor_themeproperties_arg_name}.${property};`);
 
     // fields
+    const actualType = options.type === 'font' ? 'string' : options.type;
     fieldsLines.push(`${fieldsIndentStr}/** See {@link ${property}}. For internal use only. */`);
-    fieldsLines.push(`${fieldsIndentStr}private _${property}?: ${options.type};`);
+    fieldsLines.push(`${fieldsIndentStr}private _${property}?: ${actualType};`);
     fieldsLines.push('');
-    fieldsLines.push(`${fieldsIndentStr}get ${property}(): ${options.type} {`);
+    fieldsLines.push(`${fieldsIndentStr}get ${property}(): ${actualType} {`);
     fieldsLines.push(`${fieldsIndentStr}    return this._${property} ?? this.${config.basetheme_fallback_theme_name}?.${property} ?? ${options.default};`);
     fieldsLines.push(`${fieldsIndentStr}}`);
     fieldsLines.push('');
-    fieldsLines.push(`${fieldsIndentStr}set ${property}(value: ${options.type} | undefined) {`);
+    fieldsLines.push(`${fieldsIndentStr}set ${property}(value: ${actualType} | undefined) {`);
     fieldsLines.push(`${fieldsIndentStr}    if(this._${property} !== value) {`);
     fieldsLines.push(`${fieldsIndentStr}        this._${property} = value;`);
     fieldsLines.push(`${fieldsIndentStr}        this.${config.basetheme_theme_update_method_name}('${property}');`);
@@ -172,6 +182,10 @@ else{
     baseThemeFile.splice(lastStart + 1, lastEnd - lastStart - 1, ...ctorLines);
     baseThemeFile.splice(firstStart + 1, firstEnd - firstStart - 1, ...fieldsLines);
 }
+
+
+
+
 
 // Read ThemeProperties file
 console.log(`Reading ThemeProperties file (${config.themeproperties_path})...`);
@@ -221,22 +235,124 @@ if(themePropertiesLines.includes(-1))
 else if((new Set(themePropertiesLines)).size !== themePropertiesLines.length)
     showError('ThemeProperties file delimiters present in the same line. Aborted');
 else if(themePropertiesFieldsStart > themePropertiesFieldsEnd)
-    showError('The BaseTheme constructor start delimiter was after the end delimiter. Aborted');
+    showError('The ThemeProperties start delimiter was after the end delimiter. Aborted');
 
 // Generate code for ThemeProperties
 console.log('Generating code for ThemeProperties...');
 
-// generate code
 const tpLines = [];
 const themePropertiesIndentStr = ' '.repeat(themePropertiesIndent);
 for(const [property, options] of Object.entries(config.properties)) {
+    const actualType = options.type === 'font' ? 'string' : options.type;
     tpLines.push(`${themePropertiesIndentStr}/** ${options.description} */`);
-    tpLines.push(`${themePropertiesIndentStr}${property}?: ${options.type};`);
+    tpLines.push(`${themePropertiesIndentStr}${property}?: ${actualType};`);
 }
 
 // Inject ThemeProperties code
 console.log('Injecting ThemeProperties code...');
 (themePropertiesFile ?? baseThemeFile).splice(themePropertiesFieldsStart + 1, themePropertiesFieldsEnd - themePropertiesFieldsStart - 1, ...tpLines);
+
+
+
+
+
+// Read Widget file
+console.log(`Reading Widget file (${config.widget_path})...`);
+let widgetFile;
+try {
+    const contents = readFileSync(config.widget_path, 'utf8');
+    widgetFile = contents.split('\n');
+}
+catch(error) {
+    showError(`Failed to read Widget file (${config.widget_path}): ${error}`);
+}
+
+// Find delimiters in Widget file
+console.log(`Finding delimiters in Widget file...`);
+let widgetFieldsStart = -1, widgetFieldsEnd = -1, widgetIndent = 0;
+curLine = 0;
+for(const line of widgetFile) {
+    const tempIndent = line.indexOf(config.widget_delimiter_start);
+    if(tempIndent !== -1) {
+        if(widgetFieldsStart === -1) {
+            widgetIndent = tempIndent;
+            widgetFieldsStart = curLine;
+        }
+        else
+            showError(`Multiple instances of widget_delimiter_start (${config.widget_delimiter_start}} found. Aborted`);
+    }
+
+    if(line.includes(config.widget_delimiter_end)) {
+        if(widgetFieldsEnd === -1)
+            widgetFieldsEnd = curLine;
+        else
+            showError(`Multiple instances of widget_delimiter_end (${config.widget_delimiter_end}} found. Aborted`);
+    }
+
+    curLine++;
+}
+
+const widgetLines = [widgetFieldsStart, widgetFieldsEnd];
+if(widgetLines.includes(-1))
+    showError('Widget file has missing delimiters. Aborted');
+else if((new Set(widgetLines)).size !== widgetLines.length)
+    showError('Widget file delimiters present in the same line. Aborted');
+else if(widgetFieldsStart > widgetFieldsEnd)
+    showError('The Widget start delimiter was after the end delimiter. Aborted');
+
+// Generate code for Widget
+console.log('Generating code for Widget...');
+
+const wLines = [];
+const widgetIndentStr = ' '.repeat(widgetIndent);
+for(const [property, options] of Object.entries(config.properties)) {
+    if(!options.scaleWithResolution)
+        continue;
+
+    if(options.type == 'font') {
+        // if scaling a font, the value is cached since the operation is slow
+        wLines.push(`${widgetIndentStr}private _cachedFont_${property} = '';`);
+        wLines.push(`${widgetIndentStr}private _cachedLastFont_${property} = '';`);
+        wLines.push('');
+    }
+
+    const actualType = options.type === 'font' ? 'string' : options.type;
+    wLines.push(`${widgetIndentStr}override get ${property}(): ${actualType} {`);
+    if(options.type == 'number')
+        wLines.push(`${widgetIndentStr}    return super.${property} * (this.root?.resolution ?? 1);`);
+    else if(options.type == 'number | null') {
+        wLines.push(`${widgetIndentStr}    const superVal = super.${property};`);
+        wLines.push(`${widgetIndentStr}    return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));`);
+    }
+    else if(options.type == 'font') {
+        wLines.push(`${widgetIndentStr}    const superVal = super.${property};`);
+        wLines.push(`${widgetIndentStr}    if(superVal !== this._cachedLastFont_${property}) {`);
+        wLines.push(`${widgetIndentStr}        this._cachedLastFont_${property} = superVal;`);
+        wLines.push(`${widgetIndentStr}        this._cachedFont_${property} = this.scaleFont(superVal, this.root?.resolution ?? 1);`);
+        wLines.push(`${widgetIndentStr}    }`);
+        wLines.push(`${widgetIndentStr}    return this._cachedFont_${property};`);
+    }
+    else if(options.type == 'Padding') {
+        wLines.push(`${widgetIndentStr}    const pad = super.${property}, res = this.root?.resolution ?? 1;`);
+        wLines.push(`${widgetIndentStr}    return <Padding>{left: pad.left * res, right: pad.right * res, top: pad.top * res, bottom: pad.bottom * res}`);
+    }
+    else
+        showError(`Resolution scaling not supported for type "${options.type}"`);
+    wLines.push(`${widgetIndentStr}}`);
+    wLines.push('');
+    wLines.push(`${widgetIndentStr}override set ${property}(value: ${actualType} | undefined) {`);
+    wLines.push(`${widgetIndentStr}    super.${property} = value;`);
+    wLines.push(`${widgetIndentStr}}`);
+    wLines.push('');
+}
+
+// Inject Widget code
+console.log('Injecting Widget code...');
+widgetFile.splice(widgetFieldsStart + 1, widgetFieldsEnd - widgetFieldsStart - 1, ...wLines);
+
+
+
+
 
 // Save files
 console.log('Saving BaseTheme file...');
@@ -257,4 +373,12 @@ else {
     catch(error) {
         showError(`Failed to write to ThemeProperties file (${config.themeproperties_path}): ${error}`);
     }
+}
+
+console.log('Saving Widget file...');
+try {
+    writeFileSync(config.widget_path, widgetFile.join('\n'));
+}
+catch(error) {
+    showError(`Failed to write to Widget file (${config.widget_path}): ${error}`);
 }

@@ -7,6 +7,9 @@
     "themeproperties_path": "src/theme/ThemeProperties.ts",
     "themeproperties_delimiter_start": "// XXX THEMEPROPERTIES AUTO-GENERATED CODE START",
     "themeproperties_delimiter_end": "// XXX THEMEPROPERTIES AUTO-GENERATED CODE END",
+    "widget_path": "src/widgets/Widget.ts",
+    "widget_delimiter_start": "// XXX WIDGET AUTO-GENERATED CODE START",
+    "widget_delimiter_end": "// XXX WIDGET AUTO-GENERATED CODE END",
     "basetheme_ctor_themeproperties_arg_name": "properties",
     "basetheme_fallback_theme_name": "_fallbackTheme",
     "basetheme_theme_update_method_name": "onThemeUpdated",
@@ -19,7 +22,8 @@
         "containerPadding": {
             "type": "Padding",
             "default": "<Padding>{left: 4, right: 4, top: 4, bottom: 4}",
-            "description": "The {@link Padding} used in {@link Container}."
+            "description": "The {@link Padding} used in {@link Container}.",
+            "scaleWithResolution": true
         },
         "containerAlignment": {
             "type": "Alignment2D",
@@ -29,7 +33,8 @@
         "multiContainerSpacing": {
             "type": "number",
             "default": "4",
-            "description": "The spacing length between widgets in {@link MultiContainer}."
+            "description": "The spacing length between widgets in {@link MultiContainer}.",
+            "scaleWithResolution": true
         },
         "multiContainerAlignment": {
             "type": "FlexAlignment2D",
@@ -59,17 +64,20 @@
         "sliderMinLength": {
             "type": "number",
             "default": "100",
-            "description": "The minimum length of a {@link Slider}"
+            "description": "The minimum length of a {@link Slider}",
+            "scaleWithResolution": true
         },
         "sliderThickness": {
             "type": "number",
             "default": "10",
-            "description": "The thickness of a {@link Slider}"
+            "description": "The thickness of a {@link Slider}",
+            "scaleWithResolution": true
         },
         "bodyTextFont": {
-            "type": "string",
-            "default": "'16px sans'",
-            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for body text (most regular text)."
+            "type": "font",
+            "default": "'1rem sans-serif'",
+            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for body text (most regular text).",
+            "scaleWithResolution": true
         },
         "bodyTextFill": {
             "type": "FillStyle",
@@ -79,12 +87,14 @@
         "bodyTextHeight": {
             "type": "number | null",
             "default": "null",
-            "description": "The height of each line of text in body text (most regular text). If null, it will be automatically detected."
+            "description": "The height of each line of text in body text (most regular text). If null, it will be automatically detected.",
+            "scaleWithResolution": true
         },
         "bodyTextSpacing": {
             "type": "number | null",
             "default": "null",
-            "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected."
+            "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected.",
+            "scaleWithResolution": true
         },
         "bodyTextAlign": {
             "type": "TextAlignMode | number",
@@ -94,12 +104,14 @@
         "checkboxLength": {
             "type": "number",
             "default": "12",
-            "description": "The length in pixels used for {@link Checkbox}."
+            "description": "The length in pixels used for {@link Checkbox}.",
+            "scaleWithResolution": true
         },
         "checkboxInnerPadding": {
             "type": "number",
             "default": "2",
-            "description": "The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box."
+            "description": "The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box.",
+            "scaleWithResolution": true
         },
         "inputBackgroundFill": {
             "type": "FillStyle",
@@ -112,9 +124,10 @@
             "description": "The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style} used for input widgets like {@link TextInput} when text is selected."
         },
         "inputTextFont": {
-            "type": "string",
-            "default": "'16px mono'",
-            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for text in input widgets like {@link TextInput}."
+            "type": "font",
+            "default": "'1rem monospace'",
+            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for text in input widgets like {@link TextInput}.",
+            "scaleWithResolution": true
         },
         "inputTextFill": {
             "type": "FillStyle",
@@ -134,22 +147,26 @@
         "inputTextHeight": {
             "type": "number | null",
             "default": "null",
-            "description": "The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
+            "description": "The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected.",
+            "scaleWithResolution": true
         },
         "inputTextSpacing": {
             "type": "number | null",
             "default": "null",
-            "description": "The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
+            "description": "The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected.",
+            "scaleWithResolution": true
         },
         "inputTextInnerPadding": {
             "type": "number",
             "default": "2",
-            "description": "The {@link Padding} between text and border used for text input widgets like {@link TextInput}."
+            "description": "The {@link Padding} between text and border used for text input widgets like {@link TextInput}.",
+            "scaleWithResolution": true
         },
         "inputTextMinWidth": {
             "type": "number",
             "default": "100",
-            "description": "The default minimum width of text input widgets like {@link TextInput}."
+            "description": "The default minimum width of text input widgets like {@link TextInput}.",
+            "scaleWithResolution": true
         },
         "inputTextAlign": {
             "type": "TextAlignMode | number",
@@ -164,12 +181,14 @@
         "cursorThickness": {
             "type": "number",
             "default": "1",
-            "description": "The thickness of a text cursor in pixels."
+            "description": "The thickness of a text cursor in pixels.",
+            "scaleWithResolution": true
         },
         "scrollBarThickness": {
             "type": "number",
             "default": "8",
-            "description": "The thickness of a {@link ScrollableViewportWidget}'s scrollbar in pixels."
+            "description": "The thickness of a {@link ScrollableViewportWidget}'s scrollbar in pixels.",
+            "scaleWithResolution": true
         },
         "scrollBarMinPercent": {
             "type": "number",
@@ -179,7 +198,8 @@
         "scrollBarMinPixels": {
             "type": "number",
             "default": "20",
-            "description": "The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels."
+            "description": "The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels.",
+            "scaleWithResolution": true
         }
     }
 }
