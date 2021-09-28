@@ -7,11 +7,12 @@ import { Widget } from './Widget';
  * @category Widget
  */
 export declare class Icon extends Widget {
-    /** The current image used by the icon. */
+    /** The current image/video used by the icon. */
     private _image;
     /**
      * The last source that the current image was using. Used for tracking if
-     * the image source changed and if the image is fully loaded.
+     * the image source changed and if the image is fully loaded. Only used if
+     * image is not a video.
      */
     private lastSrc;
     /**
@@ -50,17 +51,17 @@ export declare class Icon extends Widget {
     /** Actual image height */
     private actualHeight;
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement | string, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
+    constructor(image: HTMLImageElement | HTMLVideoElement | string, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
     /**
-     * The image used by this Icon.
+     * The image or video used by this Icon.
      *
      * Sets {@link _image} if changed and sets {@link lastSrc} to null to mark
      * the image as loading so that flickers are minimised.
      *
      * If getting, returns {@link _image}.
      */
-    set image(image: HTMLImageElement);
-    get image(): HTMLImageElement;
+    set image(image: HTMLImageElement | HTMLVideoElement);
+    get image(): HTMLImageElement | HTMLVideoElement;
     protected handlePreLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
