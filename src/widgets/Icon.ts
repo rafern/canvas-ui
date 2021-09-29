@@ -58,6 +58,20 @@ export class Icon extends Widget {
     private actualWidth = 0;
     /** Actual image height */
     private actualHeight = 0;
+    /**
+     * Listener for video loadedmetadata and canplay events. Saved so it can be
+     * removed when needed
+     */
+    private loadedmetadataListener: ((event: Event) => void) | null = null;
+    /**
+     * Listener for video canplay event. Saved so it can be removed when needed
+     */
+    private canplayListener: ((event: Event) => void) | null = null;
+    /**
+     * Used for requestVideoFrameCallback. If null, then callback is being done
+     * by setting _dirty to true every frame, which may be wasteful
+     */
+    private frameCallback: ((now: DOMHighResTimeStamp, metadata: unknown /* VideoFrameMetadata */) => void) | null = null;
 
     /** Create a new Icon. */
     constructor(image: HTMLImageElement | HTMLVideoElement | string, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeProperties?: ThemeProperties) {
@@ -69,12 +83,10 @@ export class Icon extends Widget {
             if(videoRegex.test(image)) {
                 const videoElem = document.createElement('video');
                 videoElem.src = image;
+                // So that video poster shows. If you're passing your own video
+                // element then this won't be automatically set
+                videoElem.preload = 'auto';
                 image = videoElem;
-                videoElem.addEventListener('loadedmetadata', _event => {
-                    // Set layout dirty flag when metadata is loaded; we now
-                    // know the video size and can resolve layout
-                    this._layoutDirty = true;
-                });
             }
             else {
                 const imgElem = document.createElement('img');
@@ -87,6 +99,46 @@ export class Icon extends Widget {
         this.imageWidth = width;
         this.imageHeight = height;
         this.viewBox = viewBox;
+        this.setupVideoEvents();
+    }
+
+    /**
+     * Setup event listeners for video. Has no effect if {@link image} is not a
+     * video
+     */
+    private setupVideoEvents() {
+        if(this.image instanceof HTMLVideoElement) {
+            // Add event listeners
+            // loadedmetadata is so that we resize the widget when we know the
+            // video dimensions
+            this.loadedmetadataListener = _event => this._layoutDirty = true;
+            this.image.addEventListener('loadedmetadata', this.loadedmetadataListener);
+            // canplay is so that the first video frame is always displayed
+            this.canplayListener = _event => this._dirty = true;
+            this.image.addEventListener('canplay', this.canplayListener);
+
+            if('requestVideoFrameCallback' in this.image) {
+                console.warn('requestVideoFrameCallback available; if video playback is choppy or broken, please report it on Github');
+
+                const originalVideo = this.image;
+                this.frameCallback = (_now, _metadata) => {
+                    // Set dirty flag when a new frame is got so that it is
+                    // painted
+                    this._dirty = true;
+                    console.log('set dirty')
+
+                    if(this.image === originalVideo && this.frameCallback !== null) {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (this.image as any).requestVideoFrameCallback(this.frameCallback);
+                    }
+                }
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (this.image as any).requestVideoFrameCallback(this.frameCallback)
+            } else {
+                console.warn('requestVideoFrameCallback not available; video will be played back on every frame when not paused');
+            }
+        }
     }
 
     /**
@@ -99,8 +151,22 @@ export class Icon extends Widget {
      */
     set image(image: HTMLImageElement | HTMLVideoElement) {
         if(image !== this._image) {
+            if(this._image instanceof HTMLVideoElement) {
+                // Remove old event listeners in video. null checks aren't
+                // needed, but adding them anyways so that typescript doesn't
+                // complain
+                if(this.loadedmetadataListener !== null)
+                    this._image.removeEventListener('loadedmetadata', this.loadedmetadataListener);
+                if(this.canplayListener !== null)
+                    this._image.removeEventListener('canplay', this.canplayListener);
+            }
+
             this._image = image;
             this.lastSrc = null;
+            this.loadedmetadataListener = null;
+            this.canplayListener = null;
+            this.frameCallback = null;
+            this.setupVideoEvents();
         }
     }
 
@@ -114,7 +180,7 @@ export class Icon extends Widget {
         // loaded yet. If this is a playing video, icon only needs to be
         // re-drawn if video is playing
         if(this._image instanceof HTMLVideoElement) {
-            if(!this._image.paused)
+            if(!this._image.paused && this.frameCallback === null)
                 this._dirty = true;
         }
         else if(this._image?.src !== this.lastSrc && this._image?.complete) {

@@ -50,8 +50,27 @@ export declare class Icon extends Widget {
     private actualWidth;
     /** Actual image height */
     private actualHeight;
+    /**
+     * Listener for video loadedmetadata and canplay events. Saved so it can be
+     * removed when needed
+     */
+    private loadedmetadataListener;
+    /**
+     * Listener for video canplay event. Saved so it can be removed when needed
+     */
+    private canplayListener;
+    /**
+     * Used for requestVideoFrameCallback. If null, then callback is being done
+     * by setting _dirty to true every frame, which may be wasteful
+     */
+    private frameCallback;
     /** Create a new Icon. */
     constructor(image: HTMLImageElement | HTMLVideoElement | string, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
+    /**
+     * Setup event listeners for video. Has no effect if {@link image} is not a
+     * video
+     */
+    private setupVideoEvents;
     /**
      * The image or video used by this Icon.
      *
