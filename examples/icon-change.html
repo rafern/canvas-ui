@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='module'>
+            import {
+                DOMRoot, Label, Margin, Column, Icon, TextButton, Row,
+                DOMPointerDriver, ArtificialConstraint
+            } from './index.esm.js';
+
+            // Create the root
+            let banana = true;
+            const icon = new Icon('banana.png');
+
+            function getNextSrc() {
+                banana = !banana;
+                return banana ? 'banana.png' : 'apple.png'
+            }
+
+            const root = new DOMRoot(
+                new Margin(
+                    new Column().add([
+                        new ArtificialConstraint(icon, [0, 256, 0, 256]),
+                        new Label('The image should change between a banana and an apple'),
+                        new Row().add([
+                            new TextButton('Change Icon.image.src', () => icon.image.src = getNextSrc()),
+                            new TextButton('Change Icon.image', () => {
+                                const img = document.createElement('img');
+                                img.src = getNextSrc();
+                                icon.image = img;
+                            })
+                        ])
+                    ])
+                )
+            );
+
+            // Create, bind DOM and register the pointer driver
+            const pointerDriver = new DOMPointerDriver();
+            pointerDriver.bindDOMElem(root, root.domElem);
+            root.registerDriver(pointerDriver);
+
+            // Run the update loop
+            function updateLoop() {
+                root.update();
+                window.requestAnimationFrame(updateLoop);
+            }
+
+            window.requestAnimationFrame(updateLoop);
+
+            // Add root to body
+            document.body.appendChild(root.domElem);
+        </script>
+        <noscript>
+            Please enable Javascript. This example may not work if running via file:// URIs
+        </noscript>
+    </head>
+    <body>
+    </body>
+</html>
