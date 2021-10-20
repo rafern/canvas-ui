@@ -37,6 +37,7 @@ export declare abstract class Parent<W extends Widget = Widget> extends Widget {
     set inheritedTheme(theme: Theme | undefined);
     get inheritedTheme(): Theme | undefined;
     dryPaint(): void;
+    forceDirty(): void;
     /** Get amount of children of this parent widget. */
     get childCount(): number;
     /**

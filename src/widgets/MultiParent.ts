@@ -32,8 +32,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
             children.inheritedTheme = this.inheritedTheme;
         }
 
-        this._layoutDirty = true;
-        this._dirty = true;
+        this.forceDirty();
         return this;
     }
 
@@ -59,8 +58,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
                 this._children.splice(pos, 1);
         }
 
-        this._layoutDirty = true;
-        this._dirty = true;
+        this.forceDirty();
         return this;
     }
 
@@ -73,8 +71,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
      */
     clearChildren(): this {
         this._children.length = 0;
-        this._layoutDirty = true;
-        this._dirty = true;
+        this.forceDirty();
         return this;
     }
 }

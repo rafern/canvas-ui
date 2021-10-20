@@ -39,6 +39,7 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         super(needsClear, propagatesEvents, themeProperties);
 
         this._children = [...children];
+        this.forceDirty(); // just in case children are being reused
     }
 
     override set inheritedTheme(theme: Theme | undefined) {
@@ -56,6 +57,13 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
 
         for(const child of this.children)
             child.dryPaint();
+    }
+
+    override forceDirty(): void {
+        super.forceDirty();
+
+        for(const child of this.children)
+            child.forceDirty();
     }
 
     /** Get amount of children of this parent widget. */

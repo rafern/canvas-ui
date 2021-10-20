@@ -348,4 +348,9 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         this.backgroundDirty = false;
         super.dryPaint();
     }
+
+    override forceDirty(): void {
+        super.forceDirty();
+        this.backgroundDirty = true;
+    }
 }

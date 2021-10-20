@@ -190,4 +190,9 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         this.backgroundDirty = false;
         super.dryPaint();
     }
+
+    override forceDirty(): void {
+        super.forceDirty();
+        this.backgroundDirty = true;
+    }
 }

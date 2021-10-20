@@ -84,8 +84,7 @@ export abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
-     * If changed, {@link _enabled} is set and {@link _dirty} and
-     * {@link _layoutDirty} are set to true.
+     * If changed, calls {@link forceDirty}
      *
      * If getting, {@link _enabled} is returned.
      */
@@ -94,8 +93,7 @@ export abstract class Widget extends BaseTheme {
             return;
 
         this._enabled = enabled;
-        this._dirty = true;
-        this._layoutDirty = true;
+        this.forceDirty();
     }
 
     get enabled(): boolean {
@@ -510,6 +508,18 @@ export abstract class Widget extends BaseTheme {
      */
     forceThemeUpdate(): void {
         this.onThemeUpdated();
+    }
+
+    /**
+     * Force the widget to be fully re-painted and have layout resolved. For
+     * internal use only or for use by {@link Parent} widgets so that children
+     * get properly marked as dirty when added to a new container after reuse.
+     * Could also prove useful if you are reusing widgets after removing them
+     * from the widget tree.
+     */
+    forceDirty(): void {
+        this._dirty = true;
+        this._layoutDirty = true;
     }
 
     /** Scale a given font string by a given scaling factor */
