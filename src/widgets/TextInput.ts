@@ -198,6 +198,18 @@ export class TextInput<V> extends Widget {
     /** The current text value. */
     set text(text: string) {
         this.variable.value = text;
+
+        // clamp cursor positions if the new text has a smaller length
+        // than the old text
+        const textLength = this.variable.value.length;
+        if(this.cursorPos > textLength) {
+            this.cursorPos = textLength;
+            this.cursorOffsetDirty = true;
+        }
+        if(this.selectPos > textLength) {
+            this.selectPos = textLength;
+            this.cursorOffsetDirty = true;
+        }
     }
 
     get text(): string {
