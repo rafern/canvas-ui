@@ -195,7 +195,12 @@ export class TextInput<V> extends Widget {
         }
     }
 
-    /** The current text value. */
+    /**
+     * The current text value.
+     *
+     * Should not be used internally as a setter (but using it as a getter is
+     * fine); if you are extending TextInput, use this.variable.value instead.
+     */
     set text(text: string) {
         this.variable.value = text;
 
@@ -378,7 +383,7 @@ export class TextInput<V> extends Widget {
             return;
 
         // Delete text
-        this.text = this.text.substring(0, start) + this.text.substring(end);
+        this.variable.value = this.text.substring(0, start) + this.text.substring(end);
 
         // Update cursor position
         this.cursorPos = this.selectPos = start;
@@ -428,7 +433,7 @@ export class TextInput<V> extends Widget {
 
         if(this.selectPos === this.cursorPos) {
             // Insert string in current cursor position
-            this.text = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
+            this.variable.value = this.text.substring(0, this.cursorPos) + str + this.text.substring(this.cursorPos);
             // Move cursor neccessary amount forward
             this.moveCursor(str.length, false);
         }
@@ -437,7 +442,7 @@ export class TextInput<V> extends Widget {
             const end = Math.max(this.cursorPos, this.selectPos);
 
             // Replace text in selection with the one being inserted
-            this.text = this.text.substring(0, start) + str + this.text.substring(end);
+            this.variable.value = this.text.substring(0, start) + str + this.text.substring(end);
             // Move cursor to end of selection after insert
             this.moveCursorTo(start + str.length, false);
         }
@@ -465,13 +470,13 @@ export class TextInput<V> extends Widget {
         }
         else if(delta > 0) {
             // Delete forwards
-            this.text = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
+            this.variable.value = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
         }
         else {
             // Delete backwards
             // NOTE, still checking if delta < 0 so that nothing is done if
             // delta is 0
-            this.text = this.text.substring(0, this.cursorPos + delta) + this.text.substring(this.cursorPos);
+            this.variable.value = this.text.substring(0, this.cursorPos + delta) + this.text.substring(this.cursorPos);
             this.moveCursor(delta, false);
         }
     }

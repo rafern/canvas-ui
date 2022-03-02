@@ -110,7 +110,12 @@ export declare class TextInput<V> extends Widget {
      */
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
-    /** The current text value. */
+    /**
+     * The current text value.
+     *
+     * Should not be used internally as a setter (but using it as a getter is
+     * fine); if you are extending TextInput, use this.variable.value instead.
+     */
     set text(text: string);
     get text(): string;
     /**
