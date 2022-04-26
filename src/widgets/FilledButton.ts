@@ -114,7 +114,7 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             this.backgroundDirty = true;
             this.childTheme.canvasFill = this.getBackgroundFill();
         }
-        else if(property === this.backgroundFill) {
+        else if(property === this.backgroundProperty) {
             this.backgroundDirty = true;
             this.childTheme.canvasFill = this.getBackgroundFill();
         }
