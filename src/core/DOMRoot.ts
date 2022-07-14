@@ -101,7 +101,8 @@ export class DOMRoot extends Root {
 
     /** Apply CSS scaling to the DOM element depending on the Root resolution */
     private autoScale(): void {
-        this.domElem.style.width = (this.domElem.width / this.resolution).toString() + 'px';
-        this.domElem.style.height = (this.domElem.height / this.resolution).toString() + 'px';
+        const [scaleX, scaleY] = this.effectiveScale;
+        this.domElem.style.width = (this.domElem.width / this.resolution / scaleX).toString() + 'px';
+        this.domElem.style.height = (this.domElem.height / this.resolution / scaleY).toString() + 'px';
     }
 }

@@ -1,7 +1,8 @@
+import { paintField, paintArrayField } from '../decorators/FlagFields';
 import type { LayoutConstraints } from './LayoutConstraints';
-import { paintArrayField } from '../decorators/FlagFields';
 import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
+import { isPower2 } from '../helpers/isPower2';
 
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -22,6 +23,18 @@ export class Viewport {
      */
     @paintArrayField()
     constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
+    /**
+     * The maximum width the {@link canvas} can have. If the layout exceeds this
+     * width, then the content will be scaled to fit the canvas
+     */
+    @paintField
+    maxCanvasWidth = Infinity;
+    /**
+     * The maximum height the {@link canvas} can have. If the layout exceeds
+     * this height, then the content will be scaled to fit the canvas
+     */
+    @paintField
+    maxCanvasHeight = Infinity;
     /** Have the constraints been changed? */
     private _dirty = true;
 
@@ -29,6 +42,11 @@ export class Viewport {
     readonly canvas: HTMLCanvasElement;
     /** The internal canvas' context. Alpha is enabled. */
     readonly context: CanvasRenderingContext2D;
+
+    /** Has the warning for dimensionless canvases been issued? */
+    private static dimensionlessWarned = false;
+    /** Has the warning for non-power of 2 dimensions been issued? */
+    private static powerOf2Warned = false;
 
     /**
      * Create a new Viewport.
@@ -89,9 +107,23 @@ export class Viewport {
             // Re-scale canvas if neccessary.
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
-            // requires texture sizes to be powers of 2.
-            const newCanvasWidth = Math.max(roundToPower2(newWidth), this.canvas.width);
-            const newCanvasHeight = Math.max(roundToPower2(newHeight), this.canvas.height);
+            // requires texture sizes to be powers of 2. Make sure that the
+            // maximum canvas dimensions aren't exceeded
+            const newCanvasWidth = Math.min(Math.max(roundToPower2(newWidth), this.canvas.width), this.maxCanvasWidth);
+            const newCanvasHeight = Math.min(Math.max(roundToPower2(newHeight), this.canvas.height), this.maxCanvasHeight);
+
+            if(newCanvasWidth === 0 || newCanvasHeight === 0) {
+                if(!Viewport.dimensionlessWarned) {
+                    Viewport.dimensionlessWarned = true;
+                    console.warn('Canvas has 0 width or height. Are you using an empty Root?');
+                }
+            }
+            else if(!isPower2(newCanvasWidth) || !isPower2(newCanvasHeight)) {
+                if(!Viewport.powerOf2Warned) {
+                    Viewport.powerOf2Warned = true;
+                    console.warn('Canvas has a width or height that is not a power of 2, which may create mipmapping issues. Make sure to use power of 2 starting and maximum canvas dimensions.');
+                }
+            }
 
             if(newCanvasWidth !== this.canvas.width || newCanvasHeight !== this.canvas.height) {
                 // Resizing a canvas clears its contents. To mitigate this, copy
@@ -114,8 +146,8 @@ export class Viewport {
                     copyCtx.globalCompositeOperation = 'copy';
                     copyCtx.drawImage(
                         this.canvas,
-                        0, 0, newWidth, newHeight,
-                        0, 0, newWidth, newHeight,
+                        0, 0, oldWidth, oldHeight,
+                        0, 0, oldWidth, oldHeight,
                     );
                 }
 
@@ -127,7 +159,7 @@ export class Viewport {
                     this.context.drawImage(
                         copyCanvas,
                         0, 0, copyCanvas.width, copyCanvas.height,
-                        0, 0, copyCanvas.width, copyCanvas.height,
+                        0, 0, Math.min(copyCanvas.width, this.maxCanvasWidth), Math.min(copyCanvas.height, this.maxCanvasHeight),
                     );
                     this.context.globalCompositeOperation = 'source-over';
                 }
@@ -137,6 +169,23 @@ export class Viewport {
         }
         else
             return false;
+    }
+
+    /**
+     * Get the canvas scale that will be applied if the given widget is the
+     * Viewport's child. Used for checking whether a child's dimensions exceed
+     * {@link maxCanvasWidth} or {@link maxCanvasHeight}
+     */
+    getAppliedScale(child: Widget): [scaleX: number, scaleY: number] {
+        const [width, height] = child.dimensions;
+
+        let scaleX = 1, scaleY = 1;
+        if(width > this.maxCanvasWidth)
+            scaleX = this.maxCanvasWidth / width;
+        if(height > this.maxCanvasHeight)
+            scaleY = this.maxCanvasHeight / height;
+
+        return [scaleX, scaleY];
     }
 
     /**
@@ -150,7 +199,20 @@ export class Viewport {
     paintToCanvas(child: Widget, force: boolean): boolean {
         // Paint child
         const wasDirty = child.dirty;
+
+        // scale canvas if child dimensions exceed maximum canvas dimensions
+        const [scaleX, scaleY] = this.getAppliedScale(child);
+        const needsSquish = scaleX !== 1 || scaleY !== 1;
+        if(needsSquish) {
+            this.context.save();
+            this.context.scale(scaleX, scaleY);
+        }
+
         child.paint(this.context, force);
+
+        if(needsSquish)
+            this.context.restore();
+
         return wasDirty;
     }
 }

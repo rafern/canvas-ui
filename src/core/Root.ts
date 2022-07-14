@@ -502,4 +502,40 @@ export class Root {
             this.child.forceThemeUpdate();
         }
     }
+
+    /**
+     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasWidth} property
+     */
+    get maxCanvasWidth(): number {
+        return this.viewport.maxCanvasWidth;
+    }
+
+    set maxCanvasWidth(maxCanvasWidth: number) {
+        this.viewport.maxCanvasWidth = maxCanvasWidth;
+    }
+
+    /**
+     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasHeight} property
+     */
+    get maxCanvasHeight(): number {
+        return this.viewport.maxCanvasHeight;
+    }
+
+    set maxCanvasHeight(maxCanvasHeight: number) {
+        this.viewport.maxCanvasHeight = maxCanvasHeight;
+    }
+
+    /**
+     * Get the scale used for the {@link viewport}. The horizontal and/or
+     * vertical scale may not be 1 if {@link maxCanvasWidth} or
+     * {@link maxCanvasHeight} are exceeded.
+     *
+     * Note that this is only valid after resolving {@link child}'s layout.
+     *
+     * Equivalent to calling {@link Viewport.getAppliedScale} on
+     * {@link viewport}.
+     */
+    get effectiveScale(): [scaleX: number, scaleY: number] {
+        return this.viewport.getAppliedScale(this.child);
+    }
 }
