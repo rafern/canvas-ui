@@ -57,6 +57,7 @@ export class DOMRoot extends Root {
 
         // Remove styling added by contenteditable
         this.domElem.style.outline = '0px solid transparent';
+        this.domElem.style.caretColor = 'transparent';
         this.domElem.style.cursor = 'default';
     }
 
