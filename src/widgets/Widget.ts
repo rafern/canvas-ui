@@ -161,8 +161,10 @@ export abstract class Widget extends BaseTheme {
      * Called when a focus type owned by this Widget has been dropped. Does
      * nothing by default. Can be overridden.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    onFocusDropped(_focusType: FocusType, _root: Root): void {}
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    onFocusDropped(focusType: FocusType, root: Root): void {}
 
     /**
      * Widget event handling callback. If the event is to be captured, the
@@ -175,7 +177,10 @@ export abstract class Widget extends BaseTheme {
      * this, for example, or a child widget if implementing a container), or
      * null if no widget captured the event.
      */
-    protected handleEvent(event: Event, _root: Root): Widget | null {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleEvent(event: Event, root: Root): Widget | null {
         if(event.target === this)
             return this;
         else
@@ -212,8 +217,10 @@ export abstract class Widget extends BaseTheme {
      * Generic update method which is called before layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePreLayoutUpdate(_root: Root): void {}
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    protected handlePreLayoutUpdate(root: Root): void {}
 
     /**
      * Generic update method which is called before layout is resolved. Calls
@@ -372,8 +379,10 @@ export abstract class Widget extends BaseTheme {
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePostLayoutUpdate(_root: Root): void {}
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    protected handlePostLayoutUpdate(root: Root): void {}
 
     /**
      * Generic update method which is called after layout is resolved. Calls
@@ -459,8 +468,10 @@ export abstract class Widget extends BaseTheme {
      *
      * @param forced Was this widget force-painted? If calling a child's paint method, propagate this value
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePainting(_ctx: CanvasRenderingContext2D, _forced: boolean): void {}
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {}
 
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
