@@ -1,25 +1,12 @@
 import { PointerRelease } from '../events/PointerRelease';
+import { GenericClickHelper } from './GenericClickHelper';
 import { PointerPress } from '../events/PointerPress';
 import { PointerEvent } from '../events/PointerEvent';
-import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import { ClickState } from './ClickState';
 import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
-
-/**
- * The current state of a {@link ClickHelper}
- *
- * @category Helper
- */
-export enum ClickState {
-    /** No pointer is hovering over this clickable widget */
-    Released,
-    /** A pointer is hovering over this clickable widget */
-    Hover,
-    /** A pointer's button is being held down over this clickable widget */
-    Hold,
-}
 
 /**
  * An aggregate helper class for widgets that can be clicked.
@@ -29,15 +16,7 @@ export enum ClickState {
  *
  * @category Helper
  */
-export class ClickHelper {
-    /** Last click state */
-    lastClickState: ClickState = ClickState.Released;
-    /** The current click state */
-    clickState: ClickState = ClickState.Released;
-    /** Did the last click event handle result in a click state change? */
-    clickStateChanged = false;
-    /** Did the last click state change result in a click? */
-    wasClick = false;
+export class ClickHelper extends GenericClickHelper {
     /**
      * Last pointer position in normalised coordinates ([0,0] to [1,1]). If
      * there is no last pointer position, such as after a leave event, this will
@@ -53,17 +32,6 @@ export class ClickHelper {
     startingPointerPos: [number, number] | null = null;
     /** Which pointer button should count as a click? Left button by default */
     pointerButton = 0;
-    /** The Widget aggregating this helper */
-    private widget: Widget;
-
-    /**
-     * Create a new ClickHelper
-     *
-     * @param widget The Widget aggregating this helper
-     */
-    constructor(widget: Widget) {
-        this.widget = widget;
-    }
 
     /**
      * Normalise pointer coordinates inside a rectangle
@@ -107,24 +75,6 @@ export class ClickHelper {
      */
     isNormalInRect(pX: number, pY: number): boolean {
         return pX >= 0 && pX < 1 && pY >= 0 && pY < 1;
-    }
-
-    /**
-     * Set {@link clickState} and update {@link lastClickState} if current one
-     * differs. Updates {@link wasClick} and {@link clickStateChanged} flags.
-     */
-    private setClickState(clickState: ClickState, inside: boolean): void {
-        if(this.clickState !== clickState) {
-            this.lastClickState = this.clickState;
-            this.clickState = clickState;
-
-            // If last state was a hold and pointer is still inside click
-            // area, this was a click
-            this.wasClick = inside && this.lastClickState === ClickState.Hold;
-            this.clickStateChanged = true;
-        }
-        else
-            this.clickStateChanged = false;
     }
 
     /**

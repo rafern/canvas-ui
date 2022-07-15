@@ -1,6 +1,8 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { TextInputHandler } from './TextInputHandler';
 import type { Widget } from '../widgets/Widget';
+import { TabSelect } from '../events/TabSelect';
+import { KeyPress } from '../events/KeyPress';
 import type { Event } from '../events/Event';
 import { FocusType } from './FocusType';
 import { Leave } from '../events/Leave';
@@ -56,6 +58,7 @@ export class Root {
     protected _foci: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
+        [FocusType.Tab, null],
     ]);
     /**
      * Last capturer of each component focus (event targets for each focus
@@ -68,6 +71,7 @@ export class Root {
     protected _fociCapturers: Map<FocusType, Widget | null> = new Map([
         [FocusType.Keyboard, null],
         [FocusType.Pointer, null],
+        [FocusType.Tab, null],
     ]);
     /**
      * Handler for mobile-friendly text input. If not null, widgets that need
@@ -237,7 +241,13 @@ export class Root {
                 focus = null;
 
             if(event.needsFocus && focus === null) {
-                //console.warn('Dropped event due to lack of target', event);
+                console.warn('Dropped event due to lack of target', event);
+
+                // special case for tab key with no currently focused widget;
+                // try to do tab selection
+                if(event instanceof KeyPress && event.key === 'Tab')
+                    this.dispatchEvent(new TabSelect(this.getFocus(FocusType.Tab), event.shift));
+
                 return false;
             }
 
@@ -249,24 +259,52 @@ export class Root {
         this.pointerStyle = 'default';
 
         // Pass event down to internal Container
-        const captured = this.child.dispatchEvent(event, this);
+        let captured = this.child.dispatchEvent(event, this);
         if(captured === null) {
             // If the event wasn't captured but it had a focus, clear the focus
             // NOTE: This is for preventing a component that is no longer
             // present in the UI from capturing events
             if(event.focusType !== null) {
-                //console.warn('Focus cleared due to uncaptured focused event', event);
+                // console.warn('Focus cleared due to uncaptured focused event', event);
                 this.clearFocus(event.focusType);
+
+                // special case for tab key; try to do tab selection
+                if(event instanceof KeyPress && event.key === 'Tab')
+                    this.dispatchEvent(new TabSelect(this.getFocus(FocusType.Tab), event.shift));
+            }
+
+            // If this was a tab selection relative to a widget, but the widget
+            // was not found, try again but with no relative widget. This
+            // happens when a removed widget still has tab focus
+            if(event instanceof TabSelect && event.relativeTo !== null) {
+                event = new TabSelect(null, event.reversed);
+                captured = this.child.dispatchEvent(event, this);
+                console.warn('Tab select event re-dispatched due to relative widget not being found');
             }
         }
-        /*else
-            console.info('Event captured by widget:', captured.constructor.name);*/
+
+        if(event instanceof TabSelect) {
+            if(event.reachedRelative && captured === null) {
+                // If the tab selection failed even though the relative widget
+                // was reached, then the end of the search was likely reached.
+                // Try to start from the beginning again
+                console.warn('Tab select event re-dispatched due to wrap-around');
+                captured = this.child.dispatchEvent(event, this);
+            }
+            if(captured) {
+                // Request tab focus if tab select event was captured
+                this.requestFocus(FocusType.Tab, captured);
+            }
+        }
+
+        if(captured)
+            console.info('Event', event.constructor.name, 'captured by widget:', captured.constructor.name);
 
         // Update focus capturer if it changed
         if(event.focusType === null)
             return captured !== null;
 
-        const oldCapturer = this._fociCapturers.get(event.focusType) ?? null;
+        const oldCapturer = this.getFocusCapturer(event.focusType);
         if(oldCapturer === captured)
             return captured !== null;
 
@@ -351,10 +389,29 @@ export class Root {
             const currentFocus = this._foci.get(focusType);
             if(widget !== currentFocus) {
                 this.clearFocus(focusType);
-                //console.log('Set focus type', focusType, 'to widget', widget);
+                console.log('Set focus type', focusType, 'to widget', widget);
                 this._foci.set(focusType, widget);
+                widget.onFocusGrabbed(focusType, this);
                 for(const driver of this.drivers)
                     driver.onFocusChanged(this, focusType, widget);
+
+                // special cases for keyboard and tab foci, since they are
+                // usually together. a focus that is implied by another focus is
+                // called a partner focus
+                let partnerFocus = null;
+                if(focusType === FocusType.Keyboard)
+                    partnerFocus = FocusType.Tab;
+                if(focusType === FocusType.Tab)
+                    partnerFocus = FocusType.Keyboard;
+
+                if(partnerFocus !== null && widget !== this._foci.get(partnerFocus)) {
+                    console.log('Set partner focus type', partnerFocus, 'to widget', widget);
+                    this.clearFocus(partnerFocus);
+                    this._foci.set(partnerFocus, widget);
+                    widget.onFocusGrabbed(partnerFocus, this);
+                    for(const driver of this.drivers)
+                        driver.onFocusChanged(this, partnerFocus, widget);
+                }
             }
         }
     }
@@ -378,13 +435,17 @@ export class Root {
      */
     clearFocus(focusType: FocusType): void {
         const currentFocus = this._foci.get(focusType);
-        if(currentFocus !== null && typeof currentFocus !== 'undefined') {
-            //console.log('Dropped focus type', focusType, 'from widget', currentFocus);
+        if(currentFocus) {
+            console.log('Dropped focus type', focusType, 'from widget', currentFocus);
             currentFocus.onFocusDropped(focusType, this);
 
             this._foci.set(focusType, null);
             for(const driver of this.drivers)
                 driver.onFocusChanged(this, focusType, null);
+
+            // XXX no special case for clearing keyboard/tab focus. keyboard
+            // implies tab and vice-versa, but lack of keyboard does not imply
+            // lack of tab and vice-versa
         }
     }
 

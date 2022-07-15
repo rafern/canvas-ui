@@ -52,8 +52,13 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     }
 
     protected override handleEvent(event: Event, root: Root): Widget | null {
+        // Reverse children if necessary
+        let children = this.children;
+        if(event.reversed)
+            children = Array.from(children).reverse();
+
         // Find which widget the event should go to
-        for(const child of this.children) {
+        for(const child of children) {
             // Ignore disabled children
             if(!child.enabled)
                 continue;

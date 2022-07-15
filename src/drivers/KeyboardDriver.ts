@@ -47,6 +47,9 @@ export class KeyboardDriver implements Driver {
      * {@link keysDown} is cleared.
      */
     protected changeFocusedRoot(root: Root | null): void {
+        if(this.focus === root)
+            return;
+
         if(this.focus !== null)
             this.focus.clearFocus(FocusType.Keyboard);
 
@@ -170,20 +173,23 @@ export class KeyboardDriver implements Driver {
      * Does nothing if the new focus type is not a {@link FocusType.Keyboard}.
      * If the focus comes from a root which is not the
      * {@link focus | root focus}, then the root focus is
-     * {@link changeFocusedRoot | changed to the new root}. If it comes from the
-     * current root focus and there is no new focused widget (the root's
-     * keyboard focus was cleared), then the root focus is
-     * {@link clearFocus | cleared}.
+     * {@link changeFocusedRoot | changed to the new root}. If there is no new
+     * focused widget (the root's keyboard focus was cleared), then nothing
+     * happens.
+     *
+     * This behaviour is confusing, however, it's required so that the keyboard
+     * focus "lingers" for future tab key presses; this way, pressing tab can do
+     * tab selection even when there is no widget that wants keyboard input.
+     * When a focus is lingering, then it means that key events are still being
+     * dispatched to the last focused root, but they don't have a target. This
+     * way, most events get dropped, but tab key events are used for tab
+     * selection.
      */
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void {
         if(focusType !== FocusType.Keyboard)
             return;
 
-        if(root == this.focus) {
-            if(newFocus === null)
-                this.clearFocus();
-        }
-        else if(newFocus !== null)
+        if(root !== this.focus && newFocus !== null)
             this.changeFocusedRoot(root);
     }
 

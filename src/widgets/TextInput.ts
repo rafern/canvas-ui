@@ -8,6 +8,7 @@ import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import { TextHelper } from '../helpers/TextHelper';
+import { TabSelect } from '../events/TabSelect';
 import { Variable } from '../helpers/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
@@ -105,6 +106,16 @@ export class TextInput<V> extends Widget {
      * clicks
      */
     private successiveClickCount: 0 | 1 | 2 = 0;
+    /**
+     * Can tab characters be typed in this input widget? If true, then pressing
+     * tab will not move the focus to the next widget, unless tab is a filtered
+     * character.
+     *
+     * If tab is not a filtered character and this is true, holding shift will
+     * move to the next widget instead of typing the character, not move to the
+     * previous focusable widget.
+     */
+    typeableTab = false;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
@@ -112,6 +123,7 @@ export class TextInput<V> extends Widget {
         // propagate events
         super(false, false, themeProperties);
 
+        this.tabFocusable = true;
         this.textHelper = new TextHelper();
         this.variable = new Variable<string>(initialValue, (text: string) => {
             const [valid, validatedValue] = validator(text);
@@ -511,6 +523,17 @@ export class TextInput<V> extends Widget {
         return [startPos, pos];
     }
 
+    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+        // If keyboard focus is gained and the caret isn't shown yet, select the
+        // last character and start blinking the caret
+        if(focusType === FocusType.Keyboard && this.blinkStart === 0) {
+            this.blinkStart = Date.now();
+            this.selectPos = this.variable.value.length;
+            this.cursorPos = this.selectPos;
+            this.cursorOffsetDirty = true;
+        }
+    }
+
     override onFocusDropped(focusType: FocusType, _root: Root): void {
         // Stop blinking cursor if keyboard focus lost and stop dragging if
         // pointer focus is lost
@@ -521,7 +544,7 @@ export class TextInput<V> extends Widget {
     protected override handleEvent(event: Event, root: Root): this | null {
         // If editing is disabled, abort
         if(!this._editingEnabled)
-            return this;
+            return null;
 
         if(event instanceof Leave) {
             // Stop dragging if the pointer leaves the text input, since it
@@ -720,20 +743,40 @@ export class TextInput<V> extends Widget {
             }
             else if(event.key === 'Enter')
                 this.insertText('\n');
-            else if(event.key === 'Tab')
-                this.insertText('\t');
+            else if(event.key === 'Tab') {
+                if(this.typeableTab) {
+                    // HACK if shift if being held, do a tab-selection but don't
+                    // do reverse order. not capturing the event makes its do it
+                    // in normal order, so manually do tab-selection and capture
+                    // the event
+                    if(event.shift) {
+                        root.dispatchEvent(new TabSelect(this, false));
+                        return this;
+                    }
+                    else
+                        this.insertText('\t');
+                }
+                else
+                    return null; // don't capture, let tab select another widget
+            }
             else
                 return this; // Ignore key if it is unknown
 
             // Reset blink time for better feedback
             this.blinkStart = Date.now();
         }
-        else if(event instanceof TextPasteEvent && event.target === this) {
-            // Insert pasted text
-            this.insertText(event.text);
+        else if(event instanceof TextPasteEvent) {
+            if(event.target === this) {
+                // Insert pasted text
+                this.insertText(event.text);
 
-            // Reset blink time for better feedback
-            this.blinkStart = Date.now();
+                // Reset blink time for better feedback
+                this.blinkStart = Date.now();
+            }
+        }
+        else if(event.target !== this) {
+            // unhandled event type. don't capture
+            return null;
         }
 
         return this;

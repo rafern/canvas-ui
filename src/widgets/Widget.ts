@@ -1,8 +1,9 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
-import type { FocusType } from '../core/FocusType';
 import type { Padding } from '../theme/Padding';
+import { TabSelect } from '../events/TabSelect';
 import { BaseTheme } from '../theme/BaseTheme';
+import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
@@ -57,6 +58,8 @@ export abstract class Widget extends BaseTheme {
      */
     protected root: Root | null = null;
     // ^^^ TODO remove future use mention when root argument is removed
+    /** Can this widget be focused by pressing tab? */
+    protected tabFocusable = false;
 
     /**
      * How much this widget will expand relative to other widgets in a flexbox
@@ -158,6 +161,15 @@ export abstract class Widget extends BaseTheme {
     }
 
     /**
+     * Called when a focus type has been grabbed by this Widget. Does nothing by
+     * default. Can be overridden.
+     */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    onFocusGrabbed(focusType: FocusType, root: Root): void {}
+
+    /**
      * Called when a focus type owned by this Widget has been dropped. Does
      * nothing by default. Can be overridden.
      */
@@ -210,7 +222,27 @@ export abstract class Widget extends BaseTheme {
         else if(event.target !== this && !this.propagatesEvents)
             return null;
 
-        return this.handleEvent(event, root);
+        let capturer = null;
+        if(event.reversed)
+            capturer = this.handleEvent(event, root);
+
+        if(event instanceof TabSelect) {
+            if(event.reachedRelative) {
+                if(this.tabFocusable && (capturer === this || capturer === null)) {
+                    console.info('Found tab selection candidate:', this.constructor.name);
+                    return this;
+                }
+            }
+            else if(event.relativeTo === this) {
+                console.info('Reached relativeTo:', this.constructor.name);
+                event.reachedRelative = true;
+            }
+        }
+
+        if(!event.reversed)
+            capturer = this.handleEvent(event, root);
+
+        return capturer;
     }
 
     /**

@@ -1,7 +1,8 @@
 import { Variable, VariableCallback } from '../helpers/Variable';
-import { ClickHelper, ClickState } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
+import { ClickHelper } from '../helpers/ClickHelper';
+import { ClickState } from '../helpers/ClickState';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';

@@ -1,7 +1,8 @@
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { watchField } from '../decorators/FlagFields';
-import { ClickState } from '../helpers/ClickHelper';
+import { ClickState } from '../helpers/ClickState';
 import { FillStyle } from '../theme/FillStyle';
+import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
@@ -124,10 +125,24 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             this._layoutDirty = true;
     }
 
+    override onFocusGrabbed(focusType: FocusType, root: Root): void {
+        super.onFocusGrabbed(focusType, root);
+
+        if(focusType === FocusType.Keyboard)
+            this.updateBackground();
+    }
+
+    override onFocusDropped(focusType: FocusType, root: Root): void {
+        super.onFocusDropped(focusType, root);
+
+        if(focusType === FocusType.Keyboard)
+            this.updateBackground();
+    }
+
     protected override handleEvent(event: Event, root: Root): Widget | null {
         const capturer = super.handleEvent(event, root);
 
-        if(this.clickHelper.clickStateChanged)
+        if(this.clickHelper.compoundClickStateChanged)
             this.updateBackground();
 
         return capturer;

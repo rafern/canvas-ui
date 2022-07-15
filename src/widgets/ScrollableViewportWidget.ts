@@ -1,7 +1,8 @@
-import { ClickHelper, ClickState } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
+import { ClickHelper } from '../helpers/ClickHelper';
+import { ClickState } from '../helpers/ClickState';
 import { ViewportWidget } from './ViewportWidget';
 import type { Event } from '../events/Event';
 import { Leave } from '../events/Leave';
