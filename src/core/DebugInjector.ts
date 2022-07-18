@@ -9,6 +9,7 @@ import type { FillStyle } from '../theme/FillStyle';
 import { TextHelper } from '../helpers/TextHelper';
 import { BaseTheme } from '../theme/BaseTheme';
 import { Widget } from '../widgets/Widget';
+import { Root } from './Root';
 
 const features: Map<string, [enabled: boolean, description: string]> = new Map();
 
@@ -214,6 +215,35 @@ export function injectRandomFillFeature(classObj: any, themePropertyKey: string)
 }
 
 /**
+ * Inject code for a new debug feature that calls console.trace when a specific
+ * method is called and this feature is enabled.
+ *
+ * @param classObj The class. Widget for example
+ * @param methodKey The key of the property to watch. "paint" for example
+ */
+export function injectStackTraceFeature(classObj: any, methodKey: string): void {
+    const methodPath = `${classObj.name}.${methodKey}`;
+    const featureName = `stacktrace.${methodPath}`;
+    if(features.has(featureName)) {
+        console.warn(`[canvas-ui] Already injected debug feature with name ${featureName}; ignored`);
+        return;
+    }
+
+    const methodOrig = classObj.prototype[methodKey];
+    classObj.prototype[methodKey] = function(...args: any[]) {
+        if(isDebugFeatureEnabled(featureName)) {
+            console.groupCollapsed(`${classObj.name}.${methodKey} called`);
+            console.trace();
+            console.groupEnd();
+        }
+
+        return methodOrig.apply(this, args);
+    }
+
+    features.set(featureName, [false, `Print stack trace when ${methodPath} is called`]);
+}
+
+/**
  * Inject all default debug code. Call this before doing anything if you want to
  * enable debugging. Has no effect when called more than once.
  */
@@ -242,6 +272,82 @@ export function injectDebugCode(): void {
     injectTraceFeature(Widget, 'dispatchEvent', (event, _root) => {
         return ` (${event.constructor.name})`;
     });
+    // stacktrace.Root.resolveLayout
+    injectStackTraceFeature(Root, 'resolveLayout');
+    // stacktrace.Root.paint
+    injectStackTraceFeature(Root, 'paint');
+    // stacktrace.Root.dispatchEvent
+    injectStackTraceFeature(Root, 'dispatchEvent');
+    // stacktrace.Root.preLayoutUpdate
+    injectStackTraceFeature(Root, 'preLayoutUpdate');
+    // stacktrace.Root.postLayoutUpdate
+    injectStackTraceFeature(Root, 'postLayoutUpdate');
+    // stacktrace.Root.updatePointerStyle
+    injectStackTraceFeature(Root, 'updatePointerStyle');
+    // stacktrace.Root.requestFocus
+    injectStackTraceFeature(Root, 'requestFocus');
+    // stacktrace.Root.dropFocus
+    injectStackTraceFeature(Root, 'dropFocus');
+    // stacktrace.Root.clearFocus
+    injectStackTraceFeature(Root, 'clearFocus');
+    // stacktrace.Root.getFocus
+    injectStackTraceFeature(Root, 'getFocus');
+    // stacktrace.Root.getFocusCapturer
+    injectStackTraceFeature(Root, 'getFocusCapturer');
+    // stacktrace.Root.registerDriver
+    injectStackTraceFeature(Root, 'registerDriver');
+    // stacktrace.Root.unregisterDriver
+    injectStackTraceFeature(Root, 'unregisterDriver');
+    // stacktrace.Root.clearDrivers
+    injectStackTraceFeature(Root, 'clearDrivers');
+    // stacktrace.Root.getTextInput
+    injectStackTraceFeature(Root, 'getTextInput');
+    // stacktrace.Widget.onThemeUpdated
+    injectStackTraceFeature(Widget, 'onThemeUpdated');
+    // stacktrace.Widget.onFocusDropped
+    injectStackTraceFeature(Widget, 'onFocusDropped');
+    // stacktrace.Widget.handleEvent
+    injectStackTraceFeature(Widget, 'handleEvent');
+    // stacktrace.Widget.dispatchEvent
+    injectStackTraceFeature(Widget, 'dispatchEvent');
+    // stacktrace.Widget.handlePreLayoutUpdate
+    injectStackTraceFeature(Widget, 'handlePreLayoutUpdate');
+    // stacktrace.Widget.preLayoutUpdate
+    injectStackTraceFeature(Widget, 'preLayoutUpdate');
+    // stacktrace.Widget.handleResolveDimensions
+    injectStackTraceFeature(Widget, 'handleResolveDimensions');
+    // stacktrace.Widget.resolveDimensions
+    injectStackTraceFeature(Widget, 'resolveDimensions');
+    // stacktrace.Widget.resolveDimensionsAsTop
+    injectStackTraceFeature(Widget, 'resolveDimensionsAsTop');
+    // stacktrace.Widget.afterPositionResolved
+    injectStackTraceFeature(Widget, 'afterPositionResolved');
+    // stacktrace.Widget.resolvePosition
+    injectStackTraceFeature(Widget, 'resolvePosition');
+    // stacktrace.Widget.handlePostLayoutUpdate
+    injectStackTraceFeature(Widget, 'handlePostLayoutUpdate');
+    // stacktrace.Widget.postLayoutUpdate
+    injectStackTraceFeature(Widget, 'postLayoutUpdate');
+    // stacktrace.Widget.clear
+    injectStackTraceFeature(Widget, 'clear');
+    // stacktrace.Widget.clearStart
+    injectStackTraceFeature(Widget, 'clearStart');
+    // stacktrace.Widget.clearEnd
+    injectStackTraceFeature(Widget, 'clearEnd');
+    // stacktrace.Widget.roundRect
+    injectStackTraceFeature(Widget, 'roundRect');
+    // stacktrace.Widget.handlePainting
+    injectStackTraceFeature(Widget, 'handlePainting');
+    // stacktrace.Widget.paint
+    injectStackTraceFeature(Widget, 'paint');
+    // stacktrace.Widget.dryPaint
+    injectStackTraceFeature(Widget, 'dryPaint');
+    // stacktrace.Widget.forceThemeUpdate
+    injectStackTraceFeature(Widget, 'forceThemeUpdate');
+    // stacktrace.Widget.forceDirty
+    injectStackTraceFeature(Widget, 'forceDirty');
+    // stacktrace.Widget.scaleFont
+    injectStackTraceFeature(Widget, 'scaleFont');
     // watchflag.Widget._dirty
     injectWatchflagFeature(Widget, '_dirty');
     // watchflag.Widget._layoutDirty
