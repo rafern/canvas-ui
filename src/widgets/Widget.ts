@@ -186,8 +186,12 @@ export abstract class Widget extends BaseTheme {
      * at itself.
      *
      * If overriding, return the widget that has captured the event (could be
-     * this, for example, or a child widget if implementing a container), or
-     * null if no widget captured the event.
+     * `this`, for example, or a child widget if implementing a container), or
+     * null if no widget captured the event. Make sure to not capture any events
+     * that you do not need, or you may have unexpected results; for example, if
+     * you capture all dispatched events indiscriminately, a {@link TabSelect}
+     * event may be captured and result in weird behaviour when the user
+     * attempts to use tab to select another widget.
      */
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -229,12 +233,12 @@ export abstract class Widget extends BaseTheme {
         if(event instanceof TabSelect) {
             if(event.reachedRelative) {
                 if(this.tabFocusable && (capturer === this || capturer === null)) {
-                    console.info('Found tab selection candidate:', this.constructor.name);
+                    // console.info('Found tab selection candidate:', this.constructor.name);
                     return this;
                 }
             }
             else if(event.relativeTo === this) {
-                console.info('Reached relativeTo:', this.constructor.name);
+                // console.info('Reached relativeTo:', this.constructor.name, '(has capturer?', capturer !== null, ')');
                 event.reachedRelative = true;
             }
         }

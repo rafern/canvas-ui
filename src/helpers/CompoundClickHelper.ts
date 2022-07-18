@@ -45,9 +45,7 @@ export class CompoundClickHelper implements BaseClickHelper {
      * that this can be true while {@link clickState} is equal to
      * {@link lastClickState}. To check whether the combined state changed,
      * compare the aforementioned values. This is the default behaviour so that
-     * clicks aren't dropped. If you are trying to check whether the dirty flag
-     * of a widget should be set depending on whether the combined state has
-     * changed, then do a manual comparison.
+     * clicks aren't dropped.
      */
     get clickStateChanged(): boolean {
         for(const clickHelper of this.clickHelpers) {
@@ -56,19 +54,6 @@ export class CompoundClickHelper implements BaseClickHelper {
         }
 
         return false;
-    }
-
-    /**
-     * Checks whether the combined state has changed (compares
-     * {@link clickState} and {@link lastClickState}, and checks if
-     * {@link clickStateChanged} is true).
-     *
-     * Note that this is much more expensive than {@link clickStateChanged}.
-     *
-     * See {@link clickStateChanged} for why this getter exists.
-     */
-    get compoundClickStateChanged(): boolean {
-        return this.clickStateChanged && (this.clickState !== this.lastClickState);
     }
 
     /**

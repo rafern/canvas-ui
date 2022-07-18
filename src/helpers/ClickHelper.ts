@@ -4,6 +4,7 @@ import { PointerPress } from '../events/PointerPress';
 import { PointerEvent } from '../events/PointerEvent';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import type { ClickArea } from './ClickArea';
 import { ClickState } from './ClickState';
 import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
@@ -84,7 +85,7 @@ export class ClickHelper extends GenericClickHelper {
      *
      * @param clickArea A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
-    handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void {
+    handleClickEvent(event: Event, root: Root, clickArea: ClickArea): void {
         if(event instanceof Leave) {
             // Drop focus on this widget if this is a leave event
             root.dropFocus(FocusType.Pointer, this.widget);

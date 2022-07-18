@@ -142,7 +142,7 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
     protected override handleEvent(event: Event, root: Root): Widget | null {
         const capturer = super.handleEvent(event, root);
 
-        if(this.clickHelper.compoundClickStateChanged)
+        if(this.clickHelper.clickStateChanged)
             this.updateBackground();
 
         return capturer;

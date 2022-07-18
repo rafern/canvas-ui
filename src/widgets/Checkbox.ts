@@ -1,8 +1,8 @@
 import { Variable, VariableCallback } from '../helpers/Variable';
+import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { PointerWheel } from '../events/PointerWheel';
-import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
+import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -19,8 +19,8 @@ export class Checkbox extends Widget {
     private offsetY = 0;
     /** Actual length after resolving layout. */
     private actualLength = 0;
-    /** The helper for handling pointer clicks */
-    protected clickHelper: ClickHelper;
+    /** The helper used for handling pointer clicks and enter presses */
+    protected clickHelper: ButtonClickHelper;
     /** The helper for keeping track of the checkbox value */
     protected variable: Variable<boolean>;
 
@@ -34,11 +34,11 @@ export class Checkbox extends Widget {
         // propagate events
         super(true, false, themeProperties);
 
+        this.tabFocusable = true;
         // Save callback and initial value
         this.variable = new Variable<boolean>(initialValue, callback);
-
         // Setup click helper
-        this.clickHelper = new ClickHelper(this);
+        this.clickHelper = new ButtonClickHelper(this);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -71,30 +71,36 @@ export class Checkbox extends Widget {
         return this.variable.value;
     }
 
-    protected override handleEvent(event: Event, root: Root): this | null {
-        // Ignore wheel events
-        if(event instanceof PointerWheel)
-            return null;
+    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+        if(this.clickHelper.onFocusGrabbed(focusType))
+            this._dirty = true;
+    }
 
-        // Check if checkbox rectangle was pressed and swap value if so
+    override onFocusDropped(focusType: FocusType, _root: Root): void {
+        if(this.clickHelper.onFocusDropped(focusType))
+            this._dirty = true;
+    }
+
+    protected override handleEvent(event: Event, root: Root): this | null {
         const x = this.x + this.offsetX;
         const y = this.y + this.offsetY;
-        this.clickHelper.handleClickEvent(
+        const [wasClick, capture] = this.clickHelper.handleEvent(
             event,
             root,
-            [x, x + this.actualLength, y, y + this.actualLength],
+            true,
+            [x, x + this.actualLength, y, y + this.actualLength]
         );
+
+        // Swap value if checkbox was clicked
+        if(wasClick)
+            this.checked = !this.checked;
 
         // Always flag as dirty if the click state changed (so glow colour takes
         // effect). Toggle value if clicked
-        if(this.clickHelper.clickStateChanged) {
+        if(this.clickHelper.clickStateChanged)
             this._dirty = true;
 
-            if(this.clickHelper.wasClick)
-                this.checked = !this.checked;
-        }
-
-        return this;
+        return capture ? this : null;
     }
 
     protected override handlePostLayoutUpdate(_root: Root): void {

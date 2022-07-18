@@ -10,6 +10,10 @@ const PREVENT_DEFAULT_CTRL_KEYS = new Set([
     'a', 'A',
 ]);
 
+const PREVENT_DEFAULT_FORCE_KEYS = new Set([
+    'Tab'
+]);
+
 function unpackKeyboardEvent(event: KeyboardEvent): [key: string, shift: boolean, ctrl: boolean, alt: boolean] {
     return [event.key, event.shiftKey, event.ctrlKey, event.altKey];
 }
@@ -27,6 +31,19 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     /** The list of HTML DOM elements bound to this keyboard driver */
     private domElems: Set<EventTarget> = new Set();
 
+    /** Calls preventDefault on a keyboard event if needed. */
+    maybePreventDefault(event: KeyboardEvent): void {
+        if(PREVENT_DEFAULT_KEYS.has(event.key) || (PREVENT_DEFAULT_CTRL_KEYS.has(event.key) && event.ctrlKey)) {
+            if(PREVENT_DEFAULT_FORCE_KEYS.has(event.key))
+                event.preventDefault();
+            else {
+                const currentFocus = this.getFocusedRoot()?.getFocus(FocusType.Keyboard) ?? null;
+                if(currentFocus !== null)
+                    event.preventDefault();
+            }
+        }
+    }
+
     /**
      * Bind an HTML DOM element to this keyboard driver.
      *
@@ -43,16 +60,12 @@ export class DOMKeyboardDriver extends KeyboardDriver {
         // clearing keyboard focus
         if(listenToKeys) {
             domElem.addEventListener('keydown', (event) => {
-                if(PREVENT_DEFAULT_KEYS.has(event.key) || (PREVENT_DEFAULT_CTRL_KEYS.has(event.key) && event.ctrlKey)) {
-                    const currentFocus = this.getFocusedRoot()?.getFocus(FocusType.Keyboard) ?? null;
-                    if(currentFocus !== null)
-                        event.preventDefault();
-                }
-
+                this.maybePreventDefault(event);
                 this.keyDown(...unpackKeyboardEvent(event));
             });
 
             domElem.addEventListener('keyup', (event) => {
+                this.maybePreventDefault(event);
                 this.keyUp(...unpackKeyboardEvent(event));
             });
         }
@@ -61,7 +74,6 @@ export class DOMKeyboardDriver extends KeyboardDriver {
             if(this.shouldClearFocus(event.relatedTarget))
                 this.clearFocus();
         });
-
     }
 
     /**

@@ -1,11 +1,17 @@
 import { Variable, VariableCallback } from '../helpers/Variable';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
+import { PointerEvent } from '../events/PointerEvent';
+import { paintField } from '../decorators/FlagFields';
 import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
+import { KeyPress } from '../events/KeyPress';
+import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
+import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
+import { KeyEvent } from '../events/KeyEvent';
 
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum
@@ -40,6 +46,9 @@ export class Slider extends Widget {
     private actualWidth = 0;
     /** The actual height of the slider */
     private actualHeight = 0;
+    /** Is the keyboard focusing this widget? */
+    @paintField
+    private keyboardFocused = false;
 
     /** Create a new Slider */
     constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, vertical = false, themeProperties?: ThemeProperties) {
@@ -56,6 +65,7 @@ export class Slider extends Widget {
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
         this.vertical = vertical;
+        this.tabFocusable = true;
     }
 
     /** The slider's value */
@@ -83,6 +93,10 @@ export class Slider extends Widget {
         this.variable.setValue(value, doCallback);
     }
 
+    protected stepValue() {
+        // TODO
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         super.onThemeUpdated(property);
 
@@ -102,10 +116,30 @@ export class Slider extends Widget {
             this._dirty = true;
     }
 
+    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+        if(focusType === FocusType.Keyboard)
+            this.keyboardFocused = true;
+    }
+
+    override onFocusDropped(focusType: FocusType, _root: Root): void {
+        if(focusType === FocusType.Keyboard)
+            this.keyboardFocused = false;
+    }
+
     protected override handleEvent(event: Event, root: Root): this | null {
-        // Ignore wheel events
-        if(event instanceof PointerWheel)
+        // Ignore unhandled events
+        if(event instanceof PointerWheel || !(event instanceof PointerEvent || event instanceof KeyEvent || event instanceof Leave))
             return null;
+
+        // Handle key presses
+        if(event instanceof KeyEvent) {
+            if(event instanceof KeyPress) {
+                if(event.key === 'ArrowLeft')
+                    this.stepValue(); // TODO
+            }
+
+            return this;
+        }
 
         // Handle click event
         const x = this.x + this.offsetX;
@@ -184,7 +218,8 @@ export class Slider extends Widget {
         const y = this.y + this.offsetY;
 
         // Draw filled part of slider. Use accent colour if hovering or holding
-        if(this.clickHelper.clickState === ClickState.Hover || this.clickHelper.clickState === ClickState.Hold)
+        const useGlow = this.keyboardFocused || this.clickHelper.clickState === ClickState.Hover || this.clickHelper.clickState === ClickState.Hold;
+        if(useGlow)
             ctx.fillStyle = this.accentFill;
         else
             ctx.fillStyle = this.primaryFill;
@@ -192,7 +227,10 @@ export class Slider extends Widget {
         ctx.fillRect(x, y, fullWidth, this.actualHeight);
 
         // Draw empty part of slider
-        ctx.fillStyle = this.backgroundFill;
+        if(useGlow)
+            ctx.fillStyle = this.backgroundGlowFill;
+        else
+            ctx.fillStyle = this.backgroundFill;
         const emptyWidth = this.actualWidth - fullWidth;
         ctx.fillRect(x + fullWidth, y, emptyWidth, this.actualHeight);
     }
