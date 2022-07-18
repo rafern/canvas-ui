@@ -36,12 +36,20 @@ Additional debugging tools are available in this project, such as:
 
 - Visualisation of widget painting by using a random background fill colour when a widget is painted
   - **EPILEPSY WARNING** - This creates blocks of randomly flashing colours for widgets that update frequently
-- Visualisation of text render groups to debug text wrapping issues:
-![Demonstration of the textrendergroups debug feature](assets/debug-demo-textrendergroups.gif)
+- Visualisation of text render groups to debug text wrapping issues
 - Tracing recursive method calls, such as the `dispatchEvent` method
-- Watching when flags are set, such as the `_dirty` or `_layoutDirty` flags:
-![Demonstration of the watchflag debug feature](assets/debug-demo-watchflag.gif)
+- Watching when flags are set, such as the `_dirty` or `_layoutDirty` flags
 - Printing a grouped stack trace to the console when a specific method is called
+
+<details>
+    <summary>Demonstration of the textrendergroups debug feature</summary>
+    ![Demonstration of the textrendergroups debug feature](assets/debug-demo-textrendergroups.gif)
+</details>
+
+<details>
+    <summary>Demonstration of the watchflag debug feature</summary>
+    ![Demonstration of the watchflag debug feature](assets/debug-demo-watchflag.gif)
+</details>
 
 Each of these features is identified by a name and can be individually toggled
 and queried to check if they are enabled. All of the available features, called
