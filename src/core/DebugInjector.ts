@@ -186,6 +186,9 @@ export function injectTraceFeature(classObj: any, methodKey: string, messageGene
  * Inject code for a new debug feature that returns a random fill colour in a
  * given property when enabled.
  *
+ * EPILEPSY WARNING: This debug feature may trigger epileptic seizures when
+ * enabled, especially for widgets that frequently update.
+ *
  * @param classObj The class. BaseTheme for example
  * @param themePropertyKey The key of the property to override. "canvasFill" for example
  */
@@ -211,7 +214,7 @@ export function injectRandomFillFeature(classObj: any, themePropertyKey: string)
         },
     });
 
-    features.set(featureName, [false, `Show when ${propertyPath} is set to true`]);
+    features.set(featureName, [false, `(EPILEPSY WARNING) Override the ${propertyPath} theme property with a new random colour every time the theme property's value is fetched. Useful for visualising widget painting`]);
 }
 
 /**
