@@ -41,16 +41,14 @@ Additional debugging tools are available in this project, such as:
 - Watching when flags are set, such as the `_dirty` or `_layoutDirty` flags
 - Printing a grouped stack trace to the console when a specific method is called
 
-<details>
-    <summary>Demonstration of the textrendergroups debug feature</summary>
+<details><summary>Demonstration of the textrendergroups debug feature</summary>
 
-    ![Demonstration of the textrendergroups debug feature](assets/debug-demo-textrendergroups.gif)
+![Demonstration of the textrendergroups debug feature](assets/debug-demo-textrendergroups.gif)
 </details>
 
-<details>
-    <summary>Demonstration of the watchflag debug feature</summary>
+<details><summary>Demonstration of the watchflag debug feature</summary>
 
-    ![Demonstration of the watchflag debug feature](assets/debug-demo-watchflag.gif)
+![Demonstration of the watchflag debug feature](assets/debug-demo-watchflag.gif)
 </details>
 
 Each of these features is identified by a name and can be individually toggled
