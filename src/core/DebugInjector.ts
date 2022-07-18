@@ -243,11 +243,12 @@ export function injectStackTraceFeature(classObj: any, methodKey: string): void 
     features.set(featureName, [false, `Print stack trace when ${methodPath} is called`]);
 }
 
+let injected = false;
+
 /**
  * Inject all default debug code. Call this before doing anything if you want to
  * enable debugging. Has no effect when called more than once.
  */
-let injected = false;
 export function injectDebugCode(): void {
     if(injected) {
         console.warn('[canvas-ui] Already injected debug code; ignored');
