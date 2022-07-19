@@ -2,6 +2,9 @@ import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
+import type { ClickArea } from '../helpers/ClickArea';
+import { TabSelect } from '../events/TabSelect';
+import { KeyEvent } from '../events/KeyEvent';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import { Viewport } from '../core/Viewport';
@@ -63,6 +66,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     protected forceReLayout = true;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint = true;
+    /**
+     * Should the viewport be auto-scrolled when a widget is tab-selected and
+     * when a widget captures keyboard input?
+     */
+    autoScrollSelections = true;
 
     /** Create a new ViewportWidget. */
     constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, useViewport = false, themeProperties?: ThemeProperties) {
@@ -194,36 +202,66 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._dirty = true;
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
-        // Ignore events with no position and no target
-        if(event.target === null && !(event instanceof PointerEvent))
-            return null;
+    protected getClickAreaOf(widget: Widget): ClickArea {
+        const [width, height] = widget.dimensions;
+        const [x, y] = widget.position;
+        const left = this.x + this.offset[0] + x;
+        const top = this.y + this.offset[1] + y;
+        return [ left, left + width, top, top + height ];
+    }
 
+    protected override handleEvent(event: Event, root: Root): Widget | null {
         // Drop event if it is a positional event with no target outside the
         // child's viewport. Only correct position if using a Viewport
-        const [innerWidth, innerHeight] = this.child.dimensions;
-        const vpl = this.x + this.offset[0];
-        const vpr = vpl + innerWidth;
-        const vpt = this.y + this.offset[1];
-        const vpb = vpt + innerHeight;
         if(event instanceof PointerEvent) {
+            const [cl, cr, ct, cb] = this.getClickAreaOf(this.child);
+
             if(event.target === null) {
-                if(event.x < vpl)
+                if(event.x < cl)
                     return null;
-                if(event.x >= vpr)
+                if(event.x >= cr)
                     return null;
-                if(event.y < vpt)
+                if(event.y < ct)
                     return null;
-                if(event.y >= vpb)
+                if(event.y >= cb)
                     return null;
             }
 
             if(this.viewport !== null)
-                event = event.correctOffset(vpl, vpt);
+                event = event.correctOffset(cl, ct);
         }
 
         // Dispatch event to child
-        return this.child.dispatchEvent(event, root);
+        const capturer = this.child.dispatchEvent(event, root);
+
+        if(this.autoScrollSelections && capturer !== null && !(this.widthTied && this.heightTied) && (event instanceof TabSelect || event instanceof KeyEvent)) {
+            const [cl, cr, ct, cb] = this.getClickAreaOf(capturer);
+            const vpr = this.x + this.width;
+            const vpb = this.y + this.height;
+            let [offsetX, offsetY] = this.offset;
+
+            // If a tab-selection event occurred, scroll so that widget that got
+            // selected is visible. Don't scroll if viewport is smaller than
+            // capturer and viewport is inside capturer. Don't scroll if
+            // capturer is smaller than viewport and capturer is inside viewport
+            if(!this.widthTied && !(cl >= this.x && cr < vpr) && !(this.x >= cl && vpr < cr)) {
+                if(cl > this.x)
+                    offsetX -= cl - this.x;
+                else
+                    offsetX += vpr - cr;
+            }
+
+            if(!this.heightTied && !(ct >= this.y && cb < vpb) && !(this.y >= ct && vpb < cb)) {
+                if(ct > this.y)
+                    offsetY -= ct - this.y;
+                else
+                    offsetY += vpb - cb;
+            }
+
+            this.offset = [offsetX, offsetY];
+        }
+
+        return capturer;
     }
 
     protected override handlePreLayoutUpdate(root: Root): void {
