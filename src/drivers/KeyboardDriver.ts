@@ -21,6 +21,15 @@ export class KeyboardDriver implements Driver {
     private keysDown: Set<string> = new Set();
     /** The currently focused root. New keyboard events will go to this root */
     private focus: Root | null = null;
+    /**
+     * The last {@link Root} that had "activity"; the last Root where any focus
+     * was grabbed. Used as a fallback when there is no focus. If this is null,
+     * then a root from {@link eventQueues} is picked; this fallback of a
+     * fallback may result in weird behaviour if there are more than 1 Roots,
+     * since eventQueues is a Map, and Map iteration is not guaranteed to be in
+     * the same order
+     */
+    private lastActivity: Root | null = null;
 
     /**
      * Get the {@link eventQueues | event queue} of a given root. If this driver
@@ -67,6 +76,22 @@ export class KeyboardDriver implements Driver {
     }
 
     /**
+     * Similar to {@link getFocusedRoot}, but can fall back to
+     * {@link lastActivity} if {@link focus} is null, or a {@link Root} in
+     * {@link eventQueues} if lastActivity is also null.
+     */
+    getEffectiveFocusedRoot(): Root | null {
+        if(this.focus)
+            return this.focus;
+        else if(this.lastActivity)
+            return this.lastActivity;
+        else if(this.eventQueues.size > 0)
+            return this.eventQueues.keys().next().value;
+        else
+            return null;
+    }
+
+    /**
      * Clear the current {@link focus | root focus}. Calls
      * {@link changeFocusedRoot} with null.
      */
@@ -84,7 +109,7 @@ export class KeyboardDriver implements Driver {
      */
     keyDown(key: string, shift: boolean, ctrl: boolean, alt: boolean): void {
         this.keysDown.add(key);
-        const eventQueue = this.getEventQueue(this.focus);
+        const eventQueue = this.getEventQueue(this.getEffectiveFocusedRoot());
         if(eventQueue !== null)
             eventQueue.push(new KeyPress(key, shift, ctrl, alt, null));
     }
@@ -99,7 +124,7 @@ export class KeyboardDriver implements Driver {
      */
     keyUp(key: string, shift: boolean, ctrl: boolean, alt: boolean): void {
         if(this.keysDown.delete(key)) {
-            const eventQueue = this.getEventQueue(this.focus);
+            const eventQueue = this.getEventQueue(this.getEffectiveFocusedRoot());
             if(eventQueue !== null)
                 eventQueue.push(new KeyRelease(key, shift, ctrl, alt, null));
         }
@@ -186,6 +211,9 @@ export class KeyboardDriver implements Driver {
      * selection.
      */
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void {
+        if(newFocus !== null)
+            this.lastActivity = root;
+
         if(focusType !== FocusType.Keyboard)
             return;
 
