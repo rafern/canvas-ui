@@ -58,9 +58,17 @@ export class Slider extends Widget {
 
         if(maxValue < minValue)
             throw new Error('Slider max value can\'t be smaller than minimum value');
+        if(!isFinite(minValue) || isNaN(minValue))
+            throw new Error('Slider min value must be a valid finite number');
+        if(!isFinite(maxValue) || isNaN(maxValue))
+            throw new Error('Slider max value must be a valid finite number');
+        if(!isFinite(snapIncrement) || isNaN(snapIncrement))
+            throw new Error('Slider increment value must be a valid finite number');
+        if(snapIncrement < 0)
+            throw new Error('Slider increment value must be greater or equal to zero');
 
         this.clickHelper = new ClickHelper(this);
-        this.variable = new Variable(Math.max(initialValue, minValue), callback);
+        this.variable = new Variable(this.clamp(initialValue), callback);
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
@@ -77,24 +85,39 @@ export class Slider extends Widget {
         return this.variable.value;
     }
 
+    /** Clamp a value to this slider's min and max values */
+    protected clamp(value: number): number {
+        if(value < this.minValue)
+            value = this.minValue;
+        else if(value > this.maxValue)
+            value = this.maxValue;
+
+        return value;
+    }
+
     /** Set the slider's value, optionally disabling callback */
     setValue(value: number, doCallback = true): void {
         // Snap to increments if needed
         if(this.snapIncrement > 0)
             value = Math.round(value / this.snapIncrement) * this.snapIncrement;
 
-        // Clamp value
-        if(value < this.minValue)
-            value = this.minValue;
-        else if(value > this.maxValue)
-            value = this.maxValue;
-
         // Update value in variable
-        this.variable.setValue(value, doCallback);
+        this.variable.setValue(this.clamp(value), doCallback);
     }
 
-    protected stepValue() {
-        // TODO
+    protected stepValue(add: boolean, incMul: number): void {
+        // Get snap increment. If the increment is not set, default to 1% of the
+        // value range
+        let effectiveIncrement = this.snapIncrement;
+        if(effectiveIncrement === 0)
+            effectiveIncrement = 0.01 * (this.maxValue - this.minValue);
+
+        // Multiply increment (for holding shift)
+        effectiveIncrement *= incMul;
+
+        // Step value in increment
+        const delta = add ? 1 : -1;
+        this.value = this.clamp((Math.round(this.value / effectiveIncrement) + delta) * effectiveIncrement);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -131,11 +154,18 @@ export class Slider extends Widget {
         if(event instanceof PointerWheel || !(event instanceof PointerEvent || event instanceof KeyEvent || event instanceof Leave))
             return null;
 
+        // Ignore tab key presses so tab selection works
+        if(event instanceof KeyPress && event.key === 'Tab')
+            return null;
+
         // Handle key presses
         if(event instanceof KeyEvent) {
             if(event instanceof KeyPress) {
-                if(event.key === 'ArrowLeft')
-                    this.stepValue(); // TODO
+                const incMul = event.shift ? 10 : 1;
+                if(event.key === 'ArrowLeft' || event.key === 'ArrowDown')
+                    this.stepValue(false, incMul);
+                else if(event.key === 'ArrowRight' || event.key === 'ArrowUp')
+                    this.stepValue(true, incMul);
             }
 
             return this;
