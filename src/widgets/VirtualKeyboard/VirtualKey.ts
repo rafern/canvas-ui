@@ -16,8 +16,8 @@ export class VirtualKey extends ArtificialConstraint<TextButton> {
     /**
      * Create a new VirtualKey.
      *
-     * @param text The text to display in the virtual key.
-     * @param callback The callback called when the button is pressed.
+     * @param text - The text to display in the virtual key.
+     * @param callback - The callback called when the button is pressed.
      */
     constructor(text: string | TextGetter, callback: () => void, flex = 0, minWidth = 24, minHeight = 24, themeProperties?: ThemeProperties) {
         super(

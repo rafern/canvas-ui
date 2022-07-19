@@ -26,14 +26,14 @@ export declare abstract class PointerButtonEvent extends PointerEvent {
     constructor(x: number, y: number, button: number, shift: boolean, ctrl: boolean, alt: boolean, target?: Widget | null, focusType?: FocusType | null);
     /** Is the button affected the left/primary button? */
     get isLeft(): boolean;
-    /** Alias for {@link isLeft} */
+    /** Alias for {@link PointerButtonEvent#isLeft} */
     get isPrimary(): boolean;
     /** Is the button affected the right/secondary button? */
     get isRight(): boolean;
-    /** Alias for {@link isRight} */
+    /** Alias for {@link PointerButtonEvent#isRight} */
     get isSecondary(): boolean;
     /** Is the button affected the middle/tertiary button? */
     get isMiddle(): boolean;
-    /** Alias for {@link isMiddle} */
+    /** Alias for {@link PointerButtonEvent#isMiddle} */
     get isTertiary(): boolean;
 }

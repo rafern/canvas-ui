@@ -11,7 +11,7 @@ export declare abstract class SingleParent<W extends Widget = Widget> extends Pa
     /**
      * Create a new SingleParent instance.
      *
-     * @param child The mandatory single child of this widget. Cannot be changed later, unless {@link _children} is changed directly via the widget using this mixin.
+     * @param child - The mandatory single child of this widget. Cannot be changed later, unless {@link Parent#_children} is changed directly via the widget using this mixin.
      */
     constructor(child: W, needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties);
     /** This widget's child. */

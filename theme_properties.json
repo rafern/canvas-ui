@@ -49,7 +49,7 @@
         "accentFill": {
             "type": "FillStyle",
             "default": "'rgb(0,195,255)'",
-            "description": "The accent {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Usually a saturated colour more saturated than {@link PrimaryFill} used for highlighting boxes which use PrimaryFill."
+            "description": "The accent {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Usually a saturated colour more saturated than {@link ThemeProperties#primaryFill} used for highlighting boxes which use PrimaryFill."
         },
         "backgroundFill": {
             "type": "FillStyle",
@@ -59,7 +59,7 @@
         "backgroundGlowFill": {
             "type": "FillStyle",
             "default": "'rgb(48,48,48)'",
-            "description": "The background glow {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Used for highlighting boxes which use {@link BackgroundFill}."
+            "description": "The background glow {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Used for highlighting boxes which use {@link ThemeProperties#backgroundFill}."
         },
         "sliderMinLength": {
             "type": "number",

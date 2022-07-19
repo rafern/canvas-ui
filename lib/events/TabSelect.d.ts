@@ -20,11 +20,11 @@ export declare class TabSelect extends Event {
      * reached?
      *
      * If false, then the {@link Root} should be searched until
-     * {@link relativeTo} is reached, then, set this to true. If true, then the
-     * next visited widget that has a {@link Widget.tabFocusable} value of true
-     * will be focused.
+     * {@link TabSelect#relativeTo} is reached, then, set this to true. If true,
+     * then the next visited widget that has a {@link Widget#tabFocusable} value
+     * of true will be focused.
      *
-     * Note that if {@link relativeTo} is null, then this will be true by
+     * Note that if {@link TabSelect#relativeTo} is null, then this will be true by
      * default.
      */
     reachedRelative: boolean;

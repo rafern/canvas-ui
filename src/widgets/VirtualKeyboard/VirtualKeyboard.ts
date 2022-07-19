@@ -85,10 +85,10 @@ export class VirtualKeyboard extends Column {
     /**
      * Create a new VirtualKeyboard.
      *
-     * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param flexRatio The flexRatio to use when creating {@link Glyph | Glyphs}
-     * @param mainBasis The mainBasis to use when creating {@link Glyph | Glyphs}
-     * @param crossBasis The crossBasis to use when creating {@link Glyph | Glyphs}
+     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
+     * @param flexRatio - The flexRatio to use when creating {@link GlyphVirtualKey | glyphs keys}
+     * @param mainBasis - The mainBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
+     * @param crossBasis - The crossBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeProperties?: ThemeProperties) {
         const themePropertiesClone: ThemeProperties = {...themeProperties};

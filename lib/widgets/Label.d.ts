@@ -31,25 +31,27 @@ export declare class Label extends Widget {
     /**
      * Create a new Label.
      *
-     * @param source The text source of the label. Has the same behaviour as setting {@link source}.
+     * @param source - The text source of the label. Has the same behaviour as setting {@link Label#source}.
      */
     constructor(source: string | TextGetter, themeProperties?: ThemeProperties);
     /**
      * This label's text source. If you want to get the current text string,
-     * then use {@link text} instead.
+     * then use {@link Label#text} instead.
      *
-     * When setting, if source is a {@link TextGetter}, then {@link textGetter}
-     * is set, else, {@link textGetter} is set to null and and the
-     * {@link textHelper}'s {@link TextHelper.text | text} is set.
+     * When setting, if source is a {@link TextGetter}, then
+     * {@link Label#textGetter} is set, else, {@link Label#textGetter} is set to
+     * null and and the {@link Label#textHelper}'s
+     * {@link TextHelper#text | text} is set.
      *
-     * When getting, if {@link textGetter} is set, then it is returned, else,
-     * {@link textHelper}.{@link TextHelper.text | text} is returned.
+     * When getting, if {@link Label#textGetter} is set, then it is returned,
+     * else, {@link Label#textHelper}.{@link TextHelper#text | text} is
+     * returned.
      */
     set source(source: string | TextGetter);
     get source(): string | TextGetter;
     /**
      * The current text value. If you want to get the current text source, then
-     * use {@link source} instead.
+     * use {@link Label#source} instead.
      */
     get text(): string;
     protected onThemeUpdated(property?: string | null): void;

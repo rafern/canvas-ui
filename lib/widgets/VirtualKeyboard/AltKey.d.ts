@@ -3,7 +3,7 @@ import type { KeyContext } from './KeyContext';
 import { VirtualKey } from './VirtualKey';
 /**
  * A {@link VirtualKey} which acts as an alt key; toggles
- * {@link KeyContext.alt} on click.
+ * {@link KeyContext#alt} on click.
  *
  * @category Widget
  */

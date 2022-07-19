@@ -7,11 +7,11 @@ import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
+import { KeyEvent } from '../events/KeyEvent';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
-import { KeyEvent } from '../events/KeyEvent';
 
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum

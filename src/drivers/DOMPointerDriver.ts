@@ -2,7 +2,13 @@ import { getPointerEventNormPos } from '../helpers/getPointerEventNormPos';
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 
-interface RootDOMBind {
+/**
+ * A container which has all the event listeners for a {@link Root} DOM bind; a
+ * link between a DOM element and an existing Root.
+ *
+ * @category Driver
+ */
+export interface RootDOMBind {
     domElem: HTMLElement,
     pointerListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
@@ -10,6 +16,13 @@ interface RootDOMBind {
     contextMenuListen: ((this: HTMLElement, event: MouseEvent) => void) | null
 }
 
+/**
+ * Unpack a MouseEvent into a 3-tuple containing the event's modifier key state.
+ * The 3-tuple contains, respectively, whether shift is being held, whether ctrl
+ * is being held, and whether alt is being held.
+ *
+ * @category Driver
+ */
 function unpackModifiers(event: MouseEvent): [shift: boolean, ctrl: boolean, alt: boolean] {
     return [event.shiftKey, event.ctrlKey, event.altKey];
 }
@@ -23,7 +36,6 @@ function unpackModifiers(event: MouseEvent): [shift: boolean, ctrl: boolean, alt
  */
 export class DOMPointerDriver extends PointerDriver {
     /** The HTML DOM element and listeners that each root is bound to */
-    // XXX using weakmap so it auto-unbinds once a root stops existing
     private domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
     /** The mapping between each DOM pointer ID and canvas-ui pointer ID */
     private pointers: Map<number, number> = new Map();
@@ -49,9 +61,10 @@ export class DOMPointerDriver extends PointerDriver {
     /**
      * Bind an HTML DOM element to a specific root.
      *
-     * If the root was already registered, {@link removeListeners} is called.
-     * Populates {@link domElems} with the new bind. Calls {@link addListeners}
-     * if root is enabled.
+     * If the root was already registered,
+     * {@link DOMPointerDriver#removeListeners} is called. Populates
+     * {@link DOMPointerDriver#domElems} with the new bind. Calls
+     * {@link DOMPointerDriver#addListeners} if root is enabled.
      */
     bindDOMElem(root: Root, domElem: HTMLElement): void {
         let rootBind = this.domElems.get(root);
@@ -93,9 +106,7 @@ export class DOMPointerDriver extends PointerDriver {
         return pointerID;
     }
 
-    /**
-     * Add pointer event listeners to root's DOM element.
-     */
+    /** Add pointer event listeners to root's DOM element. */
     private addListeners(root: Root, rootBind: RootDOMBind) {
         // Make listeners for mouse events, queueing events. Add them to the
         // root DOM bind so they can be removed later when needed
@@ -159,8 +170,8 @@ export class DOMPointerDriver extends PointerDriver {
     }
 
     /**
-     * Calls {@link PointerDriver.onEnable} and {@link addListeners} to each
-     * bound root.
+     * Calls {@link PointerDriver#onEnable} and
+     * {@link DOMPointerDriver#addListeners} to each bound root.
      */
     override onEnable(root: Root): void {
         super.onEnable(root);
@@ -173,8 +184,8 @@ export class DOMPointerDriver extends PointerDriver {
     }
 
     /**
-     * Calls {@link PointerDriver.onDisable} and {@link removeListeners} to each
-     * bound root.
+     * Calls {@link PointerDriver#onDisable} and
+     * {@link DOMPointerDriver#removeListeners} to each bound root.
      */
     override onDisable(root: Root): void {
         super.onDisable(root);

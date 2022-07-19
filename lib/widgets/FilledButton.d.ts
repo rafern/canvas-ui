@@ -33,9 +33,10 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     /**
      * Update the background fill.
      *
-     * Sets {@link backgroundProperty} depending on {@link _forced} and
-     * {@link clickState}, calls {@link inheritTheme} and sets
-     * {@link _backgroundDirty} to true.
+     * Sets {@link FilledButton#backgroundProperty} depending on
+     * {@link FilledButton#forced} and {@link ButtonClickHelper#clickState},
+     * sets {@link FilledButton#childTheme}.{@link Theme#canvasFill} and flags
+     * {@link FilledButton#backgroundDirty} as true.
      */
     private updateBackground;
     private getBackgroundFill;

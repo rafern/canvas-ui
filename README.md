@@ -89,3 +89,4 @@ This project uses the following open-source projects:
 - [local-web-server](https://github.com/lwsjs/local-web-server) licensed under the MIT license
 - [typedoc](https://github.com/TypeStrong/TypeDoc) licensed under the Apache 2.0 license
 - [typescript](https://github.com/Microsoft/TypeScript) licensed under the Apache 2.0 license
+- [eslint-plugin-tsdoc](https://github.com/microsoft/tsdoc) licensed under the MIT license

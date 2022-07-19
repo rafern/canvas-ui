@@ -34,10 +34,18 @@ export * from './events/PointerMove';
 export * from './events/PointerPress';
 export * from './events/PointerRelease';
 export * from './events/PointerWheel';
+export * from './events/TabSelect';
 export * from './events/TextPasteEvent';
 // helpers
+export * from './helpers/BaseClickHelper';
+export * from './helpers/ButtonClickHelper';
+export * from './helpers/ClickArea';
 export * from './helpers/ClickHelper';
+export * from './helpers/ClickState';
+export * from './helpers/CompoundClickHelper';
+export * from './helpers/GenericClickHelper';
 export * from './helpers/getPointerEventNormPos';
+export * from './helpers/isPower2';
 export * from './helpers/measureTextDims';
 export * from './helpers/roundToPower2';
 export * from './helpers/TextHelper';

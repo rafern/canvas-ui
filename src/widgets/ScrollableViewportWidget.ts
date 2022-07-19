@@ -29,7 +29,9 @@ export enum ScrollbarMode {
  * @category Widget
  */
 export class ScrollableViewportWidget<W extends Widget = Widget> extends ViewportWidget<W> {
-    /** See {@link scrollbarMode}. For internal use only */
+    /**
+     * See {@link ScrollableViewportWidget#scrollbarMode}. For internal use only
+     */
     private _scrollbarMode: ScrollbarMode;
     /**
      * The effective viewport width, for scrollbar calculations. For internal
@@ -92,9 +94,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     /**
-     * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Unlike {@link ViewportWidget.offset}, this will
-     * clamp to possible scroll values to avoid issues.
+     * Offset of {@link SingleParent#child}. Positional events will take this
+     * into account, as well as rendering. Unlike {@link ViewportWidget#offset},
+     * this will clamp to possible scroll values to avoid issues.
      */
     override get offset(): [number, number] {
         return super.offset;
@@ -138,8 +140,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     /**
-     * The current scroll values. Similar to {@link offset}, but with normalised
-     * values (from 0 to 1).
+     * The current scroll values. Similar to
+     * {@link ScrollableViewportWidget#offset}, but with normalised values (from
+     * 0 to 1).
      */
     get scroll(): [number, number] {
         const [offsetX, offsetY] = this.offset;
@@ -293,7 +296,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      * Handle a wheel scroll event. If scrolling fails due to being at the
      * limit, this returns true if the last scroll attempt happened less than
      * 200 milliseconds ago. This behaviour is disabled if
-     * {@link PointerWheel.fromDrag} is true.
+     * {@link PointerWheel#fromDrag} is true.
      *
      * @returns Returns true if this changed scroll was successful
      */

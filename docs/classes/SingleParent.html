@@ -33,7 +33,7 @@ single mandatory child.</p>
 <li><a href="PassthroughWidget.html" class="tsd-signature-type" data-tsd-kind="Class">PassthroughWidget</a></li>
 <li><a href="ViewportWidget.html" class="tsd-signature-type" data-tsd-kind="Class">ViewportWidget</a></li></ul></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/SingleParent.ts#L11">widgets/SingleParent.ts:11</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/SingleParent.ts#L11">src/widgets/SingleParent.ts:11</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -153,7 +153,7 @@ single mandatory child.</p>
 <ul class="tsd-parameter-list">
 <li>
 <h5>child: <span class="tsd-signature-type" data-tsd-kind="Type parameter">W</span></h5>
-<div class="tsd-comment tsd-typography"><p>The mandatory single child of this widget. Cannot be changed later, unless <a href="SingleParent.html#_children">_children</a> is changed directly via the widget using this mixin.</p>
+<div class="tsd-comment tsd-typography"><p>The mandatory single child of this widget. Cannot be changed later, unless <a href="Parent.html#_children">_children</a> is changed directly via the widget using this mixin.</p>
 </div></li>
 <li>
 <h5>needsClear: <span class="tsd-signature-type">boolean</span></h5></li>
@@ -164,7 +164,7 @@ single mandatory child.</p>
 <h4 class="tsd-returns-title">Returns <a href="SingleParent.html" class="tsd-signature-type" data-tsd-kind="Class">SingleParent</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">W</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="Parent.html">Parent</a>.<a href="Parent.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/SingleParent.ts#L17">widgets/SingleParent.ts:17</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/SingleParent.ts#L17">src/widgets/SingleParent.ts:17</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_children" class="tsd-anchor"></a>
@@ -175,11 +175,11 @@ cannot be accidentally replaced with a new array. This way, references to
 this array are always valid. If you want to clear this array, set the
 length to zero instead of creating a new instance. readonly still means
 that you can add/remove elements to/from the array.</p>
-<p>See <a href="SingleParent.html#children">children</a> for the public iterator getter.</p>
+<p>See <a href="Parent.html#children">children</a> for the public iterator getter.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#_children">_children</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L32">widgets/Parent.ts:32</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L32">src/widgets/Parent.ts:32</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_dirty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_dirty</span><a href="#_dirty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_dirty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
@@ -187,15 +187,15 @@ that you can add/remove elements to/from the array.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#_dirty">_dirty</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L26">widgets/Widget.ts:26</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L26">src/widgets/Widget.ts:26</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_flex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_flex</span><a href="#_flex" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_flex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
-<div class="tsd-comment tsd-typography"><p><a href="SingleParent.html#flex">flex</a> but for internal use.</p>
+<div class="tsd-comment tsd-typography"><p><a href="Widget.html#flex">flex</a> but for internal use.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#_flex">_flex</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L52">widgets/Widget.ts:52</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L52">src/widgets/Widget.ts:52</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="_layoutDirty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>_layout<wbr/>Dirty</span><a href="#_layoutDirty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">_layout<wbr/>Dirty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
@@ -204,7 +204,7 @@ container, propagate this up.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#_layoutDirty">_layoutDirty</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L31">widgets/Widget.ts:31</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L31">src/widgets/Widget.ts:31</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="height" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>height</span><a href="#height" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">height<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
@@ -212,17 +212,17 @@ container, propagate this up.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#height">height</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L46">widgets/Widget.ts:46</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L46">src/widgets/Widget.ts:46</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a id="needsClear" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>needs<wbr/>Clear</span><a href="#needsClear" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">needs<wbr/>Clear<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 <div class="tsd-comment tsd-typography"><p>Widget will have its background automatically cleared when painting if
 needsClear is true. The background fill style used is
-<a href="SingleParent.html#canvasFill">canvasFill</a>.</p>
+<a href="BaseTheme.html#canvasFill">canvasFill</a>.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#needsClear">needsClear</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L37">widgets/Widget.ts:37</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L37">src/widgets/Widget.ts:37</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a id="propagatesEvents" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagReadonly">Readonly</code> <span>propagates<wbr/>Events</span><a href="#propagatesEvents" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">propagates<wbr/>Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
@@ -231,18 +231,18 @@ this is true. Useful for implementing container widgets.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#propagatesEvents">propagatesEvents</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L42">widgets/Widget.ts:42</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L42">src/widgets/Widget.ts:42</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="root" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>root</span><a href="#root" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">root<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol"> = null</span></div>
 <div class="tsd-comment tsd-typography"><p>The <a href="Root.html">Root</a> that this widget is currently inside.
 Note that this will replace the root argument in the update functions,
 but for now, both can be used. For now, this value is set whenever
-<a href="SingleParent.html#preLayoutUpdate">preLayoutUpdate</a> is called.</p>
+<a href="Widget.html#preLayoutUpdate">preLayoutUpdate</a> is called.</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#root">root</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L59">widgets/Widget.ts:59</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L59">src/widgets/Widget.ts:59</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="tabFocusable" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>tab<wbr/>Focusable</span><a href="#tabFocusable" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">tab<wbr/>Focusable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
@@ -250,7 +250,7 @@ but for now, both can be used. For now, this value is set whenever
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#tabFocusable">tabFocusable</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L62">widgets/Widget.ts:62</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L62">src/widgets/Widget.ts:62</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="width" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>width</span><a href="#width" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">width<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
@@ -258,7 +258,7 @@ but for now, both can be used. For now, this value is set whenever
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#width">width</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L44">widgets/Widget.ts:44</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L44">src/widgets/Widget.ts:44</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="x" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>x</span><a href="#x" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
@@ -266,7 +266,7 @@ but for now, both can be used. For now, this value is set whenever
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#x">x</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L48">widgets/Widget.ts:48</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L48">src/widgets/Widget.ts:48</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="y" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>y</span><a href="#y" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
@@ -274,7 +274,7 @@ but for now, both can be used. For now, this value is set whenever
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#y">y</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L50">widgets/Widget.ts:50</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L50">src/widgets/Widget.ts:50</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Accessors</h2>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="accentFill" class="tsd-anchor"></a>
@@ -282,15 +282,15 @@ but for now, both can be used. For now, this value is set whenever
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="accentFill.accentFill-1"><span class="tsd-signature-symbol">get</span> accentFill<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The accent <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Usually a saturated colour more saturated than PrimaryFill used for highlighting boxes which use PrimaryFill.</p>
+<div class="tsd-comment tsd-typography"><p>The accent <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Usually a saturated colour more saturated than <a href="../interfaces/ThemeProperties.html#primaryFill">primaryFill</a> used for highlighting boxes which use PrimaryFill.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.accentFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L191">theme/BaseTheme.ts:191</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L191">src/theme/BaseTheme.ts:191</a></li></ul></aside></li>
 <li class="tsd-signature" id="accentFill.accentFill-2"><span class="tsd-signature-symbol">set</span> accentFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The accent <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Usually a saturated colour more saturated than PrimaryFill used for highlighting boxes which use PrimaryFill.</p>
+<div class="tsd-comment tsd-typography"><p>The accent <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Usually a saturated colour more saturated than <a href="../interfaces/ThemeProperties.html#primaryFill">primaryFill</a> used for highlighting boxes which use PrimaryFill.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -300,7 +300,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.accentFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L195">theme/BaseTheme.ts:195</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L195">src/theme/BaseTheme.ts:195</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="backgroundFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>background<wbr/>Fill</span><a href="#backgroundFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -311,7 +311,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.backgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L205">theme/BaseTheme.ts:205</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L205">src/theme/BaseTheme.ts:205</a></li></ul></aside></li>
 <li class="tsd-signature" id="backgroundFill.backgroundFill-2"><span class="tsd-signature-symbol">set</span> backgroundFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The background <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Used for widgets with a background (as in, a background above the canvas background).</p>
@@ -324,21 +324,21 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.backgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L209">theme/BaseTheme.ts:209</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L209">src/theme/BaseTheme.ts:209</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="backgroundGlowFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>background<wbr/>Glow<wbr/>Fill</span><a href="#backgroundGlowFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="backgroundGlowFill.backgroundGlowFill-1"><span class="tsd-signature-symbol">get</span> backgroundGlowFill<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The background glow <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Used for highlighting boxes which use BackgroundFill.</p>
+<div class="tsd-comment tsd-typography"><p>The background glow <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Used for highlighting boxes which use <a href="../interfaces/ThemeProperties.html#backgroundFill">backgroundFill</a>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.backgroundGlowFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L219">theme/BaseTheme.ts:219</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L219">src/theme/BaseTheme.ts:219</a></li></ul></aside></li>
 <li class="tsd-signature" id="backgroundGlowFill.backgroundGlowFill-2"><span class="tsd-signature-symbol">set</span> backgroundGlowFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The background glow <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Used for highlighting boxes which use BackgroundFill.</p>
+<div class="tsd-comment tsd-typography"><p>The background glow <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Used for highlighting boxes which use <a href="../interfaces/ThemeProperties.html#backgroundFill">backgroundFill</a>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -348,7 +348,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.backgroundGlowFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L223">theme/BaseTheme.ts:223</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L223">src/theme/BaseTheme.ts:223</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="blinkRate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>blink<wbr/>Rate</span><a href="#blinkRate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -359,7 +359,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.blinkRate</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L513">theme/BaseTheme.ts:513</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L513">src/theme/BaseTheme.ts:513</a></li></ul></aside></li>
 <li class="tsd-signature" id="blinkRate.blinkRate-2"><span class="tsd-signature-symbol">set</span> blinkRate<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The blink rate of text cursors in text input widgets like <a href="TextInput.html">TextInput</a>. Value in &quot;blinks&quot; per second.</p>
@@ -372,7 +372,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.blinkRate</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L517">theme/BaseTheme.ts:517</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L517">src/theme/BaseTheme.ts:517</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="bodyTextAlign" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body<wbr/>Text<wbr/>Align</span><a href="#bodyTextAlign" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -383,7 +383,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextAlign</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L317">theme/BaseTheme.ts:317</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L317">src/theme/BaseTheme.ts:317</a></li></ul></aside></li>
 <li class="tsd-signature" id="bodyTextAlign.bodyTextAlign-2"><span class="tsd-signature-symbol">set</span> bodyTextAlign<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The default text alignment mode of body text (most regular text).</p>
@@ -396,7 +396,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextAlign</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L321">theme/BaseTheme.ts:321</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L321">src/theme/BaseTheme.ts:321</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="bodyTextFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body<wbr/>Text<wbr/>Fill</span><a href="#bodyTextFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -407,7 +407,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L275">theme/BaseTheme.ts:275</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L275">src/theme/BaseTheme.ts:275</a></li></ul></aside></li>
 <li class="tsd-signature" id="bodyTextFill.bodyTextFill-2"><span class="tsd-signature-symbol">set</span> bodyTextFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for body text (most regular text).</p>
@@ -420,7 +420,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L279">theme/BaseTheme.ts:279</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L279">src/theme/BaseTheme.ts:279</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="bodyTextFont" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body<wbr/>Text<wbr/>Font</span><a href="#bodyTextFont" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -431,7 +431,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextFont</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L665">widgets/Widget.ts:665</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L673">src/widgets/Widget.ts:673</a></li></ul></aside></li>
 <li class="tsd-signature" id="bodyTextFont.bodyTextFont-2"><span class="tsd-signature-symbol">set</span> bodyTextFont<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font">font style</a> used for body text (most regular text).</p>
@@ -444,7 +444,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextFont</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L674">widgets/Widget.ts:674</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L682">src/widgets/Widget.ts:682</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="bodyTextHeight" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body<wbr/>Text<wbr/>Height</span><a href="#bodyTextHeight" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -455,7 +455,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextHeight</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L678">widgets/Widget.ts:678</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L686">src/widgets/Widget.ts:686</a></li></ul></aside></li>
 <li class="tsd-signature" id="bodyTextHeight.bodyTextHeight-2"><span class="tsd-signature-symbol">set</span> bodyTextHeight<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The height of each line of text in body text (most regular text). If null, it will be automatically detected.</p>
@@ -468,7 +468,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextHeight</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L683">widgets/Widget.ts:683</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L691">src/widgets/Widget.ts:691</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="bodyTextSpacing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>body<wbr/>Text<wbr/>Spacing</span><a href="#bodyTextSpacing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -479,7 +479,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L687">widgets/Widget.ts:687</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L695">src/widgets/Widget.ts:695</a></li></ul></aside></li>
 <li class="tsd-signature" id="bodyTextSpacing.bodyTextSpacing-2"><span class="tsd-signature-symbol">set</span> bodyTextSpacing<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The spacing between each line of text in body text (most regular text). If null, it will be automatically detected.</p>
@@ -492,7 +492,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.bodyTextSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L692">widgets/Widget.ts:692</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L700">src/widgets/Widget.ts:700</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="canvasFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>canvas<wbr/>Fill</span><a href="#canvasFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -503,7 +503,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.canvasFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L107">theme/BaseTheme.ts:107</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L107">src/theme/BaseTheme.ts:107</a></li></ul></aside></li>
 <li class="tsd-signature" id="canvasFill.canvasFill-2"><span class="tsd-signature-symbol">set</span> canvasFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The canvas background <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>.</p>
@@ -516,7 +516,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.canvasFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L111">theme/BaseTheme.ts:111</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L111">src/theme/BaseTheme.ts:111</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="checkboxInnerPadding" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>checkbox<wbr/>Inner<wbr/>Padding</span><a href="#checkboxInnerPadding" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -527,7 +527,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.checkboxInnerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L704">widgets/Widget.ts:704</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L712">src/widgets/Widget.ts:712</a></li></ul></aside></li>
 <li class="tsd-signature" id="checkboxInnerPadding.checkboxInnerPadding-2"><span class="tsd-signature-symbol">set</span> checkboxInnerPadding<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="../interfaces/Padding.html">Padding</a> used for <a href="Checkbox.html">Checkbox</a> between the accent box shown when ticked and the background box.</p>
@@ -540,7 +540,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.checkboxInnerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L708">widgets/Widget.ts:708</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L716">src/widgets/Widget.ts:716</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="checkboxLength" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>checkbox<wbr/>Length</span><a href="#checkboxLength" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -551,7 +551,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.checkboxLength</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L696">widgets/Widget.ts:696</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L704">src/widgets/Widget.ts:704</a></li></ul></aside></li>
 <li class="tsd-signature" id="checkboxLength.checkboxLength-2"><span class="tsd-signature-symbol">set</span> checkboxLength<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The length in pixels used for <a href="Checkbox.html">Checkbox</a>.</p>
@@ -564,7 +564,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.checkboxLength</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L700">widgets/Widget.ts:700</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L708">src/widgets/Widget.ts:708</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class"><a id="child" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>child</span><a href="#child" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
@@ -574,7 +574,7 @@ but for now, both can be used. For now, this value is set whenever
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type" data-tsd-kind="Type parameter">W</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/SingleParent.ts#L22">widgets/SingleParent.ts:22</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/SingleParent.ts#L22">src/widgets/SingleParent.ts:22</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="childCount" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>child<wbr/>Count</span><a href="#childCount" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -585,7 +585,7 @@ but for now, both can be used. For now, this value is set whenever
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.childCount</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L70">widgets/Parent.ts:70</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L70">src/widgets/Parent.ts:70</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="children" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>children</span><a href="#children" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -597,7 +597,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Iterable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">W</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.children</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L78">widgets/Parent.ts:78</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L78">src/widgets/Parent.ts:78</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="containerAlignment" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>container<wbr/>Alignment</span><a href="#containerAlignment" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -608,7 +608,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/Alignment2D.html" class="tsd-signature-type" data-tsd-kind="Interface">Alignment2D</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.containerAlignment</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L135">theme/BaseTheme.ts:135</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L135">src/theme/BaseTheme.ts:135</a></li></ul></aside></li>
 <li class="tsd-signature" id="containerAlignment.containerAlignment-2"><span class="tsd-signature-symbol">set</span> containerAlignment<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/Alignment2D.html" class="tsd-signature-type" data-tsd-kind="Interface">Alignment2D</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The alignment in <a href="Container.html">Container</a> for when there is extra space.</p>
@@ -621,7 +621,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.containerAlignment</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L139">theme/BaseTheme.ts:139</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L139">src/theme/BaseTheme.ts:139</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="containerPadding" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>container<wbr/>Padding</span><a href="#containerPadding" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -632,7 +632,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/Padding.html" class="tsd-signature-type" data-tsd-kind="Interface">Padding</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.containerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L629">widgets/Widget.ts:629</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L637">src/widgets/Widget.ts:637</a></li></ul></aside></li>
 <li class="tsd-signature" id="containerPadding.containerPadding-2"><span class="tsd-signature-symbol">set</span> containerPadding<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/Padding.html" class="tsd-signature-type" data-tsd-kind="Interface">Padding</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="../interfaces/Padding.html">Padding</a> used in <a href="Container.html">Container</a>.</p>
@@ -645,7 +645,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.containerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L634">widgets/Widget.ts:634</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L642">src/widgets/Widget.ts:642</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="cursorThickness" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>cursor<wbr/>Thickness</span><a href="#cursorThickness" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -656,7 +656,7 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.cursorThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L762">widgets/Widget.ts:762</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L770">src/widgets/Widget.ts:770</a></li></ul></aside></li>
 <li class="tsd-signature" id="cursorThickness.cursorThickness-2"><span class="tsd-signature-symbol">set</span> cursorThickness<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The thickness of a text cursor in pixels.</p>
@@ -669,45 +669,45 @@ children via this iterator; for read-only purposes only.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.cursorThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L766">widgets/Widget.ts:766</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L774">src/widgets/Widget.ts:774</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="dimensionless" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dimensionless</span><a href="#dimensionless" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="dimensionless.dimensionless-1"><span class="tsd-signature-symbol">get</span> dimensionless<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Check if the widget has zero width or height.</p>
-<p>If true, <a href="SingleParent.html#paint">paint</a> will do nothing and <a href="SingleParent.html#dirty">dirty</a> will be false
-even if <a href="SingleParent.html#_dirty">_dirty</a> is true.</p>
+<p>If true, <a href="Widget.html#paint">paint</a> will do nothing and <a href="Widget.html#dirty">dirty</a>
+will be false even if <a href="Widget.html#_dirty">_dirty</a> is true.</p>
 <p>Usually becomes true when containers overflow.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.dimensionless</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L159">widgets/Widget.ts:159</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L164">src/widgets/Widget.ts:164</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="dimensions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dimensions</span><a href="#dimensions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="dimensions.dimensions-1"><span class="tsd-signature-symbol">get</span> dimensions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Get the resolved dimensions. Returns a 2-tuple containing
-<a href="SingleParent.html#width">width</a> and <a href="SingleParent.html#height">height</a>.</p>
+<a href="Widget.html#width">width</a> and <a href="Widget.html#height">height</a>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.dimensions</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L126">widgets/Widget.ts:126</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L128">src/widgets/Widget.ts:128</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="dirty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dirty</span><a href="#dirty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="dirty.dirty-1"><span class="tsd-signature-symbol">get</span> dirty<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Check if the widget is dirty. Returns <a href="SingleParent.html#_dirty">_dirty</a>, as long as
-<a href="SingleParent.html#dimensionless">dimensionless</a> is not true.</p>
+<div class="tsd-comment tsd-typography"><p>Check if the widget is dirty. Returns <a href="Widget.html#_dirty">_dirty</a>, as long as
+<a href="Widget.html#dimensionless">dimensionless</a> is not true.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.dirty</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L142">widgets/Widget.ts:142</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L144">src/widgets/Widget.ts:144</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="enabled" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>enabled</span><a href="#enabled" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -716,12 +716,12 @@ even if <a href="SingleParent.html#_dirty">_dirty</a> is true.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.enabled</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L102">widgets/Widget.ts:102</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L102">src/widgets/Widget.ts:102</a></li></ul></aside></li>
 <li class="tsd-signature" id="enabled.enabled-2"><span class="tsd-signature-symbol">set</span> enabled<span class="tsd-signature-symbol">(</span>enabled<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Is this widget enabled? If it isn&#39;t, it will act as if it doesn&#39;t exist.</p>
-<p>If changed, calls <a href="SingleParent.html#forceDirty">forceDirty</a></p>
-<p>If getting, _enabled is returned.</p>
+<p>If changed, calls <a href="Widget.html#forceDirty">forceDirty</a></p>
+<p>If getting, <a href="Widget.html#_enabled">_enabled</a> is returned.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -731,7 +731,7 @@ even if <a href="SingleParent.html#_dirty">_dirty</a> is true.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.enabled</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L94">widgets/Widget.ts:94</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L94">src/widgets/Widget.ts:94</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="fallbackTheme" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>fallback<wbr/>Theme</span><a href="#fallbackTheme" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -744,7 +744,7 @@ theme&#39;s property will be used instead. This will automatically
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="Theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.fallbackTheme</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L28">theme/BaseTheme.ts:28</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L28">src/theme/BaseTheme.ts:28</a></li></ul></aside></li>
 <li class="tsd-signature" id="fallbackTheme.fallbackTheme-2"><span class="tsd-signature-symbol">set</span> fallbackTheme<span class="tsd-signature-symbol">(</span>newTheme<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="Theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -755,19 +755,19 @@ theme&#39;s property will be used instead. This will automatically
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.fallbackTheme</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L32">theme/BaseTheme.ts:32</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L32">src/theme/BaseTheme.ts:32</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="flex" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>flex</span><a href="#flex" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="flex.flex-1"><span class="tsd-signature-symbol">get</span> flex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>How much this widget will expand relative to other widgets in a flexbox
-container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirty</a> to true.</p>
+container. If changed, sets <a href="Widget.html#_layoutDirty">_layoutDirty</a> to true.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.flex</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L68">widgets/Widget.ts:68</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L68">src/widgets/Widget.ts:68</a></li></ul></aside></li>
 <li class="tsd-signature" id="flex.flex-2"><span class="tsd-signature-symbol">set</span> flex<span class="tsd-signature-symbol">(</span>flex<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-parameters">
@@ -778,7 +778,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.flex</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L72">widgets/Widget.ts:72</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L72">src/widgets/Widget.ts:72</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inheritedTheme" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>inherited<wbr/>Theme</span><a href="#inheritedTheme" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -787,10 +787,10 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="Theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inheritedTheme</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L51">widgets/Parent.ts:51</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L51">src/widgets/Parent.ts:51</a></li></ul></aside></li>
 <li class="tsd-signature" id="inheritedTheme.inheritedTheme-2"><span class="tsd-signature-symbol">set</span> inheritedTheme<span class="tsd-signature-symbol">(</span>theme<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="Theme.html" class="tsd-signature-type" data-tsd-kind="Class">Theme</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>The inherited theme of this widget. Sets <a href="SingleParent.html#fallbackTheme">fallbackTheme</a>.</p>
+<div class="tsd-comment tsd-typography"><p>The inherited theme of this widget. Sets <a href="BaseTheme.html#fallbackTheme">fallbackTheme</a>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -800,7 +800,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inheritedTheme</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L45">widgets/Parent.ts:45</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L45">src/widgets/Parent.ts:45</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputBackgroundFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Background<wbr/>Fill</span><a href="#inputBackgroundFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -811,7 +811,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputBackgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L359">theme/BaseTheme.ts:359</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L359">src/theme/BaseTheme.ts:359</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputBackgroundFill.inputBackgroundFill-2"><span class="tsd-signature-symbol">set</span> inputBackgroundFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The background <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -824,7 +824,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputBackgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L363">theme/BaseTheme.ts:363</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L363">src/theme/BaseTheme.ts:363</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputSelectBackgroundFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Select<wbr/>Background<wbr/>Fill</span><a href="#inputSelectBackgroundFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -835,7 +835,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputSelectBackgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L373">theme/BaseTheme.ts:373</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L373">src/theme/BaseTheme.ts:373</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputSelectBackgroundFill.inputSelectBackgroundFill-2"><span class="tsd-signature-symbol">set</span> inputSelectBackgroundFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The background <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for input widgets like <a href="TextInput.html">TextInput</a> when text is selected.</p>
@@ -848,7 +848,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputSelectBackgroundFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L377">theme/BaseTheme.ts:377</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L377">src/theme/BaseTheme.ts:377</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextAlign" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Align</span><a href="#inputTextAlign" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -859,7 +859,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextAlign</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L499">theme/BaseTheme.ts:499</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L499">src/theme/BaseTheme.ts:499</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextAlign.inputTextAlign-2"><span class="tsd-signature-symbol">set</span> inputTextAlign<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The default text alignment mode of text input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -872,7 +872,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextAlign</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L503">theme/BaseTheme.ts:503</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L503">src/theme/BaseTheme.ts:503</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Fill</span><a href="#inputTextFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -883,7 +883,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L401">theme/BaseTheme.ts:401</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L401">src/theme/BaseTheme.ts:401</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextFill.inputTextFill-2"><span class="tsd-signature-symbol">set</span> inputTextFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for text in input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -896,7 +896,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L405">theme/BaseTheme.ts:405</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L405">src/theme/BaseTheme.ts:405</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextFillDisabled" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Fill<wbr/>Disabled</span><a href="#inputTextFillDisabled" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -907,7 +907,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFillDisabled</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L415">theme/BaseTheme.ts:415</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L415">src/theme/BaseTheme.ts:415</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextFillDisabled.inputTextFillDisabled-2"><span class="tsd-signature-symbol">set</span> inputTextFillDisabled<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for text in input widgets like <a href="TextInput.html">TextInput</a> when disabled.</p>
@@ -920,7 +920,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFillDisabled</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L419">theme/BaseTheme.ts:419</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L419">src/theme/BaseTheme.ts:419</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextFillInvalid" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Fill<wbr/>Invalid</span><a href="#inputTextFillInvalid" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -931,7 +931,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFillInvalid</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L429">theme/BaseTheme.ts:429</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L429">src/theme/BaseTheme.ts:429</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextFillInvalid.inputTextFillInvalid-2"><span class="tsd-signature-symbol">set</span> inputTextFillInvalid<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a> used for text in input widgets like <a href="TextInput.html">TextInput</a> when invalid.</p>
@@ -944,7 +944,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFillInvalid</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L433">theme/BaseTheme.ts:433</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L433">src/theme/BaseTheme.ts:433</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextFont" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Font</span><a href="#inputTextFont" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -955,7 +955,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFont</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L715">widgets/Widget.ts:715</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L723">src/widgets/Widget.ts:723</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextFont.inputTextFont-2"><span class="tsd-signature-symbol">set</span> inputTextFont<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font">font style</a> used for text in input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -968,7 +968,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextFont</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L724">widgets/Widget.ts:724</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L732">src/widgets/Widget.ts:732</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextHeight" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Height</span><a href="#inputTextHeight" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -979,7 +979,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextHeight</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L728">widgets/Widget.ts:728</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L736">src/widgets/Widget.ts:736</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextHeight.inputTextHeight-2"><span class="tsd-signature-symbol">set</span> inputTextHeight<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The height of each line of text in input widgets like <a href="TextInput.html">TextInput</a>. If null, it will be automatically detected.</p>
@@ -992,7 +992,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextHeight</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L733">widgets/Widget.ts:733</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L741">src/widgets/Widget.ts:741</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextInnerPadding" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Inner<wbr/>Padding</span><a href="#inputTextInnerPadding" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1003,7 +1003,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextInnerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L746">widgets/Widget.ts:746</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L754">src/widgets/Widget.ts:754</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextInnerPadding.inputTextInnerPadding-2"><span class="tsd-signature-symbol">set</span> inputTextInnerPadding<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The <a href="../interfaces/Padding.html">Padding</a> between text and border used for text input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -1016,7 +1016,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextInnerPadding</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L750">widgets/Widget.ts:750</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L758">src/widgets/Widget.ts:758</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextMinWidth" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Min<wbr/>Width</span><a href="#inputTextMinWidth" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1027,7 +1027,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextMinWidth</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L754">widgets/Widget.ts:754</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L762">src/widgets/Widget.ts:762</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextMinWidth.inputTextMinWidth-2"><span class="tsd-signature-symbol">set</span> inputTextMinWidth<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The default minimum width of text input widgets like <a href="TextInput.html">TextInput</a>.</p>
@@ -1040,7 +1040,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextMinWidth</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L758">widgets/Widget.ts:758</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L766">src/widgets/Widget.ts:766</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="inputTextSpacing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>input<wbr/>Text<wbr/>Spacing</span><a href="#inputTextSpacing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1051,7 +1051,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L737">widgets/Widget.ts:737</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L745">src/widgets/Widget.ts:745</a></li></ul></aside></li>
 <li class="tsd-signature" id="inputTextSpacing.inputTextSpacing-2"><span class="tsd-signature-symbol">set</span> inputTextSpacing<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The spacing between each line of text in input widgets like <a href="TextInput.html">TextInput</a>. If null, it will be automatically detected.</p>
@@ -1064,18 +1064,19 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.inputTextSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L742">widgets/Widget.ts:742</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L750">src/widgets/Widget.ts:750</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="layoutDirty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>layout<wbr/>Dirty</span><a href="#layoutDirty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="layoutDirty.layoutDirty-1"><span class="tsd-signature-symbol">get</span> layoutDirty<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Check if the widget&#39;s layout is dirty. Returns <a href="SingleParent.html#_layoutDirty">_layoutDirty</a>.</p>
+<div class="tsd-comment tsd-typography"><p>Check if the widget&#39;s layout is dirty. Returns
+<a href="Widget.html#_layoutDirty">_layoutDirty</a>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.layoutDirty</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L147">widgets/Widget.ts:147</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L152">src/widgets/Widget.ts:152</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="multiContainerAlignment" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>multi<wbr/>Container<wbr/>Alignment</span><a href="#multiContainerAlignment" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1086,7 +1087,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/FlexAlignment2D.html" class="tsd-signature-type" data-tsd-kind="Interface">FlexAlignment2D</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.multiContainerAlignment</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L163">theme/BaseTheme.ts:163</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L163">src/theme/BaseTheme.ts:163</a></li></ul></aside></li>
 <li class="tsd-signature" id="multiContainerAlignment.multiContainerAlignment-2"><span class="tsd-signature-symbol">set</span> multiContainerAlignment<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/FlexAlignment2D.html" class="tsd-signature-type" data-tsd-kind="Interface">FlexAlignment2D</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The alignment in <a href="MultiContainer.html">MultiContainer</a> for when there is unused space.</p>
@@ -1099,7 +1100,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.multiContainerAlignment</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L167">theme/BaseTheme.ts:167</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L167">src/theme/BaseTheme.ts:167</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="multiContainerSpacing" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>multi<wbr/>Container<wbr/>Spacing</span><a href="#multiContainerSpacing" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1110,7 +1111,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.multiContainerSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L638">widgets/Widget.ts:638</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L646">src/widgets/Widget.ts:646</a></li></ul></aside></li>
 <li class="tsd-signature" id="multiContainerSpacing.multiContainerSpacing-2"><span class="tsd-signature-symbol">set</span> multiContainerSpacing<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The spacing length between widgets in <a href="MultiContainer.html">MultiContainer</a>.</p>
@@ -1123,19 +1124,19 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.multiContainerSpacing</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L642">widgets/Widget.ts:642</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L650">src/widgets/Widget.ts:650</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="position" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>position</span><a href="#position" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature" id="position.position-1"><span class="tsd-signature-symbol">get</span> position<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the resolved position. Returns a 2-tuple containing <a href="SingleParent.html#x">x</a> and
-<a href="SingleParent.html#y">y</a>.</p>
+<div class="tsd-comment tsd-typography"><p>Get the resolved position. Returns a 2-tuple containing <a href="Widget.html#x">x</a>
+and <a href="Widget.html#y">y</a>.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.position</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L134">widgets/Widget.ts:134</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L136">src/widgets/Widget.ts:136</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="primaryFill" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>primary<wbr/>Fill</span><a href="#primaryFill" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1146,7 +1147,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a></h4><aside class="tsd-sources">
 <p>Inherited from Parent.primaryFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L177">theme/BaseTheme.ts:177</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L177">src/theme/BaseTheme.ts:177</a></li></ul></aside></li>
 <li class="tsd-signature" id="primaryFill.primaryFill-2"><span class="tsd-signature-symbol">set</span> primaryFill<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/FillStyle.html" class="tsd-signature-type" data-tsd-kind="Type alias">FillStyle</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The primary <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle">fill style</a>. Usually a saturated colour used for filling boxes that need to stand out.</p>
@@ -1159,7 +1160,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.primaryFill</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L181">theme/BaseTheme.ts:181</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L181">src/theme/BaseTheme.ts:181</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="scrollBarMinPercent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>scroll<wbr/>Bar<wbr/>Min<wbr/>Percent</span><a href="#scrollBarMinPercent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1170,7 +1171,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarMinPercent</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L555">theme/BaseTheme.ts:555</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L555">src/theme/BaseTheme.ts:555</a></li></ul></aside></li>
 <li class="tsd-signature" id="scrollBarMinPercent.scrollBarMinPercent-2"><span class="tsd-signature-symbol">set</span> scrollBarMinPercent<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The minimum length of the filled part of a <a href="ScrollableViewportWidget.html">ScrollableViewportWidget</a>&#39;s scrollbar in percentage of total length.</p>
@@ -1183,7 +1184,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarMinPercent</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/theme/BaseTheme.ts#L559">theme/BaseTheme.ts:559</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/theme/BaseTheme.ts#L559">src/theme/BaseTheme.ts:559</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="scrollBarMinPixels" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>scroll<wbr/>Bar<wbr/>Min<wbr/>Pixels</span><a href="#scrollBarMinPixels" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1194,7 +1195,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarMinPixels</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L778">widgets/Widget.ts:778</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L786">src/widgets/Widget.ts:786</a></li></ul></aside></li>
 <li class="tsd-signature" id="scrollBarMinPixels.scrollBarMinPixels-2"><span class="tsd-signature-symbol">set</span> scrollBarMinPixels<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The minimum length of the filled part of a <a href="ScrollableViewportWidget.html">ScrollableViewportWidget</a>&#39;s scrollbar in pixels.</p>
@@ -1207,7 +1208,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarMinPixels</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L782">widgets/Widget.ts:782</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L790">src/widgets/Widget.ts:790</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="scrollBarThickness" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>scroll<wbr/>Bar<wbr/>Thickness</span><a href="#scrollBarThickness" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1218,7 +1219,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L770">widgets/Widget.ts:770</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L778">src/widgets/Widget.ts:778</a></li></ul></aside></li>
 <li class="tsd-signature" id="scrollBarThickness.scrollBarThickness-2"><span class="tsd-signature-symbol">set</span> scrollBarThickness<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The thickness of a <a href="ScrollableViewportWidget.html">ScrollableViewportWidget</a>&#39;s scrollbar in pixels.</p>
@@ -1231,7 +1232,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.scrollBarThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L774">widgets/Widget.ts:774</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L782">src/widgets/Widget.ts:782</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="sliderMinLength" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>slider<wbr/>Min<wbr/>Length</span><a href="#sliderMinLength" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1242,7 +1243,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.sliderMinLength</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L646">widgets/Widget.ts:646</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L654">src/widgets/Widget.ts:654</a></li></ul></aside></li>
 <li class="tsd-signature" id="sliderMinLength.sliderMinLength-2"><span class="tsd-signature-symbol">set</span> sliderMinLength<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The minimum length of a <a href="Slider.html">Slider</a></p>
@@ -1255,7 +1256,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.sliderMinLength</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L650">widgets/Widget.ts:650</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L658">src/widgets/Widget.ts:658</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a id="sliderThickness" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>slider<wbr/>Thickness</span><a href="#sliderThickness" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
@@ -1266,7 +1267,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.sliderThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L654">widgets/Widget.ts:654</a></li></ul></aside></li>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L662">src/widgets/Widget.ts:662</a></li></ul></aside></li>
 <li class="tsd-signature" id="sliderThickness.sliderThickness-2"><span class="tsd-signature-symbol">set</span> sliderThickness<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>The thickness of a <a href="Slider.html">Slider</a></p>
@@ -1279,7 +1280,7 @@ container. If changed, sets <a href="SingleParent.html#_layoutDirty">_layoutDirt
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from Parent.sliderThickness</p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L658">widgets/Widget.ts:658</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L666">src/widgets/Widget.ts:666</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="afterPositionResolved" class="tsd-anchor"></a>
@@ -1294,7 +1295,7 @@ default.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#afterPositionResolved">afterPositionResolved</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L394">widgets/Widget.ts:394</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L399">src/widgets/Widget.ts:399</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="clear" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>clear</span><a href="#clear" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1302,7 +1303,7 @@ default.</p>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Paiting utility: clears background of widget. Should not be overridden.</p>
 <p>Rounds to nearest pixels; no subpixel clearing.</p>
-<p>The background fill style used is ThemeProperty.CanvasFill.</p>
+<p>The background fill style used is <a href="../interfaces/ThemeProperties.html#canvasFill">canvasFill</a>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1319,18 +1320,18 @@ default.</p>
 <h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5></li>
 <li>
 <h5>fillStyle: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span><span class="tsd-signature-symbol"> = null</span></h5>
-<div class="tsd-comment tsd-typography"><p>The fill style to use for clearing. If null (default), then the value of <a href="SingleParent.html#canvasFill">canvasFill</a> is used</p>
+<div class="tsd-comment tsd-typography"><p>The fill style to use for clearing. If null (default), then the value of <a href="../interfaces/ThemeProperties.html#canvasFill">canvasFill</a> is used</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#clear">clear</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L442">widgets/Widget.ts:442</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L448">src/widgets/Widget.ts:448</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="clearEnd" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>clear<wbr/>End</span><a href="#clearEnd" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="clearEnd.clearEnd-1">clear<wbr/>End<span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CanvasRenderingContext2D</span>, fillRule<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CanvasFillRule</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#clearEnd.clearEnd-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Paiting utility: end a clear operation (from <a href="SingleParent.html#clearStart">clearStart</a>). Should
+<div class="tsd-comment tsd-typography"><p>Paiting utility: end a clear operation (from <a href="Widget.html#clearStart">clearStart</a>). Should
 not be overridden.</p>
 </div>
 <div class="tsd-parameters">
@@ -1345,7 +1346,7 @@ not be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#clearEnd">clearEnd</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L476">widgets/Widget.ts:476</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L482">src/widgets/Widget.ts:482</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="clearStart" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>clear<wbr/>Start</span><a href="#clearStart" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1353,7 +1354,7 @@ not be overridden.</p>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Paiting utility: start a clear operation with no clipping path, the user
 has to add their own paths to the context. Should not be overridden.</p>
-<p>The background fill style used is ThemeProperty.CanvasFill.</p>
+<p>The background fill style used is <a href="../interfaces/ThemeProperties.html#canvasFill">canvasFill</a>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1362,12 +1363,12 @@ has to add their own paths to the context. Should not be overridden.</p>
 <h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5></li>
 <li>
 <h5>fillStyle: <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasGradient</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">CanvasPattern</span><span class="tsd-signature-symbol"> = null</span></h5>
-<div class="tsd-comment tsd-typography"><p>The fill style to use for clearing. If null (default), then the value of <a href="SingleParent.html#canvasFill">canvasFill</a> is used</p>
+<div class="tsd-comment tsd-typography"><p>The fill style to use for clearing. If null (default), then the value of <a href="../interfaces/ThemeProperties.html#canvasFill">canvasFill</a> is used</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#clearStart">clearStart</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L463">widgets/Widget.ts:463</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L469">src/widgets/Widget.ts:469</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="dispatchEvent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dispatch<wbr/>Event</span><a href="#dispatchEvent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1377,7 +1378,7 @@ has to add their own paths to the context. Should not be overridden.</p>
 matches the Widget, unless the Widget propagates events, or if the event
 is a <a href="PointerEvent.html">PointerEvent</a> and is in the bounds of the Widget. If neither
 of the conditions are true, the event is not captured (null is returned),
-else, the <a href="SingleParent.html#handleEvent">handleEvent</a> method is called and its result is
+else, the <a href="Widget.html#handleEvent">handleEvent</a> method is called and its result is
 returned. Must not be overridden.</p>
 
 <h3>Returns</h3><p>Returns the widget that captured the event or null if none captured the event.</p>
@@ -1392,7 +1393,7 @@ returned. Must not be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="Widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#dispatchEvent">dispatchEvent</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L216">widgets/Widget.ts:216</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L221">src/widgets/Widget.ts:221</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="dryPaint" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>dry<wbr/>Paint</span><a href="#dryPaint" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1406,7 +1407,7 @@ child widget&#39;s dryPaint method is called.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#dryPaint">dryPaint</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L55">widgets/Parent.ts:55</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L55">src/widgets/Parent.ts:55</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="forceDirty" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>force<wbr/>Dirty</span><a href="#forceDirty" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1421,19 +1422,19 @@ from the widget tree.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#forceDirty">forceDirty</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Parent.ts#L62">widgets/Parent.ts:62</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Parent.ts#L62">src/widgets/Parent.ts:62</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="forceThemeUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>force<wbr/>Theme<wbr/>Update</span><a href="#forceThemeUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="forceThemeUpdate.forceThemeUpdate-1">force<wbr/>Theme<wbr/>Update<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#forceThemeUpdate.forceThemeUpdate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Force a full theme update. An alias for <a href="SingleParent.html#onThemeUpdated">onThemeUpdated</a>(null).
-Used by <a href="Root.html#resolution">resolution</a></p>
+<div class="tsd-comment tsd-typography"><p>Force a full theme update. An alias for
+<a href="Widget.html#onThemeUpdated">onThemeUpdated</a>(null). Used by <a href="Root.html#resolution">resolution</a></p>
 </div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#forceThemeUpdate">forceThemeUpdate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L556">widgets/Widget.ts:556</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L564">src/widgets/Widget.ts:564</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="handleEvent" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>handle<wbr/>Event</span><a href="#handleEvent" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1447,7 +1448,7 @@ at itself.</p>
 <code>this</code>, for example, or a child widget if implementing a container), or
 null if no widget captured the event. Make sure to not capture any events
 that you do not need, or you may have unexpected results; for example, if
-you capture all dispatched events indiscriminately, a TabSelect
+you capture all dispatched events indiscriminately, a <a href="TabSelect.html">TabSelect</a>
 event may be captured and result in weird behaviour when the user
 attempts to use tab to select another widget.</p>
 </div>
@@ -1461,15 +1462,16 @@ attempts to use tab to select another widget.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><a href="Widget.html" class="tsd-signature-type" data-tsd-kind="Class">Widget</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#handleEvent">handleEvent</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L199">widgets/Widget.ts:199</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L204">src/widgets/Widget.ts:204</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="handlePainting" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>handle<wbr/>Painting</span><a href="#handlePainting" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="handlePainting.handlePainting-1">handle<wbr/>Painting<span class="tsd-signature-symbol">(</span>ctx<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CanvasRenderingContext2D</span>, forced<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#handlePainting.handlePainting-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Widget painting callback. By default does nothing. Do painting logic here
-when extending Widget. Even if <a href="SingleParent.html#dirty">dirty</a> is false, if this method is
-called, then the widget must still be painted. Should be overridden.</p>
+when extending Widget. Even if <a href="Widget.html#_dirty">_dirty</a> is false, if this
+method is called, then the widget must still be painted. Should be
+overridden.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1483,7 +1485,7 @@ called, then the widget must still be painted. Should be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#handlePainting">handlePainting</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L510">widgets/Widget.ts:510</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L517">src/widgets/Widget.ts:517</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="handlePostLayoutUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>handle<wbr/>Post<wbr/>Layout<wbr/>Update</span><a href="#handlePostLayoutUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1500,7 +1502,7 @@ nothing by default. Should be implemented.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#handlePostLayoutUpdate">handlePostLayoutUpdate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L421">widgets/Widget.ts:421</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L427">src/widgets/Widget.ts:427</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="handlePreLayoutUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>handle<wbr/>Pre<wbr/>Layout<wbr/>Update</span><a href="#handlePreLayoutUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1517,14 +1519,14 @@ nothing by default. Should be implemented.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#handlePreLayoutUpdate">handlePreLayoutUpdate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L259">widgets/Widget.ts:259</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L264">src/widgets/Widget.ts:264</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="handleResolveDimensions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <code class="tsd-tag ts-flagAbstract">Abstract</code> <span>handle<wbr/>Resolve<wbr/>Dimensions</span><a href="#handleResolveDimensions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="handleResolveDimensions.handleResolveDimensions-1">handle<wbr/>Resolve<wbr/>Dimensions<span class="tsd-signature-symbol">(</span>minWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, minHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#handleResolveDimensions.handleResolveDimensions-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Resolve dimensions of this widget. Must be implemented; set <a href="SingleParent.html#width">width</a>
-and <a href="SingleParent.html#height">height</a>.</p>
+<div class="tsd-comment tsd-typography"><p>Resolve dimensions of this widget. Must be implemented; set
+<a href="Widget.html#width">width</a> and <a href="Widget.html#height">height</a>.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1540,7 +1542,7 @@ and <a href="SingleParent.html#height">height</a>.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#handleResolveDimensions">handleResolveDimensions</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L276">widgets/Widget.ts:276</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L281">src/widgets/Widget.ts:281</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="onFocusDropped" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Focus<wbr/>Dropped</span><a href="#onFocusDropped" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1559,7 +1561,7 @@ nothing by default. Can be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#onFocusDropped">onFocusDropped</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L179">widgets/Widget.ts:179</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L184">src/widgets/Widget.ts:184</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="onFocusGrabbed" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Focus<wbr/>Grabbed</span><a href="#onFocusGrabbed" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1578,7 +1580,7 @@ default. Can be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#onFocusGrabbed">onFocusGrabbed</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L170">widgets/Widget.ts:170</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L175">src/widgets/Widget.ts:175</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="onThemeUpdated" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>on<wbr/>Theme<wbr/>Updated</span><a href="#onThemeUpdated" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1594,7 +1596,7 @@ default. Can be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#onThemeUpdated">onThemeUpdated</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L115">widgets/Widget.ts:115</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L117">src/widgets/Widget.ts:117</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="paint" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>paint</span><a href="#paint" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -1602,9 +1604,10 @@ default. Can be overridden.</p>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Called when the Widget is dirty and the Root is being rendered. Does
 nothing if dirty flag is not set, else, clears the background if
-<a href="SingleParent.html#needsClear">needsClear</a> is true, calls the <a href="SingleParent.html#handlePainting">handlePainting</a> method and
-unsets the dirty flag. Automatically calls <a href="SingleParent.html#dryPaint">dryPaint</a> if
-<a href="SingleParent.html#dimensionless">dimensionless</a> is true. Must not be overridden.</p>
+<a href="Widget.html#needsClear">needsClear</a> is true, calls the
+<a href="Widget.html#handlePainting">handlePainting</a> method and unsets the dirty flag.
+Automatically calls <a href="Widget.html#dryPaint">dryPaint</a> if
+<a href="Widget.html#dimensionless">dimensionless</a> is true. Must not be overridden.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1613,19 +1616,19 @@ unsets the dirty flag. Automatically calls <a href="SingleParent.html#dryPaint">
 <h5>ctx: <span class="tsd-signature-type">CanvasRenderingContext2D</span></h5></li>
 <li>
 <h5>force: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
-<div class="tsd-comment tsd-typography"><p>Force re-paint even if <a href="SingleParent.html#dirty">dirty</a> is false</p>
+<div class="tsd-comment tsd-typography"><p>Force re-paint even if <a href="Widget.html#_dirty">_dirty</a> is false</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#paint">paint</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L521">widgets/Widget.ts:521</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L529">src/widgets/Widget.ts:529</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="postLayoutUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>post<wbr/>Layout<wbr/>Update</span><a href="#postLayoutUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="postLayoutUpdate.postLayoutUpdate-1">post<wbr/>Layout<wbr/>Update<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#postLayoutUpdate.postLayoutUpdate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Generic update method which is called after layout is resolved. Calls
-<a href="SingleParent.html#handlePostLayoutUpdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
+<a href="Widget.html#handlePostLayoutUpdate">handlePostLayoutUpdate</a> if widget is enabled. Must not be
 overridden.</p>
 </div>
 <div class="tsd-parameters">
@@ -1636,14 +1639,14 @@ overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#postLayoutUpdate">postLayoutUpdate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L428">widgets/Widget.ts:428</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L434">src/widgets/Widget.ts:434</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="preLayoutUpdate" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>pre<wbr/>Layout<wbr/>Update</span><a href="#preLayoutUpdate" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="preLayoutUpdate.preLayoutUpdate-1">pre<wbr/>Layout<wbr/>Update<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#preLayoutUpdate.preLayoutUpdate-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Generic update method which is called before layout is resolved. Calls
-<a href="SingleParent.html#handlePreLayoutUpdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
+<a href="Widget.html#handlePreLayoutUpdate">handlePreLayoutUpdate</a> if widget is enabled. Must not be
 overridden.</p>
 </div>
 <div class="tsd-parameters">
@@ -1654,18 +1657,18 @@ overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#preLayoutUpdate">preLayoutUpdate</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L266">widgets/Widget.ts:266</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L271">src/widgets/Widget.ts:271</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="resolveDimensions" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>resolve<wbr/>Dimensions</span><a href="#resolveDimensions" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="resolveDimensions.resolveDimensions-1">resolve<wbr/>Dimensions<span class="tsd-signature-symbol">(</span>minWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, minHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#resolveDimensions.resolveDimensions-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Wrapper for <a href="SingleParent.html#handleResolveDimensions">handleResolveDimensions</a>. Does nothing if
-_enabled is false. If the resolved dimensions change,
-<a href="SingleParent.html#_dirty">_dirty</a> is set to true. <a href="SingleParent.html#_layoutDirty">_layoutDirty</a> is set to false. If
-the widget is not loose and the layout has non-infinite max constraints,
-then the widget is stretched to fit max constraints. Must not be
-overridden.</p>
+<div class="tsd-comment tsd-typography"><p>Wrapper for <a href="Widget.html#handleResolveDimensions">handleResolveDimensions</a>. Does nothing if
+<a href="Widget.html#_enabled">_enabled</a> is false. If the resolved dimensions change,
+<a href="Widget.html#_dirty">_dirty</a> is set to true. <a href="Widget.html#_layoutDirty">_layoutDirty</a> is set
+to false. If the widget is not loose and the layout has non-infinite max
+constraints, then the widget is stretched to fit max constraints. Must
+not be overridden.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1681,16 +1684,16 @@ overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#resolveDimensions">resolveDimensions</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L286">widgets/Widget.ts:286</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L291">src/widgets/Widget.ts:291</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="resolveDimensionsAsTop" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>resolve<wbr/>Dimensions<wbr/>As<wbr/>Top</span><a href="#resolveDimensionsAsTop" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="resolveDimensionsAsTop.resolveDimensionsAsTop-1">resolve<wbr/>Dimensions<wbr/>As<wbr/>Top<span class="tsd-signature-symbol">(</span>minWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxWidth<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, minHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, maxHeight<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#resolveDimensionsAsTop.resolveDimensionsAsTop-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Like <a href="SingleParent.html#resolveDimensions">resolveDimensions</a> but for widgets at the top of the widget
-tree (the child of the <a href="Root.html">Root</a>). This retries dimension resolving if
-there is at least one unconstrained axis so that flex layout works even
-in infinite layout.</p>
+<div class="tsd-comment tsd-typography"><p>Like <a href="Widget.html#resolveDimensions">resolveDimensions</a> but for widgets at the top of the
+widget tree (the child of the <a href="Root.html">Root</a>). This retries dimension
+resolving if there is at least one unconstrained axis so that flex layout
+works even in infinite layout.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1706,15 +1709,16 @@ in infinite layout.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#resolveDimensionsAsTop">resolveDimensionsAsTop</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L371">widgets/Widget.ts:371</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L376">src/widgets/Widget.ts:376</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="resolvePosition" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>resolve<wbr/>Position</span><a href="#resolvePosition" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="resolvePosition.resolvePosition-1">resolve<wbr/>Position<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#resolvePosition.resolvePosition-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Set the position of this widget and calls <a href="SingleParent.html#afterPositionResolved">afterPositionResolved</a>.
-If the resolved position changes, sets <a href="SingleParent.html#_dirty">_dirty</a> to true. Does
-nothing if _enabled is false. Must not be overridden.</p>
+<div class="tsd-comment tsd-typography"><p>Set the position of this widget and calls
+<a href="Widget.html#afterPositionResolved">afterPositionResolved</a>. If the resolved position changes,
+sets <a href="Widget.html#_dirty">_dirty</a> to true. Does nothing if
+<a href="Widget.html#_enabled">_enabled</a> is false. Must not be overridden.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -1726,7 +1730,7 @@ nothing if _enabled is false. Must not be overridden.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#resolvePosition">resolvePosition</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L401">widgets/Widget.ts:401</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L407">src/widgets/Widget.ts:407</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="roundRect" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>round<wbr/>Rect</span><a href="#roundRect" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1755,7 +1759,7 @@ pixels.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#roundRect">roundRect</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L489">widgets/Widget.ts:489</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L495">src/widgets/Widget.ts:495</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="scaleFont" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>scale<wbr/>Font</span><a href="#scaleFont" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -1773,7 +1777,7 @@ pixels.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="Parent.html">Parent</a>.<a href="Parent.html#scaleFont">scaleFont</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/widgets/Widget.ts#L573">widgets/Widget.ts:573</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/widgets/Widget.ts#L581">src/widgets/Widget.ts:581</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

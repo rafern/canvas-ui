@@ -22,11 +22,11 @@ export interface ThemeProperties {
     multiContainerAlignment?: FlexAlignment2D;
     /** The primary {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Usually a saturated colour used for filling boxes that need to stand out. */
     primaryFill?: FillStyle;
-    /** The accent {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Usually a saturated colour more saturated than {@link PrimaryFill} used for highlighting boxes which use PrimaryFill. */
+    /** The accent {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Usually a saturated colour more saturated than {@link ThemeProperties#primaryFill} used for highlighting boxes which use PrimaryFill. */
     accentFill?: FillStyle;
     /** The background {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Used for widgets with a background (as in, a background above the canvas background). */
     backgroundFill?: FillStyle;
-    /** The background glow {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Used for highlighting boxes which use {@link BackgroundFill}. */
+    /** The background glow {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle | fill style}. Used for highlighting boxes which use {@link ThemeProperties#backgroundFill}. */
     backgroundGlowFill?: FillStyle;
     /** The minimum length of a {@link Slider} */
     sliderMinLength?: number;

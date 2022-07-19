@@ -36,7 +36,7 @@ export class Icon extends Widget {
     viewBox: [number, number, number, number] | null;
     /**
      * The wanted width. If null, the image's width will be used, taking
-     * {@link viewBox} into account.
+     * {@link Icon#viewBox} into account.
      *
      * @decorator `@layoutField`
      */
@@ -44,7 +44,7 @@ export class Icon extends Widget {
     imageWidth: number | null = null;
     /**
      * The wanted height. If null, the image's height will be used, taking
-     * {@link viewBox} into account.
+     * {@link Icon#viewBox} into account.
      *
      * @decorator `@layoutField`
      */
@@ -103,8 +103,8 @@ export class Icon extends Widget {
     }
 
     /**
-     * Setup event listeners for video. Has no effect if {@link image} is not a
-     * video
+     * Setup event listeners for video. Has no effect if {@link Icon#image} is
+     * not a video
      */
     private setupVideoEvents() {
         if(this.image instanceof HTMLVideoElement) {
@@ -144,10 +144,10 @@ export class Icon extends Widget {
     /**
      * The image or video used by this Icon.
      *
-     * Sets {@link _image} if changed and sets {@link lastSrc} to null to mark
-     * the image as loading so that flickers are minimised.
+     * Sets {@link Icon#_image} if changed and sets {@link Icon#lastSrc} to null
+     * to mark the image as loading so that flickers are minimised.
      *
-     * If getting, returns {@link _image}.
+     * If getting, returns {@link Icon#_image}.
      */
     set image(image: HTMLImageElement | HTMLVideoElement) {
         if(image !== this._image) {

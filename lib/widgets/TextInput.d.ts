@@ -9,14 +9,14 @@ import { Widget } from './Widget';
 /**
  * A flexbox widget that allows for a single line of text input.
  *
- * Supports obscuring the text with {@link hideText}, which shows all characters
- * as black circles like in password fields, text validation and toggling
- * editing.
+ * Supports obscuring the text with {@link TextInput#hideText}, which shows all
+ * characters as black circles like in password fields, text validation and
+ * toggling editing.
  *
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @template V The type of {@link validValue}; the type of the transformed value returned by the validator.
+ * @typeParam V - The type of {@link TextInput#validValue}; the type of the transformed value returned by the validator.
  *
  * @category Widget
  */
@@ -114,9 +114,9 @@ export declare class TextInput<V> extends Widget {
     /**
      * Is editing enabled?
      *
-     * Tied to {@link _editingEnabled}. If changed, {@link _dirty} is set to
-     * true. If disabled, blinking stops and the cursor position is reset to the
-     * beginning.
+     * Tied to {@link TextInput#_editingEnabled}. If changed,
+     * {@link Widget#_dirty} is set to true. If disabled, blinking stops and the
+     * cursor position is reset to the beginning.
      */
     get editingEnabled(): boolean;
     set editingEnabled(editingEnabled: boolean);
@@ -142,73 +142,78 @@ export declare class TextInput<V> extends Widget {
     /**
      * Move the cursor to a given index.
      *
-     * Sets {@link _dirty} and {@link cursorOffsetDirty} to true.
+     * Sets {@link Widget#_dirty} and {@link TextInput#cursorOffsetDirty} to
+     * true.
      *
-     * @param select Should this do text selection?
+     * @param select - Should this do text selection?
      */
     moveCursorTo(index: number, select: boolean): void;
     /**
-     * Move the cursor by a given index delta. Calls {@link moveCursorTo}
+     * Move the cursor by a given index delta. Calls
+     * {@link TextInput#moveCursorTo}
      *
-     * @param delta The change in index; if a positive number, the cursor will be moved right by that amount, else, the cursor will be moved left by that amount.
+     * @param delta - The change in index; if a positive number, the cursor will be moved right by that amount, else, the cursor will be moved left by that amount.
      */
     moveCursor(delta: number, select: boolean): void;
     /**
      * Move the cursor given a given pointer offset.
      *
-     * @param offsetX The horizontal offset in pixels, relative to the text area with padding removed
-     * @param offsetY The vertical offset in pixels, relative to the text area with padding removed
-     * @param select Should this do text selection?
+     * @param offsetX - The horizontal offset in pixels, relative to the text area with padding removed
+     * @param offsetY - The vertical offset in pixels, relative to the text area with padding removed
+     * @param select - Should this do text selection?
      */
     moveCursorFromOffset(offsetX: number, offsetY: number, select: boolean): void;
     /**
-     * Move the cursor by a given line delta. Calls {@link moveCursorFromOffset}
+     * Move the cursor by a given line delta. Calls
+     * {@link TextInput#moveCursorFromOffset}
      *
-     * @param delta The change in line; if a positive number, the cursor will be moved down by that amount, else, the cursor will be moved up by that amount.
+     * @param delta - The change in line; if a positive number, the cursor will be moved down by that amount, else, the cursor will be moved up by that amount.
      */
     moveCursorLine(delta: number, select: boolean): void;
     /**
-     * Move the cursor to the start of the line. Calls {@link moveCursorTo}
+     * Move the cursor to the start of the line. Calls
+     * {@link TextInput#moveCursorTo}
      */
     moveCursorStart(select: boolean): void;
     /**
-     * Move the cursor to the end of the line. Calls {@link moveCursorTo}
+     * Move the cursor to the end of the line. Calls
+     * {@link TextInput#moveCursorTo}
      */
     moveCursorEnd(select: boolean): void;
     /**
      * Move the cursor by skipping over a number of words. Calls
-     * {@link moveCursorTo}
+     * {@link TextInput#moveCursorTo}
      *
-     * @param delta The change in words; if a positive number, the cursor skip this amount of words, else, it will do the same, but backwards.
+     * @param delta - The change in words; if a positive number, the cursor skip this amount of words, else, it will do the same, but backwards.
      */
     moveCursorWord(delta: number, select: boolean): void;
     /**
      * Deletes a range of text and moves the cursor to the start of the range.
      *
-     * @param start The inclusive index of the start of the text range
-     * @param end The exclusive index of the end of the text range
+     * @param start - The inclusive index of the start of the text range
+     * @param end - The exclusive index of the end of the text range
      */
     deleteRange(start: number, end: number): void;
     /**
-     * Like {@link moveCursorWord}, but for deleting words. Calls
-     * {@link moveCursorWord} and {@link deleteRange}. If text is being
-     * selected, delta is ignored and the selection is deleted instead. Note
-     * that a delta of zero doesn't delete anything.
+     * Like {@link TextInput#moveCursorWord}, but for deleting words. Calls
+     * {@link TextInput#moveCursorWord} and {@link TextInput#deleteRange}. If
+     * text is being selected, delta is ignored and the selection is deleted
+     * instead. Note that a delta of zero doesn't delete anything.
      */
     deleteWord(delta: number): void;
     /**
-     * Insert text at the current cursor index. Calls {@link moveCursorTo}
-     * afterwards.
+     * Insert text at the current cursor index. Calls
+     * {@link TextInput#moveCursorTo} afterwards.
      */
     insertText(str: string): void;
     /**
      * Deletes a certain amount of characters in a given direction from the
-     * current cursor index. Calls {@link deleteRange} or {@link moveCursorTo}
-     * if neccessary. If text is being selected, delta is ignored and the
-     * selection is deleted instead. Note that a delta of zero doesn't delete
-     * anything.
+     * current cursor index. Calls {@link TextInput#deleteRange} or
+     * {@link TextInput#moveCursorTo} if neccessary. If text is being selected,
+     * delta is ignored and the selection is deleted instead. Note that a delta
+     * of zero doesn't delete anything.
      *
-     * @param delta The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
+     * @param delta - The amount and direction of the deletion. For example, if 5, then 5 characters are deleted after the cursor. If -5, then 5 characters are deleted before the cursor and the cursor is moved 5 indices left.
      */
     deleteText(delta: number): void;
     /**

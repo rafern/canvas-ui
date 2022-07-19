@@ -13,11 +13,11 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Add child(ren) to this widget.
      *
-     * {@link _layoutDirty} and {@link _dirty} are set to true and each child's
-     * {@link inheritedTheme} is set so that new children inherit this widget's
-     * theme.
+     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true and
+     * each child's {@link Widget#inheritedTheme} is set so that new children
+     * inherit this widget's theme.
      *
-     * @param children If this is a widget, then it is pushed to {@link _children}. If this is an array of widgets, then each widget is pushed to {@link _children}.
+     * @param children - If this is a widget, then it is pushed to {@link Parent#_children}. If this is an array of widgets, then each widget is pushed to {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
      */
     add(children: W | Array<W>): this {
@@ -39,9 +39,9 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Remove child(ren) from this widget.
      *
-     * {@link _layoutDirty} and {@link _dirty} are set to true.
+     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
      *
-     * @param children If this is a widget, then it is removed from {@link _children}. If this is an array of widgets, then each widget is removed from {@link _children}.
+     * @param children - If this is a widget, then it is removed from {@link Parent#_children}. If this is an array of widgets, then each widget is removed from {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
      */
     remove(children: W | Array<W>): this {
@@ -65,7 +65,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Remove all children from this widget.
      *
-     * {@link _layoutDirty} and {@link _dirty} are set to true.
+     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
      *
      * @returns Returns this so that the method is chainable.
      */

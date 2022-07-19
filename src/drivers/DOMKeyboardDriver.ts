@@ -47,7 +47,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     /**
      * Bind an HTML DOM element to this keyboard driver.
      *
-     * @param listenToKeys If true, event listeners will be added to listen for keys. blur event listeners are always added no matter what.
+     * @param listenToKeys - If true, event listeners will be added to listen for keys. blur event listeners are always added no matter what.
      */
     bindDOMElem(domElem: HTMLElement, listenToKeys = true): void {
         // Add to set. If it was already in set, abort
@@ -77,10 +77,10 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     }
 
     /**
-     * Check if the {@link focus | root focus} should be cleared given that the
-     * HTML DOM focus has been lost to another HTML DOM element
+     * Check if the {@link KeyboardDriver#focus | root focus} should be cleared
+     * given that the HTML DOM focus has been lost to another HTML DOM element
      *
-     * @param newTarget The HTML DOM element to which the focus has been lost to
+     * @param newTarget - The HTML DOM element to which the focus has been lost to
      */
     shouldClearFocus(newTarget: EventTarget | null): boolean {
         return newTarget === null || !this.domElems.has(newTarget);

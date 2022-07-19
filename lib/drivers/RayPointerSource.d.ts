@@ -12,7 +12,7 @@ export interface RayPointerSource {
     /**
      * The {@link RayPointerDriver} assigned to this source. Register all
      * pointers needed by this source here. Don't call this directly, instead,
-     * use {@link RayPointerDriver.addSource}
+     * use {@link RayPointerDriver#addSource}
      */
     setRayPointerDriver(driver: RayPointerDriver): void;
     /** Clear assigned {@link RayPointerDriver}. Rays will no longer be sent */

@@ -133,11 +133,11 @@ export declare class TextHelper {
     private _width;
     /** The current total text height. May be outdated. */
     private _height;
-    /** The current {@link lineHeight}. May be outdated */
+    /** The current {@link TextHelper#lineHeight}. May be outdated */
     private _lineHeight;
-    /** The current {@link lineSpacing}. May be outdated */
+    /** The current {@link TextHelper#lineSpacing}. May be outdated */
     private _lineSpacing;
-    /** The actual {@link tabWidth} in pixels. May be outdated */
+    /** The actual {@link TextHelper#tabWidth} in pixels. May be outdated */
     private _tabWidth;
     /** Does the text need to be re-measured? */
     private measureDirty;
@@ -147,11 +147,11 @@ export declare class TextHelper {
     private tabWidthDirty;
     /** Has the text (or properties associated with it) changed? */
     private _dirty;
-    /** See {@link lineRanges}. For internal use only. */
+    /** See {@link TextHelper#lineRanges}. For internal use only. */
     private _lineRanges;
     /**
      * Has the text (or properties associated with it) changed? Resets
-     * {@link _dirty} to false
+     * {@link TextHelper#_dirty} to false
      */
     get dirty(): boolean;
     /**
@@ -176,16 +176,17 @@ export declare class TextHelper {
      * override their natively measured size; tabs having a dynamic size that
      * aligns them to multiples of a value and newlines having no length.
      *
-     * @param start The inclusive index to start measuring at. If there are render groups and unmeasured text before this index, then this value will be overridden to include the unmeasured text. Render groups will also be merged if they don't override width.
-     * @param end The exclusive index to stop measuring at.
-     * @param lineRange The current text render groups for this line of text. This will be updated in place.
-     * @param maxWidth The maximum width of a line of text. If the line contains a single character, this will be ignored.
+     * @param start - The inclusive index to start measuring at. If there are render groups and unmeasured text before this index, then this value will be overridden to include the unmeasured text. Render groups will also be merged if they don't override width.
+     * @param end - The exclusive index to stop measuring at.
+     * @param lineRange - The current text render groups for this line of text. This will be updated in place.
+     * @param maxWidth - The maximum width of a line of text. If the line contains a single character, this will be ignored.
      * @returns Returns true if the line range was modified and it fit into the maximum width
      */
     private measureText;
     /**
-     * Update {@link _width}, {@link _ascent} and {@link _descent}. Sets
-     * {@link measureDirty} to false. Does nothing if measurement is not needed.
+     * Update {@link TextHelper#_width}, {@link TextHelper#_lineHeight} and
+     * {@link TextHelper#_lineSpacing}. Sets {@link TextHelper#measureDirty} to
+     * false. Does nothing if measurement is not needed.
      */
     private updateTextDims;
     /**
@@ -202,7 +203,7 @@ export declare class TextHelper {
      * Get the horizontal offset, in pixels, of the beginning of a character at
      * a given index.
      *
-     * See {@link findIndexOffsetFromOffset} for the opposite.
+     * See {@link TextHelper#findIndexOffsetFromOffset} for the opposite.
      *
      * @returns Returns a 2-tuple containing the offset, in pixels. Vertical offset in the tuple is at the top of the character. Note that this is not neccessarily an integer.
      */
@@ -211,7 +212,7 @@ export declare class TextHelper {
      * Get the index and horizontal offset, in pixels, of the beginning of a
      * character at a given offset.
      *
-     * See {@link findOffsetFromIndex} for the opposite.
+     * See {@link TextHelper#findOffsetFromIndex} for the opposite.
      *
      * @returns Returns a 2-tuple containing the index of the character at the offset and a 2-tuple containing the offset, in pixels. Note that this is not neccessarily an integer. Note that the returned offset is not the same as the input offset. The returned offset is exactly at the beginning of the character. This is useful for implementing selectable text.
      */
@@ -229,7 +230,7 @@ export declare class TextHelper {
     /**
      * Get the index of the end of a line.
      *
-     * @param includeNewlines If false, newline characters will be ignored and the end will be at their index, instead of after their index
+     * @param includeNewlines - If false, newline characters will be ignored and the end will be at their index, instead of after their index
      */
     getLineEnd(line: number, includeNewlines?: boolean): number;
     /**
@@ -254,13 +255,13 @@ export declare class TextHelper {
      */
     get lineRanges(): Array<LineRange>;
     /**
-     * Get the current line height, even if {@link lineHeight} is null.
-     * Re-measures line height if neccessary.
+     * Get the current line height, even if {@link TextHelper#lineHeight} is
+     * null. Re-measures line height if neccessary.
      */
     get actualLineHeight(): number;
     /**
-     * Get the current line spacing, even if {@link lineSpacing} is null.
-     * Re-measures line spacing if neccessary.
+     * Get the current line spacing, even if {@link TextHelper#lineSpacing} is
+     * null. Re-measures line spacing if neccessary.
      */
     get actualLineSpacing(): number;
     /** Get the current tab width in pixels. Re-measures if neccessary */
@@ -268,8 +269,8 @@ export declare class TextHelper {
     /**
      * Get the height between the start of each line; the full line height.
      *
-     * Equivalent to the sum of {@link actualLineHeight} and
-     * {@link actualLineSpacing}
+     * Equivalent to the sum of {@link TextHelper#actualLineHeight} and
+     * {@link TextHelper#actualLineSpacing}
      */
     get fullLineHeight(): number;
 }

@@ -24,14 +24,14 @@ export class Viewport {
     @paintArrayField()
     constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
     /**
-     * The maximum width the {@link canvas} can have. If the layout exceeds this
-     * width, then the content will be scaled to fit the canvas
+     * The maximum width the {@link Viewport#canvas} can have. If the layout
+     * exceeds this width, then the content will be scaled to fit the canvas
      */
     @paintField
     maxCanvasWidth = Infinity;
     /**
-     * The maximum height the {@link canvas} can have. If the layout exceeds
-     * this height, then the content will be scaled to fit the canvas
+     * The maximum height the {@link Viewport#canvas} can have. If the layout
+     * exceeds this height, then the content will be scaled to fit the canvas
      */
     @paintField
     maxCanvasHeight = Infinity;
@@ -52,8 +52,8 @@ export class Viewport {
      * Create a new Viewport.
      *
      * Creates a new canvas with a starting width and height, setting
-     * {@link canvas} and {@link context}. Failure to get a canvas context
-     * results in an exception.
+     * {@link Viewport#canvas} and {@link Viewport#context}. Failure to get a
+     * canvas context results in an exception.
      */
     constructor(startingWidth = 64, startingHeight = 64) {
         // Create internal canvas
@@ -69,21 +69,23 @@ export class Viewport {
         this.context = context;
     }
 
-    /** The current dimensions of the {@link canvas | internal canvas} */
+    /**
+     * The current dimensions of the {@link Viewport#canvas | internal canvas}
+     */
     get canvasDimensions(): [number, number] {
         return [this.canvas.width, this.canvas.height];
     }
 
     /**
      * Resolves the given child's layout by calling
-     * {@link Widget.resolveDimensions} with the current {@link constraints},
-     * and {@link Widget.resolvePosition}.
+     * {@link Widget#resolveDimensions} with the current
+     * {@link Viewport#constraints}, and {@link Widget#resolvePosition}.
      *
      * If the child's layout is not dirty, then nothing is done.
      *
-     * Expands {@link canvas} if the new layout is too big for the current
-     * canvas. Expansion is done in powers of 2 to avoid issues with external 3D
-     * libraries.
+     * Expands {@link Viewport#canvas} if the new layout is too big for the
+     * current canvas. Expansion is done in powers of 2 to avoid issues with
+     * external 3D libraries.
      *
      * @returns Returns true if the child was resized, else, false.
      */
@@ -174,7 +176,7 @@ export class Viewport {
     /**
      * Get the canvas scale that will be applied if the given widget is the
      * Viewport's child. Used for checking whether a child's dimensions exceed
-     * {@link maxCanvasWidth} or {@link maxCanvasHeight}
+     * {@link Viewport#maxCanvasWidth} or {@link Viewport#maxCanvasHeight}
      */
     getAppliedScale(child: Widget): [scaleX: number, scaleY: number] {
         const [width, height] = child.dimensions;
@@ -189,11 +191,11 @@ export class Viewport {
     }
 
     /**
-     * Paint a given child to {@link canvas}.
+     * Paint a given child to {@link Viewport#canvas}.
      *
      * Nothing is done if the child was not dirty.
      *
-     * @param force Force re-paint even if {@link dirty} is false
+     * @param force - Force re-paint even if child.{@link Widget#dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
     paintToCanvas(child: Widget, force: boolean): boolean {

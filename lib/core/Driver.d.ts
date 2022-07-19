@@ -12,7 +12,7 @@ import type { Root } from './Root';
  * @category Core
  */
 export interface Driver {
-    /** Hook called by {@link Root.preLayoutUpdate} */
+    /** Hook called by {@link Root#preLayoutUpdate} */
     update(root: Root): void;
     /**
      * Hook called when driver is registered to an enabled root or when a root
@@ -24,8 +24,8 @@ export interface Driver {
      * root that this driver is registered to is disabled.
      */
     onDisable(root: Root): void;
-    /** Hook called by {@link Root.requestFocus} and {@link Root.clearFocus} */
+    /** Hook called by {@link Root#requestFocus} and {@link Root#clearFocus} */
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
-    /** Hook called by {@link Root.dispatchEvent} */
+    /** Hook called by {@link Root#dispatchEvent} */
     onFocusCapturerChanged(root: Root, focusType: FocusType, oldCapturer: Widget | null, newCapturer: Widget | null): void;
 }

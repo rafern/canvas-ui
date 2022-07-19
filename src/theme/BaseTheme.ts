@@ -15,7 +15,7 @@ import type { Theme } from './Theme';
  * @category Theme
  */
 export class BaseTheme implements ThemeProperties {
-    /** See {@link fallbackTheme} */
+    /** See {@link BaseTheme#fallbackTheme} */
     private _fallbackTheme?: Theme;
     /** Listener for theme fallback */
     private listener: ((property: string | null) => void) | null = null;
@@ -101,7 +101,7 @@ export class BaseTheme implements ThemeProperties {
     }
 
     // XXX BASETHEME AUTO-GENERATED CODE START
-    /** See {@link canvasFill}. For internal use only. */
+    /** See {@link BaseTheme#canvasFill}. For internal use only. */
     private _canvasFill?: FillStyle;
 
     get canvasFill(): FillStyle {
@@ -115,7 +115,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link containerPadding}. For internal use only. */
+    /** See {@link BaseTheme#containerPadding}. For internal use only. */
     private _containerPadding?: Padding;
 
     get containerPadding(): Padding {
@@ -129,7 +129,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link containerAlignment}. For internal use only. */
+    /** See {@link BaseTheme#containerAlignment}. For internal use only. */
     private _containerAlignment?: Alignment2D;
 
     get containerAlignment(): Alignment2D {
@@ -143,7 +143,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link multiContainerSpacing}. For internal use only. */
+    /** See {@link BaseTheme#multiContainerSpacing}. For internal use only. */
     private _multiContainerSpacing?: number;
 
     get multiContainerSpacing(): number {
@@ -157,7 +157,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link multiContainerAlignment}. For internal use only. */
+    /** See {@link BaseTheme#multiContainerAlignment}. For internal use only. */
     private _multiContainerAlignment?: FlexAlignment2D;
 
     get multiContainerAlignment(): FlexAlignment2D {
@@ -171,7 +171,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link primaryFill}. For internal use only. */
+    /** See {@link BaseTheme#primaryFill}. For internal use only. */
     private _primaryFill?: FillStyle;
 
     get primaryFill(): FillStyle {
@@ -185,7 +185,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link accentFill}. For internal use only. */
+    /** See {@link BaseTheme#accentFill}. For internal use only. */
     private _accentFill?: FillStyle;
 
     get accentFill(): FillStyle {
@@ -199,7 +199,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link backgroundFill}. For internal use only. */
+    /** See {@link BaseTheme#backgroundFill}. For internal use only. */
     private _backgroundFill?: FillStyle;
 
     get backgroundFill(): FillStyle {
@@ -213,7 +213,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link backgroundGlowFill}. For internal use only. */
+    /** See {@link BaseTheme#backgroundGlowFill}. For internal use only. */
     private _backgroundGlowFill?: FillStyle;
 
     get backgroundGlowFill(): FillStyle {
@@ -227,7 +227,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link sliderMinLength}. For internal use only. */
+    /** See {@link BaseTheme#sliderMinLength}. For internal use only. */
     private _sliderMinLength?: number;
 
     get sliderMinLength(): number {
@@ -241,7 +241,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link sliderThickness}. For internal use only. */
+    /** See {@link BaseTheme#sliderThickness}. For internal use only. */
     private _sliderThickness?: number;
 
     get sliderThickness(): number {
@@ -255,7 +255,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link bodyTextFont}. For internal use only. */
+    /** See {@link BaseTheme#bodyTextFont}. For internal use only. */
     private _bodyTextFont?: string;
 
     get bodyTextFont(): string {
@@ -269,7 +269,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link bodyTextFill}. For internal use only. */
+    /** See {@link BaseTheme#bodyTextFill}. For internal use only. */
     private _bodyTextFill?: FillStyle;
 
     get bodyTextFill(): FillStyle {
@@ -283,7 +283,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link bodyTextHeight}. For internal use only. */
+    /** See {@link BaseTheme#bodyTextHeight}. For internal use only. */
     private _bodyTextHeight?: number | null;
 
     get bodyTextHeight(): number | null {
@@ -297,7 +297,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link bodyTextSpacing}. For internal use only. */
+    /** See {@link BaseTheme#bodyTextSpacing}. For internal use only. */
     private _bodyTextSpacing?: number | null;
 
     get bodyTextSpacing(): number | null {
@@ -311,7 +311,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link bodyTextAlign}. For internal use only. */
+    /** See {@link BaseTheme#bodyTextAlign}. For internal use only. */
     private _bodyTextAlign?: TextAlignMode | number;
 
     get bodyTextAlign(): TextAlignMode | number {
@@ -325,7 +325,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link checkboxLength}. For internal use only. */
+    /** See {@link BaseTheme#checkboxLength}. For internal use only. */
     private _checkboxLength?: number;
 
     get checkboxLength(): number {
@@ -339,7 +339,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link checkboxInnerPadding}. For internal use only. */
+    /** See {@link BaseTheme#checkboxInnerPadding}. For internal use only. */
     private _checkboxInnerPadding?: number;
 
     get checkboxInnerPadding(): number {
@@ -353,7 +353,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputBackgroundFill}. For internal use only. */
+    /** See {@link BaseTheme#inputBackgroundFill}. For internal use only. */
     private _inputBackgroundFill?: FillStyle;
 
     get inputBackgroundFill(): FillStyle {
@@ -367,7 +367,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputSelectBackgroundFill}. For internal use only. */
+    /** See {@link BaseTheme#inputSelectBackgroundFill}. For internal use only. */
     private _inputSelectBackgroundFill?: FillStyle;
 
     get inputSelectBackgroundFill(): FillStyle {
@@ -381,7 +381,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextFont}. For internal use only. */
+    /** See {@link BaseTheme#inputTextFont}. For internal use only. */
     private _inputTextFont?: string;
 
     get inputTextFont(): string {
@@ -395,7 +395,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextFill}. For internal use only. */
+    /** See {@link BaseTheme#inputTextFill}. For internal use only. */
     private _inputTextFill?: FillStyle;
 
     get inputTextFill(): FillStyle {
@@ -409,7 +409,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextFillDisabled}. For internal use only. */
+    /** See {@link BaseTheme#inputTextFillDisabled}. For internal use only. */
     private _inputTextFillDisabled?: FillStyle;
 
     get inputTextFillDisabled(): FillStyle {
@@ -423,7 +423,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextFillInvalid}. For internal use only. */
+    /** See {@link BaseTheme#inputTextFillInvalid}. For internal use only. */
     private _inputTextFillInvalid?: FillStyle;
 
     get inputTextFillInvalid(): FillStyle {
@@ -437,7 +437,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextHeight}. For internal use only. */
+    /** See {@link BaseTheme#inputTextHeight}. For internal use only. */
     private _inputTextHeight?: number | null;
 
     get inputTextHeight(): number | null {
@@ -451,7 +451,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextSpacing}. For internal use only. */
+    /** See {@link BaseTheme#inputTextSpacing}. For internal use only. */
     private _inputTextSpacing?: number | null;
 
     get inputTextSpacing(): number | null {
@@ -465,7 +465,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextInnerPadding}. For internal use only. */
+    /** See {@link BaseTheme#inputTextInnerPadding}. For internal use only. */
     private _inputTextInnerPadding?: number;
 
     get inputTextInnerPadding(): number {
@@ -479,7 +479,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextMinWidth}. For internal use only. */
+    /** See {@link BaseTheme#inputTextMinWidth}. For internal use only. */
     private _inputTextMinWidth?: number;
 
     get inputTextMinWidth(): number {
@@ -493,7 +493,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link inputTextAlign}. For internal use only. */
+    /** See {@link BaseTheme#inputTextAlign}. For internal use only. */
     private _inputTextAlign?: TextAlignMode | number;
 
     get inputTextAlign(): TextAlignMode | number {
@@ -507,7 +507,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link blinkRate}. For internal use only. */
+    /** See {@link BaseTheme#blinkRate}. For internal use only. */
     private _blinkRate?: number;
 
     get blinkRate(): number {
@@ -521,7 +521,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link cursorThickness}. For internal use only. */
+    /** See {@link BaseTheme#cursorThickness}. For internal use only. */
     private _cursorThickness?: number;
 
     get cursorThickness(): number {
@@ -535,7 +535,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link scrollBarThickness}. For internal use only. */
+    /** See {@link BaseTheme#scrollBarThickness}. For internal use only. */
     private _scrollBarThickness?: number;
 
     get scrollBarThickness(): number {
@@ -549,7 +549,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link scrollBarMinPercent}. For internal use only. */
+    /** See {@link BaseTheme#scrollBarMinPercent}. For internal use only. */
     private _scrollBarMinPercent?: number;
 
     get scrollBarMinPercent(): number {
@@ -563,7 +563,7 @@ export class BaseTheme implements ThemeProperties {
         }
     }
 
-    /** See {@link scrollBarMinPixels}. For internal use only. */
+    /** See {@link BaseTheme#scrollBarMinPixels}. For internal use only. */
     private _scrollBarMinPixels?: number;
 
     get scrollBarMinPixels(): number {

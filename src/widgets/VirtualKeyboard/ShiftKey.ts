@@ -4,7 +4,7 @@ import { VirtualKey } from './VirtualKey';
 
 /**
  * A {@link VirtualKey} which acts as a shift key; toggles
- * {@link KeyContext.shift} on click.
+ * {@link KeyContext#shift} on click.
  *
  * @category Widget
  */

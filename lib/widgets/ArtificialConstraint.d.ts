@@ -11,13 +11,14 @@ import type { Widget } from './Widget';
  * @category Widget
  */
 export declare class ArtificialConstraint<W extends Widget = Widget> extends PassthroughWidget<W> {
-    /** See {@link constraints}. For internal use only */
+    /** See {@link ArtificialConstraint#constraints}. For internal use only */
     private _constraints;
     /**
      * The further constraints given to the child. A 4-tuple containing,
      * respectively, minimum width, maximum width, minimum height and maximum
-     * height. Changing this sets {@link _layoutDirty} to true. Constraints are
-     * only applied if they are more restrictive than the original constraints.
+     * height. Changing this sets {@link Widget#_layoutDirty} to true.
+     * Constraints are only applied if they are more restrictive than the
+     * original constraints.
      *
      * Will be automatically scaled depending on the current {@link Root}'s
      * resolution.

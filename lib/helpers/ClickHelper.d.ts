@@ -19,7 +19,8 @@ export declare class ClickHelper extends GenericClickHelper {
      */
     pointerPos: [number, number] | null;
     /**
-     * Like {@link pointerPos}, but only updated when a hold state begins.
+     * Like {@link ClickHelper#pointerPos}, but only updated when a hold state
+     * begins.
      *
      * Useful for implementing draggable widgets.
      */
@@ -29,24 +30,24 @@ export declare class ClickHelper extends GenericClickHelper {
     /**
      * Normalise pointer coordinates inside a rectangle
      *
-     * @param pX Pointer X coordinate, in pixels
-     * @param pY Pointer Y coordinate, in pixels
-     * @param rLeft Rectangle's left coordinate, in pixels
-     * @param rRight Rectangle's right coordinate, in pixels
-     * @param rTop Rectangle's top coordinate, in pixels
-     * @param rBottom Rectangle's bottom coordinate, in pixels
+     * @param pX - Pointer X coordinate, in pixels
+     * @param pY - Pointer Y coordinate, in pixels
+     * @param rLeft - Rectangle's left coordinate, in pixels
+     * @param rRight - Rectangle's right coordinate, in pixels
+     * @param rTop - Rectangle's top coordinate, in pixels
+     * @param rBottom - Rectangle's bottom coordinate, in pixels
      * @returns Returns normalised coordinates
      */
     getNormalInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): [number, number];
     /**
      * Check if a point, in pixels, is inside a rectangle.
      *
-     * @param pX Pointer X coordinate, in pixels
-     * @param pY Pointer Y coordinate, in pixels
-     * @param rLeft Rectangle's left coordinate, in pixels
-     * @param rRight Rectangle's right coordinate, in pixels
-     * @param rTop Rectangle's top coordinate, in pixels
-     * @param rBottom Rectangle's bottom coordinate, in pixels
+     * @param pX - Pointer X coordinate, in pixels
+     * @param pY - Pointer Y coordinate, in pixels
+     * @param rLeft - Rectangle's left coordinate, in pixels
+     * @param rRight - Rectangle's right coordinate, in pixels
+     * @param rTop - Rectangle's top coordinate, in pixels
+     * @param rBottom - Rectangle's bottom coordinate, in pixels
      * @returns Returns true if [pX, pY] is inside the rectangle, else, false
      */
     isPointInRect(pX: number, pY: number, rLeft: number, rRight: number, rTop: number, rBottom: number): boolean;
@@ -56,17 +57,18 @@ export declare class ClickHelper extends GenericClickHelper {
      * Since the coordinates are normalised, you don't have to define the
      * coordinates of the rectangle, which may seem counterintuitive.
      *
-     * @param pX Pointer X coordinate, normalised
-     * @param pY Pointer Y coordinate, normalised
+     * @param pX - Pointer X coordinate, normalised
+     * @param pY - Pointer Y coordinate, normalised
      * @returns Returns true if [pX, pY] is inside the rectangle, else, false
      */
     isNormalInRect(pX: number, pY: number): boolean;
     /**
-     * Updates the current {@link clickState} given an event, as well as
-     * {@link _foci | focus}, {@link pointerStyle}, {@link wasClick} and
-     * {@link clickStateChanged} flags.
+     * Updates the current {@link GenericClickHelper#clickState} given an event,
+     * as well as {@link Root#_foci | focus}, {@link Root#pointerStyle},
+     * {@link GenericClickHelper#wasClick} and
+     * {@link GenericClickHelper#clickStateChanged} flags.
      *
-     * @param clickArea A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
+     * @param clickArea - A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
     handleClickEvent(event: Event, root: Root, clickArea: ClickArea): void;
 }

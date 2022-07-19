@@ -26,7 +26,7 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Widget will have its background automatically cleared when painting if
      * needsClear is true. The background fill style used is
-     * {@link canvasFill}.
+     * {@link BaseTheme#canvasFill}.
      */
     readonly needsClear: boolean;
     /**
@@ -42,20 +42,20 @@ export declare abstract class Widget extends BaseTheme {
     protected x: number;
     /** Absolute vertical offset of widget in pixels. */
     protected y: number;
-    /** {@link flex} but for internal use. */
+    /** {@link Widget#flex} but for internal use. */
     protected _flex: number;
     /**
      * The {@link Root} that this widget is currently inside.
      * Note that this will replace the root argument in the update functions,
      * but for now, both can be used. For now, this value is set whenever
-     * {@link preLayoutUpdate} is called.
+     * {@link Widget#preLayoutUpdate} is called.
      */
     protected root: Root | null;
     /** Can this widget be focused by pressing tab? */
     protected tabFocusable: boolean;
     /**
      * How much this widget will expand relative to other widgets in a flexbox
-     * container. If changed, sets {@link _layoutDirty} to true.
+     * container. If changed, sets {@link Widget#_layoutDirty} to true.
      */
     get flex(): number;
     set flex(flex: number);
@@ -64,38 +64,43 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
-     * If changed, calls {@link forceDirty}
+     * If changed, calls {@link Widget#forceDirty}
      *
-     * If getting, {@link _enabled} is returned.
+     * If getting, {@link Widget#_enabled} is returned.
      */
     set enabled(enabled: boolean);
     get enabled(): boolean;
-    /** The inherited theme of this widget. Sets {@link fallbackTheme}. */
+    /**
+     * The inherited theme of this widget. Sets {@link BaseTheme#fallbackTheme}.
+     */
     set inheritedTheme(theme: Theme | undefined);
     get inheritedTheme(): Theme | undefined;
     protected onThemeUpdated(property?: string | null): void;
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
-     * {@link width} and {@link height}.
+     * {@link Widget#width} and {@link Widget#height}.
      */
     get dimensions(): [number, number];
     /**
-     * Get the resolved position. Returns a 2-tuple containing {@link x} and
-     * {@link y}.
+     * Get the resolved position. Returns a 2-tuple containing {@link Widget#x}
+     * and {@link Widget#y}.
      */
     get position(): [number, number];
     /**
-     * Check if the widget is dirty. Returns {@link _dirty}, as long as
-     * {@link dimensionless} is not true.
+     * Check if the widget is dirty. Returns {@link Widget#_dirty}, as long as
+     * {@link Widget#dimensionless} is not true.
      */
     get dirty(): boolean;
-    /** Check if the widget's layout is dirty. Returns {@link _layoutDirty}. */
+    /**
+     * Check if the widget's layout is dirty. Returns
+     * {@link Widget#_layoutDirty}.
+     */
     get layoutDirty(): boolean;
     /**
      * Check if the widget has zero width or height.
      *
-     * If true, {@link paint} will do nothing and {@link dirty} will be false
-     * even if {@link _dirty} is true.
+     * If true, {@link Widget#paint} will do nothing and {@link Widget#dirty}
+     * will be false even if {@link Widget#_dirty} is true.
      *
      * Usually becomes true when containers overflow.
      */
@@ -131,7 +136,7 @@ export declare abstract class Widget extends BaseTheme {
      * matches the Widget, unless the Widget propagates events, or if the event
      * is a {@link PointerEvent} and is in the bounds of the Widget. If neither
      * of the conditions are true, the event is not captured (null is returned),
-     * else, the {@link handleEvent} method is called and its result is
+     * else, the {@link Widget#handleEvent} method is called and its result is
      * returned. Must not be overridden.
      *
      * @returns Returns the widget that captured the event or null if none captured the event.
@@ -144,29 +149,29 @@ export declare abstract class Widget extends BaseTheme {
     protected handlePreLayoutUpdate(root: Root): void;
     /**
      * Generic update method which is called before layout is resolved. Calls
-     * {@link handlePreLayoutUpdate} if widget is enabled. Must not be
+     * {@link Widget#handlePreLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
     preLayoutUpdate(root: Root): void;
     /**
-     * Resolve dimensions of this widget. Must be implemented; set {@link width}
-     * and {@link height}.
+     * Resolve dimensions of this widget. Must be implemented; set
+     * {@link Widget#width} and {@link Widget#height}.
      */
     protected abstract handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
-     * Wrapper for {@link handleResolveDimensions}. Does nothing if
-     * {@link _enabled} is false. If the resolved dimensions change,
-     * {@link _dirty} is set to true. {@link _layoutDirty} is set to false. If
-     * the widget is not loose and the layout has non-infinite max constraints,
-     * then the widget is stretched to fit max constraints. Must not be
-     * overridden.
+     * Wrapper for {@link Widget#handleResolveDimensions}. Does nothing if
+     * {@link Widget#_enabled} is false. If the resolved dimensions change,
+     * {@link Widget#_dirty} is set to true. {@link Widget#_layoutDirty} is set
+     * to false. If the widget is not loose and the layout has non-infinite max
+     * constraints, then the widget is stretched to fit max constraints. Must
+     * not be overridden.
      */
     resolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
-     * Like {@link resolveDimensions} but for widgets at the top of the widget
-     * tree (the child of the {@link Root}). This retries dimension resolving if
-     * there is at least one unconstrained axis so that flex layout works even
-     * in infinite layout.
+     * Like {@link Widget#resolveDimensions} but for widgets at the top of the
+     * widget tree (the child of the {@link Root}). This retries dimension
+     * resolving if there is at least one unconstrained axis so that flex layout
+     * works even in infinite layout.
      */
     resolveDimensionsAsTop(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
@@ -176,9 +181,10 @@ export declare abstract class Widget extends BaseTheme {
      */
     protected afterPositionResolved(): void;
     /**
-     * Set the position of this widget and calls {@link afterPositionResolved}.
-     * If the resolved position changes, sets {@link _dirty} to true. Does
-     * nothing if {@link _enabled} is false. Must not be overridden.
+     * Set the position of this widget and calls
+     * {@link Widget#afterPositionResolved}. If the resolved position changes,
+     * sets {@link Widget#_dirty} to true. Does nothing if
+     * {@link Widget#_enabled} is false. Must not be overridden.
      */
     resolvePosition(x: number, y: number): void;
     /**
@@ -188,7 +194,7 @@ export declare abstract class Widget extends BaseTheme {
     protected handlePostLayoutUpdate(root: Root): void;
     /**
      * Generic update method which is called after layout is resolved. Calls
-     * {@link handlePostLayoutUpdate} if widget is enabled. Must not be
+     * {@link Widget#handlePostLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
     postLayoutUpdate(root: Root): void;
@@ -197,51 +203,53 @@ export declare abstract class Widget extends BaseTheme {
      *
      * Rounds to nearest pixels; no subpixel clearing.
      *
-     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     * The background fill style used is {@link ThemeProperties#canvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
+     * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
     protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
      * Paiting utility: start a clear operation with no clipping path, the user
      * has to add their own paths to the context. Should not be overridden.
      *
-     * The background fill style used is {@link ThemeProperty.CanvasFill}.
+     * The background fill style used is {@link ThemeProperties#canvasFill}.
      *
-     * @param fillStyle The fill style to use for clearing. If null (default), then the value of {@link canvasFill} is used
+     * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
     protected clearStart(ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
-     * Paiting utility: end a clear operation (from {@link clearStart}). Should
+     * Paiting utility: end a clear operation (from {@link Widget#clearStart}). Should
      * not be overridden.
      *
-     * @param fillRule The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
+     * @param fillRule - The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
      */
     protected clearEnd(ctx: CanvasRenderingContext2D, fillRule?: CanvasFillRule): void;
     /**
      * Paiting/layout utility: rounds the bounds of a rectangle to the nearest
      * pixels.
      *
-     * @param roundInwards Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
+     * @param roundInwards - Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
      * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
      */
     protected roundRect(x: number, y: number, width: number, height: number, roundInwards?: boolean): [number, number, number, number];
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
-     * when extending Widget. Even if {@link dirty} is false, if this method is
-     * called, then the widget must still be painted. Should be overridden.
+     * when extending Widget. Even if {@link Widget#_dirty} is false, if this
+     * method is called, then the widget must still be painted. Should be
+     * overridden.
      *
-     * @param forced Was this widget force-painted? If calling a child's paint method, propagate this value
+     * @param forced - Was this widget force-painted? If calling a child's paint method, propagate this value
      */
     protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
-     * {@link needsClear} is true, calls the {@link handlePainting} method and
-     * unsets the dirty flag. Automatically calls {@link dryPaint} if
-     * {@link dimensionless} is true. Must not be overridden.
+     * {@link Widget#needsClear} is true, calls the
+     * {@link Widget#handlePainting} method and unsets the dirty flag.
+     * Automatically calls {@link Widget#dryPaint} if
+     * {@link Widget#dimensionless} is true. Must not be overridden.
      *
-     * @param force Force re-paint even if {@link dirty} is false
+     * @param force - Force re-paint even if {@link Widget#_dirty} is false
      */
     paint(ctx: CanvasRenderingContext2D, force?: boolean): void;
     /**
@@ -252,8 +260,8 @@ export declare abstract class Widget extends BaseTheme {
      */
     dryPaint(): void;
     /**
-     * Force a full theme update. An alias for {@link onThemeUpdated}(null).
-     * Used by {@link Root.resolution}
+     * Force a full theme update. An alias for
+     * {@link Widget#onThemeUpdated}(null). Used by {@link Root#resolution}
      */
     forceThemeUpdate(): void;
     /**

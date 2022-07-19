@@ -4,7 +4,7 @@ import type { Validator } from './Validator';
  * specified exclusive range (can't be an inclusive range), always returning the
  * original input value.
  *
- * @template V The type of the input (and output, since it is unchanged).
+ * @typeParam V - The type of the input (and output, since it is unchanged).
  *
  * @category Validator
  */

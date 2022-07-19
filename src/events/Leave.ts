@@ -12,8 +12,8 @@ import { Event } from './Event';
  */
 export class Leave extends Event {
     /**
-     * Create a new KeyEvent. Sets {@link target}, {@link focusType} to
-     * {@link FocusType.Pointer} and {@link needsFocus} to true.
+     * Create a new KeyEvent. Sets {@link Event#target}, {@link Event#focusType}
+     * to {@link FocusType.Pointer} and {@link Event#needsFocus} to true.
      */
     constructor(target: Widget | null = null) {
         super(target, FocusType.Pointer, true);

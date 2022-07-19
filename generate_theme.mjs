@@ -147,7 +147,7 @@ for(const [property, options] of Object.entries(config.properties)) {
 
     // fields
     const actualType = options.type === 'font' ? 'string' : options.type;
-    fieldsLines.push(`${fieldsIndentStr}/** See {@link ${property}}. For internal use only. */`);
+    fieldsLines.push(`${fieldsIndentStr}/** See {@link BaseTheme#${property}}. For internal use only. */`);
     fieldsLines.push(`${fieldsIndentStr}private _${property}?: ${actualType};`);
     fieldsLines.push('');
     fieldsLines.push(`${fieldsIndentStr}get ${property}(): ${actualType} {`);

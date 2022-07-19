@@ -3,7 +3,6 @@ import type { Alignment2D } from '../theme/Alignment2D';
 import { Alignment } from '../theme/Alignment';
 import { Container } from './Container';
 import type { Widget } from './Widget';
-import { Theme } from '../theme/Theme';
 
 /**
  * A {@link Margin} which stretches on the vertical axis. Useful for

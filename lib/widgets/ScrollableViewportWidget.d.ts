@@ -22,7 +22,9 @@ export declare enum ScrollbarMode {
  * @category Widget
  */
 export declare class ScrollableViewportWidget<W extends Widget = Widget> extends ViewportWidget<W> {
-    /** See {@link scrollbarMode}. For internal use only */
+    /**
+     * See {@link ScrollableViewportWidget#scrollbarMode}. For internal use only
+     */
     private _scrollbarMode;
     /**
      * The effective viewport width, for scrollbar calculations. For internal
@@ -65,9 +67,9 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
     get scrollbarMode(): ScrollbarMode;
     set scrollbarMode(scrollbarMode: ScrollbarMode);
     /**
-     * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Unlike {@link ViewportWidget.offset}, this will
-     * clamp to possible scroll values to avoid issues.
+     * Offset of {@link SingleParent#child}. Positional events will take this
+     * into account, as well as rendering. Unlike {@link ViewportWidget#offset},
+     * this will clamp to possible scroll values to avoid issues.
      */
     get offset(): [number, number];
     set offset(offset: [number, number]);
@@ -84,8 +86,9 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
     get heightTied(): boolean;
     set heightTied(heightTied: boolean);
     /**
-     * The current scroll values. Similar to {@link offset}, but with normalised
-     * values (from 0 to 1).
+     * The current scroll values. Similar to
+     * {@link ScrollableViewportWidget#offset}, but with normalised values (from
+     * 0 to 1).
      */
     get scroll(): [number, number];
     set scroll(scroll: [number, number]);
@@ -99,7 +102,7 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      * Handle a wheel scroll event. If scrolling fails due to being at the
      * limit, this returns true if the last scroll attempt happened less than
      * 200 milliseconds ago. This behaviour is disabled if
-     * {@link PointerWheel.fromDrag} is true.
+     * {@link PointerWheel#fromDrag} is true.
      *
      * @returns Returns true if this changed scroll was successful
      */

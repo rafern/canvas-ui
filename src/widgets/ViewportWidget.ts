@@ -25,9 +25,9 @@ import type { Widget } from './Widget';
  * @category Widget
  */
 export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
-    /** See {@link widthTied}. For internal use only */
+    /** See {@link ViewportWidget#widthTied}. For internal use only */
     private _widthTied: boolean;
-    /** See {@link heightTied}. For internal use only */
+    /** See {@link ViewportWidget#heightTied}. For internal use only */
     private _heightTied: boolean;
     /**
      * The minimum width that this widget will try to expand to.
@@ -51,12 +51,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     minHeight: number;
     /** The actual viewport object, or null if the child is just clipped. */
     private viewport: Viewport | null;
-    /** See {@link offset}. For internal use only */
+    /** See {@link ViewportWidget#offset}. For internal use only */
     private _offset: [number, number] = [0, 0];
     /**
      * Child constraints for resolving layout. May be different than
-     * {@link viewport}'s constraints. By default, this is 0 minimum and
-     * Infinity maximum per axis.
+     * {@link ViewportWidget#viewport}'s constraints. By default, this is 0
+     * minimum and Infinity maximum per axis.
      *
      * Will be automatically scaled depending on the current {@link Root}'s
      * resolution.
@@ -87,8 +87,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     /**
-     * Offset of {@link child}. Positional events will take this into account,
-     * as well as rendering. Useful for implementing scrolling.
+     * Offset of {@link SingleParent#child}. Positional events will take this
+     * into account, as well as rendering. Useful for implementing scrolling.
      */
     get offset(): [number, number] {
         return [...this._offset];
@@ -105,9 +105,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     /**
-     * Accessor for {@link _constraints}. If using a {@link Viewport}, its
-     * constraints are also updated, but may be different due to
-     * {@link widthTied} or {@link heightTied}.
+     * Accessor for {@link ViewportWidget#_constraints}. If using a
+     * {@link ViewportWidget#viewport | Viewport}, its constraints are also
+     * updated, but may be different due to {@link ViewportWidget#widthTied} or
+     * {@link ViewportWidget#heightTied}.
      */
     set constraints(constraints: LayoutConstraints) {
         // Not using @flagArrayField because this also needs to set the
@@ -170,17 +171,26 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
     }
 
-    /** {@link minWidth}, but scaled according to {@link Root.resolution} */
+    /**
+     * {@link ViewportWidget#minWidth}, but scaled according to
+     * {@link Root#resolution}
+     */
     get scaledMinWidth(): number {
         return this.minWidth * (this.root?.resolution ?? 1);
     }
 
-    /** {@link minHeight}, but scaled according to {@link Root.resolution} */
+    /**
+     * {@link ViewportWidget#minHeight}, but scaled according to
+     * {@link Root#resolution}
+     */
     get scaledMinHeight(): number {
         return this.minHeight * (this.root?.resolution ?? 1);
     }
 
-    /** {@link constraints}, but scaled according to {@link Root.resolution} */
+    /**
+     * {@link ViewportWidget#constraints}, but scaled according to
+     * {@link Root#resolution}
+     */
     get scaledConstraints(): [number, number, number, number] {
         const res = this.root?.resolution ?? 1;
         return [

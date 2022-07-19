@@ -25,7 +25,7 @@ well with DOMRoot.</p>
 <ul class="tsd-hierarchy">
 <li><span class="target">DOMPointerDriver</span></li></ul></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L24">drivers/DOMPointerDriver.ts:24</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L37">src/drivers/DOMPointerDriver.ts:37</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -76,26 +76,26 @@ well with DOMRoot.</p>
 <h4 class="tsd-returns-title">Returns <a href="DOMPointerDriver.html" class="tsd-signature-type" data-tsd-kind="Class">DOMPointerDriver</a></h4><aside class="tsd-sources">
 <p>Overrides <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#constructor">constructor</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L43">drivers/DOMPointerDriver.ts:43</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L55">src/drivers/DOMPointerDriver.ts:55</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="domElems" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>dom<wbr/>Elems</span><a href="#domElems" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">dom<wbr/>Elems<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WeakMap</span><span class="tsd-signature-symbol">&lt;</span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">RootDOMBind</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-signature">dom<wbr/>Elems<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WeakMap</span><span class="tsd-signature-symbol">&lt;</span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/RootDOMBind.html" class="tsd-signature-type" data-tsd-kind="Interface">RootDOMBind</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 <div class="tsd-comment tsd-typography"><p>The HTML DOM element and listeners that each root is bound to</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L27">drivers/DOMPointerDriver.ts:27</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L39">src/drivers/DOMPointerDriver.ts:39</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="hints" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>hints</span><a href="#hints" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">hints<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../enums/PointerHint.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PointerHint</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 <div class="tsd-comment tsd-typography"><p>The <a href="../enums/PointerHint.html">hints</a> for each pointer. The keys are pointer
 IDs, while the values are that pointer&#39;s hint.</p>
-<p>See <a href="DOMPointerDriver.html#getPointerHint">getPointerHint</a></p>
+<p>See <a href="PointerDriver.html#getPointerHint">getPointerHint</a></p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#hints">hints</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L46">drivers/PointerDriver.ts:46</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L54">src/drivers/PointerDriver.ts:54</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="mousePointerID" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>mouse<wbr/>PointerID</span><a href="#mousePointerID" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">mouse<wbr/>PointerID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
@@ -105,30 +105,30 @@ therefore not having a pointerID field. This is also safe because there
 can only be one mouse.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L36">drivers/DOMPointerDriver.ts:36</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L48">src/drivers/DOMPointerDriver.ts:48</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private"><a id="pointers" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>pointers</span><a href="#pointers" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">pointers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 <div class="tsd-comment tsd-typography"><p>The mapping between each DOM pointer ID and canvas-ui pointer ID</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L29">drivers/DOMPointerDriver.ts:29</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L41">src/drivers/DOMPointerDriver.ts:41</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="states" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>states</span><a href="#states" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
-<div class="tsd-signature">states<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">PointerDriverState</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-signature">states<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/PointerDriverState.html" class="tsd-signature-type" data-tsd-kind="Interface">PointerDriverState</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 <div class="tsd-comment tsd-typography"><p>The current state for each registered and enabled root. Contains whether
 each root is pressing, hovering, which pointer is bound to it and its
 event queue</p>
 </div><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#states">states</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L37">drivers/PointerDriver.ts:37</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L43">src/drivers/PointerDriver.ts:43</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="addListeners" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>add<wbr/>Listeners</span><a href="#addListeners" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-<li class="tsd-signature tsd-anchor-link" id="addListeners.addListeners-1">add<wbr/>Listeners<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a>, rootBind<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RootDOMBind</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addListeners.addListeners-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="addListeners.addListeners-1">add<wbr/>Listeners<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a>, rootBind<span class="tsd-signature-symbol">: </span><a href="../interfaces/RootDOMBind.html" class="tsd-signature-type" data-tsd-kind="Interface">RootDOMBind</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#addListeners.addListeners-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Add pointer event listeners to root&#39;s DOM element.</p>
 </div>
@@ -138,19 +138,20 @@ event queue</p>
 <li>
 <h5>root: <a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a></h5></li>
 <li>
-<h5>rootBind: <span class="tsd-signature-type">RootDOMBind</span></h5></li></ul></div>
+<h5>rootBind: <a href="../interfaces/RootDOMBind.html" class="tsd-signature-type" data-tsd-kind="Interface">RootDOMBind</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L99">drivers/DOMPointerDriver.ts:99</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L110">src/drivers/DOMPointerDriver.ts:110</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="bindDOMElem" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>bindDOMElem</span><a href="#bindDOMElem" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="bindDOMElem.bindDOMElem-1">bindDOMElem<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a>, domElem<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HTMLElement</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#bindDOMElem.bindDOMElem-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Bind an HTML DOM element to a specific root.</p>
-<p>If the root was already registered, <a href="DOMPointerDriver.html#removeListeners">removeListeners</a> is called.
-Populates <a href="DOMPointerDriver.html#domElems">domElems</a> with the new bind. Calls <a href="DOMPointerDriver.html#addListeners">addListeners</a>
-if root is enabled.</p>
+<p>If the root was already registered,
+<a href="DOMPointerDriver.html#removeListeners">removeListeners</a> is called. Populates
+<a href="DOMPointerDriver.html#domElems">domElems</a> with the new bind. Calls
+<a href="DOMPointerDriver.html#addListeners">addListeners</a> if root is enabled.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -161,7 +162,7 @@ if root is enabled.</p>
 <h5>domElem: <span class="tsd-signature-type">HTMLElement</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L56">drivers/DOMPointerDriver.ts:56</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L69">src/drivers/DOMPointerDriver.ts:69</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="getPointerHint" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>get<wbr/>Pointer<wbr/>Hint</span><a href="#getPointerHint" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -181,7 +182,7 @@ if root is enabled.</p>
 <h4 class="tsd-returns-title">Returns <a href="../enums/PointerHint.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PointerHint</a></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#getPointerHint">getPointerHint</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L305">drivers/PointerDriver.ts:305</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L314">src/drivers/PointerDriver.ts:314</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="getPointerID" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>get<wbr/>PointerID</span><a href="#getPointerID" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -197,7 +198,7 @@ which hasn&#39;t been registered yet, then it is registered automatically</p>
 <h5>event: <span class="tsd-signature-type">PointerEvent</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L80">drivers/DOMPointerDriver.ts:80</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L93">src/drivers/DOMPointerDriver.ts:93</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="leaveAnyPointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>leave<wbr/>Any<wbr/>Pointer</span><a href="#leaveAnyPointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -217,7 +218,7 @@ Pointer will also be unassigned from root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#leaveAnyPointer">leaveAnyPointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L247">drivers/PointerDriver.ts:247</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L256">src/drivers/PointerDriver.ts:256</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="leavePointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>leave<wbr/>Pointer</span><a href="#leavePointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -238,7 +239,7 @@ if the root was being hovered.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#leavePointer">leavePointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L223">drivers/PointerDriver.ts:223</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L232">src/drivers/PointerDriver.ts:232</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="movePointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>move<wbr/>Pointer</span><a href="#movePointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -288,14 +289,14 @@ the pointer is pressed or not</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#movePointer">movePointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L170">drivers/PointerDriver.ts:170</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L179">src/drivers/PointerDriver.ts:179</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="onDisable" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Disable</span><a href="#onDisable" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="onDisable.onDisable-1">on<wbr/>Disable<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#onDisable.onDisable-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Calls <a href="PointerDriver.html#onDisable">onDisable</a> and <a href="DOMPointerDriver.html#removeListeners">removeListeners</a> to each
-bound root.</p>
+<div class="tsd-comment tsd-typography"><p>Calls <a href="PointerDriver.html#onDisable">onDisable</a> and
+<a href="DOMPointerDriver.html#removeListeners">removeListeners</a> to each bound root.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -305,14 +306,14 @@ bound root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#onDisable">onDisable</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L179">drivers/DOMPointerDriver.ts:179</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L190">src/drivers/DOMPointerDriver.ts:190</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="onEnable" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Enable</span><a href="#onEnable" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 <li class="tsd-signature tsd-anchor-link" id="onEnable.onEnable-1">on<wbr/>Enable<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#onEnable.onEnable-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Calls <a href="PointerDriver.html#onEnable">onEnable</a> and <a href="DOMPointerDriver.html#addListeners">addListeners</a> to each
-bound root.</p>
+<div class="tsd-comment tsd-typography"><p>Calls <a href="PointerDriver.html#onEnable">onEnable</a> and
+<a href="DOMPointerDriver.html#addListeners">addListeners</a> to each bound root.</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -322,7 +323,7 @@ bound root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Overrides <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#onEnable">onEnable</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L165">drivers/DOMPointerDriver.ts:165</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L176">src/drivers/DOMPointerDriver.ts:176</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="onFocusCapturerChanged" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Focus<wbr/>Capturer<wbr/>Changed</span><a href="#onFocusCapturerChanged" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -344,7 +345,7 @@ bound root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#onFocusCapturerChanged">onFocusCapturerChanged</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L398">drivers/PointerDriver.ts:398</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L407">src/drivers/PointerDriver.ts:407</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="onFocusChanged" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>on<wbr/>Focus<wbr/>Changed</span><a href="#onFocusChanged" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -364,7 +365,7 @@ bound root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#onFocusChanged">onFocusChanged</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L395">drivers/PointerDriver.ts:395</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L404">src/drivers/PointerDriver.ts:404</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="registerPointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>register<wbr/>Pointer</span><a href="#registerPointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -372,7 +373,7 @@ bound root.</p>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Register a new pointer.</p>
 
-<h3>Returns</h3><p>Returns nextPointerID and increments it</p>
+<h3>Returns</h3><p>Returns <a href="PointerDriver.html#nextPointerID">nextPointerID</a> and increments it</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -384,11 +385,11 @@ bound root.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#registerPointer">registerPointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L77">drivers/PointerDriver.ts:77</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L86">src/drivers/PointerDriver.ts:86</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private"><a id="removeListeners" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagPrivate">Private</code> <span>remove<wbr/>Listeners</span><a href="#removeListeners" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-<li class="tsd-signature tsd-anchor-link" id="removeListeners.removeListeners-1">remove<wbr/>Listeners<span class="tsd-signature-symbol">(</span>rootBind<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RootDOMBind</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#removeListeners.removeListeners-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="removeListeners.removeListeners-1">remove<wbr/>Listeners<span class="tsd-signature-symbol">(</span>rootBind<span class="tsd-signature-symbol">: </span><a href="../interfaces/RootDOMBind.html" class="tsd-signature-type" data-tsd-kind="Interface">RootDOMBind</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#removeListeners.removeListeners-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p>Remove pointer event listeners from root&#39;s DOM element and unset tracked
 listeners in root&#39;s bind.</p>
@@ -397,10 +398,10 @@ listeners in root&#39;s bind.</p>
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5>rootBind: <span class="tsd-signature-type">RootDOMBind</span></h5></li></ul></div>
+<h5>rootBind: <a href="../interfaces/RootDOMBind.html" class="tsd-signature-type" data-tsd-kind="Interface">RootDOMBind</a></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/DOMPointerDriver.ts#L140">drivers/DOMPointerDriver.ts:140</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/DOMPointerDriver.ts#L151">src/drivers/DOMPointerDriver.ts:151</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited"><a id="setPointerHint" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><code class="tsd-tag ts-flagProtected">Protected</code> <span>set<wbr/>Pointer<wbr/>Hint</span><a href="#setPointerHint" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected tsd-is-inherited">
@@ -424,7 +425,7 @@ listeners in root&#39;s bind.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#setPointerHint">setPointerHint</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L287">drivers/PointerDriver.ts:287</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L296">src/drivers/PointerDriver.ts:296</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="unregisterPointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>unregister<wbr/>Pointer</span><a href="#unregisterPointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -443,14 +444,14 @@ state of the root is set to false.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#unregisterPointer">unregisterPointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L91">drivers/PointerDriver.ts:91</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L100">src/drivers/PointerDriver.ts:100</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="update" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>update</span><a href="#update" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 <li class="tsd-signature tsd-anchor-link" id="update.update-1">update<span class="tsd-signature-symbol">(</span>root<span class="tsd-signature-symbol">: </span><a href="Root.html" class="tsd-signature-type" data-tsd-kind="Class">Root</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><a href="#update.update-1" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Dispatches all queued events (found in <a href="DOMPointerDriver.html#states">states</a>) for the root and
-clears its event queue</p>
+<div class="tsd-comment tsd-typography"><p>Dispatches all queued events (found in <a href="PointerDriver.html#states">states</a>) for
+the root and clears its event queue</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -460,7 +461,7 @@ clears its event queue</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#update">update</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L347">drivers/PointerDriver.ts:347</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L356">src/drivers/PointerDriver.ts:356</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a id="wheelPointer" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>wheel<wbr/>Pointer</span><a href="#wheelPointer" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -509,7 +510,7 @@ queued if the root was being hovered.</p>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4><aside class="tsd-sources">
 <p>Inherited from <a href="PointerDriver.html">PointerDriver</a>.<a href="PointerDriver.html#wheelPointer">wheelPointer</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/f20f17e/src/drivers/PointerDriver.ts#L265">drivers/PointerDriver.ts:265</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/rafern/canvas-ui/blob/9a28135/src/drivers/PointerDriver.ts#L274">src/drivers/PointerDriver.ts:274</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">

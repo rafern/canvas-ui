@@ -9,8 +9,8 @@ import { Root } from './Root';
 /**
  * A {@link Root} containing a single {@link VirtualKeyboard} widget inside a
  * {@link Margin}. Automatically disables itself if not needed, but
- * {@link updateVisibility} must be called every frame for this behaviour to
- * occur.
+ * {@link VirtualKeyboardRoot#updateVisibility} must be called every frame for
+ * this behaviour to occur.
  *
  * @category Core
  */
@@ -21,14 +21,15 @@ export class VirtualKeyboardRoot extends Root {
     /**
      * Creates a new VirtualKeyboardRoot.
      *
-     * Sets {@link child} to a new {@link Margin} containing a
-     * {@link VirtualKeyboard} with the given keyboard and
+     * Sets {@link VirtualKeyboardRoot#child} to a new {@link Margin} containing
+     * a {@link VirtualKeyboard} with the given keyboard and
      * {@link VirtualKeyboardTemplate | keyboard template},
-     * {@link pointerStyleHandler} and {@link child}'s
-     * {@link Widget.inheritedTheme | inherited theme}.
+     * {@link VirtualKeyboardRoot#pointerStyleHandler} and
+     * {@link VirtualKeyboardRoot#child}'s
+     * {@link Widget#inheritedTheme | inherited theme}.
      *
-     * @param keyboardTemplate By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
+     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
+     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
     constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
         super(

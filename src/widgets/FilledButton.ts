@@ -24,7 +24,6 @@ import { Button } from './Button';
 export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** Theme property used for overriding the canvas colour. */
     private backgroundProperty = 'backgroundFill';
-    // TODO I'm not a big fan of using a prototype's method as a callback :|
     /**
      * Is the button currently forced down?
      *
@@ -52,9 +51,10 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
     /**
      * Update the background fill.
      *
-     * Sets {@link backgroundProperty} depending on {@link _forced} and
-     * {@link clickState}, calls {@link inheritTheme} and sets
-     * {@link _backgroundDirty} to true.
+     * Sets {@link FilledButton#backgroundProperty} depending on
+     * {@link FilledButton#forced} and {@link ButtonClickHelper#clickState},
+     * sets {@link FilledButton#childTheme}.{@link Theme#canvasFill} and flags
+     * {@link FilledButton#backgroundDirty} as true.
      */
     private updateBackground(): void {
         const oldProperty = this.backgroundProperty;

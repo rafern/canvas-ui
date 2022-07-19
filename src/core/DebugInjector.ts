@@ -16,7 +16,7 @@ const features: Map<string, [enabled: boolean, description: string]> = new Map()
 /**
  * Check if a debug feature is enabled.
  *
- * @param debugFeature The debug feature name, for example, "watchflag.Widget._dirty"
+ * @param debugFeature - The debug feature name, for example, "watchflag.Widget._dirty"
  * @returns Returns true if the debug feature is enabled. If the feature doesn't exist, returns false.
  */
 export function isDebugFeatureEnabled(debugFeature: string): boolean {
@@ -32,8 +32,8 @@ export function isDebugFeatureEnabled(debugFeature: string): boolean {
 /**
  * Enable or disable a debug feature.
  *
- * @param debugFeature The debug feature name, for example, "watchflag.Widget._dirty"
- * @param enabled Should the feature be enabled or disabled? If undefined, toggles the feature
+ * @param debugFeature - The debug feature name, for example, "watchflag.Widget._dirty"
+ * @param enabled - Should the feature be enabled or disabled? If undefined, toggles the feature
  */
 export function toggleDebugFeature(debugFeature: string, enabled?: boolean): void {
     const featureConfig = features.get(debugFeature);
@@ -63,8 +63,8 @@ export function listDebugFeatures(): void {
  * Inject code for a new debug feature that watches when a class' property is
  * set to true and prints to the console.
  *
- * @param classObj The class. Widget for example
- * @param flagKey The key of the property to watch. "_dirty" for example
+ * @param classObj - The class. Widget for example
+ * @param flagKey - The key of the property to watch. "_dirty" for example
  */
 export function injectWatchflagFeature(classObj: any, flagKey: string): void {
     const propertyPath = `${classObj.name}.${flagKey}`;
@@ -113,9 +113,9 @@ export function injectWatchflagFeature(classObj: any, flagKey: string): void {
  * called, if the class calls the same method for other objects (prints tree)
  * and how long each call took in milliseconds.
  *
- * @param classObj The class. Widget for example
- * @param methodKey The key of the property to watch. "paint" for example
- * @param messageGenerator A function that returns a string with extra information about the function call. For example, a function which returns " (forced)" if Widget.paint is called with forced set to true
+ * @param classObj - The class. Widget for example
+ * @param methodKey - The key of the property to watch. "paint" for example
+ * @param messageGenerator - A function that returns a string with extra information about the function call. For example, a function which returns " (forced)" if Widget.paint is called with forced set to true
  */
 export function injectTraceFeature(classObj: any, methodKey: string, messageGenerator: ((...args: any[]) => string) | null = null): void {
     const methodPath = `${classObj.name}.${methodKey}`;
@@ -189,8 +189,8 @@ export function injectTraceFeature(classObj: any, methodKey: string, messageGene
  * EPILEPSY WARNING: This debug feature may trigger epileptic seizures when
  * enabled, especially for widgets that frequently update.
  *
- * @param classObj The class. BaseTheme for example
- * @param themePropertyKey The key of the property to override. "canvasFill" for example
+ * @param classObj - The class. BaseTheme for example
+ * @param themePropertyKey - The key of the property to override. "canvasFill" for example
  */
 export function injectRandomFillFeature(classObj: any, themePropertyKey: string): void {
     const propertyPath = `${classObj.name}.${themePropertyKey}`;
@@ -221,8 +221,8 @@ export function injectRandomFillFeature(classObj: any, themePropertyKey: string)
  * Inject code for a new debug feature that calls console.trace when a specific
  * method is called and this feature is enabled.
  *
- * @param classObj The class. Widget for example
- * @param methodKey The key of the property to watch. "paint" for example
+ * @param classObj - The class. Widget for example
+ * @param methodKey - The key of the property to watch. "paint" for example
  */
 export function injectStackTraceFeature(classObj: any, methodKey: string): void {
     const methodPath = `${classObj.name}.${methodKey}`;

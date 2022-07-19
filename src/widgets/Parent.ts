@@ -5,12 +5,12 @@ import { Widget } from '../widgets/Widget';
 /**
  * A mixin class for widgets which may have children.
  *
- * Overrides the {@link inheritedTheme} accessor so that inherited themes are
- * propagated to children, and {@link dryPaint} so that dry painting this parent
- * also dry paints the children. Also provides utilities for getting the amount
- * of children, a public iterator for children and a protected child list. This
- * way, widgets that extend this class can decide if modifying the list of
- * children should be public or not.
+ * Overrides the {@link Widget#inheritedTheme} accessor so that inherited themes
+ * are propagated to children, and {@link Widget#dryPaint} so that dry painting
+ * this parent also dry paints the children. Also provides utilities for getting
+ * the amount of children, a public iterator for children and a protected child
+ * list. This way, widgets that extend this class can decide if modifying the
+ * list of children should be public or not.
  *
  * Can be constrained to a specific type of children.
  *
@@ -27,13 +27,13 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
      * length to zero instead of creating a new instance. readonly still means
      * that you can add/remove elements to/from the array.
      *
-     * See {@link children} for the public iterator getter.
+     * See {@link Parent#children} for the public iterator getter.
      */
     protected readonly _children: Array<W>;
 
     /**
      * Create a new Parent. Automatically adds all widgets in the input array
-     * to {@link _children}.
+     * to {@link Parent#_children}.
      */
     constructor(children: Array<W>, needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
         super(needsClear, propagatesEvents, themeProperties);

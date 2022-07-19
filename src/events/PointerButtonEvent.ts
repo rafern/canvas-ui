@@ -35,7 +35,7 @@ export abstract class PointerButtonEvent extends PointerEvent {
         return this.button === 0;
     }
 
-    /** Alias for {@link isLeft} */
+    /** Alias for {@link PointerButtonEvent#isLeft} */
     get isPrimary(): boolean {
         return this.isLeft;
     }
@@ -45,7 +45,7 @@ export abstract class PointerButtonEvent extends PointerEvent {
         return this.button === 1;
     }
 
-    /** Alias for {@link isRight} */
+    /** Alias for {@link PointerButtonEvent#isRight} */
     get isSecondary(): boolean {
         return this.isRight;
     }
@@ -55,7 +55,7 @@ export abstract class PointerButtonEvent extends PointerEvent {
         return this.button === 2;
     }
 
-    /** Alias for {@link isMiddle} */
+    /** Alias for {@link PointerButtonEvent#isMiddle} */
     get isTertiary(): boolean {
         return this.isMiddle;
     }

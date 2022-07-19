@@ -14,7 +14,7 @@ export declare class BasicTextInput extends TextInput<string> {
      * created by {@link MakeDefaultTextValidatorWithCallback} and no input
      * filter.
      *
-     * @param callback An optional callback called when the text changes. If null, then no callback is called.
+     * @param callback - An optional callback called when the text changes. If null, then no callback is called.
      */
     constructor(callback?: VariableCallback<string> | null, initialValue?: string, themeProperties?: ThemeProperties);
 }

@@ -1,6 +1,19 @@
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 /**
+ * A container which has all the event listeners for a {@link Root} DOM bind; a
+ * link between a DOM element and an existing Root.
+ *
+ * @category Driver
+ */
+export interface RootDOMBind {
+    domElem: HTMLElement;
+    pointerListen: ((this: HTMLElement, event: PointerEvent) => void) | null;
+    pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null;
+    wheelListen: ((this: HTMLElement, event: WheelEvent) => void) | null;
+    contextMenuListen: ((this: HTMLElement, event: MouseEvent) => void) | null;
+}
+/**
  * A {@link PointerDriver} which listens for pointer events from HTML DOM
  * elements. Each HTML DOM element is bound to a specific root, which synergizes
  * well with DOMRoot.
@@ -28,9 +41,10 @@ export declare class DOMPointerDriver extends PointerDriver {
     /**
      * Bind an HTML DOM element to a specific root.
      *
-     * If the root was already registered, {@link removeListeners} is called.
-     * Populates {@link domElems} with the new bind. Calls {@link addListeners}
-     * if root is enabled.
+     * If the root was already registered,
+     * {@link DOMPointerDriver#removeListeners} is called. Populates
+     * {@link DOMPointerDriver#domElems} with the new bind. Calls
+     * {@link DOMPointerDriver#addListeners} if root is enabled.
      */
     bindDOMElem(root: Root, domElem: HTMLElement): void;
     /**
@@ -38,9 +52,7 @@ export declare class DOMPointerDriver extends PointerDriver {
      * which hasn't been registered yet, then it is registered automatically
      */
     private getPointerID;
-    /**
-     * Add pointer event listeners to root's DOM element.
-     */
+    /** Add pointer event listeners to root's DOM element. */
     private addListeners;
     /**
      * Remove pointer event listeners from root's DOM element and unset tracked
@@ -48,13 +60,13 @@ export declare class DOMPointerDriver extends PointerDriver {
      */
     private removeListeners;
     /**
-     * Calls {@link PointerDriver.onEnable} and {@link addListeners} to each
-     * bound root.
+     * Calls {@link PointerDriver#onEnable} and
+     * {@link DOMPointerDriver#addListeners} to each bound root.
      */
     onEnable(root: Root): void;
     /**
-     * Calls {@link PointerDriver.onDisable} and {@link removeListeners} to each
-     * bound root.
+     * Calls {@link PointerDriver#onDisable} and
+     * {@link DOMPointerDriver#removeListeners} to each bound root.
      */
     onDisable(root: Root): void;
 }

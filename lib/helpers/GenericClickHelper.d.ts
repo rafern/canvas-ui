@@ -26,12 +26,14 @@ export declare class GenericClickHelper implements BaseClickHelper {
     /**
      * Create a new GenericClickHelper
      *
-     * @param widget The Widget aggregating this helper
+     * @param widget - The Widget aggregating this helper
      */
     constructor(widget: Widget);
     /**
-     * Set {@link clickState} and update {@link lastClickState} if current one
-     * differs. Updates {@link wasClick} and {@link clickStateChanged} flags.
+     * Set {@link GenericClickHelper#clickState} and update
+     * {@link GenericClickHelper#lastClickState} if current one differs. Updates
+     * {@link GenericClickHelper#wasClick} and
+     * {@link GenericClickHelper#clickStateChanged} flags.
      */
     setClickState(clickState: ClickState, inside: boolean): void;
 }

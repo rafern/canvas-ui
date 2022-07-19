@@ -30,14 +30,14 @@ export declare class Icon extends Widget {
     viewBox: [number, number, number, number] | null;
     /**
      * The wanted width. If null, the image's width will be used, taking
-     * {@link viewBox} into account.
+     * {@link Icon#viewBox} into account.
      *
      * @decorator `@layoutField`
      */
     imageWidth: number | null;
     /**
      * The wanted height. If null, the image's height will be used, taking
-     * {@link viewBox} into account.
+     * {@link Icon#viewBox} into account.
      *
      * @decorator `@layoutField`
      */
@@ -67,17 +67,17 @@ export declare class Icon extends Widget {
     /** Create a new Icon. */
     constructor(image: HTMLImageElement | HTMLVideoElement | string, width?: number | null, height?: number | null, viewBox?: [number, number, number, number] | null, themeProperties?: ThemeProperties);
     /**
-     * Setup event listeners for video. Has no effect if {@link image} is not a
-     * video
+     * Setup event listeners for video. Has no effect if {@link Icon#image} is
+     * not a video
      */
     private setupVideoEvents;
     /**
      * The image or video used by this Icon.
      *
-     * Sets {@link _image} if changed and sets {@link lastSrc} to null to mark
-     * the image as loading so that flickers are minimised.
+     * Sets {@link Icon#_image} if changed and sets {@link Icon#lastSrc} to null
+     * to mark the image as loading so that flickers are minimised.
      *
-     * If getting, returns {@link _image}.
+     * If getting, returns {@link Icon#_image}.
      */
     set image(image: HTMLImageElement | HTMLVideoElement);
     get image(): HTMLImageElement | HTMLVideoElement;

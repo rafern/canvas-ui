@@ -10,8 +10,8 @@ import { Event } from './Event';
  */
 export declare class Leave extends Event {
     /**
-     * Create a new KeyEvent. Sets {@link target}, {@link focusType} to
-     * {@link FocusType.Pointer} and {@link needsFocus} to true.
+     * Create a new KeyEvent. Sets {@link Event#target}, {@link Event#focusType}
+     * to {@link FocusType.Pointer} and {@link Event#needsFocus} to true.
      */
     constructor(target?: Widget | null);
     cloneWithTarget(target: Widget | null): Leave;

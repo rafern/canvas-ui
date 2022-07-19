@@ -24,7 +24,7 @@ export declare class Checkbox extends Widget {
     /**
      * Create a new Checkbox.
      *
-     * @param callback An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
+     * @param callback - An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
      */
     constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeProperties?: ThemeProperties);
     protected onThemeUpdated(property?: string | null): void;

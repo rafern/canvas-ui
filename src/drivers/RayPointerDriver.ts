@@ -19,8 +19,8 @@ export abstract class RayPointerDriver extends PointerDriver {
     /**
      * Cast a ray in the world and get which root was intersected and where.
      *
-     * @param origin The world position where the ray is starting
-     * @param direction A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
+     * @param origin - The world position where the ray is starting
+     * @param direction - A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
      * @returns Returns a 3-tuple containing, in this order, the intersected root or null if none intersected, the normalised x axis of the intersection and the normalised y axis of the intersection. If no root was intersected, use bogus values for x and y
      */
     abstract castRay(origin: [number, number, number], direction: [number, number, number]): [Root | null, number, number];
@@ -28,13 +28,13 @@ export abstract class RayPointerDriver extends PointerDriver {
     /**
      * Receive a ray from a {@link RayPointerSource}.
      *
-     * @param pointer The source's pointer ID, given when setting the source's sink
-     * @param pressing Is the pointer pressed? If null, then the last pressing state will be used. A bitmask where each set bit represents a different button being pressed
-     * @param origin The world position where the ray is starting
-     * @param direction A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
-     * @param shift Is shift being pressed?
-     * @param ctrl Is control being pressed?
-     * @param alt Is alt being pressed?
+     * @param pointer - The source's pointer ID, given when setting the source's sink
+     * @param pressing - Is the pointer pressed? If null, then the last pressing state will be used. A bitmask where each set bit represents a different button being pressed
+     * @param origin - The world position where the ray is starting
+     * @param direction - A normalised vector representing the ray's direction. Not a euler rotation nor a quaternion
+     * @param shift - Is shift being pressed?
+     * @param ctrl - Is control being pressed?
+     * @param alt - Is alt being pressed?
      */
     handlePointerRay(pointer: number, pressing: number | null, origin: [number, number, number], direction: [number, number, number], shift: boolean, ctrl: boolean, alt: boolean): void {
         // Cast a ray and get the root that intersects with the ray and the

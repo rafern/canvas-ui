@@ -2,11 +2,13 @@
  * A decorator for a public field which sets calls a callback if the property's
  * value is changed.
  *
- * @param callback The callback to call if the value changes. `this` is bound.
+ * @typeParam V - The type of the field being watched
+ * @param callback - The callback to call if the value changes. `this` is bound.
  * @category Decorator
  */
-export function watchField(callback: (oldValue: any) => void) {
-    return function(target: any, propertyKey: string): void {
+export function watchField<V>(callback: (oldValue: V) => void): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return function(target: Object, propertyKey: string | symbol): void {
         const curValues = new WeakMap();
         Object.defineProperty(target, propertyKey, {
             set: function(value) {
@@ -28,12 +30,13 @@ export function watchField(callback: (oldValue: any) => void) {
 /**
  * A {@link watchField} which sets a given flag to true.
  *
- * @param flagKey The key of the flag property to set to true
+ * @param flagKey - The key of the flag property to set to true
  * @category Decorator
  */
-export function flagField(flagKey: string): (target: any, propertyKey: string) => void {
-    return watchField(function(this: any) {
-        this[flagKey] = true;
+export function flagField(flagKey: string | symbol): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return watchField(function(this: Object, _oldValue) {
+        (this as Record<string | symbol, unknown>)[flagKey] = true;
     });
 }
 
@@ -54,13 +57,14 @@ export const layoutField = flagField('_layoutDirty');
 /**
  * A {@link watchField} which sets a given array of flags to true.
  *
- * @param flagKeys An array containing the keys of each flag property to set to true
+ * @param flagKeys - An array containing the keys of each flag property to set to true
  * @category Decorator
  */
-export function multiFlagField(flagKeys: Array<string>): (target: any, propertyKey: string) => void {
-    return watchField(function(this: any) {
+export function multiFlagField(flagKeys: Array<string | symbol>): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return watchField(function(this: Object, _oldValue) {
         for(const flagKey of flagKeys)
-            this[flagKey] = true;
+            (this as Record<string | symbol, unknown>)[flagKey] = true;
     });
 }
 
@@ -78,15 +82,17 @@ export const paintLayoutField = multiFlagField(['_dirty', '_layoutDirty']);
  * the new value and the current value are arrays, then the current value's
  * members are updated; no shallow copy is created.
  *
- * @param callback The callback to call if the value changes. `this` is bound.
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param callback - The callback to call if the value changes. `this` is bound.
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function watchArrayField(callback: () => void, allowNonArrays = false) {
-    return function(target: any, propertyKey: string): void {
-        const curValues = new WeakMap<any, Array<any>>();
+export function watchArrayField(callback: () => void, allowNonArrays = false): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return function(target: Object, propertyKey: string | symbol): void {
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        const curValues = new WeakMap<Object, unknown | Array<unknown>>();
         Object.defineProperty(target, propertyKey, {
-            set: function(value: any) {
+            set: function(value: unknown | Array<unknown>) {
                 if(Array.isArray(value)) {
                     const curTuple = curValues.get(this);
                     if(Array.isArray(curTuple)) {
@@ -140,47 +146,49 @@ export function watchArrayField(callback: () => void, allowNonArrays = false) {
 /**
  * A {@link watchArrayField} which sets a given flag to true.
  *
- * @param flagKey The key of the flag property to set to true
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param flagKey - The key of the flag property to set to true
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function flagArrayField(flagKey: string, allowNonArrays = false): (target: any, propertyKey: string) => void {
-    return watchArrayField(function(this: any) {
-        this[flagKey] = true;
+export function flagArrayField(flagKey: string, allowNonArrays = false): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return watchArrayField(function(this: Object) {
+        (this as Record<string | symbol, unknown>)[flagKey] = true;
     }, allowNonArrays);
 }
 
 /**
  * A {@link flagArrayField} where the flag key is `_dirty`.
  *
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function paintArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+export function paintArrayField(allowNonArrays = false): PropertyDecorator {
     return flagArrayField('_dirty', allowNonArrays);
 }
 
 /**
  * A {@link flagArrayField} where the flag key is `_layoutDirty`.
  *
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function layoutArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+export function layoutArrayField(allowNonArrays = false): PropertyDecorator {
     return flagArrayField('_layoutDirty', allowNonArrays);
 }
 
 /**
  * A {@link watchArrayField} which sets a given array of flags to true.
  *
- * @param flagKeys An array containing the keys of each flag property to set to true
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param flagKeys - An array containing the keys of each flag property to set to true
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function multiFlagArrayField(flagKeys: Array<string>, allowNonArrays = false): (target: any, propertyKey: string) => void {
-    return watchArrayField(function(this: any) {
+export function multiFlagArrayField(flagKeys: Array<string>, allowNonArrays = false): PropertyDecorator {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    return watchArrayField(function(this: Object) {
         for(const flagKey of flagKeys)
-            this[flagKey] = true;
+            (this as Record<string | symbol, unknown>)[flagKey] = true;
     }, allowNonArrays);
 }
 
@@ -188,9 +196,9 @@ export function multiFlagArrayField(flagKeys: Array<string>, allowNonArrays = fa
  * A {@link multiFlagArrayField} where the flag keys are `_dirty` and
  * `_layoutDirty`.
  *
- * @param allowNonArrays Allow values which are not arrays to be used?
+ * @param allowNonArrays - Allow values which are not arrays to be used?
  * @category Decorator
  */
-export function paintLayoutArrayField(allowNonArrays = false): (target: any, propertyKey: string) => void {
+export function paintLayoutArrayField(allowNonArrays = false): PropertyDecorator {
     return multiFlagArrayField(['_dirty', '_layoutDirty'], allowNonArrays);
 }

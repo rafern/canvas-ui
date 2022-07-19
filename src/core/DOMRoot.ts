@@ -6,9 +6,9 @@ import { Root } from './Root';
 /**
  * Like Root, but for easy use in an HTML page.
  *
- * Instead of calling each individual update method, simply call {@link update}
- * on every animation frame. {@link Driver | Drivers} still need to be manually
- * registered.
+ * Instead of calling each individual update method, simply call
+ * {@link DOMRoot#update} on every animation frame. {@link Driver | Drivers}
+ * still need to be manually registered.
  *
  * @category Core
  */
@@ -21,12 +21,13 @@ export class DOMRoot extends Root {
     /**
      * Create a new DOMRoot.
      *
-     * Sets {@link child} and {@link child}'s
-     * {@link Widget.inheritedTheme | inherited theme}. Also sets up a
-     * {@link pointerStyleHandler} which simply sets the CSS cursor style of
-     * {@link domElem}. Creates {@link domElem} and {@link domCanvasContext}.
+     * Sets {@link Root#child} and {@link Root#child}'s
+     * {@link Widget#inheritedTheme | inherited theme}. Also sets up a
+     * {@link Root#pointerStyleHandler} which simply sets the CSS cursor style
+     * of {@link DOMRoot#domElem}. Creates {@link DOMRoot#domElem} and
+     * {@link DOMRoot#domCanvasContext}.
      *
-     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
+     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
     constructor(child: Widget, theme: Theme = new Theme()) {
         super(child, null, theme);
@@ -64,11 +65,11 @@ export class DOMRoot extends Root {
     /**
      * Update DOMRoot.
      *
-     * If root is disabled, {@link domElem}'s display style is set to 'none',
-     * hiding it.
+     * If root is disabled, {@link DOMRoot#domElem}'s display style is set to
+     * 'none', hiding it.
      *
-     * Calls {@link preLayoutUpdate}, {@link resolveLayout},
-     * {@link postLayoutUpdate} and {@link paint}.
+     * Calls {@link Root#preLayoutUpdate}, {@link Root#resolveLayout},
+     * {@link Root#postLayoutUpdate} and {@link Root#paint}.
      */
     update(): void {
         if(!this.enabled) {

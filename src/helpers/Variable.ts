@@ -12,7 +12,7 @@ export type VariableCallback<V> = (value: V) => void;
  * Useful for implementing widgets such as sliders, checkboxes, text input,
  * etc...
  *
- * @template V The type of {@link value}.
+ * @typeParam V - The type of {@link Variable#value}.
  *
  * @category Helper
  */
@@ -27,8 +27,8 @@ export class Variable<V> {
     /**
      * Create a new Variable.
      *
-     * @param initialValue The initial value of this variable. Sets {@link _value}.
-     * @param callback The callback for when the value is changed.
+     * @param initialValue - The initial value of this variable. Sets {@link Variable#_value}.
+     * @param callback - The callback for when the value is changed.
      */
     constructor(initialValue: V, callback: VariableCallback<V> | null = null) {
         this._value = initialValue;
@@ -38,7 +38,7 @@ export class Variable<V> {
     /**
      * The current value.
      *
-     * If setting, {@link setValue} is called.
+     * If setting, {@link Variable#setValue} is called.
      */
     get value(): V {
         return this._value;
@@ -48,7 +48,7 @@ export class Variable<V> {
         this.setValue(value);
     }
 
-    /** Has the value changed? Resets {@link _dirty} to false */
+    /** Has the value changed? Resets {@link Variable#_dirty} to false */
     get dirty(): boolean {
         const wasDirty = this._dirty;
         this._dirty = false;
@@ -56,12 +56,12 @@ export class Variable<V> {
     }
 
     /**
-     * Sets {@link _value}. Does nothing if the value is already the one
-     * specified.
+     * Sets {@link Variable#_value}. Does nothing if the value is already the
+     * one specified.
      *
-     * {@link _dirty} is set to true if the value has changed.
+     * {@link Variable#_dirty} is set to true if the value has changed.
      *
-     * @param doCallback If true, then {@link callback} is called if the value has changed.
+     * @param doCallback - If true, then {@link Variable#callback} is called if the value has changed.
      */
     setValue(value: V, doCallback = true): void {
         if(this._value === value)

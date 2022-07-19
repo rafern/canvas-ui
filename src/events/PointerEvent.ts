@@ -24,7 +24,8 @@ export abstract class PointerEvent extends ModifierEvent {
 
     /**
      * Create a new PointerEvent event with the same properties as this, except
-     * with new {@link x} and {@link y} values corrected for a given offset.
+     * with new {@link PointerEvent#x} and {@link PointerEvent#y} values
+     * corrected for a given offset.
      */
     abstract correctOffset(xOffset: number, yOffset: number): PointerEvent;
 }

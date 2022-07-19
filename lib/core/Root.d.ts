@@ -22,12 +22,12 @@ export declare class Root {
     /**
      * Is the Root enabled? For internal use only.
      *
-     * See {@link enabled}
+     * See {@link Root#enabled}
      */
     protected _enabled: boolean;
     /**
      * The pointer style this root wants. Will be set on
-     * {@link postLayoutUpdate} by {@link pointerStyleHandler}
+     * {@link Root#postLayoutUpdate} by {@link Root#pointerStyleHandler}
      */
     pointerStyle: string;
     /**
@@ -35,7 +35,7 @@ export declare class Root {
      *
      * For internal use only.
      *
-     * See {@link pointerStyle}
+     * See {@link Root#pointerStyle}
      */
     protected _currentPointerStyle: string;
     /**
@@ -48,8 +48,8 @@ export declare class Root {
      *
      * For internal use only.
      *
-     * See {@link requestFocus}, {@link dropFocus}, {@link clearFocus} and
-     * {@link getFocus}
+     * See {@link Root#requestFocus}, {@link Root#dropFocus},
+     * {@link Root#clearFocus} and {@link Root#getFocus}
      */
     protected _foci: Map<FocusType, Widget | null>;
     /**
@@ -58,15 +58,15 @@ export declare class Root {
      *
      * For internal use only.
      *
-     * See {@link getFocusCapturer}
+     * See {@link Root#getFocusCapturer}
      */
     protected _fociCapturers: Map<FocusType, Widget | null>;
     /**
      * Handler for mobile-friendly text input. If not null, widgets that need
      * text may call this to get a string.
      *
-     * See {@link hasMobileTextInput}, {@link usingMobileTextInput} and
-     * {@link getTextInput}
+     * See {@link Root#hasMobileTextInput}, {@link Root#usingMobileTextInput}
+     * and {@link Root#getTextInput}
      */
     textInputHandler: TextInputHandler | null;
     /**
@@ -74,8 +74,8 @@ export declare class Root {
      *
      * For internal use only.
      *
-     * See {@link hasMobileTextInput}, {@link usingMobileTextInput} and
-     * {@link getTextInput}
+     * See {@link Root#hasMobileTextInput}, {@link Root#usingMobileTextInput}
+     * and {@link Root#getTextInput}
      */
     protected _mobileTextInUse: boolean;
     /** See {@link resolution} */
@@ -85,46 +85,48 @@ export declare class Root {
     /**
      * Creates a new Root.
      *
-     * Sets {@link child}, {@link pointerStyleHandler} and {@link child}'s
-     * {@link Widget.inheritedTheme | inherited theme}.
+     * Sets {@link Root#child}, {@link Root#pointerStyleHandler} and
+     * {@link Root#child}'s {@link Widget#inheritedTheme | inherited theme}.
      *
-     * @param theme If none supplied, then the default theme found in {@link Theme.constructor} is used
+     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
     constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
-    /** The {@link viewport}'s {@link Viewport.constraints | constraints} */
+    /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
     get constraints(): [number, number, number, number];
     set constraints(constraints: [number, number, number, number]);
     /**
-     * The {@link viewport}'s
-     * {@link Viewport.canvasDimensions | canvasDimensions}
+     * The {@link Root#viewport}'s
+     * {@link Viewport#canvasDimensions | canvasDimensions}
      */
     get canvasDimensions(): [number, number];
     /**
-     * The {@link child}'s {@link Widget.dimensions | dimensions}
+     * The {@link Root#child}'s {@link Widget#dimensions | dimensions}
      */
     get dimensions(): [number, number];
     /**
      * Is this root enabled? If not enabled, painting, updating or resolving
-     * layout will do nothing. {@link drivers | Drivers} will also be notified
-     * by calling {@link Driver.onEnable} or {@link Driver.onDisable}, pointer
-     * style will be reset ({@link updatePointerStyle} called with 'default')
-     * and all {@link _foci | foci} will be cleared ({@link clearFocus}).
+     * layout will do nothing. {@link Root#drivers | Drivers} will also be
+     * notified by calling {@link Driver#onEnable} or {@link Driver#onDisable},
+     * pointer style will be reset ({@link Root#updatePointerStyle} called with
+     * 'default') and all {@link Root#_foci | foci} will be cleared
+     * ({@link Root#clearFocus}).
      *
-     * See {@link _enabled}
+     * See {@link Root#_enabled}
      */
     get enabled(): boolean;
     set enabled(newEnabled: boolean);
     /**
-     * The {@link viewport}'s {@link Viewport.canvas | canvas}
+     * The {@link Root#viewport}'s {@link Viewport#canvas | canvas}
      */
     get canvas(): HTMLCanvasElement;
     /**
      * Resolve the layout of this root. Does nothing if root is disabled.
      *
-     * Calls {@link viewport}'s {@link resolveChildsLayout} with {@link child}
+     * Calls {@link Root#viewport}'s {@link Viewport#resolveChildsLayout} with
+     * {@link Root#child}
      *
-     * Call this before calling {@link postLayoutUpdate} and after calling
-     * {@link preLayoutUpdate}
+     * Call this before calling {@link Root#postLayoutUpdate} and after calling
+     * {@link Root#preLayoutUpdate}
      *
      * @returns Returns true if viewport was resized
      */
@@ -132,111 +134,116 @@ export declare class Root {
     /**
      * Paint this root's next frame if needed. Does nothing if root is disabled.
      *
-     * Calls {@link viewport}'s {@link Viewport.paintToCanvas} with
-     * {@link child}.
+     * Calls {@link Root#viewport}'s {@link Viewport#paintToCanvas} with
+     * {@link Root#child}.
      *
-     * Call this after calling {@link postLayoutUpdate}.
+     * Call this after calling {@link Root#postLayoutUpdate}.
      *
      * @returns Returns whether the child was dirty or not. Use this to tell an external 3D library whether to update a mesh's texture or not.
      */
     paint(): boolean;
     /**
-     * Dispatches an {@link Event} to this root's {@link child} by calling
-     * {@link Widget.dispatchEvent}. Updates
-     * {@link _fociCapturers | foci capturers} and notifies {@link drivers} by
-     * calling {@link Driver.onFocusCapturerChanged} if the capturer changes.
-     * Does nothing if root is disabled.
+     * Dispatches an {@link Event} to this root's {@link Root#child} by calling
+     * {@link Widget#dispatchEvent}. Updates
+     * {@link Root#_fociCapturers | foci capturers} and notifies
+     * {@link Root#drivers} by calling {@link Driver#onFocusCapturerChanged} if
+     * the capturer changes. Does nothing if root is disabled.
      *
      * Note that if an event with a focus is dispatched and no widget captures
      * the event due to the widget not existing anymore or being disabled, the
      * focus type of the event will be cleared in the root with
-     * {@link clearFocus}.
+     * {@link Root#clearFocus}.
      *
      * @returns Returns true if the event was captured
      */
     dispatchEvent(event: Event): boolean;
     /**
-     * Do a pre-layout update; calls {@link drivers}' {@link Driver.update} and
-     * {@link child}'s {@link Widget.preLayoutUpdate}. Does nothing if root is
-     * disabled.
+     * Do a pre-layout update; calls {@link Root#drivers}' {@link Driver#update}
+     * and {@link Root#child}'s {@link Widget#preLayoutUpdate}. Does nothing if
+     * root is disabled.
      *
-     * Call this before calling {@link resolveLayout}
+     * Call this before calling {@link Root#resolveLayout}
      */
     preLayoutUpdate(): void;
     /**
-     * Do a post-layout update; calls {@link child}'s
-     * {@link Widget.postLayoutUpdate} and {@link updatePointerStyle}. Does
+     * Do a post-layout update; calls {@link Root#child}'s
+     * {@link Widget#postLayoutUpdate} and {@link Root#updatePointerStyle}. Does
      * nothing if root is disabled.
      *
-     * Call this before calling {@link paint} and after calling
-     * {@link resolveLayout}
+     * Call this before calling {@link Root#paint} and after calling
+     * {@link Root#resolveLayout}
      */
     postLayoutUpdate(): void;
     /**
-     * Calls {@link pointerStyleHandler} if the {@link pointerStyle} has changed
-     * (checked by comparing with {@link _currentPointerStyle}). Also updates
-     * {@link _currentPointerStyle}. Can also be optionally supplied a new
+     * Calls {@link Root#pointerStyleHandler} if the {@link Root#pointerStyle}
+     * has changed (checked by comparing with
+     * {@link Root#_currentPointerStyle}). Also updates
+     * {@link Root#_currentPointerStyle}. Can also be optionally supplied a new
      * pointer style.
      */
     updatePointerStyle(newStyle?: string | null): void;
     /**
-     * Sets the current {@link _foci | focus} of a given type to a given widget.
-     * If the focus changes, {@link clearFocus} is called and {@link drivers}
-     * are notified by calling {@link Driver.onFocusChanged}.
+     * Sets the current {@link Root#_foci | focus} of a given type to a given
+     * widget. If the focus changes, {@link Root#clearFocus} is called and
+     * {@link Root#drivers} are notified by calling
+     * {@link Driver#onFocusChanged}.
      */
     requestFocus(focusType: FocusType, widget: Widget): void;
     /**
-     * Clears the current {@link _foci | focus} of a given type if it is
-     * currently set to a given widget. Achieved by calling {@link clearFocus}.
+     * Clears the current {@link Root#_foci | focus} of a given type if it is
+     * currently set to a given widget. Achieved by calling
+     * {@link Root#clearFocus}.
      */
     dropFocus(focusType: FocusType, widget: Widget): void;
     /**
-     * Clears the current {@link _foci | focus} of a given type. If there was a
-     * focus set, {@link drivers} are notified by calling
-     * {@link Driver.onFocusChanged}.
+     * Clears the current {@link Root#_foci | focus} of a given type. If there
+     * was a focus set, {@link Root#drivers} are notified by calling
+     * {@link Driver#onFocusChanged}.
      */
     clearFocus(focusType: FocusType): void;
     /**
-     * Gets the current {@link _foci | focus} of a given type.
+     * Gets the current {@link Root#_foci | focus} of a given type.
      */
     getFocus(focusType: FocusType): Widget | null;
     /**
-     * Gets the last {@link _fociCapturers | focus capturer} of a given type.
+     * Gets the last {@link Root#_fociCapturers | focus capturer} of a given
+     * type.
      */
     getFocusCapturer(focusType: FocusType): Widget | null;
     /**
-     * Registers a {@link Driver} to the root, adding it to the {@link drivers}
-     * list and calling {@link Driver.onEnable}. If the driver was already
-     * registered, nothing happens.
+     * Registers a {@link Driver} to the root, adding it to the
+     * {@link Root#drivers} list and calling {@link Driver#onEnable}. If the
+     * driver was already registered, nothing happens.
      */
     registerDriver(driver: Driver): void;
     /**
      * Unregisters a {@link Driver} from the root, removing it from the
-     * {@link drivers} list and calling {@link Driver.onDisable}. If the driver
-     * was not registered, nothing happens.
+     * {@link Root#drivers} list and calling {@link Driver#onDisable}. If the
+     * driver was not registered, nothing happens.
      */
     unregisterDriver(driver: Driver): void;
     /**
-     * Unregisters all {@link drivers} from the root, by calling
-     * {@link unregisterDriver}.
+     * Unregisters all {@link Root#drivers} from the root, by calling
+     * {@link Root#unregisterDriver}.
      */
     clearDrivers(): void;
     /**
-     * Can {@link getTextInput} be called? True if {@link textInputHandler} is
-     * not null and {@link usingMobileTextInput} is false.
+     * Can {@link Root#getTextInput} be called? True if
+     * {@link Root#textInputHandler} is not null and
+     * {@link Root#usingMobileTextInput} is false.
      */
     get hasMobileTextInput(): boolean;
     /**
-     * Is {@link getTextInput} in use?
+     * Is {@link Root#getTextInput} in use?
      *
-     * See {@link _mobileTextInUse}.
+     * See {@link Root#_mobileTextInUse}.
      */
     get usingMobileTextInput(): boolean;
     /**
      * Get text input from the user. Used for mobile where keyboard events are
      * hard to get.
      *
-     * @returns If this is already in use ({@link usingMobileTextInput}), returns null, else, returns a string typed by the user.
+     * @returns If this is already in use ({@link Root#usingMobileTextInput}), returns null, else, returns a string typed by the user.
      */
     getTextInput(initialInput?: string): Promise<string | null>;
     /**
@@ -247,24 +254,26 @@ export declare class Root {
     get resolution(): number;
     set resolution(resolution: number);
     /**
-     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasWidth} property
+     * Shortcut for {@link Root#viewport}'s
+     * {@link Viewport#maxCanvasWidth} property
      */
     get maxCanvasWidth(): number;
     set maxCanvasWidth(maxCanvasWidth: number);
     /**
-     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasHeight} property
+     * Shortcut for {@link Root#viewport}'s
+     * {@link Viewport#maxCanvasHeight} property
      */
     get maxCanvasHeight(): number;
     set maxCanvasHeight(maxCanvasHeight: number);
     /**
-     * Get the scale used for the {@link viewport}. The horizontal and/or
-     * vertical scale may not be 1 if {@link maxCanvasWidth} or
-     * {@link maxCanvasHeight} are exceeded.
+     * Get the scale used for the {@link Root#viewport}. The horizontal and/or
+     * vertical scale may not be 1 if {@link Root#maxCanvasWidth} or
+     * {@link Root#maxCanvasHeight} are exceeded.
      *
-     * Note that this is only valid after resolving {@link child}'s layout.
+     * Note that this is only valid after resolving {@link Root#child}'s layout.
      *
-     * Equivalent to calling {@link Viewport.getAppliedScale} on
-     * {@link viewport}.
+     * Equivalent to calling {@link Viewport#getAppliedScale} on
+     * {@link Root#viewport}.
      */
     get effectiveScale(): [scaleX: number, scaleY: number];
 }
