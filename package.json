@@ -24,16 +24,16 @@
     "url": "https://github.com/rafern/canvas-ui.git"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.32.0",
-    "@typescript-eslint/parser": "^4.32.0",
-    "esbuild": "^0.13.3",
-    "eslint": "^7.30.0",
-    "eslint-plugin-tree-shaking": "^1.9.2",
-    "local-web-server": "^5.0.0",
-    "typedoc": "^0.22.4",
-    "typescript": "^4.4.3"
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "esbuild": "^0.14.49",
+    "eslint": "^8.20.0",
+    "eslint-plugin-tree-shaking": "^1.10.0",
+    "local-web-server": "^5.2.1",
+    "typedoc": "^0.23.8",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.4.0"
   }
 }
