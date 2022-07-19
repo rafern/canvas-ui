@@ -1,7 +1,7 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import type { FocusType } from '../core/FocusType';
 import type { Padding } from '../theme/Padding';
 import { BaseTheme } from '../theme/BaseTheme';
+import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
@@ -51,6 +51,8 @@ export declare abstract class Widget extends BaseTheme {
      * {@link preLayoutUpdate} is called.
      */
     protected root: Root | null;
+    /** Can this widget be focused by pressing tab? */
+    protected tabFocusable: boolean;
     /**
      * How much this widget will expand relative to other widgets in a flexbox
      * container. If changed, sets {@link _layoutDirty} to true.
@@ -99,10 +101,15 @@ export declare abstract class Widget extends BaseTheme {
      */
     get dimensionless(): boolean;
     /**
+     * Called when a focus type has been grabbed by this Widget. Does nothing by
+     * default. Can be overridden.
+     */
+    onFocusGrabbed(focusType: FocusType, root: Root): void;
+    /**
      * Called when a focus type owned by this Widget has been dropped. Does
      * nothing by default. Can be overridden.
      */
-    onFocusDropped(_focusType: FocusType, _root: Root): void;
+    onFocusDropped(focusType: FocusType, root: Root): void;
     /**
      * Widget event handling callback. If the event is to be captured, the
      * capturer is returned, else, null.
@@ -111,10 +118,14 @@ export declare abstract class Widget extends BaseTheme {
      * at itself.
      *
      * If overriding, return the widget that has captured the event (could be
-     * this, for example, or a child widget if implementing a container), or
-     * null if no widget captured the event.
+     * `this`, for example, or a child widget if implementing a container), or
+     * null if no widget captured the event. Make sure to not capture any events
+     * that you do not need, or you may have unexpected results; for example, if
+     * you capture all dispatched events indiscriminately, a {@link TabSelect}
+     * event may be captured and result in weird behaviour when the user
+     * attempts to use tab to select another widget.
      */
-    protected handleEvent(event: Event, _root: Root): Widget | null;
+    protected handleEvent(event: Event, root: Root): Widget | null;
     /**
      * Called when an event is passed to the Widget. Checks if the target
      * matches the Widget, unless the Widget propagates events, or if the event
@@ -130,7 +141,7 @@ export declare abstract class Widget extends BaseTheme {
      * Generic update method which is called before layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    protected handlePreLayoutUpdate(_root: Root): void;
+    protected handlePreLayoutUpdate(root: Root): void;
     /**
      * Generic update method which is called before layout is resolved. Calls
      * {@link handlePreLayoutUpdate} if widget is enabled. Must not be
@@ -174,7 +185,7 @@ export declare abstract class Widget extends BaseTheme {
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    protected handlePostLayoutUpdate(_root: Root): void;
+    protected handlePostLayoutUpdate(root: Root): void;
     /**
      * Generic update method which is called after layout is resolved. Calls
      * {@link handlePostLayoutUpdate} if widget is enabled. Must not be
@@ -222,7 +233,7 @@ export declare abstract class Widget extends BaseTheme {
      *
      * @param forced Was this widget force-painted? If calling a child's paint method, propagate this value
      */
-    protected handlePainting(_ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if

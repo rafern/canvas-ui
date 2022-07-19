@@ -18,12 +18,26 @@ export declare class Viewport {
      * @decorator `@paintArrayField()`
      */
     constraints: LayoutConstraints;
+    /**
+     * The maximum width the {@link canvas} can have. If the layout exceeds this
+     * width, then the content will be scaled to fit the canvas
+     */
+    maxCanvasWidth: number;
+    /**
+     * The maximum height the {@link canvas} can have. If the layout exceeds
+     * this height, then the content will be scaled to fit the canvas
+     */
+    maxCanvasHeight: number;
     /** Have the constraints been changed? */
     private _dirty;
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
     /** The internal canvas' context. Alpha is enabled. */
     readonly context: CanvasRenderingContext2D;
+    /** Has the warning for dimensionless canvases been issued? */
+    private static dimensionlessWarned;
+    /** Has the warning for non-power of 2 dimensions been issued? */
+    private static powerOf2Warned;
     /**
      * Create a new Viewport.
      *
@@ -48,6 +62,12 @@ export declare class Viewport {
      * @returns Returns true if the child was resized, else, false.
      */
     resolveChildsLayout(child: Widget): boolean;
+    /**
+     * Get the canvas scale that will be applied if the given widget is the
+     * Viewport's child. Used for checking whether a child's dimensions exceed
+     * {@link maxCanvasWidth} or {@link maxCanvasHeight}
+     */
+    getAppliedScale(child: Widget): [scaleX: number, scaleY: number];
     /**
      * Paint a given child to {@link canvas}.
      *

@@ -11,6 +11,8 @@ import { KeyboardDriver } from './KeyboardDriver';
 export declare class DOMKeyboardDriver extends KeyboardDriver {
     /** The list of HTML DOM elements bound to this keyboard driver */
     private domElems;
+    /** Calls preventDefault on a keyboard event if needed. */
+    maybePreventDefault(event: KeyboardEvent): void;
     /**
      * Bind an HTML DOM element to this keyboard driver.
      *

@@ -92,6 +92,16 @@ export declare class TextInput<V> extends Widget {
      * clicks
      */
     private successiveClickCount;
+    /**
+     * Can tab characters be typed in this input widget? If true, then pressing
+     * tab will not move the focus to the next widget, unless tab is a filtered
+     * character.
+     *
+     * If tab is not a filtered character and this is true, holding shift will
+     * move to the next widget instead of typing the character, not move to the
+     * previous focusable widget.
+     */
+    typeableTab: boolean;
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, themeProperties?: ThemeProperties);
     protected onThemeUpdated(property?: string | null): void;
@@ -208,6 +218,7 @@ export declare class TextInput<V> extends Widget {
      * @returns Returns a 2-tuple with, respectively, the start and end of the range
      */
     private selectRangeAt;
+    onFocusGrabbed(focusType: FocusType, _root: Root): void;
     onFocusDropped(focusType: FocusType, _root: Root): void;
     protected handleEvent(event: Event, root: Root): this | null;
     protected handlePreLayoutUpdate(root: Root): void;

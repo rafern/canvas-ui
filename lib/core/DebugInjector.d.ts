@@ -36,8 +36,23 @@ export declare function injectTraceFeature(classObj: any, methodKey: string, mes
  * Inject code for a new debug feature that returns a random fill colour in a
  * given property when enabled.
  *
+ * EPILEPSY WARNING: This debug feature may trigger epileptic seizures when
+ * enabled, especially for widgets that frequently update.
+ *
  * @param classObj The class. BaseTheme for example
  * @param themePropertyKey The key of the property to override. "canvasFill" for example
  */
 export declare function injectRandomFillFeature(classObj: any, themePropertyKey: string): void;
+/**
+ * Inject code for a new debug feature that calls console.trace when a specific
+ * method is called and this feature is enabled.
+ *
+ * @param classObj The class. Widget for example
+ * @param methodKey The key of the property to watch. "paint" for example
+ */
+export declare function injectStackTraceFeature(classObj: any, methodKey: string): void;
+/**
+ * Inject all default debug code. Call this before doing anything if you want to
+ * enable debugging. Has no effect when called more than once.
+ */
 export declare function injectDebugCode(): void;

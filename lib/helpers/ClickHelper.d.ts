@@ -1,19 +1,7 @@
-import type { Widget } from '../widgets/Widget';
+import { GenericClickHelper } from './GenericClickHelper';
 import type { Event } from '../events/Event';
+import type { ClickArea } from './ClickArea';
 import type { Root } from '../core/Root';
-/**
- * The current state of a {@link ClickHelper}
- *
- * @category Helper
- */
-export declare enum ClickState {
-    /** No pointer is hovering over this clickable widget */
-    Released = 0,
-    /** A pointer is hovering over this clickable widget */
-    Hover = 1,
-    /** A pointer's button is being held down over this clickable widget */
-    Hold = 2
-}
 /**
  * An aggregate helper class for widgets that can be clicked.
  *
@@ -22,15 +10,7 @@ export declare enum ClickState {
  *
  * @category Helper
  */
-export declare class ClickHelper {
-    /** Last click state */
-    lastClickState: ClickState;
-    /** The current click state */
-    clickState: ClickState;
-    /** Did the last click event handle result in a click state change? */
-    clickStateChanged: boolean;
-    /** Did the last click state change result in a click? */
-    wasClick: boolean;
+export declare class ClickHelper extends GenericClickHelper {
     /**
      * Last pointer position in normalised coordinates ([0,0] to [1,1]). If
      * there is no last pointer position, such as after a leave event, this will
@@ -46,14 +26,6 @@ export declare class ClickHelper {
     startingPointerPos: [number, number] | null;
     /** Which pointer button should count as a click? Left button by default */
     pointerButton: number;
-    /** The Widget aggregating this helper */
-    private widget;
-    /**
-     * Create a new ClickHelper
-     *
-     * @param widget The Widget aggregating this helper
-     */
-    constructor(widget: Widget);
     /**
      * Normalise pointer coordinates inside a rectangle
      *
@@ -90,16 +62,11 @@ export declare class ClickHelper {
      */
     isNormalInRect(pX: number, pY: number): boolean;
     /**
-     * Set {@link clickState} and update {@link lastClickState} if current one
-     * differs. Updates {@link wasClick} and {@link clickStateChanged} flags.
-     */
-    private setClickState;
-    /**
      * Updates the current {@link clickState} given an event, as well as
      * {@link _foci | focus}, {@link pointerStyle}, {@link wasClick} and
      * {@link clickStateChanged} flags.
      *
      * @param clickArea A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
-    handleClickEvent(event: Event, root: Root, clickArea: [number, number, number, number]): void;
+    handleClickEvent(event: Event, root: Root, clickArea: ClickArea): void;
 }

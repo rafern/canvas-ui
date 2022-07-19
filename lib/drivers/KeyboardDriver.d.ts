@@ -18,6 +18,15 @@ export declare class KeyboardDriver implements Driver {
     /** The currently focused root. New keyboard events will go to this root */
     private focus;
     /**
+     * The last {@link Root} that had "activity"; the last Root where any focus
+     * was grabbed. Used as a fallback when there is no focus. If this is null,
+     * then a root from {@link eventQueues} is picked; this fallback of a
+     * fallback may result in weird behaviour if there are more than 1 Roots,
+     * since eventQueues is a Map, and Map iteration is not guaranteed to be in
+     * the same order
+     */
+    private lastActivity;
+    /**
      * Get the {@link eventQueues | event queue} of a given root. If this driver
      * is not registered to the given root or the given root is disabled, making
      * it not present in eventQueues, then null is returned.
@@ -38,6 +47,12 @@ export declare class KeyboardDriver implements Driver {
      * @returns Returns {@link focus}
      */
     getFocusedRoot(): Root | null;
+    /**
+     * Similar to {@link getFocusedRoot}, but can fall back to
+     * {@link lastActivity} if {@link focus} is null, or a {@link Root} in
+     * {@link eventQueues} if lastActivity is also null.
+     */
+    getEffectiveFocusedRoot(): Root | null;
     /**
      * Clear the current {@link focus | root focus}. Calls
      * {@link changeFocusedRoot} with null.
@@ -97,10 +112,17 @@ export declare class KeyboardDriver implements Driver {
      * Does nothing if the new focus type is not a {@link FocusType.Keyboard}.
      * If the focus comes from a root which is not the
      * {@link focus | root focus}, then the root focus is
-     * {@link changeFocusedRoot | changed to the new root}. If it comes from the
-     * current root focus and there is no new focused widget (the root's
-     * keyboard focus was cleared), then the root focus is
-     * {@link clearFocus | cleared}.
+     * {@link changeFocusedRoot | changed to the new root}. If there is no new
+     * focused widget (the root's keyboard focus was cleared), then nothing
+     * happens.
+     *
+     * This behaviour is confusing, however, it's required so that the keyboard
+     * focus "lingers" for future tab key presses; this way, pressing tab can do
+     * tab selection even when there is no widget that wants keyboard input.
+     * When a focus is lingering, then it means that key events are still being
+     * dispatched to the last focused root, but they don't have a target. This
+     * way, most events get dropped, but tab key events are used for tab
+     * selection.
      */
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void;

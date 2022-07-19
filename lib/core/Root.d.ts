@@ -80,6 +80,8 @@ export declare class Root {
     protected _mobileTextInUse: boolean;
     /** See {@link resolution} */
     private _resolution;
+    /** Has the warning for poorly captured TabSelect events been issued? */
+    private static badTabCaptureWarned;
     /**
      * Creates a new Root.
      *
@@ -244,4 +246,25 @@ export declare class Root {
      */
     get resolution(): number;
     set resolution(resolution: number);
+    /**
+     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasWidth} property
+     */
+    get maxCanvasWidth(): number;
+    set maxCanvasWidth(maxCanvasWidth: number);
+    /**
+     * Shortcut for {@link viewport}'s {@link Viewport.maxCanvasHeight} property
+     */
+    get maxCanvasHeight(): number;
+    set maxCanvasHeight(maxCanvasHeight: number);
+    /**
+     * Get the scale used for the {@link viewport}. The horizontal and/or
+     * vertical scale may not be 1 if {@link maxCanvasWidth} or
+     * {@link maxCanvasHeight} are exceeded.
+     *
+     * Note that this is only valid after resolving {@link child}'s layout.
+     *
+     * Equivalent to calling {@link Viewport.getAppliedScale} on
+     * {@link viewport}.
+     */
+    get effectiveScale(): [scaleX: number, scaleY: number];
 }

@@ -1,6 +1,7 @@
 import { Variable, VariableCallback } from '../helpers/Variable';
-import { ClickHelper } from '../helpers/ClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ClickHelper } from '../helpers/ClickHelper';
+import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -37,14 +38,21 @@ export declare class Slider extends Widget {
     private actualWidth;
     /** The actual height of the slider */
     private actualHeight;
+    /** Is the keyboard focusing this widget? */
+    private keyboardFocused;
     /** Create a new Slider */
     constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, vertical?: boolean, themeProperties?: ThemeProperties);
     /** The slider's value */
     set value(value: number);
     get value(): number;
+    /** Clamp a value to this slider's min and max values */
+    protected clamp(value: number): number;
     /** Set the slider's value, optionally disabling callback */
     setValue(value: number, doCallback?: boolean): void;
+    protected stepValue(add: boolean, incMul: number): void;
     protected onThemeUpdated(property?: string | null): void;
+    onFocusGrabbed(focusType: FocusType, _root: Root): void;
+    onFocusDropped(focusType: FocusType, _root: Root): void;
     protected handleEvent(event: Event, root: Root): this | null;
     protected handlePostLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;

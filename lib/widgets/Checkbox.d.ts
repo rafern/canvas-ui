@@ -1,6 +1,7 @@
 import { Variable, VariableCallback } from '../helpers/Variable';
-import { ClickHelper } from '../helpers/ClickHelper';
+import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -16,8 +17,8 @@ export declare class Checkbox extends Widget {
     private offsetY;
     /** Actual length after resolving layout. */
     private actualLength;
-    /** The helper for handling pointer clicks */
-    protected clickHelper: ClickHelper;
+    /** The helper used for handling pointer clicks and enter presses */
+    protected clickHelper: ButtonClickHelper;
     /** The helper for keeping track of the checkbox value */
     protected variable: Variable<boolean>;
     /**
@@ -30,6 +31,8 @@ export declare class Checkbox extends Widget {
     /** Is the checkbox checked? */
     set checked(checked: boolean);
     get checked(): boolean;
+    onFocusGrabbed(focusType: FocusType, _root: Root): void;
+    onFocusDropped(focusType: FocusType, _root: Root): void;
     protected handleEvent(event: Event, root: Root): this | null;
     protected handlePostLayoutUpdate(_root: Root): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;

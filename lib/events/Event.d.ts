@@ -18,8 +18,10 @@ export declare abstract class Event {
     readonly focusType: FocusType | null;
     /** Can this event be dispatched without a target? */
     readonly needsFocus: boolean;
+    /** Is this event dispatched in reverse-order? */
+    readonly reversed: boolean;
     /** Create a new Event. */
-    constructor(target: Widget | null, focusType: FocusType | null, needsFocus: boolean);
+    constructor(target: Widget | null, focusType: FocusType | null, needsFocus: boolean, reversed?: boolean);
     /**
      * Create a new Event with the same properties as this, except with a new
      * given target.

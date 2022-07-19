@@ -1,5 +1,6 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { ClickArea } from '../helpers/ClickArea';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
@@ -57,6 +58,11 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     protected forceReLayout: boolean;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint: boolean;
+    /**
+     * Should the viewport be auto-scrolled when a widget is tab-selected and
+     * when a widget captures keyboard input?
+     */
+    autoScrollSelections: boolean;
     /** Create a new ViewportWidget. */
     constructor(child: W, minWidth?: number, minHeight?: number, widthTied?: boolean, heightTied?: boolean, useViewport?: boolean, themeProperties?: ThemeProperties);
     /**
@@ -91,6 +97,7 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     /** {@link constraints}, but scaled according to {@link Root.resolution} */
     get scaledConstraints(): [number, number, number, number];
     protected onThemeUpdated(property?: string | null): void;
+    protected getClickAreaOf(widget: Widget): ClickArea;
     protected handleEvent(event: Event, root: Root): Widget | null;
     protected handlePreLayoutUpdate(root: Root): void;
     protected handlePostLayoutUpdate(root: Root): void;
