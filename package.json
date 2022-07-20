@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "build": "tsc && node esbuild.mjs",
     "dev": "node esbuild.mjs --dev",
-    "docs": "typedoc --out ./docs/ ./src/index.ts",
+    "docs": "typedoc --options typedoc.json",
     "generate_theme": "node generate_theme.mjs"
   },
   "files": [
@@ -28,6 +28,7 @@
     "url": "https://github.com/rafern/canvas-ui.git"
   },
   "devDependencies": {
+    "@knodes/typedoc-plugin-pages": "^0.23.1",
     "@typescript-eslint/eslint-plugin": "^5.30.7",
     "@typescript-eslint/parser": "^5.30.7",
     "esbuild": "^0.14.49",
