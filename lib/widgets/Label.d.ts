@@ -1,6 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../helpers/TextHelper';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
  * A function which returns a string. An alternative to supplying a
@@ -55,7 +54,7 @@ export declare class Label extends Widget {
      */
     get text(): string;
     protected onThemeUpdated(property?: string | null): void;
-    protected handlePreLayoutUpdate(_root: Root): void;
+    protected handlePreLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

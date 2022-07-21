@@ -1,10 +1,4 @@
 /**
- * A callback for when the value of a {@link Variable} changes.
- *
- * @category Helper
- */
-export declare type VariableCallback<V> = (value: V) => void;
-/**
  * An aggregate helper class for widgets that contain a variable with a
  * specified type which is intended to be controlled by the user.
  *
@@ -20,15 +14,12 @@ export declare class Variable<V> {
     private _value;
     /** Has the value changed? */
     private _dirty;
-    /** The callback function called when the value is changed */
-    private callback;
     /**
      * Create a new Variable.
      *
      * @param initialValue - The initial value of this variable. Sets {@link Variable#_value}.
-     * @param callback - The callback for when the value is changed.
      */
-    constructor(initialValue: V, callback?: VariableCallback<V> | null);
+    constructor(initialValue: V);
     /**
      * The current value.
      *
@@ -42,9 +33,8 @@ export declare class Variable<V> {
      * Sets {@link Variable#_value}. Does nothing if the value is already the
      * one specified.
      *
-     * {@link Variable#_dirty} is set to true if the value has changed.
-     *
-     * @param doCallback - If true, then {@link Variable#callback} is called if the value has changed.
+     * @param notify - If true, then {@link Variable#_dirty} is set to true if the value changes.
+     * @returns Returns true if the value was changed, false if not
      */
-    setValue(value: V, doCallback?: boolean): void;
+    setValue(value: V, notify?: boolean): boolean;
 }

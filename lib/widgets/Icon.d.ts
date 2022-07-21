@@ -1,5 +1,4 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
  * A widget which displays a given image.
@@ -81,7 +80,7 @@ export declare class Icon extends Widget {
      */
     set image(image: HTMLImageElement | HTMLVideoElement);
     get image(): HTMLImageElement | HTMLVideoElement;
-    protected handlePreLayoutUpdate(_root: Root): void;
+    protected handlePreLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
     dryPaint(): void;

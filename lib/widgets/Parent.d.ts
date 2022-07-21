@@ -1,6 +1,7 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
+import type { Root } from '../core/Root';
 /**
  * A mixin class for widgets which may have children.
  *
@@ -45,4 +46,6 @@ export declare abstract class Parent<W extends Widget = Widget> extends Widget {
      * children via this iterator; for read-only purposes only.
      */
     get children(): Iterable<W>;
+    activate(root: Root, parent: Widget | null): void;
+    deactivate(): void;
 }

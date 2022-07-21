@@ -3,7 +3,6 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 /**
  * A {@link BaseContainer} which can be {@link ClickHelper | clicked} as a
@@ -29,7 +28,7 @@ export declare class Button<W extends Widget = Widget> extends BaseContainer<W> 
      * called
      */
     click(): void;
-    onFocusGrabbed(focusType: FocusType, _root: Root): void;
-    onFocusDropped(focusType: FocusType, _root: Root): void;
-    protected handleEvent(event: Event, root: Root): Widget | null;
+    onFocusGrabbed(focusType: FocusType): void;
+    onFocusDropped(focusType: FocusType): void;
+    protected handleEvent(event: Event): Widget | null;
 }

@@ -13,7 +13,8 @@ import type { Root } from '../core/Root';
  */
 export declare abstract class Widget extends BaseTheme {
     /**
-     * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
+     * Is this widget enabled? If it isn't, it will act as if it doesn't exist,
+     * but will still be present in the UI tree.
      */
     private _enabled;
     /** Widget will only be painted if dirty is true. */
@@ -46,11 +47,19 @@ export declare abstract class Widget extends BaseTheme {
     protected _flex: number;
     /**
      * The {@link Root} that this widget is currently inside.
-     * Note that this will replace the root argument in the update functions,
-     * but for now, both can be used. For now, this value is set whenever
-     * {@link Widget#preLayoutUpdate} is called.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null.
      */
-    protected root: Root | null;
+    protected _root: Root | null;
+    /**
+     * The parent {@link Widget} of this widget.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null, but root
+     * widgets will also have a null parent.
+     */
+    protected _parent: Widget | null;
     /** Can this widget be focused by pressing tab? */
     protected tabFocusable: boolean;
     /**
@@ -109,12 +118,12 @@ export declare abstract class Widget extends BaseTheme {
      * Called when a focus type has been grabbed by this Widget. Does nothing by
      * default. Can be overridden.
      */
-    onFocusGrabbed(focusType: FocusType, root: Root): void;
+    onFocusGrabbed(focusType: FocusType): void;
     /**
      * Called when a focus type owned by this Widget has been dropped. Does
      * nothing by default. Can be overridden.
      */
-    onFocusDropped(focusType: FocusType, root: Root): void;
+    onFocusDropped(focusType: FocusType): void;
     /**
      * Widget event handling callback. If the event is to be captured, the
      * capturer is returned, else, null.
@@ -130,7 +139,7 @@ export declare abstract class Widget extends BaseTheme {
      * event may be captured and result in weird behaviour when the user
      * attempts to use tab to select another widget.
      */
-    protected handleEvent(event: Event, root: Root): Widget | null;
+    protected handleEvent(event: Event): Widget | null;
     /**
      * Called when an event is passed to the Widget. Checks if the target
      * matches the Widget, unless the Widget propagates events, or if the event
@@ -141,18 +150,18 @@ export declare abstract class Widget extends BaseTheme {
      *
      * @returns Returns the widget that captured the event or null if none captured the event.
      */
-    dispatchEvent(event: Event, root: Root): Widget | null;
+    dispatchEvent(event: Event): Widget | null;
     /**
      * Generic update method which is called before layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    protected handlePreLayoutUpdate(root: Root): void;
+    protected handlePreLayoutUpdate(): void;
     /**
      * Generic update method which is called before layout is resolved. Calls
      * {@link Widget#handlePreLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
-    preLayoutUpdate(root: Root): void;
+    preLayoutUpdate(): void;
     /**
      * Resolve dimensions of this widget. Must be implemented; set
      * {@link Widget#width} and {@link Widget#height}.
@@ -191,13 +200,13 @@ export declare abstract class Widget extends BaseTheme {
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    protected handlePostLayoutUpdate(root: Root): void;
+    protected handlePostLayoutUpdate(): void;
     /**
      * Generic update method which is called after layout is resolved. Calls
      * {@link Widget#handlePostLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
-    postLayoutUpdate(root: Root): void;
+    postLayoutUpdate(): void;
     /**
      * Paiting utility: clears background of widget. Should not be overridden.
      *
@@ -211,8 +220,6 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Paiting utility: start a clear operation with no clipping path, the user
      * has to add their own paths to the context. Should not be overridden.
-     *
-     * The background fill style used is {@link ThemeProperties#canvasFill}.
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
@@ -232,6 +239,12 @@ export declare abstract class Widget extends BaseTheme {
      * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
      */
     protected roundRect(x: number, y: number, width: number, height: number, roundInwards?: boolean): [number, number, number, number];
+    /**
+     * Painting utility: paints a circle. Should not be overridden. Coordinates
+     * are relative to the center of the circle. Uses ctx's current fillStyle.
+     * Does not restore the context state after finishing.
+     */
+    protected paintCircle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number): void;
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
      * when extending Widget. Even if {@link Widget#_dirty} is false, if this
@@ -268,12 +281,53 @@ export declare abstract class Widget extends BaseTheme {
      * Force the widget to be fully re-painted and have layout resolved. For
      * internal use only or for use by {@link Parent} widgets so that children
      * get properly marked as dirty when added to a new container after reuse.
-     * Could also prove useful if you are reusing widgets after removing them
-     * from the widget tree.
+     *
+     * Should be overridden if the derived Widget has more dirty flags other
+     * than the default ones (such as {@link MultiContainer#backgroundDirty}),
+     * but `super.forceDirty` must be called.
      */
     forceDirty(): void;
     /** Scale a given font string by a given scaling factor */
     protected scaleFont(font: string, factor: number): string;
+    /**
+     * Check if this Widget is active (is in a UI tree). If not, then this
+     * Widget must not be used. Must not be overridden.
+     */
+    get active(): boolean;
+    /**
+     * Similar to {@link Widget#_root}, but throws an error if the widget is not
+     * {@link Widget#active}.
+     */
+    get root(): Root;
+    /**
+     * Similar to {@link Widget#_parent}, but throws an error if the widget is
+     * not {@link Widget#active}.
+     */
+    get parent(): Widget | null;
+    /**
+     * Called when the Widget is added to a UI tree. Should be overridden for
+     * resource management, but `super.activate` must be called.
+     *
+     * If the widget is already in a UI tree (already has a {@link parent} or is
+     * the {@link Root#child | root Widget}, both checked via
+     * {@link Widget#active}), then this method will throw an exception; a
+     * Widget cannot be in multiple UI trees.
+     *
+     * Calls {@link Widget#forceDirty}.
+     *
+     * @param root - The {@link Root} of the UI tree
+     * @param parent - The new parent of this Widget. If `null`, then this Widget has no parent and is the {@link Root#child | root Widget}
+     */
+    activate(root: Root, parent: Widget | null): void;
+    /**
+     * Called when the Widget is removed from a UI tree. Should be overridden
+     * for resource management, but `super.deactivate` must be called.
+     *
+     * Sets {@link Widget#root} and {@link Widget#parent} to null.
+     *
+     * If the widget was not in a UI tree, then an exception is thrown.
+     */
+    deactivate(): void;
     get containerPadding(): Padding;
     set containerPadding(value: Padding | undefined);
     get multiContainerSpacing(): number;
@@ -312,4 +366,8 @@ export declare abstract class Widget extends BaseTheme {
     set scrollBarThickness(value: number | undefined);
     get scrollBarMinPixels(): number;
     set scrollBarMinPixels(value: number | undefined);
+    get radioButtonLength(): number;
+    set radioButtonLength(value: number | undefined);
+    get radioButtonInnerPadding(): number;
+    set radioButtonInnerPadding(value: number | undefined);
 }

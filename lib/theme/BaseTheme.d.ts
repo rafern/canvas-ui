@@ -163,4 +163,12 @@ export declare class BaseTheme implements ThemeProperties {
     private _scrollBarMinPixels?;
     get scrollBarMinPixels(): number;
     set scrollBarMinPixels(value: number | undefined);
+    /** See {@link BaseTheme#radioButtonLength}. For internal use only. */
+    private _radioButtonLength?;
+    get radioButtonLength(): number;
+    set radioButtonLength(value: number | undefined);
+    /** See {@link BaseTheme#radioButtonInnerPadding}. For internal use only. */
+    private _radioButtonInnerPadding?;
+    get radioButtonInnerPadding(): number;
+    set radioButtonInnerPadding(value: number | undefined);
 }

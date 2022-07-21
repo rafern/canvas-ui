@@ -1,7 +1,6 @@
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
@@ -43,8 +42,8 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     set inheritedTheme(theme: Theme | undefined);
     get inheritedTheme(): Theme | undefined;
     protected onThemeUpdated(property?: string | null): void;
-    onFocusGrabbed(focusType: FocusType, root: Root): void;
-    onFocusDropped(focusType: FocusType, root: Root): void;
-    protected handleEvent(event: Event, root: Root): Widget | null;
+    onFocusGrabbed(focusType: FocusType): void;
+    onFocusDropped(focusType: FocusType): void;
+    protected handleEvent(event: Event): Widget | null;
     protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
 }

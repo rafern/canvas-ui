@@ -1,9 +1,9 @@
-import { Variable, VariableCallback } from '../helpers/Variable';
+import type { VariableCallback } from '../helpers/VariableCallback';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
+import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
  * A checkbox widget; can be ticked or unticked.
@@ -20,7 +20,7 @@ export declare class Checkbox extends Widget {
     /** The helper used for handling pointer clicks and enter presses */
     protected clickHelper: ButtonClickHelper;
     /** The helper for keeping track of the checkbox value */
-    protected variable: Variable<boolean>;
+    protected variable: WatchableVariable<boolean>;
     /**
      * Create a new Checkbox.
      *
@@ -31,10 +31,10 @@ export declare class Checkbox extends Widget {
     /** Is the checkbox checked? */
     set checked(checked: boolean);
     get checked(): boolean;
-    onFocusGrabbed(focusType: FocusType, _root: Root): void;
-    onFocusDropped(focusType: FocusType, _root: Root): void;
-    protected handleEvent(event: Event, root: Root): this | null;
-    protected handlePostLayoutUpdate(_root: Root): void;
+    onFocusGrabbed(focusType: FocusType): void;
+    onFocusDropped(focusType: FocusType): void;
+    protected handleEvent(event: Event): this | null;
+    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

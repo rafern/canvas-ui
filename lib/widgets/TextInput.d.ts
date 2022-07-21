@@ -1,10 +1,9 @@
+import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { TextValidator } from '../validators/Validator';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper } from '../helpers/TextHelper';
-import { Variable } from '../helpers/Variable';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -56,7 +55,7 @@ export declare class TextInput<V> extends Widget {
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
     /** The helper for keeping track of the input value */
-    protected variable: Variable<string>;
+    protected variable: WatchableVariable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
      *
@@ -223,11 +222,11 @@ export declare class TextInput<V> extends Widget {
      * @returns Returns a 2-tuple with, respectively, the start and end of the range
      */
     private selectRangeAt;
-    onFocusGrabbed(focusType: FocusType, _root: Root): void;
-    onFocusDropped(focusType: FocusType, _root: Root): void;
-    protected handleEvent(event: Event, root: Root): this | null;
-    protected handlePreLayoutUpdate(root: Root): void;
+    onFocusGrabbed(focusType: FocusType): void;
+    onFocusDropped(focusType: FocusType): void;
+    protected handleEvent(event: Event): this | null;
+    protected handlePreLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePostLayoutUpdate(_root: Root): void;
+    protected handlePostLayoutUpdate(): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
 }

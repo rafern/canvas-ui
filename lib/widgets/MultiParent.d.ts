@@ -16,6 +16,8 @@ export declare abstract class MultiParent<W extends Widget = Widget> extends Par
      * each child's {@link Widget#inheritedTheme} is set so that new children
      * inherit this widget's theme.
      *
+     * Calls {@link Widget#forceDirty}.
+     *
      * @param children - If this is a widget, then it is pushed to {@link Parent#_children}. If this is an array of widgets, then each widget is pushed to {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
      */
@@ -23,7 +25,7 @@ export declare abstract class MultiParent<W extends Widget = Widget> extends Par
     /**
      * Remove child(ren) from this widget.
      *
-     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
+     * Calls {@link Widget#forceDirty}.
      *
      * @param children - If this is a widget, then it is removed from {@link Parent#_children}. If this is an array of widgets, then each widget is removed from {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
@@ -32,7 +34,7 @@ export declare abstract class MultiParent<W extends Widget = Widget> extends Par
     /**
      * Remove all children from this widget.
      *
-     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
+     * Calls {@link Widget#forceDirty}.
      *
      * @returns Returns this so that the method is chainable.
      */

@@ -2,7 +2,6 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import { ViewportWidget } from './ViewportWidget';
 import type { Event } from '../events/Event';
 import type { Widget } from './Widget';
-import { Root } from '../core/Root';
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
  *
@@ -108,9 +107,9 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      */
     private handleWheelEvent;
     protected onThemeUpdated(property?: string | null): void;
-    protected handleEvent(event: Event, root: Root): Widget | null;
+    protected handleEvent(event: Event): Widget | null;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePostLayoutUpdate(root: Root): void;
+    protected handlePostLayoutUpdate(): void;
     protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
     /**
      * Get the rectangles (filled and background) of a scrollbar

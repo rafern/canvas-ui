@@ -3,7 +3,6 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { ClickArea } from '../helpers/ClickArea';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 /**
  * A type of container widget which is allowed to be bigger or smaller than its
@@ -108,9 +107,9 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     get scaledConstraints(): [number, number, number, number];
     protected onThemeUpdated(property?: string | null): void;
     protected getClickAreaOf(widget: Widget): ClickArea;
-    protected handleEvent(event: Event, root: Root): Widget | null;
-    protected handlePreLayoutUpdate(root: Root): void;
-    protected handlePostLayoutUpdate(root: Root): void;
+    protected handleEvent(event: Event): Widget | null;
+    protected handlePreLayoutUpdate(): void;
+    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
     private correctChildPosition;

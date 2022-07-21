@@ -2,7 +2,6 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import { FillStyle } from '../theme/FillStyle';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 /**
  * A {@link SingleParent} which contains a single child and automatically paints
@@ -18,9 +17,9 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
     /** Create a new BaseContainer. */
     constructor(child: W, propagateEvents: boolean, themeProperties?: ThemeProperties);
     protected onThemeUpdated(property?: string | null): void;
-    protected handleEvent(event: Event, root: Root): Widget | null;
-    protected handlePreLayoutUpdate(root: Root): void;
-    protected handlePostLayoutUpdate(root: Root): void;
+    protected handleEvent(event: Event): Widget | null;
+    protected handlePreLayoutUpdate(): void;
+    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
     /**

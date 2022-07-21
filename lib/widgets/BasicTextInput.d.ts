@@ -1,5 +1,5 @@
+import type { VariableCallback } from '../helpers/VariableCallback';
 import type { ThemeProperties } from "../theme/ThemeProperties";
-import type { VariableCallback } from '../helpers/Variable';
 import { TextInput } from "./TextInput";
 /**
  * A {@link TextInput} with an optional callback and no validation.

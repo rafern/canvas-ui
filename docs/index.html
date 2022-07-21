@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@rafern/canvas-ui</title><meta name="description" content="Documentation for @rafern/canvas-ui"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@rafern/canvas-ui</title><meta name="description" content="Documentation for @rafern/canvas-ui"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script><link rel="stylesheet" href="assets/pages.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base=".">
 <div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -17,7 +17,7 @@
 <p>A Typescript UI library which uses HTML canvases.</p>
 <p>Documentation is available on <a href="https://rafern.github.io/canvas-ui/">Github pages</a>.</p>
 <p>Unity integration can be found in the 
-<a href="https://github.com/rafern/canvas-ui-unity">canvas-ui-unity repository</a>.</p>
+<a href="https://github.com/playkostudios/canvas-ui-unity">canvas-ui-unity repository</a> (private).</p>
 <p>three.js integration can be found in the 
 <a href="https://github.com/rafern/canvas-ui-three">canvas-ui-three repository</a>.</p>
 <p>Wonderland Engine integration can be found in the 
@@ -37,48 +37,6 @@
   <h2>Example</h2>
 </a>
 <p>Examples can be found in the <code>examples</code> folder</p>
-
-<a href="#debugging" id="debugging" style="color: inherit; text-decoration: none;">
-  <h2>Debugging</h2>
-</a>
-<p>Additional debugging tools are available in this project, such as:</p>
-<ul>
-<li>Visualisation of widget painting by using a random background fill colour when a widget is painted<ul>
-<li><strong>EPILEPSY WARNING</strong> - This creates blocks of randomly flashing colours for widgets that update frequently</li>
-</ul>
-</li>
-<li>Visualisation of text render groups to debug text wrapping issues</li>
-<li>Tracing recursive method calls, such as the <code>dispatchEvent</code> method</li>
-<li>Watching when flags are set, such as the <code>_dirty</code> or <code>_layoutDirty</code> flags</li>
-<li>Printing a grouped stack trace to the console when a specific method is called</li>
-</ul>
-<details><summary>Demonstration of the textrendergroups debug feature</summary>
-
-<p><img src="assets/debug-demo-textrendergroups.gif" alt="Demonstration of the textrendergroups debug feature"></p>
-</details>
-
-<details><summary>Demonstration of the watchflag debug feature</summary>
-
-<p><img src="assets/debug-demo-watchflag.gif" alt="Demonstration of the watchflag debug feature"></p>
-</details>
-
-<p>Each of these features is identified by a name and can be individually toggled
-and queried to check if they are enabled. All of the available features, called
-debug features, can also be listed.</p>
-<p>These features create additional overhead, even when disabled. Because of this,
-the debugging tools are implemented as wrappers for method calls, and are
-injected at runtime when needed. The wrappers can be injected by calling the
-<code>injectDebugCode</code> function, which must first be imported. When the code is
-injected, a new global object (<code>canvasDebug</code>) is available in the console and a
-help message is printed to the console. This object has the following functions:</p>
-<ul>
-<li><code>canvasDebug.list()</code>: Print a list of all of the available debug features</li>
-<li><code>canvasDebug.toggle(debugFeature, enable)</code>: Toggle a debug feature identified by the <code>debugFeature</code> argument. <code>enabled</code> is an optional boolean argument; if set, then the feature is enabled or disabled depending on whether the argument is <code>true</code> or <code>false</code>, but if not set, then the feature is toggled</li>
-<li><code>canvasDebug.enabled(debugFeature)</code>: Check whether a debug feature identified by the <code>debugFeature</code> argument is enabled. Returns true if enabled, false if not</li>
-</ul>
-<p>These 3 functions can also be imported via the <code>listDebugFeatures</code>,
-<code>toggleDebugFeature</code> and <code>isDebugFeatureEnabled</code> functions, but
-<code>injectDebugCode</code> must still be called before using these functions.</p>
 
 <a href="#special-thanks" id="special-thanks" style="color: inherit; text-decoration: none;">
   <h2>Special thanks</h2>
@@ -101,6 +59,7 @@ currently being developed at.</p>
 <li><a href="https://github.com/lwsjs/local-web-server">local-web-server</a> licensed under the MIT license</li>
 <li><a href="https://github.com/TypeStrong/TypeDoc">typedoc</a> licensed under the Apache 2.0 license</li>
 <li><a href="https://github.com/Microsoft/TypeScript">typescript</a> licensed under the Apache 2.0 license</li>
+<li><a href="https://github.com/microsoft/tsdoc">eslint-plugin-tsdoc</a> licensed under the MIT license</li>
 </ul>
 </div></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -123,7 +82,10 @@ currently being developed at.</p>
 <div class="tsd-accordion-details">
 <ul>
 <li class="current selected"><a href="modules.html">@rafern/canvas-<wbr/>ui</a>
-<ul></ul></li></ul></div></details></nav>
+<ul>
+<li class="pages-entry pages-entry-page pages-entry-depth-1"><a href="pages/debugging.html">Debugging</a></li>
+<li class="pages-entry pages-entry-page pages-entry-depth-1"><a href="pages/ui-trees.html">UI trees</a></li>
+<li class="pages-entry pages-entry-page pages-entry-depth-1"><a href="pages/decisions.html">Decisions</a></li></ul></li></ul></div></details></nav>
 <nav class="tsd-navigation secondary menu-sticky">
 <ul>
 <li class="tsd-kind-enum"><a href="enums/Alignment.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-enum)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-8-path"></rect><path d="M9.45 16V7.24H14.49V8.224H10.518V10.936H14.07V11.908H10.518V15.016H14.49V16H9.45Z" fill="var(--color-text)" id="icon-8-text"></path></svg>Alignment</a></li>
@@ -169,6 +131,7 @@ currently being developed at.</p>
 <li class="tsd-kind-class"><a href="classes/KeyboardDriver.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Keyboard<wbr/>Driver</a></li>
 <li class="tsd-kind-class"><a href="classes/Label.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Label</a></li>
 <li class="tsd-kind-class"><a href="classes/LabelledCheckbox.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Labelled<wbr/>Checkbox</a></li>
+<li class="tsd-kind-class"><a href="classes/LabelledRadioButton.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Labelled<wbr/>Radio<wbr/>Button</a></li>
 <li class="tsd-kind-class"><a href="classes/Leave.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Leave</a></li>
 <li class="tsd-kind-class"><a href="classes/Margin.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Margin</a></li>
 <li class="tsd-kind-class"><a href="classes/ModifierEvent.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Modifier<wbr/>Event</a></li>
@@ -183,6 +146,7 @@ currently being developed at.</p>
 <li class="tsd-kind-class"><a href="classes/PointerPress.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pointer<wbr/>Press</a></li>
 <li class="tsd-kind-class"><a href="classes/PointerRelease.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pointer<wbr/>Release</a></li>
 <li class="tsd-kind-class"><a href="classes/PointerWheel.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Pointer<wbr/>Wheel</a></li>
+<li class="tsd-kind-class"><a href="classes/RadioButton.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Radio<wbr/>Button</a></li>
 <li class="tsd-kind-class"><a href="classes/RayPointerDriver.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Ray<wbr/>Pointer<wbr/>Driver</a></li>
 <li class="tsd-kind-class"><a href="classes/Root.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Root</a></li>
 <li class="tsd-kind-class"><a href="classes/Row.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Row</a></li>
@@ -207,6 +171,7 @@ currently being developed at.</p>
 <li class="tsd-kind-class"><a href="classes/VirtualKeyRow.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Virtual<wbr/>Key<wbr/>Row</a></li>
 <li class="tsd-kind-class"><a href="classes/VirtualKeyboard.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Virtual<wbr/>Keyboard</a></li>
 <li class="tsd-kind-class"><a href="classes/VirtualKeyboardRoot.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Virtual<wbr/>Keyboard<wbr/>Root</a></li>
+<li class="tsd-kind-class"><a href="classes/WatchableVariable.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Watchable<wbr/>Variable</a></li>
 <li class="tsd-kind-class"><a href="classes/Widget.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-128-path"></use><use href="#icon-128-text"></use></svg>Widget</a></li>
 <li class="tsd-kind-interface"><a href="interfaces/Alignment2D.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6" id="icon-256-path"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)" id="icon-256-text"></path></svg>Alignment2D</a></li>
 <li class="tsd-kind-interface"><a href="interfaces/BaseClickHelper.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-256-path"></use><use href="#icon-256-text"></use></svg>Base<wbr/>Click<wbr/>Helper</a></li>
