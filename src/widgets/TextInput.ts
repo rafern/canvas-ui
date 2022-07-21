@@ -1,4 +1,5 @@
 import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
+import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { TextValidator } from '../validators/Validator';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerRelease } from '../events/PointerRelease';
@@ -9,11 +10,9 @@ import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import { TextHelper } from '../helpers/TextHelper';
 import { TabSelect } from '../events/TabSelect';
-import { Variable } from '../helpers/Variable';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
@@ -68,7 +67,7 @@ export class TextInput<V> extends Widget {
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
     /** The helper for keeping track of the input value */
-    protected variable: Variable<string>;
+    protected variable: WatchableVariable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
      *
@@ -125,7 +124,8 @@ export class TextInput<V> extends Widget {
 
         this.tabFocusable = true;
         this.textHelper = new TextHelper();
-        this.variable = new Variable<string>(initialValue, (text: string) => {
+        this.variable = new WatchableVariable<string>(initialValue);
+        this.variable.watch((text: string) => {
             const [valid, validatedValue] = validator(text);
 
             if(valid)
@@ -528,7 +528,7 @@ export class TextInput<V> extends Widget {
         return [startPos, pos];
     }
 
-    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+    override onFocusGrabbed(focusType: FocusType): void {
         // If keyboard focus is gained and the caret isn't shown yet, select the
         // last character and start blinking the caret
         if(focusType === FocusType.Keyboard && this.blinkStart === 0) {
@@ -539,17 +539,19 @@ export class TextInput<V> extends Widget {
         }
     }
 
-    override onFocusDropped(focusType: FocusType, _root: Root): void {
+    override onFocusDropped(focusType: FocusType): void {
         // Stop blinking cursor if keyboard focus lost and stop dragging if
         // pointer focus is lost
         if(focusType === FocusType.Keyboard)
             this.blinkStart = 0;
     }
 
-    protected override handleEvent(event: Event, root: Root): this | null {
+    protected override handleEvent(event: Event): this | null {
         // If editing is disabled, abort
         if(!this._editingEnabled)
             return null;
+
+        const root = this.root;
 
         if(event instanceof Leave) {
             // Stop dragging if the pointer leaves the text input, since it
@@ -788,10 +790,10 @@ export class TextInput<V> extends Widget {
         return this;
     }
 
-    protected override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         // Drop focus if editing is disabled
         if(!this.editingEnabled)
-            root.dropFocus(FocusType.Keyboard, this);
+            this.root.dropFocus(FocusType.Keyboard, this);
 
         // Mark as dirty when a blink needs to occur
         if(this.blinkOn !== this.blinkWasOn)
@@ -824,7 +826,7 @@ export class TextInput<V> extends Widget {
         this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 
-    protected override handlePostLayoutUpdate(_root: Root): void {
+    protected override handlePostLayoutUpdate(): void {
         // Update cursor offset. Needs to be updated post-layout because it is
         // dependent on maxWidth
         if(this.cursorOffsetDirty) {

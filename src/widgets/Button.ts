@@ -3,7 +3,6 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
 /**
@@ -47,18 +46,18 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
         }
     }
 
-    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+    override onFocusGrabbed(focusType: FocusType): void {
         this.clickHelper.onFocusGrabbed(focusType);
     }
 
-    override onFocusDropped(focusType: FocusType, _root: Root): void {
+    override onFocusDropped(focusType: FocusType): void {
         this.clickHelper.onFocusDropped(focusType);
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
+    protected override handleEvent(event: Event): Widget | null {
         const [wasClick, capture] = this.clickHelper.handleEvent(
             event,
-            root,
+            this.root,
             this.callback !== null,
             [this.x, this.x + this.width, this.y, this.y + this.height]
         );

@@ -1,6 +1,7 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
+import type { Root } from '../core/Root';
 
 /**
  * A mixin class for widgets which may have children.
@@ -39,7 +40,6 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         super(needsClear, propagatesEvents, themeProperties);
 
         this._children = [...children];
-        this.forceDirty(); // just in case children are being reused
     }
 
     override set inheritedTheme(theme: Theme | undefined) {
@@ -77,5 +77,19 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
      */
     get children(): Iterable<W> {
         return this._children.values();
+    }
+
+    override activate(root: Root, parent: Widget | null): void {
+        super.activate(root, parent);
+
+        for(const child of this.children)
+            child.activate(root, parent);
+    }
+
+    override deactivate(): void {
+        super.deactivate();
+
+        for(const child of this.children)
+            child.deactivate();
     }
 }

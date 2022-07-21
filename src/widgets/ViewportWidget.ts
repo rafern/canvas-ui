@@ -8,7 +8,6 @@ import { KeyEvent } from '../events/KeyEvent';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import { Viewport } from '../core/Viewport';
-import type { Root } from '../core/Root';
 import type { Widget } from './Widget';
 
 /**
@@ -220,7 +219,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         return [ left, left + width, top, top + height ];
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
+    protected override handleEvent(event: Event): Widget | null {
         // Drop event if it is a positional event with no target outside the
         // child's viewport. Only correct position if using a Viewport
         if(event instanceof PointerEvent) {
@@ -242,7 +241,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Dispatch event to child
-        const capturer = this.child.dispatchEvent(event, root);
+        const capturer = this.child.dispatchEvent(event);
 
         if(this.autoScrollSelections && capturer !== null && !(this.widthTied && this.heightTied) && (event instanceof TabSelect || event instanceof KeyEvent)) {
             const [cl, cr, ct, cb] = this.getClickAreaOf(capturer);
@@ -274,11 +273,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         return capturer;
     }
 
-    protected override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         const child = this.child;
 
         // Pre-layout update child
-        child.preLayoutUpdate(root);
+        child.preLayoutUpdate();
 
         // If child's layout is dirty and at least one of the axes are tied,
         // propagate layout dirtiness. Try to resolve layout if no axis is tied.
@@ -297,12 +296,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._layoutDirty = true;
     }
 
-    protected override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(): void {
         const child = this.child;
         this.forceReLayout = false;
 
         // Post-layout update child
-        child.postLayoutUpdate(root);
+        child.postLayoutUpdate();
 
         // If child is dirty, set self as dirty
         if(child.dirty)

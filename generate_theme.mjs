@@ -319,21 +319,21 @@ for(const [property, options] of Object.entries(config.properties)) {
     const actualType = options.type === 'font' ? 'string' : options.type;
     wLines.push(`${widgetIndentStr}override get ${property}(): ${actualType} {`);
     if(options.type == 'number')
-        wLines.push(`${widgetIndentStr}    return super.${property} * (this.root?.resolution ?? 1);`);
+        wLines.push(`${widgetIndentStr}    return super.${property} * (this._root?.resolution ?? 1);`);
     else if(options.type == 'number | null') {
         wLines.push(`${widgetIndentStr}    const superVal = super.${property};`);
-        wLines.push(`${widgetIndentStr}    return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));`);
+        wLines.push(`${widgetIndentStr}    return superVal === null ? superVal : (superVal * (this._root?.resolution ?? 1));`);
     }
     else if(options.type == 'font') {
         wLines.push(`${widgetIndentStr}    const superVal = super.${property};`);
         wLines.push(`${widgetIndentStr}    if(superVal !== this._cachedLastFont_${property}) {`);
         wLines.push(`${widgetIndentStr}        this._cachedLastFont_${property} = superVal;`);
-        wLines.push(`${widgetIndentStr}        this._cachedFont_${property} = this.scaleFont(superVal, this.root?.resolution ?? 1);`);
+        wLines.push(`${widgetIndentStr}        this._cachedFont_${property} = this.scaleFont(superVal, this._root?.resolution ?? 1);`);
         wLines.push(`${widgetIndentStr}    }`);
         wLines.push(`${widgetIndentStr}    return this._cachedFont_${property};`);
     }
     else if(options.type == 'Padding') {
-        wLines.push(`${widgetIndentStr}    const pad = super.${property}, res = this.root?.resolution ?? 1;`);
+        wLines.push(`${widgetIndentStr}    const pad = super.${property}, res = this._root?.resolution ?? 1;`);
         wLines.push(`${widgetIndentStr}    return <Padding>{left: pad.left * res, right: pad.right * res, top: pad.top * res, bottom: pad.bottom * res}`);
     }
     else

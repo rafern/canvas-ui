@@ -1,18 +1,23 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { WatchableVariable } from '../helpers/WatchableVariable';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { VariableCallback } from '../helpers/VariableCallback';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 /**
- * A checkbox widget; can be ticked or unticked.
+ * A radio button widget; used for selecting one of many options. Uses a shared
+ * {@link Variable} instance and expects the creation of multiple RadioButton
+ * instances.
+ *
+ * @typeParam V - The type stored in the {@link RadioButton#"variable"}; when a radio button is clicked, the value inside the variable has this type.
  *
  * @category Widget
  */
-export class Checkbox extends Widget {
+export class RadioButton<V> extends Widget {
     /** Horizontal offset. */
     private offsetX = 0;
     /** Vertical offset. */
@@ -21,27 +26,44 @@ export class Checkbox extends Widget {
     private actualLength = 0;
     /** The helper used for handling pointer clicks and enter presses */
     protected clickHelper: ButtonClickHelper;
-    /** The helper for keeping track of the checkbox value */
-    protected variable: WatchableVariable<boolean>;
+    /** The shared {@link WatchableVariable} where the value is set */
+    protected variable: WatchableVariable<V>;
+    /**
+     * The value that will be used when the {@link RadioButton#"variable"} is
+     * set
+     */
+    protected value: V;
+    /**
+     * The callback used for the {@link RadioButton#"variable"}. This extra copy
+     * is kept so that there is a strong reference linked to the radio button's
+     * lifespan
+     */
+    private readonly callback: VariableCallback<V>;
+    /** Was the radio button selected in the last paint? */
+    private _wasSelected = false;
 
     /**
-     * Create a new Checkbox.
+     * Create a new radio button.
      *
-     * @param callback - An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
+     * @param variable - The shared variable that radio buttons will save the value to when selected.
+     * @param value - The value that will be used to set the {@link RadioButton#"variable"} when the radio button is clicked
      */
-    constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeProperties?: ThemeProperties) {
-        // Checkboxes need a clear background, have no children and don't
+    constructor(variable: WatchableVariable<V>, value: V, themeProperties?: ThemeProperties) {
+        // Radio buttons need a clear background, have no children and don't
         // propagate events
         super(true, false, themeProperties);
 
         this.tabFocusable = true;
-        // Save callback and initial value
-        this.variable = new WatchableVariable<boolean>(initialValue);
-        if(callback)
-            this.variable.watch(callback);
-
-        // Setup click helper
+        this.variable = variable;
+        this.value = value;
         this.clickHelper = new ButtonClickHelper(this);
+        this.callback = this.handleChange.bind(this);
+        this._wasSelected = this.selected;
+    }
+
+    protected handleChange(_newValue: V): void {
+        if(this.selected !== this._wasSelected)
+            this._dirty = true;
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -51,7 +73,7 @@ export class Checkbox extends Widget {
             this._layoutDirty = true;
             this._dirty = true;
         }
-        else if(property === 'checkboxLength') {
+        else if(property === 'radioButtonLength') {
             this._layoutDirty = true;
             this._dirty = true;
         }
@@ -59,19 +81,27 @@ export class Checkbox extends Widget {
                 property === 'backgroundFill' ||
                 property === 'accentFill' ||
                 property === 'primaryFill' ||
-                property === 'checkboxInnerPadding')
+                property === 'radioButtonInnerPadding')
         {
             this._dirty = true;
         }
     }
 
-    /** Is the checkbox checked? */
-    set checked(checked: boolean) {
-        this.variable.value = checked;
+    /**
+     * Select this radio button. Sets the value in
+     * {@link RadioButton#"variable"} to be {@link RadioButton#value}
+     */
+    select() {
+        this.variable.value = this.value;
     }
 
-    get checked(): boolean {
-        return this.variable.value;
+    /**
+     * Is the radio button selected? Equivalent to checking if the value in the
+     * {@link RadioButton#"variable"} is strictly equal to the
+     * {@link RadioButton#value}
+     */
+    get selected(): boolean {
+        return this.variable.value === this.value;
     }
 
     override onFocusGrabbed(focusType: FocusType): void {
@@ -94,9 +124,9 @@ export class Checkbox extends Widget {
             [x, x + this.actualLength, y, y + this.actualLength]
         );
 
-        // Swap value if checkbox was clicked
+        // Select radio button if button was clicked
         if(wasClick)
-            this.checked = !this.checked;
+            this.select();
 
         // Always flag as dirty if the click state changed (so glow colour takes
         // effect). Toggle value if clicked
@@ -106,15 +136,9 @@ export class Checkbox extends Widget {
         return capture ? this : null;
     }
 
-    protected override handlePostLayoutUpdate(): void {
-        // Mark as dirty if variable is dirty
-        if(this.variable.dirty)
-            this._dirty = true;
-    }
-
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
         // Find actual length
-        const length = this.checkboxLength;
+        const length = this.radioButtonLength;
         this.actualLength = Math.min(length, maxWidth, maxHeight);
 
         // Resolve width and height
@@ -126,56 +150,56 @@ export class Checkbox extends Widget {
         if(this.height < minHeight)
             this.height = minHeight;
 
-        // Center checkbox
+        // Center radio button
         this.offsetX = (this.width - this.actualLength) / 2;
         this.offsetY = (this.height - this.actualLength) / 2;
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+        this._wasSelected = this.selected;
+
         // Should we use glow colours? (background glow and accent)
         const useGlow = this.clickHelper.clickState === ClickState.Hover ||
                         this.clickHelper.clickState === ClickState.Hold;
 
-        // Draw unchecked part of checkbox
+        // Draw unchecked part of radio button
         if(useGlow)
             ctx.fillStyle = this.backgroundGlowFill;
         else
             ctx.fillStyle = this.backgroundFill;
 
-        const checkboxX = this.offsetX + this.x;
-        const checkboxY = this.offsetY + this.y;
-        ctx.fillRect(
-            checkboxX, checkboxY, this.actualLength, this.actualLength,
-        );
+        const halfLength = this.actualLength / 2;
+        const radioX = this.offsetX + this.x + halfLength;
+        const radioY = this.offsetY + this.y + halfLength;
+        this.paintCircle(ctx, radioX, radioY, halfLength);
 
         // Draw checked part of checkbox
-        if(this.checked) {
+        if(this.selected) {
             if(useGlow)
                 ctx.fillStyle = this.accentFill;
             else
                 ctx.fillStyle = this.primaryFill;
 
-            const innerPadding = this.checkboxInnerPadding;
-            const innerLength = this.actualLength - innerPadding * 2;
+            const innerLength = this.actualLength - this.radioButtonInnerPadding * 2;
 
-            // Fall back to filling entire checkbox if there isn't enough space
-            // for padding
-            if(innerLength <= 0) {
-                ctx.fillRect(
-                    checkboxX,
-                    checkboxY,
-                    this.actualLength,
-                    this.actualLength,
-                );
-            }
+            // Fall back to filling entire radio button if there isn't enough
+            // space for padding
+            if(innerLength <= 0)
+                this.paintCircle(ctx, radioX, radioY, halfLength);
             else {
-                ctx.fillRect(
-                    checkboxX + innerPadding,
-                    checkboxY + innerPadding,
-                    innerLength,
-                    innerLength,
-                );
+                const halfInnerLength = innerLength / 2;
+                this.paintCircle(ctx, radioX, radioY, halfInnerLength);
             }
         }
+    }
+
+    override activate(root: Root, parent: Widget | null): void {
+        super.activate(root, parent);
+        this.variable.watch(this.callback);
+    }
+
+    override deactivate(): void {
+        super.deactivate();
+        this.variable.unwatch(this.callback);
     }
 }

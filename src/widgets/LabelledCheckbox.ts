@@ -1,5 +1,5 @@
+import type { VariableCallback } from '../helpers/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import type { VariableCallback } from '../helpers/Variable';
 import type { TextGetter } from './Label';
 import { Checkbox } from './Checkbox';
 import { Spacing } from './Spacing';

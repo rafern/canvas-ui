@@ -341,7 +341,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             this._dirty = true;
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
+    protected override handleEvent(event: Event): Widget | null {
         // Try to drag a scrollbar if this is a pointer or leave event with no
         // target or target on this
         if((event instanceof Leave || event instanceof PointerEvent) &&
@@ -357,11 +357,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             // Only handle event in scrollbar if the scrollbar is shown and
             // needed (layout mode shows unneeded scrollbars)
             if(!this.widthTied && (xNeeded || !overlay) &&
-               this.handleEventScrollbar(false, yNeeded || forceCorner, event, root))
+               this.handleEventScrollbar(false, yNeeded || forceCorner, event, this.root))
                 grabbedEvent = true;
 
             if(!this.heightTied && (yNeeded || !overlay) &&
-               this.handleEventScrollbar(true, xNeeded || forceCorner, event, root))
+               this.handleEventScrollbar(true, xNeeded || forceCorner, event, this.root))
                 grabbedEvent = true;
 
             // If the event was grabbed by either scrollbar, capture it
@@ -375,7 +375,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         }
 
         // Pass event along
-        const capturer = super.handleEvent(event, root);
+        const capturer = super.handleEvent(event);
 
         // If this is a wheel event and nobody captured the event, try
         // scrolling. If scrolling did indeed occur, then capture the event.
@@ -427,8 +427,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             this.height = Math.min(Math.max(this.height + thickness, minHeight), maxHeight);
     }
 
-    protected override handlePostLayoutUpdate(root: Root): void {
-        super.handlePostLayoutUpdate(root);
+    protected override handlePostLayoutUpdate(): void {
+        super.handlePostLayoutUpdate();
 
         // Keep scroll in bounds
         const offset = this.offset;

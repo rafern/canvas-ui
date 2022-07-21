@@ -200,6 +200,18 @@
             "default": "20",
             "description": "The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels.",
             "scaleWithResolution": true
+        },
+        "radioButtonLength": {
+            "type": "number",
+            "default": "12",
+            "description": "Similar to {@link ThemeProperties#checkboxLength}, but for {@link RadioButton}.",
+            "scaleWithResolution": true
+        },
+        "radioButtonInnerPadding": {
+            "type": "number",
+            "default": "2",
+            "description": "Similar to {@link ThemeProperties#checkboxInnerPadding}, but for {@link RadioButton}.",
+            "scaleWithResolution": true
         }
     }
 }

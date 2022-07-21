@@ -3,7 +3,6 @@ import { FillStyle } from '../theme/FillStyle';
 import { Alignment } from '../theme/Alignment';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 /**
@@ -40,25 +39,25 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             this._layoutDirty = true;
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
+    protected override handleEvent(event: Event): Widget | null {
         // Dispatch event to child
-        return this.child.dispatchEvent(event, root);
+        return this.child.dispatchEvent(event);
     }
 
-    protected override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         // Pre-layout update child
         const child = this.child;
-        child.preLayoutUpdate(root);
+        child.preLayoutUpdate();
 
         // If child's layout is dirty, set self's layout as dirty
         if(child.layoutDirty)
             this._layoutDirty = true;
     }
 
-    protected override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(): void {
         // Post-layout update child
         const child = this.child;
-        child.postLayoutUpdate(root);
+        child.postLayoutUpdate();
 
         // If child is dirty, set self as dirty
         if(child.dirty)

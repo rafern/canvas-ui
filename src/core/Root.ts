@@ -108,6 +108,7 @@ export class Root {
         this.child = child;
         this.pointerStyleHandler = pointerStyleHandler;
         this.child.inheritedTheme = theme;
+        this.child.activate(this, null);
     }
 
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
@@ -265,7 +266,7 @@ export class Root {
         this.pointerStyle = 'default';
 
         // Pass event down to internal Container
-        let captured = this.child.dispatchEvent(event, this);
+        let captured = this.child.dispatchEvent(event);
         if(captured === null) {
             // If the event wasn't captured but it had a focus, clear the focus
             // NOTE: This is for preventing a component that is no longer
@@ -286,7 +287,7 @@ export class Root {
             // happens when a removed widget still has tab focus
             if(event instanceof TabSelect && event.relativeTo !== null) {
                 event = new TabSelect(null, event.reversed);
-                captured = this.child.dispatchEvent(event, this);
+                captured = this.child.dispatchEvent(event);
                 // console.warn('Tab select event re-dispatched due to relative widget not being found');
             }
         }
@@ -297,7 +298,7 @@ export class Root {
                 // was reached, then the end of the search was likely reached.
                 // Try to start from the beginning again
                 // console.warn('Tab select event re-dispatched due to wrap-around');
-                captured = this.child.dispatchEvent(event, this);
+                captured = this.child.dispatchEvent(event);
             }
 
             if(captured) {
@@ -328,7 +329,7 @@ export class Root {
         // Special case: when the pointer focus capturer changes, dispatch a
         // leave event to the last capturer
         if(event.focusType === FocusType.Pointer && oldCapturer !== null)
-            this.child.dispatchEvent(new Leave(oldCapturer), this);
+            this.child.dispatchEvent(new Leave(oldCapturer));
 
         this._fociCapturers.set(event.focusType, captured);
         for(const driver of this.drivers)
@@ -354,7 +355,7 @@ export class Root {
             driver.update(this);
 
         // Pre-layout update child
-        this.child.preLayoutUpdate(this);
+        this.child.preLayoutUpdate();
     }
 
 
@@ -372,7 +373,7 @@ export class Root {
             return;
 
         // Post-layout update child
-        this.child.postLayoutUpdate(this);
+        this.child.postLayoutUpdate();
 
         // Update pointer style
         this.updatePointerStyle();
@@ -410,7 +411,7 @@ export class Root {
                 this.clearFocus(focusType);
                 // console.log('Set focus type', focusType, 'to widget type', widget.constructor.name);
                 this._foci.set(focusType, widget);
-                widget.onFocusGrabbed(focusType, this);
+                widget.onFocusGrabbed(focusType);
                 for(const driver of this.drivers)
                     driver.onFocusChanged(this, focusType, widget);
             }
@@ -428,7 +429,7 @@ export class Root {
                 this.clearFocus(partnerFocus);
                 // console.log('Set partner focus type', partnerFocus, 'to widget type', widget.constructor.name);
                 this._foci.set(partnerFocus, widget);
-                widget.onFocusGrabbed(partnerFocus, this);
+                widget.onFocusGrabbed(partnerFocus);
                 for(const driver of this.drivers)
                     driver.onFocusChanged(this, partnerFocus, widget);
             }
@@ -457,7 +458,7 @@ export class Root {
         const currentFocus = this._foci.get(focusType);
         if(currentFocus) {
             // console.log('Dropped focus type', focusType, 'from widget type', currentFocus.constructor.name);
-            currentFocus.onFocusDropped(focusType, this);
+            currentFocus.onFocusDropped(focusType);
 
             this._foci.set(focusType, null);
             for(const driver of this.drivers)

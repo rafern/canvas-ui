@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='module'>
+            import {
+                DOMRoot, Label, Margin, Column, LabelledRadioButton, Spacing,
+                DOMKeyboardDriver, DOMPointerDriver, WatchableVariable
+            } from './index.esm.js';
+
+            // Create the root
+            const variable = new WatchableVariable(null);
+            const col = new Column().add([
+                new Label('Select an option:'),
+                new LabelledRadioButton('Option 1', variable, 'option_1_value'),
+                new LabelledRadioButton('Option 2', variable, 'option_2_value'),
+                new LabelledRadioButton('Option 3', variable, 'option_3_value'),
+                new LabelledRadioButton('Option 4', variable, 'option_4_value'),
+                new LabelledRadioButton('Option 5', variable, 'option_5_value'),
+                new Spacing(0, 0, 8),
+                new Label(() => `Option selected: ${variable.value ?? 'none'}`)
+            ]);
+
+            const root = new DOMRoot(new Margin(col));
+
+            // Create, bind DOM and register the keyboard driver
+            const keyboardDriver = new DOMKeyboardDriver();
+            keyboardDriver.bindDOMElem(root.domElem);
+            root.registerDriver(keyboardDriver);
+
+            // Create, bind DOM and register the pointer driver
+            const pointerDriver = new DOMPointerDriver();
+            pointerDriver.bindDOMElem(root, root.domElem);
+            root.registerDriver(pointerDriver);
+
+            // Run the update loop
+            function updateLoop() {
+                root.update();
+                window.requestAnimationFrame(updateLoop);
+            }
+
+            window.requestAnimationFrame(updateLoop);
+
+            // Add root to body
+            document.body.appendChild(root.domElem);
+        </script>
+        <noscript>
+            Please enable Javascript. This example may not work if running via file:// URIs
+        </noscript>
+    </head>
+    <body>
+    </body>
+</html>

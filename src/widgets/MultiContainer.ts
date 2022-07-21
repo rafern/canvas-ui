@@ -3,7 +3,6 @@ import { FlexAlignment } from '../theme/FlexAlignment';
 import { Alignment } from '../theme/Alignment';
 import type { Event } from '../events/Event';
 import { MultiParent } from './MultiParent';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 /**
@@ -51,7 +50,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             this._layoutDirty = true;
     }
 
-    protected override handleEvent(event: Event, root: Root): Widget | null {
+    protected override handleEvent(event: Event): Widget | null {
         // Reverse children if necessary
         let children = this.children;
         if(event.reversed)
@@ -64,7 +63,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
                 continue;
 
             // Stop if event was captured
-            const captured = child.dispatchEvent(event, root);
+            const captured = child.dispatchEvent(event);
             if(captured !== null)
                 return captured;
         }
@@ -73,10 +72,10 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         return null;
     }
 
-    protected override handlePreLayoutUpdate(root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         // Pre-layout update children
         for(const child of this.children) {
-            child.preLayoutUpdate(root);
+            child.preLayoutUpdate();
 
             // If child's layout is dirty, set own layoutDirty flag
             if(child.layoutDirty)
@@ -84,10 +83,10 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         }
     }
 
-    protected override handlePostLayoutUpdate(root: Root): void {
+    protected override handlePostLayoutUpdate(): void {
         // Post-layout update children
         for(const child of this.children) {
-            child.postLayoutUpdate(root);
+            child.postLayoutUpdate();
 
             // If child is dirty, set own dirty flag
             if(child.dirty)

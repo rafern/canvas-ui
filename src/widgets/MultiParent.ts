@@ -17,19 +17,29 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
      * each child's {@link Widget#inheritedTheme} is set so that new children
      * inherit this widget's theme.
      *
+     * Calls {@link Widget#forceDirty}.
+     *
      * @param children - If this is a widget, then it is pushed to {@link Parent#_children}. If this is an array of widgets, then each widget is pushed to {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
      */
     add(children: W | Array<W>): this {
         if(Array.isArray(children)) {
+            const isActive = this.active;
+
             for(const child of children) {
                 this._children.push(child);
                 child.inheritedTheme = this.inheritedTheme;
+
+                if(isActive)
+                    child.activate(this.root, this);
             }
         }
         else {
             this._children.push(children);
             children.inheritedTheme = this.inheritedTheme;
+
+            if(this.active)
+                children.activate(this.root, this);
         }
 
         this.forceDirty();
@@ -39,23 +49,31 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Remove child(ren) from this widget.
      *
-     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
+     * Calls {@link Widget#forceDirty}.
      *
      * @param children - If this is a widget, then it is removed from {@link Parent#_children}. If this is an array of widgets, then each widget is removed from {@link Parent#_children}.
      * @returns Returns this so that the method is chainable.
      */
     remove(children: W | Array<W>): this {
         if(Array.isArray(children)) {
+            const isActive = this.active;
+
             for(const child of children) {
                 const pos = this._children.indexOf(child);
+
                 if(pos !== -1)
                     this._children.splice(pos, 1);
+                if(isActive)
+                    child.deactivate();
             }
         }
         else {
             const pos = this._children.indexOf(children);
+
             if(pos !== -1)
                 this._children.splice(pos, 1);
+            if(this.active)
+                children.deactivate();
         }
 
         this.forceDirty();
@@ -65,11 +83,16 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
     /**
      * Remove all children from this widget.
      *
-     * {@link Widget#_layoutDirty} and {@link Widget#_dirty} are set to true.
+     * Calls {@link Widget#forceDirty}.
      *
      * @returns Returns this so that the method is chainable.
      */
     clearChildren(): this {
+        if(this.active) {
+            for(const child of this._children)
+                child.deactivate();
+        }
+
         this._children.length = 0;
         this.forceDirty();
         return this;

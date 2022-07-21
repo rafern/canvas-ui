@@ -1,7 +1,6 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper, WrapMode } from '../helpers/TextHelper';
 import { layoutField } from '../decorators/FlagFields';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 /**
@@ -104,7 +103,7 @@ export class Label extends Widget {
             this._dirty = true;
     }
 
-    protected override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         // Update text helper variables
         if(this.textGetter !== null)
             this.textHelper.text = this.textGetter();

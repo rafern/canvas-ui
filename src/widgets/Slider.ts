@@ -1,5 +1,6 @@
-import { Variable, VariableCallback } from '../helpers/Variable';
+import type { VariableCallback } from '../helpers/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { WatchableVariable } from '../helpers/WatchableVariable';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
 import { paintField } from '../decorators/FlagFields';
@@ -9,7 +10,6 @@ import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import { KeyEvent } from '../events/KeyEvent';
 import type { Event } from '../events/Event';
-import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
@@ -35,7 +35,7 @@ export class Slider extends Widget {
     /** The helper for handling pointer clicks/drags */
     protected clickHelper: ClickHelper;
     /** The helper for keeping track of the slider's value */
-    protected variable: Variable<number>;
+    protected variable: WatchableVariable<number>;
     /** Is this a vertical slider? */
     protected readonly vertical: boolean;
     /** The horizontal offset of the slider */
@@ -68,7 +68,10 @@ export class Slider extends Widget {
             throw new Error('Slider increment value must be greater or equal to zero');
 
         this.clickHelper = new ClickHelper(this);
-        this.variable = new Variable(this.clamp(initialValue), callback);
+        this.variable = new WatchableVariable(this.clamp(initialValue));
+        if(callback)
+            this.variable.watch(callback);
+
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
@@ -139,17 +142,17 @@ export class Slider extends Widget {
             this._dirty = true;
     }
 
-    override onFocusGrabbed(focusType: FocusType, _root: Root): void {
+    override onFocusGrabbed(focusType: FocusType): void {
         if(focusType === FocusType.Keyboard)
             this.keyboardFocused = true;
     }
 
-    override onFocusDropped(focusType: FocusType, _root: Root): void {
+    override onFocusDropped(focusType: FocusType): void {
         if(focusType === FocusType.Keyboard)
             this.keyboardFocused = false;
     }
 
-    protected override handleEvent(event: Event, root: Root): this | null {
+    protected override handleEvent(event: Event): this | null {
         // Ignore unhandled events
         if(event instanceof PointerWheel || !(event instanceof PointerEvent || event instanceof KeyEvent || event instanceof Leave))
             return null;
@@ -174,7 +177,7 @@ export class Slider extends Widget {
         // Handle click event
         const x = this.x + this.offsetX;
         const y = this.y + this.offsetY;
-        this.clickHelper.handleClickEvent(event, root, [
+        this.clickHelper.handleClickEvent(event, this.root, [
             x, x + this.actualWidth, y, y + this.actualHeight,
         ]);
 
@@ -195,7 +198,7 @@ export class Slider extends Widget {
         return this;
     }
 
-    protected override handlePostLayoutUpdate(_root: Root): void {
+    protected override handlePostLayoutUpdate(): void {
         // Mark as dirty if variable is dirty
         if(this.variable.dirty)
             this._dirty = true;

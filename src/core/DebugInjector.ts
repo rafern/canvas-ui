@@ -273,7 +273,7 @@ export function injectDebugCode(): void {
         return ` (${x}, ${y})`;
     });
     // trace.Widget.dispatchEvent
-    injectTraceFeature(Widget, 'dispatchEvent', (event, _root) => {
+    injectTraceFeature(Widget, 'dispatchEvent', (event) => {
         return ` (${event.constructor.name})`;
     });
     // stacktrace.Root.resolveLayout

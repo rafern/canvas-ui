@@ -80,5 +80,9 @@ export interface ThemeProperties {
     scrollBarMinPercent?: number;
     /** The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels. */
     scrollBarMinPixels?: number;
+    /** Similar to {@link ThemeProperties#checkboxLength}, but for {@link RadioButton}. */
+    radioButtonLength?: number;
+    /** Similar to {@link ThemeProperties#checkboxInnerPadding}, but for {@link RadioButton}. */
+    radioButtonInnerPadding?: number;
     // XXX THEMEPROPERTIES AUTO-GENERATED CODE END
 }

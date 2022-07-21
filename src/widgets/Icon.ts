@@ -1,6 +1,5 @@
 import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 const videoRegex = /^.*\.(webm|og[gv]|m(p4|4v|ov)|avi|qt)$/i;
@@ -174,7 +173,7 @@ export class Icon extends Widget {
         return this._image;
     }
 
-    protected override handlePreLayoutUpdate(_root: Root): void {
+    protected override handlePreLayoutUpdate(): void {
         // Icons only needs to be re-drawn if image changed, which is tracked by
         // the image setter, or if the source changed, but not if the icon isn't
         // loaded yet. If this is a playing video, icon only needs to be

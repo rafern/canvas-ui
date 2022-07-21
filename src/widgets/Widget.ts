@@ -10,6 +10,7 @@ import type { Root } from '../core/Root';
 
 const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
 const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
+const twoPi = Math.PI * 2;
 
 /**
  * A generic widget. All widgets extend this class. All widgets extend
@@ -19,7 +20,8 @@ const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]
  */
 export abstract class Widget extends BaseTheme {
     /**
-     * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
+     * Is this widget enabled? If it isn't, it will act as if it doesn't exist,
+     * but will still be present in the UI tree.
      */
     private _enabled = true;
     /** Widget will only be painted if dirty is true. */
@@ -52,12 +54,19 @@ export abstract class Widget extends BaseTheme {
     protected _flex = 0;
     /**
      * The {@link Root} that this widget is currently inside.
-     * Note that this will replace the root argument in the update functions,
-     * but for now, both can be used. For now, this value is set whenever
-     * {@link Widget#preLayoutUpdate} is called.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null.
      */
-    protected root: Root | null = null;
-    // ^^^ TODO remove future use mention when root argument is removed
+    protected _root: Root | null = null;
+    /**
+     * The parent {@link Widget} of this widget.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null, but root
+     * widgets will also have a null parent.
+     */
+    protected _parent: Widget | null = null;
     /** Can this widget be focused by pressing tab? */
     protected tabFocusable = false;
 
@@ -172,7 +181,7 @@ export abstract class Widget extends BaseTheme {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    onFocusGrabbed(focusType: FocusType, root: Root): void {}
+    onFocusGrabbed(focusType: FocusType): void {}
 
     /**
      * Called when a focus type owned by this Widget has been dropped. Does
@@ -181,7 +190,7 @@ export abstract class Widget extends BaseTheme {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    onFocusDropped(focusType: FocusType, root: Root): void {}
+    onFocusDropped(focusType: FocusType): void {}
 
     /**
      * Widget event handling callback. If the event is to be captured, the
@@ -198,10 +207,7 @@ export abstract class Widget extends BaseTheme {
      * event may be captured and result in weird behaviour when the user
      * attempts to use tab to select another widget.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected handleEvent(event: Event, root: Root): Widget | null {
+    protected handleEvent(event: Event): Widget | null {
         if(event.target === this)
             return this;
         else
@@ -218,7 +224,7 @@ export abstract class Widget extends BaseTheme {
      *
      * @returns Returns the widget that captured the event or null if none captured the event.
      */
-    dispatchEvent(event: Event, root: Root): Widget | null {
+    dispatchEvent(event: Event): Widget | null {
         if(!this._enabled)
             return null;
 
@@ -233,7 +239,7 @@ export abstract class Widget extends BaseTheme {
 
         let capturer = null;
         if(event.reversed)
-            capturer = this.handleEvent(event, root);
+            capturer = this.handleEvent(event);
 
         if(event instanceof TabSelect) {
             if(event.reachedRelative) {
@@ -249,7 +255,7 @@ export abstract class Widget extends BaseTheme {
         }
 
         if(!event.reversed)
-            capturer = this.handleEvent(event, root);
+            capturer = this.handleEvent(event);
 
         return capturer;
     }
@@ -258,20 +264,17 @@ export abstract class Widget extends BaseTheme {
      * Generic update method which is called before layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    protected handlePreLayoutUpdate(root: Root): void {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    protected handlePreLayoutUpdate(): void {}
 
     /**
      * Generic update method which is called before layout is resolved. Calls
      * {@link Widget#handlePreLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
-    preLayoutUpdate(root: Root): void {
-        this.root = root;
+    preLayoutUpdate(): void {
         if(this._enabled)
-            this.handlePreLayoutUpdate(root);
+            this.handlePreLayoutUpdate();
     }
 
     /**
@@ -421,19 +424,17 @@ export abstract class Widget extends BaseTheme {
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    protected handlePostLayoutUpdate(root: Root): void {}
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    protected handlePostLayoutUpdate(): void {}
 
     /**
      * Generic update method which is called after layout is resolved. Calls
      * {@link Widget#handlePostLayoutUpdate} if widget is enabled. Must not be
      * overridden.
      */
-    postLayoutUpdate(root: Root): void {
+    postLayoutUpdate(): void {
         if(this._enabled)
-            this.handlePostLayoutUpdate(root);
+            this.handlePostLayoutUpdate();
     }
 
     /**
@@ -461,8 +462,6 @@ export abstract class Widget extends BaseTheme {
     /**
      * Paiting utility: start a clear operation with no clipping path, the user
      * has to add their own paths to the context. Should not be overridden.
-     *
-     * The background fill style used is {@link ThemeProperties#canvasFill}.
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
@@ -501,6 +500,17 @@ export abstract class Widget extends BaseTheme {
         x = roundDown(x);
         y = roundDown(y);
         return [x, y, roundUp(x + width) - x, roundUp(y + height) - y];
+    }
+
+    /**
+     * Painting utility: paints a circle. Should not be overridden. Coordinates
+     * are relative to the center of the circle. Uses ctx's current fillStyle.
+     * Does not restore the context state after finishing.
+     */
+    protected paintCircle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number): void {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, twoPi);
+        ctx.fill();
     }
 
     /**
@@ -569,8 +579,10 @@ export abstract class Widget extends BaseTheme {
      * Force the widget to be fully re-painted and have layout resolved. For
      * internal use only or for use by {@link Parent} widgets so that children
      * get properly marked as dirty when added to a new container after reuse.
-     * Could also prove useful if you are reusing widgets after removing them
-     * from the widget tree.
+     *
+     * Should be overridden if the derived Widget has more dirty flags other
+     * than the default ones (such as {@link MultiContainer#backgroundDirty}),
+     * but `super.forceDirty` must be called.
      */
     forceDirty(): void {
         this._dirty = true;
@@ -633,9 +645,80 @@ export abstract class Widget extends BaseTheme {
         return font.substring(0, findPos) + value.toString() + suffix + font.substring(findPos + matchSize, font.length);
     }
 
+    /**
+     * Check if this Widget is active (is in a UI tree). If not, then this
+     * Widget must not be used. Must not be overridden.
+     */
+    get active(): boolean {
+        return this._root !== null;
+    }
+
+    /**
+     * Similar to {@link Widget#_root}, but throws an error if the widget is not
+     * {@link Widget#active}.
+     */
+    get root(): Root {
+        if(!this.active)
+            throw new Error('Cannot get root; Widget is not active');
+
+        // XXX active makes sure that _root is not null, but typescript doesn't
+        // detect this. force the type system to treat it as non-null
+        return this._root as Root;
+    }
+
+    /**
+     * Similar to {@link Widget#_parent}, but throws an error if the widget is
+     * not {@link Widget#active}.
+     */
+    get parent(): Widget | null {
+        if(!this.active)
+            throw new Error('Cannot get parent; Widget is not active');
+
+        return this._parent;
+    }
+
+    /**
+     * Called when the Widget is added to a UI tree. Should be overridden for
+     * resource management, but `super.activate` must be called.
+     *
+     * If the widget is already in a UI tree (already has a {@link parent} or is
+     * the {@link Root#child | root Widget}, both checked via
+     * {@link Widget#active}), then this method will throw an exception; a
+     * Widget cannot be in multiple UI trees.
+     *
+     * Calls {@link Widget#forceDirty}.
+     *
+     * @param root - The {@link Root} of the UI tree
+     * @param parent - The new parent of this Widget. If `null`, then this Widget has no parent and is the {@link Root#child | root Widget}
+     */
+    activate(root: Root, parent: Widget | null): void {
+        if(this.active)
+            throw new Error('Attempt to activate active Widget');
+
+        this._root = root;
+        this._parent = parent;
+        this.forceDirty();
+    }
+
+    /**
+     * Called when the Widget is removed from a UI tree. Should be overridden
+     * for resource management, but `super.deactivate` must be called.
+     *
+     * Sets {@link Widget#root} and {@link Widget#parent} to null.
+     *
+     * If the widget was not in a UI tree, then an exception is thrown.
+     */
+    deactivate(): void {
+        if(!this.active)
+            throw new Error('Attempt to deactivate inactive Widget');
+
+        this._root = null;
+        this._parent = null;
+    }
+
     // XXX WIDGET AUTO-GENERATED CODE START
     override get containerPadding(): Padding {
-        const pad = super.containerPadding, res = this.root?.resolution ?? 1;
+        const pad = super.containerPadding, res = this._root?.resolution ?? 1;
         return <Padding>{left: pad.left * res, right: pad.right * res, top: pad.top * res, bottom: pad.bottom * res}
     }
 
@@ -644,7 +727,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get multiContainerSpacing(): number {
-        return super.multiContainerSpacing * (this.root?.resolution ?? 1);
+        return super.multiContainerSpacing * (this._root?.resolution ?? 1);
     }
 
     override set multiContainerSpacing(value: number | undefined) {
@@ -652,7 +735,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get sliderMinLength(): number {
-        return super.sliderMinLength * (this.root?.resolution ?? 1);
+        return super.sliderMinLength * (this._root?.resolution ?? 1);
     }
 
     override set sliderMinLength(value: number | undefined) {
@@ -660,7 +743,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get sliderThickness(): number {
-        return super.sliderThickness * (this.root?.resolution ?? 1);
+        return super.sliderThickness * (this._root?.resolution ?? 1);
     }
 
     override set sliderThickness(value: number | undefined) {
@@ -674,7 +757,7 @@ export abstract class Widget extends BaseTheme {
         const superVal = super.bodyTextFont;
         if(superVal !== this._cachedLastFont_bodyTextFont) {
             this._cachedLastFont_bodyTextFont = superVal;
-            this._cachedFont_bodyTextFont = this.scaleFont(superVal, this.root?.resolution ?? 1);
+            this._cachedFont_bodyTextFont = this.scaleFont(superVal, this._root?.resolution ?? 1);
         }
         return this._cachedFont_bodyTextFont;
     }
@@ -685,7 +768,7 @@ export abstract class Widget extends BaseTheme {
 
     override get bodyTextHeight(): number | null {
         const superVal = super.bodyTextHeight;
-        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+        return superVal === null ? superVal : (superVal * (this._root?.resolution ?? 1));
     }
 
     override set bodyTextHeight(value: number | null | undefined) {
@@ -694,7 +777,7 @@ export abstract class Widget extends BaseTheme {
 
     override get bodyTextSpacing(): number | null {
         const superVal = super.bodyTextSpacing;
-        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+        return superVal === null ? superVal : (superVal * (this._root?.resolution ?? 1));
     }
 
     override set bodyTextSpacing(value: number | null | undefined) {
@@ -702,7 +785,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get checkboxLength(): number {
-        return super.checkboxLength * (this.root?.resolution ?? 1);
+        return super.checkboxLength * (this._root?.resolution ?? 1);
     }
 
     override set checkboxLength(value: number | undefined) {
@@ -710,7 +793,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get checkboxInnerPadding(): number {
-        return super.checkboxInnerPadding * (this.root?.resolution ?? 1);
+        return super.checkboxInnerPadding * (this._root?.resolution ?? 1);
     }
 
     override set checkboxInnerPadding(value: number | undefined) {
@@ -724,7 +807,7 @@ export abstract class Widget extends BaseTheme {
         const superVal = super.inputTextFont;
         if(superVal !== this._cachedLastFont_inputTextFont) {
             this._cachedLastFont_inputTextFont = superVal;
-            this._cachedFont_inputTextFont = this.scaleFont(superVal, this.root?.resolution ?? 1);
+            this._cachedFont_inputTextFont = this.scaleFont(superVal, this._root?.resolution ?? 1);
         }
         return this._cachedFont_inputTextFont;
     }
@@ -735,7 +818,7 @@ export abstract class Widget extends BaseTheme {
 
     override get inputTextHeight(): number | null {
         const superVal = super.inputTextHeight;
-        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+        return superVal === null ? superVal : (superVal * (this._root?.resolution ?? 1));
     }
 
     override set inputTextHeight(value: number | null | undefined) {
@@ -744,7 +827,7 @@ export abstract class Widget extends BaseTheme {
 
     override get inputTextSpacing(): number | null {
         const superVal = super.inputTextSpacing;
-        return superVal === null ? superVal : (superVal * (this.root?.resolution ?? 1));
+        return superVal === null ? superVal : (superVal * (this._root?.resolution ?? 1));
     }
 
     override set inputTextSpacing(value: number | null | undefined) {
@@ -752,7 +835,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get inputTextInnerPadding(): number {
-        return super.inputTextInnerPadding * (this.root?.resolution ?? 1);
+        return super.inputTextInnerPadding * (this._root?.resolution ?? 1);
     }
 
     override set inputTextInnerPadding(value: number | undefined) {
@@ -760,7 +843,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get inputTextMinWidth(): number {
-        return super.inputTextMinWidth * (this.root?.resolution ?? 1);
+        return super.inputTextMinWidth * (this._root?.resolution ?? 1);
     }
 
     override set inputTextMinWidth(value: number | undefined) {
@@ -768,7 +851,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get cursorThickness(): number {
-        return super.cursorThickness * (this.root?.resolution ?? 1);
+        return super.cursorThickness * (this._root?.resolution ?? 1);
     }
 
     override set cursorThickness(value: number | undefined) {
@@ -776,7 +859,7 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get scrollBarThickness(): number {
-        return super.scrollBarThickness * (this.root?.resolution ?? 1);
+        return super.scrollBarThickness * (this._root?.resolution ?? 1);
     }
 
     override set scrollBarThickness(value: number | undefined) {
@@ -784,11 +867,27 @@ export abstract class Widget extends BaseTheme {
     }
 
     override get scrollBarMinPixels(): number {
-        return super.scrollBarMinPixels * (this.root?.resolution ?? 1);
+        return super.scrollBarMinPixels * (this._root?.resolution ?? 1);
     }
 
     override set scrollBarMinPixels(value: number | undefined) {
         super.scrollBarMinPixels = value;
+    }
+
+    override get radioButtonLength(): number {
+        return super.radioButtonLength * (this._root?.resolution ?? 1);
+    }
+
+    override set radioButtonLength(value: number | undefined) {
+        super.radioButtonLength = value;
+    }
+
+    override get radioButtonInnerPadding(): number {
+        return super.radioButtonInnerPadding * (this._root?.resolution ?? 1);
+    }
+
+    override set radioButtonInnerPadding(value: number | undefined) {
+        super.radioButtonInnerPadding = value;
     }
 
     // XXX WIDGET AUTO-GENERATED CODE END

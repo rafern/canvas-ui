@@ -8,7 +8,7 @@ deemed too slow to make games in it, so it's in a very outdated and unfinished
 state. Because of this, it was decided not to release the library, but the link
 is still in the README for completeness' sake.
 
-## Why are there onActivate() and onDeactivate() methods?
+## Why are there activate() and deactivate() methods?
 
 Before {@link RadioButton} was implemented in version 4, the {@link Variable}
 class could have a single callback. However, radio buttons change a shared
@@ -37,8 +37,8 @@ Widget and a Root, it doesn't just mark a Widget as not stale.
 
 When implementing {@link WatchableVariable}, the first implementation used
 WeakRef for callbacks because it would avoid any manual memory management and
-therefore avoid the addition of {@link Widget#onActivate} and
-{@link Widget#onDeactivate}. This would be preferrable because it would not
+therefore avoid the addition of {@link Widget#activate} and
+{@link Widget#deactivate}. This would be preferrable because it would not
 require any changes to the {@link Widget} class.
 
 In practice, callbacks create so many strong references that the objects that

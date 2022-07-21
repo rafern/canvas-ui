@@ -97,6 +97,8 @@ export class BaseTheme implements ThemeProperties {
         this._scrollBarThickness = properties.scrollBarThickness;
         this._scrollBarMinPercent = properties.scrollBarMinPercent;
         this._scrollBarMinPixels = properties.scrollBarMinPixels;
+        this._radioButtonLength = properties.radioButtonLength;
+        this._radioButtonInnerPadding = properties.radioButtonInnerPadding;
         // XXX BASETHEME CTOR AUTO-GENERATED CODE END
     }
 
@@ -574,6 +576,34 @@ export class BaseTheme implements ThemeProperties {
         if(this._scrollBarMinPixels !== value) {
             this._scrollBarMinPixels = value;
             this.onThemeUpdated('scrollBarMinPixels');
+        }
+    }
+
+    /** See {@link BaseTheme#radioButtonLength}. For internal use only. */
+    private _radioButtonLength?: number;
+
+    get radioButtonLength(): number {
+        return this._radioButtonLength ?? this._fallbackTheme?.radioButtonLength ?? 12;
+    }
+
+    set radioButtonLength(value: number | undefined) {
+        if(this._radioButtonLength !== value) {
+            this._radioButtonLength = value;
+            this.onThemeUpdated('radioButtonLength');
+        }
+    }
+
+    /** See {@link BaseTheme#radioButtonInnerPadding}. For internal use only. */
+    private _radioButtonInnerPadding?: number;
+
+    get radioButtonInnerPadding(): number {
+        return this._radioButtonInnerPadding ?? this._fallbackTheme?.radioButtonInnerPadding ?? 2;
+    }
+
+    set radioButtonInnerPadding(value: number | undefined) {
+        if(this._radioButtonInnerPadding !== value) {
+            this._radioButtonInnerPadding = value;
+            this.onThemeUpdated('radioButtonInnerPadding');
         }
     }
 
