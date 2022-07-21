@@ -35,7 +35,7 @@ export class DOMRoot extends Root {
         // Make DOM element, which is a canvas, and get a 2D context for it
         this.domElem = document.createElement('canvas');
         this.domElem.tabIndex = 1;
-        [this.domElem.width, this.domElem.height] = this.dimensions;
+        this.updateDOMDims();
 
         const context = this.domElem.getContext('2d', { alpha: true });
         if(context === null)
@@ -81,7 +81,7 @@ export class DOMRoot extends Root {
 
         this.preLayoutUpdate();
         if(this.resolveLayout()) {
-            [this.domElem.width, this.domElem.height] = this.dimensions;
+            this.updateDOMDims();
             this.autoScale();
         }
         this.postLayoutUpdate();
@@ -98,6 +98,17 @@ export class DOMRoot extends Root {
     override set resolution(resolution: number) {
         super.resolution = resolution;
         this.autoScale();
+    }
+
+    /** Update the width and height of {@link DOMRoot#domElem} */
+    private updateDOMDims(): void {
+        const [scaleX, scaleY] = this.effectiveScale;
+        const [dimsX, dimsY] = this.dimensions;
+        // XXX canvas width/height is auto-truncated, so manually round it
+        // so that values such as 99.9997 don't get turned into 99 instead
+        // of 100
+        this.domElem.width = Math.round(dimsX * scaleX);
+        this.domElem.height = Math.round(dimsY * scaleY);
     }
 
     /** Apply CSS scaling to the DOM element depending on the Root resolution */

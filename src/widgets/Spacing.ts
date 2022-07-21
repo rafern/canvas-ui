@@ -29,13 +29,13 @@ export class Spacing extends Widget {
         // Try to expand each axis. If axis is not constrained (can't expand),
         // then try to use the biggest minimum length
         if(maxWidth !== Infinity)
-            this.width = maxWidth;
+            this.idealWidth = maxWidth;
         else
-            this.width = Math.max(minWidth, this.minWidth);
+            this.idealWidth = Math.max(minWidth, this.minWidth);
 
         if(maxHeight !== Infinity)
-            this.height = maxHeight;
+            this.idealHeight = maxHeight;
         else
-            this.height = Math.max(minHeight, this.minHeight);
+            this.idealHeight = Math.max(minHeight, this.minHeight);
     }
 }

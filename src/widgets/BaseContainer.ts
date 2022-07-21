@@ -104,19 +104,12 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Resolve child's dimensions
-        const [oldChildWidth, oldChildHeight] = this.child.dimensions;
         this.child.resolveDimensions(childMinWidth, childMaxWidth, childMinHeight, childMaxHeight);
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
 
         // Resolve own dimensions
-        const [oldWidth, oldHeight] = [this.width, this.height];
-        this.width = Math.max(minWidth, childWidth + hPadding);
-        this.height = Math.max(minHeight, childHeight + vPadding);
-
-        // Mark background as dirty if own size or child's size changed
-        if(this.width !== oldWidth || this.height !== oldHeight ||
-           childWidth !== oldChildWidth || childHeight !== oldChildHeight)
-            this.backgroundDirty = true;
+        this.idealWidth = Math.max(minWidth, childWidth + hPadding);
+        this.idealHeight = Math.max(minHeight, childHeight + vPadding);
     }
 
     protected override afterPositionResolved(): void {
@@ -125,15 +118,15 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         const alignment = this.containerAlignment;
 
         // Calculate used space
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
         const usedWidth = childWidth + padding.left + padding.right;
         const usedHeight = childHeight + padding.top + padding.bottom;
 
         // Horizontal offset
-        let childX = this.x + padding.left;
+        let childX = this.idealX + padding.left;
         if(alignment.horizontal !== Alignment.Stretch) {
             // Get free space for this axis
-            const freeSpace = this.width - usedWidth;
+            const freeSpace = this.idealWidth - usedWidth;
 
             // Ignore if free space is negative or zero, as in, the child didn't
             // even get the space they requested or just enough space. If there
@@ -144,22 +137,44 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Vertical offset
-        let childY = this.y + padding.top;
+        let childY = this.idealY + padding.top;
         if(alignment.vertical !== Alignment.Stretch) {
             // Same logic as above, but for vertical axis
-            const freeSpace = this.height - usedHeight;
+            const freeSpace = this.idealHeight - usedHeight;
 
             if(freeSpace > 0)
                 childY += freeSpace * alignment.vertical;
         }
 
         // Resolve child's position
-        const [oldChildX, oldChildY] = this.child.position;
         this.child.resolvePosition(childX, childY);
+    }
 
-        // If child's position changed, mark background as dirty
-        if(oldChildX !== childX || oldChildY !== childY)
+    override finalizeBounds() {
+        const [oldWidth, oldHeight] = this.dimensions;
+        const [oldChildX, oldChildY] = this.child.position;
+        const [oldChildWidth, oldChildHeight] = this.child.dimensions;
+
+        super.finalizeBounds();
+
+        // If dimensions, child's position or child's dimensions have changed,
+        // mark background as dirty
+        if(oldWidth !== this.width || oldHeight !== this.height) {
             this.backgroundDirty = true;
+            return;
+        }
+
+        const [childX, childY] = this.child.position;
+        if(oldChildX !== childX || oldChildY !== childY) {
+            this.backgroundDirty = true;
+            return;
+        }
+
+        const [childWidth, childHeight] = this.child.dimensions;
+        if(oldChildWidth !== childWidth || oldChildHeight !== childHeight) {
+            this.backgroundDirty = true;
+            return;
+        }
     }
 
     /**
@@ -170,8 +185,8 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         // Clear background if needed
         if(this.backgroundDirty || forced) {
             this.clearStart(ctx, fillStyle);
-            ctx.rect(...this.roundRect(this.x, this.y, this.width, this.height, true));
-            ctx.rect(...this.roundRect(...this.child.position, ...this.child.dimensions, true));
+            ctx.rect(...this.rect);
+            ctx.rect(...this.child.rect);
             this.clearEnd(ctx, 'evenodd');
 
             this.backgroundDirty = false;

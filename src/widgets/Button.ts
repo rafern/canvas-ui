@@ -56,10 +56,7 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
 
     protected override handleEvent(event: Event): Widget | null {
         const [wasClick, capture] = this.clickHelper.handleEvent(
-            event,
-            this.root,
-            this.callback !== null,
-            [this.x, this.x + this.width, this.y, this.y + this.height]
+            event, this.root, this.callback !== null, this.bounds
         );
 
         if(wasClick)

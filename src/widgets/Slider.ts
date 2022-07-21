@@ -214,33 +214,40 @@ export class Slider extends Widget {
         if(this.vertical) {
             // Main axis
             if(maxHeight != Infinity)
-                this.height = maxHeight;
+                this.idealHeight = maxHeight;
             else
-                this.height = Math.max(minLength, minHeight);
-
-            this.actualHeight = this.height;
-            this.offsetY = 0;
+                this.idealHeight = Math.max(minLength, minHeight);
 
             // Cross axis
-            this.width = Math.min(Math.max(thickness, minWidth), maxWidth);
+            this.idealWidth = Math.min(Math.max(thickness, minWidth), maxWidth);
 
-            this.actualWidth = Math.min(this.width, thickness);
-            this.offsetX = (this.width - this.actualWidth) / 2;
         }
         else {
             // Main axis
             if(maxWidth != Infinity)
-                this.width = maxWidth;
+                this.idealWidth = maxWidth;
             else
-                this.width = Math.max(minLength, minWidth);
-
-            this.actualWidth = this.width;
-            this.offsetX = 0;
+                this.idealWidth = Math.max(minLength, minWidth);
 
             // Cross axis
-            this.height = Math.min(Math.max(thickness, minHeight), maxHeight);
+            this.idealHeight = Math.min(Math.max(thickness, minHeight), maxHeight);
+        }
+    }
 
-            this.actualHeight = Math.min(this.height, thickness);
+    override finalizeBounds() {
+        super.finalizeBounds();
+
+        // cache centered position and dimensions
+        if(this.vertical) {
+            this.actualWidth = Math.min(this.width, this.sliderThickness);
+            this.actualHeight = this.height;
+            this.offsetX = (this.width - this.actualWidth) / 2;
+            this.offsetY = 0;
+        }
+        else {
+            this.actualWidth = this.width;
+            this.actualHeight = Math.min(this.height, this.sliderThickness);
+            this.offsetX = 0;
             this.offsetY = (this.height - this.actualHeight) / 2;
         }
     }

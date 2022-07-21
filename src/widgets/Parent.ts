@@ -92,4 +92,11 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         for(const child of this.children)
             child.deactivate();
     }
+
+    override finalizeBounds() {
+        super.finalizeBounds();
+
+        for(const child of this.children)
+            child.finalizeBounds();
+    }
 }

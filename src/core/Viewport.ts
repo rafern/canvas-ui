@@ -103,9 +103,13 @@ export class Viewport {
         child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
         child.resolvePosition(0, 0);
 
-        const [newWidth, newHeight] = child.dimensions;
+        let [newWidth, newHeight] = child.idealDimensions;
+        const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
+        newWidth = Math.round(newWidth * newScaleX) / newScaleX;
+        newHeight = Math.round(newHeight * newScaleY) / newScaleY;
+        const wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
 
-        if(newWidth !== oldWidth || newHeight !== oldHeight) {
+        if(wasResized) {
             // Re-scale canvas if neccessary.
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
@@ -166,11 +170,22 @@ export class Viewport {
                     this.context.globalCompositeOperation = 'source-over';
                 }
             }
-
-            return true;
         }
-        else
-            return false;
+
+        child.finalizeBounds();
+
+        return wasResized;
+    }
+
+    /** Get the canvas scale that will be applied given a width and height */
+    private getAppliedScaleFrom(width: number, height: number): [scaleX: number, scaleY: number] {
+        let scaleX = 1, scaleY = 1;
+        if(width > this.maxCanvasWidth)
+            scaleX = this.maxCanvasWidth / width;
+        if(height > this.maxCanvasHeight)
+            scaleY = this.maxCanvasHeight / height;
+
+        return [scaleX, scaleY];
     }
 
     /**
@@ -179,15 +194,7 @@ export class Viewport {
      * {@link Viewport#maxCanvasWidth} or {@link Viewport#maxCanvasHeight}
      */
     getAppliedScale(child: Widget): [scaleX: number, scaleY: number] {
-        const [width, height] = child.dimensions;
-
-        let scaleX = 1, scaleY = 1;
-        if(width > this.maxCanvasWidth)
-            scaleX = this.maxCanvasWidth / width;
-        if(height > this.maxCanvasHeight)
-            scaleY = this.maxCanvasHeight / height;
-
-        return [scaleX, scaleY];
+        return this.getAppliedScaleFrom(...child.dimensions);
     }
 
     /**

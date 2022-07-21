@@ -125,10 +125,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._constraints[3] = constraints[3];
 
             // Update viewport's constaints or flag force layout
-            if(this.viewport !== null)
-                this.viewport.constraints = constraints;
-            else
+            if(this.viewport === null)
                 this.forceReLayout = true;
+            else
+                this.viewport.constraints = constraints;
         }
     }
 
@@ -339,26 +339,26 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
             // Tie wanted axes. Do regular layout for non-tied axes.
             if(this._widthTied) {
-                this.width = child.dimensions[0];
+                this.idealWidth = child.idealDimensions[0];
                 normalWidth = false;
             }
 
             if(this._heightTied) {
-                this.height = child.dimensions[1];
+                this.idealHeight = child.idealDimensions[1];
                 normalHeight = false;
             }
         }
 
         // Expand to the needed dimensions
         if(normalWidth)
-            this.width = Math.min(effectiveMinWidth, maxWidth);
+            this.idealWidth = Math.min(effectiveMinWidth, maxWidth);
 
         if(normalHeight)
-            this.height = Math.min(effectiveMinHeight, maxHeight);
+            this.idealHeight = Math.min(effectiveMinHeight, maxHeight);
 
-        if(this.width === 0 && this.minWidth === 0 && !this._widthTied)
+        if(this.idealWidth === 0 && this.minWidth === 0 && !this._widthTied)
             console.warn('ViewportWidget has no minimum width and width isn\'t tied, therefore, it may be dimensionless. Set a minimum width and/or tie the width');
-        if(this.height === 0 && this.minHeight === 0 && !this._heightTied)
+        if(this.idealHeight === 0 && this.minHeight === 0 && !this._heightTied)
             console.warn('ViewportWidget has no minimum height and height isn\'t tied, therefore, it may be dimensionless. Set a minimum height and/or tie the height');
     }
 
@@ -378,7 +378,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
         // Correct child's position only if not using a Viewport
         const [xOffset, yOffset] = this.offset;
-        this.child.resolvePosition(this.x + xOffset, this.y + yOffset);
+        this.child.resolvePosition(this.idealX + xOffset, this.idealY + yOffset);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
@@ -387,7 +387,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.viewport.paintToCanvas(this.child, forced);
 
         // Calculate child's source and destination
-        const [vpX, vpY, vpW, vpH] = this.roundRect(this.x, this.y, this.width, this.height, true);
+        const [vpX, vpY, vpW, vpH] = this.rect;
         const [innerWidth, innerHeight] = this.child.dimensions;
         const [xOffset, yOffset] = this.offset;
 
@@ -400,11 +400,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         const origYDst = this.y + yOffset;
 
         // clipped child destination left, top, width and height
-        let xDst = Math.min(Math.max(origXDst, vpX), vpR);
-        let yDst = Math.min(Math.max(origYDst, vpY), vpB);
-        let wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
-        let hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
-        [xDst, yDst, wClipped, hClipped] = this.roundRect(xDst, yDst, wClipped, hClipped, true);
+        const xDst = Math.min(Math.max(origXDst, vpX), vpR);
+        const yDst = Math.min(Math.max(origYDst, vpY), vpB);
+        const wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
+        const hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
 
         // Abort if outside of bounds
         if(wClipped === 0 || hClipped === 0) {

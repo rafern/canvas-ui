@@ -121,12 +121,14 @@ export class Label extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        this.textHelper.maxWidth = this.wrapText ? maxWidth : Infinity;
+        // XXX doing Math.floor so that the text doesn't overflow in the case
+        // that the width is lesser than the ideal width
+        this.textHelper.maxWidth = this.wrapText ? Math.floor(maxWidth) : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
-        this.width = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
-        this.height = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
+        this.idealWidth = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
+        this.idealHeight = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {

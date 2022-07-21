@@ -8,6 +8,7 @@ import type { Event } from '../events/Event';
 import { Leave } from '../events/Leave';
 import type { Widget } from './Widget';
 import { Root } from '../core/Root';
+import { ClickArea } from '../helpers/ClickArea';
 
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
@@ -34,15 +35,25 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      */
     private _scrollbarMode: ScrollbarMode;
     /**
-     * The effective viewport width, for scrollbar calculations. For internal
-     * use only.
+     * The effective viewport width (width not occupied by a non-overlay
+     * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveWidth = 0;
     /**
-     * The effective viewport height, for scrollbar calculations. For internal
-     * use only.
+     * The effective viewport height (height not occupied by a non-overlay
+     * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveHeight = 0;
+    /**
+     * Similar to {@link ScrollableViewportWidget#effectiveWidth}, but ideal
+     * (like {@link Widget#idealWidth}). For internal use only.
+     */
+    private idealEffectiveWidth = 0;
+    /**
+     * Similar to {@link ScrollableViewportWidget#effectiveHeight}, but ideal
+     * (like {@link Widget#idealHeight}). For internal use only.
+     */
+    private idealEffectiveHeight = 0;
     /**
      * ClickHelper used for checking if the horizontal scrollbar has been
      * dragged
@@ -416,15 +427,22 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         super.handleResolveDimensions(rMinWidth, rMaxWidth, rMinHeight, rMaxHeight);
 
         // Save dimensions to effective dimensions
-        this.effectiveWidth = this.width;
-        this.effectiveHeight = this.height;
+        this.idealEffectiveWidth = this.idealWidth;
+        this.idealEffectiveHeight = this.idealHeight;
 
         // Expand dimensions to fit scrollbars
         if(reserveX)
-            this.width = Math.min(Math.max(this.width + thickness, minWidth), maxWidth);
+            this.idealWidth = Math.min(Math.max(this.idealWidth + thickness, minWidth), maxWidth);
 
         if(reserveY)
-            this.height = Math.min(Math.max(this.height + thickness, minHeight), maxHeight);
+            this.idealHeight = Math.min(Math.max(this.idealHeight + thickness, minHeight), maxHeight);
+    }
+
+    override finalizeBounds() {
+        super.finalizeBounds();
+
+        this.effectiveWidth = Math.round(this.idealX + this.idealEffectiveWidth) - this.x;
+        this.effectiveHeight = Math.round(this.idealY + this.idealEffectiveHeight) - this.y;
     }
 
     protected override handlePostLayoutUpdate(): void {
@@ -480,7 +498,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      *
      * @returns Returns a 2-tuple with 2 4-tuples. The first one is the scrollbar fill rectangle and the second one is the background fill rectangle. Each rectangle 4-tuple contains, respectively, horizontal offset, vertical offset, width and height
      */
-    private getScrollbarRects(vertical: boolean, corner: boolean): [[number, number, number, number], [number, number, number, number]] {
+    private getScrollbarRects(vertical: boolean, corner: boolean): [ClickArea, ClickArea] {
         // Calculate basic scrollbar properties
         const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
         const axisIndex = vertical ? 1 : 0;

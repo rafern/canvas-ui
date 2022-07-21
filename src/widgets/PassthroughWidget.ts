@@ -54,12 +54,12 @@ export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W
         // equal to the child's
         const child = this.child;
         child.resolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
-        [this.width, this.height] = child.dimensions;
+        [this.idealWidth, this.idealHeight] = child.idealDimensions;
     }
 
     protected override afterPositionResolved(): void {
         // Resolve child's position to be the same as this widget's position
-        this.child.resolvePosition(this.x, this.y);
+        this.child.resolvePosition(this.idealX, this.idealY);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {

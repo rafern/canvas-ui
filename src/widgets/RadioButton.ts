@@ -137,20 +137,22 @@ export class RadioButton<V> extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Find actual length
-        const length = this.radioButtonLength;
-        this.actualLength = Math.min(length, maxWidth, maxHeight);
-
         // Resolve width and height
-        this.width = this.actualLength;
-        this.height = this.actualLength;
+        const minLength = Math.min(this.radioButtonLength, maxWidth, maxHeight);
+        this.idealWidth = minLength;
+        this.idealHeight = minLength;
 
-        if(this.width < minWidth)
-            this.width = minWidth;
-        if(this.height < minHeight)
-            this.height = minHeight;
+        if(this.idealWidth < minWidth)
+            this.idealWidth = minWidth;
+        if(this.idealHeight < minHeight)
+            this.idealHeight = minHeight;
+    }
 
-        // Center radio button
+    override finalizeBounds() {
+        super.finalizeBounds();
+
+        // Center checkbox
+        this.actualLength = Math.min(this.radioButtonLength, this.width, this.height);
         this.offsetX = (this.width - this.actualLength) / 2;
         this.offsetY = (this.height - this.actualLength) / 2;
     }

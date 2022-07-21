@@ -817,13 +817,15 @@ export class TextInput<V> extends Widget {
         // Only expand to the needed dimensions, but take minimum width from
         // theme into account
         const padding = 2 * this.inputTextInnerPadding;
-        this.textHelper.maxWidth = this.wrapText ? Math.max(maxWidth - padding, 0) : Infinity;
+        // XXX doing Math.floor so that the text doesn't overflow in the case
+        // that the width is lesser than the ideal width
+        this.textHelper.maxWidth = this.wrapText ? Math.max(Math.floor(maxWidth - padding), 0) : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
         const effectiveMinWidth = Math.min(Math.max(this.inputTextMinWidth, minWidth), maxWidth);
-        this.width = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
-        this.height = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
+        this.idealWidth = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
+        this.idealHeight = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 
     protected override handlePostLayoutUpdate(): void {

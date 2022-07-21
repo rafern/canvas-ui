@@ -202,7 +202,7 @@ export class Icon extends Widget {
                 wantedWidth = this.viewBox[2];
         }
 
-        this.width = Math.max(Math.min(wantedWidth, maxWidth), minWidth);
+        this.idealWidth = Math.max(Math.min(wantedWidth, maxWidth), minWidth);
 
         let wantedHeight = this.imageHeight;
         if(wantedHeight === null) {
@@ -216,16 +216,16 @@ export class Icon extends Widget {
                 wantedHeight = this.viewBox[3];
         }
 
-        this.height = Math.max(Math.min(wantedHeight, maxHeight), minHeight);
+        this.idealHeight = Math.max(Math.min(wantedHeight, maxHeight), minHeight);
 
         // Find offset and actual image dimensions (preserving aspect ratio)
-        const widthRatio = this.width / wantedWidth;
-        const heightRatio = this.height / wantedHeight;
+        const widthRatio = this.idealWidth / wantedWidth;
+        const heightRatio = this.idealHeight / wantedHeight;
         const scale = Math.min(widthRatio, heightRatio);
         this.actualWidth = wantedWidth * scale;
         this.actualHeight = wantedHeight * scale;
-        this.offsetX = (this.width - this.actualWidth) / 2;
-        this.offsetY = (this.height - this.actualHeight) / 2;
+        this.offsetX = (this.idealWidth - this.actualWidth) / 2;
+        this.offsetY = (this.idealHeight - this.actualHeight) / 2;
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {

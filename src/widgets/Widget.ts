@@ -7,6 +7,7 @@ import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Root } from '../core/Root';
+import { ClickArea } from '../helpers/ClickArea';
 
 const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
 const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
@@ -50,6 +51,27 @@ export abstract class Widget extends BaseTheme {
     protected x = 0;
     /** Absolute vertical offset of widget in pixels. */
     protected y = 0;
+    /**
+     * The ideal width of the widget in pixels; if non-integer widget dimensions
+     * were allowed, the widget would have this size. Use this for layout
+     * calculations, but never use this for painting so that subpixel issues are
+     * avoided.
+     */
+    protected idealWidth = 0;
+    /** The ideal height of the widget in pixels. See {@link Widget#width}. */
+    protected idealHeight = 0;
+    /**
+     * The ideal absolute horizontal offset of the widget in pixels; if
+     * non-integer positions were allowed, the widget would have this position.
+     * Use this for layout calculations, but never use this for painting so that
+     * subpixel issues are avoided.
+     */
+    protected idealX = 0;
+    /**
+     * The ideal absolute vertical offset of the widget in pixels. See
+     * {@link Widget#x}.
+     */
+    protected idealY = 0;
     /** {@link Widget#flex} but for internal use. */
     protected _flex = 0;
     /**
@@ -133,17 +155,67 @@ export abstract class Widget extends BaseTheme {
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
      * {@link Widget#width} and {@link Widget#height}.
+     *
+     * Use {@link Widget#idealDimensions} for layout calculations.
      */
     get dimensions(): [number, number] {
         return [this.width, this.height];
     }
 
     /**
+     * Get the resolved ideal dimensions. Returns a 2-tuple containing
+     * {@link Widget#idealWidth} and {@link Widget#idealHeight}.
+     *
+     * Use this for layout calculations, and {@link Widget#dimensions} for
+     * painting.
+     */
+    get idealDimensions(): [number, number] {
+        return [this.idealWidth, this.idealHeight];
+    }
+
+    /**
      * Get the resolved position. Returns a 2-tuple containing {@link Widget#x}
      * and {@link Widget#y}.
+     *
+     * Use {@link Widget#idealPosition} for layout calculations.
      */
     get position(): [number, number] {
         return [this.x, this.y];
+    }
+
+    /**
+     * Get the resolved ideal position. Returns a 2-tuple containing
+     * {@link Widget#idealX} and {@link Widget#idealY}.
+     *
+     * Use this for layout calculations, and {@link Widget#position} for
+     * painting.
+     */
+    get idealPosition(): [number, number] {
+        return [this.idealX, this.idealY];
+    }
+
+    /** Get the rectangle bounds (left, right, top, bottom) of this widget. */
+    get bounds(): ClickArea {
+        const x = this.x;
+        const y = this.y;
+        return [x, x + this.width, y, y + this.height];
+    }
+
+    /** Similar to {@link Widget#bounds}, but uses ideal values */
+    get idealBounds(): ClickArea {
+        const x = this.idealX;
+        const y = this.idealY;
+        return [x, x + this.idealWidth, y, y + this.idealHeight];
+    }
+
+    /** Get the rectangle (x, y, width, height) of this widget. */
+    get rect(): ClickArea {
+        return [this.x, this.y, this.width, this.height];
+    }
+
+    /** Similar to {@link Widget#rect}, but uses ideal values */
+    get idealRect(): ClickArea {
+        return [this.idealX, this.idealY, this.idealWidth, this.idealHeight];
     }
 
     /**
@@ -297,6 +369,8 @@ export abstract class Widget extends BaseTheme {
         if(!this._enabled) {
             this.width = 0;
             this.height = 0;
+            this.idealWidth = 0;
+            this.idealHeight = 0;
             this._layoutDirty = false;
             return;
         }
@@ -327,44 +401,44 @@ export abstract class Widget extends BaseTheme {
         }
 
         // Keep track of old dimensions to compare later
-        const oldWidth = this.width;
-        const oldHeight = this.height;
+        const oldWidth = this.idealWidth;
+        const oldHeight = this.idealHeight;
 
         // Resolve dimensions
         this.handleResolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
 
         // Validate resolved dimensions, handling overflows, underflows and
         // invalid dimensions
-        if(this.width < minWidth) {
-            this.width = minWidth;
+        if(this.idealWidth < minWidth) {
+            this.idealWidth = minWidth;
             console.error('Horizontal underflow in widget');
         }
-        else if(this.width > maxWidth) {
-            this.width = maxWidth;
+        else if(this.idealWidth > maxWidth) {
+            this.idealWidth = maxWidth;
             console.error('Horizontal overflow in widget');
         }
 
-        if(this.width < 0 || !isFinite(this.width) || isNaN(this.width))
-            throw new Error(`Disallowed width (${this.width}) in widget`);
+        if(this.idealWidth < 0 || !isFinite(this.idealWidth) || isNaN(this.idealWidth))
+            throw new Error(`Disallowed width (${this.idealWidth}) in widget`);
 
-        if(this.height < minHeight) {
-            this.height = minHeight;
+        if(this.idealHeight < minHeight) {
+            this.idealHeight = minHeight;
             console.error('Vertical underflow in widget');
         }
-        else if(this.height > maxHeight) {
-            this.height = maxHeight;
+        else if(this.idealHeight > maxHeight) {
+            this.idealHeight = maxHeight;
             console.error('Vertical overflow in widget');
         }
 
-        if(this.height < 0 || !isFinite(this.height) || isNaN(this.height))
-            throw new Error(`Disallowed height (${this.height}) in widget`);
+        if(this.idealHeight < 0 || !isFinite(this.idealHeight) || isNaN(this.idealHeight))
+            throw new Error(`Disallowed height (${this.idealHeight}) in widget`);
 
         // Clear layout dirty flag
         this._layoutDirty = false;
 
         // If dimensions changed (compare with tracked old dimensions), then set
         // dirty flag
-        if(oldWidth !== this.width || oldHeight !== this.height)
+        if(oldWidth !== this.idealWidth || oldHeight !== this.idealHeight)
             this._dirty = true;
 
         //console.log('Resolved layout of', this.constructor.name);
@@ -386,9 +460,9 @@ export abstract class Widget extends BaseTheme {
         if(maxWidth === Infinity || maxHeight === Infinity) {
             this.resolveDimensions(
                 minWidth,
-                maxWidth === Infinity ? this.width : maxWidth,
+                maxWidth === Infinity ? this.idealWidth : maxWidth,
                 minHeight,
-                maxHeight === Infinity ? this.height : maxHeight,
+                maxHeight === Infinity ? this.idealHeight : maxHeight,
             );
         }
     }
@@ -408,16 +482,52 @@ export abstract class Widget extends BaseTheme {
      * {@link Widget#_enabled} is false. Must not be overridden.
      */
     resolvePosition(x: number, y: number): void {
-        // Mark as dirty if position changed
-        if(x !== this.x || y !== this.y)
-            this._dirty = true;
-
         // Set position
-        this.x = x;
-        this.y = y;
+        this.idealX = x;
+        this.idealY = y;
 
         // Call hook
         this.afterPositionResolved();
+    }
+
+    /**
+     * Sets {@link Widget#x}, {@link Widget#y}, {@link Widget#width} and
+     * {@link Widget#y} from {@link Widget#idealX}, {@link Widget#idealY},
+     * {@link Widget#idealWidth} and {@link Widget#idealHeight} by rounding
+     * them. If the final values have changed, {@link Widget#_dirty} is set to
+     * true.
+     *
+     * Can be overridden, but `super.finalizeBounds` must still be called; if
+     * you have parts of the widget that can be pre-calculated when the layout
+     * is known, such as the length and offset of a {@link Checkbox}, or
+     * non-default dirty flags, such as {@link MultiContainer#backgroundDirty},
+     * then this is the perfect method to override, since it's only called after
+     * the layout is resolved to final (non-ideal) values, is only called if
+     * needed (unlike {@link postLayoutUpdate}, which is always called after the
+     * layout phase) and can be used to compare old and new positions and
+     * dimensions.
+     *
+     * Abstract container widgets such as {@link Parent} must always override
+     * this and call `finalizeBounds` on each child widget.
+     */
+    finalizeBounds() {
+        // Round bounds
+        console.warn('finalizeBounds');
+        const [scaleX, scaleY] = this.root.effectiveScale;
+        const newX = Math.round(this.idealX * scaleX) / scaleX;
+        const newY = Math.round(this.idealY * scaleY) / scaleY;
+        const newWidth = Math.round((this.idealX + this.idealWidth) * scaleX) / scaleX - newX;
+        const newHeight = Math.round((this.idealY + this.idealHeight) * scaleY) / scaleY - newY;
+
+        // Mark as dirty if bounds have changed
+        if(newX !== this.x || newY !== this.y || newWidth !== this.width || newHeight !== this.height)
+            this._dirty = true;
+
+        // Set final bounds
+        this.x = newX;
+        this.y = newY;
+        this.width = newWidth;
+        this.height = newHeight;
     }
 
     /**
@@ -453,7 +563,7 @@ export abstract class Widget extends BaseTheme {
         ctx.beginPath();
         // These are rounded because clipping and filling doesn't
         // work properly with decimal points
-        ctx.rect(...this.roundRect(x, y, width, height, true));
+        ctx.rect(x, y, width, height);
         ctx.clip();
         ctx.fill();
         ctx.restore();
@@ -482,24 +592,6 @@ export abstract class Widget extends BaseTheme {
         ctx.clip(fillRule);
         ctx.fill();
         ctx.restore();
-    }
-
-    /**
-     * Paiting/layout utility: rounds the bounds of a rectangle to the nearest
-     * pixels.
-     *
-     * @param roundInwards - Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
-     * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
-     */
-    protected roundRect(x: number, y: number, width: number, height: number, roundInwards = false): [number, number, number, number] {
-        // Decide rounding functions
-        const roundDown = roundInwards ? Math.ceil : Math.floor;
-        const roundUp = roundInwards ? Math.floor : Math.ceil;
-
-        // Round rectangle
-        x = roundDown(x);
-        y = roundDown(y);
-        return [x, y, roundUp(x + width) - x, roundUp(y + height) - y];
     }
 
     /**
