@@ -9,18 +9,19 @@
 
             // Create the root
             const variable = new WatchableVariable(null);
-            const col = new Column().add([
-                new Label('Select an option:'),
-                new LabelledRadioButton('Option 1', variable, 'option_1_value'),
-                new LabelledRadioButton('Option 2', variable, 'option_2_value'),
-                new LabelledRadioButton('Option 3', variable, 'option_3_value'),
-                new LabelledRadioButton('Option 4', variable, 'option_4_value'),
-                new LabelledRadioButton('Option 5', variable, 'option_5_value'),
-                new Spacing(0, 0, 8),
-                new Label(() => `Option selected: ${variable.value ?? 'none'}`)
-            ]);
-
-            const root = new DOMRoot(new Margin(col));
+            const root = new DOMRoot(
+                new Margin(
+                    new Column()
+                    .add(new Label('Select an option:'))
+                    .add(new LabelledRadioButton('Option 1', variable, 'option_1_value'))
+                    .add(new LabelledRadioButton('Option 2', variable, 'option_2_value'))
+                    .add(new LabelledRadioButton('Option 3', variable, 'option_3_value'))
+                    .add(new LabelledRadioButton('Option 4', variable, 'option_4_value'))
+                    .add(new LabelledRadioButton('Option 5', variable, 'option_5_value'))
+                    .add(new Spacing(0, 0, 8))
+                    .add(new Label(() => `Option selected: ${variable.value ?? 'none'}`))
+                )
+            );
 
             // Create, bind DOM and register the keyboard driver
             const keyboardDriver = new DOMKeyboardDriver();
