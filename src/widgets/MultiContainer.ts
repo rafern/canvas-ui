@@ -83,6 +83,12 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         }
     }
 
+    protected override handlePostFinalizeBounds(): void {
+        // Post-finalize bounds update children
+        for(const child of this.children)
+            child.postFinalizeBounds();
+    }
+
     protected override handlePostLayoutUpdate(): void {
         // Post-layout update children
         for(const child of this.children) {

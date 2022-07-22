@@ -4,11 +4,12 @@ import { PointerWheel } from '../events/PointerWheel';
 import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
 import { ViewportWidget } from './ViewportWidget';
+import type { Bounds } from '../helpers/Bounds';
 import type { Event } from '../events/Event';
 import { Leave } from '../events/Leave';
 import type { Widget } from './Widget';
 import { Root } from '../core/Root';
-import { ClickArea } from '../helpers/ClickArea';
+import { AutoScroll } from '../events/AutoScroll';
 
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
@@ -388,6 +389,52 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // Pass event along
         const capturer = super.handleEvent(event);
 
+        // If this is an auto-scroll event and it's been captured, then scroll
+        // to the capturer's wanted bounds, make the event relative to this
+        // scrollable viewport and re-capture it
+        if(capturer !== null && event instanceof AutoScroll) {
+            const [cx, cy] = capturer.position;
+            let [cl, cr, ct, cb] = event.bounds;
+            cl += cx;
+            cr += cx;
+            ct += cy;
+            cb += cy;
+            const vpr = this.x + this.width;
+            const vpb = this.y + this.height;
+            let [offsetX, offsetY] = this.offset;
+            const oldOffX = offsetX, oldOffY = offsetY;
+
+            // If a tab-selection event occurred, scroll so that widget that got
+            // selected is visible. Don't scroll if viewport is smaller than
+            // capturer and viewport is inside capturer. Don't scroll if
+            // capturer is smaller than viewport and capturer is inside viewport
+            if(!this.widthTied && !(cl >= this.x && cr < vpr) && !(this.x >= cl && vpr < cr)) {
+                if(cl > this.x)
+                    offsetX -= cl - this.x;
+                else
+                    offsetX += vpr - cr;
+            }
+
+            if(!this.heightTied && !(ct >= this.y && cb < vpb) && !(this.y >= ct && vpb < cb)) {
+                if(ct > this.y)
+                    offsetY += vpb - cb;
+                else
+                    offsetY -= ct - this.y;
+            }
+
+            this.offset = [offsetX, offsetY];
+
+            // Correct event bounds to new offset
+            const offDiffX = offsetX - oldOffX;
+            const offDiffY = offsetY - oldOffY;
+            event.bounds[0] += offDiffX;
+            event.bounds[1] += offDiffX;
+            event.bounds[2] += offDiffY;
+            event.bounds[3] += offDiffY;
+
+            return this;
+        }
+
         // If this is a wheel event and nobody captured the event, try
         // scrolling. If scrolling did indeed occur, then capture the event.
         if(capturer === null && event instanceof PointerWheel && this.handleWheelEvent(event))
@@ -498,7 +545,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      *
      * @returns Returns a 2-tuple with 2 4-tuples. The first one is the scrollbar fill rectangle and the second one is the background fill rectangle. Each rectangle 4-tuple contains, respectively, horizontal offset, vertical offset, width and height
      */
-    private getScrollbarRects(vertical: boolean, corner: boolean): [ClickArea, ClickArea] {
+    private getScrollbarRects(vertical: boolean, corner: boolean): [Bounds, Bounds] {
         // Calculate basic scrollbar properties
         const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
         const axisIndex = vertical ? 1 : 0;

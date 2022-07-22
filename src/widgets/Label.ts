@@ -121,9 +121,7 @@ export class Label extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // XXX doing Math.floor so that the text doesn't overflow in the case
-        // that the width is lesser than the ideal width
-        this.textHelper.maxWidth = this.wrapText ? Math.floor(maxWidth) : Infinity;
+        this.textHelper.maxWidth = this.wrapText ? maxWidth : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 

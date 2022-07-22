@@ -4,7 +4,7 @@ import { Widget } from '../widgets/Widget';
 import type { Root } from '../core/Root';
 
 /**
- * A mixin class for widgets which may have children.
+ * A class for widgets which may have children.
  *
  * Overrides the {@link Widget#inheritedTheme} accessor so that inherited themes
  * are propagated to children, and {@link Widget#dryPaint} so that dry painting
@@ -83,7 +83,7 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         super.activate(root, parent);
 
         for(const child of this.children)
-            child.activate(root, parent);
+            child.activate(root, this);
     }
 
     override deactivate(): void {

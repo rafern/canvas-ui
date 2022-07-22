@@ -54,6 +54,11 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
             this._layoutDirty = true;
     }
 
+    protected override handlePostFinalizeBounds(): void {
+        // Post-finalize bounds update child
+        this.child.postFinalizeBounds();
+    }
+
     protected override handlePostLayoutUpdate(): void {
         // Post-layout update child
         const child = this.child;

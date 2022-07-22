@@ -2,13 +2,11 @@ import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
-import type { ClickArea } from '../helpers/ClickArea';
-import { TabSelect } from '../events/TabSelect';
-import { KeyEvent } from '../events/KeyEvent';
+import type { Bounds } from '../helpers/Bounds';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import { Viewport } from '../core/Viewport';
-import type { Widget } from './Widget';
+import { Widget } from './Widget';
 
 /**
  * A type of container widget which is allowed to be bigger or smaller than its
@@ -65,11 +63,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     protected forceReLayout = true;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint = true;
-    /**
-     * Should the viewport be auto-scrolled when a widget is tab-selected and
-     * when a widget captures keyboard input?
-     */
-    autoScrollSelections = true;
 
     /** Create a new ViewportWidget. */
     constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, useViewport = false, themeProperties?: ThemeProperties) {
@@ -95,9 +88,14 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     set offset(offset: [number, number]) {
         // Not using @paintArrayField so that accessor can be overridden
-        if(this._offset[0] !== offset[0] || this._offset[1] !== offset[1]) {
-            this._offset[0] = offset[0];
-            this._offset[1] = offset[1];
+
+        // round offset so that there are no subpixel artifacts
+        const newOffsetX = Math.round(offset[0]);
+        const newOffsetY = Math.round(offset[1]);
+
+        if(this._offset[0] !== newOffsetX || this._offset[1] !== newOffsetY) {
+            this._offset[0] = newOffsetX;
+            this._offset[1] = newOffsetY;
             this._dirty = true;
             this.correctChildPosition();
         }
@@ -211,11 +209,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._dirty = true;
     }
 
-    protected getClickAreaOf(widget: Widget): ClickArea {
+    protected getBoundsOf(widget: Widget): Bounds {
         const [width, height] = widget.dimensions;
         const [x, y] = widget.position;
-        const left = this.x + this.offset[0] + x;
-        const top = this.y + this.offset[1] + y;
+        const [childX, childY] = this.child.position;
+        const left = this.x + this.offset[0] + x - childX;
+        const top = this.y + this.offset[1] + y - childY;
         return [ left, left + width, top, top + height ];
     }
 
@@ -223,7 +222,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Drop event if it is a positional event with no target outside the
         // child's viewport. Only correct position if using a Viewport
         if(event instanceof PointerEvent) {
-            const [cl, cr, ct, cb] = this.getClickAreaOf(this.child);
+            const [cl, cr, ct, cb] = this.getBoundsOf(this.child);
 
             if(event.target === null) {
                 if(event.x < cl)
@@ -241,36 +240,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Dispatch event to child
-        const capturer = this.child.dispatchEvent(event);
-
-        if(this.autoScrollSelections && capturer !== null && !(this.widthTied && this.heightTied) && (event instanceof TabSelect || event instanceof KeyEvent)) {
-            const [cl, cr, ct, cb] = this.getClickAreaOf(capturer);
-            const vpr = this.x + this.width;
-            const vpb = this.y + this.height;
-            let [offsetX, offsetY] = this.offset;
-
-            // If a tab-selection event occurred, scroll so that widget that got
-            // selected is visible. Don't scroll if viewport is smaller than
-            // capturer and viewport is inside capturer. Don't scroll if
-            // capturer is smaller than viewport and capturer is inside viewport
-            if(!this.widthTied && !(cl >= this.x && cr < vpr) && !(this.x >= cl && vpr < cr)) {
-                if(cl > this.x)
-                    offsetX -= cl - this.x;
-                else
-                    offsetX += vpr - cr;
-            }
-
-            if(!this.heightTied && !(ct >= this.y && cb < vpb) && !(this.y >= ct && vpb < cb)) {
-                if(ct > this.y)
-                    offsetY -= ct - this.y;
-                else
-                    offsetY += vpb - cb;
-            }
-
-            this.offset = [offsetX, offsetY];
-        }
-
-        return capturer;
+        return this.child.dispatchEvent(event);
     }
 
     protected override handlePreLayoutUpdate(): void {
@@ -288,6 +258,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
                 this.viewport.resolveChildsLayout(child);
             }
             else if(child.layoutDirty || this.forceReLayout) {
+                // TODO make this do a proper re-layout loop, and call postFinalizeBounds
+                // maybe reuse code from viewport.resolvechildslayout and make it separate
                 child.resolveDimensionsAsTop(...this.scaledConstraints);
                 this.correctChildPosition();
             }
@@ -372,6 +344,20 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.forceRePaint = true;
     }
 
+    override finalizeBounds() {
+        // HACK instead of letting the Parent class finalize the bounds of child
+        // widgets, finalize the viewport's own bounds and then only finalize
+        // the children's bounds if not using a viewport. this is done for
+        // optimisation purposes, otherwise, finalization is done twice when
+        // using a viewport
+        Widget.prototype.finalizeBounds.call(this);
+
+        if(this.viewport === null) {
+            for(const child of this.children)
+                child.finalizeBounds();
+        }
+    }
+
     private correctChildPosition(): void {
         if(this.viewport !== null)
             return;
@@ -379,6 +365,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // Correct child's position only if not using a Viewport
         const [xOffset, yOffset] = this.offset;
         this.child.resolvePosition(this.idealX + xOffset, this.idealY + yOffset);
+        this.child.finalizeBounds();
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {

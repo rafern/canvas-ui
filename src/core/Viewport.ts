@@ -47,6 +47,13 @@ export class Viewport {
     private static dimensionlessWarned = false;
     /** Has the warning for non-power of 2 dimensions been issued? */
     private static powerOf2Warned = false;
+    /**
+     * The maximum retries allowed for
+     * {@link Viewport#resolveChildsLayout | resolving the layout}. The first
+     * attempt is not counted. Only retries that exceed this limit are
+     * discarded; if maxRelayout is 4, then the 5th retry will be discarded.
+     */
+    private static maxRelayout = 4;
 
     /**
      * Create a new Viewport.
@@ -78,10 +85,16 @@ export class Viewport {
 
     /**
      * Resolves the given child's layout by calling
-     * {@link Widget#resolveDimensions} with the current
-     * {@link Viewport#constraints}, and {@link Widget#resolvePosition}.
+     * {@link Widget#resolveDimensionsAsTop} with the current
+     * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
+     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
+     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
+     * layout is marked as dirty while resolving the layout, then a re-layout
+     * will occur until either the layout is no longer marked as dirty or the
+     * {@link Viewport.maxRelayout | maximum retries} are reached.
      *
-     * If the child's layout is not dirty, then nothing is done.
+     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
+     * called. Note that this may still trigger a re-layout.
      *
      * Expands {@link Viewport#canvas} if the new layout is too big for the
      * current canvas. Expansion is done in powers of 2 to avoid issues with
@@ -90,27 +103,53 @@ export class Viewport {
      * @returns Returns true if the child was resized, else, false.
      */
     resolveChildsLayout(child: Widget): boolean {
-        if(!child.layoutDirty && !this._dirty)
-            return false;
+        let relayouts = 0;
+        if(!child.layoutDirty && !this._dirty) {
+            // even if a layout resolution is not needed, the hook still needs
+            // to be called at least once per frame
+            child.postFinalizeBounds();
+            relayouts++;
+
+            if(!child.layoutDirty)
+                return false;
+        }
 
         // Remove constraints' dirty flag
         this._dirty = false;
 
         // Resolve child's layout
         const [oldWidth, oldHeight] = child.dimensions;
-        const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
+        let newWidth = oldWidth;
+        let newHeight = oldHeight;
+        let wasResized = false;
 
-        child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
-        child.resolvePosition(0, 0);
+        while(child.layoutDirty) {
+            if(relayouts > Viewport.maxRelayout) {
+                console.warn('Maximum re-layouts exceeded. Is there a Widget type that is immediately marking the layout as dirty after resolving it?')
+                break;
+            }
+            const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
-        let [newWidth, newHeight] = child.idealDimensions;
-        const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
-        newWidth = Math.round(newWidth * newScaleX) / newScaleX;
-        newHeight = Math.round(newHeight * newScaleY) / newScaleY;
-        const wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
+            child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
+            child.resolvePosition(0, 0);
 
+            [newWidth, newHeight] = child.idealDimensions;
+            const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
+            newWidth = Math.round(newWidth * newScaleX) / newScaleX;
+            newHeight = Math.round(newHeight * newScaleY) / newScaleY;
+            wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
+
+            child.finalizeBounds();
+            child.postFinalizeBounds();
+
+            relayouts++;
+        }
+
+        if(relayouts > 1)
+            console.warn(`The last frame required ${relayouts - 1} re-layouts. Make sure to only mark a layout as dirty while resolving the layout unless absolutely necessary`);
+
+        // Re-scale canvas if neccessary.
         if(wasResized) {
-            // Re-scale canvas if neccessary.
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
             // requires texture sizes to be powers of 2. Make sure that the
@@ -171,8 +210,6 @@ export class Viewport {
                 }
             }
         }
-
-        child.finalizeBounds();
 
         return wasResized;
     }

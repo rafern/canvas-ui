@@ -15,6 +15,7 @@ import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
+import { AutoScroll } from '../events/AutoScroll';
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -115,6 +116,11 @@ export class TextInput<V> extends Widget {
      * previous focusable widget.
      */
     typeableTab = false;
+    /**
+     * Should the caret position be {@link AutoScroll | auto-scrolled} after the
+     * layout is finalized?
+     */
+    private needsAutoScroll = false;
 
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
@@ -813,22 +819,7 @@ export class TextInput<V> extends Widget {
         }
     }
 
-    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Only expand to the needed dimensions, but take minimum width from
-        // theme into account
-        const padding = 2 * this.inputTextInnerPadding;
-        // XXX doing Math.floor so that the text doesn't overflow in the case
-        // that the width is lesser than the ideal width
-        this.textHelper.maxWidth = this.wrapText ? Math.max(Math.floor(maxWidth - padding), 0) : Infinity;
-        if(this.textHelper.dirty)
-            this._dirty = true;
-
-        const effectiveMinWidth = Math.min(Math.max(this.inputTextMinWidth, minWidth), maxWidth);
-        this.idealWidth = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
-        this.idealHeight = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
-    }
-
-    protected override handlePostLayoutUpdate(): void {
+    protected override handlePostFinalizeBounds(): void {
         // Update cursor offset. Needs to be updated post-layout because it is
         // dependent on maxWidth
         if(this.cursorOffsetDirty) {
@@ -905,6 +896,27 @@ export class TextInput<V> extends Widget {
         }
 
         this.offset = candidateOffset;
+
+        if(this.needsAutoScroll) {
+            this.needsAutoScroll = false;
+            const [l, t] = this.cursorOffset;
+            const r = l + this.cursorThickness;
+            const b = t + this.textHelper.fullLineHeight;
+            this.root.dispatchEvent(new AutoScroll(this, [l, r, t, b]));
+        }
+    }
+
+    protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // Only expand to the needed dimensions, but take minimum width from
+        // theme into account
+        const padding = 2 * this.inputTextInnerPadding;
+        this.textHelper.maxWidth = this.wrapText ? Math.max(maxWidth - padding, 0) : Infinity;
+        if(this.textHelper.dirty)
+            this._dirty = true;
+
+        const effectiveMinWidth = Math.min(Math.max(this.inputTextMinWidth, minWidth), maxWidth);
+        this.idealWidth = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
+        this.idealHeight = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {

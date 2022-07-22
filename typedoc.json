@@ -20,6 +20,10 @@
                     {
                         "title": "Decisions",
                         "source": "decisions.md"
+                    },
+                    {
+                        "title": "UI phases overview",
+                        "source": "overview.md"
                     }
                 ]
             }

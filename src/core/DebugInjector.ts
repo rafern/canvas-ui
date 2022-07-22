@@ -235,7 +235,7 @@ export function injectStackTraceFeature(classObj: any, methodKey: string): void 
     const methodOrig = classObj.prototype[methodKey];
     classObj.prototype[methodKey] = function(...args: any[]) {
         if(isDebugFeatureEnabled(featureName)) {
-            console.groupCollapsed(`${classObj.name}.${methodKey} called`);
+            console.groupCollapsed(`[canvas-ui ${featureName}] ${classObj.name}.${methodKey} called`);
             console.trace();
             console.groupEnd();
         }
@@ -244,6 +244,21 @@ export function injectStackTraceFeature(classObj: any, methodKey: string): void 
     }
 
     features.set(featureName, [false, `Print stack trace when ${methodPath} is called`]);
+}
+
+/**
+ * Check if a given number is whole, given a minimum distance from the nearest
+ * whole number. If sensitivity is 0, then the number must be an integer. If
+ * not, the it can be near an integer and still count as whole.
+ */
+function isWhole(val: number, sensitivity: number) {
+    const clamped = Math.abs(val) % 1;
+    if(clamped < sensitivity)
+        return true;
+    else if(clamped > 1 - sensitivity)
+        return true;
+    else
+        return false;
 }
 
 let injected = false;
@@ -427,6 +442,54 @@ export function injectDebugCode(): void {
         }
 
         textHelperPaintGroupOrig.apply(this, [ctx, group, left, x, y]);
+    };
+
+    // warnsubpixels; special debug feature for Widget
+    features.set(
+        'warnsubpixels',
+        [
+            false,
+            `Print a console warning whenever a Widget is detected to have non-integer width, height, x or y. Only warned once per Widget type`,
+        ]
+    );
+
+    const warnedSubX: Set<string> = new Set();
+    const warnedSubY: Set<string> = new Set();
+    const warnedSubWidth: Set<string> = new Set();
+    const warnedSubHeight: Set<string> = new Set();
+    const msgLeft = '[canvas-ui warnsubpixels] Widget type "';
+    const msgMid = '" has a non-integer ';
+    const msgRight = ', which will create clipping issues due to subpixels. This message won\'t be shown again for this widget type';
+
+    const finalizeBoundsOrig = Widget.prototype.finalizeBounds;
+    Widget.prototype.finalizeBounds = function(): void {
+        finalizeBoundsOrig.apply(this);
+        const typeName = this.constructor.name;
+
+        if(isDebugFeatureEnabled('warnsubpixels')) {
+            const [scaleX, scaleY] = this.root.effectiveScale;
+            const [x, y] = this.position;
+            if(!isWhole(x * scaleX, 1e-10) && !warnedSubX.has(typeName)) {
+                warnedSubX.add(typeName);
+                console.warn(`${msgLeft}${typeName}${msgMid}X coordinate (${x})${msgRight}`);
+            }
+
+            if(!isWhole(y * scaleY, 1e-10) && !warnedSubY.has(typeName)) {
+                warnedSubY.add(typeName);
+                console.warn(`${msgLeft}${typeName}${msgMid}Y coordinate (${y})${msgRight}`);
+            }
+
+            const [width, height] = this.dimensions;
+            if(!isWhole(width * scaleX, 1e-10) && !warnedSubWidth.has(typeName)) {
+                warnedSubWidth.add(typeName);
+                console.warn(`${msgLeft}${typeName}${msgMid}width (${width})${msgRight}`);
+            }
+
+            if(!isWhole(height * scaleY, 1e-10) && !warnedSubHeight.has(typeName)) {
+                warnedSubHeight.add(typeName);
+                console.warn(`${msgLeft}${typeName}${msgMid}height (${height})${msgRight}`);
+            }
+        }
     };
 
     // Make debug functions available in global scope

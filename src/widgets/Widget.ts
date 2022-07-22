@@ -2,12 +2,14 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
 import type { Padding } from '../theme/Padding';
 import { TabSelect } from '../events/TabSelect';
+import type { Bounds } from '../helpers/Bounds';
 import { BaseTheme } from '../theme/BaseTheme';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
+import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
-import { ClickArea } from '../helpers/ClickArea';
+import { AutoScroll } from '../events/AutoScroll';
 
 const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
 const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
@@ -195,26 +197,26 @@ export abstract class Widget extends BaseTheme {
     }
 
     /** Get the rectangle bounds (left, right, top, bottom) of this widget. */
-    get bounds(): ClickArea {
+    get bounds(): Bounds {
         const x = this.x;
         const y = this.y;
         return [x, x + this.width, y, y + this.height];
     }
 
     /** Similar to {@link Widget#bounds}, but uses ideal values */
-    get idealBounds(): ClickArea {
+    get idealBounds(): Bounds {
         const x = this.idealX;
         const y = this.idealY;
         return [x, x + this.idealWidth, y, y + this.idealHeight];
     }
 
     /** Get the rectangle (x, y, width, height) of this widget. */
-    get rect(): ClickArea {
+    get rect(): Rect {
         return [this.x, this.y, this.width, this.height];
     }
 
     /** Similar to {@link Widget#rect}, but uses ideal values */
-    get idealRect(): ClickArea {
+    get idealRect(): Rect {
         return [this.idealX, this.idealY, this.idealWidth, this.idealHeight];
     }
 
@@ -303,6 +305,12 @@ export abstract class Widget extends BaseTheme {
         if(event.target === null) {
             if(event instanceof PointerEvent) {
                 if(event.x < this.x || event.y < this.y || event.x >= this.x + this.width || event.y >= this.y + this.height)
+                    return null;
+            }
+            else if(event instanceof AutoScroll) {
+                if(event.originallyRelativeTo === this)
+                    return this;
+                else if(!this.propagatesEvents)
                     return null;
             }
         }
@@ -512,7 +520,6 @@ export abstract class Widget extends BaseTheme {
      */
     finalizeBounds() {
         // Round bounds
-        console.warn('finalizeBounds');
         const [scaleX, scaleY] = this.root.effectiveScale;
         const newX = Math.round(this.idealX * scaleX) / scaleX;
         const newY = Math.round(this.idealY * scaleY) / scaleY;
@@ -528,6 +535,26 @@ export abstract class Widget extends BaseTheme {
         this.y = newY;
         this.width = newWidth;
         this.height = newHeight;
+    }
+
+    /**
+     * Generic update method called after {@link finalizeBounds} and before
+     * {@link handlePostLayoutUpdate}. However, unlike handlePostLayoutUpdate,
+     * it may be called multiple times in one frame and if {@link _layoutDirty}
+     * is set to true in this method, then a re-layout will occur in the same
+     * frame. Useful if you have logic which depends on the layout, but causes
+     * layout changes, such as for dispatching {@link AutoScroll} events.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    protected handlePostFinalizeBounds(): void {}
+
+    /**
+     * Calls {@link Widget#handlePostFinalizeBounds} if widget is enabled. Must
+     * not be overridden.
+     */
+    postFinalizeBounds(): void {
+        if(this._enabled)
+            this.handlePostFinalizeBounds();
     }
 
     /**

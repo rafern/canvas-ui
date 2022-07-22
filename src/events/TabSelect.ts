@@ -44,7 +44,9 @@ export class TabSelect extends Event {
             console.warn('TabSelect events cannot be targetted to a specific widget. Target ignored');
         }
 
-        return new TabSelect(this.relativeTo, this.reversed);
+        const event = new TabSelect(this.relativeTo, this.reversed);
+        event.reachedRelative = this.reachedRelative;
+        return event;
     }
 
     static targetWarned = false;
