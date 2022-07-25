@@ -1,5 +1,6 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { TextInputHandler } from './TextInputHandler';
+import { PointerEvent } from '../events/PointerEvent';
 import type { Widget } from '../widgets/Widget';
 import { TabSelect } from '../events/TabSelect';
 import { KeyPress } from '../events/KeyPress';
@@ -263,22 +264,21 @@ export class Root {
         }
 
         // Clear pointer style. This will be set by children if neccessary
-        this.pointerStyle = 'default';
+        if(event instanceof PointerEvent || event instanceof Leave)
+            this.pointerStyle = 'default';
 
         // Pass event down to internal Container
         let captured = this.child.dispatchEvent(event);
         if(captured === null) {
-            // If the event wasn't captured but it had a focus, clear the focus
-            // NOTE: This is for preventing a component that is no longer
-            // present in the UI from capturing events
-            if(event.focusType !== null) {
-                // console.warn('Focus cleared due to uncaptured focused event', event.constructor.name);
-                this.clearFocus(event.focusType);
-
-                // special case for tab key; try to do tab selection
-                if(event instanceof KeyPress && event.key === 'Tab') {
+            if(event instanceof KeyPress) {
+                if(event.key === 'Tab') {
+                    // special case for tab key; try to do tab selection
                     // console.warn('Dispatched tab selection (uncaptured key event)');
                     this.dispatchEvent(new TabSelect(this.getFocus(FocusType.Tab), event.shift));
+                }
+                else if(event.key === 'Escape') {
+                    // special case for escape key; clear keyboard focus
+                    this.clearFocus(FocusType.Keyboard);
                 }
             }
 

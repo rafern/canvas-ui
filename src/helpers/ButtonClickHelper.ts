@@ -7,12 +7,12 @@ import type { Widget } from "../widgets/Widget";
 import { KeyEvent } from "../events/KeyEvent";
 import { KeyPress } from "../events/KeyPress";
 import { FocusType } from "../core/FocusType";
-import type { ClickArea } from "./ClickArea";
 import type { Event } from "../events/Event";
 import { ClickHelper } from "./ClickHelper";
 import { ClickState } from "./ClickState";
 import type { Root } from "../core/Root";
 import { Leave } from "../events/Leave";
+import type { Bounds } from "./Bounds";
 
 /**
  * A {@link CompoundClickHelper} specialised for {@link Button}-like widgets.
@@ -30,6 +30,8 @@ export class ButtonClickHelper extends CompoundClickHelper {
     protected pointerClickHelper: ClickHelper;
     /** The helper for handling enter key presses */
     protected keyboardClickHelper: GenericClickHelper;
+    /** The widget that will be auto-scrolled when keyboard focused */
+    private widget: Widget;
 
     constructor(widget: Widget) {
         const pointerClickHelper = new ClickHelper(widget);
@@ -38,6 +40,7 @@ export class ButtonClickHelper extends CompoundClickHelper {
 
         this.pointerClickHelper = pointerClickHelper;
         this.keyboardClickHelper = keyboardClickHelper;
+        this.widget = widget;
     }
 
     /**
@@ -51,6 +54,7 @@ export class ButtonClickHelper extends CompoundClickHelper {
     onFocusGrabbed(focusType: FocusType): boolean {
         if(focusType === FocusType.Keyboard) {
             this.keyboardClickHelper.setClickState(ClickState.Hover, true);
+            this.widget.autoScroll();
             return true;
         }
 
@@ -81,10 +85,10 @@ export class ButtonClickHelper extends CompoundClickHelper {
      * @param event - The event from {@link Widget#handleEvent}
      * @param root - The root from {@link Widget#handleEvent}
      * @param enabled - Is the button being clicked enabled? If not, then the click state will remain unchanged, but the event will be captured
-     * @param clickArea - The bounding box to be used for detecting pointer clicks
+     * @param bounds - The bounding box to be used for detecting pointer clicks
      * @returns Returns a 2-tuple containing, respective, whether a click occurred, and whether the event should be captured
      */
-    handleEvent(event: Event, root: Root, enabled: boolean, clickArea: ClickArea): [wasClick: boolean, capture: boolean] {
+    handleEvent(event: Event, root: Root, enabled: boolean, bounds: Bounds): [wasClick: boolean, capture: boolean] {
         if(event instanceof PointerWheel) {
             // Ignore wheel events
             return [false, false];
@@ -92,14 +96,9 @@ export class ButtonClickHelper extends CompoundClickHelper {
         else if(event instanceof KeyEvent) {
             // Discard non-enter key events
 
-            // don't capture tab presses so that tab selection works, but
-            // capture any other key press so that focus isn't lost when
-            // accidentally pressing other keys (or when pressing a modifier
-            // key)
-            if(event instanceof KeyPress && event.key === 'Tab')
+            // don't capture non-enter presses so that tab selection works
+            if(event.key !== 'Enter')
                 return [false, false];
-            else if(event.key !== 'Enter')
-                return [false, true];
         }
         else if(!(event instanceof PointerEvent || event instanceof Leave)) {
             // Discard unhandled events
@@ -117,6 +116,7 @@ export class ButtonClickHelper extends CompoundClickHelper {
         if(event instanceof KeyPress) {
             this.pointerClickHelper.clickStateChanged = false;
             this.keyboardClickHelper.setClickState(ClickState.Hold, true);
+            this.widget.autoScroll();
         }
         else if(event instanceof KeyRelease) {
             this.pointerClickHelper.clickStateChanged = false;
@@ -124,7 +124,7 @@ export class ButtonClickHelper extends CompoundClickHelper {
         }
         else {
             this.keyboardClickHelper.clickStateChanged = false;
-            this.pointerClickHelper.handleClickEvent(event, root, clickArea);
+            this.pointerClickHelper.handleClickEvent(event, root, bounds);
         }
 
         // Check if button was pressed and call callback if so

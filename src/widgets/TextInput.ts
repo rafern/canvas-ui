@@ -9,13 +9,15 @@ import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import { TextHelper } from '../helpers/TextHelper';
+import { AutoScroll } from '../events/AutoScroll';
 import { TabSelect } from '../events/TabSelect';
+import type { Bounds } from '../helpers/Bounds';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import type { Rect } from '../helpers/Rect';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
-import { AutoScroll } from '../events/AutoScroll';
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -265,6 +267,13 @@ export class TextInput<V> extends Widget {
         return this.textHelper.getLine(this.cursorPos);
     }
 
+    /** Auto-scroll to the caret if the {@link blinkStart | caret is shown}. */
+    private autoScrollCaret(): void {
+        // Auto-scroll if caret is shown
+        if(this.blinkStart !== 0)
+            this.needsAutoScroll = true;
+    }
+
     /**
      * Move the cursor to a given index.
      *
@@ -283,6 +292,7 @@ export class TextInput<V> extends Widget {
         // Update cursor offset
         this.cursorOffsetDirty = true;
         this._dirty = true;
+        this.autoScrollCaret();
     }
 
     /**
@@ -317,6 +327,7 @@ export class TextInput<V> extends Widget {
         // feedback
         this.blinkStart = Date.now();
         this._dirty = true;
+        this.autoScrollCaret();
     }
 
     /**
@@ -411,6 +422,7 @@ export class TextInput<V> extends Widget {
         // Update cursor position
         this.cursorPos = this.selectPos = start;
         this.cursorOffsetDirty = true;
+        this.autoScrollCaret();
     }
 
     /**
@@ -494,6 +506,7 @@ export class TextInput<V> extends Widget {
         else if(delta > 0) {
             // Delete forwards
             this.variable.value = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
+            this.autoScrollCaret();
         }
         else {
             // Delete backwards
@@ -531,6 +544,8 @@ export class TextInput<V> extends Widget {
                 break;
         }
 
+        this.autoScrollCaret();
+
         return [startPos, pos];
     }
 
@@ -542,6 +557,7 @@ export class TextInput<V> extends Widget {
             this.selectPos = this.variable.value.length;
             this.cursorPos = this.selectPos;
             this.cursorOffsetDirty = true;
+            this.autoScrollCaret();
         }
     }
 
@@ -751,8 +767,9 @@ export class TextInput<V> extends Widget {
             else if(event.key === 'End')
                 this.moveCursorEnd(event.shift); // Move cursor to end
             else if(event.key === 'Escape') {
-                root.dropFocus(FocusType.Keyboard, this); // Drop focus
-                return this; // Return now so that blink time isn't reset
+                // Return now so that blink time isn't reset.
+                // Don't capture so that focus is dropped
+                return null;
             }
             else if(event.key === 'Enter')
                 this.insertText('\n');
@@ -899,10 +916,7 @@ export class TextInput<V> extends Widget {
 
         if(this.needsAutoScroll) {
             this.needsAutoScroll = false;
-            const [l, t] = this.cursorOffset;
-            const r = l + this.cursorThickness;
-            const b = t + this.textHelper.fullLineHeight;
-            this.root.dispatchEvent(new AutoScroll(this, [l, r, t, b]));
+            this.root.dispatchEvent(new AutoScroll(this, this.caretBounds));
         }
     }
 
@@ -917,6 +931,32 @@ export class TextInput<V> extends Widget {
         const effectiveMinWidth = Math.min(Math.max(this.inputTextMinWidth, minWidth), maxWidth);
         this.idealWidth = Math.min(Math.max(effectiveMinWidth, this.textHelper.width + padding), maxWidth);
         this.idealHeight = Math.min(Math.max(minHeight, this.textHelper.height + padding), maxHeight);
+    }
+
+    /**
+     * The rectangle that the caret occupies, relative to the TextInput's
+     * top-left corner.
+     */
+    protected get caretRect(): Rect {
+        const padding = this.inputTextInnerPadding;
+        return [
+            padding + this.cursorOffset[0] - this.offset[0],
+            padding + this.cursorOffset[1] - this.offset[1],
+            this.cursorThickness,
+            this.textHelper.fullLineHeight,
+        ];
+    }
+
+    /** Similar to {@link TextInput#caretRect}, but uses absolute positions. */
+    protected get caretAbsoluteRect(): Rect {
+        const [x, y, w, h] = this.caretRect;
+        return [x + this.x, y + this.y, w, h];
+    }
+
+    /** Similar to {@link TextInput#caretRect}, but gets bounds instead. */
+    protected get caretBounds(): Bounds {
+        const [x, y, w, h] = this.caretRect;
+        return [x, x + w, y, y + h];
     }
 
     protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
@@ -1016,12 +1056,7 @@ export class TextInput<V> extends Widget {
         this.blinkWasOn = blinkOn;
         if(blinkOn) {
             ctx.fillStyle = fillStyle;
-            ctx.fillRect(
-                this.x + padding + this.cursorOffset[0] - this.offset[0],
-                this.y + padding + this.cursorOffset[1] - this.offset[1],
-                this.cursorThickness,
-                this.textHelper.fullLineHeight,
-            );
+            ctx.fillRect(...this.caretAbsoluteRect);
         }
 
         // Stop clipping

@@ -157,8 +157,9 @@ export class Slider extends Widget {
         if(event instanceof PointerWheel || !(event instanceof PointerEvent || event instanceof KeyEvent || event instanceof Leave))
             return null;
 
-        // Ignore tab key presses so tab selection works
-        if(event instanceof KeyPress && event.key === 'Tab')
+        // Ignore tab key presses so tab selection works, and escape so widget
+        // unfocusing works
+        if(event instanceof KeyPress && (event.key === 'Tab' || event.key === 'Escape'))
             return null;
 
         // Handle key presses

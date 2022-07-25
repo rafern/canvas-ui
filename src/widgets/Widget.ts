@@ -518,7 +518,7 @@ export abstract class Widget extends BaseTheme {
      * Abstract container widgets such as {@link Parent} must always override
      * this and call `finalizeBounds` on each child widget.
      */
-    finalizeBounds() {
+    finalizeBounds(): void {
         // Round bounds
         const [scaleX, scaleY] = this.root.effectiveScale;
         const newX = Math.round(this.idealX * scaleX) / scaleX;
@@ -833,6 +833,14 @@ export abstract class Widget extends BaseTheme {
 
         this._root = null;
         this._parent = null;
+    }
+
+    /**
+     * {@link AutoScroll | Auto-scroll} to this widget. Uses the whole widget as
+     * the {@link AutoScroll#bounds | auto-scroll bounds}.
+     */
+    autoScroll(): void {
+        this.root.dispatchEvent(new AutoScroll(this, [0, this.width, 0, this.height]));
     }
 
     // XXX WIDGET AUTO-GENERATED CODE START

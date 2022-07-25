@@ -76,6 +76,18 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private horizWasPainted = false;
     /** Was the vertical scrollbar painted last frame? */
     private vertWasPainted = false;
+    /**
+     * Similar to {@link ScrollableViewportWidget#idealEffectiveWidth}, but also
+     * for overlay scrollbars. Used for {@link AutoScroll | auto-scroll}
+     * calculations.
+     */
+    private idealClearWidth = 0;
+    /**
+     * Similar to {@link ScrollableViewportWidget#idealEffectiveHeight}, but
+     * also for overlay scrollbars. Used for {@link AutoScroll | auto-scroll}
+     * calculations.
+     */
+    private idealClearHeight = 0;
 
     /**
      * Create a new ScrollableViewportWidget.
@@ -393,40 +405,90 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // to the capturer's wanted bounds, make the event relative to this
         // scrollable viewport and re-capture it
         if(capturer !== null && event instanceof AutoScroll) {
-            const [cx, cy] = capturer.position;
+            const reserve = this._scrollbarMode === ScrollbarMode.Layout;
+            const reserveX = reserve && !this.heightTied;
+            const reserveY = reserve && !this.widthTied;
+            let trimmedClearWidth = this.idealClearWidth;
+            let trimmedClearHeight = this.idealClearHeight;
+
+            if(!reserveX || !reserveY) {
+                const thickness = this.scrollBarThickness;
+                const [childWidth, childHeight] = this.child.dimensions;
+                const xNeeded = childWidth > this.width;
+                const yNeeded = childHeight > this.height;
+                const paintX = this.scrollbarNeedsPaint(false, xNeeded);
+                const paintY = this.scrollbarNeedsPaint(true, yNeeded);
+
+                if(!reserveX && paintY)
+                    trimmedClearWidth = Math.max(0, trimmedClearWidth - thickness);
+
+                if(!reserveY && paintX)
+                    trimmedClearHeight = Math.max(0, trimmedClearHeight - thickness);
+            }
+
+            const clearWidth = Math.round(this.idealX + trimmedClearWidth) - this.x;
+            const clearHeight = Math.round(this.idealY + trimmedClearHeight) - this.y;
+
+            let [cx, cy] = capturer.position;
+
+            // XXX if a viewport is being used, then the child's coordinates are
+            // relative to the viewport widget. convert coordinates so that they
+            // are relative to the viewport widget's parent viewport
+            let [offsetX, offsetY] = this.offset;
+            const oldOffX = offsetX, oldOffY = offsetY;
+            if(this.usesViewport) {
+                cx += this.x + offsetX;
+                cy += this.y + offsetY;
+            }
+
             let [cl, cr, ct, cb] = event.bounds;
             cl += cx;
             cr += cx;
             ct += cy;
             cb += cy;
-            const vpr = this.x + this.width;
-            const vpb = this.y + this.height;
-            let [offsetX, offsetY] = this.offset;
-            const oldOffX = offsetX, oldOffY = offsetY;
+            const vpr = this.x + clearWidth;
+            const vpb = this.y + clearHeight;
 
             // If a tab-selection event occurred, scroll so that widget that got
             // selected is visible. Don't scroll if viewport is smaller than
             // capturer and viewport is inside capturer. Don't scroll if
             // capturer is smaller than viewport and capturer is inside viewport
-            if(!this.widthTied && !(cl >= this.x && cr < vpr) && !(this.x >= cl && vpr < cr)) {
-                if(cl > this.x)
-                    offsetX -= cl - this.x;
+            const moveX = !this.widthTied && !(cl >= this.x && cr <= vpr) && !(this.x >= cl && vpr <= cr);
+            if(moveX) {
+                // If child rect is bigger than viewport, then align nearest
+                // child rect edge to farthest border of viewport
+                // If child rect is smaller than viewport, then align farthest
+                // child rect edge to nearest border of viewport
+                const rectBiggerThanViewport = cr - cl > clearWidth;
+                const rectBeforeViewport = cl < this.x;
+                const alignLeft = rectBiggerThanViewport !== rectBeforeViewport;
+                if(alignLeft)
+                    offsetX += this.x - cl;
                 else
                     offsetX += vpr - cr;
             }
 
-            if(!this.heightTied && !(ct >= this.y && cb < vpb) && !(this.y >= ct && vpb < cb)) {
-                if(ct > this.y)
-                    offsetY += vpb - cb;
+            const moveY = !this.heightTied && !(ct >= this.y && cb <= vpb) && !(this.y >= ct && vpb <= cb);
+            if(moveY) {
+                const rectBiggerThanViewport = cb - ct > clearHeight;
+                const rectBeforeViewport = ct < this.y;
+                const alignTop = rectBiggerThanViewport !== rectBeforeViewport;
+                if(alignTop)
+                    offsetY += this.y - ct;
                 else
-                    offsetY -= ct - this.y;
+                    offsetY += vpb - cb;
             }
 
-            this.offset = [offsetX, offsetY];
+            if(moveX || moveY)
+                this.offset = [offsetX, offsetY];
 
             // Correct event bounds to new offset
-            const offDiffX = offsetX - oldOffX;
-            const offDiffY = offsetY - oldOffY;
+            // XXX need to use getter instead of [offsetX, offsetY] because the
+            // setter clamps the values and therefore the offset may have
+            // changed
+            const [newOffX, newOffY] = this.offset;
+            const offDiffX = newOffX - oldOffX + cx - this.x;
+            const offDiffY = newOffY - oldOffY + cy - this.y;
             event.bounds[0] += offDiffX;
             event.bounds[1] += offDiffX;
             event.bounds[2] += offDiffY;
@@ -447,7 +509,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // Check whether to reserve space or not
         const thickness = this.scrollBarThickness;
         const reserve = this._scrollbarMode === ScrollbarMode.Layout;
+        // is a vertical scrollbar always shown (does horizontal space need to
+        // be reserved?)
         const reserveX = reserve && !this.heightTied;
+        // is a horizontal scrollbar always shown (does vertical space need to
+        // be reserved?)
         const reserveY = reserve && !this.widthTied;
 
         // If reserving space, further constrain dimensions
@@ -478,14 +544,22 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         this.idealEffectiveHeight = this.idealHeight;
 
         // Expand dimensions to fit scrollbars
-        if(reserveX)
+        if(reserveX) {
+            this.idealClearWidth = this.idealWidth;
             this.idealWidth = Math.min(Math.max(this.idealWidth + thickness, minWidth), maxWidth);
+        }
+        else
+            this.idealClearWidth = this.idealWidth;
 
-        if(reserveY)
+        if(reserveY) {
+            this.idealClearHeight = this.idealHeight;
             this.idealHeight = Math.min(Math.max(this.idealHeight + thickness, minHeight), maxHeight);
+        }
+        else
+            this.idealClearHeight = this.idealHeight;
     }
 
-    override finalizeBounds() {
+    override finalizeBounds(): void {
         super.finalizeBounds();
 
         this.effectiveWidth = Math.round(this.idealX + this.idealEffectiveWidth) - this.x;

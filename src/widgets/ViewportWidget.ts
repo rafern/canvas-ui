@@ -79,6 +79,16 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     /**
+     * Does this viewport widget use a viewport, or does it just clip the child
+     * instead (default)?
+     *
+     * @returns Returns true if a {@link Viewport} is used; if {@link viewport} is not null
+     */
+    get usesViewport(): boolean {
+        return this.viewport !== null;
+    }
+
+    /**
      * Offset of {@link SingleParent#child}. Positional events will take this
      * into account, as well as rendering. Useful for implementing scrolling.
      */
@@ -266,6 +276,16 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
         else if(child.layoutDirty)
             this._layoutDirty = true;
+    }
+
+    protected override handlePostFinalizeBounds(): void {
+        // postFinalizeBounds only needs to be called if a viewport is not being
+        // used. if it is being used, then it's called automatically by the
+        // {@link Viewport#resolveChildsLayout} method
+        if(this.viewport === null) {
+            for(const child of this.children)
+                child.postFinalizeBounds();
+        }
     }
 
     protected override handlePostLayoutUpdate(): void {
