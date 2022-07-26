@@ -1,14 +1,16 @@
 import { getPointerEventNormPos } from '../helpers/getPointerEventNormPos';
+import { parseDOMDeltaMode } from '../events/PointerWheel';
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 
 /**
- * A container which has all the event listeners for a {@link Root} DOM bind; a
- * link between a DOM element and an existing Root.
+ * A container which has all the event listeners for a {@link Root} DOM bind to
+ * a {@link DOMPointerDriver}; a link between a DOM element and an existing
+ * Root.
  *
  * @category Driver
  */
-export interface RootDOMBind {
+export interface DOMPointerDriverBind {
     domElem: HTMLElement,
     pointerListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null,
@@ -36,7 +38,7 @@ function unpackModifiers(event: MouseEvent): [shift: boolean, ctrl: boolean, alt
  */
 export class DOMPointerDriver extends PointerDriver {
     /** The HTML DOM element and listeners that each root is bound to */
-    private domElems: WeakMap<Root, RootDOMBind> = new WeakMap();
+    private domElems: WeakMap<Root, DOMPointerDriverBind> = new WeakMap();
     /** The mapping between each DOM pointer ID and canvas-ui pointer ID */
     private pointers: Map<number, number> = new Map();
     /**
@@ -61,17 +63,19 @@ export class DOMPointerDriver extends PointerDriver {
     /**
      * Bind an HTML DOM element to a specific root.
      *
-     * If the root was already registered,
-     * {@link DOMPointerDriver#removeListeners} is called. Populates
-     * {@link DOMPointerDriver#domElems} with the new bind. Calls
-     * {@link DOMPointerDriver#addListeners} if root is enabled.
+     * If the root was already bound,
+     * {@link DOMPointerDriver#removeListeners} is called, replacing the old
+     * listeners. Populates {@link DOMPointerDriver#domElems} with the new bind.
+     * Calls {@link DOMPointerDriver#addListeners} if root is enabled.
      */
     bindDOMElem(root: Root, domElem: HTMLElement): void {
         let rootBind = this.domElems.get(root);
-        if(typeof rootBind !== 'undefined')
+        if(rootBind !== undefined) {
+            console.warn('Rebinding DOMPointerDriver. Are you calling bindDOMElem with the same HTML element multiple times?');
             this.removeListeners(rootBind);
+        }
         else {
-            rootBind = <RootDOMBind>{
+            rootBind = <DOMPointerDriverBind>{
                 domElem,
                 pointerListen: null,
                 pointerleaveListen: null,
@@ -87,13 +91,26 @@ export class DOMPointerDriver extends PointerDriver {
     }
 
     /**
+     * Unbind a HTML DOM element from this pointer driver that is bound to a
+     * given Root. Removes all used listeners.
+     */
+    unbindDOMElem(root: Root): void {
+        const rootBind = this.domElems.get(root);
+        if(rootBind === undefined)
+            return;
+
+        this.removeListeners(rootBind);
+        this.domElems.delete(root);
+    }
+
+    /**
      * Get the canvas-ui pointer ID of a given event. If the event has a pointer
      * which hasn't been registered yet, then it is registered automatically
      */
     private getPointerID(event: PointerEvent): number {
         let pointerID = this.pointers.get(event.pointerId);
 
-        if(typeof pointerID === 'undefined') {
+        if(pointerID === undefined) {
             const isMouse = event.pointerType === 'mouse';
             if(isMouse)
                 pointerID = this.mousePointerID;
@@ -107,48 +124,65 @@ export class DOMPointerDriver extends PointerDriver {
     }
 
     /** Add pointer event listeners to root's DOM element. */
-    private addListeners(root: Root, rootBind: RootDOMBind) {
+    private addListeners(root: Root, rootBind: DOMPointerDriverBind): void {
         // Make listeners for mouse events, queueing events. Add them to the
         // root DOM bind so they can be removed later when needed
         const domElem = rootBind.domElem;
-        rootBind.pointerListen = (event: PointerEvent) => {
-            this.movePointer(
-                root, this.getPointerID(event),
-                ...getPointerEventNormPos(event, domElem),
-                event.buttons,
-                ...unpackModifiers(event),
-            );
-        }
-        rootBind.pointerleaveListen = (event: PointerEvent) => {
-            this.leavePointer(root, this.getPointerID(event));
-        }
-        rootBind.wheelListen = (event: WheelEvent) => {
-            this.wheelPointer(
-                root, this.mousePointerID,
-                ...getPointerEventNormPos(event, domElem),
-                event.deltaX, event.deltaY,
-                ...unpackModifiers(event),
-            );
-        }
-        rootBind.contextMenuListen = (event: MouseEvent) => {
-            // Prevent right-click from opening context menu
-            event.preventDefault();
+        if(rootBind.pointerListen === null) {
+            rootBind.pointerListen = (event: PointerEvent) => {
+                this.movePointer(
+                    root, this.getPointerID(event),
+                    ...getPointerEventNormPos(event, domElem),
+                    event.buttons,
+                    ...unpackModifiers(event),
+                );
+            }
+
+            domElem.addEventListener('pointermove', rootBind.pointerListen);
+            domElem.addEventListener('pointerdown', rootBind.pointerListen);
+            domElem.addEventListener('pointerup', rootBind.pointerListen);
         }
 
-        // Add listeners to DOM element
-        domElem.addEventListener('pointermove', rootBind.pointerListen);
-        domElem.addEventListener('pointerdown', rootBind.pointerListen);
-        domElem.addEventListener('pointerup', rootBind.pointerListen);
-        domElem.addEventListener('pointerleave', rootBind.pointerleaveListen);
-        domElem.addEventListener('wheel', rootBind.wheelListen);
-        domElem.addEventListener('contextmenu', rootBind.contextMenuListen);
+        if(rootBind.pointerleaveListen === null) {
+            rootBind.pointerleaveListen = (event: PointerEvent) => {
+                this.leavePointer(root, this.getPointerID(event));
+            }
+
+            domElem.addEventListener('pointerleave', rootBind.pointerleaveListen);
+        }
+
+        if(rootBind.wheelListen === null) {
+            rootBind.wheelListen = (event: WheelEvent) => {
+                const deltaMode = parseDOMDeltaMode(event.deltaMode);
+                if(deltaMode === null)
+                    return;
+
+                this.wheelPointer(
+                    root, this.mousePointerID,
+                    ...getPointerEventNormPos(event, domElem),
+                    event.deltaX, event.deltaY, event.deltaZ, deltaMode,
+                    ...unpackModifiers(event),
+                );
+            }
+
+            domElem.addEventListener('wheel', rootBind.wheelListen, { passive: false });
+        }
+
+        if(rootBind.contextMenuListen === null) {
+            rootBind.contextMenuListen = (event: MouseEvent) => {
+                // Prevent right-click from opening context menu
+                event.preventDefault();
+            }
+
+            domElem.addEventListener('contextmenu', rootBind.contextMenuListen);
+        }
     }
 
     /**
      * Remove pointer event listeners from root's DOM element and unset tracked
      * listeners in root's bind.
      */
-    private removeListeners(rootBind: RootDOMBind) {
+    private removeListeners(rootBind: DOMPointerDriverBind): void {
         if(rootBind.pointerListen !== null) {
             rootBind.domElem.removeEventListener('pointermove', rootBind.pointerListen);
             rootBind.domElem.removeEventListener('pointerdown', rootBind.pointerListen);
@@ -179,7 +213,7 @@ export class DOMPointerDriver extends PointerDriver {
         // Add event listeners for pointer when root is enabled, if the root is
         // bound to a DOM element
         const rootBind = this.domElems.get(root);
-        if(typeof rootBind !== 'undefined')
+        if(rootBind !== undefined)
             this.addListeners(root, rootBind);
     }
 
@@ -193,7 +227,7 @@ export class DOMPointerDriver extends PointerDriver {
         // Remove event listeners for pointer when root is disabled, if the root
         // is bound to a DOM element
         const rootBind = this.domElems.get(root);
-        if(typeof rootBind !== 'undefined')
+        if(rootBind !== undefined)
             this.removeListeners(rootBind);
     }
 }

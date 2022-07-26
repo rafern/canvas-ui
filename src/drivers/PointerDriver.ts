@@ -1,7 +1,7 @@
+import { PointerWheel, PointerWheelMode } from '../events/PointerWheel';
 import { PointerRelease } from '../events/PointerRelease';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
-import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
@@ -267,11 +267,13 @@ export class PointerDriver implements Driver {
      * @param yNorm - The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
      * @param deltaX - How much was scrolled horizontally, in pixels
      * @param deltaY - How much was scrolled vertically, in pixels
+     * @param deltaZ - How much was scrolled in the Z axis, in pixels. Rarely used
+     * @param deltaMode - How the delta values should be interpreted
      * @param shift - Is shift being pressed?
      * @param ctrl - Is control being pressed?
      * @param alt - Is alt being pressed?
      */
-    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number, shift: boolean, ctrl: boolean, alt: boolean): void {
+    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number, deltaZ: number, deltaMode: PointerWheelMode, shift: boolean, ctrl: boolean, alt: boolean): void {
         const state = this.states.get(root);
         if(typeof state === 'undefined')
             return;
@@ -283,7 +285,7 @@ export class PointerDriver implements Driver {
         // Update state and queue up event
         state.hovering = true;
         const [x, y] = this.denormaliseCoords(root, xNorm, yNorm);
-        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY, false, shift, ctrl, alt));
+        state.eventQueue.push(new PointerWheel(x, y, deltaX, deltaY, deltaZ, deltaMode, false, shift, ctrl, alt));
     }
 
     /**
@@ -371,8 +373,8 @@ export class PointerDriver implements Driver {
                 const [startX, startY] = state.dragLast;
                 root.dispatchEvent(new PointerWheel(
                     ...state.dragOrigin,
-                    startX - event.x, startY - event.y,
-                    false, false, false, true,
+                    startX - event.x, startY - event.y, 0,
+                    PointerWheelMode.Pixel, false, false, false, true,
                 ));
 
                 if(event instanceof PointerRelease)

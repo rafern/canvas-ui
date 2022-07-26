@@ -3,13 +3,14 @@ import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
 import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
+import { TextHelper } from '../helpers/TextHelper';
 import { ViewportWidget } from './ViewportWidget';
+import { AutoScroll } from '../events/AutoScroll';
 import type { Bounds } from '../helpers/Bounds';
 import type { Event } from '../events/Event';
 import { Leave } from '../events/Leave';
 import type { Widget } from './Widget';
 import { Root } from '../core/Root';
-import { AutoScroll } from '../events/AutoScroll';
 
 /**
  * The mode for how a scrollbar is shown in a {@link ScrollableViewportWidget}.
@@ -88,6 +89,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      * calculations.
      */
     private idealClearHeight = 0;
+    /** The line height used for scrolling via wheel events. */
+    private _scrollLineHeight = 0;
 
     /**
      * Create a new ScrollableViewportWidget.
@@ -100,6 +103,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         this._scrollbarMode = scrollbarMode;
         this.horizontalClickHelper = new ClickHelper(this);
         this.verticalClickHelper = new ClickHelper(this);
+        this.updateScrollLineHeight();
     }
 
     /** The mode for how the scrollbar is shown. */
@@ -327,8 +331,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private handleWheelEvent(event: PointerWheel): boolean {
         const offset = this.offset;
         const [oldX, oldY] = offset;
-        offset[0] -= event.shift ? event.deltaY : event.deltaX;
-        offset[1] -= event.shift ? event.deltaX : event.deltaY;
+        const [dx, dy] = event.getDeltaPixels(true, this._scrollLineHeight, this.width, this.height);
+        offset[0] -= event.shift ? dy : dx;
+        offset[1] -= event.shift ? dx : dy;
         this.clampOffset(offset);
         this.offset = offset;
         const [newX, newY] = this.offset;
@@ -348,10 +353,26 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         return elapsed < 200;
     }
 
+    protected updateScrollLineHeight(): void {
+        const textHelper = new TextHelper();
+        textHelper.font = this.bodyTextFont;
+        textHelper.lineHeight = this.bodyTextHeight;
+        textHelper.lineSpacing = this.bodyTextSpacing;
+        this._scrollLineHeight = textHelper.fullLineHeight;
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         super.onThemeUpdated(property);
 
-        if(property === 'scrollBarThickness')
+        if(property === null) {
+            this._layoutDirty = true;
+            this._dirty = true;
+        }
+        else if(property === 'bodyTextFont' ||
+                property === 'bodyTextHeight' ||
+                property === 'bodyTextSpacing')
+            this.updateScrollLineHeight();
+        else if(property === 'scrollBarThickness')
         {
             this._layoutDirty = true;
             this._dirty = true;

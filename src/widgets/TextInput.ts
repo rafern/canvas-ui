@@ -158,8 +158,8 @@ export class TextInput<V> extends Widget {
         }
         else if(property === 'inputTextInnerPadding' ||
                 property === 'inputTextFont' ||
-                property === 'inputTextMinAscent' ||
-                property === 'inputTextMinDescent')
+                property === 'inputTextHeight' ||
+                property === 'inputTextSpacing')
         {
             this._layoutDirty = true;
             this._dirty = true;
