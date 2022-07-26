@@ -506,6 +506,12 @@ export class TextInput<V> extends Widget {
         else if(delta > 0) {
             // Delete forwards
             this.variable.value = this.text.substring(0, this.cursorPos) + this.text.substring(this.cursorPos + delta);
+            // XXX normally, deleting forwards doens't require updating the
+            // cursor offset, but when there is text wrapping, delete can change
+            // the cursor offset (pressing delete on a long word in the next
+            // line, causing text wrapping to move the cursor to the previous
+            // line). because of this edge case, mark the cursor offset as dirty
+            this.cursorOffsetDirty = true;
             this.autoScrollCaret();
         }
         else {
@@ -837,25 +843,40 @@ export class TextInput<V> extends Widget {
     }
 
     protected override handlePostFinalizeBounds(): void {
+        // TODO revert textHelper.width/height and cursorOffset/selectOffset
+        // rounding when the positioning system is fixed to allow non-integer
+        // positions
+
         // Update cursor offset. Needs to be updated post-layout because it is
-        // dependent on maxWidth
+        // dependent on maxWidth. Round to nearest integer to avoid
+        // anti-aliasing artifacts (cursor loses sharpness despite being fully
+        // vertical)
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
+            this.cursorOffset[0] = Math.round(this.cursorOffset[0]);
+            this.cursorOffset[1] = Math.round(this.cursorOffset[1]);
 
             if(this.selectPos === this.cursorPos) {
                 this.selectOffset[0] = this.cursorOffset[0];
                 this.selectOffset[1] = this.cursorOffset[1];
             }
-            else
+            else {
                 this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
+                this.selectOffset[0] = Math.round(this.selectOffset[0]);
+                this.selectOffset[1] = Math.round(this.selectOffset[1]);
+            }
 
             this.cursorOffsetDirty = false;
         }
 
         // Check if panning is needed
         const padding = this.inputTextInnerPadding;
-        const innerWidth = this.textHelper.width;
-        const innerHeight = this.textHelper.height;
+        // XXX width/height need to be rounded, otherwise the error between the
+        // ideal width and the rounded width is large enough for panning to be
+        // possible, creating subpixel-aligned carets (which have anti-aliasing
+        // artifacts)
+        const innerWidth = Math.round(this.textHelper.width);
+        const innerHeight = Math.round(this.textHelper.height);
         const usableWidth = this.width - padding * 2;
         const usableHeight = this.height - padding * 2;
         const candidateOffset = this.offset;
@@ -889,23 +910,29 @@ export class TextInput<V> extends Widget {
         if(innerHeight > usableHeight) {
             // Vertical panning needed
             const fullLineHeight = this.textHelper.fullLineHeight;
-            const deadZone = usableHeight < 2 * fullLineHeight ? 0 : fullLineHeight / 2;
-            const top = candidateOffset[1] + deadZone;
-            const bottom = candidateOffset[1] + usableHeight - deadZone - fullLineHeight;
 
-            // Pan down
-            if(cursorY > bottom)
-                candidateOffset[1] += cursorY - bottom;
+            if(fullLineHeight >= usableHeight) {
+                // Edge case - TextInput is not tall enough for a single line.
+                // Pan so that at least the bottom of the line is visible
+                candidateOffset[1] = cursorY + Math.max(this.textHelper.actualLineHeight - usableHeight, 0);
+            }
+            else {
+                const deadZone = usableHeight < 2 * fullLineHeight ? 0 : fullLineHeight / 2;
+                const top = candidateOffset[1] + deadZone;
+                const bottom = candidateOffset[1] + usableHeight - deadZone - fullLineHeight;
 
-            // Pan up
-            if(cursorY < top)
-                candidateOffset[1] -= top - cursorY;
+                // Pan up or down
+                if(cursorY < top)
+                    candidateOffset[1] -= top - cursorY;
+                if(cursorY > bottom)
+                    candidateOffset[1] += cursorY - bottom;
 
-            // Clamp
-            if(candidateOffset[1] + usableHeight > innerHeight)
-                candidateOffset[1] = innerHeight - usableHeight;
-            if(candidateOffset[1] < 0)
-                candidateOffset[1] = 0;
+                // Clamp
+                if(candidateOffset[1] + usableHeight > innerHeight)
+                    candidateOffset[1] = innerHeight - usableHeight;
+                if(candidateOffset[1] < 0)
+                    candidateOffset[1] = 0;
+            }
         }
         else {
             // Vertical panning not needed

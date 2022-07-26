@@ -110,6 +110,7 @@ export * from './widgets/ScrollableViewportWidget';
 export * from './widgets/SingleParent';
 export * from './widgets/Slider';
 export * from './widgets/Spacing';
+export * from './widgets/TextArea';
 export * from './widgets/TextButton';
 export * from './widgets/TextInput';
 export * from './widgets/TextMargin';

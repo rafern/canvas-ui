@@ -22,6 +22,8 @@ export enum ScrollbarMode {
     Overlay,
     /** The scrollbar is part of the layout and therefore always shown */
     Layout,
+    /** The scrollbar is hidden, but the content can still be scrolled */
+    Hidden,
 }
 
 /**
@@ -199,7 +201,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             return this.horizontalClickHelper;
     }
 
-    /** Handle a pointer/leave event for a given scrollbar */
+    /**
+     * Handle a pointer/leave event for a given scrollbar.
+     *
+     * @returns Returns true if the event was captured
+     */
     private handleEventScrollbar(vertical: boolean, corner: boolean, event: Event, root: Root): boolean {
         // Abort if the other scrollbar is being dragged
         if(this.verticalDragged !== null && this.verticalDragged !== vertical)
@@ -388,8 +394,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
     protected override handleEvent(event: Event): Widget | null {
         // Try to drag a scrollbar if this is a pointer or leave event with no
-        // target or target on this
-        if((event instanceof Leave || event instanceof PointerEvent) &&
+        // target or target on this. Don't do this if the scrollbars are hidden
+        if(this._scrollbarMode !== ScrollbarMode.Hidden &&
+           (event instanceof Leave || event instanceof PointerEvent) &&
            (event.target === null || event.target === this)) {
             const [childWidth, childHeight] = this.child.dimensions;
             const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
@@ -440,11 +447,13 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                 const paintX = this.scrollbarNeedsPaint(false, xNeeded);
                 const paintY = this.scrollbarNeedsPaint(true, yNeeded);
 
-                if(!reserveX && paintY)
-                    trimmedClearWidth = Math.max(0, trimmedClearWidth - thickness);
-
-                if(!reserveY && paintX)
-                    trimmedClearHeight = Math.max(0, trimmedClearHeight - thickness);
+                // XXX don't trim clear space if scrollbars are hidden
+                if(this._scrollbarMode !== ScrollbarMode.Hidden) {
+                    if(!reserveX && paintY)
+                        trimmedClearWidth = Math.max(0, trimmedClearWidth - thickness);
+                    if(!reserveY && paintX)
+                        trimmedClearHeight = Math.max(0, trimmedClearHeight - thickness);
+                }
             }
 
             const clearWidth = Math.round(this.idealX + trimmedClearWidth) - this.x;
@@ -709,6 +718,9 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
     /** Check if a scrollbar needs to be painted */
     private scrollbarNeedsPaint(vertical: boolean, needed: boolean): boolean {
+        if(this._scrollbarMode === ScrollbarMode.Hidden)
+            return false;
+
         if(!needed && this._scrollbarMode === ScrollbarMode.Overlay)
             return false;
 

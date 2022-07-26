@@ -1,6 +1,8 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
+import type { LayoutConstraints } from './LayoutConstraints';
 import type { TextInputHandler } from './TextInputHandler';
 import { PointerEvent } from '../events/PointerEvent';
+import { PointerWheel } from '../events/PointerWheel';
 import type { Widget } from '../widgets/Widget';
 import { TabSelect } from '../events/TabSelect';
 import { KeyPress } from '../events/KeyPress';
@@ -113,11 +115,11 @@ export class Root {
     }
 
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
-    get constraints(): [number, number, number, number] {
+    get constraints(): LayoutConstraints {
         return this.viewport.constraints;
     }
 
-    set constraints(constraints: [number, number, number, number]) {
+    set constraints(constraints: LayoutConstraints) {
         this.viewport.constraints = constraints;
     }
 
@@ -264,7 +266,7 @@ export class Root {
         }
 
         // Clear pointer style. This will be set by children if neccessary
-        if(event instanceof PointerEvent || event instanceof Leave)
+        if((event instanceof PointerEvent && !(event instanceof PointerWheel)) || event instanceof Leave)
             this.pointerStyle = 'default';
 
         // Pass event down to internal Container
