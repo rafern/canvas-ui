@@ -1,5 +1,7 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerEvent } from '../events/PointerEvent';
+import { AutoScroll } from '../events/AutoScroll';
+import type { Viewport } from '../core/Viewport';
 import type { Padding } from '../theme/Padding';
 import { TabSelect } from '../events/TabSelect';
 import type { Bounds } from '../helpers/Bounds';
@@ -9,7 +11,6 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
-import { AutoScroll } from '../events/AutoScroll';
 
 const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
 const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
@@ -83,6 +84,15 @@ export abstract class Widget extends BaseTheme {
      * {@link Widget#active}) will have this property set to null.
      */
     protected _root: Root | null = null;
+    /**
+     * The {@link Viewport} that this widget is currently painting to. A UI tree
+     * can have multiple Viewports due to {@link ViewportWidget}, so this is not
+     * equivalent to {@link Root#viewport}.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null.
+     */
+    protected _viewport: Viewport | null = null;
     /**
      * The parent {@link Widget} of this widget.
      *
@@ -520,11 +530,11 @@ export abstract class Widget extends BaseTheme {
      */
     finalizeBounds(): void {
         // Round bounds
-        const [scaleX, scaleY] = this.root.effectiveScale;
-        const newX = Math.round(this.idealX * scaleX) / scaleX;
-        const newY = Math.round(this.idealY * scaleY) / scaleY;
-        const newWidth = Math.round((this.idealX + this.idealWidth) * scaleX) / scaleX - newX;
-        const newHeight = Math.round((this.idealY + this.idealHeight) * scaleY) / scaleY - newY;
+        const [scaleX, scaleY] = this.viewport.effectiveScale;
+        const newX = Math.floor(this.idealX * scaleX) / scaleX;
+        const newY = Math.floor(this.idealY * scaleY) / scaleY;
+        const newWidth = Math.ceil((this.idealX + this.idealWidth) * scaleX) / scaleX - newX;
+        const newHeight = Math.ceil((this.idealY + this.idealHeight) * scaleY) / scaleY - newY;
 
         // Mark as dirty if bounds have changed
         if(newX !== this.x || newY !== this.y || newWidth !== this.width || newHeight !== this.height)
@@ -583,7 +593,8 @@ export abstract class Widget extends BaseTheme {
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
-    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+    protected clear(x: number, y: number, width: number, height: number, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+        const ctx = this.viewport.context;
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
         ctx.fillStyle = fillStyle ?? this.canvasFill;
@@ -602,7 +613,8 @@ export abstract class Widget extends BaseTheme {
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
-    protected clearStart(ctx: CanvasRenderingContext2D, fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+    protected clearStart(fillStyle: string | CanvasGradient | CanvasPattern | null = null): void {
+        const ctx = this.viewport.context;
         ctx.save();
         ctx.globalCompositeOperation = 'copy';
         ctx.fillStyle = fillStyle ?? this.canvasFill;
@@ -615,7 +627,8 @@ export abstract class Widget extends BaseTheme {
      *
      * @param fillRule - The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
      */
-    protected clearEnd(ctx: CanvasRenderingContext2D, fillRule: CanvasFillRule = 'nonzero'): void {
+    protected clearEnd(fillRule: CanvasFillRule = 'nonzero'): void {
+        const ctx = this.viewport.context;
         ctx.clip(fillRule);
         ctx.fill();
         ctx.restore();
@@ -626,7 +639,8 @@ export abstract class Widget extends BaseTheme {
      * are relative to the center of the circle. Uses ctx's current fillStyle.
      * Does not restore the context state after finishing.
      */
-    protected paintCircle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number): void {
+    protected paintCircle(x: number, y: number, radius: number): void {
+        const ctx = this.viewport.context;
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, twoPi);
         ctx.fill();
@@ -643,7 +657,7 @@ export abstract class Widget extends BaseTheme {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {}
+    protected handlePainting(forced: boolean): void {}
 
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
@@ -655,7 +669,7 @@ export abstract class Widget extends BaseTheme {
      *
      * @param force - Force re-paint even if {@link Widget#_dirty} is false
      */
-    paint(ctx: CanvasRenderingContext2D, force = false): void {
+    paint(force = false): void {
         if(this.dimensionless)
             return this.dryPaint();
 
@@ -666,10 +680,11 @@ export abstract class Widget extends BaseTheme {
 
         if(this._enabled) {
             if(this.needsClear)
-                this.clear(this.x, this.y, this.width, this.height, ctx);
+                this.clear(this.x, this.y, this.width, this.height);
 
+            const ctx = this.viewport.context;
             ctx.save();
-            this.handlePainting(ctx, force);
+            this.handlePainting(force);
             ctx.restore();
         }
 
@@ -786,6 +801,19 @@ export abstract class Widget extends BaseTheme {
     }
 
     /**
+     * Similar to {@link Widget#_viewport}, but throws an error if the widget is
+     * not {@link Widget#active}.
+     */
+    get viewport(): Viewport {
+        if(!this.active)
+            throw new Error('Cannot get viewport; Widget is not active');
+
+        // XXX active makes sure that _viewport is not null, but typescript
+        // doesn't detect this. force the type system to treat it as non-null
+        return this._viewport as Viewport;
+    }
+
+    /**
      * Similar to {@link Widget#_parent}, but throws an error if the widget is
      * not {@link Widget#active}.
      */
@@ -808,13 +836,15 @@ export abstract class Widget extends BaseTheme {
      * Calls {@link Widget#forceDirty}.
      *
      * @param root - The {@link Root} of the UI tree
+     * @param viewport - The {@link Viewport} in this part of the UI tree. A UI tree can have multiple nested Viewports due to {@link ViewportWidget}
      * @param parent - The new parent of this Widget. If `null`, then this Widget has no parent and is the {@link Root#child | root Widget}
      */
-    activate(root: Root, parent: Widget | null): void {
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void {
         if(this.active)
             throw new Error('Attempt to activate active Widget');
 
         this._root = root;
+        this._viewport = viewport;
         this._parent = parent;
         this.forceDirty();
     }
@@ -823,7 +853,8 @@ export abstract class Widget extends BaseTheme {
      * Called when the Widget is removed from a UI tree. Should be overridden
      * for resource management, but `super.deactivate` must be called.
      *
-     * Sets {@link Widget#root} and {@link Widget#parent} to null.
+     * Sets {@link Widget#_root}, {@link Widget#_viewport} and
+     * {@link Widget#_parent} to null.
      *
      * If the widget was not in a UI tree, then an exception is thrown.
      */
@@ -832,6 +863,7 @@ export abstract class Widget extends BaseTheme {
             throw new Error('Attempt to deactivate inactive Widget');
 
         this._root = null;
+        this._viewport = null;
         this._parent = null;
     }
 
@@ -840,7 +872,7 @@ export abstract class Widget extends BaseTheme {
      * the {@link AutoScroll#bounds | auto-scroll bounds}.
      */
     autoScroll(): void {
-        this.root.dispatchEvent(new AutoScroll(this, [0, this.width, 0, this.height]));
+        this.root.dispatchEvent(new AutoScroll(this, [0, this.idealWidth, 0, this.idealHeight]));
     }
 
     // XXX WIDGET AUTO-GENERATED CODE START

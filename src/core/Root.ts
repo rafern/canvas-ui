@@ -20,8 +20,6 @@ import { Viewport } from './Viewport';
  * @category Core
  */
 export class Root {
-    /** The Root's child; the parent Widget of all widgets in this Root */
-    readonly child: Widget;
     /** The internal viewport. Manages drawing */
     protected viewport: Viewport;
     /** The list of drivers registered to this root */
@@ -107,11 +105,10 @@ export class Root {
      * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
     constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
-        this.viewport = new Viewport();
-        this.child = child;
+        this.viewport = new Viewport(child);
         this.pointerStyleHandler = pointerStyleHandler;
         this.child.inheritedTheme = theme;
-        this.child.activate(this, null);
+        this.child.activate(this, this.viewport, null);
     }
 
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
@@ -200,7 +197,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.resolveChildsLayout(this.child);
+        return this.viewport.resolveChildsLayout();
     }
 
     /**
@@ -218,7 +215,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.paintToCanvas(this.child, false);
+        return this.viewport.paintToCanvas(false);
     }
 
     /**
@@ -620,10 +617,18 @@ export class Root {
      *
      * Note that this is only valid after resolving {@link Root#child}'s layout.
      *
-     * Equivalent to calling {@link Viewport#getAppliedScale} on
+     * Equivalent to getting {@link Viewport#effectiveScale} on
      * {@link Root#viewport}.
      */
     get effectiveScale(): [scaleX: number, scaleY: number] {
-        return this.viewport.getAppliedScale(this.child);
+        return this.viewport.effectiveScale;
+    }
+
+    /**
+     * The root widget of this UI tree. Equivalent to getting
+     * {@link Root#viewport}.{@link Viewport#child}.
+     */
+    get child(): Widget {
+        return this.viewport.child;
     }
 }

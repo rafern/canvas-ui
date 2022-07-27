@@ -1,4 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Viewport } from '../core/Viewport';
 import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
 import type { Root } from '../core/Root';
@@ -79,11 +80,11 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         return this._children.values();
     }
 
-    override activate(root: Root, parent: Widget | null): void {
-        super.activate(root, parent);
+    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.activate(root, viewport, parent);
 
         for(const child of this.children)
-            child.activate(root, this);
+            child.activate(root, viewport, this);
     }
 
     override deactivate(): void {

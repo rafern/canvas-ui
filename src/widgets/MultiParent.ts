@@ -31,7 +31,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
                 child.inheritedTheme = this.inheritedTheme;
 
                 if(isActive)
-                    child.activate(this.root, this);
+                    child.activate(this.root, this.viewport, this);
             }
         }
         else {
@@ -39,7 +39,7 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
             children.inheritedTheme = this.inheritedTheme;
 
             if(this.active)
-                children.activate(this.root, this);
+                children.activate(this.root, this.viewport, this);
         }
 
         this.forceDirty();

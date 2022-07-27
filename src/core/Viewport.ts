@@ -11,6 +11,8 @@ import { isPower2 } from '../helpers/isPower2';
  * @category Core
  */
 export class Viewport {
+    /** The Viewport's child. Painting and layout will be relative to this. */
+    readonly child: Widget;
     /**
      * Layout constraints of viewport when resolving widget's layout. A 4-tuple
      * containing, respectively, minimum width, maximum width, minimum height
@@ -62,7 +64,9 @@ export class Viewport {
      * {@link Viewport#canvas} and {@link Viewport#context}. Failure to get a
      * canvas context results in an exception.
      */
-    constructor(startingWidth = 64, startingHeight = 64) {
+    constructor(child: Widget, startingWidth = 64, startingHeight = 64) {
+        this.child = child;
+
         // Create internal canvas
         this.canvas = document.createElement('canvas');
         this.canvas.width = startingWidth;
@@ -102,15 +106,15 @@ export class Viewport {
      *
      * @returns Returns true if the child was resized, else, false.
      */
-    resolveChildsLayout(child: Widget): boolean {
+    resolveChildsLayout(): boolean {
         let relayouts = 0;
-        if(!child.layoutDirty && !this._dirty) {
+        if(!this.child.layoutDirty && !this._dirty) {
             // even if a layout resolution is not needed, the hook still needs
             // to be called at least once per frame
-            child.postFinalizeBounds();
+            this.child.postFinalizeBounds();
             relayouts++;
 
-            if(!child.layoutDirty)
+            if(!this.child.layoutDirty)
                 return false;
         }
 
@@ -118,29 +122,29 @@ export class Viewport {
         this._dirty = false;
 
         // Resolve child's layout
-        const [oldWidth, oldHeight] = child.dimensions;
+        const [oldWidth, oldHeight] = this.child.dimensions;
         let newWidth = oldWidth;
         let newHeight = oldHeight;
         let wasResized = false;
 
-        while(child.layoutDirty) {
+        while(this.child.layoutDirty) {
             if(relayouts > Viewport.maxRelayout) {
                 console.warn('Maximum re-layouts exceeded. Is there a Widget type that is immediately marking the layout as dirty after resolving it?')
                 break;
             }
             const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
-            child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
-            child.resolvePosition(0, 0);
+            this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
+            this.child.resolvePosition(0, 0);
 
-            [newWidth, newHeight] = child.idealDimensions;
+            [newWidth, newHeight] = this.child.idealDimensions;
             const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
             newWidth = Math.round(newWidth * newScaleX) / newScaleX;
             newHeight = Math.round(newHeight * newScaleY) / newScaleY;
             wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
 
-            child.finalizeBounds();
-            child.postFinalizeBounds();
+            this.child.finalizeBounds();
+            this.child.postFinalizeBounds();
 
             relayouts++;
         }
@@ -177,12 +181,14 @@ export class Viewport {
                 // canvas will not be copied if the old dimensions of the child
                 // were 0x0
                 // TODO resizing is kinda expensive. maybe find a better way?
+                const oldCanvasWidth = this.canvas.width;
+                const oldCanvasHeight = this.canvas.height;
 
                 let copyCanvas = null;
-                if(oldWidth !== 0 && oldHeight !== 0) {
+                if(oldCanvasWidth !== 0 && oldCanvasHeight !== 0) {
                     copyCanvas = document.createElement('canvas');
-                    copyCanvas.width = oldWidth;
-                    copyCanvas.height = oldHeight;
+                    copyCanvas.width = oldCanvasWidth;
+                    copyCanvas.height = oldCanvasHeight;
 
                     const copyCtx = copyCanvas.getContext('2d');
                     if(copyCtx === null)
@@ -191,8 +197,8 @@ export class Viewport {
                     copyCtx.globalCompositeOperation = 'copy';
                     copyCtx.drawImage(
                         this.canvas,
-                        0, 0, oldWidth, oldHeight,
-                        0, 0, oldWidth, oldHeight,
+                        0, 0, oldCanvasWidth, oldCanvasHeight,
+                        0, 0, oldCanvasWidth, oldCanvasHeight,
                     );
                 }
 
@@ -226,12 +232,12 @@ export class Viewport {
     }
 
     /**
-     * Get the canvas scale that will be applied if the given widget is the
-     * Viewport's child. Used for checking whether a child's dimensions exceed
+     * Get the canvas scale that will be applied to the Viewport's child. Used
+     * for checking whether a child's dimensions exceed
      * {@link Viewport#maxCanvasWidth} or {@link Viewport#maxCanvasHeight}
      */
-    getAppliedScale(child: Widget): [scaleX: number, scaleY: number] {
-        return this.getAppliedScaleFrom(...child.dimensions);
+    get effectiveScale(): [scaleX: number, scaleY: number] {
+        return this.getAppliedScaleFrom(...this.child.dimensions);
     }
 
     /**
@@ -242,19 +248,19 @@ export class Viewport {
      * @param force - Force re-paint even if child.{@link Widget#dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paintToCanvas(child: Widget, force: boolean): boolean {
+    paintToCanvas(force: boolean): boolean {
         // Paint child
-        const wasDirty = child.dirty;
+        const wasDirty = this.child.dirty;
 
         // scale canvas if child dimensions exceed maximum canvas dimensions
-        const [scaleX, scaleY] = this.getAppliedScale(child);
+        const [scaleX, scaleY] = this.effectiveScale;
         const needsSquish = scaleX !== 1 || scaleY !== 1;
         if(needsSquish) {
             this.context.save();
             this.context.scale(scaleX, scaleY);
         }
 
-        child.paint(this.context, force);
+        this.child.paint(force);
 
         if(needsSquish)
             this.context.restore();

@@ -176,8 +176,8 @@ export class Slider extends Widget {
         }
 
         // Handle click event
-        const x = this.x + this.offsetX;
-        const y = this.y + this.offsetY;
+        const x = this.idealX + this.offsetX;
+        const y = this.idealY + this.offsetY;
         this.clickHelper.handleClickEvent(event, this.root, [
             x, x + this.actualWidth, y, y + this.actualHeight,
         ]);
@@ -253,12 +253,13 @@ export class Slider extends Widget {
         }
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         // Correct position with offset
         const x = this.x + this.offsetX;
         const y = this.y + this.offsetY;
 
         // Draw filled part of slider. Use accent colour if hovering or holding
+        const ctx = this.viewport.context;
         const useGlow = this.keyboardFocused || this.clickHelper.clickState === ClickState.Hover || this.clickHelper.clickState === ClickState.Hold;
         if(useGlow)
             ctx.fillStyle = this.accentFill;

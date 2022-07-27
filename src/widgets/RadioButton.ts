@@ -4,6 +4,7 @@ import type { ThemeProperties } from '../theme/ThemeProperties';
 import { VariableCallback } from '../helpers/VariableCallback';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
+import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -115,8 +116,8 @@ export class RadioButton<V> extends Widget {
     }
 
     protected override handleEvent(event: Event): this | null {
-        const x = this.x + this.offsetX;
-        const y = this.y + this.offsetY;
+        const x = this.idealX + this.offsetX;
+        const y = this.idealY + this.offsetY;
         const [wasClick, capture] = this.clickHelper.handleEvent(
             event,
             this.root,
@@ -157,7 +158,7 @@ export class RadioButton<V> extends Widget {
         this.offsetY = (this.height - this.actualLength) / 2;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         this._wasSelected = this.selected;
 
         // Should we use glow colours? (background glow and accent)
@@ -165,6 +166,7 @@ export class RadioButton<V> extends Widget {
                         this.clickHelper.clickState === ClickState.Hold;
 
         // Draw unchecked part of radio button
+        const ctx = this.viewport.context;
         if(useGlow)
             ctx.fillStyle = this.backgroundGlowFill;
         else
@@ -173,7 +175,7 @@ export class RadioButton<V> extends Widget {
         const halfLength = this.actualLength / 2;
         const radioX = this.offsetX + this.x + halfLength;
         const radioY = this.offsetY + this.y + halfLength;
-        this.paintCircle(ctx, radioX, radioY, halfLength);
+        this.paintCircle(radioX, radioY, halfLength);
 
         // Draw checked part of checkbox
         if(this.selected) {
@@ -187,16 +189,16 @@ export class RadioButton<V> extends Widget {
             // Fall back to filling entire radio button if there isn't enough
             // space for padding
             if(innerLength <= 0)
-                this.paintCircle(ctx, radioX, radioY, halfLength);
+                this.paintCircle(radioX, radioY, halfLength);
             else {
                 const halfInnerLength = innerLength / 2;
-                this.paintCircle(ctx, radioX, radioY, halfInnerLength);
+                this.paintCircle(radioX, radioY, halfInnerLength);
             }
         }
     }
 
-    override activate(root: Root, parent: Widget | null): void {
-        super.activate(root, parent);
+    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.activate(root, viewport, parent);
         this.variable.watch(this.callback);
     }
 

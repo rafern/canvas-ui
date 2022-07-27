@@ -39,25 +39,15 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      */
     private _scrollbarMode: ScrollbarMode;
     /**
-     * The effective viewport width (width not occupied by a non-overlay
+     * The effective viewport width (ideal width not occupied by a non-overlay
      * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveWidth = 0;
     /**
-     * The effective viewport height (height not occupied by a non-overlay
+     * The effective viewport height (ideal height not occupied by a non-overlay
      * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveHeight = 0;
-    /**
-     * Similar to {@link ScrollableViewportWidget#effectiveWidth}, but ideal
-     * (like {@link Widget#idealWidth}). For internal use only.
-     */
-    private idealEffectiveWidth = 0;
-    /**
-     * Similar to {@link ScrollableViewportWidget#effectiveHeight}, but ideal
-     * (like {@link Widget#idealHeight}). For internal use only.
-     */
-    private idealEffectiveHeight = 0;
     /**
      * ClickHelper used for checking if the horizontal scrollbar has been
      * dragged
@@ -79,18 +69,6 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private horizWasPainted = false;
     /** Was the vertical scrollbar painted last frame? */
     private vertWasPainted = false;
-    /**
-     * Similar to {@link ScrollableViewportWidget#idealEffectiveWidth}, but also
-     * for overlay scrollbars. Used for {@link AutoScroll | auto-scroll}
-     * calculations.
-     */
-    private idealClearWidth = 0;
-    /**
-     * Similar to {@link ScrollableViewportWidget#idealEffectiveHeight}, but
-     * also for overlay scrollbars. Used for {@link AutoScroll | auto-scroll}
-     * calculations.
-     */
-    private idealClearHeight = 0;
     /** The line height used for scrolling via wheel events. */
     private _scrollLineHeight = 0;
 
@@ -133,7 +111,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     override set offset(offset: [number, number]) {
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
 
         super.offset = [
             -Math.max(Math.min(-offset[0], childWidth - this.effectiveWidth), 0),
@@ -176,7 +154,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      */
     get scroll(): [number, number] {
         const [offsetX, offsetY] = this.offset;
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
         const diffX = childWidth - this.effectiveWidth;
         const diffY = childHeight - this.effectiveHeight;
         return [
@@ -186,7 +164,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     set scroll(scroll: [number, number]) {
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
         this.offset = [
             -scroll[0] * (childWidth - this.effectiveWidth),
             -scroll[1] * (childHeight - this.effectiveHeight),
@@ -274,7 +252,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                 // If this was outside the filled area, snap scrollbar
                 if(!inFilledArea) {
                     const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
-                    const childLength = this.child.dimensions[axisIndex];
+                    const childLength = this.child.idealDimensions[axisIndex];
                     const barLength = viewportLength / childLength;
                     scroll[axisIndex] = (thisOffset - barLength / 2) / (1 - barLength);
                     this.scroll = scroll;
@@ -289,7 +267,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             else {
                 // Drag continue, scroll
                 const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
-                const childLength = this.child.dimensions[axisIndex];
+                const childLength = this.child.idealDimensions[axisIndex];
                 const barLength = viewportLength / childLength;
                 const dragDiff = thisOffset - this.startingOffset;
                 scroll[axisIndex] = this.startingScroll + dragDiff / (1 - barLength);
@@ -311,7 +289,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
     /** Clamp offset in-place to valid scroll values. For internal use only. */
     private clampOffset(offset: [number, number]): void {
-        const [childWidth, childHeight] = this.child.dimensions;
+        const [childWidth, childHeight] = this.child.idealDimensions;
 
         const minX = -(childWidth - this.effectiveWidth);
         if(minX >= 0)
@@ -337,7 +315,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     private handleWheelEvent(event: PointerWheel): boolean {
         const offset = this.offset;
         const [oldX, oldY] = offset;
-        const [dx, dy] = event.getDeltaPixels(true, this._scrollLineHeight, this.width, this.height);
+        const [dx, dy] = event.getDeltaPixels(true, this._scrollLineHeight, this.idealWidth, this.idealHeight);
         offset[0] -= event.shift ? dy : dx;
         offset[1] -= event.shift ? dx : dy;
         this.clampOffset(offset);
@@ -398,11 +376,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         if(this._scrollbarMode !== ScrollbarMode.Hidden &&
            (event instanceof Leave || event instanceof PointerEvent) &&
            (event.target === null || event.target === this)) {
-            const [childWidth, childHeight] = this.child.dimensions;
+            const [childWidth, childHeight] = this.child.idealDimensions;
             const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
             const forceCorner = !overlay && (!this.widthTied && !this.heightTied);
-            const xNeeded = childWidth > this.width;
-            const yNeeded = childHeight > this.height;
+            const xNeeded = childWidth > this.idealWidth;
+            const yNeeded = childHeight > this.idealHeight;
 
             let grabbedEvent = false;
 
@@ -436,30 +414,27 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             const reserve = this._scrollbarMode === ScrollbarMode.Layout;
             const reserveX = reserve && !this.heightTied;
             const reserveY = reserve && !this.widthTied;
-            let trimmedClearWidth = this.idealClearWidth;
-            let trimmedClearHeight = this.idealClearHeight;
+            let clearWidth = this.effectiveWidth;
+            let clearHeight = this.effectiveHeight;
 
             if(!reserveX || !reserveY) {
                 const thickness = this.scrollBarThickness;
-                const [childWidth, childHeight] = this.child.dimensions;
-                const xNeeded = childWidth > this.width;
-                const yNeeded = childHeight > this.height;
+                const [childWidth, childHeight] = this.child.idealDimensions;
+                const xNeeded = childWidth > this.idealWidth;
+                const yNeeded = childHeight > this.idealHeight;
                 const paintX = this.scrollbarNeedsPaint(false, xNeeded);
                 const paintY = this.scrollbarNeedsPaint(true, yNeeded);
 
                 // XXX don't trim clear space if scrollbars are hidden
                 if(this._scrollbarMode !== ScrollbarMode.Hidden) {
                     if(!reserveX && paintY)
-                        trimmedClearWidth = Math.max(0, trimmedClearWidth - thickness);
+                        clearWidth = Math.max(0, clearWidth - thickness);
                     if(!reserveY && paintX)
-                        trimmedClearHeight = Math.max(0, trimmedClearHeight - thickness);
+                        clearHeight = Math.max(0, clearHeight - thickness);
                 }
             }
 
-            const clearWidth = Math.round(this.idealX + trimmedClearWidth) - this.x;
-            const clearHeight = Math.round(this.idealY + trimmedClearHeight) - this.y;
-
-            let [cx, cy] = capturer.position;
+            let [cx, cy] = capturer.idealPosition;
 
             // XXX if a viewport is being used, then the child's coordinates are
             // relative to the viewport widget. convert coordinates so that they
@@ -467,8 +442,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             let [offsetX, offsetY] = this.offset;
             const oldOffX = offsetX, oldOffY = offsetY;
             if(this.usesViewport) {
-                cx += this.x + offsetX;
-                cy += this.y + offsetY;
+                cx += this.idealX + offsetX;
+                cy += this.idealY + offsetY;
             }
 
             let [cl, cr, ct, cb] = event.bounds;
@@ -476,35 +451,35 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             cr += cx;
             ct += cy;
             cb += cy;
-            const vpr = this.x + clearWidth;
-            const vpb = this.y + clearHeight;
+            const vpr = this.idealX + clearWidth;
+            const vpb = this.idealY + clearHeight;
 
             // If a tab-selection event occurred, scroll so that widget that got
             // selected is visible. Don't scroll if viewport is smaller than
             // capturer and viewport is inside capturer. Don't scroll if
             // capturer is smaller than viewport and capturer is inside viewport
-            const moveX = !this.widthTied && !(cl >= this.x && cr <= vpr) && !(this.x >= cl && vpr <= cr);
+            const moveX = !this.widthTied && !(cl >= this.idealX && cr <= vpr) && !(this.idealX >= cl && vpr <= cr);
             if(moveX) {
                 // If child rect is bigger than viewport, then align nearest
                 // child rect edge to farthest border of viewport
                 // If child rect is smaller than viewport, then align farthest
                 // child rect edge to nearest border of viewport
                 const rectBiggerThanViewport = cr - cl > clearWidth;
-                const rectBeforeViewport = cl < this.x;
+                const rectBeforeViewport = cl < this.idealX;
                 const alignLeft = rectBiggerThanViewport !== rectBeforeViewport;
                 if(alignLeft)
-                    offsetX += this.x - cl;
+                    offsetX += this.idealX - cl;
                 else
                     offsetX += vpr - cr;
             }
 
-            const moveY = !this.heightTied && !(ct >= this.y && cb <= vpb) && !(this.y >= ct && vpb <= cb);
+            const moveY = !this.heightTied && !(ct >= this.idealY && cb <= vpb) && !(this.idealY >= ct && vpb <= cb);
             if(moveY) {
                 const rectBiggerThanViewport = cb - ct > clearHeight;
-                const rectBeforeViewport = ct < this.y;
+                const rectBeforeViewport = ct < this.idealY;
                 const alignTop = rectBiggerThanViewport !== rectBeforeViewport;
                 if(alignTop)
-                    offsetY += this.y - ct;
+                    offsetY += this.idealY - ct;
                 else
                     offsetY += vpb - cb;
             }
@@ -517,8 +492,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             // setter clamps the values and therefore the offset may have
             // changed
             const [newOffX, newOffY] = this.offset;
-            const offDiffX = newOffX - oldOffX + cx - this.x;
-            const offDiffY = newOffY - oldOffY + cy - this.y;
+            const offDiffX = newOffX - oldOffX + cx - this.idealX;
+            const offDiffY = newOffY - oldOffY + cy - this.idealY;
             event.bounds[0] += offDiffX;
             event.bounds[1] += offDiffX;
             event.bounds[2] += offDiffY;
@@ -570,30 +545,15 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         super.handleResolveDimensions(rMinWidth, rMaxWidth, rMinHeight, rMaxHeight);
 
         // Save dimensions to effective dimensions
-        this.idealEffectiveWidth = this.idealWidth;
-        this.idealEffectiveHeight = this.idealHeight;
+        this.effectiveWidth = this.idealWidth;
+        this.effectiveHeight = this.idealHeight;
 
         // Expand dimensions to fit scrollbars
-        if(reserveX) {
-            this.idealClearWidth = this.idealWidth;
+        if(reserveX)
             this.idealWidth = Math.min(Math.max(this.idealWidth + thickness, minWidth), maxWidth);
-        }
-        else
-            this.idealClearWidth = this.idealWidth;
 
-        if(reserveY) {
-            this.idealClearHeight = this.idealHeight;
+        if(reserveY)
             this.idealHeight = Math.min(Math.max(this.idealHeight + thickness, minHeight), maxHeight);
-        }
-        else
-            this.idealClearHeight = this.idealHeight;
-    }
-
-    override finalizeBounds(): void {
-        super.finalizeBounds();
-
-        this.effectiveWidth = Math.round(this.idealX + this.idealEffectiveWidth) - this.x;
-        this.effectiveHeight = Math.round(this.idealY + this.idealEffectiveHeight) - this.y;
     }
 
     protected override handlePostLayoutUpdate(): void {
@@ -605,11 +565,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         this.offset = offset;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
+    protected override handlePainting(forced: boolean): void {
         // Check which scrollbars need painting and update forceRePaint flag
-        const [childWidth, childHeight] = this.child.dimensions;
-        const xNeeded = childWidth > this.width;
-        const yNeeded = childHeight > this.height;
+        const [childWidth, childHeight] = this.child.idealDimensions;
+        const xNeeded = childWidth > this.idealWidth;
+        const yNeeded = childHeight > this.idealHeight;
         const paintX = this.scrollbarNeedsPaint(false, xNeeded);
         const paintY = this.scrollbarNeedsPaint(true, yNeeded);
 
@@ -618,22 +578,31 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             this.vertWasPainted = paintY;
             this.forceRePaint = true;
         }
+        else if(this.scrollbarMode === ScrollbarMode.Overlay) {
+            // XXX overlay mode always needs the child widget to be repainted
+            // because the scrollbar could be semi-transparent. if the scrollbar
+            // is semi-transparent and the child is painted, then the scrollbar
+            // will also be painted, but it will be overpainted, resulting in
+            // accumulation of alpha, getting rid of the transparency over time
+            this.forceRePaint = true;
+        }
 
         // Paint viewport
-        super.handlePainting(ctx, forced);
+        super.handlePainting(forced);
 
         // Paint scrollbars
         const forceCorner = this._scrollbarMode === ScrollbarMode.Layout &&
                             (!this.widthTied && !this.heightTied);
 
         if(paintX)
-            this.paintScrollbar(false, xNeeded, yNeeded || forceCorner, ctx);
+            this.paintScrollbar(false, xNeeded, yNeeded || forceCorner);
         if(paintY)
-            this.paintScrollbar(true, yNeeded, xNeeded || forceCorner, ctx);
+            this.paintScrollbar(true, yNeeded, xNeeded || forceCorner);
 
         // Paint corner if it is forced
         if(forceCorner) {
             const thickness = this.scrollBarThickness;
+            const ctx = this.viewport.context;
             ctx.fillStyle = this.backgroundFill;
             ctx.fillRect(
                 this.x + this.width - thickness,
@@ -654,7 +623,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
         const axisIndex = vertical ? 1 : 0;
         const percent = this.scroll[axisIndex];
-        const childLength = this.child.dimensions[axisIndex];
+        const childLength = this.child.idealDimensions[axisIndex];
         const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
         const thickness = this.scrollBarThickness;
         const minPercent = this.scrollBarMinPercent;
@@ -683,14 +652,14 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // Find rectangle where filled part of scrollbar will be painted
         let sX, sY, sWidth, sHeight;
         if(vertical) {
-            sX = this.x + this.width - thickness;
-            sY = this.y + offset;
+            sX = this.idealX + this.idealWidth - thickness;
+            sY = this.idealY + offset;
             sWidth = thickness;
             sHeight = length;
         }
         else {
-            sX = this.x + offset;
-            sY = this.y + this.height - thickness;
+            sX = this.idealX + offset;
+            sY = this.idealY + this.idealHeight - thickness;
             sWidth = length;
             sHeight = thickness;
         }
@@ -699,12 +668,12 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         let bgX, bgY, bgWidth, bgHeight;
         if(vertical) {
             bgX = sX;
-            bgY = this.y;
+            bgY = this.idealY;
             bgWidth = thickness;
             bgHeight = viewportLengthCorner;
         }
         else {
-            bgX = this.x;
+            bgX = this.idealX;
             bgY = sY;
             bgWidth = viewportLengthCorner;
             bgHeight = thickness;
@@ -728,11 +697,12 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     /** Paint a scrollbar. For internal use only */
-    private paintScrollbar(vertical: boolean, needed: boolean, corner: boolean, ctx: CanvasRenderingContext2D): void {
+    private paintScrollbar(vertical: boolean, needed: boolean, corner: boolean): void {
         // Get rectangles
         const [fillRect, bgRect] = this.getScrollbarRects(vertical, corner);
 
         // Paint background if not in overlay mode
+        const ctx = this.viewport.context;
         if(this._scrollbarMode !== ScrollbarMode.Overlay) {
             ctx.fillStyle = this.backgroundFill;
             ctx.fillRect(...bgRect);

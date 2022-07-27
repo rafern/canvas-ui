@@ -228,7 +228,7 @@ export class Icon extends Widget {
         this.offsetY = (this.idealHeight - this.actualHeight) / 2;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         // Abort if icon isn't ready yet
         if(this._image instanceof HTMLImageElement && !this._image?.complete) {
             this.lastSrc = null;
@@ -241,6 +241,7 @@ export class Icon extends Widget {
         // Translate, rotate and clip if rotation is not 0
         let tdx = this.x + this.offsetX, tdy = this.y + this.offsetY;
         const rotated = this.rotation !== 0;
+        const ctx = this.viewport.context;
         if(rotated) {
             ctx.save();
             ctx.beginPath();

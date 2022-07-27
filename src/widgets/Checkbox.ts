@@ -85,8 +85,8 @@ export class Checkbox extends Widget {
     }
 
     protected override handleEvent(event: Event): this | null {
-        const x = this.x + this.offsetX;
-        const y = this.y + this.offsetY;
+        const x = this.idealX + this.offsetX;
+        const y = this.idealY + this.offsetY;
         const [wasClick, capture] = this.clickHelper.handleEvent(
             event,
             this.root,
@@ -133,12 +133,13 @@ export class Checkbox extends Widget {
         this.offsetY = (this.height - this.actualLength) / 2;
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         // Should we use glow colours? (background glow and accent)
         const useGlow = this.clickHelper.clickState === ClickState.Hover ||
                         this.clickHelper.clickState === ClickState.Hold;
 
         // Draw unchecked part of checkbox
+        const ctx = this.viewport.context;
         if(useGlow)
             ctx.fillStyle = this.backgroundGlowFill;
         else

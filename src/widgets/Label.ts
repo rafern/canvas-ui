@@ -129,8 +129,9 @@ export class Label extends Widget {
         this.idealHeight = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         // Start clipping if text wrapping is disabled
+        const ctx = this.viewport.context;
         if(!this.wrapText) {
             ctx.save();
             ctx.beginPath();
@@ -139,7 +140,7 @@ export class Label extends Widget {
         }
 
         // Paint text
-        this.textHelper.paint(ctx, this.bodyTextFill, this.x, this.y);
+        this.textHelper.paint(ctx, this.bodyTextFill, this.idealX, this.idealY);
 
         // Stop clipping if text wrapping is disabled
         if(!this.wrapText)

@@ -276,7 +276,7 @@ export function injectDebugCode(): void {
     injected = true;
 
     // trace.Widget.paint
-    injectTraceFeature(Widget, 'paint', (_ctx, forced) => {
+    injectTraceFeature(Widget, 'paint', (forced) => {
         return forced ? ' (forced)' : '';
     });
     // trace.Widget.resolveDimensions

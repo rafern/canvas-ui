@@ -67,8 +67,8 @@ export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W
         this.child.resolvePosition(this.idealX, this.idealY);
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
+    protected override handlePainting(forced: boolean): void {
         // Paint child
-        this.child.paint(ctx, forced);
+        this.child.paint(forced);
     }
 }

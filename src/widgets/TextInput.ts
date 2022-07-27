@@ -624,8 +624,8 @@ export class TextInput<V> extends Widget {
                 // Update cursor position (and offset) from click position
                 const padding = this.inputTextInnerPadding;
                 this.moveCursorFromOffset(
-                    event.x - this.x - padding + this.offset[0],
-                    event.y - this.y - padding + this.offset[1],
+                    event.x - this.idealX - padding + this.offset[0],
+                    event.y - this.idealY - padding + this.offset[1],
                     !isPress && this.dragging,
                 );
 
@@ -846,6 +846,7 @@ export class TextInput<V> extends Widget {
         // TODO revert textHelper.width/height and cursorOffset/selectOffset
         // rounding when the positioning system is fixed to allow non-integer
         // positions
+        // - done, but still need to clean things up. do another round
 
         // Update cursor offset. Needs to be updated post-layout because it is
         // dependent on maxWidth. Round to nearest integer to avoid
@@ -853,8 +854,8 @@ export class TextInput<V> extends Widget {
         // vertical)
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
-            this.cursorOffset[0] = Math.round(this.cursorOffset[0]);
-            this.cursorOffset[1] = Math.round(this.cursorOffset[1]);
+            // this.cursorOffset[0] = Math.round(this.cursorOffset[0]);
+            // this.cursorOffset[1] = Math.round(this.cursorOffset[1]);
 
             if(this.selectPos === this.cursorPos) {
                 this.selectOffset[0] = this.cursorOffset[0];
@@ -862,8 +863,8 @@ export class TextInput<V> extends Widget {
             }
             else {
                 this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
-                this.selectOffset[0] = Math.round(this.selectOffset[0]);
-                this.selectOffset[1] = Math.round(this.selectOffset[1]);
+                // this.selectOffset[0] = Math.round(this.selectOffset[0]);
+                // this.selectOffset[1] = Math.round(this.selectOffset[1]);
             }
 
             this.cursorOffsetDirty = false;
@@ -875,10 +876,12 @@ export class TextInput<V> extends Widget {
         // ideal width and the rounded width is large enough for panning to be
         // possible, creating subpixel-aligned carets (which have anti-aliasing
         // artifacts)
-        const innerWidth = Math.round(this.textHelper.width);
-        const innerHeight = Math.round(this.textHelper.height);
-        const usableWidth = this.width - padding * 2;
-        const usableHeight = this.height - padding * 2;
+        // const innerWidth = Math.round(this.textHelper.width);
+        // const innerHeight = Math.round(this.textHelper.height);
+        const innerWidth = this.textHelper.width;
+        const innerHeight = this.textHelper.height;
+        const usableWidth = this.idealWidth - padding * 2;
+        const usableHeight = this.idealHeight - padding * 2;
         const candidateOffset = this.offset;
         const [cursorX, cursorY] = this.cursorOffset;
 
@@ -977,7 +980,7 @@ export class TextInput<V> extends Widget {
     /** Similar to {@link TextInput#caretRect}, but uses absolute positions. */
     protected get caretAbsoluteRect(): Rect {
         const [x, y, w, h] = this.caretRect;
-        return [x + this.x, y + this.y, w, h];
+        return [x + this.idealX, y + this.idealY, w, h];
     }
 
     /** Similar to {@link TextInput#caretRect}, but gets bounds instead. */
@@ -986,8 +989,9 @@ export class TextInput<V> extends Widget {
         return [x, x + w, y, y + h];
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void {
+    protected override handlePainting(_forced: boolean): void {
         // Paint background
+        const ctx = this.viewport.context;
         ctx.fillStyle = this.inputBackgroundFill;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
@@ -1006,8 +1010,8 @@ export class TextInput<V> extends Widget {
                 const left = Math.min(this.cursorOffset[0], this.selectOffset[0]);
                 const right = Math.max(this.cursorOffset[0], this.selectOffset[0]);
                 ctx.fillRect(
-                    this.x + padding + left - this.offset[0],
-                    this.y + padding + this.cursorOffset[1] - this.offset[1],
+                    this.idealX + padding + left - this.offset[0],
+                    this.idealY + padding + this.cursorOffset[1] - this.offset[1],
                     right - left,
                     this.textHelper.fullLineHeight,
                 );
@@ -1026,11 +1030,11 @@ export class TextInput<V> extends Widget {
 
                 // Top line:
                 const fullLineHeight = this.textHelper.fullLineHeight;
-                const topWidth = this.width + this.offset[0] - topOffset[0] - padding;
+                const topWidth = this.idealWidth + this.offset[0] - topOffset[0] - padding;
                 if(topWidth > 0) {
                     ctx.fillRect(
-                        this.x + padding + topOffset[0] - this.offset[0],
-                        this.y + padding + topOffset[1] - this.offset[1],
+                        this.idealX + padding + topOffset[0] - this.offset[0],
+                        this.idealY + padding + topOffset[1] - this.offset[1],
                         topWidth,
                         fullLineHeight,
                     );
@@ -1040,8 +1044,8 @@ export class TextInput<V> extends Widget {
                 const bottomWidth = bottomOffset[0] + padding - this.offset[0];
                 if(bottomWidth > 0) {
                     ctx.fillRect(
-                        this.x,
-                        this.y + padding + bottomOffset[1] - this.offset[1],
+                        this.idealX,
+                        this.idealY + padding + bottomOffset[1] - this.offset[1],
                         bottomWidth,
                         fullLineHeight,
                     );
@@ -1052,9 +1056,9 @@ export class TextInput<V> extends Widget {
                 const middleHeight = bottomOffset[1] - middleYOffset;
                 if(middleHeight > 0) {
                     ctx.fillRect(
-                        this.x,
-                        this.y + padding + middleYOffset - this.offset[1],
-                        this.width,
+                        this.idealX,
+                        this.idealY + padding + middleYOffset - this.offset[1],
+                        this.idealWidth,
                         middleHeight,
                     );
                 }
@@ -1074,8 +1078,8 @@ export class TextInput<V> extends Widget {
 
         this.textHelper.paint(
             ctx, fillStyle,
-            this.x + padding - this.offset[0],
-            this.y + padding - this.offset[1],
+            this.idealX + padding - this.offset[0],
+            this.idealY + padding - this.offset[1],
         );
 
         // Paint blink

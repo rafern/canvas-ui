@@ -109,12 +109,19 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Resolve child's dimensions
+        const [oldChildWidth, oldChildHeight] = this.child.idealDimensions;
         this.child.resolveDimensions(childMinWidth, childMaxWidth, childMinHeight, childMaxHeight);
         const [childWidth, childHeight] = this.child.idealDimensions;
 
         // Resolve own dimensions
+        const [oldWidth, oldHeight] = [this.idealWidth, this.idealHeight];
         this.idealWidth = Math.max(minWidth, childWidth + hPadding);
         this.idealHeight = Math.max(minHeight, childHeight + vPadding);
+
+        // Mark background as dirty if own size or child's size changed
+        if(this.idealWidth !== oldWidth || this.idealHeight !== oldHeight ||
+           childWidth !== oldChildWidth || childHeight !== oldChildHeight)
+            this.backgroundDirty = true;
     }
 
     protected override afterPositionResolved(): void {
@@ -152,57 +159,36 @@ export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Resolve child's position
+        const [oldChildX, oldChildY] = this.child.idealPosition;
         this.child.resolvePosition(childX, childY);
-    }
 
-    override finalizeBounds() {
-        const [oldWidth, oldHeight] = this.dimensions;
-        const [oldChildX, oldChildY] = this.child.position;
-        const [oldChildWidth, oldChildHeight] = this.child.dimensions;
-
-        super.finalizeBounds();
-
-        // If dimensions, child's position or child's dimensions have changed,
-        // mark background as dirty
-        if(oldWidth !== this.width || oldHeight !== this.height) {
+        // If child's position changed, mark background as dirty
+        if(oldChildX !== childX || oldChildY !== childY)
             this.backgroundDirty = true;
-            return;
-        }
-
-        const [childX, childY] = this.child.position;
-        if(oldChildX !== childX || oldChildY !== childY) {
-            this.backgroundDirty = true;
-            return;
-        }
-
-        const [childWidth, childHeight] = this.child.dimensions;
-        if(oldChildWidth !== childWidth || oldChildHeight !== childHeight) {
-            this.backgroundDirty = true;
-            return;
-        }
     }
 
     /**
      * Implementation of handlePainting; separate from handlePainting so that
      * the fillStyle for the background clear can be overridden.
      */
-    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle: FillStyle | null = null): void {
+    protected handleBaseContainerPainting(forced: boolean, fillStyle: FillStyle | null = null): void {
         // Clear background if needed
         if(this.backgroundDirty || forced) {
-            this.clearStart(ctx, fillStyle);
+            this.clearStart(fillStyle);
+            const ctx = this.viewport.context;
             ctx.rect(...this.rect);
             ctx.rect(...this.child.rect);
-            this.clearEnd(ctx, 'evenodd');
+            this.clearEnd('evenodd');
 
             this.backgroundDirty = false;
         }
 
         // Paint child
-        this.child.paint(ctx, forced);
+        this.child.paint(forced);
     }
 
-    protected override handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void {
-        this.handleBaseContainerPainting(ctx, forced);
+    protected override handlePainting(forced: boolean): void {
+        this.handleBaseContainerPainting(forced);
     }
 
     override dryPaint(): void {
