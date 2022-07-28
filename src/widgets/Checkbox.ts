@@ -1,10 +1,12 @@
 import type { VariableCallback } from '../state/VariableCallback';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../state/WatchableVariable';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
+import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
+import { Variable } from '../state/Variable';
+import type { Root } from '../core/Root';
 import { Widget } from './Widget';
 
 /**
@@ -22,26 +24,38 @@ export class Checkbox extends Widget {
     /** The helper used for handling pointer clicks and enter presses */
     protected clickHelper: ButtonClickHelper;
     /** The helper for keeping track of the checkbox value */
-    protected variable: WatchableVariable<boolean>;
+    readonly variable: Variable<boolean>;
+    /** The callback used for the {@link Checkbox#"variable"} */
+    private readonly callback: VariableCallback<boolean>;
 
     /**
      * Create a new Checkbox.
      *
-     * @param callback - An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
+     * @param variable - The {@link Variable} where the value will be stored.
      */
-    constructor(callback: VariableCallback<boolean> | null = null, initialValue = false, themeProperties?: ThemeProperties) {
+    constructor(variable: Variable<boolean> = new Variable(false), themeProperties?: ThemeProperties) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
         super(true, false, themeProperties);
 
         this.tabFocusable = true;
-        // Save callback and initial value
-        this.variable = new WatchableVariable<boolean>(initialValue);
-        if(callback)
-            this.variable.watch(callback);
-
-        // Setup click helper
+        this.variable = variable;
+        this.callback = this.handleChange.bind(this);
         this.clickHelper = new ButtonClickHelper(this);
+    }
+
+    protected handleChange(_newValue: boolean): void {
+        this._dirty = true;
+    }
+
+    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.activate(root, viewport, parent);
+        this.variable.watch(this.callback);
+    }
+
+    override deactivate(): void {
+        super.deactivate();
+        this.variable.unwatch(this.callback);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -104,12 +118,6 @@ export class Checkbox extends Widget {
             this._dirty = true;
 
         return capture ? this : null;
-    }
-
-    protected override handlePostLayoutUpdate(): void {
-        // Mark as dirty if variable is dirty
-        if(this.variable.dirty)
-            this._dirty = true;
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {

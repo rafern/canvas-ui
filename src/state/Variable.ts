@@ -12,8 +12,8 @@
 export class Variable<V> {
     /** The current value, for internal use. */
     private _value: V;
-    /** Has the value changed? */
-    private _dirty = false;
+    /** The function callbacks called when the value is changed */
+    private callbacks: Set<() => void> = new Set();
 
     /**
      * Create a new Variable.
@@ -37,11 +37,26 @@ export class Variable<V> {
         this.setValue(value);
     }
 
-    /** Has the value changed? Resets {@link Variable#_dirty} to false */
-    get dirty(): boolean {
-        const wasDirty = this._dirty;
-        this._dirty = false;
-        return wasDirty;
+    /** Check if a callback is registered to this variable. */
+    hasCallback(callback: () => void): boolean {
+        return this.callbacks.has(callback);
+    }
+
+    /**
+     * Register a callback to this variable. When the value is changed, the
+     * callback will be called.
+     */
+    watch(callback: () => void): boolean {
+        if(this.hasCallback(callback))
+            return false;
+
+        this.callbacks.add(callback);
+        return true;
+    }
+
+    /** Unregister a previously registered callback from this variable. */
+    unwatch(callback: () => void): boolean {
+        return this.callbacks.delete(callback);
     }
 
     /**
@@ -57,8 +72,16 @@ export class Variable<V> {
 
         this._value = value;
 
-        if(notify)
-            this._dirty = true;
+        if(notify) {
+            for(const callback of this.callbacks) {
+                try {
+                    callback();
+                }
+                catch(e) {
+                    console.error('Exception in Variable callback', e);
+                }
+            }
+        }
 
         return true;
     }

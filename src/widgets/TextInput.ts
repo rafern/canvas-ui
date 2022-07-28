@@ -1,21 +1,22 @@
 import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
-import { WatchableVariable } from '../state/WatchableVariable';
+import { ValidatedVariable } from '../state/ValidatedVariable';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerRelease } from '../events/PointerRelease';
 import { TextPasteEvent } from '../events/TextPasteEvent';
-import type { TextValidator } from '../state/Validator';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerMove } from '../events/PointerMove';
 import { TextHelper } from '../helpers/TextHelper';
 import { AutoScroll } from '../events/AutoScroll';
+import type { Viewport } from '../core/Viewport';
 import { TabSelect } from '../events/TabSelect';
 import type { Bounds } from '../helpers/Bounds';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Rect } from '../helpers/Rect';
+import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
@@ -29,11 +30,9 @@ import { Widget } from './Widget';
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @typeParam V - The type of {@link TextInput#validValue}; the type of the transformed value returned by the validator.
- *
  * @category Widget
  */
-export class TextInput<V> extends Widget {
+export class TextInput extends Widget {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -63,14 +62,8 @@ export class TextInput<V> extends Widget {
      */
     @multiFlagField(['cursorOffsetDirty', '_dirty'])
     hideText = false;
-    /** Is the text valid? */
-    private _valid;
-    /** Last valid value. */
-    private _validValue;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
-    /** The helper for keeping track of the input value */
-    protected variable: WatchableVariable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
      *
@@ -123,29 +116,36 @@ export class TextInput<V> extends Widget {
      * layout is finalized?
      */
     private needsAutoScroll = false;
+    /** The helper for keeping track of the checkbox value */
+    readonly variable: ValidatedVariable<string, unknown>;
+    /** The callback used for the {@link TextInput#"variable"} */
+    private readonly callback: () => void;
 
     /** Create a new TextInput. */
-    constructor(validator: TextValidator<V>, inputFilter: ((input: string) => boolean) | null = null, initialValue = '', themeProperties?: ThemeProperties) {
+    constructor(variable: ValidatedVariable<string, unknown> = new ValidatedVariable(''), inputFilter: ((input: string) => boolean) | null = null, themeProperties?: ThemeProperties) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
         super(false, false, themeProperties);
 
         this.tabFocusable = true;
         this.textHelper = new TextHelper();
-        this.variable = new WatchableVariable<string>(initialValue);
-        this.variable.watch((text: string) => {
-            const [valid, validatedValue] = validator(text);
-
-            if(valid)
-                this._validValue = validatedValue;
-
-            if(valid !== this._valid) {
-                this._valid = valid;
-                this._dirty = true;
-            }
-        });
-        [this._valid, this._validValue] = validator(initialValue);
+        this.variable = variable;
+        this.callback = this.handleChange.bind(this);
         this.inputFilter = inputFilter;
+    }
+
+    protected handleChange(): void {
+        this._dirty = true;
+    }
+
+    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.activate(root, viewport, parent);
+        this.variable.watch(this.callback);
+    }
+
+    override deactivate(): void {
+        super.deactivate();
+        this.variable.unwatch(this.callback);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {
@@ -250,16 +250,6 @@ export class TextInput<V> extends Widget {
             return '●'.repeat(this.variable.value.length);
         else
             return this.variable.value;
-    }
-
-    /** Is the current value in the text input valid? */
-    get valid(): boolean {
-        return this._valid;
-    }
-
-    /** The last valid value, transformed by the validator. */
-    get validValue(): V {
-        return this._validValue;
     }
 
     /** The current line number, starting from 0. */
@@ -1068,7 +1058,7 @@ export class TextInput<V> extends Widget {
         // Paint current text value
         let fillStyle;
         if(this._editingEnabled) {
-            if(this._valid)
+            if(this.variable.valid)
                 fillStyle = this.inputTextFill;
             else
                 fillStyle = this.inputTextFillInvalid;

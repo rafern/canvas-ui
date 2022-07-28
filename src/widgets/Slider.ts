@@ -1,15 +1,17 @@
 import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../state/WatchableVariable';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
 import { paintField } from '../decorators/FlagFields';
 import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
+import type { Viewport } from '../core/Viewport';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import { KeyEvent } from '../events/KeyEvent';
 import type { Event } from '../events/Event';
+import { Variable } from '../state/Variable';
+import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
@@ -34,8 +36,6 @@ export class Slider extends Widget {
     private snapIncrement: number;
     /** The helper for handling pointer clicks/drags */
     protected clickHelper: ClickHelper;
-    /** The helper for keeping track of the slider's value */
-    protected variable: WatchableVariable<number>;
     /** Is this a vertical slider? */
     protected readonly vertical: boolean;
     /** The horizontal offset of the slider */
@@ -49,9 +49,13 @@ export class Slider extends Widget {
     /** Is the keyboard focusing this widget? */
     @paintField
     private keyboardFocused = false;
+    /** The helper for keeping track of the slider value */
+    readonly variable: Variable<number>;
+    /** The callback used for the {@link Slider#"variable"} */
+    private readonly callback: VariableCallback<number>;
 
     /** Create a new Slider */
-    constructor(callback: VariableCallback<number> | null = null, minValue = 0, maxValue = 1, snapIncrement = 0, initialValue = 0, vertical = false, themeProperties?: ThemeProperties) {
+    constructor(variable: Variable<number> = new Variable(0), minValue = 0, maxValue = 1, snapIncrement = 0, vertical = false, themeProperties?: ThemeProperties) {
         // Sliders need a clear background, have no children and don't propagate
         // events
         super(true, false, themeProperties);
@@ -68,15 +72,27 @@ export class Slider extends Widget {
             throw new Error('Slider increment value must be greater or equal to zero');
 
         this.clickHelper = new ClickHelper(this);
-        this.variable = new WatchableVariable(this.clamp(initialValue));
-        if(callback)
-            this.variable.watch(callback);
-
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
         this.vertical = vertical;
         this.tabFocusable = true;
+        this.variable = variable;
+        this.callback = this.handleChange.bind(this);
+    }
+
+    protected handleChange(_newValue: number): void {
+        this._dirty = true;
+    }
+
+    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.activate(root, viewport, parent);
+        this.variable.watch(this.callback);
+    }
+
+    override deactivate(): void {
+        super.deactivate();
+        this.variable.unwatch(this.callback);
     }
 
     /** The slider's value */
@@ -197,12 +213,6 @@ export class Slider extends Widget {
             this._dirty = true;
 
         return this;
-    }
-
-    protected override handlePostLayoutUpdate(): void {
-        // Mark as dirty if variable is dirty
-        if(this.variable.dirty)
-            this._dirty = true;
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {

@@ -1,5 +1,5 @@
-import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Variable } from '../state/Variable';
 import type { TextGetter } from './Label';
 import { Checkbox } from './Checkbox';
 import { Spacing } from './Spacing';
@@ -13,13 +13,13 @@ import { Row } from './Row';
  * @category Aggregate Widget
  */
 export class LabelledCheckbox extends Row {
-    constructor(text: string | TextGetter, callback: VariableCallback<boolean> | null = null, initialValue = false, themeProperties?: ThemeProperties) {
+    constructor(text: string | TextGetter, variable?: Variable<boolean>, themeProperties?: ThemeProperties) {
         super(themeProperties);
 
         this.add([
             new Label(text, themeProperties),
             new Spacing(1, 0, 0, themeProperties),
-            new Checkbox(callback, initialValue, themeProperties),
+            new Checkbox(variable, themeProperties),
         ]);
     }
 }

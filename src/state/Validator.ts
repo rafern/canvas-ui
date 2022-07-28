@@ -8,20 +8,4 @@
  *
  * @category Validator
  */
-export type Validator<U, V> = (value: U) => [boolean, V];
-
-/**
- * A {@link Validator} which has a string input.
- *
- * @typeParam V - The type of the output (the transformed input).
- *
- * @category Validator
- */
-export type TextValidator<V> = Validator<string, V>;
-
-/**
- * A {@link Validator} which has unknown input and output types.
- *
- * @category Validator
- */
-export type UnknownValidator = Validator<unknown, unknown>;
+export type Validator<U, V> = (value: U) => [true, V] | [false, unknown];

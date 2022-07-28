@@ -71,7 +71,6 @@ export * from './state/RangeValidator';
 export * from './state/Validator';
 export * from './state/Variable';
 export * from './state/VariableCallback';
-export * from './state/WatchableVariable';
 // widgets
 export * from './widgets/VirtualKeyboard/AltKey';
 export * from './widgets/VirtualKeyboard/BackspaceKey';
@@ -89,7 +88,6 @@ export * from './widgets/VirtualKeyboard/VirtualKeyRow';
 export * from './widgets/ArtificialConstraint';
 export * from './widgets/AxisCoupling';
 export * from './widgets/BaseContainer';
-export * from './widgets/BasicTextInput';
 export * from './widgets/Button';
 export * from './widgets/Center';
 export * from './widgets/Checkbox';
