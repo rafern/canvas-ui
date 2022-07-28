@@ -41,7 +41,13 @@ export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W
 
     protected override handlePostFinalizeBounds(): void {
         // Post-finalize bounds update child
-        this.child.postFinalizeBounds();
+        const child = this.child;
+        child.postFinalizeBounds();
+
+        // If child's layout is dirty, set self's layout as dirty so that
+        // same-frame re-layouts are triggered
+        if(child.layoutDirty)
+            this._layoutDirty = true;
     }
 
     protected override handlePostLayoutUpdate(): void {

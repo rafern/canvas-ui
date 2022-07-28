@@ -267,9 +267,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
                 this.internalViewport.resolveChildsLayout();
             }
             else if(child.layoutDirty || this.forceReLayout) {
-                // TODO make this do a proper re-layout loop, and call
-                // postFinalizeBounds maybe reuse code from
-                // internalViewport.resolvechildslayout and make it separate
                 child.resolveDimensionsAsTop(...this.scaledConstraints);
                 this.correctChildPosition();
             }
@@ -283,8 +280,13 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // used. if it is being used, then it's called automatically by the
         // {@link Viewport#resolveChildsLayout} method
         if(this.internalViewport === null) {
-            for(const child of this.children)
-                child.postFinalizeBounds();
+            const child = this.child;
+            child.postFinalizeBounds();
+
+            // If child's layout is dirty, set self's layout as dirty so that
+            // same-frame re-layouts are triggered
+            if(child.layoutDirty)
+                this._layoutDirty = true;
         }
     }
 

@@ -85,8 +85,14 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
 
     protected override handlePostFinalizeBounds(): void {
         // Post-finalize bounds update children
-        for(const child of this.children)
+        for(const child of this.children) {
             child.postFinalizeBounds();
+
+            // If child's layout is dirty, set self's layout as dirty so that
+            // same-frame re-layouts are triggered
+            if(child.layoutDirty)
+                this._layoutDirty = true;
+        }
     }
 
     protected override handlePostLayoutUpdate(): void {
