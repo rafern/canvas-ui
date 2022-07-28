@@ -1,4 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { AxisCoupling } from '../widgets/AxisCoupling';
 import { ViewportWidget } from './ViewportWidget';
 import type { Event } from '../events/Event';
 import type { Widget } from './Widget';
@@ -11,7 +12,9 @@ export declare enum ScrollbarMode {
     /** The scrollbar is an overlay and therefore only shown when needed */
     Overlay = 0,
     /** The scrollbar is part of the layout and therefore always shown */
-    Layout = 1
+    Layout = 1,
+    /** The scrollbar is hidden, but the content can still be scrolled */
+    Hidden = 2
 }
 /**
  * A wrapper for a {@link ViewportWidget} with scrollbars.
@@ -26,13 +29,13 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      */
     private _scrollbarMode;
     /**
-     * The effective viewport width, for scrollbar calculations. For internal
-     * use only.
+     * The effective viewport width (ideal width not occupied by a non-overlay
+     * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveWidth;
     /**
-     * The effective viewport height, for scrollbar calculations. For internal
-     * use only.
+     * The effective viewport height (ideal height not occupied by a non-overlay
+     * scrollbar), for scrollbar calculations. For internal use only.
      */
     private effectiveHeight;
     /**
@@ -56,12 +59,14 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
     private horizWasPainted;
     /** Was the vertical scrollbar painted last frame? */
     private vertWasPainted;
+    /** The line height used for scrolling via wheel events. */
+    private _scrollLineHeight;
     /**
      * Create a new ScrollableViewportWidget.
      *
-     * If an axis is tied, that axis will not have a scrollbar.
+     * If an axis is bi-coupled, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth?: number, minHeight?: number, widthTied?: boolean, heightTied?: boolean, scrollbarMode?: ScrollbarMode, useViewport?: boolean, themeProperties?: ThemeProperties);
+    constructor(child: W, minWidth?: number, minHeight?: number, widthCoupling?: AxisCoupling, heightCoupling?: AxisCoupling, scrollbarMode?: ScrollbarMode, useViewport?: boolean, themeProperties?: ThemeProperties);
     /** The mode for how the scrollbar is shown. */
     get scrollbarMode(): ScrollbarMode;
     set scrollbarMode(scrollbarMode: ScrollbarMode);
@@ -72,18 +77,10 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      */
     get offset(): [number, number];
     set offset(offset: [number, number]);
-    /**
-     * Is the width tied to the child's? If true, width constraints will be
-     * overridden.
-     */
-    get widthTied(): boolean;
-    set widthTied(widthTied: boolean);
-    /**
-     * Is the height tied to the child's? If true, height constraints will be
-     * overridden.
-     */
-    get heightTied(): boolean;
-    set heightTied(heightTied: boolean);
+    get widthCoupling(): AxisCoupling;
+    set widthCoupling(widthCoupling: AxisCoupling);
+    get heightCoupling(): AxisCoupling;
+    set heightCoupling(heightCoupling: AxisCoupling);
     /**
      * The current scroll values. Similar to
      * {@link ScrollableViewportWidget#offset}, but with normalised values (from
@@ -93,7 +90,11 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
     set scroll(scroll: [number, number]);
     /** Get the ClickHelper of a scrollbar */
     private getClickHelper;
-    /** Handle a pointer/leave event for a given scrollbar */
+    /**
+     * Handle a pointer/leave event for a given scrollbar.
+     *
+     * @returns Returns true if the event was captured
+     */
     private handleEventScrollbar;
     /** Clamp offset in-place to valid scroll values. For internal use only. */
     private clampOffset;
@@ -106,11 +107,12 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      * @returns Returns true if this changed scroll was successful
      */
     private handleWheelEvent;
+    protected updateScrollLineHeight(): void;
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected handlePostLayoutUpdate(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
     /**
      * Get the rectangles (filled and background) of a scrollbar
      *

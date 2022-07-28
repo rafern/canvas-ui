@@ -82,6 +82,6 @@ export declare class Icon extends Widget {
     get image(): HTMLImageElement | HTMLVideoElement;
     protected handlePreLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    protected handlePainting(_forced: boolean): void;
     dryPaint(): void;
 }

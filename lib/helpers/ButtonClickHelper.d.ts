@@ -2,10 +2,10 @@ import { CompoundClickHelper } from "./CompoundClickHelper";
 import { GenericClickHelper } from "./GenericClickHelper";
 import type { Widget } from "../widgets/Widget";
 import { FocusType } from "../core/FocusType";
-import type { ClickArea } from "./ClickArea";
 import type { Event } from "../events/Event";
 import { ClickHelper } from "./ClickHelper";
 import type { Root } from "../core/Root";
+import type { Bounds } from "./Bounds";
 /**
  * A {@link CompoundClickHelper} specialised for {@link Button}-like widgets.
  * Handles pointer clicks and enter key-presses if the widget has a keyboard
@@ -22,6 +22,8 @@ export declare class ButtonClickHelper extends CompoundClickHelper {
     protected pointerClickHelper: ClickHelper;
     /** The helper for handling enter key presses */
     protected keyboardClickHelper: GenericClickHelper;
+    /** The widget that will be auto-scrolled when keyboard focused */
+    private widget;
     constructor(widget: Widget);
     /**
      * Handle focus grabbing from {@link Widget#onFocusGrabbed}. If keyboard
@@ -48,8 +50,8 @@ export declare class ButtonClickHelper extends CompoundClickHelper {
      * @param event - The event from {@link Widget#handleEvent}
      * @param root - The root from {@link Widget#handleEvent}
      * @param enabled - Is the button being clicked enabled? If not, then the click state will remain unchanged, but the event will be captured
-     * @param clickArea - The bounding box to be used for detecting pointer clicks
+     * @param bounds - The bounding box to be used for detecting pointer clicks
      * @returns Returns a 2-tuple containing, respective, whether a click occurred, and whether the event should be captured
      */
-    handleEvent(event: Event, root: Root, enabled: boolean, clickArea: ClickArea): [wasClick: boolean, capture: boolean];
+    handleEvent(event: Event, root: Root, enabled: boolean, bounds: Bounds): [wasClick: boolean, capture: boolean];
 }

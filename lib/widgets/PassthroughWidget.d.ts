@@ -20,8 +20,9 @@ export declare class PassthroughWidget<W extends Widget = Widget> extends Single
     constructor(child: W, themeProperties?: ThemeProperties);
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
+    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
 }

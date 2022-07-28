@@ -1,9 +1,12 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import type { ClickArea } from '../helpers/ClickArea';
+import { AxisCoupling } from '../widgets/AxisCoupling';
+import type { Bounds } from '../helpers/Bounds';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import type { Widget } from './Widget';
+import { Viewport } from '../core/Viewport';
+import type { Root } from '../core/Root';
+import { Widget } from './Widget';
 /**
  * A type of container widget which is allowed to be bigger or smaller than its
  * child.
@@ -18,10 +21,10 @@ import type { Widget } from './Widget';
  * @category Widget
  */
 export declare class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
-    /** See {@link ViewportWidget#widthTied}. For internal use only */
-    private _widthTied;
-    /** See {@link ViewportWidget#heightTied}. For internal use only */
-    private _heightTied;
+    /** See {@link ViewportWidget#widthCoupling}. For internal use only */
+    private _widthCoupling;
+    /** See {@link ViewportWidget#heightCoupling}. For internal use only */
+    private _heightCoupling;
     /**
      * The minimum width that this widget will try to expand to.
      *
@@ -41,13 +44,13 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      */
     minHeight: number;
     /** The actual viewport object, or null if the child is just clipped. */
-    private viewport;
+    private internalViewport;
     /** See {@link ViewportWidget#offset}. For internal use only */
     private _offset;
     /**
      * Child constraints for resolving layout. May be different than
-     * {@link ViewportWidget#viewport}'s constraints. By default, this is 0
-     * minimum and Infinity maximum per axis.
+     * {@link ViewportWidget#internalViewport}'s constraints. By default, this
+     * is 0 minimum and Infinity maximum per axis.
      *
      * Will be automatically scaled depending on the current {@link Root}'s
      * resolution.
@@ -57,13 +60,15 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     protected forceReLayout: boolean;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint: boolean;
-    /**
-     * Should the viewport be auto-scrolled when a widget is tab-selected and
-     * when a widget captures keyboard input?
-     */
-    autoScrollSelections: boolean;
     /** Create a new ViewportWidget. */
-    constructor(child: W, minWidth?: number, minHeight?: number, widthTied?: boolean, heightTied?: boolean, useViewport?: boolean, themeProperties?: ThemeProperties);
+    constructor(child: W, minWidth?: number, minHeight?: number, widthCoupling?: AxisCoupling, heightCoupling?: AxisCoupling, useViewport?: boolean, themeProperties?: ThemeProperties);
+    /**
+     * Does this viewport widget use a Viewport, or does it just clip the child
+     * instead (default)?
+     *
+     * @returns Returns true if a {@link Viewport} is used; if {@link ViewportWidget#internalViewport} is not null
+     */
+    get usesViewport(): boolean;
     /**
      * Offset of {@link SingleParent#child}. Positional events will take this
      * into account, as well as rendering. Useful for implementing scrolling.
@@ -72,24 +77,25 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     set offset(offset: [number, number]);
     /**
      * Accessor for {@link ViewportWidget#_constraints}. If using a
-     * {@link ViewportWidget#viewport | Viewport}, its constraints are also
-     * updated, but may be different due to {@link ViewportWidget#widthTied} or
-     * {@link ViewportWidget#heightTied}.
+     * {@link ViewportWidget#internalViewport | Viewport}, its constraints are
+     * also updated, but may be different due to
+     * {@link ViewportWidget#widthCoupling} or
+     * {@link ViewportWidget#heightCoupling}.
      */
     set constraints(constraints: LayoutConstraints);
     get constraints(): LayoutConstraints;
     /**
-     * Is the width tied to the child's? If true, width constraints will be
-     * ignored.
+     * Is the width coupled to the child's? If not {@link AxisCoupling.None},
+     * width constraints will be ignored or augmented.
      */
-    get widthTied(): boolean;
-    set widthTied(widthTied: boolean);
+    get widthCoupling(): AxisCoupling;
+    set widthCoupling(widthCoupling: AxisCoupling);
     /**
-     * Is the height tied to the child's? If true, height constraints will be
-     * ignored.
+     * Is the height coupled to the child's? If not {@link AxisCoupling.None},
+     * height constraints will be ignored or augmented.
      */
-    get heightTied(): boolean;
-    set heightTied(heightTied: boolean);
+    get heightCoupling(): AxisCoupling;
+    set heightCoupling(heightCoupling: AxisCoupling);
     /**
      * {@link ViewportWidget#minWidth}, but scaled according to
      * {@link Root#resolution}
@@ -106,12 +112,15 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      */
     get scaledConstraints(): [number, number, number, number];
     protected onThemeUpdated(property?: string | null): void;
-    protected getClickAreaOf(widget: Widget): ClickArea;
+    protected getBoundsOf(widget: Widget): Bounds;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
+    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
+    finalizeBounds(): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
     private correctChildPosition;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
 }

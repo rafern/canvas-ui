@@ -1,7 +1,7 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { VariableCallback } from '../state/VariableCallback';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { WatchableVariable } from '../state/WatchableVariable';
 import type { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import { Widget } from './Widget';
@@ -36,5 +36,6 @@ export declare class Checkbox extends Widget {
     protected handleEvent(event: Event): this | null;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    finalizeBounds(): void;
+    protected handlePainting(_forced: boolean): void;
 }

@@ -1,9 +1,12 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Viewport } from '../core/Viewport';
 import type { Padding } from '../theme/Padding';
+import type { Bounds } from '../helpers/Bounds';
 import { BaseTheme } from '../theme/BaseTheme';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
+import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
 /**
  * A generic widget. All widgets extend this class. All widgets extend
@@ -43,6 +46,27 @@ export declare abstract class Widget extends BaseTheme {
     protected x: number;
     /** Absolute vertical offset of widget in pixels. */
     protected y: number;
+    /**
+     * The ideal width of the widget in pixels; if non-integer widget dimensions
+     * were allowed, the widget would have this size. Use this for layout
+     * calculations, but never use this for painting so that subpixel issues are
+     * avoided.
+     */
+    protected idealWidth: number;
+    /** The ideal height of the widget in pixels. See {@link Widget#width}. */
+    protected idealHeight: number;
+    /**
+     * The ideal absolute horizontal offset of the widget in pixels; if
+     * non-integer positions were allowed, the widget would have this position.
+     * Use this for layout calculations, but never use this for painting so that
+     * subpixel issues are avoided.
+     */
+    protected idealX: number;
+    /**
+     * The ideal absolute vertical offset of the widget in pixels. See
+     * {@link Widget#x}.
+     */
+    protected idealY: number;
     /** {@link Widget#flex} but for internal use. */
     protected _flex: number;
     /**
@@ -52,6 +76,15 @@ export declare abstract class Widget extends BaseTheme {
      * {@link Widget#active}) will have this property set to null.
      */
     protected _root: Root | null;
+    /**
+     * The {@link Viewport} that this widget is currently painting to. A UI tree
+     * can have multiple Viewports due to {@link ViewportWidget}, so this is not
+     * equivalent to {@link Root#viewport}.
+     *
+     * Widgets not attached to a UI tree (widgets which are not
+     * {@link Widget#active}) will have this property set to null.
+     */
+    protected _viewport: Viewport | null;
     /**
      * The parent {@link Widget} of this widget.
      *
@@ -88,13 +121,41 @@ export declare abstract class Widget extends BaseTheme {
     /**
      * Get the resolved dimensions. Returns a 2-tuple containing
      * {@link Widget#width} and {@link Widget#height}.
+     *
+     * Use {@link Widget#idealDimensions} for layout calculations.
      */
     get dimensions(): [number, number];
     /**
+     * Get the resolved ideal dimensions. Returns a 2-tuple containing
+     * {@link Widget#idealWidth} and {@link Widget#idealHeight}.
+     *
+     * Use this for layout calculations, and {@link Widget#dimensions} for
+     * painting.
+     */
+    get idealDimensions(): [number, number];
+    /**
      * Get the resolved position. Returns a 2-tuple containing {@link Widget#x}
      * and {@link Widget#y}.
+     *
+     * Use {@link Widget#idealPosition} for layout calculations.
      */
     get position(): [number, number];
+    /**
+     * Get the resolved ideal position. Returns a 2-tuple containing
+     * {@link Widget#idealX} and {@link Widget#idealY}.
+     *
+     * Use this for layout calculations, and {@link Widget#position} for
+     * painting.
+     */
+    get idealPosition(): [number, number];
+    /** Get the rectangle bounds (left, right, top, bottom) of this widget. */
+    get bounds(): Bounds;
+    /** Similar to {@link Widget#bounds}, but uses ideal values */
+    get idealBounds(): Bounds;
+    /** Get the rectangle (x, y, width, height) of this widget. */
+    get rect(): Rect;
+    /** Similar to {@link Widget#rect}, but uses ideal values */
+    get idealRect(): Rect;
     /**
      * Check if the widget is dirty. Returns {@link Widget#_dirty}, as long as
      * {@link Widget#dimensionless} is not true.
@@ -197,6 +258,41 @@ export declare abstract class Widget extends BaseTheme {
      */
     resolvePosition(x: number, y: number): void;
     /**
+     * Sets {@link Widget#x}, {@link Widget#y}, {@link Widget#width} and
+     * {@link Widget#y} from {@link Widget#idealX}, {@link Widget#idealY},
+     * {@link Widget#idealWidth} and {@link Widget#idealHeight} by rounding
+     * them. If the final values have changed, {@link Widget#_dirty} is set to
+     * true.
+     *
+     * Can be overridden, but `super.finalizeBounds` must still be called; if
+     * you have parts of the widget that can be pre-calculated when the layout
+     * is known, such as the length and offset of a {@link Checkbox}, or
+     * non-default dirty flags, such as {@link MultiContainer#backgroundDirty},
+     * then this is the perfect method to override, since it's only called after
+     * the layout is resolved to final (non-ideal) values, is only called if
+     * needed (unlike {@link postLayoutUpdate}, which is always called after the
+     * layout phase) and can be used to compare old and new positions and
+     * dimensions.
+     *
+     * Abstract container widgets such as {@link Parent} must always override
+     * this and call `finalizeBounds` on each child widget.
+     */
+    finalizeBounds(): void;
+    /**
+     * Generic update method called after {@link finalizeBounds} and before
+     * {@link handlePostLayoutUpdate}. However, unlike handlePostLayoutUpdate,
+     * it may be called multiple times in one frame and if {@link _layoutDirty}
+     * is set to true in this method, then a re-layout will occur in the same
+     * frame. Useful if you have logic which depends on the layout, but causes
+     * layout changes, such as for dispatching {@link AutoScroll} events.
+     */
+    protected handlePostFinalizeBounds(): void;
+    /**
+     * Calls {@link Widget#handlePostFinalizeBounds} if widget is enabled. Must
+     * not be overridden.
+     */
+    postFinalizeBounds(): void;
+    /**
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
      */
@@ -216,35 +312,27 @@ export declare abstract class Widget extends BaseTheme {
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
-    protected clear(x: number, y: number, width: number, height: number, ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
+    protected clear(x: number, y: number, width: number, height: number, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
      * Paiting utility: start a clear operation with no clipping path, the user
      * has to add their own paths to the context. Should not be overridden.
      *
      * @param fillStyle - The fill style to use for clearing. If null (default), then the value of {@link ThemeProperties#canvasFill} is used
      */
-    protected clearStart(ctx: CanvasRenderingContext2D, fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
+    protected clearStart(fillStyle?: string | CanvasGradient | CanvasPattern | null): void;
     /**
      * Paiting utility: end a clear operation (from {@link Widget#clearStart}). Should
      * not be overridden.
      *
      * @param fillRule - The canvas fill rule for clipping. See the {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip#parameters | canvas clip documentation}
      */
-    protected clearEnd(ctx: CanvasRenderingContext2D, fillRule?: CanvasFillRule): void;
-    /**
-     * Paiting/layout utility: rounds the bounds of a rectangle to the nearest
-     * pixels.
-     *
-     * @param roundInwards - Should the rectangle be rounded inwards (shrunk instead of expanded)? False by default
-     * @returns Returns a 4-tuple containing rounded x, y, width and height respectively
-     */
-    protected roundRect(x: number, y: number, width: number, height: number, roundInwards?: boolean): [number, number, number, number];
+    protected clearEnd(fillRule?: CanvasFillRule): void;
     /**
      * Painting utility: paints a circle. Should not be overridden. Coordinates
      * are relative to the center of the circle. Uses ctx's current fillStyle.
      * Does not restore the context state after finishing.
      */
-    protected paintCircle(ctx: CanvasRenderingContext2D, x: number, y: number, radius: number): void;
+    protected paintCircle(x: number, y: number, radius: number): void;
     /**
      * Widget painting callback. By default does nothing. Do painting logic here
      * when extending Widget. Even if {@link Widget#_dirty} is false, if this
@@ -253,7 +341,7 @@ export declare abstract class Widget extends BaseTheme {
      *
      * @param forced - Was this widget force-painted? If calling a child's paint method, propagate this value
      */
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
     /**
      * Called when the Widget is dirty and the Root is being rendered. Does
      * nothing if dirty flag is not set, else, clears the background if
@@ -264,7 +352,7 @@ export declare abstract class Widget extends BaseTheme {
      *
      * @param force - Force re-paint even if {@link Widget#_dirty} is false
      */
-    paint(ctx: CanvasRenderingContext2D, force?: boolean): void;
+    paint(force?: boolean): void;
     /**
      * Unset this widget's dirty flag. Call this when painting a child that you
      * know will not be visible, such as if clipping and the child is out of
@@ -300,6 +388,11 @@ export declare abstract class Widget extends BaseTheme {
      */
     get root(): Root;
     /**
+     * Similar to {@link Widget#_viewport}, but throws an error if the widget is
+     * not {@link Widget#active}.
+     */
+    get viewport(): Viewport;
+    /**
      * Similar to {@link Widget#_parent}, but throws an error if the widget is
      * not {@link Widget#active}.
      */
@@ -316,18 +409,25 @@ export declare abstract class Widget extends BaseTheme {
      * Calls {@link Widget#forceDirty}.
      *
      * @param root - The {@link Root} of the UI tree
+     * @param viewport - The {@link Viewport} in this part of the UI tree. A UI tree can have multiple nested Viewports due to {@link ViewportWidget}
      * @param parent - The new parent of this Widget. If `null`, then this Widget has no parent and is the {@link Root#child | root Widget}
      */
-    activate(root: Root, parent: Widget | null): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
     /**
      * Called when the Widget is removed from a UI tree. Should be overridden
      * for resource management, but `super.deactivate` must be called.
      *
-     * Sets {@link Widget#root} and {@link Widget#parent} to null.
+     * Sets {@link Widget#_root}, {@link Widget#_viewport} and
+     * {@link Widget#_parent} to null.
      *
      * If the widget was not in a UI tree, then an exception is thrown.
      */
     deactivate(): void;
+    /**
+     * {@link AutoScroll | Auto-scroll} to this widget. Uses the whole widget as
+     * the {@link AutoScroll#bounds | auto-scroll bounds}.
+     */
+    autoScroll(): void;
     get containerPadding(): Padding;
     set containerPadding(value: Padding | undefined);
     get multiContainerSpacing(): number;

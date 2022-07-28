@@ -27,10 +27,11 @@ export declare class MultiContainer<W extends Widget = Widget> extends MultiPare
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
+    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
     dryPaint(): void;
     forceDirty(): void;
 }

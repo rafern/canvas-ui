@@ -1,7 +1,8 @@
-import type { WatchableVariable } from '../helpers/WatchableVariable';
+import type { WatchableVariable } from '../state/WatchableVariable';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { FocusType } from '../core/FocusType';
+import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
 import { Widget } from './Widget';
@@ -62,7 +63,8 @@ export declare class RadioButton<V> extends Widget {
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): this | null;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
-    activate(root: Root, parent: Widget | null): void;
+    finalizeBounds(): void;
+    protected handlePainting(_forced: boolean): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
     deactivate(): void;
 }

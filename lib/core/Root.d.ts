@@ -1,4 +1,5 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
+import type { LayoutConstraints } from './LayoutConstraints';
 import type { TextInputHandler } from './TextInputHandler';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
@@ -13,8 +14,6 @@ import { Viewport } from './Viewport';
  * @category Core
  */
 export declare class Root {
-    /** The Root's child; the parent Widget of all widgets in this Root */
-    readonly child: Widget;
     /** The internal viewport. Manages drawing */
     protected viewport: Viewport;
     /** The list of drivers registered to this root */
@@ -92,8 +91,8 @@ export declare class Root {
      */
     constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
-    get constraints(): [number, number, number, number];
-    set constraints(constraints: [number, number, number, number]);
+    get constraints(): LayoutConstraints;
+    set constraints(constraints: LayoutConstraints);
     /**
      * The {@link Root#viewport}'s
      * {@link Viewport#canvasDimensions | canvasDimensions}
@@ -272,8 +271,13 @@ export declare class Root {
      *
      * Note that this is only valid after resolving {@link Root#child}'s layout.
      *
-     * Equivalent to calling {@link Viewport#getAppliedScale} on
+     * Equivalent to getting {@link Viewport#effectiveScale} on
      * {@link Root#viewport}.
      */
     get effectiveScale(): [scaleX: number, scaleY: number];
+    /**
+     * The root widget of this UI tree. Equivalent to getting
+     * {@link Root#viewport}.{@link Viewport#child}.
+     */
+    get child(): Widget;
 }

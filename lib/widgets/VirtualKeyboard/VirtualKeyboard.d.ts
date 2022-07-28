@@ -26,6 +26,7 @@ export declare const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate;
  * and Stretch cross alignment.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export declare class VirtualKeyboard extends Column {
     /**

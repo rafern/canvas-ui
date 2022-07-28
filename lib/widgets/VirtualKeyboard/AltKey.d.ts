@@ -6,6 +6,7 @@ import { VirtualKey } from './VirtualKey';
  * {@link KeyContext#alt} on click.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export declare class AltKey extends VirtualKey {
     /** Create a new AltKey. */

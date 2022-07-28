@@ -84,7 +84,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
      * Does this viewport widget use a Viewport, or does it just clip the child
      * instead (default)?
      *
-     * @returns Returns true if a {@link Viewport} is used; if {@link internalViewport} is not null
+     * @returns Returns true if a {@link Viewport} is used; if {@link ViewportWidget#internalViewport} is not null
      */
     get usesViewport(): boolean {
         return this.internalViewport !== null;

@@ -19,6 +19,7 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
+    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     protected afterPositionResolved(): void;
@@ -26,8 +27,8 @@ export declare class BaseContainer<W extends Widget = Widget> extends SinglePare
      * Implementation of handlePainting; separate from handlePainting so that
      * the fillStyle for the background clear can be overridden.
      */
-    protected handleBaseContainerPainting(ctx: CanvasRenderingContext2D, forced: boolean, fillStyle?: FillStyle | null): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handleBaseContainerPainting(forced: boolean, fillStyle?: FillStyle | null): void;
+    protected handlePainting(forced: boolean): void;
     dryPaint(): void;
     forceDirty(): void;
 }

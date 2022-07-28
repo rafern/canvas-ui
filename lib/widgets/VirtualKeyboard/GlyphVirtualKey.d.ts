@@ -10,6 +10,7 @@ import { TextButton } from '../TextButton';
  * For other specific keys, see {@link BasicVirtualKey}.
  *
  * @category Widget
+ * @category Aggregate Widget
  */
 export declare class GlyphVirtualKey extends ArtificialConstraint<TextButton> {
     /**

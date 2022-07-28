@@ -1,9 +1,11 @@
-import { WatchableVariable } from '../helpers/WatchableVariable';
-import type { TextValidator } from '../validators/Validator';
+import { WatchableVariable } from '../state/WatchableVariable';
 import { ThemeProperties } from '../theme/ThemeProperties';
+import type { TextValidator } from '../state/Validator';
 import { TextHelper } from '../helpers/TextHelper';
+import type { Bounds } from '../helpers/Bounds';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import type { Rect } from '../helpers/Rect';
 import { Widget } from './Widget';
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -101,6 +103,11 @@ export declare class TextInput<V> extends Widget {
      * previous focusable widget.
      */
     typeableTab: boolean;
+    /**
+     * Should the caret position be {@link AutoScroll | auto-scrolled} after the
+     * layout is finalized?
+     */
+    private needsAutoScroll;
     /** Create a new TextInput. */
     constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, themeProperties?: ThemeProperties);
     protected onThemeUpdated(property?: string | null): void;
@@ -138,6 +145,8 @@ export declare class TextInput<V> extends Widget {
     get validValue(): V;
     /** The current line number, starting from 0. */
     get line(): number;
+    /** Auto-scroll to the caret if the {@link blinkStart | caret is shown}. */
+    private autoScrollCaret;
     /**
      * Move the cursor to a given index.
      *
@@ -226,7 +235,16 @@ export declare class TextInput<V> extends Widget {
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): this | null;
     protected handlePreLayoutUpdate(): void;
+    protected handlePostFinalizeBounds(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePostLayoutUpdate(): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    /**
+     * The rectangle that the caret occupies, relative to the TextInput's
+     * top-left corner.
+     */
+    protected get caretRect(): Rect;
+    /** Similar to {@link TextInput#caretRect}, but uses absolute positions. */
+    protected get caretAbsoluteRect(): Rect;
+    /** Similar to {@link TextInput#caretRect}, but gets bounds instead. */
+    protected get caretBounds(): Bounds;
+    protected handlePainting(_forced: boolean): void;
 }

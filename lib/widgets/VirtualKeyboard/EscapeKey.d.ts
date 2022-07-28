@@ -5,6 +5,7 @@ import type { KeyContext } from './KeyContext';
  * A {@link BasicVirtualKey} which emits 'Escape' key presses.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export declare class EscapeKey extends BasicVirtualKey {
     /** Create a new EscapeKey. */

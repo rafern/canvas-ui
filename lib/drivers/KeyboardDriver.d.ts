@@ -129,4 +129,9 @@ export declare class KeyboardDriver implements Driver {
      */
     onFocusChanged(root: Root, focusType: FocusType, newFocus: Widget | null): void;
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void;
+    /**
+     * Check if the currently focused root needs keyboard input. Virtual
+     * keyboard should query this property to know when to show themselves.
+     */
+    get needsInput(): boolean;
 }

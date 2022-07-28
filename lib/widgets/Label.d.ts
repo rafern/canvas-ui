@@ -56,5 +56,5 @@ export declare class Label extends Widget {
     protected onThemeUpdated(property?: string | null): void;
     protected handlePreLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected handlePainting(ctx: CanvasRenderingContext2D, _forced: boolean): void;
+    protected handlePainting(_forced: boolean): void;
 }

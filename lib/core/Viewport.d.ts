@@ -7,6 +7,8 @@ import type { Widget } from '../widgets/Widget';
  * @category Core
  */
 export declare class Viewport {
+    /** The Viewport's child. Painting and layout will be relative to this. */
+    readonly child: Widget;
     /**
      * Layout constraints of viewport when resolving widget's layout. A 4-tuple
      * containing, respectively, minimum width, maximum width, minimum height
@@ -39,23 +41,36 @@ export declare class Viewport {
     /** Has the warning for non-power of 2 dimensions been issued? */
     private static powerOf2Warned;
     /**
+     * The maximum retries allowed for
+     * {@link Viewport#resolveChildsLayout | resolving the layout}. The first
+     * attempt is not counted. Only retries that exceed this limit are
+     * discarded; if maxRelayout is 4, then the 5th retry will be discarded.
+     */
+    private static maxRelayout;
+    /**
      * Create a new Viewport.
      *
      * Creates a new canvas with a starting width and height, setting
      * {@link Viewport#canvas} and {@link Viewport#context}. Failure to get a
      * canvas context results in an exception.
      */
-    constructor(startingWidth?: number, startingHeight?: number);
+    constructor(child: Widget, startingWidth?: number, startingHeight?: number);
     /**
      * The current dimensions of the {@link Viewport#canvas | internal canvas}
      */
     get canvasDimensions(): [number, number];
     /**
      * Resolves the given child's layout by calling
-     * {@link Widget#resolveDimensions} with the current
-     * {@link Viewport#constraints}, and {@link Widget#resolvePosition}.
+     * {@link Widget#resolveDimensionsAsTop} with the current
+     * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
+     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
+     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
+     * layout is marked as dirty while resolving the layout, then a re-layout
+     * will occur until either the layout is no longer marked as dirty or the
+     * {@link Viewport.maxRelayout | maximum retries} are reached.
      *
-     * If the child's layout is not dirty, then nothing is done.
+     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
+     * called. Note that this may still trigger a re-layout.
      *
      * Expands {@link Viewport#canvas} if the new layout is too big for the
      * current canvas. Expansion is done in powers of 2 to avoid issues with
@@ -63,13 +78,15 @@ export declare class Viewport {
      *
      * @returns Returns true if the child was resized, else, false.
      */
-    resolveChildsLayout(child: Widget): boolean;
+    resolveChildsLayout(): boolean;
+    /** Get the canvas scale that will be applied given a width and height */
+    private getAppliedScaleFrom;
     /**
-     * Get the canvas scale that will be applied if the given widget is the
-     * Viewport's child. Used for checking whether a child's dimensions exceed
+     * Get the canvas scale that will be applied to the Viewport's child. Used
+     * for checking whether a child's dimensions exceed
      * {@link Viewport#maxCanvasWidth} or {@link Viewport#maxCanvasHeight}
      */
-    getAppliedScale(child: Widget): [scaleX: number, scaleY: number];
+    get effectiveScale(): [scaleX: number, scaleY: number];
     /**
      * Paint a given child to {@link Viewport#canvas}.
      *
@@ -78,5 +95,5 @@ export declare class Viewport {
      * @param force - Force re-paint even if child.{@link Widget#dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paintToCanvas(child: Widget, force: boolean): boolean;
+    paintToCanvas(force: boolean): boolean;
 }

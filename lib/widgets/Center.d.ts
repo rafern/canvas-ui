@@ -12,6 +12,7 @@ import type { Widget } from './Widget';
  * {@link Container} instead.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export declare class Center<W extends Widget = Widget> extends Container<W> {
     /** Create a new Center. */

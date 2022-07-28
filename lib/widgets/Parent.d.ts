@@ -1,9 +1,10 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Viewport } from '../core/Viewport';
 import type { Theme } from '../theme/Theme';
 import { Widget } from '../widgets/Widget';
 import type { Root } from '../core/Root';
 /**
- * A mixin class for widgets which may have children.
+ * A class for widgets which may have children.
  *
  * Overrides the {@link Widget#inheritedTheme} accessor so that inherited themes
  * are propagated to children, and {@link Widget#dryPaint} so that dry painting
@@ -46,6 +47,7 @@ export declare abstract class Parent<W extends Widget = Widget> extends Widget {
      * children via this iterator; for read-only purposes only.
      */
     get children(): Iterable<W>;
-    activate(root: Root, parent: Widget | null): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
     deactivate(): void;
+    finalizeBounds(): void;
 }

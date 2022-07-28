@@ -22,6 +22,7 @@ export * from './drivers/PointerHint';
 export * from './drivers/RayPointerDriver';
 export * from './drivers/RayPointerSource';
 // events
+export * from './events/AutoScroll';
 export * from './events/Event';
 export * from './events/KeyEvent';
 export * from './events/KeyPress';
@@ -86,6 +87,7 @@ export * from './widgets/VirtualKeyboard/VirtualKey';
 export * from './widgets/VirtualKeyboard/VirtualKeyboard';
 export * from './widgets/VirtualKeyboard/VirtualKeyRow';
 export * from './widgets/ArtificialConstraint';
+export * from './widgets/AxisCoupling';
 export * from './widgets/BaseContainer';
 export * from './widgets/BasicTextInput';
 export * from './widgets/Button';

@@ -1,12 +1,13 @@
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
 /**
- * A container which has all the event listeners for a {@link Root} DOM bind; a
- * link between a DOM element and an existing Root.
+ * A container which has all the event listeners for a {@link Root} DOM bind to
+ * a {@link DOMPointerDriver}; a link between a DOM element and an existing
+ * Root.
  *
  * @category Driver
  */
-export interface RootDOMBind {
+export interface DOMPointerDriverBind {
     domElem: HTMLElement;
     pointerListen: ((this: HTMLElement, event: PointerEvent) => void) | null;
     pointerleaveListen: ((this: HTMLElement, event: PointerEvent) => void) | null;
@@ -41,12 +42,17 @@ export declare class DOMPointerDriver extends PointerDriver {
     /**
      * Bind an HTML DOM element to a specific root.
      *
-     * If the root was already registered,
-     * {@link DOMPointerDriver#removeListeners} is called. Populates
-     * {@link DOMPointerDriver#domElems} with the new bind. Calls
-     * {@link DOMPointerDriver#addListeners} if root is enabled.
+     * If the root was already bound,
+     * {@link DOMPointerDriver#removeListeners} is called, replacing the old
+     * listeners. Populates {@link DOMPointerDriver#domElems} with the new bind.
+     * Calls {@link DOMPointerDriver#addListeners} if root is enabled.
      */
     bindDOMElem(root: Root, domElem: HTMLElement): void;
+    /**
+     * Unbind a HTML DOM element from this pointer driver that is bound to a
+     * given Root. Removes all used listeners.
+     */
+    unbindDOMElem(root: Root): void;
     /**
      * Get the canvas-ui pointer ID of a given event. If the event has a pointer
      * which hasn't been registered yet, then it is registered automatically

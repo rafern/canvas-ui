@@ -39,6 +39,8 @@ export declare class DOMRoot extends Root {
     update(): void;
     get resolution(): number;
     set resolution(resolution: number);
+    /** Update the width and height of {@link DOMRoot#domElem} */
+    private updateDOMDims;
     /** Apply CSS scaling to the DOM element depending on the Root resolution */
     private autoScale;
 }

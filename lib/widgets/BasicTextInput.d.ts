@@ -1,10 +1,11 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from "../theme/ThemeProperties";
 import { TextInput } from "./TextInput";
 /**
  * A {@link TextInput} with an optional callback and no validation.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export declare class BasicTextInput extends TextInput<string> {
     /**

@@ -1,3 +1,4 @@
+import { PointerWheelMode } from '../events/PointerWheel';
 import type { Widget } from '../widgets/Widget';
 import { FocusType } from '../core/FocusType';
 import type { Driver } from '../core/Driver';
@@ -119,11 +120,13 @@ export declare class PointerDriver implements Driver {
      * @param yNorm - The normalised (non-integer range from 0 to 1) Y coordinate of the pointer event. 0 is the top edge of the root, while 1 is the bottom edge of the root.
      * @param deltaX - How much was scrolled horizontally, in pixels
      * @param deltaY - How much was scrolled vertically, in pixels
+     * @param deltaZ - How much was scrolled in the Z axis, in pixels. Rarely used
+     * @param deltaMode - How the delta values should be interpreted
      * @param shift - Is shift being pressed?
      * @param ctrl - Is control being pressed?
      * @param alt - Is alt being pressed?
      */
-    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number, shift: boolean, ctrl: boolean, alt: boolean): void;
+    wheelPointer(root: Root, pointer: number, xNorm: number, yNorm: number, deltaX: number, deltaY: number, deltaZ: number, deltaMode: PointerWheelMode, shift: boolean, ctrl: boolean, alt: boolean): void;
     /**
      * Set a pointer's {@link PointerHint | hint}.
      *

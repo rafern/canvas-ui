@@ -48,6 +48,7 @@ export declare type VirtualKeyRowTemplate = Array<GlyphVirtualKeysTemplate | Vir
  * template.
  *
  * @category Widget
+ * @category Aggregate Widget
  */
 export declare class VirtualKeyRow extends Row<VirtualKey> {
     /**

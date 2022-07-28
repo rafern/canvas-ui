@@ -1,7 +1,7 @@
 import { GenericClickHelper } from './GenericClickHelper';
 import type { Event } from '../events/Event';
-import type { ClickArea } from './ClickArea';
 import type { Root } from '../core/Root';
+import type { Bounds } from './Bounds';
 /**
  * An aggregate helper class for widgets that can be clicked.
  *
@@ -68,7 +68,7 @@ export declare class ClickHelper extends GenericClickHelper {
      * {@link GenericClickHelper#wasClick} and
      * {@link GenericClickHelper#clickStateChanged} flags.
      *
-     * @param clickArea - A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
+     * @param bounds - A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
-    handleClickEvent(event: Event, root: Root, clickArea: ClickArea): void;
+    handleClickEvent(event: Event, root: Root, bounds: Bounds): void;
 }

@@ -45,5 +45,5 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     onFocusGrabbed(focusType: FocusType): void;
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): Widget | null;
-    protected handlePainting(ctx: CanvasRenderingContext2D, forced: boolean): void;
+    protected handlePainting(forced: boolean): void;
 }
