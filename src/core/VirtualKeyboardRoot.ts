@@ -48,6 +48,6 @@ export class VirtualKeyboardRoot extends Root {
      */
     updateVisibility(): void {
         // Update visibility of root by enabling/disabling it
-        this.enabled = this.keyboardDriver.getFocusedRoot() !== null;
+        this.enabled = this.keyboardDriver.needsInput;
     }
 }

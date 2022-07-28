@@ -54,7 +54,7 @@ export class DOMVirtualKeyboardRoot extends DOMRoot {
      */
     override update(): void {
         // Update visibility of root by enabling/disabling it
-        this.enabled = this.keyboardDriver.getFocusedRoot() !== null;
+        this.enabled = this.keyboardDriver.needsInput;
 
         // Update normally
         super.update();

@@ -226,4 +226,12 @@ export class KeyboardDriver implements Driver {
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     onFocusCapturerChanged(_root: Root, _focusType: FocusType, _oldCapturer: Widget | null, _newCapturer: Widget | null): void {}
+
+    /**
+     * Check if the currently focused root needs keyboard input. Virtual
+     * keyboard should query this property to know when to show themselves.
+     */
+    get needsInput(): boolean {
+        return this.focus !== null && this.focus.getFocus(FocusType.Keyboard) !== null;
+    }
 }
