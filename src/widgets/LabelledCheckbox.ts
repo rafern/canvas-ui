@@ -1,4 +1,4 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { TextGetter } from './Label';
 import { Checkbox } from './Checkbox';

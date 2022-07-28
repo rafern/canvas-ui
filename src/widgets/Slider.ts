@@ -1,6 +1,6 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../helpers/WatchableVariable';
+import { WatchableVariable } from '../state/WatchableVariable';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
 import { paintField } from '../decorators/FlagFields';

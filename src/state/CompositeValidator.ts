@@ -1,5 +1,5 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
 import type { Validator, UnknownValidator } from './Validator';
+import type { VariableCallback } from './VariableCallback';
 
 /**
  * Creates a new {@link Validator} which is a list of validators merged into

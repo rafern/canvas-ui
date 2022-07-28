@@ -1,7 +1,7 @@
 import { ScrollableViewportWidget, ScrollbarMode } from "./ScrollableViewportWidget";
 import type { ThemeProperties } from "../theme/ThemeProperties";
-import { TextValidator } from "../validators/Validator";
 import { AxisCoupling } from "../widgets/AxisCoupling";
+import { TextValidator } from "../state/Validator";
 import { TextInput } from "./TextInput";
 
 /**

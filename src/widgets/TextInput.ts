@@ -1,9 +1,9 @@
 import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
-import { WatchableVariable } from '../helpers/WatchableVariable';
-import type { TextValidator } from '../validators/Validator';
+import { WatchableVariable } from '../state/WatchableVariable';
 import { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerRelease } from '../events/PointerRelease';
 import { TextPasteEvent } from '../events/TextPasteEvent';
+import type { TextValidator } from '../state/Validator';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';

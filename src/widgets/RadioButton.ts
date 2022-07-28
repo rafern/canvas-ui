@@ -1,7 +1,7 @@
-import type { WatchableVariable } from '../helpers/WatchableVariable';
+import type { WatchableVariable } from '../state/WatchableVariable';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { VariableCallback } from '../helpers/VariableCallback';
+import { VariableCallback } from '../state/VariableCallback';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
 import type { Viewport } from '../core/Viewport';

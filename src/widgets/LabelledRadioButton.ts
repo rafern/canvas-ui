@@ -1,5 +1,5 @@
-import { WatchableVariable } from '../helpers/WatchableVariable';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { WatchableVariable } from '../state/WatchableVariable';
 import { RadioButton } from './RadioButton';
 import type { TextGetter } from './Label';
 import { Spacing } from './Spacing';

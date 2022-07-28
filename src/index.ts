@@ -50,9 +50,6 @@ export * from './helpers/measureTextDims';
 export * from './helpers/Rect';
 export * from './helpers/roundToPower2';
 export * from './helpers/TextHelper';
-export * from './helpers/Variable';
-export * from './helpers/VariableCallback';
-export * from './helpers/WatchableVariable';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
@@ -64,13 +61,16 @@ export * from './theme/FlexAlignment2D';
 export * from './theme/Padding';
 export * from './theme/Theme';
 export * from './theme/ThemeProperties';
-// validators
-export * from './validators/CompositeValidator';
-export * from './validators/DefaultTextValidator';
-export * from './validators/FloatValidator';
-export * from './validators/IntValidator';
-export * from './validators/RangeValidator';
-export * from './validators/Validator';
+// state management
+export * from './state/CompositeValidator';
+export * from './state/DefaultTextValidator';
+export * from './state/FloatValidator';
+export * from './state/IntValidator';
+export * from './state/RangeValidator';
+export * from './state/Validator';
+export * from './state/Variable';
+export * from './state/VariableCallback';
+export * from './state/WatchableVariable';
 // widgets
 export * from './widgets/VirtualKeyboard/AltKey';
 export * from './widgets/VirtualKeyboard/BackspaceKey';

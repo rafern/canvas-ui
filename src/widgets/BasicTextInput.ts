@@ -1,5 +1,5 @@
-import { MakeDefaultTextValidatorWithCallback } from '../validators/DefaultTextValidator';
-import type { VariableCallback } from '../helpers/VariableCallback';
+import { MakeDefaultTextValidatorWithCallback } from '../state/DefaultTextValidator';
+import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from "../theme/ThemeProperties";
 import { TextInput } from "./TextInput";
 

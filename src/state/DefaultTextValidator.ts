@@ -1,4 +1,4 @@
-import type { VariableCallback } from '../helpers/VariableCallback';
+import type { VariableCallback } from './VariableCallback';
 import type { TextValidator } from './Validator';
 
 /**
