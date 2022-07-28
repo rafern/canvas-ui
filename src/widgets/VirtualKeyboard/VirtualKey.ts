@@ -11,6 +11,7 @@ import { TextButton } from '../TextButton';
  * class for virtual keyboard key widgets.
  *
  * @category Widget
+ * @category Aggregate Widget
  */
 export class VirtualKey extends ArtificialConstraint<TextButton> {
     /**

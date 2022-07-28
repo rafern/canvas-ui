@@ -6,6 +6,7 @@ import { Icon } from './Icon';
  * A {@link Button} with an {@link Icon}.
  *
  * @category Widget
+ * @category Aggregate Widget
  */
 export class IconButton extends Button<Icon> {
     /** Create a new IconButton. */

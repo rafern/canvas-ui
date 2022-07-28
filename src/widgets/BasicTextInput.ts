@@ -7,6 +7,7 @@ import { TextInput } from "./TextInput";
  * A {@link TextInput} with an optional callback and no validation.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class BasicTextInput extends TextInput<string> {
     /**

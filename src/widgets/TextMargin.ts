@@ -12,6 +12,7 @@ import type { Widget } from './Widget';
  * Can be constrained to a specific type of children.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class TextMargin<W extends Widget = Widget> extends Container<W> {
     /** Create a new TextMargin. */

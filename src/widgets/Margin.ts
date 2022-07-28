@@ -15,6 +15,7 @@ import type { Widget } from './Widget';
  * to override this theme property property, then use {@link Container} instead.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class Margin<W extends Widget = Widget> extends Container<W> {
     /** Create a new Margin. */

@@ -9,6 +9,7 @@ import type { Widget } from './Widget';
  * Can be constrained to a specific type of children.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class Container<W extends Widget = Widget> extends BaseContainer<W> {
     /** Create a new Container. */

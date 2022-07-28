@@ -6,6 +6,7 @@ import type { KeyContext } from './KeyContext';
  * A {@link BasicVirtualKey} which emits ' ' key presses.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class SpaceKey extends BasicVirtualKey {
     /** Create a new SpaceKey. */

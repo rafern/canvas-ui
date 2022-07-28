@@ -80,6 +80,7 @@ export const defaultVirtualKeyboardTemplate: VirtualKeyboardTemplate = [
  * and Stretch cross alignment.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class VirtualKeyboard extends Column {
     /**

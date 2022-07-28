@@ -7,6 +7,7 @@ import { VirtualKey } from './VirtualKey';
  * {@link KeyContext#shift} on click.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class ShiftKey extends VirtualKey {
     /** Create a new ShiftKey. */

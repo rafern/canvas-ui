@@ -7,6 +7,7 @@ import { VirtualKey } from './VirtualKey';
  * A {@link VirtualKey} which emits key presses of a given key code.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class BasicVirtualKey extends VirtualKey {
     /**

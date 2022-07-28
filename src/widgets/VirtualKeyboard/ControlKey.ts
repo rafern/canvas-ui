@@ -7,6 +7,7 @@ import { VirtualKey } from './VirtualKey';
  * {@link KeyContext#ctrl} on click.
  *
  * @category Widget
+ * @category Alias Widget
  */
 export class ControlKey extends VirtualKey {
     /** Create a new ControlKey. */

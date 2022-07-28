@@ -11,6 +11,7 @@ import { Row } from './Row';
  * {@link RadioButton}.
  *
  * @category Widget
+ * @category Aggregate Widget
  */
 export class LabelledRadioButton<V> extends Row {
     constructor(text: string | TextGetter, variable: WatchableVariable<V>, value: V, themeProperties?: ThemeProperties) {
