@@ -1,4 +1,5 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { AxisCoupling } from '../widgets/AxisCoupling';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
 import { ClickHelper } from '../helpers/ClickHelper';
@@ -75,10 +76,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     /**
      * Create a new ScrollableViewportWidget.
      *
-     * If an axis is tied, that axis will not have a scrollbar.
+     * If an axis is bi-coupled, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthTied = false, heightTied = false, scrollbarMode = ScrollbarMode.Overlay, useViewport = false, themeProperties?: ThemeProperties) {
-        super(child, minWidth, minHeight, widthTied, heightTied, useViewport, themeProperties);
+    constructor(child: W, minWidth = 0, minHeight = 0, widthCoupling = AxisCoupling.None, heightCoupling = AxisCoupling.None, scrollbarMode = ScrollbarMode.Overlay, useViewport = false, themeProperties?: ThemeProperties) {
+        super(child, minWidth, minHeight, widthCoupling, heightCoupling, useViewport, themeProperties);
 
         this._scrollbarMode = scrollbarMode;
         this.horizontalClickHelper = new ClickHelper(this);
@@ -119,31 +120,23 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         ];
     }
 
-    /**
-     * Is the width tied to the child's? If true, width constraints will be
-     * overridden.
-     */
-    override get widthTied(): boolean {
-        return super.widthTied;
+    override get widthCoupling(): AxisCoupling {
+        return super.widthCoupling;
     }
 
-    override set widthTied(widthTied: boolean) {
+    override set widthCoupling(widthCoupling: AxisCoupling) {
         const oldScroll = this.scroll;
-        super.widthTied = widthTied;
+        super.widthCoupling = widthCoupling;
         this.scroll = oldScroll;
     }
 
-    /**
-     * Is the height tied to the child's? If true, height constraints will be
-     * overridden.
-     */
-    override get heightTied(): boolean {
-        return super.heightTied;
+    override get heightCoupling(): AxisCoupling {
+        return super.heightCoupling;
     }
 
-    override set heightTied(heightTied: boolean) {
+    override set heightCoupling(heightCoupling: AxisCoupling) {
         const oldScroll = this.scroll;
-        super.heightTied = heightTied;
+        super.heightCoupling = heightCoupling;
         this.scroll = oldScroll;
     }
 
@@ -373,12 +366,15 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     protected override handleEvent(event: Event): Widget | null {
         // Try to drag a scrollbar if this is a pointer or leave event with no
         // target or target on this. Don't do this if the scrollbars are hidden
+        const widthBiCoupled = this.widthCoupling === AxisCoupling.Bi;
+        const heightBiCoupled = this.heightCoupling === AxisCoupling.Bi;
+
         if(this._scrollbarMode !== ScrollbarMode.Hidden &&
            (event instanceof Leave || event instanceof PointerEvent) &&
            (event.target === null || event.target === this)) {
             const [childWidth, childHeight] = this.child.idealDimensions;
             const overlay = this._scrollbarMode === ScrollbarMode.Overlay;
-            const forceCorner = !overlay && (!this.widthTied && !this.heightTied);
+            const forceCorner = !overlay && (!widthBiCoupled && !heightBiCoupled);
             const xNeeded = childWidth > this.idealWidth;
             const yNeeded = childHeight > this.idealHeight;
 
@@ -386,11 +382,11 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
             // Only handle event in scrollbar if the scrollbar is shown and
             // needed (layout mode shows unneeded scrollbars)
-            if(!this.widthTied && (xNeeded || !overlay) &&
+            if(!widthBiCoupled && (xNeeded || !overlay) &&
                this.handleEventScrollbar(false, yNeeded || forceCorner, event, this.root))
                 grabbedEvent = true;
 
-            if(!this.heightTied && (yNeeded || !overlay) &&
+            if(!heightBiCoupled && (yNeeded || !overlay) &&
                this.handleEventScrollbar(true, xNeeded || forceCorner, event, this.root))
                 grabbedEvent = true;
 
@@ -412,8 +408,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         // scrollable viewport and re-capture it
         if(capturer !== null && event instanceof AutoScroll) {
             const reserve = this._scrollbarMode === ScrollbarMode.Layout;
-            const reserveX = reserve && !this.heightTied;
-            const reserveY = reserve && !this.widthTied;
+            const reserveX = reserve && !heightBiCoupled;
+            const reserveY = reserve && !widthBiCoupled;
             let clearWidth = this.effectiveWidth;
             let clearHeight = this.effectiveHeight;
 
@@ -458,7 +454,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             // selected is visible. Don't scroll if viewport is smaller than
             // capturer and viewport is inside capturer. Don't scroll if
             // capturer is smaller than viewport and capturer is inside viewport
-            const moveX = !this.widthTied && !(cl >= this.idealX && cr <= vpr) && !(this.idealX >= cl && vpr <= cr);
+            const moveX = !widthBiCoupled && !(cl >= this.idealX && cr <= vpr) && !(this.idealX >= cl && vpr <= cr);
             if(moveX) {
                 // If child rect is bigger than viewport, then align nearest
                 // child rect edge to farthest border of viewport
@@ -473,7 +469,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                     offsetX += vpr - cr;
             }
 
-            const moveY = !this.heightTied && !(ct >= this.idealY && cb <= vpb) && !(this.idealY >= ct && vpb <= cb);
+            const moveY = !heightBiCoupled && !(ct >= this.idealY && cb <= vpb) && !(this.idealY >= ct && vpb <= cb);
             if(moveY) {
                 const rectBiggerThanViewport = cb - ct > clearHeight;
                 const rectBeforeViewport = ct < this.idealY;
@@ -516,10 +512,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         const reserve = this._scrollbarMode === ScrollbarMode.Layout;
         // is a vertical scrollbar always shown (does horizontal space need to
         // be reserved?)
-        const reserveX = reserve && !this.heightTied;
+        const reserveX = reserve && this.heightCoupling !== AxisCoupling.Bi;
         // is a horizontal scrollbar always shown (does vertical space need to
         // be reserved?)
-        const reserveY = reserve && !this.widthTied;
+        const reserveY = reserve && this.widthCoupling !== AxisCoupling.Bi;
 
         // If reserving space, further constrain dimensions
         let rMinWidth, rMaxWidth, rMinHeight, rMaxHeight;
@@ -592,7 +588,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
 
         // Paint scrollbars
         const forceCorner = this._scrollbarMode === ScrollbarMode.Layout &&
-                            (!this.widthTied && !this.heightTied);
+                            (this.widthCoupling !== AxisCoupling.Bi
+                                && this.heightCoupling !== AxisCoupling.Bi);
 
         if(paintX)
             this.paintScrollbar(false, xNeeded, yNeeded || forceCorner);
@@ -693,7 +690,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         if(!needed && this._scrollbarMode === ScrollbarMode.Overlay)
             return false;
 
-        return !(vertical ? this.heightTied : this.widthTied);
+        if(vertical)
+            return this.heightCoupling !== AxisCoupling.Bi;
+        else
+            return this.widthCoupling !== AxisCoupling.Bi;
     }
 
     /** Paint a scrollbar. For internal use only */
