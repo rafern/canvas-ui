@@ -1,5 +1,6 @@
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Alignment2D } from '../theme/Alignment2D';
+import { TextAlignMode } from '../helpers/TextHelper';
 import { Alignment } from '../theme/Alignment';
 import { FilledButton } from './FilledButton';
 import type { TextGetter } from './Label';
@@ -24,6 +25,7 @@ export class TextButton extends FilledButton<Label> {
 
         const label = new Label(text, themeProperties);
         label.wrapText = false;
+        label.bodyTextAlign = TextAlignMode.Center;
         super(label, callback, themePropertiesClone);
     }
 }
