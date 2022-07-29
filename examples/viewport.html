@@ -3,24 +3,30 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Label, Margin, Column, Row, BasicTextInput, TextButton,
+                DOMRoot, Label, Margin, Column, Row, TextButton, TextInput,
                 DOMKeyboardDriver, DOMPointerDriver, Slider, FlexAlignment,
                 ScrollableViewportWidget, ScrollbarMode, LabelledCheckbox,
-                ArtificialConstraint, Container, Alignment, ThemeScope, Theme
+                ArtificialConstraint, Container, Alignment, ThemeScope, Theme,
+                ValidatedVariable, Variable, AxisCoupling, LabelledRadioButton
             } from './index.esm.js';
 
             // Create viewport with its child
             const initialMinWidth = 75;
             const initialMinHeight = 75;
             const label = new Label('Hello world!');
-            const inputLabel = new Label('');
+            const inputLabel = new Label('Type some text...');
+
             const viewport = new ScrollableViewportWidget(
                 new ThemeScope(
                     new Margin(
                         new Column()
                         .add(label)
                         .add(inputLabel)
-                        .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
+                        .add(
+                            new TextInput(new ValidatedVariable('', null, (value, variable) => {
+                                inputLabel.source = `Text input: ${value}`;
+                            }))
+                        )
                         .add(
                             new Row({
                                 multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
@@ -33,38 +39,53 @@
                     new Theme({ canvasFill: 'red' }),
                 ),
                 initialMinWidth,
-                initialMinHeight,
-                false,
-                false,
-                ScrollbarMode.Overlay,
-                true,
+                initialMinHeight
             );
 
             // Create the options UI
             const widthLabel = new Label(`Minimum width: ${initialMinWidth}`);
             const heightLabel = new Label(`Minimum height: ${initialMinHeight}`);
+            const widthCoupling = new Variable(viewport.widthCoupling, coupling => viewport.widthCoupling = coupling);
+            const heightCoupling = new Variable(viewport.heightCoupling, coupling => viewport.heightCoupling = coupling);
+            const scrollbarMode = new Variable(viewport.scrollbarMode, mode => viewport.scrollbarMode = mode);
+
+            function makeCouplingColumn(variable) {
+                return new Margin(
+                    new Column()
+                    .add(new LabelledRadioButton('None', variable, AxisCoupling.None))
+                    .add(new LabelledRadioButton('Bi-directional', variable, AxisCoupling.Bi))
+                    .add(new LabelledRadioButton('Uni-directional', variable, AxisCoupling.Uni))
+                );
+            }
+
             const controls = new Container(
                 new ArtificialConstraint(
                     new Column()
-                    .add(new LabelledCheckbox('Width tied', tied => viewport.widthTied = tied, false))
-                    .add(new LabelledCheckbox('Height tied', tied => viewport.heightTied = tied, false))
-                    .add(new LabelledCheckbox('Overlay scrollbars', overlay => {
-                        viewport.scrollbarMode = overlay ? ScrollbarMode.Overlay
-                                                         : ScrollbarMode.Layout;
-                    }, true))
+                    .add(new Label('Width coupling:'))
+                    .add(makeCouplingColumn(widthCoupling))
+                    .add(new Label('Height coupling:'))
+                    .add(makeCouplingColumn(heightCoupling))
+                    .add(new Label('Scrollbar mode:'))
+                    .add(new Margin(
+                        new Column()
+                        .add(new LabelledRadioButton('Overlay', scrollbarMode, ScrollbarMode.Overlay))
+                        .add(new LabelledRadioButton('Layout', scrollbarMode, ScrollbarMode.Layout))
+                        .add(new LabelledRadioButton('Hidden', scrollbarMode, ScrollbarMode.Hidden))
+                    ))
                     .add(widthLabel)
-                    .add(new Slider(min => {
+                    .add(new Slider(new Variable(initialMinWidth, min => {
                         viewport.minWidth = min;
                         widthLabel.source = `Minimum width: ${min}`;
-                    }, 0, 500, 1, initialMinWidth))
+                    }), 0, 500, 1))
                     .add(heightLabel)
-                    .add(new Slider(min => {
+                    .add(new Slider(new Variable(initialMinHeight, min => {
                         viewport.minHeight = min;
                         heightLabel.source = `Minimum height: ${min}`;
-                    }, 0, 500, 1, initialMinHeight)),
+                    }), 0, 500, 1)),
                     [0, 175, 0, Infinity]
                 )
             );
+
             controls.containerAlignment = {
                 horizontal: Alignment.Start, vertical: Alignment.Start,
             };

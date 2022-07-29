@@ -8,6 +8,7 @@ import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
+import { DynMsg } from '../core/Strings';
 import { Widget } from './Widget';
 
 /**
@@ -317,7 +318,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         if(this.idealWidth === 0 && this.minWidth === 0 && this._widthCoupling !== AxisCoupling.Bi)
-            console.warn('ViewportWidget has no minimum width and width isn\'t bi-directionally coupled, therefore, it may be dimensionless. Set a minimum width and/or bi-directionally couple the width');
+            console.warn(DynMsg.MAYBE_DIMENSIONLESS('width'));
 
         if(this._heightCoupling !== AxisCoupling.Bi) {
             this.idealHeight = Math.min(effectiveMinHeight, maxHeight);
@@ -327,7 +328,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         if(this.idealHeight === 0 && this.minHeight === 0 && this._heightCoupling !== AxisCoupling.Bi)
-            console.warn('ViewportWidget has no minimum height and height isn\'t bi-directionally coupled, therefore, it may be dimensionless. Set a minimum height and/or bi-directionally couple the height');
+            console.warn(DynMsg.MAYBE_DIMENSIONLESS('height'));
 
         if(coupledWidth || coupledHeight) {
             // Resolve child's layout

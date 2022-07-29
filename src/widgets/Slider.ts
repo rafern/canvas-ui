@@ -1,4 +1,3 @@
-import type { VariableCallback } from '../state/VariableCallback';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
@@ -12,6 +11,7 @@ import { KeyEvent } from '../events/KeyEvent';
 import type { Event } from '../events/Event';
 import { Variable } from '../state/Variable';
 import type { Root } from '../core/Root';
+import { DynMsg } from '../core/Strings';
 import { Leave } from '../events/Leave';
 import { Widget } from './Widget';
 
@@ -52,7 +52,7 @@ export class Slider extends Widget {
     /** The helper for keeping track of the slider value */
     readonly variable: Variable<number>;
     /** The callback used for the {@link Slider#"variable"} */
-    private readonly callback: VariableCallback<number>;
+    private readonly callback: () => void;
 
     /** Create a new Slider */
     constructor(variable: Variable<number> = new Variable(0), minValue = 0, maxValue = 1, snapIncrement = 0, vertical = false, themeProperties?: ThemeProperties) {
@@ -61,15 +61,15 @@ export class Slider extends Widget {
         super(true, false, themeProperties);
 
         if(maxValue < minValue)
-            throw new Error('Slider max value can\'t be smaller than minimum value');
+            throw new Error(DynMsg.SWAPPED_MIN_MAX(minValue, maxValue));
         if(!isFinite(minValue) || isNaN(minValue))
-            throw new Error('Slider min value must be a valid finite number');
+            throw new Error(DynMsg.INVALID_MIN(minValue));
         if(!isFinite(maxValue) || isNaN(maxValue))
-            throw new Error('Slider max value must be a valid finite number');
+            throw new Error(DynMsg.INVALID_MAX(maxValue));
         if(!isFinite(snapIncrement) || isNaN(snapIncrement))
-            throw new Error('Slider increment value must be a valid finite number');
+            throw new Error(DynMsg.INVALID_INC(maxValue));
         if(snapIncrement < 0)
-            throw new Error('Slider increment value must be greater or equal to zero');
+            throw new Error(DynMsg.NEGATIVE_INC(maxValue));
 
         this.clickHelper = new ClickHelper(this);
         this.minValue = minValue;
@@ -81,7 +81,7 @@ export class Slider extends Widget {
         this.callback = this.handleChange.bind(this);
     }
 
-    protected handleChange(_newValue: number): void {
+    protected handleChange(): void {
         this._dirty = true;
     }
 

@@ -41,7 +41,7 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
                 this.callback();
             }
             catch(e) {
-                console.error('Exception in Icon callback', e);
+                console.error('Exception in Icon callback:', e);
             }
         }
     }

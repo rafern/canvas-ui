@@ -1,6 +1,7 @@
 import { measureTextDims } from '../helpers/measureTextDims';
 import { multiFlagField } from '../decorators/FlagFields';
 import { FillStyle } from '../theme/FillStyle';
+import { Msg } from '../core/Strings';
 
 const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
 
@@ -74,6 +75,8 @@ export enum TextAlignMode {
     /** Align to the end of the line. Equivalent to a ratio of 0.5. */
     End = 1,
 }
+
+const CHARSET = '~!@#$%^&*()_+`1234567890-=qwertyuiop[]\\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?';
 
 /**
  * An aggregate helper class for widgets that contain text.
@@ -303,7 +306,7 @@ export class TextHelper {
                 addedGroups.push([groupStart, ++groupStart, left, true]);
 
                 if(groupStart < end)
-                    console.warn('measureText called with text range where newline was at the middle of the range instead of at the end. Some text was ignored');
+                    console.warn(Msg.ROGUE_NEWLINE);
 
                 break;
             }
@@ -364,10 +367,7 @@ export class TextHelper {
             const oldLineSpacing = this._lineSpacing;
 
             if(this.lineHeight === null || this.lineSpacing === null) {
-                const metrics = measureTextDims(
-                    '~!@#$%^&*()_+`1234567890-=qwertyuiop[]\\QWERTYUIOP{}|asdfghjkl;\'ASDFGHJKL:"zxcvbnm,./ZXCVBNM<>?',
-                    this.font,
-                );
+                const metrics = measureTextDims(CHARSET, this.font);
 
                 if(this.lineHeight === null)
                     this._lineHeight = metrics.actualBoundingBoxAscent;
@@ -468,7 +468,8 @@ export class TextHelper {
                             // Fits in new line. Push old line to line ranges if
                             // it had any text render groups
                             if(range.length === 0)
-                                throw new Error('Unexpected line range without any render groups');
+                                throw new Error(Msg.EMPTY_LINE_RANGE);
+
                             this._lineRanges.push(range);
                             range = newRange;
                         }

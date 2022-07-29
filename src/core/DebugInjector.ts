@@ -9,6 +9,7 @@ import type { FillStyle } from '../theme/FillStyle';
 import { TextHelper } from '../helpers/TextHelper';
 import { BaseTheme } from '../theme/BaseTheme';
 import { Widget } from '../widgets/Widget';
+import { Msg } from './Strings';
 import { Root } from './Root';
 
 const features: Map<string, [enabled: boolean, description: string]> = new Map();
@@ -17,7 +18,7 @@ const features: Map<string, [enabled: boolean, description: string]> = new Map()
  * Check if a debug feature is enabled.
  *
  * @param debugFeature - The debug feature name, for example, "watchflag.Widget._dirty"
- * @returns Returns true if the debug feature is enabled. If the feature doesn't exist, returns false.
+ * @returns Returns true if the debug feature is enabled. If the feature doesn't exist or ins't enabled, returns false.
  */
 export function isDebugFeatureEnabled(debugFeature: string): boolean {
     const featureConfig = features.get(debugFeature);
@@ -435,7 +436,7 @@ export function injectDebugCode(): void {
                 if(debugWidth == 0)
                     debugWidth = 4;
                 else if(debugWidth < 0)
-                    throw new Error('Unexpected group with negative width');
+                    throw new Error(Msg.NEGATIVE_TEXT_GROUP);
 
                 ctx.fillRect(x, y - height, debugWidth, fullHeight);
             }

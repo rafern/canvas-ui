@@ -1,6 +1,7 @@
 import { FocusType } from '../core/FocusType';
 import { PointerEvent } from './PointerEvent';
 import { Widget } from '../widgets/Widget';
+import { DynMsg } from '../core/Strings';
 
 /**
  * The scrolling mode that determines how the {@link PointerWheel#deltaX},
@@ -140,7 +141,7 @@ export class PointerWheel extends PointerEvent {
                 ];
             }
             default:
-                throw new Error(`Unknown PointerWheelMode value: ${this.deltaMode}`);
+                throw new Error(DynMsg.INVALID_DELTAMODE(this.deltaMode));
         }
     }
 }

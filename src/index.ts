@@ -8,6 +8,7 @@ export * from './core/FocusType';
 export * from './core/LayoutConstraints';
 export * from './core/PointerStyleHandler';
 export * from './core/Root';
+export * from './core/Strings';
 export * from './core/TextInputHandler';
 export * from './core/Viewport';
 export * from './core/VirtualKeyboardRoot';
@@ -63,14 +64,8 @@ export * from './theme/Padding';
 export * from './theme/Theme';
 export * from './theme/ThemeProperties';
 // state management
-export * from './state/CompositeValidator';
-export * from './state/DefaultTextValidator';
-export * from './state/FloatValidator';
-export * from './state/IntValidator';
-export * from './state/RangeValidator';
-export * from './state/Validator';
+export * from './state/ValidatedVariable';
 export * from './state/Variable';
-export * from './state/VariableCallback';
 // widgets
 export * from './widgets/VirtualKeyboard/AltKey';
 export * from './widgets/VirtualKeyboard/BackspaceKey';

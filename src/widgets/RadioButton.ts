@@ -1,6 +1,5 @@
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
-import { VariableCallback } from '../state/VariableCallback';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
 import type { Variable } from '../state/Variable';
@@ -35,7 +34,7 @@ export class RadioButton<V> extends Widget {
      */
     protected value: V;
     /** The callback used for the {@link RadioButton#"variable"} */
-    private readonly callback: VariableCallback<V>;
+    private readonly callback: () => void;
     /** Was the radio button selected in the last paint? */
     private _wasSelected = false;
 
@@ -58,7 +57,7 @@ export class RadioButton<V> extends Widget {
         this._wasSelected = this.selected;
     }
 
-    protected handleChange(_newValue: V): void {
+    protected handleChange(): void {
         if(this.selected !== this._wasSelected)
             this._dirty = true;
     }

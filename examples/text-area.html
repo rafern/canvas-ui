@@ -3,7 +3,7 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Margin, Column, TextArea, Label, DefaultTextValidator,
+                DOMRoot, Margin, Column, TextArea, Label, ValidatedVariable,
                 DOMKeyboardDriver, DOMPointerDriver
             } from './index.esm.js';
 
@@ -12,7 +12,7 @@
                 new Margin(
                     new Column()
                     .add(new Label('Text area (200x200 minimum length):'))
-                    .add(new TextArea(DefaultTextValidator, null, 'Type some text here...', 200, 200))
+                    .add(new TextArea(new ValidatedVariable('Type some text here...'), null, 200, 200))
                 )
             );
 

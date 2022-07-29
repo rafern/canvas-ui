@@ -4,11 +4,11 @@
         <script type='module'>
             import {
                 DOMRoot, Label, Margin, Column, LabelledRadioButton, Spacing,
-                DOMKeyboardDriver, DOMPointerDriver, WatchableVariable
+                DOMKeyboardDriver, DOMPointerDriver, Variable
             } from './index.esm.js';
 
             // Create the root
-            const variable = new WatchableVariable(null);
+            const variable = new Variable(null);
             const root = new DOMRoot(
                 new Margin(
                     new Column()

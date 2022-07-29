@@ -3,25 +3,30 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Label, Margin, Column, Row, BasicTextInput, TextButton,
-                DOMKeyboardDriver, DOMPointerDriver, Spacing, FlexAlignment,
-                DOMVirtualKeyboardRoot, ScrollableViewportWidget, ScrollbarMode,
-                Alignment
+                DOMRoot, Label, Margin, Column, Row, TextButton, ScrollbarMode,
+                DOMKeyboardDriver, DOMPointerDriver, FlexAlignment, TextInput,
+                ScrollableViewportWidget, Alignment, ValidatedVariable,
+                AxisCoupling
             } from './index.esm.js';
 
             // Create the root
             const label = new Label('Hello world!');
-            const inputLabel = new Label('');
+            const inputLabel = new Label('Type some text...');
+            const column = new Column();
+
             const root = new DOMRoot(
                 new ScrollableViewportWidget(
-                    new Column()
-                    .add(
+                    column.add(
                         new ScrollableViewportWidget(
                             new Margin(
                                 new Column()
                                 .add(label)
                                 .add(inputLabel)
-                                .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
+                                .add(
+                                    new TextInput(new ValidatedVariable('', null, (value, variable) => {
+                                        inputLabel.source = `Text input: ${value}`;
+                                    }))
+                                )
                                 .add(
                                     new Row({
                                         multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
@@ -33,25 +38,21 @@
                             ),
                             170,
                             70,
-                            false,
-                            false,
+                            AxisCoupling.Bi,
+                            AxisCoupling.None,
                             ScrollbarMode.Layout,
                         )
-                    )
-                    .add(new Label('Hello 1'))
-                    .add(new Label('Hello 2'))
-                    .add(new Label('Hello 3'))
-                    .add(new Label('Hello 4'))
-                    .add(new Label('Hello 5'))
-                    .add(new Label('Hello 6'))
-                    .add(new Label('Hello 7')),
+                    ),
                     200,
                     200,
-                    false,
-                    false,
+                    AxisCoupling.Uni,
+                    AxisCoupling.None,
                     ScrollbarMode.Layout,
                 )
             );
+
+            for(let i = 1; i <= 20; i++)
+                column.add(new Label(`Filler label (${i})`));
 
             // Create drivers
             const keyboardDriver = new DOMKeyboardDriver();

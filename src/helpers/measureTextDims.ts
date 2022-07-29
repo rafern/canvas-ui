@@ -1,3 +1,5 @@
+import { Msg } from "../core/Strings";
+
 let measureContext: CanvasRenderingContext2D | null = null;
 
 /**
@@ -16,7 +18,7 @@ export function measureTextDims(text: string, font: string): TextMetrics {
         const tempCanvas = document.createElement('canvas');
         measureContext = tempCanvas.getContext('2d');
         if(measureContext === null)
-            throw new Error('Failed to get canvas context');
+            throw new Error(Msg.CANVAS_CONTEXT);
     }
 
     // Set font

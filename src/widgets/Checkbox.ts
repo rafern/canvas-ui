@@ -1,4 +1,3 @@
-import type { VariableCallback } from '../state/VariableCallback';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
 import type { ThemeProperties } from '../theme/ThemeProperties';
 import { ClickState } from '../helpers/ClickState';
@@ -26,7 +25,7 @@ export class Checkbox extends Widget {
     /** The helper for keeping track of the checkbox value */
     readonly variable: Variable<boolean>;
     /** The callback used for the {@link Checkbox#"variable"} */
-    private readonly callback: VariableCallback<boolean>;
+    private readonly callback: () => void;
 
     /**
      * Create a new Checkbox.
@@ -44,7 +43,7 @@ export class Checkbox extends Widget {
         this.clickHelper = new ButtonClickHelper(this);
     }
 
-    protected handleChange(_newValue: boolean): void {
+    protected handleChange(): void {
         this._dirty = true;
     }
 

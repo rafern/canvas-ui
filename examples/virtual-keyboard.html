@@ -3,26 +3,31 @@
     <head>
         <script type='module'>
             import {
-                DOMRoot, Label, Margin, Column, Row, Center, BasicTextInput,
-                TextButton, DOMKeyboardDriver, DOMPointerDriver, Spacing,
-                DOMVirtualKeyboardRoot,
+                DOMRoot, Label, Margin, Column, Row, TextInput, TextButton,
+                DOMKeyboardDriver, DOMPointerDriver, Alignment, FlexAlignment,
+                ValidatedVariable, DOMVirtualKeyboardRoot,
             } from './index.esm.js';
 
             // Create the root
             const label = new Label('Hello world!');
-            const inputLabel = new Label('');
+            const inputLabel = new Label('Type some text...');
             const root = new DOMRoot(
                 new Margin(
                     new Column()
                     .add(label)
                     .add(inputLabel)
-                    .add(new BasicTextInput(text => inputLabel.source = `Text input: ${text}`))
                     .add(
-                        new Center(
-                            new Row()
-                            .add(new TextButton('Button 1', () => label.source = 'Button 1 clicked!'))
-                            .add(new TextButton('Button 2', () => label.source = 'Button 2 clicked!'))
-                        )
+                        new TextInput(new ValidatedVariable('', null, (value, variable) => {
+                            inputLabel.source = `Text input: ${value}`;
+                        }))
+                    )
+                    .add(
+                        new Row({
+                            multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
+                        }).add([
+                            new TextButton('Button 1', () => label.source = 'Button 1 clicked!'),
+                            new TextButton('Button 2', () => label.source = 'Button 2 clicked!'),
+                        ])
                     )
                 ),
             );

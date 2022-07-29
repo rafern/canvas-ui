@@ -1,4 +1,5 @@
 import { Widget } from '../widgets/Widget';
+import { DynMsg } from '../core/Strings';
 import { Event } from './Event';
 
 /**
@@ -41,7 +42,7 @@ export class TabSelect extends Event {
     cloneWithTarget(target: Widget | null): TabSelect {
         if(target !== null && !TabSelect.targetWarned) {
             TabSelect.targetWarned = true;
-            console.warn('TabSelect events cannot be targetted to a specific widget. Target ignored');
+            console.warn(DynMsg.UNTARGETABLE_EVENT('TabSelect'));
         }
 
         const event = new TabSelect(this.relativeTo, this.reversed);

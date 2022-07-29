@@ -2,6 +2,7 @@ import { getPointerEventNormPos } from '../helpers/getPointerEventNormPos';
 import { parseDOMDeltaMode } from '../events/PointerWheel';
 import { PointerDriver } from './PointerDriver';
 import type { Root } from '../core/Root';
+import { Msg } from '../core/Strings';
 
 /**
  * A container which has all the event listeners for a {@link Root} DOM bind to
@@ -71,7 +72,7 @@ export class DOMPointerDriver extends PointerDriver {
     bindDOMElem(root: Root, domElem: HTMLElement): void {
         let rootBind = this.domElems.get(root);
         if(rootBind !== undefined) {
-            console.warn('Rebinding DOMPointerDriver. Are you calling bindDOMElem with the same HTML element multiple times?');
+            console.warn(Msg.DOM_DRIVER_REBIND);
             this.removeListeners(rootBind);
         }
         else {

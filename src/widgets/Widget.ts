@@ -11,6 +11,7 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
+import { DynMsg } from '../core/Strings';
 
 const fontSizeSuffixCharsRegex = /[%a-zA-Z]+/;
 const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]|[cm]m|p[xct]|v[hwib])/;
@@ -333,15 +334,11 @@ export abstract class Widget extends BaseTheme {
 
         if(event instanceof TabSelect) {
             if(event.reachedRelative) {
-                if(this.tabFocusable && (capturer === this || capturer === null)) {
-                    // console.info('Found tab selection candidate:', this.constructor.name);
+                if(this.tabFocusable && (capturer === this || capturer === null))
                     return this;
-                }
             }
-            else if(event.relativeTo === this) {
-                // console.info('Reached relativeTo:', this.constructor.name, '(has capturer?', capturer !== null, ')');
+            else if(event.relativeTo === this)
                 event.reachedRelative = true;
-            }
         }
 
         if(!event.reversed)
@@ -395,26 +392,26 @@ export abstract class Widget extends BaseTheme {
 
         // Validate constraints
         if(minWidth == Infinity)
-            throw new Error('minWidth must not be infinite');
+            throw new Error(DynMsg.INVALID_VALUE('minWidth', minWidth));
         if(minWidth > maxWidth) {
             // Not throwing here because floating pointer precision errors
             // sometimes trigger this due to tight constraints
-            console.warn(`minWidth (${minWidth}) must not be greater than maxWidth (${maxWidth}). Set minWidth to maxWidth. This may be caused by floating pointer precision errors`);
+            console.warn(DynMsg.SWAPPED_MIN_MAX_DIMS(minWidth, maxWidth, 'minWidth', 'maxWidth'));
             minWidth = maxWidth;
         }
         if(minWidth < 0) {
-            console.warn(`minWidth (${minWidth}) must not be lesser than 0. Set minWidth to 0. This may be caused by floating pointer precision errors`);
+            console.warn(DynMsg.NEGATIVE_DIMS(minWidth, 'minWidth'));
             minWidth = 0;
         }
 
         if(minHeight == Infinity)
-            throw new Error('minHeight must not be infinite');
+            throw new Error(DynMsg.INVALID_VALUE('minHeight', minHeight));
         if(minHeight > maxHeight) {
-            console.warn(`minHeight (${minHeight}) must not be greater than maxHeight (${maxHeight}). Set minHeight to maxHeight. This may be caused by floating pointer precision errors`);
+            console.warn(DynMsg.SWAPPED_MIN_MAX_DIMS(minHeight, maxHeight, 'minHeight', 'maxHeight'));
             minHeight = maxHeight;
         }
         if(minHeight < 0) {
-            console.warn(`minHeight (${minHeight}) must not be lesser than 0. Set minHeight to 0. This may be caused by floating pointer precision errors`);
+            console.warn(DynMsg.NEGATIVE_DIMS(minHeight, 'minHeight'));
             minHeight = 0;
         }
 
@@ -429,27 +426,27 @@ export abstract class Widget extends BaseTheme {
         // invalid dimensions
         if(this.idealWidth < minWidth) {
             this.idealWidth = minWidth;
-            console.error('Horizontal underflow in widget');
+            console.error(DynMsg.BROKEN_CONSTRAINTS(this.idealWidth, minWidth, true, false));
         }
         else if(this.idealWidth > maxWidth) {
             this.idealWidth = maxWidth;
-            console.error('Horizontal overflow in widget');
+            console.error(DynMsg.BROKEN_CONSTRAINTS(this.idealWidth, maxWidth, true, true));
         }
 
         if(this.idealWidth < 0 || !isFinite(this.idealWidth) || isNaN(this.idealWidth))
-            throw new Error(`Disallowed width (${this.idealWidth}) in widget`);
+            throw new Error(DynMsg.INVALID_DIMS(true, this.idealWidth));
 
         if(this.idealHeight < minHeight) {
             this.idealHeight = minHeight;
-            console.error('Vertical underflow in widget');
+            console.error(DynMsg.BROKEN_CONSTRAINTS(this.idealHeight, minHeight, false, false));
         }
         else if(this.idealHeight > maxHeight) {
             this.idealHeight = maxHeight;
-            console.error('Vertical overflow in widget');
+            console.error(DynMsg.BROKEN_CONSTRAINTS(this.idealHeight, maxHeight, false, true));
         }
 
         if(this.idealHeight < 0 || !isFinite(this.idealHeight) || isNaN(this.idealHeight))
-            throw new Error(`Disallowed height (${this.idealHeight}) in widget`);
+            throw new Error(DynMsg.INVALID_DIMS(false, this.idealHeight));
 
         // Clear layout dirty flag
         this._layoutDirty = false;
@@ -458,8 +455,6 @@ export abstract class Widget extends BaseTheme {
         // dirty flag
         if(oldWidth !== this.idealWidth || oldHeight !== this.idealHeight)
             this._dirty = true;
-
-        //console.log('Resolved layout of', this.constructor.name);
     }
 
     /**
@@ -676,8 +671,6 @@ export abstract class Widget extends BaseTheme {
         if(!this._dirty && !force)
             return;
 
-        //console.log('Painted', this.constructor.name);
-
         if(this._enabled) {
             if(this.needsClear)
                 this.clear(this.x, this.y, this.width, this.height);
@@ -793,7 +786,7 @@ export abstract class Widget extends BaseTheme {
      */
     get root(): Root {
         if(!this.active)
-            throw new Error('Cannot get root; Widget is not active');
+            throw new Error(DynMsg.INACTIVE_WIDGET('root'));
 
         // XXX active makes sure that _root is not null, but typescript doesn't
         // detect this. force the type system to treat it as non-null
@@ -806,7 +799,7 @@ export abstract class Widget extends BaseTheme {
      */
     get viewport(): Viewport {
         if(!this.active)
-            throw new Error('Cannot get viewport; Widget is not active');
+            throw new Error(DynMsg.INACTIVE_WIDGET('viewport'));
 
         // XXX active makes sure that _viewport is not null, but typescript
         // doesn't detect this. force the type system to treat it as non-null
@@ -819,7 +812,7 @@ export abstract class Widget extends BaseTheme {
      */
     get parent(): Widget | null {
         if(!this.active)
-            throw new Error('Cannot get parent; Widget is not active');
+            throw new Error(DynMsg.INACTIVE_WIDGET('parent'));
 
         return this._parent;
     }
@@ -841,7 +834,7 @@ export abstract class Widget extends BaseTheme {
      */
     activate(root: Root, viewport: Viewport, parent: Widget | null): void {
         if(this.active)
-            throw new Error('Attempt to activate active Widget');
+            throw new Error(DynMsg.INVALID_ACTIVATION(true));
 
         this._root = root;
         this._viewport = viewport;
@@ -860,7 +853,7 @@ export abstract class Widget extends BaseTheme {
      */
     deactivate(): void {
         if(!this.active)
-            throw new Error('Attempt to deactivate inactive Widget');
+            throw new Error(DynMsg.INVALID_ACTIVATION(false));
 
         this._root = null;
         this._viewport = null;

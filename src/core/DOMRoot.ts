@@ -1,6 +1,7 @@
 import { TextPasteEvent } from '../events/TextPasteEvent';
 import type { Widget } from '../widgets/Widget';
 import { Theme } from '../theme/Theme';
+import { Msg } from './Strings';
 import { Root } from './Root';
 
 /**
@@ -39,7 +40,7 @@ export class DOMRoot extends Root {
 
         const context = this.domElem.getContext('2d', { alpha: true });
         if(context === null)
-            throw new Error('Failed to get DOM canvas context');
+            throw new Error(Msg.REUSABLE_CANVAS_CONTEXT);
 
         this.domCanvasContext = context;
 

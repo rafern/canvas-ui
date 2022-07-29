@@ -3,6 +3,7 @@ import type { LayoutConstraints } from './LayoutConstraints';
 import { roundToPower2 } from '../helpers/roundToPower2';
 import type { Widget } from '../widgets/Widget';
 import { isPower2 } from '../helpers/isPower2';
+import { DynMsg, Msg } from './Strings';
 
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -75,7 +76,7 @@ export class Viewport {
         // Get context out of canvas
         const context = this.canvas.getContext('2d', { alpha: true });
         if(context === null)
-            throw new Error('Failed to get canvas context');
+            throw new Error(Msg.CANVAS_CONTEXT);
 
         this.context = context;
     }
@@ -108,7 +109,7 @@ export class Viewport {
      */
     resolveChildsLayout(): boolean {
         let relayouts = 0;
-        if(!this.child.layoutDirty && !this._dirty) {
+        if(!(this.child.layoutDirty || this._dirty)) {
             // even if a layout resolution is not needed, the hook still needs
             // to be called at least once per frame
             this.child.postFinalizeBounds();
@@ -118,20 +119,19 @@ export class Viewport {
                 return false;
         }
 
-        // Remove constraints' dirty flag
-        this._dirty = false;
-
         // Resolve child's layout
         const [oldWidth, oldHeight] = this.child.dimensions;
         let newWidth = oldWidth;
         let newHeight = oldHeight;
         let wasResized = false;
 
-        while(this.child.layoutDirty) {
+        while(this.child.layoutDirty || this._dirty) {
             if(relayouts > Viewport.maxRelayout) {
-                console.warn('Maximum re-layouts exceeded. Is there a Widget type that is immediately marking the layout as dirty after resolving it?')
+                console.warn(Msg.MAX_RELAYOUTS)
                 break;
             }
+
+            this._dirty = false;
             const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
             this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
@@ -150,7 +150,7 @@ export class Viewport {
         }
 
         if(relayouts > 1)
-            console.warn(`The last frame required ${relayouts - 1} re-layouts. Make sure to only mark a layout as dirty while resolving the layout unless absolutely necessary`);
+            console.warn(DynMsg.RELAYOUTS(relayouts));
 
         // Re-scale canvas if neccessary.
         if(wasResized) {
@@ -164,13 +164,13 @@ export class Viewport {
             if(newCanvasWidth === 0 || newCanvasHeight === 0) {
                 if(!Viewport.dimensionlessWarned) {
                     Viewport.dimensionlessWarned = true;
-                    console.warn('Canvas has 0 width or height. Are you using an empty Root?');
+                    console.warn(Msg.DIMENSIONLESS_CANVAS);
                 }
             }
             else if(!isPower2(newCanvasWidth) || !isPower2(newCanvasHeight)) {
                 if(!Viewport.powerOf2Warned) {
                     Viewport.powerOf2Warned = true;
-                    console.warn('Canvas has a width or height that is not a power of 2, which may create mipmapping issues. Make sure to use power of 2 starting and maximum canvas dimensions.');
+                    console.warn(Msg.NON_POW2_CANVAS);
                 }
             }
 
@@ -192,7 +192,7 @@ export class Viewport {
 
                     const copyCtx = copyCanvas.getContext('2d');
                     if(copyCtx === null)
-                        throw new Error('Failed to get context of temporary canvas for resizing original canvas');
+                        throw new Error(Msg.CANVAS_CONTEXT);
 
                     copyCtx.globalCompositeOperation = 'copy';
                     copyCtx.drawImage(

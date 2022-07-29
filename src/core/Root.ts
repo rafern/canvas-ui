@@ -1,6 +1,7 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { LayoutConstraints } from './LayoutConstraints';
 import type { TextInputHandler } from './TextInputHandler';
+import { DynMsg, groupedStackTrace } from './Strings';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
 import type { Widget } from '../widgets/Widget';
@@ -246,14 +247,10 @@ export class Root {
                 focus = null;
 
             if(event.needsFocus && focus === null) {
-                // console.warn('Dropped event due to lack of target:', event.constructor.name);
-
                 // special case for tab key with no currently focused widget;
                 // try to do tab selection
-                if(event instanceof KeyPress && event.key === 'Tab') {
-                    // console.warn('Dispatched tab selection (no focused widget)');
+                if(event instanceof KeyPress && event.key === 'Tab')
                     this.dispatchEvent(new TabSelect(this.getFocus(FocusType.Tab), event.shift));
-                }
 
                 return false;
             }
@@ -272,7 +269,6 @@ export class Root {
             if(event instanceof KeyPress) {
                 if(event.key === 'Tab') {
                     // special case for tab key; try to do tab selection
-                    // console.warn('Dispatched tab selection (uncaptured key event)');
                     this.dispatchEvent(new TabSelect(this.getFocus(FocusType.Tab), event.shift));
                 }
                 else if(event.key === 'Escape') {
@@ -287,7 +283,6 @@ export class Root {
             if(event instanceof TabSelect && event.relativeTo !== null) {
                 event = new TabSelect(null, event.reversed);
                 captured = this.child.dispatchEvent(event);
-                // console.warn('Tab select event re-dispatched due to relative widget not being found');
             }
         }
 
@@ -296,26 +291,20 @@ export class Root {
                 // If the tab selection failed even though the relative widget
                 // was reached, then the end of the search was likely reached.
                 // Try to start from the beginning again
-                // console.warn('Tab select event re-dispatched due to wrap-around');
                 captured = this.child.dispatchEvent(event);
             }
 
             if(captured) {
                 if(!event.reachedRelative && !Root.badTabCaptureWarned) {
                     Root.badTabCaptureWarned = true;
-                    console.warn(`TabSelect event captured by widget (${captured.constructor.name}), but reachedRelative was false; a widget type is probably capturing events by default`);
-                    console.groupCollapsed('Stack trace');
-                    console.trace();
-                    console.groupEnd();
+                    console.warn(DynMsg.OVERCAPTURING_WIDGET(captured));
+                    groupedStackTrace();
                 }
 
                 // Request tab focus if tab select event was captured
                 this.requestFocus(FocusType.Tab, captured);
             }
         }
-
-        // if(captured)
-        //     console.info('Event', event.constructor.name, 'captured by widget:', captured.constructor.name);
 
         // Update focus capturer if it changed
         if(event.focusType === null)
@@ -408,7 +397,6 @@ export class Root {
             const currentFocus = this._foci.get(focusType);
             if(widget !== currentFocus) {
                 this.clearFocus(focusType);
-                // console.log('Set focus type', focusType, 'to widget type', widget.constructor.name);
                 this._foci.set(focusType, widget);
                 widget.onFocusGrabbed(focusType);
                 for(const driver of this.drivers)
@@ -426,7 +414,6 @@ export class Root {
 
             if(partnerFocus !== null && widget !== this._foci.get(partnerFocus)) {
                 this.clearFocus(partnerFocus);
-                // console.log('Set partner focus type', partnerFocus, 'to widget type', widget.constructor.name);
                 this._foci.set(partnerFocus, widget);
                 widget.onFocusGrabbed(partnerFocus);
                 for(const driver of this.drivers)
@@ -456,7 +443,6 @@ export class Root {
     clearFocus(focusType: FocusType): void {
         const currentFocus = this._foci.get(focusType);
         if(currentFocus) {
-            // console.log('Dropped focus type', focusType, 'from widget type', currentFocus.constructor.name);
             currentFocus.onFocusDropped(focusType);
 
             this._foci.set(focusType, null);

@@ -2,6 +2,7 @@ import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { GlyphVirtualKey } from './GlyphVirtualKey';
 import type { KeyContext } from './KeyContext';
 import type { VirtualKey } from './VirtualKey';
+import { DynMsg } from '../../core/Strings';
 import { Row } from '../Row';
 
 /**
@@ -96,7 +97,7 @@ export class VirtualKeyRow extends Row<VirtualKey> {
                 }
             }
             else {
-                throw new Error(`Unknown virtual key row template format for entry: ${entry}`);
+                throw new Error(DynMsg.INVALID_KB_ROW_TEMPLATE(entry));
             }
         }
     }

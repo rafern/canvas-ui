@@ -4,6 +4,7 @@ import { ClickState } from '../helpers/ClickState';
 import { FillStyle } from '../theme/FillStyle';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
+import { DynMsg } from '../core/Strings';
 import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
@@ -92,7 +93,7 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
             case 'backgroundFill':
                 return this.backgroundFill;
             default:
-                throw new Error(`Unknown theme property: ${this.backgroundProperty}`);
+                throw new Error(DynMsg.INVALID_BACKGROUND_FILL(this.backgroundProperty));
         }
     }
 

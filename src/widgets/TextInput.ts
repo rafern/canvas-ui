@@ -776,7 +776,6 @@ export class TextInput extends Widget {
                     // in normal order, so manually do tab-selection and capture
                     // the event
                     if(event.shift) {
-                        // console.warn('Dispatched tab select from TextInput');
                         root.dispatchEvent(new TabSelect(this, false));
                         return this;
                     }

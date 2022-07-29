@@ -1,5 +1,6 @@
 import { KeyboardDriver } from './KeyboardDriver';
 import { FocusType } from '../core/FocusType';
+import { Msg } from '../core/Strings';
 
 /**
  * The set of keys that will call preventDefault if captured.
@@ -97,7 +98,7 @@ export class DOMKeyboardDriver extends KeyboardDriver {
     bindDOMElem(domElem: HTMLElement, listenToKeys = true): void {
         let bind = this.domElems.get(domElem);
         if(bind !== undefined) {
-            console.warn('Rebinding DOMKeyboardDriver. Are you calling bindDOMElem with the same HTML element multiple times?');
+            console.warn(Msg.DOM_DRIVER_REBIND);
             this.removeListeners(domElem, bind);
         }
         else {

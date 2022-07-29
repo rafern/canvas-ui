@@ -1,5 +1,6 @@
 import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
 import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Msg } from '../core/Strings';
 import { Widget } from './Widget';
 
 const videoRegex = /^.*\.(webm|og[gv]|m(p4|4v|ov)|avi|qt)$/i;
@@ -117,14 +118,13 @@ export class Icon extends Widget {
             this.image.addEventListener('canplay', this.canplayListener);
 
             if('requestVideoFrameCallback' in this.image) {
-                console.warn('requestVideoFrameCallback available; if video playback is choppy or broken, please report it on Github');
+                console.warn(Msg.VIDEO_API_AVAILABLE);
 
                 const originalVideo = this.image;
                 this.frameCallback = (_now, _metadata) => {
                     // Set dirty flag when a new frame is got so that it is
                     // painted
                     this._dirty = true;
-                    console.log('set dirty')
 
                     if(this.image === originalVideo && this.frameCallback !== null) {
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -134,8 +134,6 @@ export class Icon extends Widget {
 
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (this.image as any).requestVideoFrameCallback(this.frameCallback)
-            } else {
-                console.warn('requestVideoFrameCallback not available; video will be played back on every frame when not paused');
             }
         }
     }

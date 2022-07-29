@@ -1,3 +1,5 @@
+import { DynMsg } from "../core/Strings";
+
 /**
  * A decorator for a public field which sets calls a callback if the property's
  * value is changed.
@@ -127,7 +129,7 @@ export function watchArrayField(callback: () => void, allowNonArrays = false): P
                         callback.call(this);
                     }
                     else
-                        throw new Error('Value must be an array');
+                        throw new Error(DynMsg.NON_ARRAY_VALUE(propertyKey, value));
                 }
             },
             get: function() {

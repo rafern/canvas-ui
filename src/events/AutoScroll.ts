@@ -1,5 +1,6 @@
 import type { Bounds } from '../helpers/Bounds';
 import { Widget } from '../widgets/Widget';
+import { DynMsg } from '../core/Strings';
 import { Event } from './Event';
 
 /**
@@ -55,7 +56,7 @@ export class AutoScroll extends Event {
     cloneWithTarget(target: Widget | null): AutoScroll {
         if(target !== null && !AutoScroll.targetWarned) {
             AutoScroll.targetWarned = true;
-            console.warn('AutoScroll events cannot be targetted to a specific widget. Target ignored');
+            console.warn(DynMsg.UNTARGETABLE_EVENT('AutoScroll'));
         }
 
         const event = new AutoScroll(this.originallyRelativeTo, this.bounds);
