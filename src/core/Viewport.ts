@@ -31,13 +31,13 @@ export class Viewport {
      * exceeds this width, then the content will be scaled to fit the canvas
      */
     @paintField
-    maxCanvasWidth = Infinity;
+    maxCanvasWidth = 16384;
     /**
      * The maximum height the {@link Viewport#canvas} can have. If the layout
      * exceeds this height, then the content will be scaled to fit the canvas
      */
     @paintField
-    maxCanvasHeight = Infinity;
+    maxCanvasHeight = 16384;
     /** Have the constraints been changed? */
     private _dirty = true;
 
