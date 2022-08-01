@@ -1,4 +1,4 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 import { VirtualKey } from './VirtualKey';
 
@@ -11,7 +11,7 @@ import { VirtualKey } from './VirtualKey';
  */
 export class AltKey extends VirtualKey {
     /** Create a new AltKey. */
-    constructor(keyContext: KeyContext, flex = 0, minWidth = 42, minHeight = 24, themeProperties?: ThemeProperties) {
+    constructor(keyContext: KeyContext, minWidth = 42, minHeight = 24, properties?: Readonly<WidgetProperties>) {
         super(
             'Alt',
             () => {
@@ -19,10 +19,9 @@ export class AltKey extends VirtualKey {
                 this.child.forced = keyContext.alt;
                 keyContext.callback('Alt');
             },
-            flex,
             minWidth,
             minHeight,
-            themeProperties,
+            properties,
         );
 
         this.child.forced = keyContext.alt;

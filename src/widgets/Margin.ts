@@ -10,22 +10,19 @@ import type { Widget } from './Widget';
  *
  * Can be constrained to a specific type of children.
  *
- * Alignment settings are applied via theme properties; if you pass this
- * property, it will be ignored in a clone of the theme properties. If you want
- * to override this theme property property, then use {@link Container} instead.
- *
  * @category Widget
  * @category Alias Widget
  */
 export class Margin<W extends Widget = Widget> extends Container<W> {
     /** Create a new Margin. */
-    constructor(child: W, themeProperties?: ThemeProperties) {
-        const themePropertiesClone: ThemeProperties = {...themeProperties};
-
-        themePropertiesClone.containerAlignment = <Alignment2D>{
-            horizontal: Alignment.Center, vertical: Alignment.Center,
+    constructor(child: W, properties?: Readonly<ThemeProperties>) {
+        properties = {
+            containerAlignment: <Alignment2D>{
+                horizontal: Alignment.Center, vertical: Alignment.Center,
+            },
+            ...properties
         };
 
-        super(child, themePropertiesClone);
+        super(child, properties);
     }
 }

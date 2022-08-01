@@ -1,8 +1,7 @@
-import { ScrollableViewportWidget, ScrollbarMode } from "./ScrollableViewportWidget";
+import { ScrollableViewportWidget, ScrollableViewportWidgetProperties, ScrollbarMode } from "./ScrollableViewportWidget";
 import type { ValidatedVariable } from "../state/ValidatedVariable";
-import type { ThemeProperties } from "../theme/ThemeProperties";
+import { TextInput, TextInputProperties } from "./TextInput";
 import { AxisCoupling } from "../widgets/AxisCoupling";
-import { TextInput } from "./TextInput";
 
 /**
  * A {@link ScrollableViewportWidget} with a {@link TextInput}. Meant to be used
@@ -19,11 +18,17 @@ import { TextInput } from "./TextInput";
  * @category Aggregate Widget
  */
 export class TextArea extends ScrollableViewportWidget<TextInput> {
-    constructor(variable: ValidatedVariable<string, unknown>, inputFilter: ((input: string) => boolean) | null = null, minWidth = 0, minHeight = 0, scrollbarMode = ScrollbarMode.Hidden, useViewport = false, themeProperties?: ThemeProperties) {
-        super(new TextInput(variable, inputFilter, themeProperties), minWidth, minHeight, AxisCoupling.Uni, AxisCoupling.Uni, scrollbarMode, useViewport)
+    constructor(variable: ValidatedVariable<string, unknown>, properties?: Readonly<ScrollableViewportWidgetProperties & TextInputProperties>) {
+        // default properties
+        properties = {
+            widthCoupling: AxisCoupling.Uni,
+            heightCoupling: AxisCoupling.Uni,
+            scrollbarMode: ScrollbarMode.Hidden,
+            typeableTab: true,
+            ...properties
+        };
 
-        // enable tab typing by default
-        this.child.typeableTab = true;
+        super(new TextInput(variable, properties), properties)
     }
 
     /**

@@ -1,9 +1,25 @@
 import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
+import type { Rect } from '../helpers/Rect';
 import { Msg } from '../core/Strings';
-import { Widget } from './Widget';
 
 const videoRegex = /^.*\.(webm|og[gv]|m(p4|4v|ov)|avi|qt)$/i;
+
+/**
+ * Optional Icon constructor properties.
+ *
+ * @category Widget
+ */
+export interface IconProperties extends WidgetProperties {
+    /** Sets {@link Icon#rotation}. */
+    rotation?: number,
+    /** Sets {@link Icon#viewBox}. */
+    viewBox?: Rect | null,
+    /** Sets {@link Icon#width}. */
+    width?: number | null,
+    /** Sets {@link Icon#height}. */
+    height?: number | null
+}
 
 /**
  * A widget which displays a given image.
@@ -33,7 +49,7 @@ export class Icon extends Widget {
      * @decorator `@paintLayoutArrayField(true)`
      */
     @paintLayoutArrayField(true)
-    viewBox: [number, number, number, number] | null;
+    viewBox: Rect | null;
     /**
      * The wanted width. If null, the image's width will be used, taking
      * {@link Icon#viewBox} into account.
@@ -74,10 +90,10 @@ export class Icon extends Widget {
     private frameCallback: ((now: DOMHighResTimeStamp, metadata: unknown /* VideoFrameMetadata */) => void) | null = null;
 
     /** Create a new Icon. */
-    constructor(image: HTMLImageElement | HTMLVideoElement | string, width: number | null = null, height: number | null = null, viewBox: [number, number, number, number] | null = null, themeProperties?: ThemeProperties) {
+    constructor(image: HTMLImageElement | HTMLVideoElement | string, properties?: Readonly<IconProperties>) {
         // Icons need a clear background, have no children and don't propagate
         // events
-        super(true, false, themeProperties);
+        super(true, false, properties);
 
         if(typeof image === 'string') {
             if(videoRegex.test(image)) {
@@ -96,9 +112,10 @@ export class Icon extends Widget {
         }
 
         this._image = image;
-        this.imageWidth = width;
-        this.imageHeight = height;
-        this.viewBox = viewBox;
+        this.rotation = properties?.rotation ?? 0;
+        this.viewBox = properties?.viewBox ?? null;
+        this.imageWidth = properties?.width ?? null;
+        this.imageHeight = properties?.height ?? null;
         this.setupVideoEvents();
     }
 

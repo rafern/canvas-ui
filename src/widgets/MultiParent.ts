@@ -2,8 +2,8 @@ import type { Widget } from '../widgets/Widget';
 import { Parent } from './Parent';
 
 /**
- * A specialised version of the {@link Parent} mixin class for parents with any
- * amount of children and public access to modifying this list of children.
+ * A specialised version of the {@link Parent} class for parents with any amount
+ * of children and public access to modifying this list of children.
  *
  * Can be constrained to a specific type of children.
  *

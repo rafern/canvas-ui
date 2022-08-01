@@ -1,9 +1,7 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Spacing, SpacingProperties } from './Spacing';
 import type { Variable } from '../state/Variable';
+import { Label, LabelProperties } from './Label';
 import { RadioButton } from './RadioButton';
-import type { TextGetter } from './Label';
-import { Spacing } from './Spacing';
-import { Label } from './Label';
 import { Row } from './Row';
 
 /**
@@ -14,13 +12,13 @@ import { Row } from './Row';
  * @category Aggregate Widget
  */
 export class LabelledRadioButton<V> extends Row {
-    constructor(text: string | TextGetter, variable: Variable<V>, value: V, themeProperties?: ThemeProperties) {
-        super(themeProperties);
+    constructor(text: string, variable: Variable<V>, value: V, properties?: Readonly<LabelProperties & SpacingProperties>) {
+        super(properties);
 
         this.add([
-            new Label(text, themeProperties),
-            new Spacing(1, 0, 0, themeProperties),
-            new RadioButton(variable, value, themeProperties),
+            new Label(text, properties),
+            new Spacing(properties),
+            new RadioButton(variable, value, properties),
         ]);
     }
 }

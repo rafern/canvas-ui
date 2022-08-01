@@ -14,32 +14,35 @@
             const initialMinWidth = 75;
             const initialMinHeight = 75;
             const label = new Label('Hello world!');
-            const inputLabel = new Label('Type some text...');
 
             const viewport = new ScrollableViewportWidget(
                 new ThemeScope(
                     new Margin(
                         new Column()
                         .add(label)
-                        .add(inputLabel)
                         .add(
-                            new TextInput(new ValidatedVariable('', null, (value, variable) => {
-                                inputLabel.source = `Text input: ${value}`;
-                            }))
+                            new TextInput(new ValidatedVariable('', null, value => {
+                                label.text = `Text input: ${value}`;
+                            }, false))
                         )
                         .add(
                             new Row({
-                                multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
+                                multiContainerAlignment: {
+                                    main: FlexAlignment.Center,
+                                    cross: Alignment.Stretch
+                                },
                             }).add([
-                                new TextButton('Button 1', () => label.source = 'Button 1 clicked!'),
-                                new TextButton('Button 2', () => label.source = 'Button 2 clicked!'),
+                                new TextButton('Button 1', () => label.text = 'Button 1 clicked!'),
+                                new TextButton('Button 2', () => label.text = 'Button 2 clicked!'),
                             ])
                         )
                     ),
                     new Theme({ canvasFill: 'red' }),
                 ),
-                initialMinWidth,
-                initialMinHeight
+                {
+                    minWidth: initialMinWidth,
+                    minHeight: initialMinHeight
+                }
             );
 
             // Create the options UI
@@ -75,13 +78,13 @@
                     .add(widthLabel)
                     .add(new Slider(new Variable(initialMinWidth, min => {
                         viewport.minWidth = min;
-                        widthLabel.source = `Minimum width: ${min}`;
-                    }), 0, 500, 1))
+                        widthLabel.text = `Minimum width: ${min}`;
+                    }), 0, 500, { snapIncrement: 1 }))
                     .add(heightLabel)
                     .add(new Slider(new Variable(initialMinHeight, min => {
                         viewport.minHeight = min;
-                        heightLabel.source = `Minimum height: ${min}`;
-                    }), 0, 500, 1)),
+                        heightLabel.text = `Minimum height: ${min}`;
+                    }), 0, 500, { snapIncrement: 1 })),
                     [0, 175, 0, Infinity]
                 )
             );

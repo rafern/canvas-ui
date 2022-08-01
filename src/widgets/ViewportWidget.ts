@@ -1,15 +1,36 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import { layoutField } from '../decorators/FlagFields';
 import { AxisCoupling } from '../widgets/AxisCoupling';
 import { PointerEvent } from '../events/PointerEvent';
+import { Widget, WidgetProperties } from './Widget';
 import type { Bounds } from '../helpers/Bounds';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
 import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
 import { DynMsg } from '../core/Strings';
-import { Widget } from './Widget';
+
+/**
+ * Optional ViewportWidget constructor properties.
+ *
+ * @category Widget
+ */
+export interface ViewportWidgetProperties extends WidgetProperties {
+    /** Sets {@link ViewportWidget#widthCoupling}. */
+    widthCoupling?: AxisCoupling,
+    /** Sets {@link ViewportWidget#heightCoupling}. */
+    heightCoupling?: AxisCoupling,
+    /** Sets {@link ViewportWidget#minWidth}. */
+    minWidth?: number,
+    /** Sets {@link ViewportWidget#minHeight}. */
+    minHeight?: number,
+    /** Sets {@link ViewportWidget#useViewport}. */
+    useViewport?: boolean,
+    /** Sets {@link ViewportWidget#offset}. */
+    offset?: [number, number],
+    /** Sets {@link ViewportWidget#constraints}. */
+    constraints?: LayoutConstraints
+}
 
 /**
  * A type of container widget which is allowed to be bigger or smaller than its
@@ -68,17 +89,17 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     protected forceRePaint = true;
 
     /** Create a new ViewportWidget. */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthCoupling = AxisCoupling.None, heightCoupling = AxisCoupling.None, useViewport = false, themeProperties?: ThemeProperties) {
+    constructor(child: W, properties?: Readonly<ViewportWidgetProperties>) {
         // Viewport clears its own background, has a single child and propagates
         // events
-        super(child, false, true, themeProperties);
+        super(child, false, true, properties);
 
-        this.internalViewport = useViewport ? new Viewport(child) : null;
-        this.minWidth = minWidth;
-        this.minHeight = minHeight;
-        this._widthCoupling = widthCoupling;
-        this._heightCoupling = heightCoupling;
-        this._constraints = [0, Infinity, 0, Infinity];
+        this.internalViewport = (properties?.useViewport ?? false) ? new Viewport(child) : null;
+        this.minWidth = properties?.minWidth ?? 0;
+        this.minHeight = properties?.minHeight ?? 0;
+        this._widthCoupling = properties?.widthCoupling ?? AxisCoupling.None;
+        this._heightCoupling = properties?.heightCoupling ?? AxisCoupling.None;
+        this._constraints = properties?.constraints ?? [0, Infinity, 0, Infinity];
     }
 
     /**

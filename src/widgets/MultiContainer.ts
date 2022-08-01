@@ -1,9 +1,8 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import { FlexAlignment } from '../theme/FlexAlignment';
+import { Widget, WidgetProperties } from './Widget';
 import { Alignment } from '../theme/Alignment';
 import type { Event } from '../events/Event';
 import { MultiParent } from './MultiParent';
-import { Widget } from './Widget';
 
 /**
  * A {@link MultiParent} which automatically paints children, adds spacing,
@@ -27,10 +26,10 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
     private enabledChildCount = 0;
 
     /** Create a MultiContainer. */
-    constructor(vertical: boolean, themeProperties?: ThemeProperties) {
+    constructor(vertical: boolean, properties?: Readonly<WidgetProperties>) {
         // MultiContainers clear their own background, have children and
         // propagate events
-        super([], false, true, themeProperties);
+        super([], false, true, properties);
 
         this.vertical = vertical;
     }

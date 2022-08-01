@@ -1,15 +1,16 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import { TextHelper, WrapMode } from '../helpers/TextHelper';
 import { layoutField } from '../decorators/FlagFields';
-import { Widget } from './Widget';
+import { Widget, WidgetProperties } from './Widget';
 
 /**
- * A function which returns a string. An alternative to supplying a
- * {@link Label} with a string if you have a text value that constantly changes.
+ * Optional TextInput constructor properties.
  *
  * @category Widget
  */
-export type TextGetter = () => string;
+export interface LabelProperties extends WidgetProperties {
+    /** Sets {@link Label#wrapText}. */
+    wrapText?: boolean,
+}
 
 /**
  * A widget which displays a line of text.
@@ -17,11 +18,6 @@ export type TextGetter = () => string;
  * @category Widget
  */
 export class Label extends Widget {
-    /**
-     * The text getter source. If this is not null, text will be updated with
-     * the return value of this callback, every update.
-     */
-    private textGetter: TextGetter | null = null;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
     /**
@@ -35,51 +31,25 @@ export class Label extends Widget {
     /**
      * Create a new Label.
      *
-     * @param source - The text source of the label. Has the same behaviour as setting {@link Label#source}.
+     * @param text - The text of the label. Has the same behaviour as setting {@link Label#text}.
      */
-    constructor(source: string | TextGetter, themeProperties?: ThemeProperties) {
+    constructor(text = '', properties?: Readonly<LabelProperties>) {
         // Labels need a clear background, have no children and don't propagate
         // events
-        super(true, false, themeProperties);
+        super(true, false, properties);
 
         this.textHelper = new TextHelper();
         this.textHelper.wrapMode = WrapMode.Shrink;
-        this.source = source;
+        this.text = text;
+
+        this.wrapText = properties?.wrapText ?? true;
     }
 
-    /**
-     * This label's text source. If you want to get the current text string,
-     * then use {@link Label#text} instead.
-     *
-     * When setting, if source is a {@link TextGetter}, then
-     * {@link Label#textGetter} is set, else, {@link Label#textGetter} is set to
-     * null and and the {@link Label#textHelper}'s
-     * {@link TextHelper#text | text} is set.
-     *
-     * When getting, if {@link Label#textGetter} is set, then it is returned,
-     * else, {@link Label#textHelper}.{@link TextHelper#text | text} is
-     * returned.
-     */
-    set source(source: string | TextGetter) {
-        if(source instanceof Function)
-            this.textGetter = source;
-        else {
-            this.textGetter = null;
-            this.textHelper.text = source;
-        }
+    /** The current text value. */
+    set text(text: string) {
+        this.textHelper.text = text;
     }
 
-    get source(): string | TextGetter {
-        if(this.textGetter !== null)
-            return this.textGetter;
-        else
-            return this.textHelper.text;
-    }
-
-    /**
-     * The current text value. If you want to get the current text source, then
-     * use {@link Label#source} instead.
-     */
     get text(): string {
         return this.textHelper.text;
     }
@@ -105,9 +75,6 @@ export class Label extends Widget {
 
     protected override handlePreLayoutUpdate(): void {
         // Update text helper variables
-        if(this.textGetter !== null)
-            this.textHelper.text = this.textGetter();
-
         this.textHelper.font = this.bodyTextFont;
         this.textHelper.lineHeight = this.bodyTextHeight;
         this.textHelper.lineSpacing = this.bodyTextSpacing;

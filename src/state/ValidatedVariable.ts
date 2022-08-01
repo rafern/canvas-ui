@@ -42,9 +42,14 @@ export class ValidatedVariable<V, T = V, C extends CallableFunction = ValidatedV
      */
     readonly validator: Validator<V, T> | null;
 
-    constructor(initialValue: V, validator: Validator<V, T> | null = null, callback?: C) {
-        super(initialValue, callback);
+    constructor(initialValue: V, validator: Validator<V, T> | null = null, callback?: C, callNow = true) {
+        super(initialValue, callback, false);
+
         this.validator = validator;
+        this.validate(initialValue);
+
+        if(callback && callNow)
+            this.doCallback(callback);
     }
 
     /** If true, then the current value is valid. */
@@ -64,6 +69,12 @@ export class ValidatedVariable<V, T = V, C extends CallableFunction = ValidatedV
         if(this.value === value)
             return false;
 
+        this.validate(value);
+
+        return super.setValue(value, notify);
+    }
+
+    private validate(value: V): void {
         if(this.validator) {
             const [valid, validValueCandidate] = this.validator(value);
             // XXX _valid is set in two stages so the type system knows whether
@@ -73,7 +84,5 @@ export class ValidatedVariable<V, T = V, C extends CallableFunction = ValidatedV
             if(valid)
                 this._validValue = validValueCandidate;
         }
-
-        return super.setValue(value, notify);
     }
 }

@@ -9,6 +9,9 @@
 
             // Create the root
             const variable = new Variable(null);
+            const label = new Label();
+            variable.watch(newValue => label.text = `Option selected: ${variable.value ?? 'none'}`);
+
             const root = new DOMRoot(
                 new Margin(
                     new Column()
@@ -18,8 +21,8 @@
                     .add(new LabelledRadioButton('Option 3', variable, 'option_3_value'))
                     .add(new LabelledRadioButton('Option 4', variable, 'option_4_value'))
                     .add(new LabelledRadioButton('Option 5', variable, 'option_5_value'))
-                    .add(new Spacing(0, 0, 8))
-                    .add(new Label(() => `Option selected: ${variable.value ?? 'none'}`))
+                    .add(new Spacing({ flex: 0, minHeight: 8 }))
+                    .add(label)
                 )
             );
 

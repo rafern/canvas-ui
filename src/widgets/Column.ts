@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { MultiContainer } from './MultiContainer';
-import type { Widget } from './Widget';
 
 /**
  * A vertical {@link MultiContainer}.
@@ -10,7 +9,7 @@ import type { Widget } from './Widget';
  */
 export class Column<W extends Widget = Widget> extends MultiContainer<W> {
     /** Create a new Column. */
-    constructor(themeProperties?: ThemeProperties) {
-        super(true, themeProperties);
+    constructor(properties?: Readonly<WidgetProperties>) {
+        super(true, properties);
     }
 }

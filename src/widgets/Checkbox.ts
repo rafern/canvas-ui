@@ -1,12 +1,11 @@
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
 import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
 import { Variable } from '../state/Variable';
 import type { Root } from '../core/Root';
-import { Widget } from './Widget';
 
 /**
  * A checkbox widget; can be ticked or unticked.
@@ -32,10 +31,10 @@ export class Checkbox extends Widget {
      *
      * @param variable - The {@link Variable} where the value will be stored.
      */
-    constructor(variable: Variable<boolean> = new Variable(false), themeProperties?: ThemeProperties) {
+    constructor(variable: Variable<boolean> = new Variable(false), properties?: Readonly<WidgetProperties>) {
         // Checkboxes need a clear background, have no children and don't
         // propagate events
-        super(true, false, themeProperties);
+        super(true, false, properties);
 
         this.tabFocusable = true;
         this.variable = variable;

@@ -1,5 +1,5 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { BasicVirtualKey } from './BasicVirtualKey';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 
 /**
@@ -10,7 +10,7 @@ import type { KeyContext } from './KeyContext';
  */
 export class BackspaceKey extends BasicVirtualKey {
     /** Create a new BackspaceKey. */
-    constructor(keyContext: KeyContext, flex = 0, minWidth = 60, minHeight = 24, themeProperties?: ThemeProperties) {
-        super('Backspace', 'Backspace', keyContext, flex, minWidth, minHeight, themeProperties);
+    constructor(keyContext: KeyContext, minWidth = 60, minHeight = 24, properties?: Readonly<WidgetProperties>) {
+        super('Backspace', 'Backspace', keyContext, minWidth, minHeight, properties);
     }
 }

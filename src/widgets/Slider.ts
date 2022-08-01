@@ -1,8 +1,8 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
 import { paintField } from '../decorators/FlagFields';
 import { ClickHelper } from '../helpers/ClickHelper';
+import { Widget, WidgetProperties } from './Widget';
 import { ClickState } from '../helpers/ClickState';
 import type { Viewport } from '../core/Viewport';
 import { KeyPress } from '../events/KeyPress';
@@ -13,7 +13,18 @@ import { Variable } from '../state/Variable';
 import type { Root } from '../core/Root';
 import { DynMsg } from '../core/Strings';
 import { Leave } from '../events/Leave';
-import { Widget } from './Widget';
+
+/**
+ * Optional Slider constructor properties.
+ *
+ * @category Widget
+ */
+export interface SliderProperties extends WidgetProperties {
+    /** Sets {@link Slider#snapIncrement}. */
+    snapIncrement?: number,
+    /** Sets {@link Slider#vertical}. */
+    vertical?: boolean
+}
 
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum
@@ -55,10 +66,10 @@ export class Slider extends Widget {
     private readonly callback: () => void;
 
     /** Create a new Slider */
-    constructor(variable: Variable<number> = new Variable(0), minValue = 0, maxValue = 1, snapIncrement = 0, vertical = false, themeProperties?: ThemeProperties) {
+    constructor(variable: Variable<number> = new Variable(0), minValue = 0, maxValue = 1, properties?: Readonly<SliderProperties>) {
         // Sliders need a clear background, have no children and don't propagate
         // events
-        super(true, false, themeProperties);
+        super(true, false, properties);
 
         if(maxValue < minValue)
             throw new Error(DynMsg.SWAPPED_MIN_MAX(minValue, maxValue));
@@ -66,6 +77,8 @@ export class Slider extends Widget {
             throw new Error(DynMsg.INVALID_MIN(minValue));
         if(!isFinite(maxValue) || isNaN(maxValue))
             throw new Error(DynMsg.INVALID_MAX(maxValue));
+
+        const snapIncrement = properties?.snapIncrement ?? 0;
         if(!isFinite(snapIncrement) || isNaN(snapIncrement))
             throw new Error(DynMsg.INVALID_INC(maxValue));
         if(snapIncrement < 0)
@@ -75,7 +88,7 @@ export class Slider extends Widget {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.snapIncrement = snapIncrement;
-        this.vertical = vertical;
+        this.vertical = properties?.vertical ?? false;
         this.tabFocusable = true;
         this.variable = variable;
         this.callback = this.handleChange.bind(this);

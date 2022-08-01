@@ -1,9 +1,8 @@
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import type { FocusType } from '../core/FocusType';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
-import type { Widget } from './Widget';
 
 /**
  * A {@link BaseContainer} which can be {@link ClickHelper | clicked} as a
@@ -24,8 +23,9 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
     callback: (() => void) | null;
 
     /** Create a new Button. */
-    constructor(child: W, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
-        super(child, false, themeProperties);
+    constructor(child: W, callback: (() => void) | null, properties?: Readonly<WidgetProperties>) {
+        super(child, false, properties);
+
         this.clickHelper = new ButtonClickHelper(this);
         this.callback = callback;
         this.tabFocusable = true;

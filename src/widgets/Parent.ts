@@ -1,7 +1,6 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from '../widgets/Widget';
 import type { Viewport } from '../core/Viewport';
 import type { Theme } from '../theme/Theme';
-import { Widget } from '../widgets/Widget';
 import type { Root } from '../core/Root';
 
 /**
@@ -37,8 +36,8 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
      * Create a new Parent. Automatically adds all widgets in the input array
      * to {@link Parent#_children}.
      */
-    constructor(children: Array<W>, needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
-        super(needsClear, propagatesEvents, themeProperties);
+    constructor(children: Array<W>, needsClear: boolean, propagatesEvents: boolean, properties?: Readonly<WidgetProperties>) {
+        super(needsClear, propagatesEvents, properties);
 
         this._children = [...children];
     }

@@ -1,8 +1,8 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
 import type { FlexAlignment2D } from '../../theme/FlexAlignment2D';
 import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
 import { FlexAlignment } from '../../theme/FlexAlignment';
+import type { WidgetProperties } from '../Widget';
 import { Alignment } from '../../theme/Alignment';
 import { VirtualKeyRow } from './VirtualKeyRow';
 import type { KeyContext } from './KeyContext';
@@ -21,33 +21,33 @@ import { Column } from '../Column';
  */
 export type VirtualKeyboardTemplate = Array<VirtualKeyRowTemplate>;
 
-function EnterKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): EnterKey {
+function EnterKeyTemplate(keyContext: KeyContext, properties?: Readonly<WidgetProperties>): EnterKey {
     return new EnterKey(
-        keyContext, undefined, undefined, undefined, themeProperties,
+        keyContext, undefined, undefined, properties,
     );
 }
 
-function ShiftKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): ShiftKey {
+function ShiftKeyTemplate(keyContext: KeyContext, properties?: Readonly<WidgetProperties>): ShiftKey {
     return new ShiftKey(
-        keyContext, undefined, undefined, undefined, themeProperties,
+        keyContext, undefined, undefined, properties,
     );
 }
 
-function BackspaceKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): BackspaceKey {
+function BackspaceKeyTemplate(keyContext: KeyContext, properties?: Readonly<WidgetProperties>): BackspaceKey {
     return new BackspaceKey(
-        keyContext, undefined, undefined, undefined, themeProperties,
+        keyContext, undefined, undefined, properties,
     );
 }
 
-function SpaceKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): SpaceKey {
+function SpaceKeyTemplate(keyContext: KeyContext, properties?: Readonly<WidgetProperties>): SpaceKey {
     return new SpaceKey(
-        keyContext, undefined, undefined, undefined, themeProperties,
+        keyContext, undefined, undefined, properties,
     );
 }
 
-function EscapeKeyTemplate(keyContext: KeyContext, themeProperties?: ThemeProperties): EscapeKey {
+function EscapeKeyTemplate(keyContext: KeyContext, properties?: Readonly<WidgetProperties>): EscapeKey {
     return new EscapeKey(
-        keyContext, undefined, undefined, undefined, themeProperties,
+        keyContext, undefined, undefined, properties,
     );
 }
 
@@ -86,19 +86,19 @@ export class VirtualKeyboard extends Column {
     /**
      * Create a new VirtualKeyboard.
      *
-     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param flexRatio - The flexRatio to use when creating {@link GlyphVirtualKey | glyphs keys}
-     * @param mainBasis - The mainBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
-     * @param crossBasis - The crossBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
+     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}.
+     * @param minWidth - The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
+     * @param minHeight - The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, flexRatio = 0, mainBasis = 24, crossBasis = 24, themeProperties?: ThemeProperties) {
-        const themePropertiesClone: ThemeProperties = {...themeProperties};
-
-        themePropertiesClone.multiContainerAlignment = <FlexAlignment2D>{
-            main: FlexAlignment.SpaceBetween, cross: Alignment.Stretch,
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, minWidth = 24, minHeight = 24, properties?: Readonly<WidgetProperties>) {
+        properties = {
+            multiContainerAlignment: <FlexAlignment2D>{
+                main: FlexAlignment.SpaceBetween, cross: Alignment.Stretch,
+            },
+            ...properties
         };
 
-        super(themePropertiesClone);
+        super(properties);
 
         // Make context
         const keyContext = <KeyContext>{
@@ -117,8 +117,8 @@ export class VirtualKeyboard extends Column {
 
         for(const rowTemplate of keyboardTemplate) {
             this.add(new VirtualKeyRow(
-                rowTemplate, keyContext, flexRatio, mainBasis, crossBasis,
-                themePropertiesClone,
+                rowTemplate, keyContext, minWidth, minHeight,
+                properties,
             ));
         }
     }

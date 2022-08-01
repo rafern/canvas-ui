@@ -1,5 +1,16 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
-import { Widget } from './Widget';
+import { Widget, WidgetProperties } from './Widget';
+
+/**
+ * Optional TextInput constructor properties.
+ *
+ * @category Widget
+ */
+export interface SpacingProperties extends WidgetProperties {
+    /** Sets {@link Spacing#minWidth}. */
+    minWidth?: number,
+    /** Sets {@link Spacing#minHeight}. */
+    minHeight?: number
+}
 
 /**
  * A widget with empty space.
@@ -16,13 +27,18 @@ export class Spacing extends Widget {
     minHeight: number;
 
     /** Create a new Spacing. */
-    constructor(flex = 1, minWidth = 0, minHeight = 0, themeProperties?: ThemeProperties) {
-        // Spacing needs clear, never has children and doesn't propagate events
-        super(true, false, themeProperties);
+    constructor(properties?: Readonly<SpacingProperties>) {
+        // default properties
+        properties = {
+            flex: 1,
+            ...properties
+        };
 
-        this.flex = flex;
-        this.minWidth = minWidth;
-        this.minHeight = minHeight;
+        // Spacing needs clear, never has children and doesn't propagate events
+        super(true, false, properties);
+
+        this.minWidth = properties?.minWidth ?? 0;
+        this.minHeight = properties?.minHeight ?? 0;
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {

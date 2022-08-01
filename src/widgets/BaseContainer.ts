@@ -1,9 +1,8 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import { FillStyle } from '../theme/FillStyle';
 import { Alignment } from '../theme/Alignment';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import { Widget } from './Widget';
 
 /**
  * A {@link SingleParent} which contains a single child and automatically paints
@@ -13,15 +12,15 @@ import { Widget } from './Widget';
  *
  * @category Widget
  */
-export class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
+export abstract class BaseContainer<W extends Widget = Widget> extends SingleParent<W> {
     /** Does the background need to be cleared? */
     protected backgroundDirty = true;
 
     /** Create a new BaseContainer. */
-    constructor(child: W, propagateEvents: boolean, themeProperties?: ThemeProperties) {
+    constructor(child: W, propagateEvents: boolean, properties?: Readonly<WidgetProperties>) {
         // Containers clear their own background, have a child and may propagate
         // events
-        super(child, false, propagateEvents, themeProperties);
+        super(child, false, propagateEvents, properties);
     }
 
     protected override onThemeUpdated(property: string | null = null): void {

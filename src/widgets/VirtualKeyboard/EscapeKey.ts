@@ -1,5 +1,5 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { BasicVirtualKey } from './BasicVirtualKey';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 
 /**
@@ -10,7 +10,7 @@ import type { KeyContext } from './KeyContext';
  */
 export class EscapeKey extends BasicVirtualKey {
     /** Create a new EscapeKey. */
-    constructor(keyContext: KeyContext, flex = 0, minWidth = 24, minHeight = 24, themeProperties?: ThemeProperties) {
-        super('Esc', 'Escape', keyContext, flex, minWidth, minHeight, themeProperties);
+    constructor(keyContext: KeyContext, minWidth = 24, minHeight = 24, properties?: Readonly<WidgetProperties>) {
+        super('Esc', 'Escape', keyContext, minWidth, minHeight, properties);
     }
 }

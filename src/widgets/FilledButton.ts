@@ -1,13 +1,23 @@
-import { ThemeProperties } from '../theme/ThemeProperties';
+import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { watchField } from '../decorators/FlagFields';
 import { ClickState } from '../helpers/ClickState';
 import { FillStyle } from '../theme/FillStyle';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import { DynMsg } from '../core/Strings';
-import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
+
+/**
+ * Optional FilledButton constructor properties.
+ *
+ * @category Widget
+ */
+export interface FilledButtonProperties extends WidgetProperties {
+    /** Sets {@link FilledButton#forced}. */
+    forced?: boolean;
+}
 
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
@@ -30,13 +40,15 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
      * @decorator `@watchField(FilledButton.prototype.updateBackground)`
      */
     @watchField(FilledButton.prototype.updateBackground)
-    forced = false;
+    forced;
     /** The inherited theme for the child */
     private childTheme: Theme;
 
     /** Create a new FilledButton. */
-    constructor(child: W, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
-        super(child, callback, themeProperties);
+    constructor(child: W, callback: (() => void) | null = null, properties?: Readonly<FilledButtonProperties>) {
+        super(child, callback, properties);
+
+        this.forced = properties?.forced ?? false;
 
         // Make theme that will be inherited by child. Later, this theme's
         // canvasFill property will be changed, notifying the child. Make the

@@ -1,11 +1,10 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ViewportWidget, ViewportWidgetProperties } from './ViewportWidget';
 import { AxisCoupling } from '../widgets/AxisCoupling';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
 import { ClickHelper } from '../helpers/ClickHelper';
 import { ClickState } from '../helpers/ClickState';
 import { TextHelper } from '../helpers/TextHelper';
-import { ViewportWidget } from './ViewportWidget';
 import { AutoScroll } from '../events/AutoScroll';
 import type { Bounds } from '../helpers/Bounds';
 import type { Event } from '../events/Event';
@@ -25,6 +24,16 @@ export enum ScrollbarMode {
     Layout,
     /** The scrollbar is hidden, but the content can still be scrolled */
     Hidden,
+}
+
+/**
+ * Optional ScrollableViewportWidget constructor properties.
+ *
+ * @category Widget
+ */
+export interface ScrollableViewportWidgetProperties extends ViewportWidgetProperties {
+    /** Sets {@link ScrollableViewportWidget#scrollbarMode}. */
+    scrollbarMode?: ScrollbarMode
 }
 
 /**
@@ -78,10 +87,10 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
      *
      * If an axis is bi-coupled, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth = 0, minHeight = 0, widthCoupling = AxisCoupling.None, heightCoupling = AxisCoupling.None, scrollbarMode = ScrollbarMode.Overlay, useViewport = false, themeProperties?: ThemeProperties) {
-        super(child, minWidth, minHeight, widthCoupling, heightCoupling, useViewport, themeProperties);
+    constructor(child: W, properties?: Readonly<ScrollableViewportWidgetProperties>) {
+        super(child, properties);
 
-        this._scrollbarMode = scrollbarMode;
+        this._scrollbarMode = properties?.scrollbarMode ?? ScrollbarMode.Overlay;
         this.horizontalClickHelper = new ClickHelper(this);
         this.verticalClickHelper = new ClickHelper(this);
         this.updateScrollLineHeight();

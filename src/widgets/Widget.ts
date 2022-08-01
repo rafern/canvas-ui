@@ -1,4 +1,4 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ThemeProperties } from "../theme/ThemeProperties";
 import { PointerEvent } from '../events/PointerEvent';
 import { AutoScroll } from '../events/AutoScroll';
 import type { Viewport } from '../core/Viewport';
@@ -18,6 +18,18 @@ const fontSizeRegex = /[0-9]+(\.[0-9]+)?(%|cap|ch|ex|vmin|vmax|Q|r?em|r?lh|i[cn]
 const twoPi = Math.PI * 2;
 
 /**
+ * Optional Widget constructor properties.
+ *
+ * @category Widget
+ */
+export interface WidgetProperties extends ThemeProperties {
+    /** Sets {@link Widget#enabled}. */
+    enabled?: boolean;
+    /** Sets {@link Widget#flex}. */
+    flex?: number;
+}
+
+/**
  * A generic widget. All widgets extend this class. All widgets extend
  * {@link BaseTheme} so that the theme in use can be overridden.
  *
@@ -28,7 +40,7 @@ export abstract class Widget extends BaseTheme {
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist,
      * but will still be present in the UI tree.
      */
-    private _enabled = true;
+    private _enabled;
     /** Widget will only be painted if dirty is true. */
     protected _dirty = true;
     /**
@@ -77,7 +89,7 @@ export abstract class Widget extends BaseTheme {
      */
     protected idealY = 0;
     /** {@link Widget#flex} but for internal use. */
-    protected _flex = 0;
+    protected _flex;
     /**
      * The {@link Root} that this widget is currently inside.
      *
@@ -121,11 +133,14 @@ export abstract class Widget extends BaseTheme {
     }
 
     /** Create a new Widget. */
-    constructor(needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties) {
-        super(themeProperties);
+    constructor(needsClear: boolean, propagatesEvents: boolean, properties?: Readonly<WidgetProperties>) {
+        super(properties);
 
         this.needsClear = needsClear;
         this.propagatesEvents = propagatesEvents;
+
+        this._enabled = properties?.enabled ?? true;
+        this._flex = properties?.flex ?? 0;
     }
 
     /**

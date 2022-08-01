@@ -12,12 +12,21 @@
             // test video: 320x240.ogg
             const icon = new Icon('320x240.ogg');
             const video = icon.image;
+            const button = new TextButton(
+                'Play',
+                () => video.paused ? video.play() : video.pause()
+            );
+            video.addEventListener('play', () => button.child.text = 'Pause');
+            video.addEventListener('pause', () => button.child.text = 'Play');
+
             const root = new DOMRoot(
                 new Margin(
                     new Column().add([
                         icon,
-                        new Row({multiContainerAlignment: { main: 0.5, cross: 0.5 }}).add([
-                            new TextButton(() => video.paused ? 'Play' : 'Pause', () => video.paused ? video.play() : video.pause())
+                        new Row({
+                            multiContainerAlignment: { main: 0.5, cross: 0.5 }
+                        }).add([
+                            button
                         ])
                     ])
                 )

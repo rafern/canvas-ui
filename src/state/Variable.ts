@@ -28,12 +28,13 @@ export class Variable<V, C extends CallableFunction = VariableCallback<V>> {
      *
      * @param initialValue - The initial value of this variable. Sets {@link Variable#_value}.
      * @param callback - A callback for when the variable changes. Equivalent to calling {@link Variable#watch} after creating the variable, but allows for variables to created inline.
+     * @param callNow - If true, the callback will be called once immediately after it's registered, unless the callback is already registered. Doesn't apply if no callback was passed.
      */
-    constructor(initialValue: V, callback?: C) {
+    constructor(initialValue: V, callback?: C, callNow = true) {
         this._value = initialValue;
 
         if(callback)
-            this.watch(callback);
+            this.watch(callback, callNow);
     }
 
     /**
@@ -57,12 +58,18 @@ export class Variable<V, C extends CallableFunction = VariableCallback<V>> {
     /**
      * Register a callback to this variable. When the value is changed, the
      * callback will be called.
+     *
+     * @param callNow - If true, the callback will be called once immediately after it's registered, unless the callback is already registered.
      */
-    watch(callback: C): boolean {
+    watch(callback: C, callNow = true): boolean {
         if(this.hasCallback(callback))
             return false;
 
         this.callbacks.add(callback);
+
+        if(callNow)
+            this.doCallback(callback);
+
         return true;
     }
 
@@ -85,16 +92,19 @@ export class Variable<V, C extends CallableFunction = VariableCallback<V>> {
         this._value = value;
 
         if(notify) {
-            for(const callback of this.callbacks) {
-                try {
-                    callback(value, this);
-                }
-                catch(e) {
-                    console.error('Exception in Variable callback:', e);
-                }
-            }
+            for(const callback of this.callbacks)
+                this.doCallback(callback);
         }
 
         return true;
+    }
+
+    protected doCallback(callback: C): void {
+        try {
+            callback(this._value, this);
+        }
+        catch(e) {
+            console.error('Exception in Variable callback:', e);
+        }
     }
 }

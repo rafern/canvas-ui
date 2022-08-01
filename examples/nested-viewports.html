@@ -11,7 +11,6 @@
 
             // Create the root
             const label = new Label('Hello world!');
-            const inputLabel = new Label('Type some text...');
             const column = new Column();
 
             const root = new DOMRoot(
@@ -21,33 +20,39 @@
                             new Margin(
                                 new Column()
                                 .add(label)
-                                .add(inputLabel)
                                 .add(
-                                    new TextInput(new ValidatedVariable('', null, (value, variable) => {
-                                        inputLabel.source = `Text input: ${value}`;
-                                    }))
+                                    new TextInput(new ValidatedVariable('', null, value => {
+                                        label.text = `Text input: ${value}`;
+                                    }, false))
                                 )
                                 .add(
                                     new Row({
-                                        multiContainerAlignment: { main: FlexAlignment.Center, cross: Alignment.Stretch },
+                                        multiContainerAlignment: {
+                                            main: FlexAlignment.Center,
+                                            cross: Alignment.Stretch
+                                        },
                                     }).add([
                                         new TextButton('Button 1', () => label.source = 'Button 1 clicked!'),
                                         new TextButton('Button 2', () => label.source = 'Button 2 clicked!'),
                                     ])
                                 )
                             ),
-                            170,
-                            70,
-                            AxisCoupling.Bi,
-                            AxisCoupling.None,
-                            ScrollbarMode.Layout,
+                            {
+                                minWidth: 170,
+                                minHeight: 70,
+                                widthCoupling: AxisCoupling.Bi,
+                                heightCoupling: AxisCoupling.None,
+                                scrollbarMode: ScrollbarMode.Layout,
+                            }
                         )
                     ),
-                    200,
-                    200,
-                    AxisCoupling.Uni,
-                    AxisCoupling.None,
-                    ScrollbarMode.Layout,
+                    {
+                        minWidth: 200,
+                        minHeight: 200,
+                        widthCoupling: AxisCoupling.Uni,
+                        heightCoupling: AxisCoupling.None,
+                        scrollbarMode: ScrollbarMode.Layout,
+                    }
                 )
             );
 

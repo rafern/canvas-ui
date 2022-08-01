@@ -1,8 +1,7 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import type { Alignment2D } from '../theme/Alignment2D';
 import { Alignment } from '../theme/Alignment';
 import { Container } from './Container';
-import type { Widget } from './Widget';
 
 /**
  * A {@link Margin} which stretches on the vertical axis. Useful for
@@ -16,13 +15,15 @@ import type { Widget } from './Widget';
  */
 export class TextMargin<W extends Widget = Widget> extends Container<W> {
     /** Create a new TextMargin. */
-    constructor(child: W, themeProperties?: ThemeProperties) {
-        const themePropertiesClone: ThemeProperties = {...themeProperties};
-
-        themePropertiesClone.containerAlignment = <Alignment2D>{
-            horizontal: Alignment.Center, vertical: Alignment.Stretch,
+    constructor(child: W, properties?: Readonly<WidgetProperties>) {
+        // default properties
+        properties = {
+            containerAlignment: <Alignment2D>{
+                horizontal: Alignment.Center, vertical: Alignment.Stretch,
+            },
+            ...properties
         };
 
-        super(child, themePropertiesClone);
+        super(child, properties);
     }
 }

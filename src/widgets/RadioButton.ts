@@ -1,12 +1,11 @@
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import { ClickState } from '../helpers/ClickState';
 import type { FocusType } from '../core/FocusType';
 import type { Variable } from '../state/Variable';
 import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
-import { Widget } from './Widget';
 
 /**
  * A radio button widget; used for selecting one of many options. Uses a shared
@@ -44,10 +43,10 @@ export class RadioButton<V> extends Widget {
      * @param variable - The shared variable that radio buttons will save the value to when selected.
      * @param value - The value that will be used to set the {@link RadioButton#"variable"} when the radio button is clicked
      */
-    constructor(variable: Variable<V>, value: V, themeProperties?: ThemeProperties) {
+    constructor(variable: Variable<V>, value: V, properties?: Readonly<WidgetProperties>) {
         // Radio buttons need a clear background, have no children and don't
         // propagate events
-        super(true, false, themeProperties);
+        super(true, false, properties);
 
         this.tabFocusable = true;
         this.variable = variable;

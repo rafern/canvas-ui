@@ -1,11 +1,11 @@
 import { layoutField, multiFlagField, paintArrayField } from '../decorators/FlagFields';
 import { ValidatedVariable } from '../state/ValidatedVariable';
-import { ThemeProperties } from '../theme/ThemeProperties';
 import { PointerRelease } from '../events/PointerRelease';
 import { TextPasteEvent } from '../events/TextPasteEvent';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
+import { Widget, WidgetProperties } from './Widget';
 import { PointerMove } from '../events/PointerMove';
 import { TextHelper } from '../helpers/TextHelper';
 import { AutoScroll } from '../events/AutoScroll';
@@ -18,7 +18,24 @@ import type { Event } from '../events/Event';
 import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
 import { Leave } from '../events/Leave';
-import { Widget } from './Widget';
+
+/**
+ * Optional TextInput constructor properties.
+ *
+ * @category Widget
+ */
+export interface TextInputProperties extends WidgetProperties {
+    /** Sets {@link TextInput#hideText}. */
+    hideText?: boolean,
+    /** Sets {@link TextInput#wrapText}. */
+    wrapText?: boolean,
+    /** Sets {@link TextInput#inputFilter}. */
+    inputFilter?: ((input: string) => boolean) | null,
+    /** Sets {@link TextInput#typeableTab}. */
+    typeableTab?: boolean,
+    /** Sets {@link TextInput#editingEnabled}. */
+    editingEnabled?: boolean
+}
 
 /**
  * A flexbox widget that allows for a single line of text input.
@@ -54,14 +71,14 @@ export class TextInput extends Widget {
     /** Does the cursor offset need to be updated? */
     private cursorOffsetDirty = false;
     /** Is editing enabled? */
-    private _editingEnabled = true;
+    private _editingEnabled: boolean;
     /**
      * Is the text hidden?
      *
      * @decorator `@multiFlagField(['cursorOffsetDirty', '_dirty'])`
      */
     @multiFlagField(['cursorOffsetDirty', '_dirty'])
-    hideText = false;
+    hideText: boolean;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
     /**
@@ -77,7 +94,7 @@ export class TextInput extends Widget {
      * @decorator `@layoutField`
      */
     @layoutField
-    wrapText = true;
+    wrapText: boolean;
     /**
      * An input filter; a function which dictates whether a certain input can be
      * inserted in the text. If the function returns false given the input,
@@ -85,7 +102,7 @@ export class TextInput extends Widget {
      * newlines or forcing numeric input. Note that the input is not
      * neccessarily a character; it can be a whole sentence.
      */
-    inputFilter: ((input: string) => boolean) | null = null;
+    inputFilter: ((input: string) => boolean) | null;
     /** Is the pointer dragging? */
     private dragging = false;
     /** When was the last pointer click? For detecting double/triple-clicks */
@@ -110,7 +127,7 @@ export class TextInput extends Widget {
      * move to the next widget instead of typing the character, not move to the
      * previous focusable widget.
      */
-    typeableTab = false;
+    typeableTab: boolean;
     /**
      * Should the caret position be {@link AutoScroll | auto-scrolled} after the
      * layout is finalized?
@@ -122,16 +139,21 @@ export class TextInput extends Widget {
     private readonly callback: () => void;
 
     /** Create a new TextInput. */
-    constructor(variable: ValidatedVariable<string, unknown> = new ValidatedVariable(''), inputFilter: ((input: string) => boolean) | null = null, themeProperties?: ThemeProperties) {
+    constructor(variable: ValidatedVariable<string, unknown> = new ValidatedVariable(''), properties?: Readonly<TextInputProperties>) {
         // TextInputs clear their own background, have no children and don't
         // propagate events
-        super(false, false, themeProperties);
+        super(false, false, properties);
 
         this.tabFocusable = true;
         this.textHelper = new TextHelper();
         this.variable = variable;
         this.callback = this.handleChange.bind(this);
-        this.inputFilter = inputFilter;
+
+        this.hideText = properties?.hideText ?? false;
+        this.wrapText = properties?.wrapText ?? true;
+        this.inputFilter = properties?.inputFilter ?? null;
+        this.typeableTab = properties?.typeableTab ?? false;
+        this._editingEnabled = properties?.editingEnabled ?? true;
     }
 
     protected handleChange(): void {

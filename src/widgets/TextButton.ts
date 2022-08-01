@@ -1,10 +1,8 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import type { Alignment2D } from '../theme/Alignment2D';
 import { TextAlignMode } from '../helpers/TextHelper';
+import { Label, LabelProperties } from './Label';
 import { Alignment } from '../theme/Alignment';
 import { FilledButton } from './FilledButton';
-import type { TextGetter } from './Label';
-import { Label } from './Label';
 
 /**
  * A {@link FilledButton} with a {@link Label}. Alignment is forced to be
@@ -16,16 +14,17 @@ import { Label } from './Label';
  */
 export class TextButton extends FilledButton<Label> {
     /** Create a new TextButton. */
-    constructor(text: string | TextGetter, callback: (() => void) | null = null, themeProperties?: ThemeProperties) {
-        const themePropertiesClone: ThemeProperties = {...themeProperties};
-
-        themePropertiesClone.containerAlignment = <Alignment2D>{
-            horizontal: Alignment.Center, vertical: Alignment.Stretch,
+    constructor(text: string, callback: (() => void) | null = null, properties?: Readonly<LabelProperties>) {
+        // default properties
+        properties = {
+            containerAlignment: <Alignment2D>{
+                horizontal: Alignment.Center, vertical: Alignment.Stretch,
+            },
+            bodyTextAlign: TextAlignMode.Center,
+            wrapText: false,
+            ...properties
         };
 
-        const label = new Label(text, themeProperties);
-        label.wrapText = false;
-        label.bodyTextAlign = TextAlignMode.Center;
-        super(label, callback, themePropertiesClone);
+        super(new Label(text, properties), callback, properties);
     }
 }
