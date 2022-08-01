@@ -564,8 +564,8 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     protected override handlePainting(forced: boolean): void {
         // Check which scrollbars need painting and update forceRePaint flag
         const [childWidth, childHeight] = this.child.idealDimensions;
-        const xNeeded = childWidth > this.idealWidth;
-        const yNeeded = childHeight > this.idealHeight;
+        const xNeeded = childWidth > this.effectiveWidth;
+        const yNeeded = childHeight > this.effectiveHeight;
         const paintX = this.scrollbarNeedsPaint(false, xNeeded);
         const paintY = this.scrollbarNeedsPaint(true, yNeeded);
 
