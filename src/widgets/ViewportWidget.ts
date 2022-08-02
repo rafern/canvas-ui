@@ -1,12 +1,13 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
+import { CanvasViewport } from '../core/CanvasViewport';
 import { layoutField } from '../decorators/FlagFields';
 import { AxisCoupling } from '../widgets/AxisCoupling';
 import { PointerEvent } from '../events/PointerEvent';
 import { Widget, WidgetProperties } from './Widget';
+import type { Viewport } from '../core/Viewport';
 import type { Bounds } from '../helpers/Bounds';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
 import { DynMsg } from '../core/Strings';
 
@@ -108,7 +109,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // events
         super(child, false, true, properties);
 
-        this.internalViewport = (properties?.useViewport ?? false) ? new Viewport(child) : null;
+        this.internalViewport = (properties?.useViewport ?? false) ? new CanvasViewport(child) : null;
         this.minWidth = properties?.minWidth ?? 0;
         this.minHeight = properties?.minHeight ?? 0;
         this._widthCoupling = properties?.widthCoupling ?? AxisCoupling.None;
@@ -300,7 +301,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         if(!coupled) {
             if(this.internalViewport !== null) {
                 this.internalViewport.constraints = this.scaledConstraints;
-                this.internalViewport.resolveChildsLayout();
+                this.internalViewport.resolveLayout();
             }
             else if(child.layoutDirty || this.forceReLayout) {
                 child.resolveDimensionsAsTop(...this.scaledConstraints);
@@ -403,7 +404,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             }
             else {
                 this.internalViewport.constraints = constraints;
-                this.internalViewport.resolveChildsLayout();
+                this.internalViewport.resolveLayout();
             }
 
             // Bi-couple wanted axes. Do regular layout for non-coupled axes.
@@ -462,7 +463,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     protected override handlePainting(forced: boolean): void {
         // Paint child to viewport's canvas
         if(this.internalViewport !== null)
-            this.internalViewport.paintToCanvas(forced);
+            this.internalViewport.paint(forced);
 
         // Calculate child's source and destination
         const [vpX, vpY, vpW, vpH] = this.rect;
@@ -499,8 +500,9 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         ctx.clip();
 
         if(this.internalViewport !== null) {
+            const viewport = this.internalViewport as CanvasViewport;
             ctx.drawImage(
-                this.internalViewport.canvas,
+                viewport.canvas,
                 xDst - origXDst,
                 yDst - origYDst,
                 wClipped,

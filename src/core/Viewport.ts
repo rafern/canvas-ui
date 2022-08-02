@@ -1,19 +1,23 @@
-import { paintField, paintArrayField } from '../decorators/FlagFields';
-import type { LayoutConstraints } from './LayoutConstraints';
-import { roundToPower2 } from '../helpers/roundToPower2';
-import type { Widget } from '../widgets/Widget';
-import { isPower2 } from '../helpers/isPower2';
-import { DynMsg, Msg } from './Strings';
+import type { LayoutConstraints } from "./LayoutConstraints";
+import type { Widget } from "../widgets/Widget";
+import type { Event } from "../events/Event";
+import type { Rect } from "../helpers/Rect";
 
-/**
- * Viewports are internally used to manage a canvas' size and painting. It is
- * used by {@link Root} and {@link ViewportWidget}.
- *
- * @category Core
- */
-export class Viewport {
+export interface Viewport {
     /** The Viewport's child. Painting and layout will be relative to this. */
     readonly child: Widget;
+    /**
+     * The render target's (canvas) 2D context. Alpha is enabled.
+     *
+     * Note that readonly in this context means that this property is a getter,
+     * not that it is immutable. Ideally, this is a getter that gets the current
+     * rendering context. Some Viewport implementations (such as
+     * {@link CanvasViewport}) will always use the same context, while others
+     * (such as {@link ClippedViewport}) will occasionally change the context.
+     */
+    readonly context: CanvasRenderingContext2D;
+    // TODO ^^^ remove readonly once typescript ~~stops being bad~~ introduces
+    // getters in interfaces
     /**
      * Layout constraints of viewport when resolving widget's layout. A 4-tuple
      * containing, respectively, minimum width, maximum width, minimum height
@@ -21,250 +25,68 @@ export class Viewport {
      *
      * By default, has no minimum width nor height and unconstrained maximum
      * width and height.
+     */
+    constraints: LayoutConstraints;
+    /**
+     * The actual dimensions and position of the viewport, relative to the
+     * parent Viewport (or the UI {@link Root} if there is no parent Viewport,
+     * meaning that positions are absolute in that case); for example, this
+     * would be the equivalent to an iframe's dimensions and position (the HTML
+     * body in the iframe can have different dimensions than the iframe itself
+     * and be scrolled by some amount).
      *
-     * @decorator `@paintArrayField()`
-     */
-    @paintArrayField()
-    constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
-    /**
-     * The maximum width the {@link Viewport#canvas} can have. If the layout
-     * exceeds this width, then the content will be scaled to fit the canvas
-     */
-    @paintField
-    maxCanvasWidth = 16384;
-    /**
-     * The maximum height the {@link Viewport#canvas} can have. If the layout
-     * exceeds this height, then the content will be scaled to fit the canvas
-     */
-    @paintField
-    maxCanvasHeight = 16384;
-    /** Have the constraints been changed? */
-    private _dirty = true;
-
-    /** The internal canvas. Widgets are painted to this */
-    readonly canvas: HTMLCanvasElement;
-    /** The internal canvas' context. Alpha is enabled. */
-    readonly context: CanvasRenderingContext2D;
-
-    /** Has the warning for dimensionless canvases been issued? */
-    private static dimensionlessWarned = false;
-    /** Has the warning for non-power of 2 dimensions been issued? */
-    private static powerOf2Warned = false;
-    /**
-     * The maximum retries allowed for
-     * {@link Viewport#resolveChildsLayout | resolving the layout}. The first
-     * attempt is not counted. Only retries that exceed this limit are
-     * discarded; if maxRelayout is 4, then the 5th retry will be discarded.
-     */
-    private static maxRelayout = 4;
-
-    /**
-     * Create a new Viewport.
+     * Do not use this value for resolving the layout. Only use this for event
+     * handling or other logic that doesn't affect layout.
      *
-     * Creates a new canvas with a starting width and height, setting
-     * {@link Viewport#canvas} and {@link Viewport#context}. Failure to get a
-     * canvas context results in an exception.
+     * Should be set by the owner of the Viewport (a {@link Root} or a
+     * {@link ViewportWidget}) when finalizing layout.
      */
-    constructor(child: Widget, startingWidth = 64, startingHeight = 64) {
-        this.child = child;
-
-        // Create internal canvas
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = startingWidth;
-        this.canvas.height = startingHeight;
-
-        // Get context out of canvas
-        const context = this.canvas.getContext('2d', { alpha: true });
-        if(context === null)
-            throw new Error(Msg.CANVAS_CONTEXT);
-
-        this.context = context;
-    }
+    rect: Rect;
+    /**
+     * Get the canvas scale that will be applied to the Viewport's child. Used
+     * for checking whether a child's dimensions exceeds a canvas' maximum
+     * dimensions.
+     *
+     * Note that readonly in this context means that this property is a getter,
+     * not that it is immutable. Ideally, this is a getter that calculates the
+     * effective scale of the viewport via the canvas dimensions and max
+     * dimensions, which may returns different values, not the same value every
+     * time.
+     */
+    readonly effectiveScale: [scaleX: number, scaleY: number];
+    // TODO ^^^ remove readonly once typescript ~~stops being bad~~ introduces
+    // getters in interfaces
+    /**
+     * The parent Viewport of this Viewport. Since positions are relative to
+     * this, absolute positions can be calculated by following all the parents.
+     *
+     * If null, this is the topmost Viewport and owned by the UI {@link Root}.
+     *
+     * Should be set by the owner when the owner is activated and deactivated.
+     */
+    parent: Viewport | null;
 
     /**
-     * The current dimensions of the {@link Viewport#canvas | internal canvas}
-     */
-    get canvasDimensions(): [number, number] {
-        return [this.canvas.width, this.canvas.height];
-    }
-
-    /**
-     * Resolves the given child's layout by calling
-     * {@link Widget#resolveDimensionsAsTop} with the current
-     * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
-     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
-     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
-     * layout is marked as dirty while resolving the layout, then a re-layout
-     * will occur until either the layout is no longer marked as dirty or the
-     * {@link Viewport.maxRelayout | maximum retries} are reached.
-     *
-     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
-     * called. Note that this may still trigger a re-layout.
-     *
-     * Expands {@link Viewport#canvas} if the new layout is too big for the
-     * current canvas. Expansion is done in powers of 2 to avoid issues with
-     * external 3D libraries.
+     * Resolves the Viewport child's layout.
      *
      * @returns Returns true if the child was resized, else, false.
      */
-    resolveChildsLayout(): boolean {
-        let relayouts = 0;
-        if(!(this.child.layoutDirty || this._dirty)) {
-            // even if a layout resolution is not needed, the hook still needs
-            // to be called at least once per frame
-            this.child.postFinalizeBounds();
-            relayouts++;
-
-            if(!this.child.layoutDirty)
-                return false;
-        }
-
-        // Resolve child's layout
-        const [oldWidth, oldHeight] = this.child.dimensions;
-        let newWidth = oldWidth;
-        let newHeight = oldHeight;
-        let wasResized = false;
-
-        while(this.child.layoutDirty || this._dirty) {
-            if(relayouts > Viewport.maxRelayout) {
-                console.warn(Msg.MAX_RELAYOUTS)
-                break;
-            }
-
-            this._dirty = false;
-            const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
-
-            this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
-            this.child.resolvePosition(0, 0);
-
-            [newWidth, newHeight] = this.child.idealDimensions;
-            const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
-            newWidth = Math.round(newWidth * newScaleX) / newScaleX;
-            newHeight = Math.round(newHeight * newScaleY) / newScaleY;
-            wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
-
-            this.child.finalizeBounds();
-            this.child.postFinalizeBounds();
-
-            relayouts++;
-        }
-
-        if(relayouts > 1)
-            console.warn(DynMsg.RELAYOUTS(relayouts));
-
-        // Re-scale canvas if neccessary.
-        if(wasResized) {
-            // Canvas dimensions are rounded to the nearest power of 2, favoring
-            // bigger powers. This is to avoid issues with mipmapping, which
-            // requires texture sizes to be powers of 2. Make sure that the
-            // maximum canvas dimensions aren't exceeded
-            const newCanvasWidth = Math.min(Math.max(roundToPower2(newWidth), this.canvas.width), this.maxCanvasWidth);
-            const newCanvasHeight = Math.min(Math.max(roundToPower2(newHeight), this.canvas.height), this.maxCanvasHeight);
-
-            if(newCanvasWidth === 0 || newCanvasHeight === 0) {
-                if(!Viewport.dimensionlessWarned) {
-                    Viewport.dimensionlessWarned = true;
-                    console.warn(Msg.DIMENSIONLESS_CANVAS);
-                }
-            }
-            else if(!isPower2(newCanvasWidth) || !isPower2(newCanvasHeight)) {
-                if(!Viewport.powerOf2Warned) {
-                    Viewport.powerOf2Warned = true;
-                    console.warn(Msg.NON_POW2_CANVAS);
-                }
-            }
-
-            if(newCanvasWidth !== this.canvas.width || newCanvasHeight !== this.canvas.height) {
-                // Resizing a canvas clears its contents. To mitigate this, copy
-                // the canvas contents to a new canvas, resize the canvas and
-                // copy the contents back. To avoid unnecessary copying, the
-                // canvas will not be copied if the old dimensions of the child
-                // were 0x0
-                // TODO resizing is kinda expensive. maybe find a better way?
-                const oldCanvasWidth = this.canvas.width;
-                const oldCanvasHeight = this.canvas.height;
-
-                let copyCanvas = null;
-                if(oldCanvasWidth !== 0 && oldCanvasHeight !== 0) {
-                    copyCanvas = document.createElement('canvas');
-                    copyCanvas.width = oldCanvasWidth;
-                    copyCanvas.height = oldCanvasHeight;
-
-                    const copyCtx = copyCanvas.getContext('2d');
-                    if(copyCtx === null)
-                        throw new Error(Msg.CANVAS_CONTEXT);
-
-                    copyCtx.globalCompositeOperation = 'copy';
-                    copyCtx.drawImage(
-                        this.canvas,
-                        0, 0, oldCanvasWidth, oldCanvasHeight,
-                        0, 0, oldCanvasWidth, oldCanvasHeight,
-                    );
-                }
-
-                this.canvas.width = newCanvasWidth;
-                this.canvas.height = newCanvasHeight;
-
-                if(copyCanvas !== null) {
-                    this.context.globalCompositeOperation = 'copy';
-                    this.context.drawImage(
-                        copyCanvas,
-                        0, 0, copyCanvas.width, copyCanvas.height,
-                        0, 0, Math.min(copyCanvas.width, this.maxCanvasWidth), Math.min(copyCanvas.height, this.maxCanvasHeight),
-                    );
-                    this.context.globalCompositeOperation = 'source-over';
-                }
-            }
-        }
-
-        return wasResized;
-    }
-
-    /** Get the canvas scale that will be applied given a width and height */
-    private getAppliedScaleFrom(width: number, height: number): [scaleX: number, scaleY: number] {
-        let scaleX = 1, scaleY = 1;
-        if(width > this.maxCanvasWidth)
-            scaleX = this.maxCanvasWidth / width;
-        if(height > this.maxCanvasHeight)
-            scaleY = this.maxCanvasHeight / height;
-
-        return [scaleX, scaleY];
-    }
-
+    resolveLayout(): boolean;
     /**
-     * Get the canvas scale that will be applied to the Viewport's child. Used
-     * for checking whether a child's dimensions exceed
-     * {@link Viewport#maxCanvasWidth} or {@link Viewport#maxCanvasHeight}
-     */
-    get effectiveScale(): [scaleX: number, scaleY: number] {
-        return this.getAppliedScaleFrom(...this.child.dimensions);
-    }
-
-    /**
-     * Paint a given child to {@link Viewport#canvas}.
+     * Paint the {@link Viewport#child} to the {@link Viewport#context} and, if
+     * it makes sense to do so, paint to the {@link Viewport#parent} Viewport's
+     * context.
      *
      * Nothing is done if the child was not dirty.
      *
      * @param force - Force re-paint even if child.{@link Widget#dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paintToCanvas(force: boolean): boolean {
-        // Paint child
-        const wasDirty = this.child.dirty;
-
-        // scale canvas if child dimensions exceed maximum canvas dimensions
-        const [scaleX, scaleY] = this.effectiveScale;
-        const needsSquish = scaleX !== 1 || scaleY !== 1;
-        if(needsSquish) {
-            this.context.save();
-            this.context.scale(scaleX, scaleY);
-        }
-
-        this.child.paint(force);
-
-        if(needsSquish)
-            this.context.restore();
-
-        return wasDirty;
-    }
+    paint(force: boolean): boolean;
+    /**
+     * Dispatch an event to the Viewport's {@link Viewport#child}.
+     *
+     * @returns Returns the widget that captured the event or null if none captured the event.
+     */
+    dispatchEvent(event: Event): Widget | null;
 }

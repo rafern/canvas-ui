@@ -4,6 +4,7 @@ import type { TextInputHandler } from './TextInputHandler';
 import { DynMsg, groupedStackTrace } from './Strings';
 import { PointerEvent } from '../events/PointerEvent';
 import { PointerWheel } from '../events/PointerWheel';
+import { CanvasViewport } from './CanvasViewport';
 import type { Widget } from '../widgets/Widget';
 import { TabSelect } from '../events/TabSelect';
 import { KeyPress } from '../events/KeyPress';
@@ -12,7 +13,6 @@ import { FocusType } from './FocusType';
 import { Leave } from '../events/Leave';
 import type { Driver } from './Driver';
 import { Theme } from '../theme/Theme';
-import { Viewport } from './Viewport';
 
 /**
  * A Root is the parent of all widgets, but not a widget itself. It contains a
@@ -22,7 +22,7 @@ import { Viewport } from './Viewport';
  */
 export class Root {
     /** The internal viewport. Manages drawing */
-    protected viewport: Viewport;
+    protected viewport: CanvasViewport;
     /** The list of drivers registered to this root */
     protected drivers: Set<Driver> = new Set();
     /**
@@ -106,7 +106,7 @@ export class Root {
      * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
     constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
-        this.viewport = new Viewport(child);
+        this.viewport = new CanvasViewport(child);
         this.pointerStyleHandler = pointerStyleHandler;
         this.child.inheritedTheme = theme;
         this.child.activate(this, this.viewport, null);
@@ -198,7 +198,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.resolveChildsLayout();
+        return this.viewport.resolveLayout();
     }
 
     /**
@@ -216,7 +216,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.paintToCanvas(false);
+        return this.viewport.paint(false);
     }
 
     /**

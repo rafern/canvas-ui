@@ -7,7 +7,8 @@
                 DOMKeyboardDriver, DOMPointerDriver, Slider, FlexAlignment,
                 ScrollableViewportWidget, ScrollbarMode, LabelledCheckbox,
                 ArtificialConstraint, Container, Alignment, ThemeScope, Theme,
-                ValidatedVariable, Variable, AxisCoupling, LabelledRadioButton
+                ValidatedVariable, Variable, AxisCoupling, LabelledRadioButton,
+                CanvasViewport
             } from './index.esm.js';
 
             // Create viewport with its child
@@ -15,7 +16,7 @@
             const initialMinHeight = 75;
             const label = new Label('Hello world!');
 
-            const viewport = new ScrollableViewportWidget(
+            let viewport = new ScrollableViewportWidget(
                 new ThemeScope(
                     new Margin(
                         new Column()
@@ -61,6 +62,9 @@
                 );
             }
 
+            const mainColumn = new Column();
+            const themeScopeTheme = new Theme({ canvasFill: 'purple' });
+            let themeScope = new ThemeScope(viewport, themeScopeTheme);
             const controls = new Container(
                 new ArtificialConstraint(
                     new Column()
@@ -84,7 +88,29 @@
                     .add(new Slider(new Variable(initialMinHeight, min => {
                         viewport.minHeight = min;
                         heightLabel.text = `Minimum height: ${min}`;
-                    }), 0, 500, { snapIncrement: 1 })),
+                    }), 0, 500, { snapIncrement: 1 }))
+                    .add(new LabelledCheckbox('Use canvas:', new Variable(
+                        viewport instanceof CanvasViewport,
+                        useCanvas => {
+                            const options = {
+                                minWidth: viewport.minWidth,
+                                minHeight: viewport.minHeight,
+                                widthCoupling: viewport.widthCoupling,
+                                heightCoupling: viewport.heightCoupling,
+                                scrollbarMode: viewport.scrollbarMode,
+                                useViewport: useCanvas
+                            };
+                            const child = viewport.child;
+
+                            mainColumn.remove(themeScope);
+
+                            viewport = new ScrollableViewportWidget(child, options);
+                            themeScope = new ThemeScope(viewport, themeScopeTheme);
+
+                            mainColumn.add(themeScope);
+                        },
+                        false
+                    ))),
                     [0, 175, 0, Infinity]
                 )
             );
@@ -96,11 +122,11 @@
             // Create the root
             const root = new DOMRoot(
                 new Margin(
-                    new Column()
+                    mainColumn
                     .add(new Label('Options:'))
                     .add(controls)
                     .add(new Label('Result:\n- Viewport is purple\n- Child is red'))
-                    .add(new ThemeScope(viewport, new Theme({ canvasFill: 'purple' })))
+                    .add(themeScope)
                 )
             );
 

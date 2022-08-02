@@ -1,4 +1,7 @@
 // core
+export * from './core/BaseViewport';
+export * from './core/CanvasViewport';
+export * from './core/ClippedViewport';
 export * from './core/DebugInjector';
 export * from './core/DefaultTextInputHandler';
 export * from './core/DOMRoot';
