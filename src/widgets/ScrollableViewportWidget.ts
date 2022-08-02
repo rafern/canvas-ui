@@ -516,49 +516,23 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Check whether to reserve space or not
+        // Reserve space for scrollbars if needed
         const thickness = this.scrollBarThickness;
         const reserve = this._scrollbarMode === ScrollbarMode.Layout;
-        // is a vertical scrollbar always shown (does horizontal space need to
-        // be reserved?)
-        const reserveX = reserve && this.heightCoupling !== AxisCoupling.Bi;
-        // is a horizontal scrollbar always shown (does vertical space need to
-        // be reserved?)
-        const reserveY = reserve && this.widthCoupling !== AxisCoupling.Bi;
 
-        // If reserving space, further constrain dimensions
-        let rMinWidth, rMaxWidth, rMinHeight, rMaxHeight;
-        if(reserveX) {
-            rMaxWidth = Math.max(maxWidth - thickness, 0);
-            rMinWidth = Math.min(minWidth, rMaxWidth);
-        }
-        else {
-            rMaxWidth = maxWidth;
-            rMinWidth = minWidth;
-        }
-
-        if(reserveY) {
-            rMaxHeight = Math.max(maxHeight - thickness, 0);
-            rMinHeight = Math.min(minHeight, rMaxHeight);
-        }
-        else {
-            rMaxHeight = maxHeight;
-            rMinHeight = minHeight;
-        }
+        this.reservedX = reserve && this.heightCoupling !== AxisCoupling.Bi ? thickness : 0;
+        this.reservedY = reserve && this.widthCoupling !== AxisCoupling.Bi ? thickness : 0;
 
         // Resolve dimensions
-        super.handleResolveDimensions(rMinWidth, rMaxWidth, rMinHeight, rMaxHeight);
+        super.handleResolveDimensions(minWidth, maxWidth, minHeight, maxHeight);
 
         // Save dimensions to effective dimensions
         this.effectiveWidth = this.idealWidth;
         this.effectiveHeight = this.idealHeight;
 
         // Expand dimensions to fit scrollbars
-        if(reserveX)
-            this.idealWidth = Math.min(Math.max(this.idealWidth + thickness, minWidth), maxWidth);
-
-        if(reserveY)
-            this.idealHeight = Math.min(Math.max(this.idealHeight + thickness, minHeight), maxHeight);
+        this.idealWidth = Math.min(Math.max(this.idealWidth + this.reservedX, minWidth), maxWidth);
+        this.idealHeight = Math.min(Math.max(this.idealHeight + this.reservedY, minHeight), maxHeight);
     }
 
     protected override handlePostLayoutUpdate(): void {

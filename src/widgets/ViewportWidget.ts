@@ -87,6 +87,20 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     protected forceReLayout = true;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint = true;
+    /**
+     * The amount of horizontal space to reserve. By default, no space is
+     * reserved. Useful for situations where additional parts are needed around
+     * the viewport, such as scrollbars in {@link ScrollableViewportWidget}.
+     *
+     * Note that if scaling is being used, then these values are expected to
+     * already be scaled.
+     *
+     * Should be set before {@link ViewportWidget#handleResolveDimensions} is
+     * called.
+     */
+    protected reservedX = 0;
+    /** Similar to {@link ViewportWidget#reservedX}, but vertical. */
+    protected reservedY = 0;
 
     /** Create a new ViewportWidget. */
     constructor(child: W, properties?: Readonly<ViewportWidgetProperties>) {
@@ -324,15 +338,28 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._dirty = true;
     }
 
+    /**
+     * Resolve the dimensions of the viewport widget, taking coupling modes and
+     * reserved space into account. Note that if space is reserved, then the
+     * resulting {@link ViewportWidget#idealWidth} and
+     * {@link ViewportWidget#idealHeight} will not include the reserved space.
+     * Child classes are expected to add the reserved space to the final
+     * dimensions themselves so that they can also be aware of the final
+     * non-reserved space.
+     */
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
+        // reserve space
+        const rMaxWidth = Math.max(maxWidth - this.reservedX, 0);
+        const rMaxHeight = Math.max(maxHeight - this.reservedY, 0);
+        let effectiveMinWidth = Math.min(Math.max(minWidth, this.scaledMinWidth) - this.reservedX, rMaxWidth);
+        let effectiveMinHeight = Math.min(Math.max(minHeight, this.scaledMinHeight) - this.reservedY, rMaxHeight);
+
         const coupledWidth = this._widthCoupling !== AxisCoupling.None;
         const coupledHeight = this._heightCoupling !== AxisCoupling.None;
-        let effectiveMinWidth = Math.min(Math.max(minWidth, this.scaledMinWidth), maxWidth);
-        let effectiveMinHeight = Math.min(Math.max(minHeight, this.scaledMinHeight), maxHeight);
 
         // Expand to the needed dimensions
         if(this._widthCoupling !== AxisCoupling.Bi) {
-            this.idealWidth = Math.min(effectiveMinWidth, maxWidth);
+            this.idealWidth = effectiveMinWidth;
 
             if(this._widthCoupling === AxisCoupling.Uni)
                 effectiveMinWidth = this.idealWidth;
@@ -342,7 +369,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             console.warn(DynMsg.MAYBE_DIMENSIONLESS('width'));
 
         if(this._heightCoupling !== AxisCoupling.Bi) {
-            this.idealHeight = Math.min(effectiveMinHeight, maxHeight);
+            this.idealHeight = effectiveMinHeight;
 
             if(this._heightCoupling === AxisCoupling.Uni)
                 effectiveMinHeight = this.idealHeight;
@@ -359,14 +386,14 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
                 constraints[0] = effectiveMinWidth;
 
                 if(this._widthCoupling === AxisCoupling.Bi)
-                    constraints[1] = maxWidth;
+                    constraints[1] = rMaxWidth;
             }
 
             if(coupledHeight) {
                 constraints[2] = effectiveMinHeight;
 
                 if(this._heightCoupling === AxisCoupling.Bi)
-                    constraints[3] = maxHeight;
+                    constraints[3] = rMaxHeight;
             }
 
             const child = this.child;
@@ -381,10 +408,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
             // Bi-couple wanted axes. Do regular layout for non-coupled axes.
             if(this._widthCoupling === AxisCoupling.Bi)
-                this.idealWidth = child.idealDimensions[0];
+                this.idealWidth = Math.max(0, child.idealDimensions[0]);
 
             if(this._heightCoupling === AxisCoupling.Bi)
-                this.idealHeight = child.idealDimensions[1];
+                this.idealHeight = Math.max(0, child.idealDimensions[1]);
         }
     }
 
