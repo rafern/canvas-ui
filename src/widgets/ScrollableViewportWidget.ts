@@ -446,7 +446,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
             // are relative to the viewport widget's parent viewport
             let [offsetX, offsetY] = this.offset;
             const oldOffX = offsetX, oldOffY = offsetY;
-            if(this.usesViewport) {
+            if(this.internalViewport.relativeCoordinates) {
                 cx += this.idealX + offsetX;
                 cy += this.idealY + offsetY;
             }

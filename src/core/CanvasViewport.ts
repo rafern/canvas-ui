@@ -1,11 +1,11 @@
 import { roundToPower2 } from '../helpers/roundToPower2';
 import { paintField } from '../decorators/FlagFields';
+import { PointerEvent } from '../events/PointerEvent';
 import type { Widget } from '../widgets/Widget';
 import { isPower2 } from '../helpers/isPower2';
 import { BaseViewport } from './BaseViewport';
-import { DynMsg, Msg } from './Strings';
-import { PointerEvent } from '../events/PointerEvent';
 import { Event } from '../events/Event';
+import {  Msg } from './Strings';
 
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -15,6 +15,7 @@ import { Event } from '../events/Event';
  */
 export class CanvasViewport extends BaseViewport {
     readonly context: CanvasRenderingContext2D;
+
     /** The internal canvas. Widgets are painted to this */
     readonly canvas: HTMLCanvasElement;
     /**
@@ -40,7 +41,7 @@ export class CanvasViewport extends BaseViewport {
      * get a canvas context results in an exception.
      */
     constructor(child: Widget, startingWidth = 64, startingHeight = 64) {
-        super(child);
+        super(child, true);
 
         // Create internal canvas
         this.canvas = document.createElement('canvas');
@@ -53,6 +54,7 @@ export class CanvasViewport extends BaseViewport {
             throw new Error(Msg.CANVAS_CONTEXT);
 
         this.context = context;
+        this.child.forceDirty();
     }
 
     /**
@@ -63,69 +65,8 @@ export class CanvasViewport extends BaseViewport {
         return [this.canvas.width, this.canvas.height];
     }
 
-    /**
-     * Resolves the given child's layout by calling
-     * {@link Widget#resolveDimensionsAsTop} with the current
-     * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
-     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
-     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
-     * layout is marked as dirty while resolving the layout, then a re-layout
-     * will occur until either the layout is no longer marked as dirty or the
-     * {@link Viewport.maxRelayout | maximum retries} are reached.
-     *
-     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
-     * called. Note that this may still trigger a re-layout.
-     *
-     * Expands {@link Viewport#canvas} if the new layout is too big for the
-     * current canvas. Expansion is done in powers of 2 to avoid issues with
-     * external 3D libraries.
-     *
-     * @returns Returns true if the child was resized, else, false.
-     */
-    resolveLayout(): boolean {
-        let relayouts = 0;
-        if(!(this.child.layoutDirty || this._dirty)) {
-            // even if a layout resolution is not needed, the hook still needs
-            // to be called at least once per frame
-            this.child.postFinalizeBounds();
-            relayouts++;
-
-            if(!this.child.layoutDirty)
-                return false;
-        }
-
-        // Resolve child's layout
-        const [oldWidth, oldHeight] = this.child.dimensions;
-        let newWidth = oldWidth;
-        let newHeight = oldHeight;
-        let wasResized = false;
-
-        while(this.child.layoutDirty || this._dirty) {
-            if(relayouts > BaseViewport.maxRelayout) {
-                console.warn(Msg.MAX_RELAYOUTS);
-                break;
-            }
-
-            this._dirty = false;
-            const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
-
-            this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
-            this.child.resolvePosition(0, 0);
-
-            [newWidth, newHeight] = this.child.idealDimensions;
-            const [newScaleX, newScaleY] = this.getAppliedScaleFrom(newWidth, newHeight);
-            newWidth = Math.round(newWidth * newScaleX) / newScaleX;
-            newHeight = Math.round(newHeight * newScaleY) / newScaleY;
-            wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
-
-            this.child.finalizeBounds();
-            this.child.postFinalizeBounds();
-
-            relayouts++;
-        }
-
-        if(relayouts > 1)
-            console.warn(DynMsg.RELAYOUTS(relayouts));
+    override resolveLayout(): boolean {
+        const wasResized = super.resolveLayout();
 
         // Re-scale canvas if neccessary.
         if(wasResized) {
@@ -133,6 +74,7 @@ export class CanvasViewport extends BaseViewport {
             // bigger powers. This is to avoid issues with mipmapping, which
             // requires texture sizes to be powers of 2. Make sure that the
             // maximum canvas dimensions aren't exceeded
+            const [newWidth, newHeight] = this.child.dimensions;
             const newCanvasWidth = Math.min(Math.max(roundToPower2(newWidth), this.canvas.width), this.maxCanvasWidth);
             const newCanvasHeight = Math.min(Math.max(roundToPower2(newHeight), this.canvas.height), this.maxCanvasHeight);
 
@@ -239,24 +181,23 @@ export class CanvasViewport extends BaseViewport {
 
         // Paint to parent viewport, if any
         if(this.parent !== null) {
-            // TODO how will offsets be handler
+            const [xDst, yDst, wClipped, hClipped] = this.rect;
+            const [offsetX, offsetY] = this.offset;
+            console.log(xDst + offsetX, yDst + offsetY, wClipped, hClipped);
+            // FIXME this doesn't work and i have no idea why. nothing gets
+            // painted for some reason
+
             this.parent.context.drawImage(
                 this.canvas,
-                xDst - origXDst,
-                yDst - origYDst,
-                wClipped,
-                hClipped,
-                xDst,
-                yDst,
-                wClipped,
-                hClipped,
+                xDst + offsetX,
+                yDst + offsetY
             );
         }
 
         return wasDirty;
     }
 
-    override dispatchEvent(event: Event): Widget | null {
+    override beforeDispatch(event: Event): Widget | null {
         // CanvasViewports have positions relative to the canvas, not the Root.
         // Correct positions of events.
         if(event instanceof PointerEvent) {
@@ -266,6 +207,6 @@ export class CanvasViewport extends BaseViewport {
                 event = event.correctOffset(cl, ct);
         }
 
-        return super.dispatchEvent(event);
+        return super.beforeDispatch(event);
     }
 }

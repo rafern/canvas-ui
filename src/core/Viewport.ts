@@ -4,6 +4,14 @@ import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
 
 export interface Viewport {
+    /**
+     * The coordinate system used for this Viewport. If true, then coordinates
+     * are relative to the Viewport itself ({@link Viewport#child} always has a
+     * position of 0,0). If false, then coordinates are absolute (relative to
+     * the nearest relative parent Viewport, or topmost Viewport, or 0,0 if this
+     * is the topmost Viewport).
+     */
+    readonly relativeCoordinates: boolean;
     /** The Viewport's child. Painting and layout will be relative to this. */
     readonly child: Widget;
     /**
@@ -65,9 +73,16 @@ export interface Viewport {
      * Should be set by the owner when the owner is activated and deactivated.
      */
     parent: Viewport | null;
+    /**
+     * The offset of the child inside the Viewport. Depending on the Viewport
+     * implementation, this may update the actual position of the child Widget,
+     * or it may just affect how the {@link paint} method behaves.
+     */
+    offset: [x: number, y: number];
 
     /**
-     * Resolves the Viewport child's layout.
+     * Resolves the Viewport child's layout (including position) in one call,
+     * using the previous position.
      *
      * @returns Returns true if the child was resized, else, false.
      */

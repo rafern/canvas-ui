@@ -1,3 +1,4 @@
+import type { Widget } from "../widgets/Widget";
 import { BaseViewport } from "./BaseViewport";
 
 export class ClippedViewport extends BaseViewport {
@@ -15,8 +16,8 @@ export class ClippedViewport extends BaseViewport {
         return this.parent.effectiveScale;
     }
 
-    resolveLayout(): boolean {
-        ;
+    constructor(child: Widget) {
+        super(child, false);
     }
 
     paint(force: boolean): boolean {

@@ -216,7 +216,7 @@ export class Root {
         if(!this.enabled)
             return false;
 
-        return this.viewport.paint(false);
+        return this.viewport.paintToInternal(false);
     }
 
     /**

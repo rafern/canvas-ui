@@ -1,8 +1,8 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
+import { ClippedViewport } from '../core/ClippedViewport';
 import { CanvasViewport } from '../core/CanvasViewport';
 import { layoutField } from '../decorators/FlagFields';
 import { AxisCoupling } from '../widgets/AxisCoupling';
-import { PointerEvent } from '../events/PointerEvent';
 import { Widget, WidgetProperties } from './Widget';
 import type { Viewport } from '../core/Viewport';
 import type { Bounds } from '../helpers/Bounds';
@@ -25,8 +25,11 @@ export interface ViewportWidgetProperties extends WidgetProperties {
     minWidth?: number,
     /** Sets {@link ViewportWidget#minHeight}. */
     minHeight?: number,
-    /** Sets {@link ViewportWidget#useViewport}. */
-    useViewport?: boolean,
+    /**
+     * If true, then the {@link ViewportWidget} will use a
+     * {@link CanvasViewport} instead of a {@link ClippedViewport}.
+     */
+    useCanvas?: boolean,
     /** Sets {@link ViewportWidget#offset}. */
     offset?: [number, number],
     /** Sets {@link ViewportWidget#constraints}. */
@@ -71,10 +74,13 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
      */
     @layoutField
     minHeight: number;
-    /** The actual viewport object, or null if the child is just clipped. */
-    private internalViewport: Viewport | null;
-    /** See {@link ViewportWidget#offset}. For internal use only */
-    private _offset: [number, number] = [0, 0];
+    /**
+     * The actual viewport object. Can be a {@link ClippedViewport} or a
+     * {@link CanvasViewport}.
+     */
+    protected readonly internalViewport: Viewport;
+    /** Is the internal viewport a {@link CanvasViewport} instance? */
+    readonly useCanvas: boolean;
     /**
      * Child constraints for resolving layout. May be different than
      * {@link ViewportWidget#internalViewport}'s constraints. By default, this
@@ -109,7 +115,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // events
         super(child, false, true, properties);
 
-        this.internalViewport = (properties?.useViewport ?? false) ? new CanvasViewport(child) : null;
+        this.useCanvas = properties?.useCanvas ?? false;
+        if(this.useCanvas)
+            this.internalViewport = new CanvasViewport(child);
+        else
+            this.internalViewport = new ClippedViewport(child);
+
         this.minWidth = properties?.minWidth ?? 0;
         this.minHeight = properties?.minHeight ?? 0;
         this._widthCoupling = properties?.widthCoupling ?? AxisCoupling.None;
@@ -118,38 +129,25 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     /**
-     * Does this viewport widget use a Viewport, or does it just clip the child
-     * instead (default)?
-     *
-     * @returns Returns true if a {@link Viewport} is used; if {@link ViewportWidget#internalViewport} is not null
-     */
-    get usesViewport(): boolean {
-        return this.internalViewport !== null;
-    }
-
-    /**
      * Offset of {@link SingleParent#child}. Positional events will take this
      * into account, as well as rendering. Useful for implementing scrolling.
      */
     get offset(): [number, number] {
-        return [...this._offset];
+        return [...this.internalViewport.offset];
     }
 
     set offset(offset: [number, number]) {
         // Not using @paintArrayField so that accessor can be overridden
-        if(this._offset[0] !== offset[0] || this._offset[1] !== offset[1]) {
-            this._offset[0] = offset[0];
-            this._offset[1] = offset[1];
+        if(this.internalViewport.offset[0] !== offset[0] || this.internalViewport.offset[1] !== offset[1]) {
+            this.internalViewport.offset = [offset[0], offset[1]];
             this._dirty = true;
-            this.correctChildPosition();
         }
     }
 
     /**
-     * Accessor for {@link ViewportWidget#_constraints}. If using a
-     * {@link ViewportWidget#internalViewport | Viewport}, its constraints are
-     * also updated, but may be different due to
-     * {@link ViewportWidget#widthCoupling} or
+     * Accessor for {@link ViewportWidget#_constraints}. Will also update the
+     * constraints of the {@link ViewportWidget#internalViewport | Viewport},
+     * but may be different due to {@link ViewportWidget#widthCoupling} or
      * {@link ViewportWidget#heightCoupling}.
      */
     set constraints(constraints: LayoutConstraints) {
@@ -167,11 +165,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this._constraints[2] = constraints[2];
             this._constraints[3] = constraints[3];
 
-            // Update viewport's constaints or flag force layout
-            if(this.internalViewport === null)
-                this.forceReLayout = true;
-            else
-                this.internalViewport.constraints = constraints;
+            // Update viewport's constaints
+            this.internalViewport.constraints = constraints;
         }
     }
 
@@ -264,28 +259,7 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     protected override handleEvent(event: Event): Widget | null {
-        // Drop event if it is a positional event with no target outside the
-        // child's viewport. Only correct position if using a Viewport
-        if(event instanceof PointerEvent) {
-            const [cl, cr, ct, cb] = this.getBoundsOf(this.child);
-
-            if(event.target === null) {
-                if(event.x < cl)
-                    return null;
-                if(event.x >= cr)
-                    return null;
-                if(event.y < ct)
-                    return null;
-                if(event.y >= cb)
-                    return null;
-            }
-
-            if(this.internalViewport !== null)
-                event = event.correctOffset(cl, ct);
-        }
-
-        // Dispatch event to child
-        return this.child.dispatchEvent(event);
+        return this.internalViewport.dispatchEvent(event);
     }
 
     protected override handlePreLayoutUpdate(): void {
@@ -299,32 +273,12 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // coupled.
         const coupled = this._widthCoupling !== AxisCoupling.None || this._heightCoupling !== AxisCoupling.None;
         if(!coupled) {
-            if(this.internalViewport !== null) {
-                this.internalViewport.constraints = this.scaledConstraints;
-                this.internalViewport.resolveLayout();
-            }
-            else if(child.layoutDirty || this.forceReLayout) {
-                child.resolveDimensionsAsTop(...this.scaledConstraints);
-                this.correctChildPosition();
-            }
+            this.internalViewport.rect = [this.x, this.y, this.width, this.height];
+            this.internalViewport.constraints = this.scaledConstraints;
+            this.internalViewport.resolveLayout();
         }
         else if(child.layoutDirty)
             this._layoutDirty = true;
-    }
-
-    protected override handlePostFinalizeBounds(): void {
-        // postFinalizeBounds only needs to be called if a viewport is not being
-        // used. if it is being used, then it's called automatically by the
-        // {@link Viewport#resolveChildsLayout} method
-        if(this.internalViewport === null) {
-            const child = this.child;
-            child.postFinalizeBounds();
-
-            // If child's layout is dirty, set self's layout as dirty so that
-            // same-frame re-layouts are triggered
-            if(child.layoutDirty)
-                this._layoutDirty = true;
-        }
     }
 
     protected override handlePostLayoutUpdate(): void {
@@ -398,14 +352,9 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             }
 
             const child = this.child;
-            if(this.internalViewport === null) {
-                child.resolveDimensionsAsTop(...constraints);
-                this.correctChildPosition();
-            }
-            else {
-                this.internalViewport.constraints = constraints;
-                this.internalViewport.resolveLayout();
-            }
+            this.internalViewport.rect = [this.x, this.y, this.width, this.height];
+            this.internalViewport.constraints = constraints;
+            this.internalViewport.resolveLayout();
 
             // Bi-couple wanted axes. Do regular layout for non-coupled axes.
             if(this._widthCoupling === AxisCoupling.Bi)
@@ -416,28 +365,13 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
     }
 
-    protected override afterPositionResolved(): void {
-        this.correctChildPosition();
-
-        // If the viewport widget changes position, but the child doesn't, then
-        // previously clipped parts may become visible, so force repaint if not
-        // using a viewport
-        if(this.internalViewport === null)
-            this.forceRePaint = true;
-    }
-
     override finalizeBounds(): void {
         // HACK instead of letting the Parent class finalize the bounds of child
-        // widgets, finalize the viewport's own bounds and then only finalize
-        // the children's bounds if not using a viewport. this is done for
-        // optimisation purposes, otherwise, finalization is done twice when
-        // using a viewport
+        // widgets, only finalize the viewport's own bounds. this is done for
+        // optimisation purposes, otherwise, finalization is done twice
         Widget.prototype.finalizeBounds.call(this);
 
-        if(this.internalViewport === null) {
-            for(const child of this.children)
-                child.finalizeBounds();
-        }
+        this.internalViewport.rect = [this.x, this.y, this.width, this.height];
     }
 
     override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
@@ -445,26 +379,23 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // we want to use this.internalViewport
         Widget.prototype.activate.call(this, root, viewport, parent);
 
-        const childViewport = this.internalViewport === null ? viewport : this.internalViewport;
         for(const child of this.children)
-            child.activate(root, childViewport, parent);
+            child.activate(root, this.internalViewport, parent);
+
+        // set parent viewport of internal viewport
+        this.internalViewport.parent = viewport;
     }
 
-    private correctChildPosition(): void {
-        if(this.internalViewport !== null)
-            return;
+    override deactivate(): void {
+        // unset parent viewport of internal viewport. using a clipped viewport
+        // after this will crash; make sure to only use the viewport if the
+        // widget is active
+        this.internalViewport.parent = null;
 
-        // Correct child's position only if not using a Viewport
-        const [xOffset, yOffset] = this.offset;
-        this.child.resolvePosition(this.idealX + xOffset, this.idealY + yOffset);
-        this.child.finalizeBounds();
+        super.deactivate();
     }
 
     protected override handlePainting(forced: boolean): void {
-        // Paint child to viewport's canvas
-        if(this.internalViewport !== null)
-            this.internalViewport.paint(forced);
-
         // Calculate child's source and destination
         const [vpX, vpY, vpW, vpH] = this.rect;
         const [innerWidth, innerHeight] = this.child.dimensions;
@@ -494,38 +425,9 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         }
 
         // Clear background and paint canvas
-        const ctx = this.viewport.context;
-        this.clearStart();
-        ctx.rect(vpX, vpY, vpW, vpH);
-        ctx.clip();
-
-        if(this.internalViewport !== null) {
-            const viewport = this.internalViewport as CanvasViewport;
-            ctx.drawImage(
-                viewport.canvas,
-                xDst - origXDst,
-                yDst - origYDst,
-                wClipped,
-                hClipped,
-                xDst,
-                yDst,
-                wClipped,
-                hClipped,
-            );
-        }
-
-        ctx.rect(xDst, yDst, wClipped, hClipped);
-        this.clearEnd('evenodd');
-
-        if(this.internalViewport === null) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(xDst, yDst, wClipped, hClipped);
-            ctx.clip();
-            this.child.paint(forced || this.forceRePaint);
-            ctx.restore();
-        }
-
+        // TODO forceRePaint is not needed for canvas viewports. arguably, no
+        // type of force re-painting is needed for canvas viewports. investigate
+        this.internalViewport.paint(forced || this.forceRePaint);
         this.forceRePaint = false;
     }
 }

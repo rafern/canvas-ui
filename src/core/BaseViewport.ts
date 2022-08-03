@@ -1,22 +1,24 @@
 import type { LayoutConstraints } from "./LayoutConstraints";
-import { paintArrayField } from "../decorators/FlagFields";
+import { watchArrayField } from "../decorators/FlagFields";
+import { PointerEvent } from "../events/PointerEvent";
 import type { Widget } from "../widgets/Widget";
 import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
 import type { Viewport } from "./Viewport";
-import { PointerEvent } from "../events/PointerEvent";
+import { DynMsg, Msg } from "./Strings";
 
 export abstract class BaseViewport implements Viewport {
+    readonly relativeCoordinates: boolean;
     readonly child: Widget;
     abstract readonly context: CanvasRenderingContext2D;
-    @paintArrayField()
-    constraints: LayoutConstraints = [0, Infinity, 0, Infinity];
-    rect: Rect = [0, 0, 0, 0];
+    @watchArrayField(BaseViewport.prototype.forceLayoutDirty)
+    constraints: LayoutConstraints;
+    @watchArrayField(BaseViewport.prototype.updateChildPos)
+    rect: Rect;
     abstract get effectiveScale(): [scaleX: number, scaleY: number];
     parent: Viewport | null = null;
-
-    /** Have the constraints been changed? */
-    protected _dirty = true;
+    @watchArrayField(BaseViewport.prototype.updateChildPos)
+    offset: [x: number, y: number];
 
     /** Has the warning for dimensionless canvases been issued? */
     protected static dimensionlessWarned = false;
@@ -30,12 +32,112 @@ export abstract class BaseViewport implements Viewport {
      */
     protected static maxRelayout = 4;
 
-    constructor(child: Widget) {
+    protected constructor(child: Widget, relativeCoordinates: boolean) {
         this.child = child;
+        this.relativeCoordinates = relativeCoordinates;
+        this.constraints = [0, Infinity, 0, Infinity];
+        this.rect = [0, 0, 0, 0];
+        this.offset = [0, 0];
     }
 
-    abstract resolveLayout(): boolean
+    private forceLayoutDirty() {
+        this.child.forceDirty();
+    }
+
+    private updateChildPos() {
+        // HACK this can be called when offset is not initialised. ignore if
+        // offset is undefined
+        if(this.offset === undefined)
+            return;
+
+        if(!this.relativeCoordinates && this.child.active) {
+            const [l, t, _w, _h] = this.rect;
+            const [ox, oy] = this.offset;
+            const newX = l + ox;
+            const newY = t + oy;
+            const [oldX, oldY] = this.child.position;
+
+            if(newX !== oldX || newY !== oldY) {
+                this.child.resolvePosition(newX, newY);
+                this.child.finalizeBounds();
+                this.child.postFinalizeBounds();
+            }
+        }
+    }
+
+    /**
+     * Resolves the given child's layout by calling
+     * {@link Widget#resolveDimensionsAsTop} with the current
+     * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
+     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
+     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
+     * layout is marked as dirty while resolving the layout, then a re-layout
+     * will occur until either the layout is no longer marked as dirty or the
+     * {@link Viewport.maxRelayout | maximum retries} are reached.
+     *
+     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
+     * called. Note that this may still trigger a re-layout.
+     *
+     * Expands {@link Viewport#canvas} if the new layout is too big for the
+     * current canvas. Expansion is done in powers of 2 to avoid issues with
+     * external 3D libraries.
+     *
+     * Handles both relative and absolute coordinates. The previous position is
+     * used.
+     *
+     * @returns Returns true if the child was resized, else, false.
+     */
+    resolveLayout(): boolean {
+        let relayouts = 0;
+        if(!this.child.layoutDirty) {
+            // even if a layout resolution is not needed, the hook still needs
+            // to be called at least once per frame
+            this.child.postFinalizeBounds();
+            relayouts++;
+
+            if(!this.child.layoutDirty)
+                return false;
+        }
+
+        // Resolve child's layout
+        const [oldWidth, oldHeight] = this.child.dimensions;
+        let wasResized = false;
+
+        while(this.child.layoutDirty) {
+            if(relayouts > BaseViewport.maxRelayout) {
+                console.warn(Msg.MAX_RELAYOUTS);
+                break;
+            }
+
+            const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
+
+            this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
+            this.child.resolvePosition(...this.child.position);
+            this.child.finalizeBounds();
+            this.child.postFinalizeBounds();
+
+            const [newWidth, newHeight] = this.child.dimensions;
+            wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
+
+            relayouts++;
+        }
+
+        if(relayouts > 1)
+            console.warn(DynMsg.RELAYOUTS(relayouts));
+
+        return wasResized;
+    }
+
     abstract paint(force: boolean): boolean;
+
+    /**
+     * Extra stage before dispatching actual event to child so derivate class
+     * can modify the event being dispatched.
+     */
+    protected beforeDispatch(event: Event): Widget | null {
+        // Dispatch event to child
+        return this.child.dispatchEvent(event);
+    }
 
     dispatchEvent(event: Event): Widget | null {
         // Drop event if it is a positional event with no target outside the
@@ -57,7 +159,6 @@ export abstract class BaseViewport implements Viewport {
             }
         }
 
-        // Dispatch event to child
-        return this.child.dispatchEvent(event);
+        return this.beforeDispatch(event);
     }
 }
