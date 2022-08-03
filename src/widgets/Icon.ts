@@ -1,9 +1,33 @@
 import { paintField, layoutField, paintLayoutArrayField } from '../decorators/FlagFields';
 import { Widget, WidgetProperties } from './Widget';
+import { DynMsg, Msg } from '../core/Strings';
 import type { Rect } from '../helpers/Rect';
-import { Msg } from '../core/Strings';
 
 const videoRegex = /^.*\.(webm|og[gv]|m(p4|4v|ov)|avi|qt)$/i;
+
+/**
+ * The image fitting mode for {@link Icon} widgets; describes how an image is
+ * transformed if its dimensions don't match the output dimensions.
+ */
+export enum IconFit {
+    /**
+     * The image will be scaled down or up such that at least an axis of the
+     * image has the same dimensions as the widget, and the entire image is
+     * visible, preserving the aspect ratio of the image. The default image
+     * fitting mode.
+     */
+    Contain,
+    /**
+     * Similar to {@link IconFit.Contain}, except parts of the image can be cut
+     * off so that all parts of the widget are covered by the image.
+     */
+    Cover,
+    /**
+     * The image will be forced to have the same size as the widget by
+     * stretching or squishing it.
+     */
+    Fill
+}
 
 /**
  * Optional Icon constructor properties.
@@ -18,7 +42,9 @@ export interface IconProperties extends WidgetProperties {
     /** Sets {@link Icon#width}. */
     width?: number | null,
     /** Sets {@link Icon#height}. */
-    height?: number | null
+    height?: number | null,
+    /** Sets {@link Icon#fit}. */
+    fit?: IconFit
 }
 
 /**
@@ -70,24 +96,30 @@ export class Icon extends Widget {
     private offsetX = 0;
     /** Vertical offset. */
     private offsetY = 0;
-    /** Actual image width */
+    /** Actual image width. */
     private actualWidth = 0;
-    /** Actual image height */
+    /** Actual image height. */
     private actualHeight = 0;
     /**
      * Listener for video loadedmetadata and canplay events. Saved so it can be
-     * removed when needed
+     * removed when needed.
      */
     private loadedmetadataListener: ((event: Event) => void) | null = null;
     /**
-     * Listener for video canplay event. Saved so it can be removed when needed
+     * Listener for video canplay event. Saved so it can be removed when needed.
      */
     private canplayListener: ((event: Event) => void) | null = null;
     /**
      * Used for requestVideoFrameCallback. If null, then callback is being done
-     * by setting _dirty to true every frame, which may be wasteful
+     * by setting _dirty to true every frame, which may be wasteful.
      */
     private frameCallback: ((now: DOMHighResTimeStamp, metadata: unknown /* VideoFrameMetadata */) => void) | null = null;
+    /**
+     * The {@link IconFit} mode to use when the image dimensions don't match the
+     * widget dimensions.
+     */
+    @paintField
+    fit: IconFit;
 
     /** Create a new Icon. */
     constructor(image: HTMLImageElement | HTMLVideoElement | string, properties?: Readonly<IconProperties>) {
@@ -116,6 +148,7 @@ export class Icon extends Widget {
         this.viewBox = properties?.viewBox ?? null;
         this.imageWidth = properties?.width ?? null;
         this.imageHeight = properties?.height ?? null;
+        this.fit = properties?.fit ?? IconFit.Contain;
         this.setupVideoEvents();
     }
 
@@ -234,13 +267,34 @@ export class Icon extends Widget {
         this.idealHeight = Math.max(Math.min(wantedHeight, maxHeight), minHeight);
 
         // Find offset and actual image dimensions (preserving aspect ratio)
-        const widthRatio = this.idealWidth / wantedWidth;
-        const heightRatio = this.idealHeight / wantedHeight;
-        const scale = Math.min(widthRatio, heightRatio);
-        this.actualWidth = wantedWidth * scale;
-        this.actualHeight = wantedHeight * scale;
-        this.offsetX = (this.idealWidth - this.actualWidth) / 2;
-        this.offsetY = (this.idealHeight - this.actualHeight) / 2;
+        switch(this.fit) {
+            case IconFit.Contain:
+            case IconFit.Cover:
+            {
+                const widthRatio = this.idealWidth / wantedWidth;
+                const heightRatio = this.idealHeight / wantedHeight;
+                let scale;
+
+                if(this.fit === IconFit.Contain)
+                    scale = Math.min(widthRatio, heightRatio);
+                else
+                    scale = Math.max(widthRatio, heightRatio);
+
+                this.actualWidth = wantedWidth * scale;
+                this.actualHeight = wantedHeight * scale;
+                this.offsetX = (this.idealWidth - this.actualWidth) / 2;
+                this.offsetY = (this.idealHeight - this.actualHeight) / 2;
+                break;
+            }
+            case IconFit.Fill:
+                this.actualWidth = this.idealWidth;
+                this.actualHeight = this.idealHeight;
+                this.offsetX = 0;
+                this.offsetY = 0;
+                break;
+            default:
+                throw new Error(DynMsg.INVALID_ENUM(this.fit, 'IconFit', 'fit'));
+        }
     }
 
     protected override handlePainting(_forced: boolean): void {
@@ -256,19 +310,23 @@ export class Icon extends Widget {
         // Translate, rotate and clip if rotation is not 0
         let tdx = this.x + this.offsetX, tdy = this.y + this.offsetY;
         const rotated = this.rotation !== 0;
+        const needsClip = rotated || this.fit === IconFit.Cover;
         const ctx = this.viewport.context;
-        if(rotated) {
+        if(needsClip) {
             ctx.save();
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.width, this.height);
             ctx.clip();
-            ctx.translate(
-                this.x + this.offsetX + this.actualWidth / 2,
-                this.y + this.offsetY + this.actualHeight / 2,
-            );
-            tdx = -this.actualWidth / 2;
-            tdy = -this.actualHeight / 2;
-            ctx.rotate(this.rotation);
+
+            if(rotated) {
+                ctx.translate(
+                    this.x + this.offsetX + this.actualWidth / 2,
+                    this.y + this.offsetY + this.actualHeight / 2,
+                );
+                tdx = -this.actualWidth / 2;
+                tdy = -this.actualHeight / 2;
+                ctx.rotate(this.rotation);
+            }
         }
 
         // Draw image, with viewBox if it is not null
@@ -286,7 +344,7 @@ export class Icon extends Widget {
         }
 
         // Revert transformation
-        if(rotated)
+        if(needsClip)
             ctx.restore();
     }
 

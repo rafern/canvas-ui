@@ -141,7 +141,7 @@ export class PointerWheel extends PointerEvent {
                 ];
             }
             default:
-                throw new Error(DynMsg.INVALID_DELTAMODE(this.deltaMode));
+                throw new Error(DynMsg.INVALID_ENUM(this.deltaMode, 'PointerWheelMode', 'deltaMode'));
         }
     }
 }
