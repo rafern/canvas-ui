@@ -1,3 +1,4 @@
+import type { FillStyle } from '../theme/FillStyle';
 import type { Widget } from "../widgets/Widget";
 import { BaseViewport } from "./BaseViewport";
 
@@ -20,13 +21,32 @@ export class ClippedViewport extends BaseViewport {
         super(child, false);
     }
 
-    paint(force: boolean): boolean {
+    paint(force: boolean, backgroundFillStyle: FillStyle): boolean {
         const wasDirty = this.child.dirty;
 
+        const [vpX, vpY, vpW, vpH, _origXDst, _origYDst, xDst, yDst, wClipped, hClipped] = this.getClippedViewport();
         const ctx = this.context;
+
+        ctx.save();
+        ctx.globalCompositeOperation = 'copy';
+        ctx.fillStyle = backgroundFillStyle;
+        ctx.beginPath();
+        ctx.rect(vpX, vpY, vpW, vpH);
+        ctx.clip();
+        ctx.rect(xDst, yDst, wClipped, hClipped);
+        ctx.clip('evenodd');
+        ctx.fill();
+        ctx.restore();
+
+        // Abort if outside of bounds
+        if(wClipped === 0 || hClipped === 0) {
+            this.child.dryPaint();
+            return wasDirty;
+        }
+
         ctx.save();
         ctx.beginPath();
-        ctx.rect(...this.rect);
+        ctx.rect(vpX, vpY, vpW, vpH);
         ctx.clip();
         this.child.paint(force);
         ctx.restore();

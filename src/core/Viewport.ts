@@ -1,4 +1,5 @@
 import type { LayoutConstraints } from "./LayoutConstraints";
+import type { FillStyle } from "../theme/FillStyle";
 import type { Widget } from "../widgets/Widget";
 import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
@@ -97,7 +98,7 @@ export interface Viewport {
      * @param force - Force re-paint even if child.{@link Widget#dirty} is false
      * @returns Returns true if the child was dirty, else, false.
      */
-    paint(force: boolean): boolean;
+    paint(force: boolean, backgroundFillStyle: FillStyle): boolean;
     /**
      * Dispatch an event to the Viewport's {@link Viewport#child}.
      *

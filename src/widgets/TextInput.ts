@@ -776,10 +776,14 @@ export class TextInput extends Widget {
                 this.moveCursorLine(-1, event.shift); // Move cursor up
             else if(event.key === 'ArrowDown')
                 this.moveCursorLine(1, event.shift); // Move cursor down
-            else if(event.key === 'PageUp')
-                this.moveCursorLine(-5, event.shift); // Move cursor up x5
-            else if(event.key === 'PageDown')
-                this.moveCursorLine(5, event.shift); // Move cursor down x5
+            else if(event.key === 'PageUp' || event.key === 'PageDown') {
+                // Move cursor up or down by the lines in the viewport height,
+                // or a minimum of 3 lines
+                const mul = event.key === 'PageUp' ? -1 : 1;
+                const [_vpX, _vpY, _vpW, vpH] = this.viewport.rect;
+                const lines = Math.max(Math.floor(vpH / this.textHelper.fullLineHeight), 3);
+                this.moveCursorLine(lines * mul, event.shift);
+            }
             else if(event.key === 'Home')
                 this.moveCursorStart(event.shift); // Move cursor to beginning
             else if(event.key === 'End')

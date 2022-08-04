@@ -1,6 +1,7 @@
 import type { LayoutConstraints } from "./LayoutConstraints";
 import { watchArrayField } from "../decorators/FlagFields";
 import { PointerEvent } from "../events/PointerEvent";
+import type { FillStyle } from "../theme/FillStyle";
 import type { Widget } from "../widgets/Widget";
 import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
@@ -112,7 +113,12 @@ export abstract class BaseViewport implements Viewport {
             const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
 
             this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
-            this.child.resolvePosition(...this.child.position);
+
+            if(this.relativeCoordinates)
+                this.child.resolvePosition(0, 0);
+            else
+                this.child.resolvePosition(...this.child.idealPosition);
+
             this.child.finalizeBounds();
             this.child.postFinalizeBounds();
 
@@ -128,7 +134,7 @@ export abstract class BaseViewport implements Viewport {
         return wasResized;
     }
 
-    abstract paint(force: boolean): boolean;
+    abstract paint(force: boolean, backgroundFillStyle: FillStyle): boolean;
 
     /**
      * Extra stage before dispatching actual event to child so derivate class
@@ -160,5 +166,28 @@ export abstract class BaseViewport implements Viewport {
         }
 
         return this.beforeDispatch(event);
+    }
+
+    protected getClippedViewport(): [vpX: number, vpY: number, vpW: number, vpH: number, origXDst: number, origYDst: number, xDst: number, yDst: number, wClipped: number, hClipped: number] {
+        // Calculate child's source and destination
+        const [vpX, vpY, vpW, vpH] = this.rect;
+        const [innerWidth, innerHeight] = this.child.dimensions;
+        const [xOffset, yOffset] = this.offset;
+
+        // viewport right and bottom
+        const vpR = vpX + vpW;
+        const vpB = vpY + vpH;
+
+        // original child destination left and top
+        const origXDst = vpX + xOffset;
+        const origYDst = vpY + yOffset;
+
+        // clipped child destination left, top, width and height
+        const xDst = Math.min(Math.max(origXDst, vpX), vpR);
+        const yDst = Math.min(Math.max(origYDst, vpY), vpB);
+        const wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
+        const hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
+
+        return [vpX, vpY, vpW, vpH, origXDst, origYDst, xDst, yDst, wClipped, hClipped];
     }
 }

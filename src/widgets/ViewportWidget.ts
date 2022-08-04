@@ -379,11 +379,11 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // we want to use this.internalViewport
         Widget.prototype.activate.call(this, root, viewport, parent);
 
-        for(const child of this.children)
-            child.activate(root, this.internalViewport, parent);
-
         // set parent viewport of internal viewport
         this.internalViewport.parent = viewport;
+
+        for(const child of this.children)
+            child.activate(root, this.internalViewport, parent);
     }
 
     override deactivate(): void {
@@ -396,38 +396,10 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
     }
 
     protected override handlePainting(forced: boolean): void {
-        // Calculate child's source and destination
-        const [vpX, vpY, vpW, vpH] = this.rect;
-        const [innerWidth, innerHeight] = this.child.dimensions;
-        const [xOffset, yOffset] = this.offset;
-
-        // viewport right and bottom
-        const vpR = vpX + vpW;
-        const vpB = vpY + vpH;
-
-        // original child destination left and top
-        const origXDst = this.x + xOffset;
-        const origYDst = this.y + yOffset;
-
-        // clipped child destination left, top, width and height
-        const xDst = Math.min(Math.max(origXDst, vpX), vpR);
-        const yDst = Math.min(Math.max(origYDst, vpY), vpB);
-        const wClipped = Math.min(Math.max(origXDst + innerWidth, vpX), vpR) - xDst;
-        const hClipped = Math.min(Math.max(origYDst + innerHeight, vpY), vpB) - yDst;
-
-        // Abort if outside of bounds
-        if(wClipped === 0 || hClipped === 0) {
-            if(this.internalViewport === null)
-                this.child.dryPaint();
-
-            this.forceRePaint = false;
-            return;
-        }
-
         // Clear background and paint canvas
         // TODO forceRePaint is not needed for canvas viewports. arguably, no
         // type of force re-painting is needed for canvas viewports. investigate
-        this.internalViewport.paint(forced || this.forceRePaint);
+        this.internalViewport.paint(forced || this.forceRePaint, this.canvasFill);
         this.forceRePaint = false;
     }
 }

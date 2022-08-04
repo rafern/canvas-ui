@@ -1,6 +1,7 @@
 import { roundToPower2 } from '../helpers/roundToPower2';
 import { paintField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
+import type { FillStyle } from '../theme/FillStyle';
 import type { Widget } from '../widgets/Widget';
 import { isPower2 } from '../helpers/isPower2';
 import { BaseViewport } from './BaseViewport';
@@ -32,6 +33,7 @@ export class CanvasViewport extends BaseViewport {
      */
     @paintField
     maxCanvasHeight = 16384;
+    _forceResize = true;
 
     /**
      * Create a new CanvasViewport.
@@ -69,7 +71,9 @@ export class CanvasViewport extends BaseViewport {
         const wasResized = super.resolveLayout();
 
         // Re-scale canvas if neccessary.
-        if(wasResized) {
+        if(wasResized || this._forceResize) {
+            this._forceResize = false;
+
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
             // requires texture sizes to be powers of 2. Make sure that the
@@ -176,22 +180,40 @@ export class CanvasViewport extends BaseViewport {
         return wasDirty;
     }
 
-    paint(force: boolean): boolean {
+    paint(force: boolean, backgroundFillStyle: FillStyle): boolean {
         const wasDirty = this.paintToInternal(force);
 
         // Paint to parent viewport, if any
         if(this.parent !== null) {
-            const [xDst, yDst, wClipped, hClipped] = this.rect;
-            const [offsetX, offsetY] = this.offset;
-            console.log(xDst + offsetX, yDst + offsetY, wClipped, hClipped);
-            // FIXME this doesn't work and i have no idea why. nothing gets
-            // painted for some reason
+            const [vpX, vpY, vpW, vpH, origXDst, origYDst, xDst, yDst, wClipped, hClipped] = this.getClippedViewport();
+            const ctx = this.parent.context;
 
-            this.parent.context.drawImage(
-                this.canvas,
-                xDst + offsetX,
-                yDst + offsetY
-            );
+            ctx.save();
+            ctx.globalCompositeOperation = 'copy';
+            ctx.fillStyle = backgroundFillStyle;
+            ctx.beginPath();
+            ctx.rect(vpX, vpY, vpW, vpH);
+            ctx.clip();
+
+            // Don't paint if outside of bounds
+            if(wClipped !== 0 && hClipped !== 0) {
+                ctx.drawImage(
+                    this.canvas,
+                    xDst - origXDst,
+                    yDst - origYDst,
+                    wClipped,
+                    hClipped,
+                    xDst,
+                    yDst,
+                    wClipped,
+                    hClipped,
+                );
+            }
+
+            ctx.rect(xDst, yDst, wClipped, hClipped);
+            ctx.clip('evenodd');
+            ctx.fill();
+            ctx.restore();
         }
 
         return wasDirty;
