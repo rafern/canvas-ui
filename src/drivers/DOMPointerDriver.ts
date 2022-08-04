@@ -164,6 +164,8 @@ export class DOMPointerDriver extends PointerDriver {
                     event.deltaX, event.deltaY, event.deltaZ, deltaMode,
                     ...unpackModifiers(event),
                 );
+
+                event.preventDefault();
             }
 
             domElem.addEventListener('wheel', rootBind.wheelListen, { passive: false });
