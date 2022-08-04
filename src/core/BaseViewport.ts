@@ -6,7 +6,6 @@ import type { Widget } from "../widgets/Widget";
 import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
 import type { Viewport } from "./Viewport";
-import { DynMsg, Msg } from "./Strings";
 
 export abstract class BaseViewport implements Viewport {
     readonly relativeCoordinates: boolean;
@@ -61,7 +60,6 @@ export abstract class BaseViewport implements Viewport {
             if(newX !== oldX || newY !== oldY) {
                 this.child.resolvePosition(newX, newY);
                 this.child.finalizeBounds();
-                this.child.postFinalizeBounds();
             }
         }
     }
@@ -70,14 +68,7 @@ export abstract class BaseViewport implements Viewport {
      * Resolves the given child's layout by calling
      * {@link Widget#resolveDimensionsAsTop} with the current
      * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
-     * {@link Widget#finalizeBounds}. After calling finalizeBounds,
-     * {@link Widget#handlePostFinalizeBounds} is called. Note that if the
-     * layout is marked as dirty while resolving the layout, then a re-layout
-     * will occur until either the layout is no longer marked as dirty or the
-     * {@link Viewport.maxRelayout | maximum retries} are reached.
-     *
-     * If the child's layout is not dirty, then only handlePostFinalizeBounds is
-     * called. Note that this may still trigger a re-layout.
+     * {@link Widget#finalizeBounds}.
      *
      * Expands {@link Viewport#canvas} if the new layout is too big for the
      * current canvas. Expansion is done in powers of 2 to avoid issues with
@@ -89,49 +80,23 @@ export abstract class BaseViewport implements Viewport {
      * @returns Returns true if the child was resized, else, false.
      */
     resolveLayout(): boolean {
-        let relayouts = 0;
-        if(!this.child.layoutDirty) {
-            // even if a layout resolution is not needed, the hook still needs
-            // to be called at least once per frame
-            this.child.postFinalizeBounds();
-            relayouts++;
-
-            if(!this.child.layoutDirty)
-                return false;
-        }
+        if(!this.child.layoutDirty)
+            return false;
 
         // Resolve child's layout
         const [oldWidth, oldHeight] = this.child.dimensions;
-        let wasResized = false;
 
-        while(this.child.layoutDirty) {
-            if(relayouts > BaseViewport.maxRelayout) {
-                console.warn(Msg.MAX_RELAYOUTS);
-                break;
-            }
+        this.child.resolveDimensionsAsTop(...this.constraints);
 
-            const [minWidth, maxWidth, minHeight, maxHeight] = this.constraints;
+        if(this.relativeCoordinates)
+            this.child.resolvePosition(0, 0);
+        else
+            this.child.resolvePosition(...this.child.idealPosition);
 
-            this.child.resolveDimensionsAsTop(minWidth, maxWidth, minHeight, maxHeight);
+        this.child.finalizeBounds();
 
-            if(this.relativeCoordinates)
-                this.child.resolvePosition(0, 0);
-            else
-                this.child.resolvePosition(...this.child.idealPosition);
-
-            this.child.finalizeBounds();
-            this.child.postFinalizeBounds();
-
-            const [newWidth, newHeight] = this.child.dimensions;
-            wasResized = newWidth !== oldWidth || newHeight !== oldHeight;
-
-            relayouts++;
-        }
-
-        if(relayouts > 1)
-            console.warn(DynMsg.RELAYOUTS(relayouts));
-
-        return wasResized;
+        const [newWidth, newHeight] = this.child.dimensions;
+        return newWidth !== oldWidth || newHeight !== oldHeight;
     }
 
     abstract paint(force: boolean, backgroundFillStyle: FillStyle): boolean;

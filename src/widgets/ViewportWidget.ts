@@ -277,17 +277,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.internalViewport.constraints = this.scaledConstraints;
             this.internalViewport.resolveLayout();
         }
-        else {
-            // HACK manually call post-finalize-bounds update method, otherwise
-            // the method is never called because resolveLayout is not called.
-            // this wouldnt be needed if viewports had clearly defined update
-            // stages (no same-frame re-layouts)
-            if(!child.layoutDirty)
-                this.child.postFinalizeBounds();
-
-            if(child.layoutDirty)
-                this._layoutDirty = true;
-        }
+        else if(child.layoutDirty)
+            this._layoutDirty = true;
     }
 
     protected override handlePostLayoutUpdate(): void {
@@ -379,7 +370,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // widgets, only finalize the viewport's own bounds. this is done for
         // optimisation purposes, otherwise, finalization is done twice
         Widget.prototype.finalizeBounds.call(this);
-
         this.internalViewport.rect = [this.x, this.y, this.width, this.height];
     }
 
@@ -387,12 +377,8 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // HACK Parent#activate activates child widgets with this._viewport, but
         // we want to use this.internalViewport
         Widget.prototype.activate.call(this, root, viewport, parent);
-
-        // set parent viewport of internal viewport
         this.internalViewport.parent = viewport;
-
-        for(const child of this.children)
-            child.activate(root, this.internalViewport, parent);
+        this.child.activate(root, this.internalViewport, parent);
     }
 
     override deactivate(): void {
@@ -400,7 +386,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
         // after this will crash; make sure to only use the viewport if the
         // widget is active
         this.internalViewport.parent = null;
-
         super.deactivate();
     }
 

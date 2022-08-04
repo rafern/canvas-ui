@@ -857,7 +857,7 @@ export class TextInput extends Widget {
         }
     }
 
-    protected override handlePostFinalizeBounds(): void {
+    protected override handlePostLayoutUpdate(): void {
         // TODO revert textHelper.width/height and cursorOffset/selectOffset
         // rounding when the positioning system is fixed to allow non-integer
         // positions
@@ -869,30 +869,19 @@ export class TextInput extends Widget {
         // vertical)
         if(this.cursorOffsetDirty) {
             this.cursorOffset = this.textHelper.findOffsetFromIndex(this.cursorPos);
-            // this.cursorOffset[0] = Math.round(this.cursorOffset[0]);
-            // this.cursorOffset[1] = Math.round(this.cursorOffset[1]);
 
             if(this.selectPos === this.cursorPos) {
                 this.selectOffset[0] = this.cursorOffset[0];
                 this.selectOffset[1] = this.cursorOffset[1];
             }
-            else {
+            else
                 this.selectOffset = this.textHelper.findOffsetFromIndex(this.selectPos);
-                // this.selectOffset[0] = Math.round(this.selectOffset[0]);
-                // this.selectOffset[1] = Math.round(this.selectOffset[1]);
-            }
 
             this.cursorOffsetDirty = false;
         }
 
         // Check if panning is needed
         const padding = this.inputTextInnerPadding;
-        // XXX width/height need to be rounded, otherwise the error between the
-        // ideal width and the rounded width is large enough for panning to be
-        // possible, creating subpixel-aligned carets (which have anti-aliasing
-        // artifacts)
-        // const innerWidth = Math.round(this.textHelper.width);
-        // const innerHeight = Math.round(this.textHelper.height);
         const innerWidth = this.textHelper.width;
         const innerHeight = this.textHelper.height;
         const usableWidth = this.idealWidth - padding * 2;

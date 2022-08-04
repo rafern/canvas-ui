@@ -82,18 +82,6 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         }
     }
 
-    protected override handlePostFinalizeBounds(): void {
-        // Post-finalize bounds update children
-        for(const child of this.children) {
-            child.postFinalizeBounds();
-
-            // If child's layout is dirty, set self's layout as dirty so that
-            // same-frame re-layouts are triggered
-            if(child.layoutDirty)
-                this._layoutDirty = true;
-        }
-    }
-
     protected override handlePostLayoutUpdate(): void {
         // Post-layout update children
         for(const child of this.children) {
@@ -286,7 +274,9 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         this.unusedSpace = Math.max(length - usedSpaceAfter, 0);
     }
 
-    protected override afterPositionResolved(): void {
+    override resolvePosition(x: number, y: number): void {
+        super.resolvePosition(x, y);
+
         // Align children
         const alignment = this.multiContainerAlignment;
         const around = alignment.main === FlexAlignment.SpaceAround;
@@ -304,7 +294,7 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         if(between)
             spacing += extraSpacing;
 
-        let mainOffset = (this.vertical ? this.idealY : this.idealX) + mainRatio * this.unusedSpace;
+        let mainOffset = (this.vertical ? y : x) + mainRatio * this.unusedSpace;
         if(around)
             mainOffset += extraSpacing;
 
@@ -317,11 +307,11 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
             const [childWidth, childHeight] = child.idealDimensions;
 
             if(this.vertical) {
-                child.resolvePosition(this.idealX + crossRatio * (this.idealWidth - childWidth), mainOffset);
+                child.resolvePosition(x + crossRatio * (this.idealWidth - childWidth), mainOffset);
                 mainOffset += childHeight + spacing;
             }
             else {
-                child.resolvePosition(mainOffset, this.idealY + crossRatio * (this.idealHeight - childHeight));
+                child.resolvePosition(mainOffset, y + crossRatio * (this.idealHeight - childHeight));
                 mainOffset += childWidth + spacing;
             }
 

@@ -8,7 +8,6 @@ export const Msg = {
     EMPTY_LINE_RANGE: `Unexpected line range without any text render groups. Empty lines must contain a zero-width text render group. ${badTextImpl}`,
     ROGUE_NEWLINE: `Unexpected line range with newline character in the middle of the range instead of at the end. Text after newline character was ignored. ${badTextImpl}`,
     VIDEO_API_AVAILABLE: 'HTMLVideoElement.requestVideoFrameCallback is available and will be used; if video playback is choppy or broken, please report it on Github',
-    MAX_RELAYOUTS: 'Maximum re-layouts exceeded. Is there a Widget type that is immediately marking the layout as dirty after resolving it?',
     DIMENSIONLESS_CANVAS: 'Canvas has 0 width or height. Are you using an empty Root? If not, make sure to not over-constrain the Widgets.',
     NON_POW2_CANVAS: 'Canvas has a width or height that is not a power of 2, which may create mipmapping issues for 3D engines. Make sure to use power of 2 starting and maximum canvas dimensions.',
     DOM_DRIVER_REBIND: 'Re-binding DOM driver. Are you calling bindDOMElem with the same HTML element multiple times?',
@@ -50,7 +49,6 @@ export const DynMsg = {
     INVALID_KB_ROW_TEMPLATE: (entry: unknown) => `Unknown virtual key row template format for entry: ${entry}. A key row template must either be a function that returns a VirtualKey instance, or a pair of symbols.`,
     INVALID_ENUM: (value: unknown, enumName: string, variableName: string) => `Unknown ${enumName} value: ${value}. Make sure ${variableName} is being passed as an enum value instead of its corresponding hardcoded value; this value may have become invalid due to an update.`,
     OVERCAPTURING_WIDGET: (capturer: object) => `TabSelect event captured by widget (${capturer.constructor.name}), but reachedRelative was false; a widget type is probably capturing events by default. Make sure to only capture events that you need so that other Widgets aren't broken.`,
-    RELAYOUTS: (relayouts: number) => `The last frame required ${relayouts - 1} re-layouts. Make sure to only mark a layout as dirty while resolving the layout unless absolutely necessary`,
     MAYBE_DIMENSIONLESS: (axisName: string) => `ViewportWidget has no minimum ${axisName} and ${axisName} isn't bi-directionally coupled, therefore, it may be dimensionless. Set a minimum ${axisName} and/or bi-directionally couple the ${axisName}.`,
     UNTARGETABLE_EVENT: (eventName: string) => `${eventName} events cannot be targetted to a specific widget. Target ignored`,
 };

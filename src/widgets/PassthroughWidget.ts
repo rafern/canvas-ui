@@ -38,17 +38,6 @@ export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W
             this._layoutDirty = true;
     }
 
-    protected override handlePostFinalizeBounds(): void {
-        // Post-finalize bounds update child
-        const child = this.child;
-        child.postFinalizeBounds();
-
-        // If child's layout is dirty, set self's layout as dirty so that
-        // same-frame re-layouts are triggered
-        if(child.layoutDirty)
-            this._layoutDirty = true;
-    }
-
     protected override handlePostLayoutUpdate(): void {
         // Post-layout update child
         const child = this.child;
@@ -67,9 +56,11 @@ export class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W
         [this.idealWidth, this.idealHeight] = child.idealDimensions;
     }
 
-    protected override afterPositionResolved(): void {
+    override resolvePosition(x: number, y: number): void {
+        super.resolvePosition(x, y);
+
         // Resolve child's position to be the same as this widget's position
-        this.child.resolvePosition(this.idealX, this.idealY);
+        this.child.resolvePosition(x, y);
     }
 
     protected override handlePainting(forced: boolean): void {

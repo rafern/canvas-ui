@@ -496,26 +496,18 @@ export abstract class Widget extends BaseTheme {
     }
 
     /**
-     * Called after resolving position of this widget. Should be implemented if
-     * widget is a container; call resolvePosition of children. Does nothing by
-     * default.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected afterPositionResolved(): void {}
-
-    /**
-     * Set the position of this widget and calls
-     * {@link Widget#afterPositionResolved}. If the resolved position changes,
-     * sets {@link Widget#_dirty} to true. Does nothing if
-     * {@link Widget#_enabled} is false. Must not be overridden.
+     * Set the ideal position of this widget ({@link Widget#idealX} and
+     * {@link Widget#idealY}). Does not set any flags of the widget.
+     *
+     * Can be overridden, but `super.resolvePosition` must always be called, and
+     * the arguments must be preserved. Container widgets should override this
+     * method such that `resolvePosition` is called for each child of the
+     * container.
      */
     resolvePosition(x: number, y: number): void {
         // Set position
         this.idealX = x;
         this.idealY = y;
-
-        // Call hook
-        this.afterPositionResolved();
     }
 
     /**
@@ -555,26 +547,6 @@ export abstract class Widget extends BaseTheme {
         this.y = newY;
         this.width = newWidth;
         this.height = newHeight;
-    }
-
-    /**
-     * Generic update method called after {@link finalizeBounds} and before
-     * {@link handlePostLayoutUpdate}. However, unlike handlePostLayoutUpdate,
-     * it may be called multiple times in one frame and if {@link _layoutDirty}
-     * is set to true in this method, then a re-layout will occur in the same
-     * frame. Useful if you have logic which depends on the layout, but causes
-     * layout changes, such as for dispatching {@link AutoScroll} events.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected handlePostFinalizeBounds(): void {}
-
-    /**
-     * Calls {@link Widget#handlePostFinalizeBounds} if widget is enabled. Must
-     * not be overridden.
-     */
-    postFinalizeBounds(): void {
-        if(this._enabled)
-            this.handlePostFinalizeBounds();
     }
 
     /**

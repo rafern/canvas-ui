@@ -53,17 +53,6 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
             this._layoutDirty = true;
     }
 
-    protected override handlePostFinalizeBounds(): void {
-        // Post-finalize bounds update child
-        const child = this.child;
-        child.postFinalizeBounds();
-
-        // If child's layout is dirty, set self's layout as dirty so that
-        // same-frame re-layouts are triggered
-        if(child.layoutDirty)
-            this._layoutDirty = true;
-    }
-
     protected override handlePostLayoutUpdate(): void {
         // Post-layout update child
         const child = this.child;
@@ -129,7 +118,9 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
             this.backgroundDirty = true;
     }
 
-    protected override afterPositionResolved(): void {
+    override resolvePosition(x: number, y: number): void {
+        super.resolvePosition(x, y);
+
         // Get padding and alignment
         const padding = this.containerPadding;
         const alignment = this.containerAlignment;
@@ -140,7 +131,7 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
         const usedHeight = childHeight + padding.top + padding.bottom;
 
         // Horizontal offset
-        let childX = this.idealX + padding.left;
+        let childX = x + padding.left;
         if(alignment.horizontal !== Alignment.Stretch) {
             // Get free space for this axis
             const freeSpace = this.idealWidth - usedWidth;
@@ -154,7 +145,7 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
         }
 
         // Vertical offset
-        let childY = this.idealY + padding.top;
+        let childY = y + padding.top;
         if(alignment.vertical !== Alignment.Stretch) {
             // Same logic as above, but for vertical axis
             const freeSpace = this.idealHeight - usedHeight;
