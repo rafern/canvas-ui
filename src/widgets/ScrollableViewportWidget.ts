@@ -605,7 +605,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
         const percent = this.scroll[axisIndex];
         const childLength = this.child.idealDimensions[axisIndex];
         const viewportLength = vertical ? this.effectiveHeight : this.effectiveWidth;
-        const thickness = this.scrollBarThickness;
+        const thickness = Math.min(this.scrollBarThickness, this.width / 2, this.height / 2);
         const minPercent = this.scrollBarMinPercent;
         const minPixels = this.scrollBarMinPixels;
 
@@ -624,7 +624,7 @@ export class ScrollableViewportWidget<W extends Widget = Widget> extends Viewpor
                     minPercent,
                 ) * viewportLengthCorner,
             ),
-            viewportLengthCorner,
+            viewportLength,
         );
 
         const offset = (viewportLengthCorner - length) * percent;

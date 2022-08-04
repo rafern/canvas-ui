@@ -277,8 +277,17 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.internalViewport.constraints = this.scaledConstraints;
             this.internalViewport.resolveLayout();
         }
-        else if(child.layoutDirty)
-            this._layoutDirty = true;
+        else {
+            // HACK manually call post-finalize-bounds update method, otherwise
+            // the method is never called because resolveLayout is not called.
+            // this wouldnt be needed if viewports had clearly defined update
+            // stages (no same-frame re-layouts)
+            if(!child.layoutDirty)
+                this.child.postFinalizeBounds();
+
+            if(child.layoutDirty)
+                this._layoutDirty = true;
+        }
     }
 
     protected override handlePostLayoutUpdate(): void {

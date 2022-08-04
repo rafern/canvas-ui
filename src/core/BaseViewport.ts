@@ -14,7 +14,7 @@ export abstract class BaseViewport implements Viewport {
     abstract readonly context: CanvasRenderingContext2D;
     @watchArrayField(BaseViewport.prototype.forceLayoutDirty)
     constraints: LayoutConstraints;
-    @watchArrayField(BaseViewport.prototype.updateChildPos)
+    @watchArrayField(BaseViewport.prototype.updateEverything)
     rect: Rect;
     abstract get effectiveScale(): [scaleX: number, scaleY: number];
     parent: Viewport | null = null;
@@ -41,16 +41,16 @@ export abstract class BaseViewport implements Viewport {
         this.offset = [0, 0];
     }
 
+    private updateEverything() {
+        this.child.forceDirty();
+        this.updateChildPos();
+    }
+
     private forceLayoutDirty() {
         this.child.forceDirty();
     }
 
     private updateChildPos() {
-        // HACK this can be called when offset is not initialised. ignore if
-        // offset is undefined
-        if(this.offset === undefined)
-            return;
-
         if(!this.relativeCoordinates && this.child.active) {
             const [l, t, _w, _h] = this.rect;
             const [ox, oy] = this.offset;

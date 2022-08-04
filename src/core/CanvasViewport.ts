@@ -68,6 +68,7 @@ export class CanvasViewport extends BaseViewport {
     }
 
     override resolveLayout(): boolean {
+        const [oldESX, oldESY] = this.effectiveScale;
         const wasResized = super.resolveLayout();
 
         // Re-scale canvas if neccessary.
@@ -95,18 +96,28 @@ export class CanvasViewport extends BaseViewport {
                 }
             }
 
-            if(newCanvasWidth !== this.canvas.width || newCanvasHeight !== this.canvas.height) {
+            // XXX force-mark child as dirty if the canvas was resized with a
+            // new scale. when copying using different scales, some artifacts
+            // are introduced. fix this by re-painting everything. since we're
+            // re-painting, theres no need to copy the old canvas contents
+            const oldCanvasWidth = this.canvas.width;
+            const oldCanvasHeight = this.canvas.height;
+            const [newESX, newESY] = this.effectiveScale;
+            let needsCopying = oldCanvasWidth !== 0 && oldCanvasHeight !== 0;
+            if(newESX !== oldESX || newESY !== oldESY) {
+                needsCopying = false;
+                this.child.forceDirty();
+            }
+
+            if(newCanvasWidth !== oldCanvasWidth || newCanvasHeight !== oldCanvasHeight) {
                 // Resizing a canvas clears its contents. To mitigate this, copy
                 // the canvas contents to a new canvas, resize the canvas and
                 // copy the contents back. To avoid unnecessary copying, the
                 // canvas will not be copied if the old dimensions of the child
                 // were 0x0
                 // TODO resizing is kinda expensive. maybe find a better way?
-                const oldCanvasWidth = this.canvas.width;
-                const oldCanvasHeight = this.canvas.height;
-
                 let copyCanvas = null;
-                if(oldCanvasWidth !== 0 && oldCanvasHeight !== 0) {
+                if(needsCopying) {
                     copyCanvas = document.createElement('canvas');
                     copyCanvas.width = oldCanvasWidth;
                     copyCanvas.height = oldCanvasHeight;
@@ -197,12 +208,14 @@ export class CanvasViewport extends BaseViewport {
 
             // Don't paint if outside of bounds
             if(wClipped !== 0 && hClipped !== 0) {
+                const [esx, esy] = this.effectiveScale;
+
                 ctx.drawImage(
                     this.canvas,
-                    xDst - origXDst,
-                    yDst - origYDst,
-                    wClipped,
-                    hClipped,
+                    (xDst - origXDst) * esx,
+                    (yDst - origYDst) * esy,
+                    wClipped * esx,
+                    hClipped * esy,
                     xDst,
                     yDst,
                     wClipped,
@@ -224,9 +237,12 @@ export class CanvasViewport extends BaseViewport {
         // Correct positions of events.
         if(event instanceof PointerEvent) {
             const [cl, ct, _cw, _ch] = this.rect;
+            const [ox, oy] = this.offset;
+            const x = cl + ox;
+            const y = ct + oy;
 
-            if(cl !== 0 || ct !== 0)
-                event = event.correctOffset(cl, ct);
+            if(x !== 0 || y !== 0)
+                event = event.correctOffset(x, y);
         }
 
         return super.beforeDispatch(event);

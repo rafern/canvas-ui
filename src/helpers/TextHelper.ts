@@ -691,7 +691,10 @@ export class TextHelper {
         if(range.length === 1 && range[0][0] === range[0][1])
             return [range[0][0], [range[0][2] + shift, yOffset]];
 
-        // TODO This has linear complexity, use binary search instead if possible
+        // TODO This has linear complexity, use binary search instead if
+        // possible. This is especially noticeable when using really large text
+        // (canvas-ui freezes for a second on a ryzen 5900x, which is not good)
+
         // For each character, find index at which offset is smaller than
         // total length minus half length of current character
         let lastLength = 0;
