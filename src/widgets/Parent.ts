@@ -59,11 +59,11 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
             child.dryPaint();
     }
 
-    override forceDirty(): void {
-        super.forceDirty();
+    override forceDirty(markLayout = true): void {
+        super.forceDirty(markLayout);
 
         for(const child of this.children)
-            child.forceDirty();
+            child.forceDirty(markLayout);
     }
 
     /** Get amount of children of this parent widget. */

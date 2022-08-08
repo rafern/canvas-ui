@@ -691,13 +691,8 @@ export class TextHelper {
         if(range.length === 1 && range[0][0] === range[0][1])
             return [range[0][0], [range[0][2] + shift, yOffset]];
 
-        // TODO This has linear complexity, use binary search instead if
-        // possible. This is especially noticeable when using really large text
-        // (canvas-ui freezes for a second on a ryzen 5900x, which is not good)
-
         // For each character, find index at which offset is smaller than
         // total length minus half length of current character
-        let lastLength = 0;
         const lineStart = range[0][0];
 
         // Special case; if line range ends with a newline, ignore last
@@ -706,23 +701,42 @@ export class TextHelper {
         if(this.text[lineEnd - 1] === '\n')
             lineEnd--;
 
+        let closestNext = -1;
+        let closestNextLen = 0;
         const xOffsetUnshifted = offset[0] - shift;
-        for(let i = lineStart; i < lineEnd; i++) {
-            // Measure length from this index to the next
-            const length = this.getLineRangeWidthUntil(range, i + 1);
-            const criticalOffset = (length + lastLength) / 2;
+        let start = lineStart, end = lineEnd + 1, iLast = 0, lenLast = 0;
+        do {
+            // Measure length from the line start to the end of the current
+            // character
+            const i = start + Math.floor((end - start) / 2);
+            const len = this.getLineRangeWidthUntil(range, i);
 
-            // If offset is before critical offset, this is the index we're
-            // looking for
-            if(xOffsetUnshifted < criticalOffset)
-                return [i, [lastLength + shift, yOffset]];
+            if(len >= xOffsetUnshifted) {
+                end = i;
+                closestNext = i;
+                closestNextLen = len;
+            }
+            else {
+                start = i + 1;
+                iLast = i;
+                lenLast = len;
+            }
+        } while(start !== end);
 
-            // Update last length
-            lastLength = length;
+        // If cursor is after halfway point of character, use next character
+        // instead
+        if(iLast < lineEnd) {
+            const iNext = iLast + 1;
+            let lenNext = closestNextLen;
+            if(closestNext !== iNext)
+                lenNext = this.getLineRangeWidthUntil(range, iNext);
+
+            const mid = lenLast + (lenNext - lenLast) / 2;
+            if(xOffsetUnshifted >= mid)
+                return [iNext, [lenNext + shift, yOffset]];
         }
 
-        // Offset is after full length of text, return index after end
-        return [lineEnd, [lastLength + shift, yOffset]];
+        return [iLast, [lenLast + shift, yOffset]];
     }
 
     /**

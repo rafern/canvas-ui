@@ -354,8 +354,8 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         super.dryPaint();
     }
 
-    override forceDirty(): void {
-        super.forceDirty();
+    override forceDirty(markLayout = true): void {
+        super.forceDirty(markLayout);
         this.backgroundDirty = true;
     }
 }

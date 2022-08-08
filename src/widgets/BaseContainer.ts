@@ -192,8 +192,8 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
         super.dryPaint();
     }
 
-    override forceDirty(): void {
-        super.forceDirty();
+    override forceDirty(markLayout = true): void {
+        super.forceDirty(markLayout);
         this.backgroundDirty = true;
     }
 }

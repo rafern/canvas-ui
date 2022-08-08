@@ -51,9 +51,15 @@ export class BaseTheme implements ThemeProperties {
         this.onThemeUpdated();
     }
 
-    /** Called when the fallback theme changes. Does nothing by default. */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected onThemeUpdated(_property: string | null = null): void {}
+    /**
+     * Called when the fallback theme changes. Does nothing by default.
+     *
+     * @param property - The property name of the theme property that was updated. If a general theme update, then this will be null and all theme properties should be treated as changed.
+     */
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
+    protected onThemeUpdated(property: string | null = null): void {}
 
     /** Create a new BaseTheme */
     constructor(properties?: ThemeProperties, fallbackTheme?: Theme) {

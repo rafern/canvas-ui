@@ -23,8 +23,12 @@ export declare class BaseTheme implements ThemeProperties {
      */
     protected get fallbackTheme(): Theme | undefined;
     protected set fallbackTheme(newTheme: Theme | undefined);
-    /** Called when the fallback theme changes. Does nothing by default. */
-    protected onThemeUpdated(_property?: string | null): void;
+    /**
+     * Called when the fallback theme changes. Does nothing by default.
+     *
+     * @param property - The property name of the theme property that was updated. If a general theme update, then this will be null and all theme properties should be treated as changed.
+     */
+    protected onThemeUpdated(property?: string | null): void;
     /** Create a new BaseTheme */
     constructor(properties?: ThemeProperties, fallbackTheme?: Theme);
     /** See {@link BaseTheme#canvasFill}. For internal use only. */

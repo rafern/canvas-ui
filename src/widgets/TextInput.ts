@@ -858,11 +858,6 @@ export class TextInput extends Widget {
     }
 
     protected override handlePostLayoutUpdate(): void {
-        // TODO revert textHelper.width/height and cursorOffset/selectOffset
-        // rounding when the positioning system is fixed to allow non-integer
-        // positions
-        // - done, but still need to clean things up. do another round
-
         // Update cursor offset. Needs to be updated post-layout because it is
         // dependent on maxWidth. Round to nearest integer to avoid
         // anti-aliasing artifacts (cursor loses sharpness despite being fully

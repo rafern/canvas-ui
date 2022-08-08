@@ -92,8 +92,6 @@ export class Root {
      * and {@link Root#getTextInput}
      */
     protected _mobileTextInUse = false;
-    /** See {@link resolution} */
-    private _resolution = 1;
     /** Has the warning for poorly captured TabSelect events been issued? */
     private static badTabCaptureWarned = false;
 
@@ -191,7 +189,7 @@ export class Root {
      * Call this before calling {@link Root#postLayoutUpdate} and after calling
      * {@link Root#preLayoutUpdate}
      *
-     * @returns Returns true if viewport was resized
+     * @returns Returns true if the viewport was resized or re-scaled
      */
     resolveLayout(): boolean {
         // Don't do anything if Root is disabled
@@ -557,24 +555,26 @@ export class Root {
     }
 
     /**
-     * The resolution of this Root; theme properties that are absolute sizes in
-     * pixels will automatically be multiplied by this value. Keep this value in
-     * mind when implementing your own properties that have absolute sizes.
+     * Shortcut for {@link Root#viewport}'s {@link CanvasViewport#resolution}
+     * property.
+     *
+     * Note that, although the resolution is part of the {@link CanvasViewport}
+     * API, widgets will treat the resolution property as being per-Root, not
+     * per-Viewport (hence the lack of a Viewport.resolution property). The
+     * resolution property is part of the CanvasViewport class so that
+     * CanvasViewport is not circularly dependent on the Root class.
      */
     get resolution(): number {
-        return this._resolution;
+        return this.viewport.resolution;
     }
 
     set resolution(resolution: number) {
-        if(this._resolution !== resolution) {
-            this._resolution = resolution;
-            this.child.forceThemeUpdate();
-        }
+        this.viewport.resolution = resolution;
     }
 
     /**
-     * Shortcut for {@link Root#viewport}'s
-     * {@link Viewport#maxCanvasWidth} property
+     * Shortcut for {@link Root#viewport}'s {@link Viewport#maxCanvasWidth}
+     * property
      */
     get maxCanvasWidth(): number {
         return this.viewport.maxCanvasWidth;
@@ -585,8 +585,8 @@ export class Root {
     }
 
     /**
-     * Shortcut for {@link Root#viewport}'s
-     * {@link Viewport#maxCanvasHeight} property
+     * Shortcut for {@link Root#viewport}'s {@link Viewport#maxCanvasHeight}
+     * property
      */
     get maxCanvasHeight(): number {
         return this.viewport.maxCanvasHeight;

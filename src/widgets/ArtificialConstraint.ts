@@ -35,13 +35,11 @@ export class ArtificialConstraint<W extends Widget = Widget> extends Passthrough
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        // Further restrict constraints if possible. Scale custom constraints
-        // with resolution
-        const res = this.root?.resolution ?? 1;
-        let newMinWidth = Math.min(Math.max(this.constraints[0] * res, minWidth), maxWidth);
-        let newMinHeight = Math.min(Math.max(this.constraints[2] * res, minHeight), maxHeight);
-        const newMaxWidth = Math.min(Math.max(this.constraints[1] * res, minWidth), maxWidth);
-        const newMaxHeight = Math.min(Math.max(this.constraints[3] * res, minHeight), maxHeight);
+        // Further restrict constraints if possible
+        let newMinWidth = Math.min(Math.max(this.constraints[0], minWidth), maxWidth);
+        let newMinHeight = Math.min(Math.max(this.constraints[2], minHeight), maxHeight);
+        const newMaxWidth = Math.min(Math.max(this.constraints[1], minWidth), maxWidth);
+        const newMaxHeight = Math.min(Math.max(this.constraints[3], minHeight), maxHeight);
 
         if(newMinWidth > newMaxWidth)
             newMinWidth = newMaxWidth;

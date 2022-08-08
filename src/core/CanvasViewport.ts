@@ -1,12 +1,12 @@
+import { flagField, paintField } from '../decorators/FlagFields';
 import { roundToPower2 } from '../helpers/roundToPower2';
-import { paintField } from '../decorators/FlagFields';
 import { PointerEvent } from '../events/PointerEvent';
 import type { FillStyle } from '../theme/FillStyle';
 import type { Widget } from '../widgets/Widget';
 import { isPower2 } from '../helpers/isPower2';
 import { BaseViewport } from './BaseViewport';
 import { Event } from '../events/Event';
-import {  Msg } from './Strings';
+import { Msg } from './Strings';
 
 /**
  * Viewports are internally used to manage a canvas' size and painting. It is
@@ -33,7 +33,18 @@ export class CanvasViewport extends BaseViewport {
      */
     @paintField
     maxCanvasHeight = 16384;
-    _forceResize = true;
+    /**
+     * The resolution of the canvas. If possible, the canvas will be scaled by
+     * this amount.
+     */
+    @flagField('_forceResize')
+    resolution: number;
+    /** Does the canvas size need to be updated? For internal use only. */
+    protected _forceResize = true;
+    /** Previous horizontal effective scale. For internal use only. */
+    private _prevESX = 1;
+    /** Previous vertical effective scale. For internal use only. */
+    private _prevESY = 1;
 
     /**
      * Create a new CanvasViewport.
@@ -42,8 +53,10 @@ export class CanvasViewport extends BaseViewport {
      * {@link CanvasViewport#canvas} and {@link Viewport#context}. Failure to
      * get a canvas context results in an exception.
      */
-    constructor(child: Widget, startingWidth = 64, startingHeight = 64) {
+    constructor(child: Widget, resolution = 1, startingWidth = 64, startingHeight = 64) {
         super(child, true);
+
+        this.resolution = resolution;
 
         // Create internal canvas
         this.canvas = document.createElement('canvas');
@@ -67,9 +80,16 @@ export class CanvasViewport extends BaseViewport {
         return [this.canvas.width, this.canvas.height];
     }
 
+    /**
+     * Resolves the Viewport child's layout (including position) in one call,
+     * using the previous position.
+     *
+     * May resize or rescale the canvas.
+     *
+     * @returns Returns true if the widget or canvas were resized, or the canvas rescaled, else, false.
+     */
     override resolveLayout(): boolean {
-        const [oldESX, oldESY] = this.effectiveScale;
-        const wasResized = super.resolveLayout();
+        let wasResized = super.resolveLayout();
 
         // Re-scale canvas if neccessary.
         if(wasResized || this._forceResize) {
@@ -79,7 +99,9 @@ export class CanvasViewport extends BaseViewport {
             // bigger powers. This is to avoid issues with mipmapping, which
             // requires texture sizes to be powers of 2. Make sure that the
             // maximum canvas dimensions aren't exceeded
-            const [newWidth, newHeight] = this.child.dimensions;
+            const [newUnscaledWidth, newUnscaledHeight] = this.child.dimensions;
+            const newWidth = newUnscaledWidth * this.resolution;
+            const newHeight = newUnscaledHeight * this.resolution;
             const newCanvasWidth = Math.min(Math.max(roundToPower2(newWidth), this.canvas.width), this.maxCanvasWidth);
             const newCanvasHeight = Math.min(Math.max(roundToPower2(newHeight), this.canvas.height), this.maxCanvasHeight);
 
@@ -104,9 +126,15 @@ export class CanvasViewport extends BaseViewport {
             const oldCanvasHeight = this.canvas.height;
             const [newESX, newESY] = this.effectiveScale;
             let needsCopying = oldCanvasWidth !== 0 && oldCanvasHeight !== 0;
-            if(newESX !== oldESX || newESY !== oldESY) {
+            if(newESX !== this._prevESX || newESY !== this._prevESY) {
+                this._prevESX = newESX;
+                this._prevESY = newESY;
                 needsCopying = false;
-                this.child.forceDirty();
+                wasResized = true;
+                this.child.forceDirty(false);
+                // bounds need to be finalized again because the scale just
+                // changed and so the ideal dimensions need to be re-rounded
+                this.child.finalizeBounds();
             }
 
             if(newCanvasWidth !== oldCanvasWidth || newCanvasHeight !== oldCanvasHeight) {
@@ -116,7 +144,9 @@ export class CanvasViewport extends BaseViewport {
                 // canvas will not be copied if the old dimensions of the child
                 // were 0x0
                 // TODO resizing is kinda expensive. maybe find a better way?
+                wasResized = true;
                 let copyCanvas = null;
+
                 if(needsCopying) {
                     copyCanvas = document.createElement('canvas');
                     copyCanvas.width = oldCanvasWidth;
@@ -152,19 +182,13 @@ export class CanvasViewport extends BaseViewport {
         return wasResized;
     }
 
-    /** Get the canvas scale that will be applied given a width and height */
-    private getAppliedScaleFrom(width: number, height: number): [scaleX: number, scaleY: number] {
-        let scaleX = 1, scaleY = 1;
-        if(width > this.maxCanvasWidth)
-            scaleX = this.maxCanvasWidth / width;
-        if(height > this.maxCanvasHeight)
-            scaleY = this.maxCanvasHeight / height;
-
-        return [scaleX, scaleY];
-    }
-
     get effectiveScale(): [scaleX: number, scaleY: number] {
-        return this.getAppliedScaleFrom(...this.child.dimensions);
+        const [width, height] = this.child.dimensions;
+
+        return [
+            Math.min(this.maxCanvasWidth / width, this.resolution),
+            Math.min(this.maxCanvasHeight / height, this.resolution)
+        ];
     }
 
     /**
@@ -177,15 +201,15 @@ export class CanvasViewport extends BaseViewport {
 
         // scale canvas if child dimensions exceed maximum canvas dimensions
         const [scaleX, scaleY] = this.effectiveScale;
-        const needsSquish = scaleX !== 1 || scaleY !== 1;
-        if(needsSquish) {
+        const needsScale = scaleX !== 1 || scaleY !== 1;
+        if(needsScale) {
             this.context.save();
             this.context.scale(scaleX, scaleY);
         }
 
         this.child.paint(force);
 
-        if(needsSquish)
+        if(needsScale)
             this.context.restore();
 
         return wasDirty;

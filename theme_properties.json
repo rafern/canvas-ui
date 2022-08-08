@@ -22,8 +22,7 @@
         "containerPadding": {
             "type": "Padding",
             "default": "<Padding>{left: 4, right: 4, top: 4, bottom: 4}",
-            "description": "The {@link Padding} used in {@link Container}.",
-            "scaleWithResolution": true
+            "description": "The {@link Padding} used in {@link Container}."
         },
         "containerAlignment": {
             "type": "Alignment2D",
@@ -33,8 +32,7 @@
         "multiContainerSpacing": {
             "type": "number",
             "default": "4",
-            "description": "The spacing length between widgets in {@link MultiContainer}.",
-            "scaleWithResolution": true
+            "description": "The spacing length between widgets in {@link MultiContainer}."
         },
         "multiContainerAlignment": {
             "type": "FlexAlignment2D",
@@ -64,20 +62,17 @@
         "sliderMinLength": {
             "type": "number",
             "default": "100",
-            "description": "The minimum length of a {@link Slider}",
-            "scaleWithResolution": true
+            "description": "The minimum length of a {@link Slider}"
         },
         "sliderThickness": {
             "type": "number",
             "default": "10",
-            "description": "The thickness of a {@link Slider}",
-            "scaleWithResolution": true
+            "description": "The thickness of a {@link Slider}"
         },
         "bodyTextFont": {
             "type": "font",
             "default": "'1rem sans-serif'",
-            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for body text (most regular text).",
-            "scaleWithResolution": true
+            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for body text (most regular text)."
         },
         "bodyTextFill": {
             "type": "FillStyle",
@@ -87,14 +82,12 @@
         "bodyTextHeight": {
             "type": "number | null",
             "default": "null",
-            "description": "The height of each line of text in body text (most regular text). If null, it will be automatically detected.",
-            "scaleWithResolution": true
+            "description": "The height of each line of text in body text (most regular text). If null, it will be automatically detected."
         },
         "bodyTextSpacing": {
             "type": "number | null",
             "default": "null",
-            "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected.",
-            "scaleWithResolution": true
+            "description": "The spacing between each line of text in body text (most regular text). If null, it will be automatically detected."
         },
         "bodyTextAlign": {
             "type": "TextAlignMode | number",
@@ -104,14 +97,12 @@
         "checkboxLength": {
             "type": "number",
             "default": "12",
-            "description": "The length in pixels used for {@link Checkbox}.",
-            "scaleWithResolution": true
+            "description": "The length in pixels used for {@link Checkbox}."
         },
         "checkboxInnerPadding": {
             "type": "number",
             "default": "2",
-            "description": "The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box.",
-            "scaleWithResolution": true
+            "description": "The {@link Padding} used for {@link Checkbox} between the accent box shown when ticked and the background box."
         },
         "inputBackgroundFill": {
             "type": "FillStyle",
@@ -126,8 +117,7 @@
         "inputTextFont": {
             "type": "font",
             "default": "'1rem monospace'",
-            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for text in input widgets like {@link TextInput}.",
-            "scaleWithResolution": true
+            "description": "The {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font | font style} used for text in input widgets like {@link TextInput}."
         },
         "inputTextFill": {
             "type": "FillStyle",
@@ -147,26 +137,22 @@
         "inputTextHeight": {
             "type": "number | null",
             "default": "null",
-            "description": "The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected.",
-            "scaleWithResolution": true
+            "description": "The height of each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
         },
         "inputTextSpacing": {
             "type": "number | null",
             "default": "null",
-            "description": "The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected.",
-            "scaleWithResolution": true
+            "description": "The spacing between each line of text in input widgets like {@link TextInput}. If null, it will be automatically detected."
         },
         "inputTextInnerPadding": {
             "type": "number",
             "default": "2",
-            "description": "The {@link Padding} between text and border used for text input widgets like {@link TextInput}.",
-            "scaleWithResolution": true
+            "description": "The {@link Padding} between text and border used for text input widgets like {@link TextInput}."
         },
         "inputTextMinWidth": {
             "type": "number",
             "default": "100",
-            "description": "The default minimum width of text input widgets like {@link TextInput}.",
-            "scaleWithResolution": true
+            "description": "The default minimum width of text input widgets like {@link TextInput}."
         },
         "inputTextAlign": {
             "type": "TextAlignMode | number",
@@ -181,14 +167,12 @@
         "cursorThickness": {
             "type": "number",
             "default": "1",
-            "description": "The thickness of a text cursor in pixels.",
-            "scaleWithResolution": true
+            "description": "The thickness of a text cursor in pixels."
         },
         "scrollBarThickness": {
             "type": "number",
             "default": "8",
-            "description": "The thickness of a {@link ScrollableViewportWidget}'s scrollbar in pixels.",
-            "scaleWithResolution": true
+            "description": "The thickness of a {@link ScrollableViewportWidget}'s scrollbar in pixels."
         },
         "scrollBarMinPercent": {
             "type": "number",
@@ -198,20 +182,17 @@
         "scrollBarMinPixels": {
             "type": "number",
             "default": "20",
-            "description": "The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels.",
-            "scaleWithResolution": true
+            "description": "The minimum length of the filled part of a {@link ScrollableViewportWidget}'s scrollbar in pixels."
         },
         "radioButtonLength": {
             "type": "number",
             "default": "12",
-            "description": "Similar to {@link ThemeProperties#checkboxLength}, but for {@link RadioButton}.",
-            "scaleWithResolution": true
+            "description": "Similar to {@link ThemeProperties#checkboxLength}, but for {@link RadioButton}."
         },
         "radioButtonInnerPadding": {
             "type": "number",
             "default": "2",
-            "description": "Similar to {@link ThemeProperties#checkboxInnerPadding}, but for {@link RadioButton}.",
-            "scaleWithResolution": true
+            "description": "Similar to {@link ThemeProperties#checkboxInnerPadding}, but for {@link RadioButton}."
         }
     }
 }

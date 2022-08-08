@@ -92,15 +92,6 @@ export class DOMRoot extends Root {
         }
     }
 
-    override get resolution(): number {
-        return super.resolution;
-    }
-
-    override set resolution(resolution: number) {
-        super.resolution = resolution;
-        this.autoScale();
-    }
-
     /** Update the width and height of {@link DOMRoot#domElem} */
     private updateDOMDims(): void {
         const [scaleX, scaleY] = this.effectiveScale;
@@ -112,10 +103,13 @@ export class DOMRoot extends Root {
         this.domElem.height = Math.round(dimsY * scaleY);
     }
 
-    /** Apply CSS scaling to the DOM element depending on the Root resolution */
+    /**
+     * Counter Root viewport scaling with an opposite CSS scale (via width and
+     * height, not CSS transforms).
+     */
     private autoScale(): void {
         const [scaleX, scaleY] = this.effectiveScale;
-        this.domElem.style.width = (this.domElem.width / this.resolution / scaleX).toString() + 'px';
-        this.domElem.style.height = (this.domElem.height / this.resolution / scaleY).toString() + 'px';
+        this.domElem.style.width = (this.domElem.width / scaleX).toString() + 'px';
+        this.domElem.style.height = (this.domElem.height / scaleY).toString() + 'px';
     }
 }

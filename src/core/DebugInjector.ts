@@ -360,8 +360,6 @@ export function injectDebugCode(): void {
     injectStackTraceFeature(Widget, 'paint');
     // stacktrace.Widget.dryPaint
     injectStackTraceFeature(Widget, 'dryPaint');
-    // stacktrace.Widget.forceThemeUpdate
-    injectStackTraceFeature(Widget, 'forceThemeUpdate');
     // stacktrace.Widget.forceDirty
     injectStackTraceFeature(Widget, 'forceDirty');
     // stacktrace.Widget.scaleFont
