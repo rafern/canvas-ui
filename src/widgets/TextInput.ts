@@ -700,7 +700,7 @@ export class TextInput extends Widget {
                 // Get mobile-friendly text input if available
                 if(root.hasMobileTextInput) {
                     root.getTextInput(this.text).then((newValue: string | null) => {
-                        if(newValue === null)
+                        if(newValue === null || (this.inputFilter !== null && !this.inputFilter(newValue)))
                             return;
 
                         if(this.text !== newValue) {

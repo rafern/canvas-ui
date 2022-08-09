@@ -12,7 +12,6 @@ export function DefaultTextInputHandler(initialInput: string): Promise<string> {
     return new Promise((accept, _reject) => {
         function closePopup() {
             // Close text input popup
-            document.body.removeChild(containerElem);
             document.body.removeChild(overlayElem);
         }
 
@@ -28,14 +27,6 @@ export function DefaultTextInputHandler(initialInput: string): Promise<string> {
             accept(inElem.value);
         }
 
-        function enterChecker(event: KeyboardEvent) {
-            // Check if enter key was pressed
-            if(event.key == 'Enter') {
-                event.preventDefault();
-                okHandler();
-            }
-        }
-
         // Create overlay
         const overlayElem = document.createElement('div');
         overlayElem.id = 'textInputHandlerOverlay';
@@ -49,8 +40,7 @@ export function DefaultTextInputHandler(initialInput: string): Promise<string> {
         textElem.textContent = 'Change text:';
 
         // Create input element
-        const inElem = document.createElement('input');
-        inElem.addEventListener('keyup', enterChecker);
+        const inElem = document.createElement('textarea');
         inElem.value = initialInput;
 
         // Create button row element
@@ -76,8 +66,8 @@ export function DefaultTextInputHandler(initialInput: string): Promise<string> {
         containerElem.appendChild(buttonRowElem);
 
         // Add overlay and container to body
+        overlayElem.appendChild(containerElem);
         document.body.appendChild(overlayElem);
-        document.body.appendChild(containerElem);
 
         // Focus input
         inElem.focus({ preventScroll: false });
