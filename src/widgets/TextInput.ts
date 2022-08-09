@@ -638,7 +638,7 @@ export class TextInput extends Widget {
                 this.moveCursorFromOffset(
                     event.x - this.idealX - padding + this.offset[0],
                     event.y - this.idealY - padding + this.offset[1],
-                    !isPress && this.dragging,
+                    (!isPress && this.dragging) || (isPress && event.shift),
                 );
 
                 if(isPress) {
