@@ -3,6 +3,13 @@ import type { Widget } from "../widgets/Widget";
 import { BaseViewport } from "./BaseViewport";
 import { Msg } from './Strings';
 
+/**
+ * A {@link Viewport} which inherits a rendering context from the closest parent
+ * Viewport and paints {@link Widget | Widgets} by clipping them to the
+ * Viewport's rectangle.
+ *
+ * @category Core
+ */
 export class ClippedViewport extends BaseViewport {
     get context(): CanvasRenderingContext2D {
         if(this.parent === null)

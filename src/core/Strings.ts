@@ -1,6 +1,11 @@
 const baseCanvasContextMsg = 'Failed to get DOM canvas context. Make sure the 2D canvas context is supported';
 const badTextImpl = 'Text render group generation is incorrectly implemented. Please report this bug if you are not responsible for text rendering for this Widget.';
 
+/**
+ * Standard static console messages.
+ *
+ * @category Core
+ */
 export const Msg = {
     CANVAS_CONTEXT: `${baseCanvasContextMsg}.`,
     REUSABLE_CANVAS_CONTEXT: `${baseCanvasContextMsg} and the canvas is not being reused with a different rendering context.`,
@@ -30,6 +35,11 @@ function valueStr(value: unknown): string {
 
 const fpCause = 'This may be caused by floating pointer precision errors.';
 
+/**
+ * Standard dynamic console messages.
+ *
+ * @category Core
+ */
 export const DynMsg = {
     INVALID_BACKGROUND_FILL: (backgroundProperty: string | symbol) => `Unknown theme property: ${propStr(backgroundProperty)}. Valid background fill theme properties: "primaryFill", "accentFill", "backgroundGlowFill" and "backgroundFill".`,
     SWAPPED_MIN_MAX_NAMED: (minValue: unknown, maxValue: unknown, minName: string | symbol, maxName: string | symbol) => `${propStr(maxName)} value (${valueStr(maxValue)}) can't be smaller than ${propStr(minName)} value (${valueStr(minValue)}).`,
@@ -54,6 +64,11 @@ export const DynMsg = {
     UNTARGETABLE_EVENT: (eventName: string) => `${eventName} events cannot be targetted to a specific widget. Target ignored`,
 };
 
+/**
+ * Print a stack trace inside a collapsed group to the console.
+ *
+ * @category Core
+ */
 export function groupedStackTrace() {
     console.groupCollapsed('Stack trace');
     console.trace();

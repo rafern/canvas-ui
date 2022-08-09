@@ -7,6 +7,12 @@ import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
 import type { Viewport } from "./Viewport";
 
+/**
+ * The base implementation of the {@link Viewport} interface. See
+ * {@link CanvasViewport} and {@link ClippedViewport}.
+ *
+ * @category Core
+ */
 export abstract class BaseViewport implements Viewport {
     readonly relativeCoordinates: boolean;
     readonly child: Widget;
@@ -40,15 +46,31 @@ export abstract class BaseViewport implements Viewport {
         this.offset = [0, 0];
     }
 
+    /**
+     * Force-marks all flags as dirty in {@link BaseViewport#child} and calls
+     * {@link BaseViewport#updateChildPos}. Used as a callback for the
+     * {@link BaseViewport#rect} field watcher.
+     */
     private updateEverything() {
         this.child.forceDirty();
         this.updateChildPos();
     }
 
+    /**
+     * Force-marks all flags as dirty in {@link BaseViewport#child}. Used as a
+     * callback for the {@link BaseViewport#constraints} field watcher.
+     */
     private forceLayoutDirty() {
         this.child.forceDirty();
     }
 
+
+    /**
+     * Resolves the position of the child and finalizes its bounds. This
+     * effectively updates the position of the child in an out-of-order fashion
+     * (doesn't wait for the proper stage of the layout resolution). Used as a
+     * callback for the {@link BaseViewport#offset} field watcher.
+     */
     private updateChildPos() {
         if(!this.relativeCoordinates && this.child.active) {
             const [l, t, _w, _h] = this.rect;
@@ -101,15 +123,6 @@ export abstract class BaseViewport implements Viewport {
 
     abstract paint(force: boolean, backgroundFillStyle: FillStyle): boolean;
 
-    /**
-     * Extra stage before dispatching actual event to child so derivate class
-     * can modify the event being dispatched.
-     */
-    protected beforeDispatch(event: Event): Widget | null {
-        // Dispatch event to child
-        return this.child.dispatchEvent(event);
-    }
-
     dispatchEvent(event: Event): Widget | null {
         // Drop event if it is a positional event with no target outside the
         // child's viewport
@@ -128,11 +141,26 @@ export abstract class BaseViewport implements Viewport {
                 if(event.y >= cb)
                     return null;
             }
+
+            // Correct position of pointer event if this viewport has relative
+            // positions.
+            if(this.relativeCoordinates) {
+                const [ox, oy] = this.offset;
+                const x = cl + ox;
+                const y = ct + oy;
+
+                if(x !== 0 || y !== 0)
+                    event = event.correctOffset(x, y);
+            }
         }
 
-        return this.beforeDispatch(event);
+        return this.child.dispatchEvent(event);
     }
 
+    /**
+     * Get the rect of the child alongside more extra information,
+     * clipped/clamped to the bounds of the viewport. For internal use only.
+     */
     protected getClippedViewport(): [vpX: number, vpY: number, vpW: number, vpH: number, origXDst: number, origYDst: number, xDst: number, yDst: number, wClipped: number, hClipped: number] {
         // Calculate child's source and destination
         const [vpX, vpY, vpW, vpH] = this.rect;

@@ -55,6 +55,9 @@ export * from './helpers/measureTextDims';
 export * from './helpers/Rect';
 export * from './helpers/roundToPower2';
 export * from './helpers/TextHelper';
+// state management
+export * from './state/ValidatedVariable';
+export * from './state/Variable';
 // theme
 export * from './theme/Alignment';
 export * from './theme/Alignment2D';
@@ -66,9 +69,6 @@ export * from './theme/FlexAlignment2D';
 export * from './theme/Padding';
 export * from './theme/Theme';
 export * from './theme/ThemeProperties';
-// state management
-export * from './state/ValidatedVariable';
-export * from './state/Variable';
 // widgets
 export * from './widgets/VirtualKeyboard/AltKey';
 export * from './widgets/VirtualKeyboard/BackspaceKey';

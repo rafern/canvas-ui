@@ -344,8 +344,6 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
 
     protected override handlePainting(forced: boolean): void {
         // Clear background and paint canvas
-        // TODO forceRePaint is not needed for canvas viewports. arguably, no
-        // type of force re-painting is needed for canvas viewports. investigate
         this.internalViewport.paint(forced || this.forceRePaint, this.canvasFill);
         this.forceRePaint = false;
     }

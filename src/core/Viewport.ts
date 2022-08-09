@@ -4,6 +4,13 @@ import type { Widget } from "../widgets/Widget";
 import type { Event } from "../events/Event";
 import type { Rect } from "../helpers/Rect";
 
+/**
+ * Viewports are constrained rectangles that can be painted to. Viewports have a
+ * rendering context associated with them, either by inheriting them from a
+ * parent Viewport, or by having an internal canvas.
+ *
+ * @category Core
+ */
 export interface Viewport {
     /**
      * The coordinate system used for this Viewport. If true, then coordinates

@@ -1,16 +1,21 @@
 import { flagField, paintField } from '../decorators/FlagFields';
 import { roundToPower2 } from '../helpers/roundToPower2';
-import { PointerEvent } from '../events/PointerEvent';
 import type { FillStyle } from '../theme/FillStyle';
 import type { Widget } from '../widgets/Widget';
 import { isPower2 } from '../helpers/isPower2';
 import { BaseViewport } from './BaseViewport';
-import { Event } from '../events/Event';
 import { Msg } from './Strings';
 
 /**
- * Viewports are internally used to manage a canvas' size and painting. It is
- * used by {@link Root} and {@link ViewportWidget}.
+ * A {@link Viewport} with an internal canvas, where the rendering context used
+ * for the Viewport is the internal canvas' context instead of an inherited
+ * context from a parent Viewport.
+ *
+ * Mostly used as the top-most Viewport, such as the Viewport in a {@link Root}.
+ *
+ * Coordinates are relative to the internal canvas, instead of absolute. Because
+ * of this, viewport contents may be blurred if the position of the viewport is
+ * fractional.
  *
  * @category Core
  */
@@ -193,7 +198,9 @@ export class CanvasViewport extends BaseViewport {
 
     /**
      * Implements {@link Viewport#paint}, but only paints to the
-     * {@link CanvasViewport#canvas | internal canvas}.
+     * {@link CanvasViewport#canvas | internal canvas}. Call this instead of
+     * {@link Viewport#paint} if you are using this Viewport's canvas as the
+     * output canvas (such as in the {@link Root}).
      */
     paintToInternal(force: boolean): boolean {
         // Paint child
@@ -254,21 +261,5 @@ export class CanvasViewport extends BaseViewport {
         }
 
         return wasDirty;
-    }
-
-    override beforeDispatch(event: Event): Widget | null {
-        // CanvasViewports have positions relative to the canvas, not the Root.
-        // Correct positions of events.
-        if(event instanceof PointerEvent) {
-            const [cl, ct, _cw, _ch] = this.rect;
-            const [ox, oy] = this.offset;
-            const x = cl + ox;
-            const y = ct + oy;
-
-            if(x !== 0 || y !== 0)
-                event = event.correctOffset(x, y);
-        }
-
-        return super.beforeDispatch(event);
     }
 }
