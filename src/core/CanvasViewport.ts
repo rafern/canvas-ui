@@ -91,6 +91,10 @@ export class CanvasViewport extends BaseViewport {
      *
      * May resize or rescale the canvas.
      *
+     * Expands {@link CanvasViewport#canvas} if the new layout is too big for
+     * the current canvas. Expansion is done in powers of 2 to avoid issues with
+     * external 3D libraries.
+     *
      * @returns Returns true if the widget or canvas were resized, or the canvas rescaled, else, false.
      */
     override resolveLayout(): boolean {

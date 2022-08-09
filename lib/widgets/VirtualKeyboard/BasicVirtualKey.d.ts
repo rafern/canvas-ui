@@ -1,5 +1,4 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
-import type { TextGetter } from '../../widgets/Label';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 import { VirtualKey } from './VirtualKey';
 /**
@@ -16,5 +15,5 @@ export declare class BasicVirtualKey extends VirtualKey {
      * @param keyCode - The {@link https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values | key code} to emit in the keyContext's callback when the virtual key is pressed
      * @param keyContext - The {@link KeyContext} shared by other virtual keyboard key widgets.
      */
-    constructor(text: string | TextGetter, keyCode: string, keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(text: string, keyCode: string, keyContext: KeyContext, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

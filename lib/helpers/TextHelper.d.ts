@@ -91,7 +91,7 @@ export declare class TextHelper {
      * The current maximum text width. If not Infinite, then text will be
      * wrapped and width will be set to maxWidth.
      *
-     * @decorator `@multiFlagField(['_dirty', 'measureDirty'])`
+     * @decorator `@multiFlagField(['_dirty', 'maxWidthDirty'])`
      */
     maxWidth: number;
     /**
@@ -141,6 +141,8 @@ export declare class TextHelper {
     private _tabWidth;
     /** Does the text need to be re-measured? */
     private measureDirty;
+    /** Has the maximum width been changed? */
+    private maxWidthDirty;
     /** Does the line height or spacing need to be re-measured? */
     private lineHeightSpacingDirty;
     /** Does the tab width need to be re-measured? */
@@ -149,6 +151,8 @@ export declare class TextHelper {
     private _dirty;
     /** See {@link TextHelper#lineRanges}. For internal use only. */
     private _lineRanges;
+    /** Are any of the lines wrapped? For internal use only. */
+    private hasWrappedLines;
     /**
      * Has the text (or properties associated with it) changed? Resets
      * {@link TextHelper#_dirty} to false

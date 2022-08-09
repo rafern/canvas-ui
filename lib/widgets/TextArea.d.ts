@@ -1,7 +1,6 @@
-import { ScrollableViewportWidget, ScrollbarMode } from "./ScrollableViewportWidget";
-import type { ThemeProperties } from "../theme/ThemeProperties";
-import { TextValidator } from "../state/Validator";
-import { TextInput } from "./TextInput";
+import { ScrollableViewportWidget, ScrollableViewportWidgetProperties } from "./ScrollableViewportWidget";
+import type { ValidatedVariable } from "../state/ValidatedVariable";
+import { TextInput, TextInputProperties } from "./TextInput";
 /**
  * A {@link ScrollableViewportWidget} with a {@link TextInput}. Meant to be used
  * as an analogue to the HTML textarea. Allows tab typing by default.
@@ -16,11 +15,11 @@ import { TextInput } from "./TextInput";
  * @category Widget
  * @category Aggregate Widget
  */
-export declare class TextArea<V> extends ScrollableViewportWidget<TextInput<V>> {
-    constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, minWidth?: number, minHeight?: number, scrollbarMode?: ScrollbarMode, useViewport?: boolean, themeProperties?: ThemeProperties);
+export declare class TextArea extends ScrollableViewportWidget<TextInput> {
+    constructor(variable: ValidatedVariable<string, unknown>, properties?: Readonly<ScrollableViewportWidgetProperties & TextInputProperties>);
     /**
      * Get the {@link TextInput} of this TextArea. Equivalent to
      * {@link TextArea#child}.
      */
-    get textInput(): TextInput<V>;
+    get textInput(): TextInput;
 }

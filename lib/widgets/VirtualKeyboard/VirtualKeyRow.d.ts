@@ -1,4 +1,4 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 import type { VirtualKey } from './VirtualKey';
 import { Row } from '../Row';
@@ -9,12 +9,12 @@ import { Row } from '../Row';
  *
  * Example:
  * ```typescript
- * const template: VirtualKeyTemplate = (keyContext, themeProperties) => new BackspaceKey(keyContext, themeProperties);
+ * const template: VirtualKeyTemplate = (keyContext, properties) => new BackspaceKey(keyContext, properties);
  * ```
  *
  * @category Widget
  */
-export declare type VirtualKeyTemplate = (keyContext: KeyContext, themeProperties?: ThemeProperties) => VirtualKey;
+export declare type VirtualKeyTemplate = (keyContext: KeyContext, properties?: Readonly<WidgetProperties>) => VirtualKey;
 /**
  * A template for multiple {@link GlyphVirtualKey} virtual keyboard keys. A
  * 2-tuple of strings, where each string has the same length. Each character of
@@ -56,10 +56,8 @@ export declare class VirtualKeyRow extends Row<VirtualKey> {
      *
      * @param rowTemplate - Template for this row of virtual keys.
      * @param keyContext - The {@link KeyContext} to be shared among all virtual keys in this row.
-     * @param flex - The flex to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param minWidth - The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param minHeight - The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}
-     * @param themeProperties - The themeProperties to pass to each key widget and this row
+     * @param minWidth - The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
+     * @param minHeight - The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
      */
-    constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(rowTemplate: VirtualKeyRowTemplate, keyContext: KeyContext, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

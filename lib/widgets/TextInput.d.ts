@@ -1,12 +1,29 @@
-import { WatchableVariable } from '../state/WatchableVariable';
-import { ThemeProperties } from '../theme/ThemeProperties';
-import type { TextValidator } from '../state/Validator';
+import { ValidatedVariable } from '../state/ValidatedVariable';
+import { Widget, WidgetProperties } from './Widget';
 import { TextHelper } from '../helpers/TextHelper';
+import type { Viewport } from '../core/Viewport';
 import type { Bounds } from '../helpers/Bounds';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
 import type { Rect } from '../helpers/Rect';
-import { Widget } from './Widget';
+import type { Root } from '../core/Root';
+/**
+ * Optional TextInput constructor properties.
+ *
+ * @category Widget
+ */
+export interface TextInputProperties extends WidgetProperties {
+    /** Sets {@link TextInput#hideText}. */
+    hideText?: boolean;
+    /** Sets {@link TextInput#wrapText}. */
+    wrapText?: boolean;
+    /** Sets {@link TextInput#inputFilter}. */
+    inputFilter?: ((input: string) => boolean) | null;
+    /** Sets {@link TextInput#typeableTab}. */
+    typeableTab?: boolean;
+    /** Sets {@link TextInput#editingEnabled}. */
+    editingEnabled?: boolean;
+}
 /**
  * A flexbox widget that allows for a single line of text input.
  *
@@ -17,11 +34,9 @@ import { Widget } from './Widget';
  * If a {@link TextInputHandler} is set, then that will be used instead of
  * keyboard input for mobile compatibility.
  *
- * @typeParam V - The type of {@link TextInput#validValue}; the type of the transformed value returned by the validator.
- *
  * @category Widget
  */
-export declare class TextInput<V> extends Widget {
+export declare class TextInput extends Widget {
     /**
      * At what timestamp did the blinking start. If 0, then the text cursor is
      * not blinking.
@@ -50,14 +65,8 @@ export declare class TextInput<V> extends Widget {
      * @decorator `@multiFlagField(['cursorOffsetDirty', '_dirty'])`
      */
     hideText: boolean;
-    /** Is the text valid? */
-    private _valid;
-    /** Last valid value. */
-    private _validValue;
     /** The helper for measuring/painting text */
     protected textHelper: TextHelper;
-    /** The helper for keeping track of the input value */
-    protected variable: WatchableVariable<string>;
     /**
      * Current offset of the text in the text box. Used on overflow.
      *
@@ -108,8 +117,15 @@ export declare class TextInput<V> extends Widget {
      * layout is finalized?
      */
     private needsAutoScroll;
+    /** The helper for keeping track of the checkbox value */
+    readonly variable: ValidatedVariable<string, unknown>;
+    /** The callback used for the {@link TextInput#"variable"} */
+    private readonly callback;
     /** Create a new TextInput. */
-    constructor(validator: TextValidator<V>, inputFilter?: ((input: string) => boolean) | null, initialValue?: string, themeProperties?: ThemeProperties);
+    constructor(variable?: ValidatedVariable<string, unknown>, properties?: Readonly<TextInputProperties>);
+    protected handleChange(): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
+    deactivate(): void;
     protected onThemeUpdated(property?: string | null): void;
     /**
      * Is the text cursor shown?
@@ -139,10 +155,6 @@ export declare class TextInput<V> extends Widget {
      * replaced with a black circle.
      */
     get displayedText(): string;
-    /** Is the current value in the text input valid? */
-    get valid(): boolean;
-    /** The last valid value, transformed by the validator. */
-    get validValue(): V;
     /** The current line number, starting from 0. */
     get line(): number;
     /** Auto-scroll to the caret if the {@link blinkStart | caret is shown}. */
@@ -235,7 +247,7 @@ export declare class TextInput<V> extends Widget {
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): this | null;
     protected handlePreLayoutUpdate(): void;
-    protected handlePostFinalizeBounds(): void;
+    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
      * The rectangle that the caret occupies, relative to the TextInput's

@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ViewportWidget, ViewportWidgetProperties } from './ViewportWidget';
 import { AxisCoupling } from '../widgets/AxisCoupling';
-import { ViewportWidget } from './ViewportWidget';
 import type { Event } from '../events/Event';
 import type { Widget } from './Widget';
 /**
@@ -15,6 +14,15 @@ export declare enum ScrollbarMode {
     Layout = 1,
     /** The scrollbar is hidden, but the content can still be scrolled */
     Hidden = 2
+}
+/**
+ * Optional ScrollableViewportWidget constructor properties.
+ *
+ * @category Widget
+ */
+export interface ScrollableViewportWidgetProperties extends ViewportWidgetProperties {
+    /** Sets {@link ScrollableViewportWidget#scrollbarMode}. */
+    scrollbarMode?: ScrollbarMode;
 }
 /**
  * A wrapper for a {@link ViewportWidget} with scrollbars.
@@ -66,7 +74,7 @@ export declare class ScrollableViewportWidget<W extends Widget = Widget> extends
      *
      * If an axis is bi-coupled, that axis will not have a scrollbar.
      */
-    constructor(child: W, minWidth?: number, minHeight?: number, widthCoupling?: AxisCoupling, heightCoupling?: AxisCoupling, scrollbarMode?: ScrollbarMode, useViewport?: boolean, themeProperties?: ThemeProperties);
+    constructor(child: W, properties?: Readonly<ScrollableViewportWidgetProperties>);
     /** The mode for how the scrollbar is shown. */
     get scrollbarMode(): ScrollbarMode;
     set scrollbarMode(scrollbarMode: ScrollbarMode);

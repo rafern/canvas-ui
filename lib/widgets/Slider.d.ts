@@ -1,10 +1,21 @@
-import type { VariableCallback } from '../state/VariableCallback';
-import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../state/WatchableVariable';
 import { ClickHelper } from '../helpers/ClickHelper';
+import { Widget, WidgetProperties } from './Widget';
+import type { Viewport } from '../core/Viewport';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import { Widget } from './Widget';
+import { Variable } from '../state/Variable';
+import type { Root } from '../core/Root';
+/**
+ * Optional Slider constructor properties.
+ *
+ * @category Widget
+ */
+export interface SliderProperties extends WidgetProperties {
+    /** Sets {@link Slider#snapIncrement}. */
+    snapIncrement?: number;
+    /** Sets {@link Slider#vertical}. */
+    vertical?: boolean;
+}
 /**
  * A slider flexbox widget; can slide a numeric value from an inclusive minimum
  * value to an inclusive maximum value, with optional snapping along set
@@ -26,8 +37,6 @@ export declare class Slider extends Widget {
     private snapIncrement;
     /** The helper for handling pointer clicks/drags */
     protected clickHelper: ClickHelper;
-    /** The helper for keeping track of the slider's value */
-    protected variable: WatchableVariable<number>;
     /** Is this a vertical slider? */
     protected readonly vertical: boolean;
     /** The horizontal offset of the slider */
@@ -40,8 +49,21 @@ export declare class Slider extends Widget {
     private actualHeight;
     /** Is the keyboard focusing this widget? */
     private keyboardFocused;
+    /** The helper for keeping track of the slider value */
+    readonly variable: Variable<number>;
+    /** The callback used for the {@link Slider#"variable"} */
+    private readonly callback;
+    /**
+     * The rectangle of the slider when the dragging started. Used to prevent
+     * glitchy behaviour when the slider is being used while the layout is
+     * changing. For internal use only.
+     */
+    private dragBounds;
     /** Create a new Slider */
-    constructor(callback?: VariableCallback<number> | null, minValue?: number, maxValue?: number, snapIncrement?: number, initialValue?: number, vertical?: boolean, themeProperties?: ThemeProperties);
+    constructor(variable?: Variable<number>, minValue?: number, maxValue?: number, properties?: Readonly<SliderProperties>);
+    protected handleChange(): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
+    deactivate(): void;
     /** The slider's value */
     set value(value: number);
     get value(): number;
@@ -54,7 +76,6 @@ export declare class Slider extends Widget {
     onFocusGrabbed(focusType: FocusType): void;
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): this | null;
-    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     finalizeBounds(): void;
     protected handlePainting(_forced: boolean): void;

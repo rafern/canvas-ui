@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { MultiContainer } from './MultiContainer';
-import type { Widget } from './Widget';
 /**
  * A horizontal {@link MultiContainer}.
  *
@@ -9,5 +8,5 @@ import type { Widget } from './Widget';
  */
 export declare class Row<W extends Widget = Widget> extends MultiContainer<W> {
     /** Create a new Row. */
-    constructor(themeProperties?: ThemeProperties);
+    constructor(properties?: Readonly<WidgetProperties>);
 }

@@ -1,7 +1,6 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import { Widget } from './Widget';
 /**
  * A {@link SingleParent} which contains a single child and does nothing,
  * passing all events through to its child. Useful for widgets that are only
@@ -17,12 +16,11 @@ import { Widget } from './Widget';
  */
 export declare class PassthroughWidget<W extends Widget = Widget> extends SingleParent<W> {
     /** Create a new PassthroughWidget. */
-    constructor(child: W, themeProperties?: ThemeProperties);
+    constructor(child: W, properties?: Readonly<WidgetProperties>);
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
-    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected afterPositionResolved(): void;
+    resolvePosition(x: number, y: number): void;
     protected handlePainting(forced: boolean): void;
 }

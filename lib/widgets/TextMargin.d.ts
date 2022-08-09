@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { Container } from './Container';
-import type { Widget } from './Widget';
 /**
  * A {@link Margin} which stretches on the vertical axis. Useful for
  * horizontally centering labels without making them look weird if they are in
@@ -13,5 +12,5 @@ import type { Widget } from './Widget';
  */
 export declare class TextMargin<W extends Widget = Widget> extends Container<W> {
     /** Create a new TextMargin. */
-    constructor(child: W, themeProperties?: ThemeProperties);
+    constructor(child: W, properties?: Readonly<WidgetProperties>);
 }

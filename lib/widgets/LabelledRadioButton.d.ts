@@ -1,6 +1,6 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../state/WatchableVariable';
-import type { TextGetter } from './Label';
+import { SpacingProperties } from './Spacing';
+import type { Variable } from '../state/Variable';
+import { LabelProperties } from './Label';
 import { Row } from './Row';
 /**
  * A {@link Row} with a {@link Label}, {@link Spacing} and a
@@ -10,5 +10,5 @@ import { Row } from './Row';
  * @category Aggregate Widget
  */
 export declare class LabelledRadioButton<V> extends Row {
-    constructor(text: string | TextGetter, variable: WatchableVariable<V>, value: V, themeProperties?: ThemeProperties);
+    constructor(text: string, variable: Variable<V>, value: V, properties?: Readonly<LabelProperties & SpacingProperties>);
 }

@@ -1,7 +1,6 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import type { Event } from '../events/Event';
 import { MultiParent } from './MultiParent';
-import { Widget } from './Widget';
 /**
  * A {@link MultiParent} which automatically paints children, adds spacing,
  * propagates events and handles layout.
@@ -23,15 +22,14 @@ export declare class MultiContainer<W extends Widget = Widget> extends MultiPare
     /** The number of enabled children in this container */
     private enabledChildCount;
     /** Create a MultiContainer. */
-    constructor(vertical: boolean, themeProperties?: ThemeProperties);
+    constructor(vertical: boolean, properties?: Readonly<WidgetProperties>);
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
-    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected afterPositionResolved(): void;
+    resolvePosition(x: number, y: number): void;
     protected handlePainting(forced: boolean): void;
     dryPaint(): void;
-    forceDirty(): void;
+    forceDirty(markLayout?: boolean): void;
 }

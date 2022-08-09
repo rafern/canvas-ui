@@ -1,9 +1,17 @@
-import { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { FocusType } from '../core/FocusType';
 import type { Event } from '../events/Event';
-import type { Widget } from './Widget';
 import { Theme } from '../theme/Theme';
 import { Button } from './Button';
+/**
+ * Optional FilledButton constructor properties.
+ *
+ * @category Widget
+ */
+export interface FilledButtonProperties extends WidgetProperties {
+    /** Sets {@link FilledButton#forced}. */
+    forced?: boolean;
+}
 /**
  * A {@link Button} which overrides the canvas colour, meaning that it has a
  * filled background.
@@ -28,7 +36,7 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     /** The inherited theme for the child */
     private childTheme;
     /** Create a new FilledButton. */
-    constructor(child: W, callback?: (() => void) | null, themeProperties?: ThemeProperties);
+    constructor(child: W, callback?: (() => void) | null, properties?: Readonly<FilledButtonProperties>);
     /**
      * Update the background fill.
      *

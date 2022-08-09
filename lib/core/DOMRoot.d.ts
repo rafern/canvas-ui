@@ -37,10 +37,11 @@ export declare class DOMRoot extends Root {
      * {@link Root#postLayoutUpdate} and {@link Root#paint}.
      */
     update(): void;
-    get resolution(): number;
-    set resolution(resolution: number);
     /** Update the width and height of {@link DOMRoot#domElem} */
     private updateDOMDims;
-    /** Apply CSS scaling to the DOM element depending on the Root resolution */
+    /**
+     * Counter Root viewport scaling with an opposite CSS scale (via width and
+     * height, not CSS transforms).
+     */
     private autoScale;
 }

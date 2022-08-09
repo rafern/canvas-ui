@@ -1,9 +1,8 @@
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import type { FocusType } from '../core/FocusType';
 import { BaseContainer } from './BaseContainer';
 import type { Event } from '../events/Event';
-import type { Widget } from './Widget';
 /**
  * A {@link BaseContainer} which can be {@link ClickHelper | clicked} as a
  * button. Since the button grabs all events, no events are propagated to the
@@ -22,7 +21,7 @@ export declare class Button<W extends Widget = Widget> extends BaseContainer<W> 
      */
     callback: (() => void) | null;
     /** Create a new Button. */
-    constructor(child: W, callback?: (() => void) | null, themeProperties?: ThemeProperties);
+    constructor(child: W, callback: (() => void) | null, properties?: Readonly<WidgetProperties>);
     /**
      * Click the button. If there is a callback, then the callback will be
      * called

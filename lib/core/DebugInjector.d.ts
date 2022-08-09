@@ -2,7 +2,7 @@
  * Check if a debug feature is enabled.
  *
  * @param debugFeature - The debug feature name, for example, "watchflag.Widget._dirty"
- * @returns Returns true if the debug feature is enabled. If the feature doesn't exist, returns false.
+ * @returns Returns true if the debug feature is enabled. If the feature doesn't exist or ins't enabled, returns false.
  */
 export declare function isDebugFeatureEnabled(debugFeature: string): boolean;
 /**

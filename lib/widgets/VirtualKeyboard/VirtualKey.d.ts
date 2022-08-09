@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { ArtificialConstraint } from '../ArtificialConstraint';
-import type { TextGetter } from '../../widgets/Label';
+import type { WidgetProperties } from '../Widget';
 import { TextButton } from '../TextButton';
 /**
  * An {@link ArtificialConstraint} with a {@link TextButton} which calls a given
@@ -18,6 +17,8 @@ export declare class VirtualKey extends ArtificialConstraint<TextButton> {
      *
      * @param text - The text to display in the virtual key.
      * @param callback - The callback called when the button is pressed.
+     * @param minWidth - Minimum width constraint. Will be passed to ArtificialConstraint base class.
+     * @param minHeight - Minimum width constraint. Will be passed to ArtificialConstraint base class.
      */
-    constructor(text: string | TextGetter, callback: () => void, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(text: string, callback: () => void, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

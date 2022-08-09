@@ -1,5 +1,5 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import { BasicVirtualKey } from './BasicVirtualKey';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 /**
  * A {@link BasicVirtualKey} which emits ' ' key presses.
@@ -9,5 +9,5 @@ import type { KeyContext } from './KeyContext';
  */
 export declare class SpaceKey extends BasicVirtualKey {
     /** Create a new SpaceKey. */
-    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(keyContext: KeyContext, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

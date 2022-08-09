@@ -82,7 +82,7 @@ export class Variable<V, C extends CallableFunction = VariableCallback<V>> {
      * Sets {@link Variable#_value}. Does nothing if the value is already the
      * one specified.
      *
-     * @param notify - If true, then {@link Variable#_dirty} is set to true if the value changes.
+     * @param notify - If true, then the {@link Variable#callbacks} are called.
      * @returns Returns true if the value was changed, false if not
      */
     setValue(value: V, notify = true): boolean {

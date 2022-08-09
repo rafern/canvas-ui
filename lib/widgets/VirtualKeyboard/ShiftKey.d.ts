@@ -1,4 +1,4 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 import { VirtualKey } from './VirtualKey';
 /**
@@ -10,5 +10,5 @@ import { VirtualKey } from './VirtualKey';
  */
 export declare class ShiftKey extends VirtualKey {
     /** Create a new ShiftKey. */
-    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(keyContext: KeyContext, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

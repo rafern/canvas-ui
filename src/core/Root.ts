@@ -121,7 +121,7 @@ export class Root {
 
     /**
      * The {@link Root#viewport}'s
-     * {@link Viewport#canvasDimensions | canvasDimensions}
+     * {@link CanvasViewport#canvasDimensions | canvasDimensions}
      */
     get canvasDimensions(): [number, number] {
         return this.viewport.canvasDimensions;
@@ -174,7 +174,7 @@ export class Root {
 
 
     /**
-     * The {@link Root#viewport}'s {@link Viewport#canvas | canvas}
+     * The {@link Root#viewport}'s {@link CanvasViewport#canvas | canvas}
      */
     get canvas(): HTMLCanvasElement {
         return this.viewport.canvas;
@@ -183,7 +183,7 @@ export class Root {
     /**
      * Resolve the layout of this root. Does nothing if root is disabled.
      *
-     * Calls {@link Root#viewport}'s {@link Viewport#resolveChildsLayout} with
+     * Calls {@link Root#viewport}'s {@link Viewport#resolveLayout} with
      * {@link Root#child}
      *
      * Call this before calling {@link Root#postLayoutUpdate} and after calling
@@ -202,7 +202,7 @@ export class Root {
     /**
      * Paint this root's next frame if needed. Does nothing if root is disabled.
      *
-     * Calls {@link Root#viewport}'s {@link Viewport#paintToCanvas} with
+     * Calls {@link Root#viewport}'s {@link Viewport#paint} with
      * {@link Root#child}.
      *
      * Call this after calling {@link Root#postLayoutUpdate}.
@@ -573,8 +573,8 @@ export class Root {
     }
 
     /**
-     * Shortcut for {@link Root#viewport}'s {@link Viewport#maxCanvasWidth}
-     * property
+     * Shortcut for {@link Root#viewport}'s
+     * {@link CanvasViewport#maxCanvasWidth} property
      */
     get maxCanvasWidth(): number {
         return this.viewport.maxCanvasWidth;
@@ -585,8 +585,8 @@ export class Root {
     }
 
     /**
-     * Shortcut for {@link Root#viewport}'s {@link Viewport#maxCanvasHeight}
-     * property
+     * Shortcut for {@link Root#viewport}'s
+     * {@link CanvasViewport#maxCanvasHeight} property
      */
     get maxCanvasHeight(): number {
         return this.viewport.maxCanvasHeight;

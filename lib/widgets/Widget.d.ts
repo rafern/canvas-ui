@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { ThemeProperties } from "../theme/ThemeProperties";
 import type { Viewport } from '../core/Viewport';
-import type { Padding } from '../theme/Padding';
 import type { Bounds } from '../helpers/Bounds';
 import { BaseTheme } from '../theme/BaseTheme';
 import { FocusType } from '../core/FocusType';
@@ -8,6 +7,17 @@ import type { Event } from '../events/Event';
 import type { Theme } from '../theme/Theme';
 import type { Rect } from '../helpers/Rect';
 import type { Root } from '../core/Root';
+/**
+ * Optional Widget constructor properties.
+ *
+ * @category Widget
+ */
+export interface WidgetProperties extends ThemeProperties {
+    /** Sets {@link Widget#enabled}. */
+    enabled?: boolean;
+    /** Sets {@link Widget#flex}. */
+    flex?: number;
+}
 /**
  * A generic widget. All widgets extend this class. All widgets extend
  * {@link BaseTheme} so that the theme in use can be overridden.
@@ -102,7 +112,7 @@ export declare abstract class Widget extends BaseTheme {
     get flex(): number;
     set flex(flex: number);
     /** Create a new Widget. */
-    constructor(needsClear: boolean, propagatesEvents: boolean, themeProperties?: ThemeProperties);
+    constructor(needsClear: boolean, propagatesEvents: boolean, properties?: Readonly<WidgetProperties>);
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
@@ -245,16 +255,13 @@ export declare abstract class Widget extends BaseTheme {
      */
     resolveDimensionsAsTop(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     /**
-     * Called after resolving position of this widget. Should be implemented if
-     * widget is a container; call resolvePosition of children. Does nothing by
-     * default.
-     */
-    protected afterPositionResolved(): void;
-    /**
-     * Set the position of this widget and calls
-     * {@link Widget#afterPositionResolved}. If the resolved position changes,
-     * sets {@link Widget#_dirty} to true. Does nothing if
-     * {@link Widget#_enabled} is false. Must not be overridden.
+     * Set the ideal position of this widget ({@link Widget#idealX} and
+     * {@link Widget#idealY}). Does not set any flags of the widget.
+     *
+     * Can be overridden, but `super.resolvePosition` must always be called, and
+     * the arguments must be preserved. Container widgets should override this
+     * method such that `resolvePosition` is called for each child of the
+     * container.
      */
     resolvePosition(x: number, y: number): void;
     /**
@@ -278,20 +285,6 @@ export declare abstract class Widget extends BaseTheme {
      * this and call `finalizeBounds` on each child widget.
      */
     finalizeBounds(): void;
-    /**
-     * Generic update method called after {@link finalizeBounds} and before
-     * {@link handlePostLayoutUpdate}. However, unlike handlePostLayoutUpdate,
-     * it may be called multiple times in one frame and if {@link _layoutDirty}
-     * is set to true in this method, then a re-layout will occur in the same
-     * frame. Useful if you have logic which depends on the layout, but causes
-     * layout changes, such as for dispatching {@link AutoScroll} events.
-     */
-    protected handlePostFinalizeBounds(): void;
-    /**
-     * Calls {@link Widget#handlePostFinalizeBounds} if widget is enabled. Must
-     * not be overridden.
-     */
-    postFinalizeBounds(): void;
     /**
      * Generic update method which is called after layout is resolved. Does
      * nothing by default. Should be implemented.
@@ -361,22 +354,16 @@ export declare abstract class Widget extends BaseTheme {
      */
     dryPaint(): void;
     /**
-     * Force a full theme update. An alias for
-     * {@link Widget#onThemeUpdated}(null). Used by {@link Root#resolution}
-     */
-    forceThemeUpdate(): void;
-    /**
-     * Force the widget to be fully re-painted and have layout resolved. For
-     * internal use only or for use by {@link Parent} widgets so that children
-     * get properly marked as dirty when added to a new container after reuse.
+     * Force the widget to be fully re-painted and (by default) have layout
+     * resolved. For internal use only or for use by {@link Parent} widgets so
+     * that children get properly marked as dirty when added to a new container
+     * after reuse.
      *
      * Should be overridden if the derived Widget has more dirty flags other
      * than the default ones (such as {@link MultiContainer#backgroundDirty}),
      * but `super.forceDirty` must be called.
      */
-    forceDirty(): void;
-    /** Scale a given font string by a given scaling factor */
-    protected scaleFont(font: string, factor: number): string;
+    forceDirty(markLayout?: boolean): void;
     /**
      * Check if this Widget is active (is in a UI tree). If not, then this
      * Widget must not be used. Must not be overridden.
@@ -428,46 +415,4 @@ export declare abstract class Widget extends BaseTheme {
      * the {@link AutoScroll#bounds | auto-scroll bounds}.
      */
     autoScroll(): void;
-    get containerPadding(): Padding;
-    set containerPadding(value: Padding | undefined);
-    get multiContainerSpacing(): number;
-    set multiContainerSpacing(value: number | undefined);
-    get sliderMinLength(): number;
-    set sliderMinLength(value: number | undefined);
-    get sliderThickness(): number;
-    set sliderThickness(value: number | undefined);
-    private _cachedFont_bodyTextFont;
-    private _cachedLastFont_bodyTextFont;
-    get bodyTextFont(): string;
-    set bodyTextFont(value: string | undefined);
-    get bodyTextHeight(): number | null;
-    set bodyTextHeight(value: number | null | undefined);
-    get bodyTextSpacing(): number | null;
-    set bodyTextSpacing(value: number | null | undefined);
-    get checkboxLength(): number;
-    set checkboxLength(value: number | undefined);
-    get checkboxInnerPadding(): number;
-    set checkboxInnerPadding(value: number | undefined);
-    private _cachedFont_inputTextFont;
-    private _cachedLastFont_inputTextFont;
-    get inputTextFont(): string;
-    set inputTextFont(value: string | undefined);
-    get inputTextHeight(): number | null;
-    set inputTextHeight(value: number | null | undefined);
-    get inputTextSpacing(): number | null;
-    set inputTextSpacing(value: number | null | undefined);
-    get inputTextInnerPadding(): number;
-    set inputTextInnerPadding(value: number | undefined);
-    get inputTextMinWidth(): number;
-    set inputTextMinWidth(value: number | undefined);
-    get cursorThickness(): number;
-    set cursorThickness(value: number | undefined);
-    get scrollBarThickness(): number;
-    set scrollBarThickness(value: number | undefined);
-    get scrollBarMinPixels(): number;
-    set scrollBarMinPixels(value: number | undefined);
-    get radioButtonLength(): number;
-    set radioButtonLength(value: number | undefined);
-    get radioButtonInnerPadding(): number;
-    set radioButtonInnerPadding(value: number | undefined);
 }

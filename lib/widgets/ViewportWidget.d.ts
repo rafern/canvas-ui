@@ -1,12 +1,35 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
-import type { ThemeProperties } from '../theme/ThemeProperties';
 import { AxisCoupling } from '../widgets/AxisCoupling';
+import { Widget, WidgetProperties } from './Widget';
+import type { Viewport } from '../core/Viewport';
 import type { Bounds } from '../helpers/Bounds';
 import { SingleParent } from './SingleParent';
 import type { Event } from '../events/Event';
-import { Viewport } from '../core/Viewport';
 import type { Root } from '../core/Root';
-import { Widget } from './Widget';
+/**
+ * Optional ViewportWidget constructor properties.
+ *
+ * @category Widget
+ */
+export interface ViewportWidgetProperties extends WidgetProperties {
+    /** Sets {@link ViewportWidget#widthCoupling}. */
+    widthCoupling?: AxisCoupling;
+    /** Sets {@link ViewportWidget#heightCoupling}. */
+    heightCoupling?: AxisCoupling;
+    /** Sets {@link ViewportWidget#minWidth}. */
+    minWidth?: number;
+    /** Sets {@link ViewportWidget#minHeight}. */
+    minHeight?: number;
+    /**
+     * If true, then the {@link ViewportWidget} will use a
+     * {@link CanvasViewport} instead of a {@link ClippedViewport}.
+     */
+    useCanvas?: boolean;
+    /** Sets {@link ViewportWidget#offset}. */
+    offset?: [number, number];
+    /** Sets {@link ViewportWidget#constraints}. */
+    constraints?: LayoutConstraints;
+}
 /**
  * A type of container widget which is allowed to be bigger or smaller than its
  * child.
@@ -43,10 +66,16 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      * @decorator `@layoutField`
      */
     minHeight: number;
-    /** The actual viewport object, or null if the child is just clipped. */
-    private internalViewport;
-    /** See {@link ViewportWidget#offset}. For internal use only */
-    private _offset;
+    /**
+     * The actual viewport object. Can be a {@link ClippedViewport} or a
+     * {@link CanvasViewport}.
+     */
+    protected readonly internalViewport: Viewport;
+    /**
+     * Is the internal viewport a {@link CanvasViewport} instance? If true, then
+     * the resolution of the {@link Root} will be inherited automatically.
+     */
+    readonly useCanvas: boolean;
     /**
      * Child constraints for resolving layout. May be different than
      * {@link ViewportWidget#internalViewport}'s constraints. By default, this
@@ -56,19 +85,24 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      * resolution.
      */
     private _constraints;
-    /** Force child re-layout? Only used when not using a Viewport */
-    protected forceReLayout: boolean;
     /** Force child re-paint? Only used when not using a Viewport */
     protected forceRePaint: boolean;
-    /** Create a new ViewportWidget. */
-    constructor(child: W, minWidth?: number, minHeight?: number, widthCoupling?: AxisCoupling, heightCoupling?: AxisCoupling, useViewport?: boolean, themeProperties?: ThemeProperties);
     /**
-     * Does this viewport widget use a Viewport, or does it just clip the child
-     * instead (default)?
+     * The amount of horizontal space to reserve. By default, no space is
+     * reserved. Useful for situations where additional parts are needed around
+     * the viewport, such as scrollbars in {@link ScrollableViewportWidget}.
      *
-     * @returns Returns true if a {@link Viewport} is used; if {@link ViewportWidget#internalViewport} is not null
+     * Note that if scaling is being used, then these values are expected to
+     * already be scaled.
+     *
+     * Should be set before {@link ViewportWidget#handleResolveDimensions} is
+     * called.
      */
-    get usesViewport(): boolean;
+    protected reservedX: number;
+    /** Similar to {@link ViewportWidget#reservedX}, but vertical. */
+    protected reservedY: number;
+    /** Create a new ViewportWidget. */
+    constructor(child: W, properties?: Readonly<ViewportWidgetProperties>);
     /**
      * Offset of {@link SingleParent#child}. Positional events will take this
      * into account, as well as rendering. Useful for implementing scrolling.
@@ -76,10 +110,9 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
     get offset(): [number, number];
     set offset(offset: [number, number]);
     /**
-     * Accessor for {@link ViewportWidget#_constraints}. If using a
-     * {@link ViewportWidget#internalViewport | Viewport}, its constraints are
-     * also updated, but may be different due to
-     * {@link ViewportWidget#widthCoupling} or
+     * Accessor for {@link ViewportWidget#_constraints}. Will also update the
+     * constraints of the {@link ViewportWidget#internalViewport | Viewport},
+     * but may be different due to {@link ViewportWidget#widthCoupling} or
      * {@link ViewportWidget#heightCoupling}.
      */
     set constraints(constraints: LayoutConstraints);
@@ -96,31 +129,22 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      */
     get heightCoupling(): AxisCoupling;
     set heightCoupling(heightCoupling: AxisCoupling);
-    /**
-     * {@link ViewportWidget#minWidth}, but scaled according to
-     * {@link Root#resolution}
-     */
-    get scaledMinWidth(): number;
-    /**
-     * {@link ViewportWidget#minHeight}, but scaled according to
-     * {@link Root#resolution}
-     */
-    get scaledMinHeight(): number;
-    /**
-     * {@link ViewportWidget#constraints}, but scaled according to
-     * {@link Root#resolution}
-     */
-    get scaledConstraints(): [number, number, number, number];
     protected onThemeUpdated(property?: string | null): void;
     protected getBoundsOf(widget: Widget): Bounds;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;
-    protected handlePostFinalizeBounds(): void;
     protected handlePostLayoutUpdate(): void;
+    /**
+     * Resolve the dimensions of the viewport widget, taking coupling modes and
+     * reserved space into account. Note that if space is reserved, then the
+     * resulting {@link ViewportWidget#idealWidth} and
+     * {@link ViewportWidget#idealHeight} will not include the reserved space.
+     * Child classes are expected to add the reserved space to the final
+     * dimensions themselves so that they can also be aware of the final
+     * non-reserved space.
+     */
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    protected afterPositionResolved(): void;
-    finalizeBounds(): void;
     activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    private correctChildPosition;
+    deactivate(): void;
     protected handlePainting(forced: boolean): void;
 }

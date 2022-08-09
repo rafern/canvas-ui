@@ -1,6 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { BaseContainer } from './BaseContainer';
-import type { Widget } from './Widget';
 /**
  * A {@link BaseContainer} which always propagates events. Use this widget if
  * you are not sure what that means.
@@ -12,5 +11,5 @@ import type { Widget } from './Widget';
  */
 export declare class Container<W extends Widget = Widget> extends BaseContainer<W> {
     /** Create a new Container. */
-    constructor(child: W, themeProperties?: ThemeProperties);
+    constructor(child: W, properties?: Readonly<WidgetProperties>);
 }

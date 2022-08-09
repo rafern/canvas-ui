@@ -13,10 +13,10 @@ is still in the README for completeness' sake.
 Before {@link RadioButton} was implemented in version 4, the {@link Variable}
 class could have a single callback. However, radio buttons change a shared
 variable and therefore need to know when another radio button causes the value
-to change; multiple callbacks are needed. This led to the creation of the
-{@link WatchableVariable} class, which allowed any amount of callbacks to be
-added to the variable. When a radio button is created, the used variable has a
-callback added and everything works.
+to change; multiple callbacks are needed. Because of this, the {@link Variable}
+class was updated to work with (any amount of) callbacks instead of a dirty
+flag. When a radio button is created, the used variable has a callback added and
+everything works.
 
 However, before version 4 {@link Widget | Widgets} had no method for knowing
 when they are removed from a {@link Root}'s UI tree. On most projects, this
@@ -35,7 +35,7 @@ Widget and a Root, it doesn't just mark a Widget as not stale.
 
 ## Why not use WeakRef instead of manual memory management?
 
-When implementing {@link WatchableVariable}, the first implementation used
+When re-implementing the {@link Variable} class, the first iteration used
 WeakRef for callbacks because it would avoid any manual memory management and
 therefore avoid the addition of {@link Widget#activate} and
 {@link Widget#deactivate}. This would be preferrable because it would not
@@ -44,9 +44,8 @@ require any changes to the {@link Widget} class.
 In practice, callbacks create so many strong references that the objects that
 create callbacks never get cleaned up by the garbage collector (even after
 manually invoking garbage collection in the browser console). This not only
-created a memory leak, but it also made the WatchableVariable think that a
-removed Widget's callback was still in use, causing them to update stale
-Widgets.
+created a memory leak, but it also made the Variable think that a removed
+Widget's callback was still in use, causing them to update stale Widgets.
 
 Even if WeakRef worked with callbacks, callbacks only get cleaned up when the
 browser does garbage collection, which is very unpredictable, or might never

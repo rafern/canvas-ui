@@ -1,4 +1,4 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
+import type { WidgetProperties } from '../Widget';
 import type { KeyContext } from './KeyContext';
 import { VirtualKey } from './VirtualKey';
 /**
@@ -10,5 +10,5 @@ import { VirtualKey } from './VirtualKey';
  */
 export declare class ControlKey extends VirtualKey {
     /** Create a new ControlKey. */
-    constructor(keyContext: KeyContext, flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(keyContext: KeyContext, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

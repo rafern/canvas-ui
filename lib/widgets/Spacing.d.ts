@@ -1,5 +1,15 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
-import { Widget } from './Widget';
+import { Widget, WidgetProperties } from './Widget';
+/**
+ * Optional TextInput constructor properties.
+ *
+ * @category Widget
+ */
+export interface SpacingProperties extends WidgetProperties {
+    /** Sets {@link Spacing#minWidth}. */
+    minWidth?: number;
+    /** Sets {@link Spacing#minHeight}. */
+    minHeight?: number;
+}
 /**
  * A widget with empty space.
  *
@@ -14,6 +24,6 @@ export declare class Spacing extends Widget {
     /** The minimum height this will try to expand */
     minHeight: number;
     /** Create a new Spacing. */
-    constructor(flex?: number, minWidth?: number, minHeight?: number, themeProperties?: ThemeProperties);
+    constructor(properties?: Readonly<SpacingProperties>);
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

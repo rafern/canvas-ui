@@ -2,6 +2,7 @@
     "$schema": "https://typedoc.org/schema.json",
     "entryPoints": [ "./src/index.ts" ],
     "out": "./docs/",
+    "media": "./assets/",
     "name": "@rafern/canvas-ui",
     "pluginPages": {
         "pages": [

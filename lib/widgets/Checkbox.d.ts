@@ -1,10 +1,10 @@
-import type { VariableCallback } from '../state/VariableCallback';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
-import { WatchableVariable } from '../state/WatchableVariable';
+import { Widget, WidgetProperties } from './Widget';
 import type { FocusType } from '../core/FocusType';
+import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
-import { Widget } from './Widget';
+import { Variable } from '../state/Variable';
+import type { Root } from '../core/Root';
 /**
  * A checkbox widget; can be ticked or unticked.
  *
@@ -20,13 +20,18 @@ export declare class Checkbox extends Widget {
     /** The helper used for handling pointer clicks and enter presses */
     protected clickHelper: ButtonClickHelper;
     /** The helper for keeping track of the checkbox value */
-    protected variable: WatchableVariable<boolean>;
+    readonly variable: Variable<boolean>;
+    /** The callback used for the {@link Checkbox#"variable"} */
+    private readonly callback;
     /**
      * Create a new Checkbox.
      *
-     * @param callback - An optional callback called when the checkbox is ticked or unticked. If null, then no callback is called.
+     * @param variable - The {@link Variable} where the value will be stored.
      */
-    constructor(callback?: VariableCallback<boolean> | null, initialValue?: boolean, themeProperties?: ThemeProperties);
+    constructor(variable?: Variable<boolean>, properties?: Readonly<WidgetProperties>);
+    protected handleChange(): void;
+    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
+    deactivate(): void;
     protected onThemeUpdated(property?: string | null): void;
     /** Is the checkbox checked? */
     set checked(checked: boolean);
@@ -34,7 +39,6 @@ export declare class Checkbox extends Widget {
     onFocusGrabbed(focusType: FocusType): void;
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): this | null;
-    protected handlePostLayoutUpdate(): void;
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     finalizeBounds(): void;
     protected handlePainting(_forced: boolean): void;

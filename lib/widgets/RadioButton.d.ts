@@ -1,11 +1,10 @@
-import type { WatchableVariable } from '../state/WatchableVariable';
 import { ButtonClickHelper } from '../helpers/ButtonClickHelper';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Widget, WidgetProperties } from './Widget';
 import type { FocusType } from '../core/FocusType';
+import type { Variable } from '../state/Variable';
 import type { Viewport } from '../core/Viewport';
 import type { Event } from '../events/Event';
 import type { Root } from '../core/Root';
-import { Widget } from './Widget';
 /**
  * A radio button widget; used for selecting one of many options. Uses a shared
  * {@link Variable} instance and expects the creation of multiple RadioButton
@@ -24,18 +23,14 @@ export declare class RadioButton<V> extends Widget {
     private actualLength;
     /** The helper used for handling pointer clicks and enter presses */
     protected clickHelper: ButtonClickHelper;
-    /** The shared {@link WatchableVariable} where the value is set */
-    protected variable: WatchableVariable<V>;
+    /** The shared {@link Variable} where the value is set */
+    readonly variable: Variable<V>;
     /**
      * The value that will be used when the {@link RadioButton#"variable"} is
      * set
      */
     protected value: V;
-    /**
-     * The callback used for the {@link RadioButton#"variable"}. This extra copy
-     * is kept so that there is a strong reference linked to the radio button's
-     * lifespan
-     */
+    /** The callback used for the {@link RadioButton#"variable"} */
     private readonly callback;
     /** Was the radio button selected in the last paint? */
     private _wasSelected;
@@ -45,8 +40,8 @@ export declare class RadioButton<V> extends Widget {
      * @param variable - The shared variable that radio buttons will save the value to when selected.
      * @param value - The value that will be used to set the {@link RadioButton#"variable"} when the radio button is clicked
      */
-    constructor(variable: WatchableVariable<V>, value: V, themeProperties?: ThemeProperties);
-    protected handleChange(_newValue: V): void;
+    constructor(variable: Variable<V>, value: V, properties?: Readonly<WidgetProperties>);
+    protected handleChange(): void;
     protected onThemeUpdated(property?: string | null): void;
     /**
      * Select this radio button. Sets the value in

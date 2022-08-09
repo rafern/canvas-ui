@@ -9,12 +9,12 @@ Additional debugging tools are available in this project, such as:
 
 <details><summary>Demonstration of the textrendergroups debug feature</summary>
 
-![Demonstration of the textrendergroups debug feature](assets/debug-demo-textrendergroups.gif)
+![Demonstration of the textrendergroups debug feature](media://debug-demo-textrendergroups.gif)
 </details>
 
 <details><summary>Demonstration of the watchflag debug feature</summary>
 
-![Demonstration of the watchflag debug feature](assets/debug-demo-watchflag.gif)
+![Demonstration of the watchflag debug feature](media://debug-demo-watchflag.gif)
 </details>
 
 Each of these features is identified by a name and can be individually toggled

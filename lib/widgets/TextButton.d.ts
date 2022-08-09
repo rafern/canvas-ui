@@ -1,7 +1,5 @@
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import { Label, LabelProperties } from './Label';
 import { FilledButton } from './FilledButton';
-import type { TextGetter } from './Label';
-import { Label } from './Label';
 /**
  * A {@link FilledButton} with a {@link Label}. Alignment is forced to be
  * horizontally centered and vertically stretching like in {@link TextMargin}.
@@ -12,5 +10,5 @@ import { Label } from './Label';
  */
 export declare class TextButton extends FilledButton<Label> {
     /** Create a new TextButton. */
-    constructor(text: string | TextGetter, callback?: (() => void) | null, themeProperties?: ThemeProperties);
+    constructor(text: string, callback?: (() => void) | null, properties?: Readonly<LabelProperties>);
 }

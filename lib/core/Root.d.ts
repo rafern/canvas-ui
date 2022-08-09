@@ -1,12 +1,12 @@
 import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { LayoutConstraints } from './LayoutConstraints';
 import type { TextInputHandler } from './TextInputHandler';
+import { CanvasViewport } from './CanvasViewport';
 import type { Widget } from '../widgets/Widget';
 import type { Event } from '../events/Event';
 import { FocusType } from './FocusType';
 import type { Driver } from './Driver';
 import { Theme } from '../theme/Theme';
-import { Viewport } from './Viewport';
 /**
  * A Root is the parent of all widgets, but not a widget itself. It contains a
  * single child and manages dimensions and input handling
@@ -15,7 +15,7 @@ import { Viewport } from './Viewport';
  */
 export declare class Root {
     /** The internal viewport. Manages drawing */
-    protected viewport: Viewport;
+    protected viewport: CanvasViewport;
     /** The list of drivers registered to this root */
     protected drivers: Set<Driver>;
     /**
@@ -77,8 +77,6 @@ export declare class Root {
      * and {@link Root#getTextInput}
      */
     protected _mobileTextInUse: boolean;
-    /** See {@link resolution} */
-    private _resolution;
     /** Has the warning for poorly captured TabSelect events been issued? */
     private static badTabCaptureWarned;
     /**
@@ -95,7 +93,7 @@ export declare class Root {
     set constraints(constraints: LayoutConstraints);
     /**
      * The {@link Root#viewport}'s
-     * {@link Viewport#canvasDimensions | canvasDimensions}
+     * {@link CanvasViewport#canvasDimensions | canvasDimensions}
      */
     get canvasDimensions(): [number, number];
     /**
@@ -115,25 +113,25 @@ export declare class Root {
     get enabled(): boolean;
     set enabled(newEnabled: boolean);
     /**
-     * The {@link Root#viewport}'s {@link Viewport#canvas | canvas}
+     * The {@link Root#viewport}'s {@link CanvasViewport#canvas | canvas}
      */
     get canvas(): HTMLCanvasElement;
     /**
      * Resolve the layout of this root. Does nothing if root is disabled.
      *
-     * Calls {@link Root#viewport}'s {@link Viewport#resolveChildsLayout} with
+     * Calls {@link Root#viewport}'s {@link Viewport#resolveLayout} with
      * {@link Root#child}
      *
      * Call this before calling {@link Root#postLayoutUpdate} and after calling
      * {@link Root#preLayoutUpdate}
      *
-     * @returns Returns true if viewport was resized
+     * @returns Returns true if the viewport was resized or re-scaled
      */
     resolveLayout(): boolean;
     /**
      * Paint this root's next frame if needed. Does nothing if root is disabled.
      *
-     * Calls {@link Root#viewport}'s {@link Viewport#paintToCanvas} with
+     * Calls {@link Root#viewport}'s {@link Viewport#paint} with
      * {@link Root#child}.
      *
      * Call this after calling {@link Root#postLayoutUpdate}.
@@ -246,21 +244,26 @@ export declare class Root {
      */
     getTextInput(initialInput?: string): Promise<string | null>;
     /**
-     * The resolution of this Root; theme properties that are absolute sizes in
-     * pixels will automatically be multiplied by this value. Keep this value in
-     * mind when implementing your own properties that have absolute sizes.
+     * Shortcut for {@link Root#viewport}'s {@link CanvasViewport#resolution}
+     * property.
+     *
+     * Note that, although the resolution is part of the {@link CanvasViewport}
+     * API, widgets will treat the resolution property as being per-Root, not
+     * per-Viewport (hence the lack of a Viewport.resolution property). The
+     * resolution property is part of the CanvasViewport class so that
+     * CanvasViewport is not circularly dependent on the Root class.
      */
     get resolution(): number;
     set resolution(resolution: number);
     /**
      * Shortcut for {@link Root#viewport}'s
-     * {@link Viewport#maxCanvasWidth} property
+     * {@link CanvasViewport#maxCanvasWidth} property
      */
     get maxCanvasWidth(): number;
     set maxCanvasWidth(maxCanvasWidth: number);
     /**
      * Shortcut for {@link Root#viewport}'s
-     * {@link Viewport#maxCanvasHeight} property
+     * {@link CanvasViewport#maxCanvasHeight} property
      */
     get maxCanvasHeight(): number;
     set maxCanvasHeight(maxCanvasHeight: number);

@@ -1,6 +1,6 @@
-import type { ThemeProperties } from '../../theme/ThemeProperties';
 import type { KeyboardDriver } from '../../drivers/KeyboardDriver';
 import type { VirtualKeyRowTemplate } from './VirtualKeyRow';
+import type { WidgetProperties } from '../Widget';
 import { Column } from '../Column';
 /**
  * A template for the keys in a {@link VirtualKeyboard}. Each member of the
@@ -32,10 +32,9 @@ export declare class VirtualKeyboard extends Column {
     /**
      * Create a new VirtualKeyboard.
      *
-     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param flexRatio - The flexRatio to use when creating {@link GlyphVirtualKey | glyphs keys}
-     * @param mainBasis - The mainBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
-     * @param crossBasis - The crossBasis to use when creating {@link GlyphVirtualKey | glyphs keys}
+     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}.
+     * @param minWidth - The minWidth to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
+     * @param minHeight - The minHeight to use when creating {@link GlyphVirtualKey | GlyphVirtualKeys}.
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, flexRatio?: number, mainBasis?: number, crossBasis?: number, themeProperties?: ThemeProperties);
+    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, minWidth?: number, minHeight?: number, properties?: Readonly<WidgetProperties>);
 }

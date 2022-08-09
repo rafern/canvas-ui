@@ -1,7 +1,6 @@
 import type { LayoutConstraints } from '../core/LayoutConstraints';
-import type { ThemeProperties } from '../theme/ThemeProperties';
+import type { Widget, WidgetProperties } from './Widget';
 import { PassthroughWidget } from './PassthroughWidget';
-import type { Widget } from './Widget';
 /**
  * A {@link PassthroughWidget} which imposes further layout constraints onto a
  * child.
@@ -11,8 +10,6 @@ import type { Widget } from './Widget';
  * @category Widget
  */
 export declare class ArtificialConstraint<W extends Widget = Widget> extends PassthroughWidget<W> {
-    /** See {@link ArtificialConstraint#constraints}. For internal use only */
-    private _constraints;
     /**
      * The further constraints given to the child. A 4-tuple containing,
      * respectively, minimum width, maximum width, minimum height and maximum
@@ -27,6 +24,6 @@ export declare class ArtificialConstraint<W extends Widget = Widget> extends Pas
      */
     constraints: LayoutConstraints;
     /** Create a new PassthroughWidget. */
-    constructor(child: W, constraints?: LayoutConstraints, themeProperties?: ThemeProperties);
+    constructor(child: W, constraints: LayoutConstraints, properties?: Readonly<WidgetProperties>);
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
 }

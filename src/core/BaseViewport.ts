@@ -92,10 +92,6 @@ export abstract class BaseViewport implements Viewport {
      * {@link Viewport#constraints}, {@link Widget#resolvePosition} and
      * {@link Widget#finalizeBounds}.
      *
-     * Expands {@link Viewport#canvas} if the new layout is too big for the
-     * current canvas. Expansion is done in powers of 2 to avoid issues with
-     * external 3D libraries.
-     *
      * Handles both relative and absolute coordinates. The previous position is
      * used.
      *
