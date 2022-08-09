@@ -1,3 +1,4 @@
+import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { PointerEvent } from '../events/PointerEvent';
 import { paintField } from '../decorators/FlagFields';
@@ -5,6 +6,7 @@ import { ClickHelper } from '../helpers/ClickHelper';
 import { Widget, WidgetProperties } from './Widget';
 import { ClickState } from '../helpers/ClickState';
 import type { Viewport } from '../core/Viewport';
+import type { Bounds } from '../helpers/Bounds';
 import { KeyPress } from '../events/KeyPress';
 import { FocusType } from '../core/FocusType';
 import { KeyEvent } from '../events/KeyEvent';
@@ -64,6 +66,12 @@ export class Slider extends Widget {
     readonly variable: Variable<number>;
     /** The callback used for the {@link Slider#"variable"} */
     private readonly callback: () => void;
+    /**
+     * The rectangle of the slider when the dragging started. Used to prevent
+     * glitchy behaviour when the slider is being used while the layout is
+     * changing. For internal use only.
+     */
+    private dragBounds: Bounds = [0, 0, 0, 0];
 
     /** Create a new Slider */
     constructor(variable: Variable<number> = new Variable(0), minValue = 0, maxValue = 1, properties?: Readonly<SliderProperties>) {
@@ -204,16 +212,21 @@ export class Slider extends Widget {
             return this;
         }
 
+        // Save slider bounds so that the slider doesn't glitch out if dragged
+        // while the layout changes. To handle hovering properly, also update if
+        // moving pointer, but drag hasn't been initiated
+        if(event instanceof PointerPress || this.clickHelper.clickState !== ClickState.Hold) {
+            const x = this.idealX + this.offsetX;
+            const y = this.idealY + this.offsetY;
+            this.dragBounds = [ x, x + this.actualWidth, y, y + this.actualHeight ];
+        }
+
         // Handle click event
-        const x = this.idealX + this.offsetX;
-        const y = this.idealY + this.offsetY;
-        this.clickHelper.handleClickEvent(event, this.root, [
-            x, x + this.actualWidth, y, y + this.actualHeight,
-        ]);
+        this.clickHelper.handleClickEvent(event, this.root, this.dragBounds);
 
         // If this was a click or the slider is currently being held, update
         // value
-        if(((this.clickHelper.clickStateChanged && this.clickHelper.wasClick) || this.clickHelper.clickState == ClickState.Hold)
+        if(((this.clickHelper.clickStateChanged && this.clickHelper.wasClick) || this.clickHelper.clickState === ClickState.Hold)
             && this.clickHelper.pointerPos !== null) {
             // Interpolate value
             const percent = this.clickHelper.pointerPos[0];
