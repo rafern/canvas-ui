@@ -283,4 +283,14 @@ export declare class Root {
      * {@link Root#viewport}.{@link Viewport#child}.
      */
     get child(): Widget;
+    /**
+     * Destroy this Root. Disables the Root, clears all drivers, deactivates the
+     * {@link Root#child} Widget and resets {@link Root#textInputHandler}.
+     *
+     * Root must not be used after calling this method. Doing so will cause
+     * exceptions to be thrown. There is no way to un-destroy a destroyed Root.
+     *
+     * Call this if you are no longer going to use this Root.
+     */
+    destroy(): void;
 }

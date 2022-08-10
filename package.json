@@ -1,6 +1,6 @@
 {
   "name": "@rafern/canvas-ui",
-  "version": "4.0.0-rc2",
+  "version": "4.0.0-rc3",
   "description": "A Typescript UI library which uses HTML canvases",
   "main": "./lib/index.esm.js",
   "exports": "./lib/index.esm.js",
