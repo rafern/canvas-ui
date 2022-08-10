@@ -1,6 +1,5 @@
-import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
+import type { VirtualKeyboardRootProperties } from './VirtualKeyboardRoot';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
-import { Theme } from '../theme/Theme';
 import { DOMRoot } from './DOMRoot';
 /**
  * A {@link DOMRoot} with similar functionality to {@link VirtualKeyboardRoot}.
@@ -22,11 +21,8 @@ export declare class DOMVirtualKeyboardRoot extends DOMRoot {
      * Also sets up a {@link Root#pointerStyleHandler} which simply sets the CSS
      * cursor style of {@link DOMRoot#domElem}. Creates {@link DOMRoot#domElem}
      * and {@link DOMRoot#domCanvasContext}.
-     *
-     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, theme?: Theme);
+    constructor(keyboardDriver: KeyboardDriver, properties?: VirtualKeyboardRootProperties);
     /**
      * Update DOMRoot.
      *

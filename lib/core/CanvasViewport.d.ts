@@ -42,13 +42,40 @@ export declare class CanvasViewport extends BaseViewport {
     /** Previous vertical effective scale. For internal use only. */
     private _prevESY;
     /**
+     * Is texture bleeding prevention enabled? If true, then out-of-bounds old
+     * painted Widgets that were kept because of the canvas shrinking will be
+     * cleared after the paint method is called.
+     *
+     * Can be changed at any time, but will only take effect once the
+     * {@link Viewport#child} Widget is re-painted.
+     */
+    preventBleeding: boolean;
+    /**
+     * Has the "real" size of the child Widget in the canvas shrunk? Used for
+     * texture bleeding prevention. For internal use only.
+     *
+     * Will be ignored if {@link CanvasViewport#preventBleeding} is false.
+     */
+    private shrunk;
+    /**
      * Create a new CanvasViewport.
      *
      * Creates a new canvas with a starting width and height, setting
      * {@link CanvasViewport#canvas} and {@link Viewport#context}. Failure to
      * get a canvas context results in an exception.
+     *
+     * Texture bleeding prevention should be enabled for CanvasViewports that
+     * are used as the output (top-most) Viewport, but only if the Viewport will
+     * be used in a 3D engine. If used in, for example, a {@link DOMRoot}, then
+     * there should be no texture bleeding issues, so texture bleeding
+     * prevention is disabled for DOMRoots. For engines like Wonderland Engine,
+     * texture bleeding prevention is enabled.
+     *
+     * Should not be used in nested Viewports as there are no texture bleeding
+     * issues in nested Viewports; it technically can be enabled, but it would
+     * be a waste of resources.
      */
-    constructor(child: Widget, resolution?: number, startingWidth?: number, startingHeight?: number);
+    constructor(child: Widget, resolution?: number, preventBleeding?: boolean, startingWidth?: number, startingHeight?: number);
     /**
      * The current dimensions of the
      * {@link CanvasViewport#canvas | internal canvas}
@@ -68,6 +95,12 @@ export declare class CanvasViewport extends BaseViewport {
      */
     resolveLayout(): boolean;
     get effectiveScale(): [scaleX: number, scaleY: number];
+    /**
+     * The "real" dimensions of the child Widget; the dimensions that the child
+     * Widget occupies in the canvas, taking resolution and maximum canvas
+     * dimensions into account.
+     */
+    private get realDimensions();
     /**
      * Implements {@link Viewport#paint}, but only paints to the
      * {@link CanvasViewport#canvas | internal canvas}. Call this instead of

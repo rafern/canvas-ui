@@ -1,8 +1,18 @@
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
-import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
-import { Theme } from '../theme/Theme';
-import { Root } from './Root';
+import { Root, RootProperties } from './Root';
+/**
+ * Optional VirtualKeyboardRoot constructor properties.
+ *
+ * @category Core
+ */
+export interface VirtualKeyboardRootProperties extends RootProperties {
+    /**
+     * The keyboard template to use for the {@link VirtualKeyboard} Widget in a
+     * {@link VirtualKeyboardRoot}.
+     */
+    keyboardTemplate?: VirtualKeyboardTemplate;
+}
 /**
  * A {@link Root} containing a single {@link VirtualKeyboard} widget inside a
  * {@link Margin}. Automatically disables itself if not needed, but
@@ -23,11 +33,8 @@ export declare class VirtualKeyboardRoot extends Root {
      * {@link VirtualKeyboardRoot#pointerStyleHandler} and
      * {@link VirtualKeyboardRoot#child}'s
      * {@link Widget#inheritedTheme | inherited theme}.
-     *
-     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate?: VirtualKeyboardTemplate, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
+    constructor(keyboardDriver: KeyboardDriver, properties?: VirtualKeyboardRootProperties);
     /**
      * Update the visibility of this root; if the keyboard driver has no focused
      * root, then the root is disabled, else, it is enabled. Call this method

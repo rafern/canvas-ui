@@ -50,6 +50,22 @@ export class CanvasViewport extends BaseViewport {
     private _prevESX = 1;
     /** Previous vertical effective scale. For internal use only. */
     private _prevESY = 1;
+    /**
+     * Is texture bleeding prevention enabled? If true, then out-of-bounds old
+     * painted Widgets that were kept because of the canvas shrinking will be
+     * cleared after the paint method is called.
+     *
+     * Can be changed at any time, but will only take effect once the
+     * {@link Viewport#child} Widget is re-painted.
+     */
+    preventBleeding: boolean;
+    /**
+     * Has the "real" size of the child Widget in the canvas shrunk? Used for
+     * texture bleeding prevention. For internal use only.
+     *
+     * Will be ignored if {@link CanvasViewport#preventBleeding} is false.
+     */
+    private shrunk = false;
 
     /**
      * Create a new CanvasViewport.
@@ -57,11 +73,23 @@ export class CanvasViewport extends BaseViewport {
      * Creates a new canvas with a starting width and height, setting
      * {@link CanvasViewport#canvas} and {@link Viewport#context}. Failure to
      * get a canvas context results in an exception.
+     *
+     * Texture bleeding prevention should be enabled for CanvasViewports that
+     * are used as the output (top-most) Viewport, but only if the Viewport will
+     * be used in a 3D engine. If used in, for example, a {@link DOMRoot}, then
+     * there should be no texture bleeding issues, so texture bleeding
+     * prevention is disabled for DOMRoots. For engines like Wonderland Engine,
+     * texture bleeding prevention is enabled.
+     *
+     * Should not be used in nested Viewports as there are no texture bleeding
+     * issues in nested Viewports; it technically can be enabled, but it would
+     * be a waste of resources.
      */
-    constructor(child: Widget, resolution = 1, startingWidth = 64, startingHeight = 64) {
+    constructor(child: Widget, resolution = 1, preventBleeding = false, startingWidth = 64, startingHeight = 64) {
         super(child, true);
 
         this.resolution = resolution;
+        this.preventBleeding = preventBleeding;
 
         // Create internal canvas
         this.canvas = document.createElement('canvas');
@@ -98,11 +126,18 @@ export class CanvasViewport extends BaseViewport {
      * @returns Returns true if the widget or canvas were resized, or the canvas rescaled, else, false.
      */
     override resolveLayout(): boolean {
+        const [oldRealWidth, oldRealHeight] = this.realDimensions;
+
         let wasResized = super.resolveLayout();
 
         // Re-scale canvas if neccessary.
         if(wasResized || this._forceResize) {
             this._forceResize = false;
+
+            const [realWidth, realHeight] = this.realDimensions;
+
+            if(oldRealWidth > realWidth || oldRealHeight > realHeight)
+                this.shrunk = true;
 
             // Canvas dimensions are rounded to the nearest power of 2, favoring
             // bigger powers. This is to avoid issues with mipmapping, which
@@ -201,6 +236,20 @@ export class CanvasViewport extends BaseViewport {
     }
 
     /**
+     * The "real" dimensions of the child Widget; the dimensions that the child
+     * Widget occupies in the canvas, taking resolution and maximum canvas
+     * dimensions into account.
+     */
+    private get realDimensions(): [width: number, height: number] {
+        const [width, height] = this.child.dimensions;
+
+        return [
+            Math.min(this.maxCanvasWidth, Math.ceil(width * this.resolution)),
+            Math.min(this.maxCanvasHeight, Math.ceil(height * this.resolution))
+        ];
+    }
+
+    /**
      * Implements {@link Viewport#paint}, but only paints to the
      * {@link CanvasViewport#canvas | internal canvas}. Call this instead of
      * {@link Viewport#paint} if you are using this Viewport's canvas as the
@@ -222,6 +271,30 @@ export class CanvasViewport extends BaseViewport {
 
         if(needsScale)
             this.context.restore();
+
+        // prevent bleeding by clearing out-of-bounds parts of canvas
+        if(this.preventBleeding && this.shrunk) {
+            this.shrunk = false;
+
+            const [realWidth, realHeight] = this.realDimensions;
+            const rightSpace = this.maxCanvasWidth - realWidth;
+            const bottomSpace = this.maxCanvasHeight - realHeight;
+
+            if(rightSpace > 0 && bottomSpace > 0) {
+                // clear right and bottom. do this by clearing a small rectangle
+                // on the right and a big rectangle on the bottom
+                this.context.clearRect(realWidth, 0, rightSpace, realHeight);
+                this.context.clearRect(0, realHeight, this.maxCanvasWidth, this.maxCanvasHeight);
+            }
+            else if(rightSpace > 0) {
+                // clear right
+                this.context.clearRect(realWidth, 0, rightSpace, this.maxCanvasHeight);
+            }
+            else if(bottomSpace > 0) {
+                // clear bottom
+                this.context.clearRect(0, realHeight, this.maxCanvasWidth, this.maxCanvasHeight);
+            }
+        }
 
         return wasDirty;
     }

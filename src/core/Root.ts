@@ -15,6 +15,26 @@ import type { Driver } from './Driver';
 import { Theme } from '../theme/Theme';
 
 /**
+ * Optional Root constructor properties.
+ *
+ * @category Core
+ */
+export interface RootProperties {
+    /** Sets {@link Root#pointerStyleHandler}. */
+    pointerStyleHandler?: PointerStyleHandler | null;
+    /** Sets {@link Root#child}'s {@link Widget#inheritedTheme}. */
+    theme?: Theme;
+    /** Sets {@link Root#resolution}. */
+    resolution?: number;
+    /** Sets {@link Root#preventBleeding}. */
+    preventBleeding?: boolean;
+    /** The starting width of the {@link Root#viewport}'s canvas. */
+    canvasStartingWidth?: number;
+    /** The starting height of the {@link Root#viewport}'s canvas. */
+    canvasStartingHeight?: number;
+}
+
+/**
  * A Root is the parent of all widgets, but not a widget itself. It contains a
  * single child and manages dimensions and input handling
  *
@@ -100,13 +120,11 @@ export class Root {
      *
      * Sets {@link Root#child}, {@link Root#pointerStyleHandler} and
      * {@link Root#child}'s {@link Widget#inheritedTheme | inherited theme}.
-     *
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(child: Widget, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
-        this.viewport = new CanvasViewport(child);
-        this.pointerStyleHandler = pointerStyleHandler;
-        this.child.inheritedTheme = theme;
+    constructor(child: Widget, properties?: Readonly<RootProperties>) {
+        this.viewport = new CanvasViewport(child, properties?.resolution, properties?.preventBleeding, properties?.canvasStartingWidth, properties?.canvasStartingHeight);
+        this.pointerStyleHandler = properties?.pointerStyleHandler ?? null;
+        this.child.inheritedTheme = properties?.theme ?? new Theme();
         this.child.activate(this, this.viewport, null);
     }
 
@@ -570,6 +588,18 @@ export class Root {
 
     set resolution(resolution: number) {
         this.viewport.resolution = resolution;
+    }
+
+    /**
+     * Shortcut for {@link Root#viewport}'s
+     * {@link CanvasViewport#preventBleeding} property.
+     */
+    get preventBleeding(): boolean {
+        return this.viewport.preventBleeding;
+    }
+
+    set preventBleeding(preventBleeding: boolean) {
+        this.viewport.preventBleeding = preventBleeding;
     }
 
     /**

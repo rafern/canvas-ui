@@ -1,8 +1,7 @@
 import { TextPasteEvent } from '../events/TextPasteEvent';
 import type { Widget } from '../widgets/Widget';
-import { Theme } from '../theme/Theme';
+import { Root, RootProperties } from './Root';
 import { Msg } from './Strings';
-import { Root } from './Root';
 
 /**
  * Like Root, but for easy use in an HTML page.
@@ -25,13 +24,12 @@ export class DOMRoot extends Root {
      * Sets {@link Root#child} and {@link Root#child}'s
      * {@link Widget#inheritedTheme | inherited theme}. Also sets up a
      * {@link Root#pointerStyleHandler} which simply sets the CSS cursor style
-     * of {@link DOMRoot#domElem}. Creates {@link DOMRoot#domElem} and
+     * of {@link DOMRoot#domElem}, unless a handler is already supplied in the
+     * optional properties argument. Creates {@link DOMRoot#domElem} and
      * {@link DOMRoot#domCanvasContext}.
-     *
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(child: Widget, theme: Theme = new Theme()) {
-        super(child, null, theme);
+    constructor(child: Widget, properties?: Readonly<RootProperties>) {
+        super(child, properties);
 
         // Make DOM element, which is a canvas, and get a 2D context for it
         this.domElem = document.createElement('canvas');
@@ -45,9 +43,11 @@ export class DOMRoot extends Root {
         this.domCanvasContext = context;
 
         // Setup pointer style handler
-        this.pointerStyleHandler = (newPointerStyle: string): void => {
-            this.domElem.style.cursor = newPointerStyle;
-        };
+        if(this.pointerStyleHandler === null) {
+            this.pointerStyleHandler = (newPointerStyle: string): void => {
+                this.domElem.style.cursor = newPointerStyle;
+            };
+        }
 
         // Listen to paste events
         this.domElem.addEventListener('paste', event => {

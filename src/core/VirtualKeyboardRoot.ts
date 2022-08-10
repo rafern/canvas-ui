@@ -1,10 +1,21 @@
 import { VirtualKeyboard, defaultVirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
 import type { VirtualKeyboardTemplate } from '../widgets/VirtualKeyboard/VirtualKeyboard';
-import type { PointerStyleHandler } from './PointerStyleHandler';
 import type { KeyboardDriver } from '../drivers/KeyboardDriver';
+import { Root, RootProperties } from './Root';
 import { Margin } from '../widgets/Margin';
-import { Theme } from '../theme/Theme';
-import { Root } from './Root';
+
+/**
+ * Optional VirtualKeyboardRoot constructor properties.
+ *
+ * @category Core
+ */
+export interface VirtualKeyboardRootProperties extends RootProperties {
+    /**
+     * The keyboard template to use for the {@link VirtualKeyboard} Widget in a
+     * {@link VirtualKeyboardRoot}.
+     */
+    keyboardTemplate?: VirtualKeyboardTemplate;
+}
 
 /**
  * A {@link Root} containing a single {@link VirtualKeyboard} widget inside a
@@ -27,16 +38,16 @@ export class VirtualKeyboardRoot extends Root {
      * {@link VirtualKeyboardRoot#pointerStyleHandler} and
      * {@link VirtualKeyboardRoot#child}'s
      * {@link Widget#inheritedTheme | inherited theme}.
-     *
-     * @param keyboardTemplate - By default, the virtual keyboard template is {@link defaultVirtualKeyboardTemplate}
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(keyboardDriver: KeyboardDriver, keyboardTemplate: VirtualKeyboardTemplate = defaultVirtualKeyboardTemplate, pointerStyleHandler: PointerStyleHandler | null = null, theme: Theme = new Theme()) {
+    constructor(keyboardDriver: KeyboardDriver, properties?: VirtualKeyboardRootProperties) {
         super(
             new Margin(
-                new VirtualKeyboard(keyboardDriver, keyboardTemplate),
+                new VirtualKeyboard(
+                    keyboardDriver,
+                    properties?.keyboardTemplate ?? defaultVirtualKeyboardTemplate
+                ),
             ),
-            pointerStyleHandler, theme,
+            properties
         );
         this.keyboardDriver = keyboardDriver;
     }

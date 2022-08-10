@@ -8,6 +8,25 @@ import { FocusType } from './FocusType';
 import type { Driver } from './Driver';
 import { Theme } from '../theme/Theme';
 /**
+ * Optional Root constructor properties.
+ *
+ * @category Core
+ */
+export interface RootProperties {
+    /** Sets {@link Root#pointerStyleHandler}. */
+    pointerStyleHandler?: PointerStyleHandler | null;
+    /** Sets {@link Root#child}'s {@link Widget#inheritedTheme}. */
+    theme?: Theme;
+    /** Sets {@link Root#resolution}. */
+    resolution?: number;
+    /** Sets {@link Root#preventBleeding}. */
+    preventBleeding?: boolean;
+    /** The starting width of the {@link Root#viewport}'s canvas. */
+    canvasStartingWidth?: number;
+    /** The starting height of the {@link Root#viewport}'s canvas. */
+    canvasStartingHeight?: number;
+}
+/**
  * A Root is the parent of all widgets, but not a widget itself. It contains a
  * single child and manages dimensions and input handling
  *
@@ -84,10 +103,8 @@ export declare class Root {
      *
      * Sets {@link Root#child}, {@link Root#pointerStyleHandler} and
      * {@link Root#child}'s {@link Widget#inheritedTheme | inherited theme}.
-     *
-     * @param theme - If none supplied, then the default theme found in {@link (Theme:constructor)} is used
      */
-    constructor(child: Widget, pointerStyleHandler?: PointerStyleHandler | null, theme?: Theme);
+    constructor(child: Widget, properties?: Readonly<RootProperties>);
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
     get constraints(): LayoutConstraints;
     set constraints(constraints: LayoutConstraints);
@@ -255,6 +272,12 @@ export declare class Root {
      */
     get resolution(): number;
     set resolution(resolution: number);
+    /**
+     * Shortcut for {@link Root#viewport}'s
+     * {@link CanvasViewport#preventBleeding} property.
+     */
+    get preventBleeding(): boolean;
+    set preventBleeding(preventBleeding: boolean);
     /**
      * Shortcut for {@link Root#viewport}'s
      * {@link CanvasViewport#maxCanvasWidth} property
