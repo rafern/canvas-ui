@@ -2,10 +2,12 @@
 
 A Typescript UI library which uses HTML canvases.
 
-Documentation is available on [Github pages](https://rafern.github.io/canvas-ui/).
+Documentation is available on
+[Github pages](https://rafern.github.io/canvas-ui/).
 
 Unity integration can be found in the 
-[canvas-ui-unity repository](https://github.com/playkostudios/canvas-ui-unity) (private).
+[canvas-ui-unity repository](https://github.com/playkostudios/canvas-ui-unity)
+(private).
 
 three.js integration can be found in the 
 [canvas-ui-three repository](https://github.com/rafern/canvas-ui-three).
@@ -41,12 +43,14 @@ currently being developed at.
 This project is licensed under the MIT license (see the LICENSE file)
 
 This project uses the following open-source projects:
-- [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin) licensed under the MIT license
-- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser) licensed under the BSD 2-Clause license
+- [@knodes/typedoc-plugin-pages](https://github.com/KnodesCommunity/typedoc-plugins) licensed under the MIT license
+- [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) licensed under the MIT license
+- [@typescript-eslint/parser](https://github.com/typescript-eslint/typescript-eslint) licensed under the BSD 2-Clause license
 - [esbuild](https://github.com/evanw/esbuild) licensed under the MIT license
 - [eslint](https://github.com/eslint/eslint) licensed under the MIT license
 - [eslint-plugin-tree-shaking](https://github.com/lukastaegert/eslint-plugin-tree-shaking) licensed under the MIT license
+- [eslint-plugin-tsdoc](https://github.com/microsoft/tsdoc) licensed under the MIT license
 - [local-web-server](https://github.com/lwsjs/local-web-server) licensed under the MIT license
+- [rimraf](https://github.com/isaacs/rimraf) licensed under the ISC license
 - [typedoc](https://github.com/TypeStrong/TypeDoc) licensed under the Apache 2.0 license
 - [typescript](https://github.com/Microsoft/TypeScript) licensed under the Apache 2.0 license
-- [eslint-plugin-tsdoc](https://github.com/microsoft/tsdoc) licensed under the MIT license
