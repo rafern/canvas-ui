@@ -26,7 +26,7 @@ export class Label extends Widget {
      * @decorator `@layoutField`
      */
     @layoutField
-    wrapText = true;
+    wrapText: boolean;
 
     /**
      * Create a new Label.
@@ -38,11 +38,10 @@ export class Label extends Widget {
         // events
         super(true, false, properties);
 
-        this.textHelper = new TextHelper();
-        this.textHelper.wrapMode = WrapMode.Shrink;
-        this.text = text;
-
         this.wrapText = properties?.wrapText ?? true;
+        this.textHelper = new TextHelper();
+        this.textHelper.wrapMode = this.wrapText ? WrapMode.Shrink : WrapMode.None;
+        this.text = text;
     }
 
     /** The current text value. */
@@ -78,6 +77,7 @@ export class Label extends Widget {
         this.textHelper.font = this.bodyTextFont;
         this.textHelper.lineHeight = this.bodyTextHeight;
         this.textHelper.lineSpacing = this.bodyTextSpacing;
+        this.textHelper.wrapMode = this.wrapText ? WrapMode.Shrink : WrapMode.None;
         this.textHelper.alignMode = this.bodyTextAlign;
 
         // Mark as dirty if text helper is dirty
@@ -88,7 +88,7 @@ export class Label extends Widget {
     }
 
     protected override handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void {
-        this.textHelper.maxWidth = this.wrapText ? maxWidth : Infinity;
+        this.textHelper.maxWidth = maxWidth;
         if(this.textHelper.dirty)
             this._dirty = true;
 

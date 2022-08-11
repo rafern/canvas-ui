@@ -1,7 +1,7 @@
 import { measureTextDims } from '../helpers/measureTextDims';
 import { multiFlagField } from '../decorators/FlagFields';
 import { FillStyle } from '../theme/FillStyle';
-import { Msg } from '../core/Strings';
+import { DynMsg, Msg } from '../core/Strings';
 
 const WIDTH_OVERRIDING_CHARS = new Set(['\n', '\t']);
 
@@ -47,6 +47,8 @@ export type LineRange = Array<TextRenderGroup>;
  * @category Helper
  */
 export enum WrapMode {
+    /** No text wrapping. Text will overflow if it exceeds the maximum width. */
+    None,
     /**
      * Whitespaces always have width. The default wrapping mode for input
      * widgets
@@ -102,7 +104,8 @@ export class TextHelper {
     @multiFlagField(['_dirty', 'measureDirty', 'lineHeightSpacingDirty', 'tabWidthDirty'])
     font = '';
     /**
-     * The current maximum text width. If not Infinite, then text will be
+     * The current maximum text width. If not Infinite and
+     * {@link TextHelper#wrapMode} is not `WrapMode.None`, then text will be
      * wrapped and width will be set to maxWidth.
      *
      * @decorator `@multiFlagField(['_dirty', 'maxWidthDirty'])`
@@ -143,9 +146,10 @@ export class TextHelper {
     /**
      * The text alignment mode. Can also be a ratio.
      *
-     * Note that this only aligns text in the text's width. If you have wrapping
-     * disabled (maxWidth === Infinity), then you may still need to align the
-     * widget that uses this text helper with a {@link BaseContainer}.
+     * Note that this only aligns text in the text's width. If
+     * {@link TextHelper#maxWidth} is infinite, then you may still need to align
+     * the widget that uses this text helper with a {@link BaseContainer}
+     * because the width will be set to the longest line range's width.
      */
     @multiFlagField(['_dirty'])
     alignMode: TextAlignMode | number = TextAlignMode.Start;
@@ -394,14 +398,23 @@ export class TextHelper {
         }
 
         // If maximum width changed, check if text needs to be re-measured
-        if(this.maxWidthDirty) {
-            this.maxWidthDirty = false;
-
+        if(this.maxWidthDirty && !this.measureDirty) {
             if(this.maxWidth === Infinity) {
                 // No wrapping, but some lines were wrapped. Must re-measure
                 // text
                 if(this.hasWrappedLines)
                     this.measureDirty = true;
+                else {
+                    // [1] If text doesn't need to be re-measured, then the
+                    // width still needs to be updated as it's set to be equal
+                    // to maxWidth if maxWidth is not infinity
+                    this._width = 0;
+                    for(const range of this._lineRanges) {
+                        const width = range[range.length - 1][2];
+                        if(width > this._width)
+                            this._width = width;
+                    }
+                }
             }
             else {
                 // Wrapping, but no lines were wrapped and maxWidth is smaller
@@ -409,8 +422,14 @@ export class TextHelper {
                 // wrapped, must also re-measure
                 if(this.hasWrappedLines || this._width > this.maxWidth)
                     this.measureDirty = true;
+                else {
+                    // ... _width still needs to be updated (see comment [1])
+                    this._width = this.maxWidth;
+                }
             }
         }
+
+        this.maxWidthDirty = false;
 
         // Update tab width if needed
         if(this.tabWidthDirty) {
@@ -436,7 +455,7 @@ export class TextHelper {
             this._lineRanges.length = 1;
             this._lineRanges[0] = [[0, 0, 0, false]];
         }
-        else if(this.maxWidth === Infinity) {
+        else if(this.maxWidth === Infinity || this.wrapMode === WrapMode.None) {
             // Don't wrap text, but split lines when there's a newline character
             this._lineRanges.length = 0;
             let lineStart = 0;
@@ -468,6 +487,9 @@ export class TextHelper {
                 // Set start of next line
                 lineStart = end;
             }
+
+            if(this.maxWidth !== Infinity)
+                this._width = this.maxWidth;
         }
         else {
             // Wrap text
@@ -574,12 +596,14 @@ export class TextHelper {
                             range = [];
                             continue;
                         }
-                        else {
+                        else if(this.wrapMode === WrapMode.Normal) {
                             this.hasWrappedLines = true;
                             this._lineRanges.push(range);
                             range = [];
                             this.measureText(i, i + 1, Infinity, range);
                         }
+                        else
+                            throw new Error(DynMsg.INVALID_ENUM(this.wrapMode, 'WrapMode', 'wrapMode', true));
                     }
                 }
                 else if(wordStart === -1)
@@ -870,8 +894,9 @@ export class TextHelper {
     /**
      * Which range of text indices are used for each line.
      *
-     * If there is no text wrapping (maxWidth is Infinity), then this will
-     * contain a single tuple containing [0, (text length)].
+     * If there is no text wrapping (`maxWidth` is `Infinity` or `wrapMode` is
+     * `WrapMode.None`), then this will contain a single tuple containing
+     * `[0, (text length)]`.
      *
      * If there is text wrapping, then this will be an array where each member
      * is a tuple containing the starting index of a line of text and the ending
