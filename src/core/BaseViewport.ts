@@ -72,7 +72,7 @@ export abstract class BaseViewport implements Viewport {
      * callback for the {@link BaseViewport#offset} field watcher.
      */
     private updateChildPos() {
-        if(!this.relativeCoordinates && this.child.active) {
+        if(!this.relativeCoordinates && this.child.attached) {
             const [l, t, _w, _h] = this.rect;
             const [ox, oy] = this.offset;
             const newX = l + ox;

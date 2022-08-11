@@ -34,6 +34,11 @@ export class MultiContainer<W extends Widget = Widget> extends MultiParent<W> {
         this.vertical = vertical;
     }
 
+    protected override activate(): void {
+        super.activate();
+        this.backgroundDirty = true;
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         super.onThemeUpdated(property);
 

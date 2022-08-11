@@ -125,7 +125,7 @@ export class Root {
         this.viewport = new CanvasViewport(child, properties?.resolution, properties?.preventBleeding, properties?.canvasStartingWidth, properties?.canvasStartingHeight);
         this.pointerStyleHandler = properties?.pointerStyleHandler ?? null;
         this.child.inheritedTheme = properties?.theme ?? new Theme();
-        this.child.activate(this, this.viewport, null);
+        this.child.attach(this, this.viewport, null);
     }
 
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */
@@ -187,6 +187,10 @@ export class Root {
                 for(const focus of this._foci.keys())
                     this.clearFocus(focus);
             }
+
+            // Update active state of child widget. This will propagate to
+            // grandchildren, etc...
+            this.child.updateActiveState();
         }
     }
 
@@ -452,6 +456,15 @@ export class Root {
     }
 
     /**
+     * Clears all the {@link Root#_foci | foci} that are set to a given Widget.
+     * Achieved by calling {@link Root#dropFocus}
+     */
+    dropFoci(widget: Widget): void {
+        for(const focusType of this._foci.keys())
+            this.dropFocus(focusType, widget);
+    }
+
+    /**
      * Clears the current {@link Root#_foci | focus} of a given type. If there
      * was a focus set, {@link Root#drivers} are notified by calling
      * {@link Driver#onFocusChanged}.
@@ -649,7 +662,7 @@ export class Root {
     }
 
     /**
-     * Destroy this Root. Disables the Root, clears all drivers, deactivates the
+     * Destroy this Root. Disables the Root, clears all drivers, detaches the
      * {@link Root#child} Widget and resets {@link Root#textInputHandler}.
      *
      * Root must not be used after calling this method. Doing so will cause
@@ -660,7 +673,7 @@ export class Root {
     destroy(): void {
         this.enabled = false;
         this.clearDrivers();
-        this.child.deactivate();
+        this.child.detach();
         this.textInputHandler = null;
     }
 }

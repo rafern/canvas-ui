@@ -24,22 +24,22 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
      */
     add(children: W | Array<W>): this {
         if(Array.isArray(children)) {
-            const isActive = this.active;
+            const isAttached = this.attached;
 
             for(const child of children) {
                 this._children.push(child);
                 child.inheritedTheme = this.inheritedTheme;
 
-                if(isActive)
-                    child.activate(this.root, this.viewport, this);
+                if(isAttached)
+                    child.attach(this.root, this.viewport, this);
             }
         }
         else {
             this._children.push(children);
             children.inheritedTheme = this.inheritedTheme;
 
-            if(this.active)
-                children.activate(this.root, this.viewport, this);
+            if(this.attached)
+                children.attach(this.root, this.viewport, this);
         }
 
         this.forceDirty();
@@ -55,16 +55,16 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
      * @returns Returns this so that the method is chainable.
      */
     remove(children: W | Array<W>): this {
-        if(Array.isArray(children)) {
-            const isActive = this.active;
+        const isAttached = this.attached;
 
+        if(Array.isArray(children)) {
             for(const child of children) {
                 const pos = this._children.indexOf(child);
 
                 if(pos !== -1)
                     this._children.splice(pos, 1);
-                if(isActive)
-                    child.deactivate();
+                if(isAttached)
+                    child.detach();
             }
         }
         else {
@@ -72,8 +72,8 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
 
             if(pos !== -1)
                 this._children.splice(pos, 1);
-            if(this.active)
-                children.deactivate();
+            if(isAttached)
+                children.detach();
         }
 
         this.forceDirty();
@@ -88,9 +88,9 @@ export abstract class MultiParent<W extends Widget = Widget> extends Parent<W> {
      * @returns Returns this so that the method is chainable.
      */
     clearChildren(): this {
-        if(this.active) {
+        if(this.attached) {
             for(const child of this._children)
-                child.deactivate();
+                child.detach();
         }
 
         this._children.length = 0;

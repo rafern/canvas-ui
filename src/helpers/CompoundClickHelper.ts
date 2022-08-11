@@ -70,4 +70,10 @@ export class CompoundClickHelper implements BaseClickHelper {
 
         return false;
     }
+
+    /** Resets each click helper instance being mixed. */
+    reset(): void {
+        for(const clickHelper of this.clickHelpers)
+            clickHelper.reset();
+    }
 }

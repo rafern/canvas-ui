@@ -134,4 +134,11 @@ export class ClickHelper extends GenericClickHelper {
         else
             this.clickStateChanged = false;
     }
+
+    override reset(): void {
+        super.reset();
+        this.pointerPos = null;
+        this.startingPointerPos = null;
+        this.pointerButton = 0;
+    }
 }

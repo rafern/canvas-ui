@@ -23,6 +23,11 @@ export abstract class BaseContainer<W extends Widget = Widget> extends SinglePar
         super(child, false, propagateEvents, properties);
     }
 
+    protected override activate(): void {
+        super.activate();
+        this.backgroundDirty = true;
+    }
+
     protected override onThemeUpdated(property: string | null = null): void {
         super.onThemeUpdated(property);
 

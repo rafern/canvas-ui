@@ -191,13 +191,18 @@ export class RadioButton<V> extends Widget {
         }
     }
 
-    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
-        super.activate(root, viewport, parent);
+    override attach(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.attach(root, viewport, parent);
         this.variable.watch(this.callback);
     }
 
-    override deactivate(): void {
-        super.deactivate();
+    override detach(): void {
+        super.detach();
         this.variable.unwatch(this.callback);
+    }
+
+    protected override activate(): void {
+        super.activate();
+        this.clickHelper.reset();
     }
 }

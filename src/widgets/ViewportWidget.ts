@@ -326,20 +326,20 @@ export class ViewportWidget<W extends Widget = Widget> extends SingleParent<W> {
             this.idealHeight = Math.max(0, child.idealDimensions[1]);
     }
 
-    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
-        // HACK Parent#activate activates child widgets with this._viewport, but
+    override attach(root: Root, viewport: Viewport, parent: Widget | null): void {
+        // HACK Parent#attach attaches child widgets with this._viewport, but
         // we want to use this.internalViewport
-        Widget.prototype.activate.call(this, root, viewport, parent);
+        Widget.prototype.attach.call(this, root, viewport, parent);
         this.internalViewport.parent = viewport;
-        this.child.activate(root, this.internalViewport, parent);
+        this.child.attach(root, this.internalViewport, parent);
     }
 
-    override deactivate(): void {
+    override detach(): void {
         // unset parent viewport of internal viewport. using a clipped viewport
         // after this will crash; make sure to only use the viewport if the
         // widget is active
         this.internalViewport.parent = null;
-        super.deactivate();
+        super.detach();
     }
 
     protected override handlePainting(forced: boolean): void {

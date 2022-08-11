@@ -90,8 +90,8 @@ export abstract class Widget extends BaseTheme {
     /**
      * The {@link Root} that this widget is currently inside.
      *
-     * Widgets not attached to a UI tree (widgets which are not
-     * {@link Widget#active}) will have this property set to null.
+     * Widgets not {@link Widget#attached} to a UI tree will have this property
+     * set to null.
      */
     protected _root: Root | null = null;
     /**
@@ -99,20 +99,24 @@ export abstract class Widget extends BaseTheme {
      * can have multiple Viewports due to {@link ViewportWidget}, so this is not
      * equivalent to {@link Root#viewport}.
      *
-     * Widgets not attached to a UI tree (widgets which are not
-     * {@link Widget#active}) will have this property set to null.
+     * Widgets not {@link Widget#attached} to a UI tree will have this property
+     * set to null.
      */
     protected _viewport: Viewport | null = null;
     /**
      * The parent {@link Widget} of this widget.
      *
-     * Widgets not attached to a UI tree (widgets which are not
-     * {@link Widget#active}) will have this property set to null, but root
-     * widgets will also have a null parent.
+     * Widgets not {@link Widget#attached} to a UI tree will have this property
+     * set to null, but root widgets will also have a null parent.
      */
     protected _parent: Widget | null = null;
     /** Can this widget be focused by pressing tab? */
     protected tabFocusable = false;
+    /**
+     * Is the Widget attached to a UI tree, enabled and in a UI sub-tree where
+     * all ascendants are enabled?
+     */
+    private _active = false;
 
     /**
      * How much this widget will expand relative to other widgets in a flexbox
@@ -143,8 +147,6 @@ export abstract class Widget extends BaseTheme {
     /**
      * Is this widget enabled? If it isn't, it will act as if it doesn't exist.
      *
-     * If changed, calls {@link Widget#forceDirty}
-     *
      * If getting, {@link Widget#_enabled} is returned.
      */
     set enabled(enabled: boolean) {
@@ -152,7 +154,7 @@ export abstract class Widget extends BaseTheme {
             return;
 
         this._enabled = enabled;
-        this.forceDirty();
+        this.updateActiveState();
     }
 
     get enabled(): boolean {
@@ -696,91 +698,179 @@ export abstract class Widget extends BaseTheme {
     }
 
     /**
-     * Check if this Widget is active (is in a UI tree). If not, then this
-     * Widget must not be used. Must not be overridden.
+     * Check if this Widget is attached to a UI tree. If not, then this Widget
+     * must not be used. Must not be overridden.
      */
-    get active(): boolean {
+    get attached(): boolean {
         return this._root !== null;
     }
 
     /**
      * Similar to {@link Widget#_root}, but throws an error if the widget is not
-     * {@link Widget#active}.
+     * {@link Widget#attached}.
      */
     get root(): Root {
-        if(!this.active)
-            throw new Error(DynMsg.INACTIVE_WIDGET('root'));
+        if(!this.attached)
+            throw new Error(DynMsg.DETACHED_WIDGET('root'));
 
-        // XXX active makes sure that _root is not null, but typescript doesn't
-        // detect this. force the type system to treat it as non-null
+        // XXX attached makes sure that _root is not null, but typescript
+        // doesn't detect this. force the type system to treat it as non-null
         return this._root as Root;
     }
 
     /**
      * Similar to {@link Widget#_viewport}, but throws an error if the widget is
-     * not {@link Widget#active}.
+     * not {@link Widget#attached}.
      */
     get viewport(): Viewport {
-        if(!this.active)
-            throw new Error(DynMsg.INACTIVE_WIDGET('viewport'));
+        if(!this.attached)
+            throw new Error(DynMsg.DETACHED_WIDGET('viewport'));
 
-        // XXX active makes sure that _viewport is not null, but typescript
+        // XXX attached makes sure that _root is not null, but typescript
         // doesn't detect this. force the type system to treat it as non-null
         return this._viewport as Viewport;
     }
 
     /**
      * Similar to {@link Widget#_parent}, but throws an error if the widget is
-     * not {@link Widget#active}.
+     * not {@link Widget#attached}.
      */
     get parent(): Widget | null {
-        if(!this.active)
-            throw new Error(DynMsg.INACTIVE_WIDGET('parent'));
+        if(!this.attached)
+            throw new Error(DynMsg.DETACHED_WIDGET('parent'));
 
         return this._parent;
     }
 
     /**
-     * Called when the Widget is added to a UI tree. Should be overridden for
-     * resource management, but `super.activate` must be called.
+     * Called when the Widget is attached to a UI tree. Should only be
+     * overridden by container widgets to attach children or for resource
+     * management, but `super.attach` must still be called.
      *
      * If the widget is already in a UI tree (already has a {@link parent} or is
      * the {@link Root#child | root Widget}, both checked via
-     * {@link Widget#active}), then this method will throw an exception; a
+     * {@link Widget#attached}), then this method will throw an exception; a
      * Widget cannot be in multiple UI trees.
-     *
-     * Calls {@link Widget#forceDirty}.
      *
      * @param root - The {@link Root} of the UI tree
      * @param viewport - The {@link Viewport} in this part of the UI tree. A UI tree can have multiple nested Viewports due to {@link ViewportWidget}
      * @param parent - The new parent of this Widget. If `null`, then this Widget has no parent and is the {@link Root#child | root Widget}
      */
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void {
-        if(this.active)
-            throw new Error(DynMsg.INVALID_ACTIVATION(true));
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void {
+        if(this.attached)
+            throw new Error(DynMsg.INVALID_ATTACHMENT(true));
 
         this._root = root;
         this._viewport = viewport;
         this._parent = parent;
-        this.forceDirty();
+        this.updateActiveState();
     }
 
     /**
-     * Called when the Widget is removed from a UI tree. Should be overridden
-     * for resource management, but `super.deactivate` must be called.
+     * Called when the Widget is detached from a UI tree. Should only be
+     * overridden by container widgets to detach children or for resource
+     * management, but `super.detach` must still be called.
      *
      * Sets {@link Widget#_root}, {@link Widget#_viewport} and
      * {@link Widget#_parent} to null.
      *
+     * Drops all foci set to this Widget.
+     *
      * If the widget was not in a UI tree, then an exception is thrown.
      */
-    deactivate(): void {
-        if(!this.active)
-            throw new Error(DynMsg.INVALID_ACTIVATION(false));
+    detach(): void {
+        if(!this.attached)
+            throw new Error(DynMsg.INVALID_ATTACHMENT(false));
 
+        (this._root as Root).dropFoci(this);
         this._root = null;
         this._viewport = null;
         this._parent = null;
+        this.updateActiveState();
+    }
+
+    /**
+     * Public getter for {@link Widget#_active}. Can only be updated by calling
+     * {@link Widget#updateActiveState}, although this should never be done
+     * manually; only done automatically by container Widgets and Roots.
+     */
+    get active() {
+        return this._active;
+    }
+
+    /**
+     * Update the {@link Widget#active} state of the Widget. If the active state
+     * changes from `false` to `true`, then {@link Widget#activate} is called.
+     * If the active state changes from `true` to `false`, then
+     * {@link Widget#deactivate} is called.
+     *
+     * Container Widgets must override this so that the active state of each
+     * child is updated, but `super.updateActiveState` must still be called.
+     * Each child's active state must only be updated if the container's active
+     * state changed; this is indicated by the return value of this method.
+     *
+     * @returns Returns true if the active state changed.
+     */
+    updateActiveState(): boolean {
+        const oldActive = this._active;
+        this._active = false;
+        if(this._enabled && this.attached) {
+            if(this._parent === null) {
+                // XXX typescript doesn't know that attached implies that _root
+                // is not null, hence the type cast
+                this._active = (this._root as Root).enabled;
+            }
+            else
+                this._active = this._parent.active;
+        }
+
+        if(!oldActive && this._active) {
+            this.activate();
+            return true;
+        }
+        else if(oldActive && !this._active) {
+            this.deactivate();
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /**
+     * Called after the Widget is attached to a UI tree, its parent is
+     * {@link Widget#active} (or {@link Root} is enabled if this is the top
+     * Widget), and the Widget itself is enabled; only called when all of the
+     * previous conditions are fulfilled, not when one of the conditions is
+     * fulfilled. Should be overridden for resource management, but
+     * `super.activate` must be called.
+     *
+     * Must not be propagated to children by container Widgets. This is already
+     * done automatically by {@link Widget#updateActiveState}.
+     *
+     * Marks {@link Widget#dirty} and {@link Widget#layoutDirty} as true.
+     */
+    protected activate(): void {
+        this._dirty = true;
+        this._layoutDirty = true;
+    }
+
+    /**
+     * Called when the Widget is no longer {@link Widget#active}. Should be
+     * overridden for resource management, but `super.deactivate` must be
+     * called.
+     *
+     * Must not be propagated to children by container Widgets. This is already
+     * done automatically by {@link Widget#updateActiveState}.
+     *
+     * Marks {@link Widget#dirty} and {@link Widget#layoutDirty} as true, and
+     * drops all foci set to this Widget if the Widget is attached.
+     */
+    protected deactivate(): void {
+        this._dirty = true;
+        this._layoutDirty = true;
+
+        if(this.attached)
+            (this._root as Root).dropFoci(this);
     }
 
     /**

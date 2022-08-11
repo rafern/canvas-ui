@@ -14,15 +14,10 @@ import { ClickState } from './ClickState';
  * @category Helper
  */
 export class GenericClickHelper implements BaseClickHelper {
-    /** Last click state */
     lastClickState: ClickState = ClickState.Released;
-    /** The current click state */
     clickState: ClickState = ClickState.Released;
-    /** Did the last click event handle result in a click state change? */
     clickStateChanged = false;
-    /** Did the last click state change result in a click? */
     wasClick = false;
-    /** The Widget aggregating this helper */
     protected widget: Widget;
 
     /**
@@ -52,5 +47,12 @@ export class GenericClickHelper implements BaseClickHelper {
         }
         else
             this.clickStateChanged = false;
+    }
+
+    reset(): void {
+        this.lastClickState = ClickState.Released;
+        this.clickState = ClickState.Released;
+        this.clickStateChanged = false;
+        this.wasClick = false;
     }
 }

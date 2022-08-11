@@ -60,6 +60,11 @@ export class FilledButton<W extends Widget = Widget> extends Button<W> {
         this.child.inheritedTheme = this.childTheme;
     }
 
+    protected override activate(): void {
+        super.activate();
+        this.updateBackground();
+    }
+
     /**
      * Update the background fill.
      *

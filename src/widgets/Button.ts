@@ -46,6 +46,11 @@ export class Button<W extends Widget = Widget> extends BaseContainer<W> {
         }
     }
 
+    protected override activate(): void {
+        super.activate();
+        this.clickHelper.reset();
+    }
+
     override onFocusGrabbed(focusType: FocusType): void {
         this.clickHelper.onFocusGrabbed(focusType);
     }

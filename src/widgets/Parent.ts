@@ -79,18 +79,29 @@ export abstract class Parent<W extends Widget = Widget> extends Widget {
         return this._children.values();
     }
 
-    override activate(root: Root, viewport: Viewport, parent: Widget | null): void {
-        super.activate(root, viewport, parent);
+    override attach(root: Root, viewport: Viewport, parent: Widget | null): void {
+        super.attach(root, viewport, parent);
 
         for(const child of this.children)
-            child.activate(root, viewport, this);
+            child.attach(root, viewport, this);
     }
 
-    override deactivate(): void {
-        super.deactivate();
+    override detach(): void {
+        super.detach();
 
         for(const child of this.children)
-            child.deactivate();
+            child.detach();
+    }
+
+    override updateActiveState(): boolean {
+        const changed = super.updateActiveState();
+
+        if(changed) {
+            for(const child of this._children)
+                child.updateActiveState();
+        }
+
+        return changed;
     }
 
     override finalizeBounds() {
