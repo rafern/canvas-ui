@@ -46,7 +46,8 @@ export declare abstract class Parent<W extends Widget = Widget> extends Widget {
      * children via this iterator; for read-only purposes only.
      */
     get children(): Iterable<W>;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
+    updateActiveState(): boolean;
     finalizeBounds(): void;
 }

@@ -39,11 +39,13 @@ export declare type LineRange = Array<TextRenderGroup>;
  * @category Helper
  */
 export declare enum WrapMode {
+    /** No text wrapping. Text will overflow if it exceeds the maximum width. */
+    None = 0,
     /**
      * Whitespaces always have width. The default wrapping mode for input
      * widgets
      */
-    Normal = 0,
+    Normal = 1,
     /**
      * Whitespaces at the end of a line which result in an overflow have no
      * width. The default wrapping mode for widgets that display text, since
@@ -51,7 +53,7 @@ export declare enum WrapMode {
      * {@link Label | labels}. Whitespaces at the beginning of a new line are
      * still kept, as they are deliberate.
      */
-    Shrink = 1
+    Shrink = 2
 }
 /**
  * The mode to use for text alignment in {@link TextHelper}.
@@ -88,7 +90,8 @@ export declare class TextHelper {
      */
     font: string;
     /**
-     * The current maximum text width. If not Infinite, then text will be
+     * The current maximum text width. If not Infinite and
+     * {@link TextHelper#wrapMode} is not `WrapMode.None`, then text will be
      * wrapped and width will be set to maxWidth.
      *
      * @decorator `@multiFlagField(['_dirty', 'maxWidthDirty'])`
@@ -124,9 +127,10 @@ export declare class TextHelper {
     /**
      * The text alignment mode. Can also be a ratio.
      *
-     * Note that this only aligns text in the text's width. If you have wrapping
-     * disabled (maxWidth === Infinity), then you may still need to align the
-     * widget that uses this text helper with a {@link BaseContainer}.
+     * Note that this only aligns text in the text's width. If
+     * {@link TextHelper#maxWidth} is infinite, then you may still need to align
+     * the widget that uses this text helper with a {@link BaseContainer}
+     * because the width will be set to the longest line range's width.
      */
     alignMode: TextAlignMode | number;
     /** The current largest text width. May be outdated. */
@@ -250,8 +254,9 @@ export declare class TextHelper {
     /**
      * Which range of text indices are used for each line.
      *
-     * If there is no text wrapping (maxWidth is Infinity), then this will
-     * contain a single tuple containing [0, (text length)].
+     * If there is no text wrapping (`maxWidth` is `Infinity` or `wrapMode` is
+     * `WrapMode.None`), then this will contain a single tuple containing
+     * `[0, (text length)]`.
      *
      * If there is text wrapping, then this will be an array where each member
      * is a tuple containing the starting index of a line of text and the ending

@@ -30,8 +30,9 @@ export declare class Checkbox extends Widget {
      */
     constructor(variable?: Variable<boolean>, properties?: Readonly<WidgetProperties>);
     protected handleChange(): void;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
+    protected activate(): void;
     protected onThemeUpdated(property?: string | null): void;
     /** Is the checkbox checked? */
     set checked(checked: boolean);

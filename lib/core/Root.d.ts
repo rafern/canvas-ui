@@ -210,6 +210,11 @@ export declare class Root {
      */
     dropFocus(focusType: FocusType, widget: Widget): void;
     /**
+     * Clears all the {@link Root#_foci | foci} that are set to a given Widget.
+     * Achieved by calling {@link Root#dropFocus}
+     */
+    dropFoci(widget: Widget): void;
+    /**
      * Clears the current {@link Root#_foci | focus} of a given type. If there
      * was a focus set, {@link Root#drivers} are notified by calling
      * {@link Driver#onFocusChanged}.
@@ -307,7 +312,7 @@ export declare class Root {
      */
     get child(): Widget;
     /**
-     * Destroy this Root. Disables the Root, clears all drivers, deactivates the
+     * Destroy this Root. Disables the Root, clears all drivers, detaches the
      * {@link Root#child} Widget and resets {@link Root#textInputHandler}.
      *
      * Root must not be used after calling this method. Doing so will cause

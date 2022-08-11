@@ -27,6 +27,7 @@ export declare class Button<W extends Widget = Widget> extends BaseContainer<W> 
      * called
      */
     click(): void;
+    protected activate(): void;
     onFocusGrabbed(focusType: FocusType): void;
     onFocusDropped(focusType: FocusType): void;
     protected handleEvent(event: Event): Widget | null;

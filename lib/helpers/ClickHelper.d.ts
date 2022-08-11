@@ -71,4 +71,5 @@ export declare class ClickHelper extends GenericClickHelper {
      * @param bounds - A 4-tuple containing, respectively, left coordinate, right coordinate, top coordinate and bottom coordinate of clickable area, in pixels
      */
     handleClickEvent(event: Event, root: Root, bounds: Bounds): void;
+    reset(): void;
 }

@@ -60,6 +60,7 @@ export declare class RadioButton<V> extends Widget {
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     finalizeBounds(): void;
     protected handlePainting(_forced: boolean): void;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
+    protected activate(): void;
 }

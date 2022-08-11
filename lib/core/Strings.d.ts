@@ -35,10 +35,10 @@ export declare const DynMsg: {
     NEGATIVE_DIMS: (value: unknown, name: string | symbol) => string;
     BROKEN_CONSTRAINTS: (value: unknown, limit: unknown, horizontal: boolean, overflow: boolean) => string;
     INVALID_DIMS: (horizontal: boolean, value: unknown) => string;
-    INACTIVE_WIDGET: (name: string) => string;
-    INVALID_ACTIVATION: (activating: boolean) => string;
+    DETACHED_WIDGET: (name: string) => string;
+    INVALID_ATTACHMENT: (attaching: boolean) => string;
     INVALID_KB_ROW_TEMPLATE: (entry: unknown) => string;
-    INVALID_ENUM: (value: unknown, enumName: string, variableName: string) => string;
+    INVALID_ENUM: (value: unknown, enumName: string, variableName: string, unexpected?: boolean) => string;
     OVERCAPTURING_WIDGET: (capturer: object) => string;
     MAYBE_DIMENSIONLESS: (axisName: string) => string;
     UNTARGETABLE_EVENT: (eventName: string) => string;

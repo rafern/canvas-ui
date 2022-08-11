@@ -73,7 +73,7 @@ export interface Viewport {
      *
      * If null, this is the topmost Viewport and owned by the UI {@link Root}.
      *
-     * Should be set by the owner when the owner is activated and deactivated.
+     * Should be set by the owner when the owner is attached or detached.
      */
     parent: Viewport | null;
     /**

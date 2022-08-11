@@ -23,6 +23,7 @@ export declare class MultiContainer<W extends Widget = Widget> extends MultiPare
     private enabledChildCount;
     /** Create a MultiContainer. */
     constructor(vertical: boolean, properties?: Readonly<WidgetProperties>);
+    protected activate(): void;
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;

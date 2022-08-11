@@ -15,6 +15,7 @@ export declare abstract class BaseContainer<W extends Widget = Widget> extends S
     protected backgroundDirty: boolean;
     /** Create a new BaseContainer. */
     constructor(child: W, propagateEvents: boolean, properties?: Readonly<WidgetProperties>);
+    protected activate(): void;
     protected onThemeUpdated(property?: string | null): void;
     protected handleEvent(event: Event): Widget | null;
     protected handlePreLayoutUpdate(): void;

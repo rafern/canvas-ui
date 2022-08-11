@@ -32,4 +32,6 @@ export declare class CompoundClickHelper implements BaseClickHelper {
      * {@link BaseClickHelper#clickStateChanged} property is also true.
      */
     get wasClick(): boolean;
+    /** Resets each click helper instance being mixed. */
+    reset(): void;
 }

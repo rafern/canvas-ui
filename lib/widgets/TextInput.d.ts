@@ -124,8 +124,9 @@ export declare class TextInput extends Widget {
     /** Create a new TextInput. */
     constructor(variable?: ValidatedVariable<string, unknown>, properties?: Readonly<TextInputProperties>);
     protected handleChange(): void;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
+    protected activate(): void;
     protected onThemeUpdated(property?: string | null): void;
     /**
      * Is the text cursor shown?

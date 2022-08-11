@@ -62,8 +62,9 @@ export declare class Slider extends Widget {
     /** Create a new Slider */
     constructor(variable?: Variable<number>, minValue?: number, maxValue?: number, properties?: Readonly<SliderProperties>);
     protected handleChange(): void;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
+    protected activate(): void;
     /** The slider's value */
     set value(value: number);
     get value(): number;

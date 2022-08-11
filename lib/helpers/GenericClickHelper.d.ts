@@ -13,15 +13,10 @@ import { ClickState } from './ClickState';
  * @category Helper
  */
 export declare class GenericClickHelper implements BaseClickHelper {
-    /** Last click state */
     lastClickState: ClickState;
-    /** The current click state */
     clickState: ClickState;
-    /** Did the last click event handle result in a click state change? */
     clickStateChanged: boolean;
-    /** Did the last click state change result in a click? */
     wasClick: boolean;
-    /** The Widget aggregating this helper */
     protected widget: Widget;
     /**
      * Create a new GenericClickHelper
@@ -36,4 +31,5 @@ export declare class GenericClickHelper implements BaseClickHelper {
      * {@link GenericClickHelper#clickStateChanged} flags.
      */
     setClickState(clickState: ClickState, inside: boolean): void;
+    reset(): void;
 }

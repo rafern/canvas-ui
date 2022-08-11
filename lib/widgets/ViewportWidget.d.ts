@@ -144,7 +144,7 @@ export declare class ViewportWidget<W extends Widget = Widget> extends SinglePar
      * non-reserved space.
      */
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
-    activate(root: Root, viewport: Viewport, parent: Widget | null): void;
-    deactivate(): void;
+    attach(root: Root, viewport: Viewport, parent: Widget | null): void;
+    detach(): void;
     protected handlePainting(forced: boolean): void;
 }

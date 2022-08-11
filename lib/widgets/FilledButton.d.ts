@@ -37,6 +37,7 @@ export declare class FilledButton<W extends Widget = Widget> extends Button<W> {
     private childTheme;
     /** Create a new FilledButton. */
     constructor(child: W, callback?: (() => void) | null, properties?: Readonly<FilledButtonProperties>);
+    protected activate(): void;
     /**
      * Update the background fill.
      *
