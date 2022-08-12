@@ -92,8 +92,10 @@ export class Label extends Widget {
         if(this.textHelper.dirty)
             this._dirty = true;
 
+        // extra spacing is added so that there is enough height to center the
+        // text
         this.idealWidth = Math.max(Math.min(this.textHelper.width, maxWidth), minWidth);
-        this.idealHeight = Math.max(Math.min(this.textHelper.height, maxHeight), minHeight);
+        this.idealHeight = Math.max(Math.min(this.textHelper.height + this.textHelper.actualLineSpacing, maxHeight), minHeight);
     }
 
     protected override handlePainting(_forced: boolean): void {
@@ -106,8 +108,9 @@ export class Label extends Widget {
             ctx.clip();
         }
 
-        // Paint text
-        this.textHelper.paint(ctx, this.bodyTextFill, this.idealX, this.idealY);
+        // Paint text, vertically centered
+        const yOffset = (this.idealHeight - this.textHelper.height + this.textHelper.actualLineSpacing) / 2;
+        this.textHelper.paint(ctx, this.bodyTextFill, this.idealX, this.idealY + yOffset);
 
         // Stop clipping if text wrapping is disabled
         if(!this.wrapText)
