@@ -25,6 +25,8 @@ export interface RootProperties {
     canvasStartingWidth?: number;
     /** The starting height of the {@link Root#viewport}'s canvas. */
     canvasStartingHeight?: number;
+    /** The starting layout constraints of the Root. */
+    constraints?: LayoutConstraints;
 }
 /**
  * A Root is the parent of all widgets, but not a widget itself. It contains a

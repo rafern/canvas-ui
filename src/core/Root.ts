@@ -32,6 +32,8 @@ export interface RootProperties {
     canvasStartingWidth?: number;
     /** The starting height of the {@link Root#viewport}'s canvas. */
     canvasStartingHeight?: number;
+    /** The starting layout constraints of the Root. */
+    constraints?: LayoutConstraints;
 }
 
 /**
@@ -126,6 +128,9 @@ export class Root {
         this.pointerStyleHandler = properties?.pointerStyleHandler ?? null;
         this.child.inheritedTheme = properties?.theme ?? new Theme();
         this.child.attach(this, this.viewport, null);
+
+        if(properties?.constraints)
+            this.viewport.constraints = properties.constraints;
     }
 
     /** The {@link Root#viewport}'s {@link Viewport#constraints | constraints} */

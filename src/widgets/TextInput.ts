@@ -7,7 +7,7 @@ import { PointerPress } from '../events/PointerPress';
 import { PointerWheel } from '../events/PointerWheel';
 import { Widget, WidgetProperties } from './Widget';
 import { PointerMove } from '../events/PointerMove';
-import { TextHelper, WrapMode } from '../helpers/TextHelper';
+import { TextHelper } from '../helpers/TextHelper';
 import { AutoScroll } from '../events/AutoScroll';
 import type { Viewport } from '../core/Viewport';
 import { TabSelect } from '../events/TabSelect';
@@ -154,8 +154,6 @@ export class TextInput extends Widget {
         this.inputFilter = properties?.inputFilter ?? null;
         this.typeableTab = properties?.typeableTab ?? false;
         this._editingEnabled = properties?.editingEnabled ?? true;
-
-        this.textHelper.wrapMode = this.wrapText ? WrapMode.Normal : WrapMode.None;
     }
 
     protected handleChange(): void {
@@ -856,7 +854,6 @@ export class TextInput extends Widget {
         this.textHelper.font = this.inputTextFont;
         this.textHelper.lineHeight = this.inputTextHeight;
         this.textHelper.lineSpacing = this.inputTextSpacing;
-        this.textHelper.wrapMode = this.wrapText ? WrapMode.Normal : WrapMode.None;
         this.textHelper.alignMode = this.inputTextAlign;
 
         // Mark as dirty if text helper is dirty
@@ -962,7 +959,7 @@ export class TextInput extends Widget {
         // Only expand to the needed dimensions, but take minimum width from
         // theme into account
         const padding = 2 * this.inputTextInnerPadding;
-        this.textHelper.maxWidth = Math.max(maxWidth - padding, 0);
+        this.textHelper.maxWidth = this.wrapText ? Math.max(maxWidth - padding, 0) : Infinity;
         if(this.textHelper.dirty)
             this._dirty = true;
 
