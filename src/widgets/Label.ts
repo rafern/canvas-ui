@@ -99,9 +99,13 @@ export class Label extends Widget {
     }
 
     protected override handlePainting(_forced: boolean): void {
-        // Start clipping if text wrapping is disabled
+        // Start clipping if text wrapping is disabled or the text vertically
+        // overflows
+        const spacedHeight = this.textHelper.height + this.textHelper.actualLineSpacing;
+        const needsClip = !this.wrapText || spacedHeight > this.idealHeight;
         const ctx = this.viewport.context;
-        if(!this.wrapText) {
+
+        if(needsClip) {
             ctx.save();
             ctx.beginPath();
             ctx.rect(this.x, this.y, this.width, this.height);
@@ -112,8 +116,8 @@ export class Label extends Widget {
         const yOffset = (this.idealHeight - this.textHelper.height + this.textHelper.actualLineSpacing) / 2;
         this.textHelper.paint(ctx, this.bodyTextFill, this.idealX, this.idealY + yOffset);
 
-        // Stop clipping if text wrapping is disabled
-        if(!this.wrapText)
+        // Stop clipping if clipping was applied
+        if(needsClip)
             ctx.restore();
     }
 }
