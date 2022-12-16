@@ -25,6 +25,8 @@ export class Checkbox extends Widget {
     readonly variable: Variable<boolean>;
     /** The callback used for the {@link Checkbox#"variable"} */
     private readonly callback: () => void;
+    /** See {@link Checkbox#clickable} */
+    private _clickable = true;
 
     /**
      * Create a new Checkbox.
@@ -107,7 +109,7 @@ export class Checkbox extends Widget {
         const [wasClick, capture] = this.clickHelper.handleEvent(
             event,
             this.root,
-            true,
+            this.clickable,
             [x, x + this.actualLength, y, y + this.actualLength]
         );
 
@@ -191,5 +193,23 @@ export class Checkbox extends Widget {
                 );
             }
         }
+    }
+
+    /**
+     * Is the checkbox clickable? True by default. Used for disabling the
+     * checkbox without hiding it.
+     */
+    get clickable() {
+        return this._clickable;
+    }
+
+    set clickable(clickable: boolean) {
+        if(this._clickable === clickable) {
+            return;
+        }
+
+        this._clickable = clickable;
+        this.clickHelper.reset();
+        this._dirty = true;
     }
 }

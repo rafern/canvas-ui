@@ -23,6 +23,8 @@ export declare class Checkbox extends Widget {
     readonly variable: Variable<boolean>;
     /** The callback used for the {@link Checkbox#"variable"} */
     private readonly callback;
+    /** See {@link Checkbox#clickable} */
+    private _clickable;
     /**
      * Create a new Checkbox.
      *
@@ -43,4 +45,10 @@ export declare class Checkbox extends Widget {
     protected handleResolveDimensions(minWidth: number, maxWidth: number, minHeight: number, maxHeight: number): void;
     finalizeBounds(): void;
     protected handlePainting(_forced: boolean): void;
+    /**
+     * Is the checkbox clickable? True by default. Used for disabling the
+     * checkbox without hiding it.
+     */
+    get clickable(): boolean;
+    set clickable(clickable: boolean);
 }
