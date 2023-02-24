@@ -1,3 +1,7 @@
+# WARNING
+
+This library has been renamed to `lazy-widgets` due to a name clash. The new library can be found [here](https://github.com/rafern/lazy-widgets).
+
 # canvas-ui
 
 A Typescript UI library which uses HTML canvases.
